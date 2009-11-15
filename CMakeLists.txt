@@ -1,6 +1,17 @@
 project(valgrind)
 add_definitions( -DKDE_DEFAULT_DEBUG_AREA=9002 )
 
+find_package(KDE4 REQUIRED)
+find_package(KDevPlatform 0.9.96 REQUIRED)
+
+include_directories(
+    ${KDEVPLATFORM_INCLUDE_DIR}
+    ${KDE4_INCLUDES}
+    ${valgrind_BINARY_DIR}
+    ${valgrind_SOURCE_DIR}
+)
+
+
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
