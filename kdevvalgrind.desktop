@@ -4,6 +4,7 @@ Icon=debugger
 Exec=blubb
 Comment=Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/
 Comment[en_GB]=Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/
+Comment[es]=Valgrind es una herramienta que le ayuda a encontrar problemas de gestión de memoria en sus programas. http://www.valgrind.org/
 Comment[pt]=O Valgrind é uma ferramenta que o ajuda a encontrar problemas de gestão de memória nos programas. http://www.valgrind.org/
 Comment[sv]=Valgrind är ett verktyg som hjälper dig hitta minneshanteringsproblem i program. http://www.valgrind.org/
 Comment[uk]=Valgrind — це інструмент, що допомагатиме вам знаходити проблеми у керуванні пам’яттю, що виникають у програмах. http://www.valgrind.org/
