@@ -18,6 +18,7 @@ Name[uk]=Підтримка Valgrind
 Name[x-test]=xxValgrind Supportxx
 GenericName=Debugger Frontend
 GenericName[ca]=Frontal del depurador
+GenericName[ca@valencia]=Frontal del depurador
 GenericName[de]=Oberfläche für Debugger
 GenericName[en_GB]=Debugger Frontend
 GenericName[es]=Interfaz del depurador
