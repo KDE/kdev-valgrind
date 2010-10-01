@@ -160,7 +160,7 @@ ui->happensBefore->setCurrentIndex( cfg.readEntry("Extra Synchronization Events"
     valgrindArgs << QString( "--tool=%1" ).arg( m_tool );
     valgrindArgs << "--xml=yes";
     if( m_server ) {
-        valgrindArgs << QString( "--log-socket=127.0.0.1:%1").arg( m_server->serverPort() );
+        valgrindArgs << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );
     }
     valgrindArgs << executable;
     valgrindArgs += arguments;
