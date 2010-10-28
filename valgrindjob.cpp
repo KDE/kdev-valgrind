@@ -69,11 +69,6 @@ ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* c
 
 ValgrindJob::~ValgrindJob()
 {
-    delete m_connection;
-    m_connection = 0;
-
-    delete m_server;
-    m_server = 0;
 }
 
 void ValgrindJob::start()
