@@ -138,6 +138,9 @@ KIcon ValgrindConfigPage::icon() const
 
 void ValgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* )
 {
+    bool wasBlocked = signalsBlocked();
+    blockSignals(true);
+
     ui->valgrindExecutable->setUrl( cfg.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ) );
     ui->valgrindParameters->setText( cfg.readEntry( "Valgrind Arguments", "" ) );
     ui->numCallers->setValue( cfg.readEntry( "Framestack Depth", 12 ) );
@@ -151,6 +154,8 @@ void ValgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop
     ui->simulateCache->setChecked( cfg.readEntry( "Full Cache Simulation", false ) );
     ui->simulateHWPref->setChecked( cfg.readEntry( "Simulate Hardware Prefetcher", false ) );
     ui->happensBefore->setCurrentIndex( cfg.readEntry("Extra Synchronization Events", 0 ) );
+
+    blockSignals(wasBlocked);
 }
 
 void ValgrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject* ) const
