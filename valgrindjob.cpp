@@ -186,8 +186,8 @@ void ValgrindJob::newValgrindConnection()
 {
     Q_ASSERT(m_server);
 
-
     QTcpSocket* sock = m_server->nextPendingConnection();
+    kDebug() << "got valgrind connection:" << sock;
     if (!sock)
         return;
 
