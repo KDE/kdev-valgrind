@@ -67,6 +67,15 @@ ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* c
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
 }
 
+ValgrindJob::~ValgrindJob()
+{
+    delete m_connection;
+    m_connection = 0;
+
+    delete m_server;
+    m_server = 0;
+}
+
 void ValgrindJob::start()
 {
     KConfigGroup grp = m_launchcfg->config();
@@ -241,22 +250,7 @@ void ValgrindJob::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     kDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
-    //core()->running( this, false );
-
-    delete m_connection;
-    m_connection = 0;
-
-    delete m_server;
-    m_server = 0;
-
-    /*if (kcInfo.runKc)
-    {
-        KProcess kcProc;
-//        kcProc.setWorkingDirectory(kcInfo.kcWorkDir);
-        kcProc << kcInfo.kcPath;
-        kcProc << QString("cachegrind.out.%1").arg(p->pid());
-        kcProc.startDetached();
-    }*/
+    emitResult();
 }
 
 void ValgrindJob::readyReadStandardError()
