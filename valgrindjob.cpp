@@ -221,7 +221,7 @@ void ValgrindJob::processErrored(QProcess::ProcessError e)
 {
     switch (e) {
         case QProcess::FailedToStart:
-            KMessageBox::error(qApp->activeWindow(), i18n("Failed to start valgrind from \"%1.\"", m_process->property("executable").toString()), i18n("Failed to start Valgrind"));
+            KMessageBox::error(qApp->activeWindow(), i18n("Failed to start valgrind from \"%1\".", m_process->property("executable").toString()), i18n("Failed to start Valgrind"));
             break;
         case QProcess::Crashed:
             KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
