@@ -62,7 +62,7 @@
 using namespace KDevelop;
 
 K_PLUGIN_FACTORY(ValgrindFactory, registerPlugin<ValgrindPlugin>(); )
-K_EXPORT_PLUGIN(ValgrindFactory(KAboutData("kdevvalgrind","kdevvalgrind", ki18n("Valgrind"), "0.1", ki18n("Support for running valgrind"), KAboutData::License_GPL)))
+K_EXPORT_PLUGIN(ValgrindFactory(KAboutData("kdevvalgrind","kdevvalgrind", ki18n("Valgrind"), "0.1", ki18n("Support for running Valgrind"), KAboutData::License_GPL)))
 
 class ValgrindWidgetFactory : public KDevelop::IToolViewFactory
 {
@@ -179,7 +179,7 @@ void ValgrindPlugin::loadOutput()
 
     QFile f( fName );
     if ( !f.open( QIODevice::ReadOnly ) ) {
-        KMessageBox::sorry( 0, i18n("Could not open valgrind output: %1", fName) );
+        KMessageBox::sorry( 0, i18n("Could not open Valgrind output: %1", fName) );
         return;
     }
 

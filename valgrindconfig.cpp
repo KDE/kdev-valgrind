@@ -95,7 +95,7 @@ QList< KDevelop::LaunchConfigurationPageFactory* > ValgrindLauncher::configPages
 
 QString ValgrindLauncher::description() const
 {
-    return i18n( "Profile application with valgrind" );
+    return i18n( "Profile application with Valgrind" );
 }
 
 QString ValgrindLauncher::id()
