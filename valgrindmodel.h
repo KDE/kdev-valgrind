@@ -50,7 +50,7 @@ class ValgrindModel : public QAbstractItemModel, public QXmlStreamReader, public
   Q_OBJECT
 
 public:
-    ValgrindModel(QObject* parent);
+    ValgrindModel(QObject* parent = 0);
     virtual ~ValgrindModel();
 
     enum Columns {

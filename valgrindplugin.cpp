@@ -96,9 +96,8 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
 {
     kDebug() << "setting valgrind rc file";
     setXMLFile( "kdevvalgrind.rc" );
-    
+
     core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
-    
     // Initialize actions for the laucnh modes
     KAction* act = actionCollection()->addAction("valgrind_memcheck", this, SLOT(runMemCheck()) );
     act->setText( i18n("Memory Check" ) );
@@ -112,12 +111,12 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
     act = actionCollection()->addAction("valgrind_cachegrind", this, SLOT(runCacheGrind()) );
     act->setText( i18n("Cache Simulator" ) );
     act->setStatusTip( i18n("Launches the currently selected launch configuration with the Valgrind Cache Simulator (cachegrind).") );
-    
+
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
-    
+
     // Initialize launch modes and register them with platform, also put them into our launcher
-    ValgrindLauncher* launcher = new ValgrindLauncher();
+    ValgrindLauncher* launcher = new ValgrindLauncher(this);
     ValgrindLaunchMode* mode = new MemCheckLaunchMode();
     KDevelop::ICore::self()->runController()->addLaunchMode( mode );
     launcher->addMode( mode );
@@ -130,7 +129,7 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
     mode = new CacheGrindLaunchMode();
     KDevelop::ICore::self()->runController()->addLaunchMode( mode );
     launcher->addMode( mode );
-    
+
     // Add launcher for native apps
     KDevelop::LaunchConfigurationType* type = core()->runController()->launchConfigurationTypeForId( iface->nativeAppConfigTypeId() );
     Q_ASSERT(type);
@@ -140,6 +139,11 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
 void ValgrindPlugin::unload()
 {
     core()->uiController()->removeToolView( m_factory );
+}
+
+void ValgrindPlugin::incomingModel(ValgrindModel *model)
+{
+    emit newModel(model);
 }
 
 ValgrindPlugin::~ValgrindPlugin()

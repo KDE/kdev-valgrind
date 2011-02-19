@@ -50,7 +50,9 @@ public:
     ~ValgrindPlugin();
 
     virtual void unload();
-    
+
+    void incomingModel(ValgrindModel* model);
+
 signals:
 
     void newModel(ValgrindModel* model);
@@ -58,7 +60,7 @@ signals:
 private slots:
     void runMemCheck();
     void runCallGrind();
-    void runHelGrind();    
+    void runHelGrind();
     void runCacheGrind();
     void loadOutput();
 

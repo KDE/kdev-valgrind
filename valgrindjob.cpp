@@ -46,16 +46,17 @@
 #include "valgrindmodel.h"
 #include "valgrindplugin.h"
 
-ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* cfg, QObject* parent )
+ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent )
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
     , m_job(0)
     , m_server(0)
     , m_connection(0)
-    , m_model(new ValgrindModel(this))
+    , m_model(new ValgrindModel())
     , m_applicationOutput(new KDevelop::ProcessLineMaker(this))
     , m_launchcfg( cfg )
     , m_tool( tool )
+    , m_plugin(inst)
 {
     setCapabilities( KJob::Killable );
     m_process->setOutputChannelMode(KProcess::SeparateChannels);
@@ -65,6 +66,7 @@ ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* c
     connect(m_process, SIGNAL(readyReadStandardError()), SLOT(readyReadStandardError()));
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
+    m_plugin->incomingModel(m_model);
 }
 
 ValgrindJob::~ValgrindJob()
@@ -74,17 +76,17 @@ ValgrindJob::~ValgrindJob()
 void ValgrindJob::start()
 {
     KConfigGroup grp = m_launchcfg->config();
-    
+
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
-    
+
     KDevelop::EnvironmentGroupList l(KGlobal::config());
     QString envgrp = iface->environmentGroup( m_launchcfg );
-    
+
     QString err;
     QString executable = iface->executable( m_launchcfg, err ).toLocalFile();
-    
-    if( !err.isEmpty() ) 
+
+    if( !err.isEmpty() )
     {
         setError( -1 );
         setErrorText( err );
@@ -98,7 +100,7 @@ void ValgrindJob::start()
         "Using default environment group.", m_launchcfg->name() );
         envgrp = l.defaultGroup();
     }
-    
+
     QStringList arguments = iface->arguments( m_launchcfg, err );
     if( !err.isEmpty() )
     {
@@ -110,16 +112,16 @@ void ValgrindJob::start()
         emitResult();
         return;
     }
-    
+
     setStandardToolView(KDevelop::IOutputView::DebugView);
     setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
     setModel( new KDevelop::OutputModel(), KDevelop::IOutputView::TakeOwnership );
-    
+
     startOutput();
-    
+
     connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)), model(), SLOT(appendLines(QStringList)));
     connect(m_applicationOutput, SIGNAL(receivedStderrLines(QStringList)), model(), SLOT(appendLines(QStringList)));
-    
+
     Q_ASSERT(m_process->state() != QProcess::Running);
 
     if (!m_server) {
@@ -145,7 +147,7 @@ void ValgrindJob::start()
 
     QStringList valgrindArgs;
     valgrindArgs += KShell::splitArgs( grp.readEntry( "Valgrind Arguments", "" ) );
-    
+
 //TODO: Properly set following options for valgrind (no existing code for this)
 /*
 ui->numCallers->setValue( cfg.readEntry( "Framestack Depth", 12 ) );
@@ -205,7 +207,7 @@ void ValgrindJob::newValgrindConnection()
 void ValgrindJob::socketError(QAbstractSocket::SocketError)
 {
     Q_ASSERT(m_connection);
-    
+
     //FIXME: The user should be notified about that but we cannot use KMessageBox because we might not be on
     //the UI thread.
     kWarning() << i18n("Socket error while communicating with valgrind: \"%1\"", m_connection->errorString()) <<
@@ -214,7 +216,7 @@ void ValgrindJob::socketError(QAbstractSocket::SocketError)
 
 ValgrindPlugin * ValgrindJob::plugin() const
 {
-    return static_cast<ValgrindPlugin*>(const_cast<QObject*>(parent()));
+  return m_plugin;
 }
 
 void ValgrindJob::processErrored(QProcess::ProcessError e)
