@@ -29,6 +29,7 @@
 
 class KJob;
 class KIcon;
+class ValgrindPlugin;
 
 namespace KDevelop
 {
@@ -51,7 +52,7 @@ class MemCheckLaunchMode : public ValgrindLaunchMode
 {
 public:
     MemCheckLaunchMode();
-    
+
     virtual KIcon icon() const;
     virtual QString id() const;
     virtual QString name() const;
@@ -63,7 +64,7 @@ class CacheGrindLaunchMode : public ValgrindLaunchMode
 {
 public:
     CacheGrindLaunchMode();
-    
+
     virtual KIcon icon() const;
     virtual QString id() const;
     virtual QString name() const;
@@ -75,7 +76,7 @@ class CallGrindLaunchMode : public ValgrindLaunchMode
 {
 public:
     CallGrindLaunchMode();
-    
+
     virtual KIcon icon() const;
     virtual QString id() const;
     virtual QString name() const;
@@ -87,7 +88,7 @@ class HelGrindLaunchMode : public ValgrindLaunchMode
 {
 public:
     HelGrindLaunchMode();
-    
+
     virtual KIcon icon() const;
     virtual QString id() const;
     virtual QString name() const;
@@ -98,6 +99,7 @@ class ValgrindLauncher : public KDevelop::ILauncher
 {
 public:
     ValgrindLauncher();
+    ValgrindLauncher(ValgrindPlugin *inst);
     virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
     void addMode( ValgrindLaunchMode* mode );
     virtual QString description() const;
@@ -108,6 +110,7 @@ public:
 private:
     QList<KDevelop::LaunchConfigurationPageFactory*> factories;
     QMap<QString, ValgrindLaunchMode*> modes;
+    ValgrindPlugin * m_plugin;
 };
 
 class ValgrindConfigPage : public KDevelop::LaunchConfigurationPage

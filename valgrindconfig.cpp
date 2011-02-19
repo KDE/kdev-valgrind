@@ -45,24 +45,28 @@
 #include "valgrindjob.h"
 #include "ui_valgrindconfig.h"
 
+ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
+{
+}
+
 KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
     if( !cfg )
         return 0;
-    
+
     if( modes.contains( launchMode ) )
     {
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
         Q_ASSERT(iface);
-        
+
         QList<KJob*> l;
         KJob* depjob = iface->dependecyJob( cfg );
         if( depjob )
         {
             l << depjob;
         }
-        l << new ValgrindJob( modes.value(launchMode)->tool(), cfg, KDevelop::ICore::self()->runController() );
+        l << new ValgrindJob( modes.value(launchMode)->tool(), cfg, m_plugin, KDevelop::ICore::self()->runController() );
         return new KDevelop::ExecuteCompositeJob( KDevelop::ICore::self()->runController(), l );
     }
     kWarning() << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
@@ -109,12 +113,12 @@ QString ValgrindLauncher::name() const
 }
 
 
-ValgrindConfigPage::ValgrindConfigPage(QWidget* parent) 
+ValgrindConfigPage::ValgrindConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
     ui = new Ui::ValgrindConfig();
     ui->setupUi( this );
-    
+
     connect( ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()) );
     connect( ui->valgrindExecutable, SIGNAL(urlSelected(KUrl)), SIGNAL(changed()) );
     connect( ui->valgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
@@ -160,7 +164,7 @@ void ValgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop
 
 void ValgrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject* ) const
 {
-    
+
     cfg.writeEntry( "Valgrind Executable", ui->valgrindExecutable->url() );
     cfg.writeEntry( "Valgrind Arguments", ui->valgrindParameters->text() );
     cfg.writeEntry( "Framestack Depth", ui->numCallers->value() );
@@ -230,7 +234,7 @@ KIcon CallGrindLaunchMode::icon() const
 
 
 QString CallGrindLaunchMode::id() const
-{   
+{
     return "valgrind_callgrind";
 }
 

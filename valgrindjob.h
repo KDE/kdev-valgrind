@@ -36,9 +36,9 @@ class QTcpSocket;
 class ValgrindPlugin;
 class QBuffer;
 
-namespace KDevelop 
+namespace KDevelop
 {
-class ProcessLineMaker; 
+class ProcessLineMaker;
 class ILaunchConfiguration;
 class OutputModel;
 class ILaunchConfiguration;
@@ -49,7 +49,7 @@ class ValgrindJob : public KDevelop::OutputJob
   Q_OBJECT
 
 public:
-    ValgrindJob(const QString& tool, KDevelop::ILaunchConfiguration* cfg, QObject* parent = 0);
+    ValgrindJob(const QString& tool, KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent = 0);
     virtual ~ValgrindJob();
 
     ValgrindPlugin* plugin() const;
@@ -57,7 +57,7 @@ public:
     virtual void start();
 protected:
     virtual bool doKill();
-    
+
 private slots:
     void newValgrindConnection();
     void socketError(QAbstractSocket::SocketError err);
@@ -82,6 +82,7 @@ private:
     KDevelop::ProcessLineMaker* m_applicationOutput;
     KDevelop::ILaunchConfiguration* m_launchcfg;
     QString m_tool;
+    ValgrindPlugin *m_plugin;
 };
 
 #endif
