@@ -25,111 +25,29 @@
 
 #include "valgrindjob.h"
 
-CacheGrindLaunchMode::CacheGrindLaunchMode()
+// Generic valgrind mode
+
+ValgrindGenericLaunchMode::ValgrindGenericLaunchMode()
+  : m_toolname("UNSET TOOL")
 {
 }
 
-KIcon CacheGrindLaunchMode::icon() const
+KIcon	ValgrindGenericLaunchMode::icon() const
 {
-    return KIcon();
+  return KIcon();
 }
 
-
-QString CacheGrindLaunchMode::id() const
+QString	ValgrindGenericLaunchMode::id() const
 {
-    return "valgrind_cachegrind";
+  return "valgrind_generic";
 }
 
-
-QString CacheGrindLaunchMode::name() const
+QString ValgrindGenericLaunchMode::name() const
 {
-    return i18n("Cache Simulator");
+  return "Valgrind";
 }
 
-
-QString CacheGrindLaunchMode::tool() const
+QString ValgrindGenericLaunchMode::tool() const
 {
-    return "cachegrind";
-}
-
-CallGrindLaunchMode::CallGrindLaunchMode()
-{
-}
-
-
-KIcon CallGrindLaunchMode::icon() const
-{
-    return KIcon();
-}
-
-
-QString CallGrindLaunchMode::id() const
-{
-    return "valgrind_callgrind";
-}
-
-
-QString CallGrindLaunchMode::name() const
-{
-    return i18n("Call Tracing");
-}
-
-QString CallGrindLaunchMode::tool() const
-{
-    return "callgrind";
-}
-
-HelGrindLaunchMode::HelGrindLaunchMode()
-{
-}
-
-
-KIcon HelGrindLaunchMode::icon() const
-{
-    return KIcon();
-}
-
-
-QString HelGrindLaunchMode::id() const
-{
-    return "valgrind_helgrind";
-}
-
-
-QString HelGrindLaunchMode::name() const
-{
-    return i18n("Race Conditions");
-}
-
-
-QString HelGrindLaunchMode::tool() const
-{
-    return "helgrind";
-}
-
-MemCheckLaunchMode::MemCheckLaunchMode()
-{
-}
-
-
-KIcon MemCheckLaunchMode::icon() const
-{
-    return KIcon();
-}
-
-QString MemCheckLaunchMode::id() const
-{
-    return "valgrind_memcheck";
-}
-
-
-QString MemCheckLaunchMode::name() const
-{
-    return i18n("Memory Check");
-}
-
-
-QString MemCheckLaunchMode::tool() const
-{
-    return "memcheck";
+  return m_toolname;
 }

@@ -36,59 +36,26 @@ namespace KDevelop
 class IProject;
 }
 
+// TODO: remove this useless inheritance
+
 class ValgrindLaunchMode : public KDevelop::ILaunchMode
 {
 public:
     virtual QString tool() const = 0;
 };
 
-class MemCheckLaunchMode : public ValgrindLaunchMode
+class ValgrindGenericLaunchMode : public ValgrindLaunchMode
 {
 public:
-    MemCheckLaunchMode();
+    ValgrindGenericLaunchMode();
 
     virtual KIcon icon() const;
     virtual QString id() const;
     virtual QString name() const;
     virtual QString tool() const;
+
+ protected:
+  QString	m_toolname;
 };
-
-
-class CacheGrindLaunchMode : public ValgrindLaunchMode
-{
-public:
-    CacheGrindLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-};
-
-
-class CallGrindLaunchMode : public ValgrindLaunchMode
-{
-public:
-    CallGrindLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-};
-
-
-class HelGrindLaunchMode : public ValgrindLaunchMode
-{
-public:
-    HelGrindLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-};
-
 
 #endif
-

@@ -46,7 +46,7 @@
 #include "valgrindmodel.h"
 #include "valgrindplugin.h"
 
-ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent )
+ValgrindJob::ValgrindJob( const QString & /*tool*/, KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent )
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
     , m_job(0)
@@ -56,7 +56,6 @@ ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* c
     , m_parser()
     , m_applicationOutput(new KDevelop::ProcessLineMaker(this))
     , m_launchcfg( cfg )
-    , m_tool( tool )
     , m_plugin(inst)
 {
 
@@ -158,6 +157,8 @@ void ValgrindJob::start()
     QStringList valgrindArgs;
     valgrindArgs += KShell::splitArgs( grp.readEntry( "Valgrind Arguments", "" ) );
 
+    QString	toolname = grp.readEntry( "Current Tool", "UNKNOWN TOOL" );
+
 //TODO: Properly set following options for valgrind (no existing code for this)
 /*
 ui->numCallers->setValue( cfg.readEntry( "Framestack Depth", 12 ) );
@@ -173,7 +174,7 @@ ui->simulateHWPref->setChecked( cfg.readEntry( "Simulate Hardware Prefetcher", f
 ui->happensBefore->setCurrentIndex( cfg.readEntry("Extra Synchronization Events", 0 ) );
 */
 
-    valgrindArgs << QString( "--tool=%1" ).arg( m_tool );
+    valgrindArgs << QString( "--tool=%1" ).arg( toolname );
     valgrindArgs << "--xml=yes";
     if( m_server ) {
         valgrindArgs << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );

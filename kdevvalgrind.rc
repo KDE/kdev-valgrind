@@ -5,10 +5,9 @@
    <text context="@title:menu">Run</text>
    <Menu name="valgrind_profile" group="run_operations">
      <text context="@title:menu">Profile Launch (Valgrind)</text>
-     <Action name="valgrind_memcheck"/>
-     <Action name="valgrind_callgrind"/>
-     <Action name="valgrind_helgrind"/>
-     <Action name="valgrind_cachegrind"/>
+
+     <Action name="valgrind_generic"/>
+
    </Menu>
  </Menu>
 </MenuBar>

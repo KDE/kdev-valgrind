@@ -58,11 +58,8 @@ signals:
     void newModel(ValgrindModel* model);
 
 private slots:
-    void runMemCheck();
-    void runCallGrind();
-    void runHelGrind();
-    void runCacheGrind();
     void loadOutput();
+    void runValgrind();
 
 private:
     QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
