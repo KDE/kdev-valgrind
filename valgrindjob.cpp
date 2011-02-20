@@ -157,7 +157,7 @@ void ValgrindJob::start()
     QStringList valgrindArgs;
     valgrindArgs += KShell::splitArgs( grp.readEntry( "Valgrind Arguments", "" ) );
 
-    QString	toolname = grp.readEntry( "Current Tool", "UNKNOWN TOOL" );
+    QString	toolname = grp.readEntry( "Current Tool", "memcheck" );
 
 //TODO: Properly set following options for valgrind (no existing code for this)
 /*
