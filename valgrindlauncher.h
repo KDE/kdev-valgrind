@@ -19,76 +19,36 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDCONFIG_H
-#define VALGRINDCONFIG_H
+#ifndef VALGRINDLAUNCHER_H_
+#define VALGRINDLAUNCHER_H_
 
-#include <QtCore/QMap>
 
+
+#include <interfaces/launchconfigurationpage.h>
 #include <interfaces/ilauncher.h>
 #include <interfaces/ilaunchmode.h>
+#include "valgrindconfig.h"
 
 class KJob;
 class KIcon;
 class ValgrindPlugin;
 
-namespace KDevelop
-{
-class IProject;
-}
-
-class ValgrindLaunchMode : public KDevelop::ILaunchMode
+class ValgrindLauncher : public KDevelop::ILauncher
 {
 public:
-    virtual QString tool() const = 0;
-};
-
-class MemCheckLaunchMode : public ValgrindLaunchMode
-{
-public:
-    MemCheckLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
+    ValgrindLauncher();
+    ValgrindLauncher(ValgrindPlugin *inst);
+    virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
+    void addMode( ValgrindLaunchMode* mode );
+    virtual QString description() const;
+    virtual QString id();
     virtual QString name() const;
-    virtual QString tool() const;
+    virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
+    virtual QStringList supportedModes() const;
+private:
+    QList<KDevelop::LaunchConfigurationPageFactory*> factories;
+    QMap<QString, ValgrindLaunchMode*> modes;
+    ValgrindPlugin * m_plugin;
 };
 
-
-class CacheGrindLaunchMode : public ValgrindLaunchMode
-{
-public:
-    CacheGrindLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-};
-
-
-class CallGrindLaunchMode : public ValgrindLaunchMode
-{
-public:
-    CallGrindLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-};
-
-
-class HelGrindLaunchMode : public ValgrindLaunchMode
-{
-public:
-    HelGrindLaunchMode();
-
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-};
-
-
-#endif
-
+#endif /* VALGRINDLAUNCHER_H_ */

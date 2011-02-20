@@ -19,8 +19,6 @@
 
  */
 
-#include "valgrindplugin.h"
-
 #include <unistd.h>
 
 #include <QRegExp>
@@ -47,17 +45,21 @@
 #include <kpluginloader.h>
 #include <kaboutdata.h>
 
+#include <execute/iexecuteplugin.h>
+
 #include <interfaces/icore.h>
 #include <interfaces/iuicontroller.h>
 #include <interfaces/iruncontroller.h>
 #include <interfaces/launchconfigurationtype.h>
+#include <interfaces/iplugincontroller.h>
 
+
+#include "valgrindplugin.h"
 #include "valgrindmodel.h"
 #include "valgrindjob.h"
 #include "valgrindconfig.h"
 #include "valgrindwidget.h"
-#include <execute/iexecuteplugin.h>
-#include <interfaces/iplugincontroller.h>
+#include "valgrindlauncher.h"
 
 using namespace KDevelop;
 
@@ -117,6 +119,7 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
 
     // Initialize launch modes and register them with platform, also put them into our launcher
     ValgrindLauncher* launcher = new ValgrindLauncher(this);
+
     ValgrindLaunchMode* mode = new MemCheckLaunchMode();
     KDevelop::ICore::self()->runController()->addLaunchMode( mode );
     launcher->addMode( mode );

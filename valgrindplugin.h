@@ -40,14 +40,14 @@ namespace KDevelop
 class ILaunchConfiguration;
 }
 
-class ValgrindPlugin : public KDevelop::IPlugin //, public KDevelop::IStatus
+class ValgrindPlugin : public KDevelop::IPlugin
 {
     Q_OBJECT
-    //Q_INTERFACES(KDevelop::IStatus)
 
 public:
     ValgrindPlugin( QObject *parent, const QVariantList & = QVariantList() );
-    ~ValgrindPlugin();
+
+    virtual ~ValgrindPlugin();
 
     virtual void unload();
 

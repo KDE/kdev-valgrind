@@ -53,20 +53,30 @@ ValgrindJob::ValgrindJob( const QString& tool, KDevelop::ILaunchConfiguration* c
     , m_server(0)
     , m_connection(0)
     , m_model(new ValgrindModel())
+    , m_parser()
     , m_applicationOutput(new KDevelop::ProcessLineMaker(this))
     , m_launchcfg( cfg )
     , m_tool( tool )
     , m_plugin(inst)
 {
+
     setCapabilities( KJob::Killable );
     m_process->setOutputChannelMode(KProcess::SeparateChannels);
-    m_model->setDevice(m_process);
+    m_parser.setDevice(m_process);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readyReadStandardOutput()));
     connect(m_process, SIGNAL(readyReadStandardError()), SLOT(readyReadStandardError()));
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
+    // connect the parser and the model
+    connect(&m_parser, SIGNAL(newElement(ValgrindModel::eElementType)),
+	    m_model, SLOT(newElement(ValgrindModel::eElementType)));
+    connect(&m_parser, SIGNAL(newData(ValgrindModel::eElementType, QString, QString)),
+	    m_model, SLOT(newData(ValgrindModel::eElementType, QString, QString)));
+    connect(&m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
+#ifndef _UNIT_TESTS_
     m_plugin->incomingModel(m_model);
+#endif
 }
 
 ValgrindJob::~ValgrindJob()
@@ -197,9 +207,12 @@ void ValgrindJob::newValgrindConnection()
         kWarning() << "Got a new valgrind connection while old one was still alive!";
         delete sock; // discard new connection
     } else {
+        // The connection is successfull we connect the parser to the ??
         m_connection = sock;
-        m_model->setDevice(m_connection);
-        connect(m_connection, SIGNAL(readyRead()), m_model, SLOT(parse()));
+	//TODO still USEFUL?
+        m_parser.setDevice(m_connection);
+	// Connects the parser to the socket
+        connect(m_connection, SIGNAL(readyRead()), &m_parser, SLOT(parse()));
         connect(m_connection, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError(QAbstractSocket::SocketError)));
     }
 }
@@ -256,8 +269,7 @@ void ValgrindJob::readyReadStandardError()
         m_applicationOutput->slotReceivedStderr(m_process->readAllStandardError());
         return;
     }
-
-    m_model->parse();
+    //    m_parser.parse();
 }
 
 void ValgrindJob::readyReadStandardOutput()

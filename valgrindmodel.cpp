@@ -1,5 +1,8 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+ * Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+ * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+ * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,6 +20,7 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include "valgrinditem.h"
 #include "valgrindmodel.h"
 
 #include <QApplication>
@@ -26,228 +30,10 @@
 #include <klocale.h>
 #include <kglobalsettings.h>
 
-//#include "modeltest.h"
-
-ValgrindError::~ ValgrindError( )
-{
-    delete stack;
-    delete auxStack;
-}
-
-ValgrindError::ValgrindError(ValgrindModel* parent)
-    : uniqueId(-1)
-    , threadId(-1)
-    , kind(Unknown)
-    , leakedBytes(0)
-    , leakedBlocks(0)
-    , stack(0L)
-    , auxStack(0L)
-    , m_parent(parent)
-{
-}
-
-void ValgrindError::setKind(const QString& s)
-{
-    if (s == "Unknown")
-        kind = Unknown;
-    else if (s == "InvalidFree")
-        kind = InvalidFree;
-    else if (s == "MismatchedFree")
-        kind = MismatchedFree;
-    else if (s == "InvalidRead")
-        kind = InvalidRead;
-    else if (s == "InvalidWrite")
-        kind = InvalidWrite;
-    else if (s == "InvalidJump")
-        kind = InvalidJump;
-    else if (s == "Overlap")
-        kind = Overlap;
-    else if (s == "InvalidMemPool")
-        kind = InvalidMemPool;
-    else if (s == "UninitCondition")
-        kind = UninitCondition;
-    else if (s == "UninitValue")
-        kind = UninitValue;
-    else if (s == "SyscallParam")
-        kind = SyscallParam;
-    else if (s == "ClientCheck")
-        kind = ClientCheck;
-    else if (s == "Leak_DefinitelyLost")
-        kind = Leak_DefinitelyLost;
-    else if (s == "Leak_IndirectlyLost")
-        kind = Leak_IndirectlyLost;
-    else if (s == "Leak_PossiblyLost")
-        kind = Leak_PossiblyLost;
-    else if (s == "Leak_StillReachable")
-        kind = Leak_StillReachable;
-    else
-        kind = Unknown;
-}
-
-ValgrindFrame::ValgrindFrame(ValgrindStack* parent)
-    : instructionPointer(0)
-    , line(-1)
-    , m_parent(parent)
-{
-}
-
-ValgrindStack::ValgrindStack(ValgrindError* parent)
-    : m_parent(parent)
-{
-}
-
-ValgrindStack::~ ValgrindStack( )
-{
-    qDeleteAll(frames);
-}
 
 ValgrindModel::~ ValgrindModel( )
 {
     qDeleteAll(errors);
-}
-
-bool ValgrindModel::startElement()
-{
-    m_buffer.clear();
-
-    State newState = Unknown;
-
-    switch (m_state) {
-        case Root:
-            if (name() == "valgrindoutput")
-                newState = Session;
-            break;
-
-        case Session:
-            if (name() == "status")
-                newState = Status;
-            else if (name() == "preamble")
-                newState = Preamble;
-            else if (name() == "error") {
-                newState = Error;
-                m_currentError = new ValgrindError(this);
-
-                beginInsertRows(QModelIndex(), errors.count(), errors.count());
-                errors.append(m_currentError);
-                endInsertRows();
-            }
-            break;
-
-        case Error:
-            if (name() == "stack") {
-                newState = Stack;
-                m_currentStack = new ValgrindStack(m_currentError);
-            }
-            break;
-
-        case Stack:
-            if (name() == "frame") {
-                newState = Frame;
-                m_currentFrame = new ValgrindFrame(m_currentStack);
-            }
-            break;
-
-        default:
-            break;
-    }
-
-    //kDebug() << name() << newState;
-
-    m_stateStack.push(m_state);
-    m_state = newState;
-    ++m_depth;
-    return true;
-}
-
-bool ValgrindModel::endElement()
-{
-    m_state = m_stateStack.pop();
-
-    //kDebug() << name() << m_state;
-
-    switch (m_state) {
-        case Root:
-            if (name() == "m_protocolVersion")
-                m_protocolVersion = m_buffer.toInt();
-            else if (name() == "pid")
-                pid = m_buffer.toInt();
-            else if (name() == "ppid")
-                ppid = m_buffer.toInt();
-            else if (name() == "tool")
-                tool = m_buffer;
-            else if (name() == "usercomment")
-                userComment = m_buffer;
-            else if (name() == "error")
-                m_currentError = 0L;
-            break;
-
-        case Preamble:
-            if (name() == "line")
-                preamble.append(m_buffer);
-            break;
-
-        case Error:
-            if (name() == "unique")
-                m_currentError->uniqueId = m_buffer.toInt(0L, 16);
-            else if (name() == "tid")
-                m_currentError->threadId = m_buffer.toInt();
-            else if (name() == "kind")
-                m_currentError->setKind(m_buffer);
-            else if (name() == "what")
-                m_currentError->what = m_buffer;
-            else if (name() == "leakedbytes")
-                m_currentError->leakedBytes = m_buffer.toInt();
-            else if (name() == "leakedblocks")
-                m_currentError->leakedBlocks = m_buffer.toInt();
-            else if (name() == "auxwhat")
-                m_currentError->auxWhat = m_buffer;
-            else if (name() == "stack") {
-                if (!m_currentError->stack) {
-                    m_currentError->stack = m_currentStack;
-                } else if (!m_currentError->auxStack) {
-                    beginInsertRows(indexForItem(m_currentError), m_currentError->stack->frames.count(), m_currentError->stack->frames.count());
-                    m_currentError->auxStack = m_currentStack;
-                    endInsertRows();
-                } else {
-                    delete m_currentStack;
-                    kWarning() << "Unexpected stack received";
-                }
-                m_currentStack = 0L;
-            }
-            break;
-
-        case Stack:
-            if (name() == "frame") {
-                if (m_currentStack == m_currentStack->parent()->stack)
-                    beginInsertRows(indexForItem(m_currentError), m_currentStack->frames.count(), m_currentStack->frames.count());
-                m_currentStack->frames.append(m_currentFrame);
-                if (m_currentStack == m_currentStack->parent()->stack)
-                    endInsertRows();
-                m_currentFrame = 0L;
-            }
-            break;
-
-        case Frame:
-            if (name() == "ip")
-                m_currentFrame->instructionPointer = m_buffer.toInt(0L, 16);
-            else if (name() == "obj")
-                m_currentFrame->obj = m_buffer;
-            else if (name() == "fn")
-                m_currentFrame->fn = m_buffer;
-            else if (name() == "dir")
-                m_currentFrame->dir = m_buffer;
-            else if (name() == "file")
-                m_currentFrame->file = m_buffer;
-            else if (name() == "line")
-                m_currentFrame->line = m_buffer.toInt();
-            break;
-
-        default:
-            break;
-    }
-
-    --m_depth;
-    return true;
 }
 
 int ValgrindModel::columnCount ( const QModelIndex & parent ) const
@@ -436,28 +222,6 @@ int ValgrindModel::rowCount ( const QModelIndex & p ) const
     return 0;
 }
 
-void ValgrindModel::clear( )
-{
-    m_state = Root;
-    m_depth = 0;
-    m_currentError = 0L;
-    m_currentStack = 0L;
-    m_currentFrame = 0L;
-    m_stateStack.clear();
-    m_buffer.clear();
-    m_protocolVersion = pid = ppid = -1;
-    tool.clear();
-    userComment.clear();
-    preamble.clear();
-    valgrindArgs.clear();
-    programArgs.clear();
-
-    qDeleteAll(errors);
-    errors.clear();
-
-    reset();
-}
-
 QModelIndex ValgrindModel::indexForItem( ValgrindItem* item, int column ) const
 {
     int index = -1;
@@ -488,76 +252,123 @@ ValgrindItem* ValgrindModel::itemForIndex(const QModelIndex& index) const
     return 0L;
 }
 
-KUrl ValgrindFrame::url() const
-{
-    if (dir.isEmpty() && file.isEmpty())
-        return KUrl();
-
-    KUrl base = KUrl::fromPath(dir);
-    base.adjustPath(KUrl::AddTrailingSlash);
-    KUrl url(base, file);
-    url.cleanPath();
-    return url;
-}
-
 ValgrindModel::ValgrindModel(QObject * parent)
     : QAbstractItemModel(parent)
 {
-    //new ModelTest(this);
+    m_error = 0L;
+    m_stack = 0L;
+    m_frame = 0L;
 }
 
-QString ValgrindError::whatForStack(const ValgrindStack * s) const
+void ValgrindModel::newElement(ValgrindModel::eElementType e)
 {
-    if (s == stack)
-        return what;
-    if (s == auxStack)
-        return auxWhat;
-
-    return "<INTERNAL ERROR>";
+  switch (e) {
+      case startError:
+	newStartError();
+	break;
+      case error:
+	newError();
+	break;
+      case startStack:
+	m_stack = new ValgrindStack(this, m_error);
+	break;
+      case startFrame:
+	m_frame = new ValgrindFrame(m_stack);
+	break;
+      default:
+	break;
+  }
 }
 
-QString ValgrindStack::what() const
+void ValgrindModel::newData(ValgrindModel::eElementType e, QString name, QString value)
 {
-    return parent()->whatForStack(this);
+  // qDebug() << "name: " << name << " | value: "  << value;
+  // return;
+  switch (e) {
+  case error:
+    m_error->incomingData(name, value);
+    break;
+  case frame:
+    m_frame->incomingData(name, value);
+    break;
+  case stack:
+    m_stack->incomingData(name, value);
+    break;
+  default:
+    incomingData(name, value);
+  }
 }
 
-void ValgrindModel::parse()
+void ValgrindModel::newStartError()
 {
-    while (!atEnd()) {
-        switch (readNext()) {
-            case StartDocument:
-                clear();
-                break;
+    m_error = new ValgrindError(this);
+    beginInsertRows(QModelIndex(), errors.count(), errors.count());
+    errors.append(m_error);
+    endInsertRows();
+}
 
-            case StartElement:
-                startElement();
-                break;
+void ValgrindModel::newError()
+{
+    beginInsertRows(indexForItem(m_error), m_error->stack->frames.count(), m_error->stack->frames.count());
+    m_error->auxStack = m_stack;
+    endInsertRows();
+}
 
-            case EndElement:
-                endElement();
-                break;
+void ValgrindModel::newFrame()
+{
+    if (m_stack == m_stack->parent()->stack)
+      beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
+    m_stack->frames.append(m_frame);
+    if (m_stack == m_stack->parent()->stack)
+      endInsertRows();
+    m_frame = 0L;
+}
 
-            case Characters:
-                m_buffer += text().toString();
-                break;
+void ValgrindModel::reset()
+{
+    qDeleteAll(errors);
+    errors.clear();
+    reset();
+}
 
-            default:
-                break;
-        }
+void ValgrindModel::incomingData(QString name, QString value)
+{
+  // case Preamble:
+  //     if (name() == "line")
+  //       preamble.append(m_buffer);
+  //     break;
+
+
+  //case Root:
+  // if (name() == "m_protocolVersion")
+  //     m_protocolVersion = m_buffer.toInt();
+  // else if (name() == "pid")
+  //     pid = m_buffer.toInt();
+  // else if (name() == "ppid")
+  //     ppid = m_buffer.toInt();
+  // else if (name() == "tool")
+  //     tool = m_buffer;
+  // else if (name() == "usercomment")
+  //     userComment = m_buffer;
+  // //          else if (name() == "error")
+  // //  m_currentError = 0L;
+  // break;
+
+}
+
+void ValgrindModel::insertIntoTree(ValgrindModel::eElementType e)
+{
+  if (e == error)
+    {
+      beginInsertRows(indexForItem(m_error), m_error->stack->frames.count(), m_error->stack->frames.count());
+      m_error->auxStack = m_stack;
+      endInsertRows();
     }
-
-    if (hasError()) {
-        switch (error()) {
-            case CustomError:
-            case UnexpectedElementError:
-            case NotWellFormedError:
-                KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
-                break;
-
-            case NoError:
-            case PrematureEndOfDocumentError:
-                break;
-        }
+  else if (e == frame)
+    {
+      beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
+      if (m_stack == m_stack->parent()->stack)
+	endInsertRows();
     }
 }
 

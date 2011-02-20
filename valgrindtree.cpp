@@ -27,6 +27,7 @@
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
+#include "valgrinditem.h"
 #include "valgrindmodel.h"
 
 ValgrindTree::ValgrindTree()
