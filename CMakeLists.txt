@@ -15,8 +15,8 @@ include_directories(
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
-  valgrindconfigpage.cpp
-  valgrindlauncher.cpp
+    valgrindgenericconfigpage.cpp
+    valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
     valgrindjob.cpp
@@ -27,7 +27,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindwidget.cpp
 )
 
-set(kdevvalgrind_PART_UI valgrindconfig.ui)
+set(kdevvalgrind_PART_UI valgrindgenericconfig.ui)
 
 kde4_add_ui_files(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
 

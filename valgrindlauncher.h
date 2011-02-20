@@ -49,6 +49,8 @@ private:
     QList<KDevelop::LaunchConfigurationPageFactory*> factories;
     QMap<QString, ValgrindLaunchMode*> modes;
     ValgrindPlugin * m_plugin;
+
+    //Lionel: test for having only 1 entry in the menu
 };
 
 #endif /* VALGRINDLAUNCHER_H_ */

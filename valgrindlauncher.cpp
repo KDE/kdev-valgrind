@@ -41,14 +41,23 @@
 
 #include <execute/iexecuteplugin.h>
 
-#include "valgrindconfigpage.h"
+#include "valgrindgenericconfigpage.h"
 #include "valgrindlauncher.h"
 #include "valgrindconfig.h"
 #include "valgrindjob.h"
 
 ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
 {
-  factories << new ValgrindConfigPageFactory();
+  factories << new ValgrindGenericConfigPageFactory(); //these are tabs in each menu
+  // factories << new ValgrindMemcheckConfigPageFactory()
+  // factories << new ValgrindMasifConfigPageFactory()
+  // factories << new ValgrindCachegrindConfigPageFactory()
+  // factories << new ValgrindHelgrindConfigPageFactory()
+}
+
+ValgrindLauncher::ValgrindLauncher()
+{
+  factories << new ValgrindGenericConfigPageFactory();
 }
 
 KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
@@ -75,11 +84,6 @@ KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfig
     return 0;
 }
 
-ValgrindLauncher::ValgrindLauncher()
-{
-  factories << new ValgrindConfigPageFactory();
-}
-
 void ValgrindLauncher::addMode(ValgrindLaunchMode* mode)
 {
     if( !modes.contains( mode->id() ) )
@@ -90,7 +94,7 @@ void ValgrindLauncher::addMode(ValgrindLaunchMode* mode)
 
 QStringList ValgrindLauncher::supportedModes() const
 {
-    return modes.keys();
+  return modes.keys(); // these are entries in menus
 }
 
 QList< KDevelop::LaunchConfigurationPageFactory* > ValgrindLauncher::configPages() const
