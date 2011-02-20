@@ -15,13 +15,16 @@ include_directories(
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
-    valgrindplugin.cpp
-    valgrindmodel.cpp
-    valgrindjob.cpp
-    valgrindwidget.cpp
-    valgrindtree.cpp
+  valgrindconfigpage.cpp
+  valgrindlauncher.cpp
     valgrindconfig.cpp
-#modeltest.cpp
+    valgrinditem.cpp
+    valgrindjob.cpp
+    valgrindmodel.cpp
+    valgrindparser.cpp
+    valgrindplugin.cpp
+    valgrindtree.cpp
+    valgrindwidget.cpp
 )
 
 set(kdevvalgrind_PART_UI valgrindconfig.ui)

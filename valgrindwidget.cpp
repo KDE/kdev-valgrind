@@ -23,6 +23,7 @@
 #include <KIcon>
 #include <KLocale>
 
+#include "valgrinditem.h"
 #include "valgrindplugin.h"
 #include "valgrindmodel.h"
 #include "valgrindtree.h"

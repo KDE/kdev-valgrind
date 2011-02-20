@@ -1,6 +1,9 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2002 Harald Fernengel <harry@kdevelop.org>
+ * Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+ * Copyright 2002 Harald Fernengel <harry@kdevelop.org>
+ * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+ * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -26,6 +29,8 @@
 
 #include <outputview/outputjob.h>
 
+#include "valgrindparser.h"
+
 class KJob;
 class KProcess;
 class QXmlInputSource;
@@ -34,6 +39,7 @@ class ValgrindModel;
 class QTcpServer;
 class QTcpSocket;
 class ValgrindPlugin;
+class ValgrindParser;
 class QBuffer;
 
 namespace KDevelop
@@ -78,6 +84,7 @@ private:
     QTcpSocket* m_connection;
 
     ValgrindModel* m_model;
+    ValgrindParser m_parser;
 
     KDevelop::ProcessLineMaker* m_applicationOutput;
     KDevelop::ILaunchConfiguration* m_launchcfg;

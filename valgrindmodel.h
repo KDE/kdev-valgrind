@@ -1,5 +1,8 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+ * Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+ * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+ * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,35 +25,26 @@
 
 #include <QHash>
 #include <QStack>
-#include <QXmlStreamReader>
-#include <QSortFilterProxyModel>
-#include <QStringList>
 
-#include <KUrl>
+#include "ivalgrinditem.h"
 
 class ValgrindError;
 class ValgrindFrame;
 class ValgrindStack;
 
-class ValgrindItem
-{
-public:
-    virtual ~ValgrindItem() {}
-    virtual ValgrindItem* parent() const = 0;
-};
 
 /**
- * A class which parses valgrind's XML output and presents it as an
- * item model.
- *
+ * A class that represents the item model
  * \author Hamish Rodda \<rodda@kde.org\>
  */
-class ValgrindModel : public QAbstractItemModel, public QXmlStreamReader, public ValgrindItem
+class ValgrindModel : public QAbstractItemModel, public ValgrindItem
 {
   Q_OBJECT
 
 public:
+
     ValgrindModel(QObject* parent = 0);
+
     virtual ~ValgrindModel();
 
     enum Columns {
@@ -59,6 +53,7 @@ public:
         Source,
         Object
     };
+
     static const int numColumns = 1;
 
     // Item
@@ -68,6 +63,7 @@ public:
     QModelIndex indexForItem(ValgrindItem* item, int column = 0) const;
     ValgrindItem* itemForIndex(const QModelIndex& index) const;
 
+    virtual void incomingData(QString name, QString value);
     virtual int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
     virtual QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     virtual QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
@@ -75,120 +71,35 @@ public:
     virtual QModelIndex parent ( const QModelIndex & index ) const;
     virtual int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 
-    // XML parsing
-    bool endElement();
-    bool startElement();
+    enum eElementType {
+      startError,
+      error,
+      startFrame,
+      frame,
+      startStack,
+      stack
+    };
 
-    // Manipulation
-    void clear();
+    void newFrame();
+    void newError();
+    void newStartError();
 
 public slots:
-    void parse();
 
-private:
-    enum State {
-        Unknown,
-        Root,
-        Session,
-        Status,
-        Preamble,
-        Error,
-        Stack,
-        Frame
-    } m_state;
+    /**
+     * Reception of a new item in the model
+     */
+    void newElement(ValgrindModel::eElementType);
+    void newData(ValgrindModel::eElementType, QString name, QString value);
+    void reset();
 
-    QStack<State> m_stateStack;
-
-    QString m_buffer;
-    int m_depth;
-    int m_protocolVersion;
-    int pid;
-    int ppid;
-    QString tool, userComment;
-    QStringList preamble;
-    QHash<QString, QString> valgrindArgs, programArgs;
-
-    enum {
-        NotRunning,
-        Running,
-        Paused
-    } state;
-
+ public:
+    // private:
     QList<ValgrindError*> errors;
-
-    ValgrindError* m_currentError;
-    ValgrindStack* m_currentStack;
-    ValgrindFrame* m_currentFrame;
-};
-
-class ValgrindError : public ValgrindItem
-{
-public:
-    ValgrindError(ValgrindModel* parent);
-    virtual ~ValgrindError();
-
-    virtual ValgrindModel* parent() const { return m_parent; }
-
-    void setKind(const QString& s);
-
-    QString whatForStack(const ValgrindStack* stack) const;
-
-    int uniqueId;
-    int threadId;
-
-    enum {
-        Unknown,
-        InvalidFree,
-        MismatchedFree,
-        InvalidRead,
-        InvalidWrite,
-        InvalidJump,
-        Overlap,
-        InvalidMemPool,
-        UninitCondition,
-        UninitValue,
-        SyscallParam,
-        ClientCheck,
-        Leak_DefinitelyLost,
-        Leak_IndirectlyLost,
-        Leak_PossiblyLost,
-        Leak_StillReachable
-    } kind;
-
-    QString what, auxWhat;
-    int leakedBytes, leakedBlocks;
-
-    ValgrindStack* stack;
-    ValgrindStack* auxStack;
-    ValgrindModel* m_parent;
-};
-
-class ValgrindStack : public ValgrindItem
-{
-public:
-    ValgrindStack(ValgrindError* parent);
-    virtual ~ValgrindStack();
-
-    virtual ValgrindError* parent() const { return m_parent; }
-
-    QString what() const;
-
-    QList<ValgrindFrame*> frames;
-    ValgrindError* m_parent;
-};
-
-class ValgrindFrame : public ValgrindItem
-{
-public:
-    ValgrindFrame(ValgrindStack* parent);
-
-    virtual ValgrindStack* parent() const { return m_parent; }
-
-    KUrl url() const;
-
-    int instructionPointer, line;
-    QString obj, fn, dir, file;
-    ValgrindStack* m_parent;
+    ValgrindError *m_error;
+    ValgrindStack *m_stack;
+    ValgrindFrame *m_frame;
+    void insertIntoTree(ValgrindModel::eElementType);
 };
 
 #endif
