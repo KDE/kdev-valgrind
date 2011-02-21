@@ -2,6 +2,7 @@
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2009 Andreas Pakulat <apaku@gmx.de>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -35,8 +36,8 @@ class ValgrindPlugin;
 
 class ValgrindLauncher : public KDevelop::ILauncher
 {
+
 public:
-    ValgrindLauncher();
     ValgrindLauncher(ValgrindPlugin *inst);
     virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
     void addMode( ValgrindLaunchMode* mode );
@@ -45,12 +46,11 @@ public:
     virtual QString name() const;
     virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
     virtual QStringList supportedModes() const;
+
 private:
     QList<KDevelop::LaunchConfigurationPageFactory*> factories;
     QMap<QString, ValgrindLaunchMode*> modes;
     ValgrindPlugin * m_plugin;
-
-    //Lionel: test for having only 1 entry in the menu
 };
 
 #endif /* VALGRINDLAUNCHER_H_ */

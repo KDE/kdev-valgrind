@@ -2,6 +2,7 @@
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2009 Andreas Pakulat <apaku@gmx.de>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -48,16 +49,7 @@
 
 ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
 {
-  factories << new ValgrindGenericConfigPageFactory(); //these are tabs in each menu
-  // factories << new ValgrindMemcheckConfigPageFactory()
-  // factories << new ValgrindMasifConfigPageFactory()
-  // factories << new ValgrindCachegrindConfigPageFactory()
-  // factories << new ValgrindHelgrindConfigPageFactory()
-}
-
-ValgrindLauncher::ValgrindLauncher()
-{
-  factories << new ValgrindGenericConfigPageFactory();
+    factories << new ValgrindGenericConfigPageFactory(); //these are tabs in each menu
 }
 
 KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
@@ -94,7 +86,7 @@ void ValgrindLauncher::addMode(ValgrindLaunchMode* mode)
 
 QStringList ValgrindLauncher::supportedModes() const
 {
-  return modes.keys(); // these are entries in menus
+    return modes.keys(); // these are entries in menus
 }
 
 QList< KDevelop::LaunchConfigurationPageFactory* > ValgrindLauncher::configPages() const
