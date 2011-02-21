@@ -40,7 +40,6 @@ public:
   virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
   virtual QString title() const;
 
-
 private:
   Ui::ValgrindGenericConfig *ui;
 };
