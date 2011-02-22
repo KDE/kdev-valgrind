@@ -75,7 +75,18 @@ private slots:
     void processErrored(QProcess::ProcessError);
 
 private:
+    typedef QString	t_valgrind_cfg_argarray[][3];
+
+    void	processModeArgs(QStringList & out,
+				const t_valgrind_cfg_argarray mode_args,
+				int mode_args_count,
+				KConfigGroup & cfg) const;
+
+    QStringList	buildCommandLine() const;
+
     KDevelop::OutputModel* model();
+
+
     KProcess* m_process;
     int m_currentPid;
     KJob* m_job;
