@@ -43,6 +43,7 @@
 #include <execute/iexecuteplugin.h>
 
 #include "valgrindgenericconfigpage.h"
+#include "valgrindmemcheckconfigpage.h"
 #include "valgrindlauncher.h"
 #include "valgrindconfig.h"
 #include "valgrindjob.h"
@@ -50,6 +51,7 @@
 ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
 {
     factories << new ValgrindGenericConfigPageFactory(); //these are tabs in each menu
+    factories << new ValgrindMemcheckConfigPageFactory();
 }
 
 KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)

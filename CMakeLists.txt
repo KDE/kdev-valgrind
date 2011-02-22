@@ -1,3 +1,4 @@
+
 project(valgrind)
 add_definitions( -DKDE_DEFAULT_DEBUG_AREA=9002 )
 
@@ -16,6 +17,7 @@ include_directories(
 
 set(kdevvalgrind_PART_SRCS
     valgrindgenericconfigpage.cpp
+    valgrindmemcheckconfigpage.cpp
     valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
@@ -27,7 +29,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindwidget.cpp
 )
 
-set(kdevvalgrind_PART_UI valgrindgenericconfig.ui)
+set(kdevvalgrind_PART_UI valgrindgenericconfig.ui valgrindmemcheckconfig.ui)
 
 kde4_add_ui_files(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
 
