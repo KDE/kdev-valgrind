@@ -55,7 +55,7 @@ class ValgrindJob : public KDevelop::OutputJob
   Q_OBJECT
 
 public:
-    ValgrindJob(const QString& tool, KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent = 0);
+    ValgrindJob(KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent = 0);
     virtual ~ValgrindJob();
 
     ValgrindPlugin* plugin() const;
@@ -88,7 +88,6 @@ private:
 
     KDevelop::ProcessLineMaker* m_applicationOutput;
     KDevelop::ILaunchConfiguration* m_launchcfg;
-    QString m_tool;
     ValgrindPlugin *m_plugin;
 };
 
