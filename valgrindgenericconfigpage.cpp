@@ -60,9 +60,9 @@ void ValgrindGenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, K
 
     ui->valgrindExecutable->setUrl( cfg.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ) );
     ui->valgrindParameters->setText( cfg.readEntry( "Valgrind Arguments", "" ) );
-    ui->stackDepth->setValue( cfg.readEntry( "Framestack Depth", 12 ) );
-    ui->maxStackSize->setValue( cfg.readEntry( "Maximum Framestack Size", 2000000 ) );
-    ui->limitErrors->setChecked( cfg.readEntry( "Limit Errors", false ) );
+    ui->stackDepth->setValue( cfg.readEntry( "Stackframe Depth", 12 ) );
+    ui->maxStackSize->setValue( cfg.readEntry( "Maximum Stackframe Size", 2000000 ) );
+    ui->limitErrors->setChecked( cfg.readEntry( "Limit Errors", true ) );
 
     int	tool_index;
     QString	toolname;
@@ -77,8 +77,8 @@ void ValgrindGenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::
 {
     cfg.writeEntry( "Valgrind Executable", ui->valgrindExecutable->url() );
     cfg.writeEntry( "Valgrind Arguments", ui->valgrindParameters->text() );
-    cfg.writeEntry( "Framestack Depth", ui->stackDepth->value() );
-    cfg.writeEntry( "Maximum Framestack Size", ui->maxStackSize->value() );
+    cfg.writeEntry( "Stackframe Depth", ui->stackDepth->value() );
+    cfg.writeEntry( "Maximum Stackframe Size", ui->maxStackSize->value() );
     cfg.writeEntry( "Limit Errors", ui->limitErrors->isChecked() );
     cfg.writeEntry( "Current Tool", ui->currentTool->currentText() );
 }

@@ -128,7 +128,10 @@
       <item row="7" column="0">
        <widget class="QCheckBox" name="limitErrors">
         <property name="text">
-         <string>Limit &amp;identical error display</string>
+         <string>Limit errors if too many</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

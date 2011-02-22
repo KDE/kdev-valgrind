@@ -82,6 +82,76 @@ ValgrindJob::~ValgrindJob()
 {
 }
 
+void		ValgrindJob::processModeArgs(QStringList & out,
+					     const t_valgrind_cfg_argarray mode_args,
+					     int mode_args_count,
+					     KConfigGroup & cfg) const
+{
+    // For each option, set the right string in the arguments list
+    for (int i = 0; i < mode_args_count; ++i)
+    {
+	QString val;
+	QString argtype = mode_args[i][2];
+
+	if (argtype == "str")
+	    val = cfg.readEntry( mode_args[i][0] );
+	else if (argtype == "int")
+	{
+	    int n = cfg.readEntry( mode_args[i][0], 0 );
+	    if (n)
+		val.sprintf("%d", n);
+	}
+	else if (argtype == "bool")
+	{
+	    bool n = cfg.readEntry( mode_args[i][0], false );
+	    val = n ? "yes" : "no";
+	}
+	if (val.length()) // Finally, if our argument is meaningful, add it
+	{
+	    QString argument = QString(mode_args[i][1]) + val;
+	    out << argument;
+	}
+    }
+}
+
+QStringList	ValgrindJob::buildCommandLine() const
+{
+    static const t_valgrind_cfg_argarray generic_args =
+	{
+	    {"Current Tool",		"--tool=",		"str"},
+	    {"Stackframe Depth",	"--num-callers=",	"int"}, // TODO: Rather use defines/enums for the
+	    {"Maximum Stackframe Size", "--max-stackframe=",	"int"}, // types. There probably are some in KDevelop
+	    {"Limit Errors",		"--error-limit=",	"bool"} // already.
+	};
+    static const int		generic_args_count = sizeof(generic_args) / sizeof(*generic_args);
+    static const t_valgrind_cfg_argarray memcheck_args =
+	{
+	    {"Memcheck Arguments",	"",			"str"},
+	    {"Freelist Size",		"--freelist-vol=",	"int"},
+	    {"Show Reachable",		"--show-reachable=",	"bool"},
+	    {"Track Origins",		"--track-origins=",	"bool"}
+	};
+    static const int		memcheck_args_count = sizeof(memcheck_args) / sizeof(*memcheck_args);
+
+    KConfigGroup		cfg = m_launchcfg->config();
+    QStringList			args;
+    QString			tool = cfg.readEntry( "Current Tool", "memcheck" );
+
+    args += KShell::splitArgs( cfg.readEntry( "Valgrind Arguments", "" ) );
+    args << "--xml=yes";
+    if( m_server ) {
+        args << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );
+    }
+    processModeArgs(args, generic_args, generic_args_count, cfg);
+
+    if (tool == "memcheck")
+	processModeArgs(args, memcheck_args, memcheck_args_count, cfg);
+
+    // Other tools will come later !
+
+    return args;
+}
+
 void ValgrindJob::start()
 {
     KConfigGroup grp = m_launchcfg->config();
@@ -155,34 +225,13 @@ void ValgrindJob::start()
     m_process->setProperty( "executable", executable );
 
     QStringList valgrindArgs;
-    valgrindArgs += KShell::splitArgs( grp.readEntry( "Valgrind Arguments", "" ) );
 
-    QString	toolname = grp.readEntry( "Current Tool", "memcheck" );
-
-//TODO: Properly set following options for valgrind (no existing code for this)
-/*
-ui->numCallers->setValue( cfg.readEntry( "Framestack Depth", 12 ) );
-ui->maxStackFrame->setValue( cfg.readEntry( "Maximum Framestack Size", 2000000 ) );
-ui->limitErrors->setChecked( cfg.readEntry( "Limit Errors", false ) );
-ui->leakSummary->setCurrentIndex( cfg.readEntry( "Leak Summary", 1 ) );
-ui->leakResolution->setCurrentIndex( cfg.readEntry( "Leak Resolution Matching", 0 ) );
-ui->showReachable->setChecked( cfg.readEntry("Show Reachable Blocks", false ) );
-ui->freeBlockList->setValue( cfg.readEntry( "Free Block List Size", 5000000 ) );
-ui->separateThreads->setChecked( cfg.readEntry( "Separate Thread Reporting", false ) );
-ui->simulateCache->setChecked( cfg.readEntry( "Full Cache Simulation", false ) );
-ui->simulateHWPref->setChecked( cfg.readEntry( "Simulate Hardware Prefetcher", false ) );
-ui->happensBefore->setCurrentIndex( cfg.readEntry("Extra Synchronization Events", 0 ) );
-*/
-
-    valgrindArgs << QString( "--tool=%1" ).arg( toolname );
-    valgrindArgs << "--xml=yes";
-    if( m_server ) {
-        valgrindArgs << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );
-    }
+    valgrindArgs = buildCommandLine();
     valgrindArgs << executable;
     valgrindArgs += arguments;
     kDebug() << "executing:" << grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile() << valgrindArgs;
-    m_process->setProgram( grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(), valgrindArgs );
+    m_process->setProgram( grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(),
+			   valgrindArgs );
     m_process->start();
 }
 
@@ -214,7 +263,8 @@ void ValgrindJob::newValgrindConnection()
         m_parser.setDevice(m_connection);
 	// Connects the parser to the socket
         connect(m_connection, SIGNAL(readyRead()), &m_parser, SLOT(parse()));
-        connect(m_connection, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError(QAbstractSocket::SocketError)));
+        connect(m_connection, SIGNAL(error(QAbstractSocket::SocketError)),
+		SLOT(socketError(QAbstractSocket::SocketError)));
     }
 }
 
