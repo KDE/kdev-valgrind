@@ -30,31 +30,21 @@ ValgrindParser::ValgrindParser(QObject *parent)
 
 ValgrindParser::~ValgrindParser()
 {
-
 }
 
 void ValgrindParser::clear( )
 {
     m_state = Root;
-    m_depth = 0;
     m_stateStack.clear();
     m_buffer.clear();
-    m_protocolVersion = pid = ppid = -1;
-    tool.clear();
-    userComment.clear();
-    preamble.clear();
     valgrindArgs.clear();
     programArgs.clear();
 
     // Send rest signal to model
     //    emit reset();
-    /* MODIF : errors est reste dans valgrindmodel
-       (a voir si on le change ou pas mais il est utilise dans la fonction index
-       qui est herite de la classe *un peu tordu* QAbstractItemModel par model)
-    qDeleteAll(errors);
-    errors.clear();
-    reset();
-    */
+    // qDeleteAll(errors);
+    // errors.clear();
+    // reset();
 }
 
 bool ValgrindParser::startElement()
@@ -62,44 +52,26 @@ bool ValgrindParser::startElement()
     m_buffer.clear();
     State newState = Unknown;
 
-    switch (m_state) {
-        case Root:
-            if (name() == "valgrindoutput")
-                newState = Session;
-            break;
-
-        case Session:
-            if (name() == "status")
-                newState = Status;
-            else if (name() == "preamble")
-                newState = Preamble;
-            else if (name() == "error") {
-                newState = Error;
-		emit newElement(ValgrindModel::startError);
-            }
-            break;
-
-        case Error:
-            if (name() == "stack") {
-                newState = Stack;
-		emit newElement(ValgrindModel::startStack);
-            }
-            break;
-
-        case Stack:
-            if (name() == "frame") {
-                newState = Frame;
-		emit newElement(ValgrindModel::startFrame);
-            }
-            break;
-
-        default:
-            break;
+    if (name() == "valgrindoutput")
+	newState = Session;
+    else if (name() == "status")
+	newState = Status;
+    else if (name() == "preamble")
+	newState = Preamble;
+    else if (name() == "error") {
+	newState = Error;
+	emit newElement(ValgrindModel::startError);
     }
-
+    else if (name() == "stack") {
+	newState = Stack;
+	emit newElement(ValgrindModel::startStack);
+    }
+    else if (name() == "frame") {
+	newState = Frame;
+	emit newElement(ValgrindModel::startFrame);
+    }
     m_stateStack.push(m_state);
     m_state = newState;
-    ++m_depth;
     return true;
 }
 
@@ -107,20 +79,18 @@ bool ValgrindParser::endElement()
 {
     m_state = m_stateStack.pop();
     switch (m_state) {
-
     case Error:
-      emit newData(ValgrindModel::error, name().toString(), m_buffer);
-      break;
+	emit newData(ValgrindModel::error, name().toString(), m_buffer);
+	break;
     case Stack:
-      emit newData(ValgrindModel::stack, name().toString(), m_buffer);
-      break;
+	emit newData(ValgrindModel::stack, name().toString(), m_buffer);
+	break;
     case Frame:
-      emit newData(ValgrindModel::frame, name().toString(), m_buffer);
-      break;
+	emit newData(ValgrindModel::frame, name().toString(), m_buffer);
+	break;
     default:
-      break;
+	break;
     }
-    --m_depth;
     return true;
 }
 
@@ -128,38 +98,33 @@ void ValgrindParser::parse()
 {
     while (!atEnd()) {
         switch (readNext()) {
-            case StartDocument:
-	      clear();
-                break;
-
-            case StartElement:
-                startElement();
-                break;
-
-            case EndElement:
-                endElement();
-                break;
-
-            case Characters:
-                m_buffer += text().toString();
-                break;
-
-            default:
-                break;
+	case StartDocument:
+	    clear();
+	    break;
+	case StartElement:
+	    startElement();
+	    break;
+	case EndElement:
+	    endElement();
+	    break;
+	case Characters:
+	    m_buffer += text().toString();
+	    break;
+	default:
+	    break;
         }
     }
 
     if (hasError()) {
         switch (error()) {
-            case CustomError:
-            case UnexpectedElementError:
-            case NotWellFormedError:
-                KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
-                break;
-
-            case NoError:
-            case PrematureEndOfDocumentError:
-                break;
+	case CustomError:
+	case UnexpectedElementError:
+	case NotWellFormedError:
+	    KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
+	    break;
+	case NoError:
+	case PrematureEndOfDocumentError:
+	    break;
         }
     }
 }

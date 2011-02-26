@@ -67,7 +67,6 @@ QVariant ValgrindModel::data ( const QModelIndex & index, int role ) const
                             ret = f->fn;
                         else
                             ret = QString("0x%1").arg(QString::number(f->instructionPointer, 16));
-
                         if (f == f->parent()->frames.first())
                             return i18n("at: %1", ret);
                         else
@@ -262,41 +261,41 @@ ValgrindModel::ValgrindModel(QObject * parent)
 
 void ValgrindModel::newElement(ValgrindModel::eElementType e)
 {
-  switch (e) {
-      case startError:
+    qDebug() << "New Element" << e;
+    switch (e) {
+    case startError:
 	newStartError();
 	break;
-      case error:
+    case error:
 	newError();
 	break;
-      case startStack:
+    case startStack:
 	m_stack = new ValgrindStack(this, m_error);
 	break;
-      case startFrame:
+    case startFrame:
 	m_frame = new ValgrindFrame(m_stack);
 	break;
-      default:
+    default:
 	break;
-  }
+    }
 }
 
 void ValgrindModel::newData(ValgrindModel::eElementType e, QString name, QString value)
 {
-  // qDebug() << "name: " << name << " | value: "  << value;
-  // return;
-  switch (e) {
-  case error:
-    m_error->incomingData(name, value);
-    break;
-  case frame:
-    m_frame->incomingData(name, value);
-    break;
-  case stack:
-    m_stack->incomingData(name, value);
-    break;
-  default:
-    incomingData(name, value);
-  }
+    qDebug() << "New Data" << e << " " << name << " " << value;
+    switch (e) {
+    case error:
+	m_error->incomingData(name, value);
+	break;
+    case frame:
+	m_frame->incomingData(name, value);
+	break;
+    case stack:
+	m_stack->incomingData(name, value);
+	break;
+    default:
+	incomingData(name, value);
+    }
 }
 
 void ValgrindModel::newStartError()
@@ -317,10 +316,10 @@ void ValgrindModel::newError()
 void ValgrindModel::newFrame()
 {
     if (m_stack == m_stack->parent()->stack)
-      beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
+	beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
     m_stack->frames.append(m_frame);
     if (m_stack == m_stack->parent()->stack)
-      endInsertRows();
+	endInsertRows();
     m_frame = 0L;
 }
 
@@ -333,10 +332,10 @@ void ValgrindModel::reset()
 
 void ValgrindModel::incomingData(QString name, QString value)
 {
-  // case Preamble:
-  //     if (name() == "line")
-  //       preamble.append(m_buffer);
-  //     break;
+// case Preamble:
+//     if (name() == "line")
+// 	preamble.append(m_buffer);
+//     break;
 
 
   //case Root:
@@ -368,8 +367,8 @@ void ValgrindModel::insertIntoTree(ValgrindModel::eElementType e)
     {
       beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
       if (m_stack == m_stack->parent()->stack)
-	endInsertRows();
-    }
+  	endInsertRows();
+   }
 }
 
 #include "valgrindmodel.moc"

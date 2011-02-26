@@ -45,35 +45,35 @@ ValgrindError::~ ValgrindError( )
 
 ValgrindModel* ValgrindError::parent() const
 {
-  return m_parent;
+    return m_parent;
 }
 
 void ValgrindError::incomingData(QString name, QString value)
 {
-  if (name == "unique")
-    this->uniqueId = value.toInt(0L, 16);
-  else if (name == "tid")
-    this->threadId = value.toInt();
-  else if (name == "kind")
-    this->setKind(value);
-  else if (name == "what")
-    this->what = value;
-  else if (name == "leakedbytes")
-    this->leakedBytes = value.toInt();
-  else if (name == "leakedblocks")
-    this->leakedBlocks = value.toInt();
-  else if (name == "auxwhat")
-    this->auxWhat = value;
-  else if (name == "stack") {
-    if (!this->stack) {
-      this->stack = this->m_parent->m_stack;
-    } else if (!this->auxStack) {
-      m_parent->insertIntoTree(ValgrindModel::error);
-    } else {
-      delete this->m_parent->m_stack;
-      kWarning() << "Unexpected stack received";
+    if (name == "unique")
+	this->uniqueId = value.toInt(0L, 16);
+    else if (name == "tid")
+	this->threadId = value.toInt();
+    else if (name == "kind")
+	this->setKind(value);
+    else if (name == "what")
+	this->what = value;
+    else if (name == "leakedbytes")
+	this->leakedBytes = value.toInt();
+    else if (name == "leakedblocks")
+	this->leakedBlocks = value.toInt();
+    else if (name == "auxwhat")
+	this->auxWhat = value;
+    else if (name == "stack") {
+	if (!this->stack) {
+	    this->stack = this->m_parent->m_stack;
+	} else if (!this->auxStack) {
+	    m_parent->insertIntoTree(ValgrindModel::error);
+	} else {
+	    delete this->m_parent->m_stack;
+	    kWarning() << "Unexpected stack received";
+	}
     }
-  }
 }
 
 QString ValgrindError::whatForStack(const ValgrindStack * s) const
@@ -82,7 +82,6 @@ QString ValgrindError::whatForStack(const ValgrindStack * s) const
         return what;
     if (s == auxStack)
         return auxWhat;
-
     return "<INTERNAL ERROR>";
 }
 
@@ -136,18 +135,18 @@ ValgrindFrame::ValgrindFrame(ValgrindStack* parent)
 
 void ValgrindFrame::incomingData(QString name, QString value)
 {
-  if (name == "ip")
-    this->instructionPointer = value.toInt(0L, 16);
-  else if (name == "obj")
-    this->obj = value;
-  else if (name == "fn")
-    this->fn = value;
-  else if (name == "dir")
-    this->dir = value;
-  else if (name == "file")
-    this->file = value;
-  else if (name == "line")
-    this->line = value.toInt();
+    if (name == "ip")
+	this->instructionPointer = value.toInt(0L, 16);
+    else if (name == "obj")
+	this->obj = value;
+    else if (name == "fn")
+	this->fn = value;
+    else if (name == "dir")
+	this->dir = value;
+    else if (name == "file")
+	this->file = value;
+    else if (name == "line")
+	this->line = value.toInt();
 }
 
 KUrl ValgrindFrame::url() const
@@ -165,8 +164,8 @@ KUrl ValgrindFrame::url() const
 /*-----------------------------------------------*/
 
 ValgrindStack::ValgrindStack(ValgrindModel* model , ValgrindError *parent)
-  : m_model(model)
-  , m_parent(parent)
+    : m_model(model)
+    , m_parent(parent)
 {
 }
 
@@ -177,11 +176,11 @@ ValgrindStack::~ ValgrindStack( )
 
 void ValgrindStack::incomingData(QString name, QString value)
 {
-  if (name == "frame") {
-    if (this == this->parent()->stack)
-      m_model->insertIntoTree(ValgrindModel::stack);
-    this->frames.append(m_model->m_frame);
-  }
+    if (name == "frame") {
+	if (this == this->parent()->stack)
+	    m_model->insertIntoTree(ValgrindModel::stack);
+	this->frames.append(m_model->m_frame);
+    }
 }
 
 

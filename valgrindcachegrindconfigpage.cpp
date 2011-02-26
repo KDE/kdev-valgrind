@@ -22,10 +22,10 @@
 #include "ui_valgrindcachegrindconfig.h"
 
 ValgrindCachegrindConfigPage::ValgrindCachegrindConfigPage( QWidget *parent )
-  : LaunchConfigurationPage( parent )  
+    : LaunchConfigurationPage( parent )
 {
-  ui = new Ui::ValgrindCachegrindConfig();
-  ui->setupUi( this );
+    ui = new Ui::ValgrindCachegrindConfig();
+    ui->setupUi( this );
 }
 
 void	ValgrindCachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
@@ -33,7 +33,7 @@ void	ValgrindCachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, K
 
 KIcon	ValgrindCachegrindConfigPage::icon( void ) const
 {
-  return KIcon( "fork" );
+    return KIcon( "fork" );
 }
 
 void	ValgrindCachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
@@ -41,7 +41,7 @@ void	ValgrindCachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::
 
 QString	ValgrindCachegrindConfigPage::title( void ) const
 {
-  return i18n("Cachegrind settings");
+    return i18n("Cachegrind settings");
 }
 
 // The factory
@@ -53,5 +53,5 @@ ValgrindCachegrindConfigPageFactory::~ValgrindCachegrindConfigPageFactory( void 
 
 KDevelop::LaunchConfigurationPage* ValgrindCachegrindConfigPageFactory::createWidget( QWidget *parent)
 {
-  return new ValgrindCachegrindConfigPage( parent );
+    return new ValgrindCachegrindConfigPage( parent );
 }
