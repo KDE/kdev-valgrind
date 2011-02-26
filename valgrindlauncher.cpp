@@ -45,6 +45,7 @@
 #include "valgrindgenericconfigpage.h"
 #include "valgrindmemcheckconfigpage.h"
 #include "valgrindcachegrindconfigpage.h"
+#include "valgrindcallgrindconfigpage.h"
 #include "valgrindlauncher.h"
 #include "valgrindconfig.h"
 #include "valgrindjob.h"
@@ -55,6 +56,7 @@ ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
     factories << new ValgrindGenericConfigPageFactory(m_plugin);
     factories << new ValgrindMemcheckConfigPageFactory();
     factories << new ValgrindCachegrindConfigPageFactory();
+    factories << new ValgrindCallgrindConfigPageFactory();
 }
 
 KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)

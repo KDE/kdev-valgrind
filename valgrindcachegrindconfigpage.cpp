@@ -41,7 +41,7 @@ void	ValgrindCachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::
 
 QString	ValgrindCachegrindConfigPage::title( void ) const
 {
-    return i18n("Cachegrind settings");
+    return i18n("Cachegrind");
 }
 
 // The factory
