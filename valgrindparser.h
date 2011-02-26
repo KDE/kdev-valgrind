@@ -54,9 +54,6 @@ class ValgrindParser : public QObject, public QXmlStreamReader
   void newElement(ValgrindModel::eElementType);
   void newData(ValgrindModel::eElementType, QString name, QString value);
 
-  void newFrame(ValgrindError *, ValgrindStack *, ValgrindFrame*);
-  void newError(ValgrindError *, ValgrindStack *);
-  void newStartError(ValgrindError *);
   void reset();
 
   public slots:
@@ -84,19 +81,7 @@ class ValgrindParser : public QObject, public QXmlStreamReader
 
   QStack<State> m_stateStack;
   QString m_buffer;
-  int m_depth;
-  int m_protocolVersion;
-  int pid;
-  int ppid;
-  QString tool, userComment;
-  QStringList preamble;
   QHash<QString, QString> valgrindArgs, programArgs;
-
-  enum {
-    NotRunning,
-    Running,
-    Paused
-  } state;
 };
 
 #endif /* _VALGRINDPARSER_H_ */
