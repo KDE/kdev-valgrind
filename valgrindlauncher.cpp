@@ -51,7 +51,8 @@
 
 ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
 {
-    factories << new ValgrindGenericConfigPageFactory(); //these are tabs in each menu
+    // these are tabs in each menu
+    factories << new ValgrindGenericConfigPageFactory(m_plugin);
     factories << new ValgrindMemcheckConfigPageFactory();
     factories << new ValgrindCachegrindConfigPageFactory();
 }

@@ -104,9 +104,7 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
     KAction* act;
 
     act = actionCollection()->addAction("valgrind_generic", this, SLOT(runValgrind()) );
-    act->setText( i18n("Valgrind ($CurrentTool?)" ) );
     act->setStatusTip( i18n("Launches the currently selected launch configuration with the Valgrind presets") );
-
 
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
@@ -122,6 +120,9 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
     KDevelop::LaunchConfigurationType* type = core()->runController()->launchConfigurationTypeForId( iface->nativeAppConfigTypeId() );
     Q_ASSERT(type);
     type->addLauncher( launcher );
+
+    // @todo find a way to retrieve the current mode
+    this->updateCurrentTool( mode->tool() );
 }
 
 void ValgrindPlugin::unload()
@@ -141,6 +142,14 @@ ValgrindPlugin::~ValgrindPlugin()
 void ValgrindPlugin::runValgrind()
 {
   core()->runController()->executeDefaultLaunch( "valgrind_generic" );
+}
+
+void ValgrindPlugin::updateCurrentTool(QString tool)
+{
+    QAction* act;
+
+    act = actionCollection()->action( "valgrind_generic" );
+    act->setText( i18n( qPrintable( "Valgrind (" + tool + ")" ) ) );
 }
 
 void ValgrindPlugin::loadOutput()

@@ -17,12 +17,14 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include <kdebug.h>
 
 #include "valgrindgenericconfigpage.h"
+#include "valgrindplugin.h"
 
 #include "ui_valgrindgenericconfig.h"
 
-ValgrindGenericConfigPage::ValgrindGenericConfigPage(QWidget *parent)
+ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
     ui = new Ui::ValgrindGenericConfig();
@@ -46,7 +48,11 @@ ValgrindGenericConfigPage::ValgrindGenericConfigPage(QWidget *parent)
     ui->currentTool->addItems(tools);
 
     connect( ui->currentTool, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
+    connect( this, SIGNAL(newCurrentTool(QString)), plugin, SLOT(updateCurrentTool(QString)) );
 }
+
+ValgrindGenericConfigPage::~ValgrindGenericConfigPage(void)
+{}
 
 KIcon ValgrindGenericConfigPage::icon() const
 {
@@ -81,6 +87,8 @@ void ValgrindGenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::
     cfg.writeEntry( "Maximum Stackframe Size", ui->maxStackSize->value() );
     cfg.writeEntry( "Limit Errors", ui->limitErrors->isChecked() );
     cfg.writeEntry( "Current Tool", ui->currentTool->currentText() );
+
+    emit newCurrentTool( ui->currentTool->currentText() );
 }
 
 QString	ValgrindGenericConfigPage::title() const
@@ -89,7 +97,8 @@ QString	ValgrindGenericConfigPage::title() const
 }
 
 // The factory
-ValgrindGenericConfigPageFactory::ValgrindGenericConfigPageFactory()
+ValgrindGenericConfigPageFactory::ValgrindGenericConfigPageFactory(ValgrindPlugin * plugin)
+    : m_plugin(plugin)
 {}
 
 ValgrindGenericConfigPageFactory::~ValgrindGenericConfigPageFactory()
@@ -97,5 +106,5 @@ ValgrindGenericConfigPageFactory::~ValgrindGenericConfigPageFactory()
 
 KDevelop::LaunchConfigurationPage* ValgrindGenericConfigPageFactory::createWidget(QWidget * parent)
 {
-    return new ValgrindGenericConfigPage(parent);
+    return new ValgrindGenericConfigPage(m_plugin, parent);
 }
