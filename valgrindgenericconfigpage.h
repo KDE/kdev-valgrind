@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Sebastien Rannou <mxs@buffout.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -23,6 +24,8 @@
 #include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
+class ValgrindPlugin;
+
 namespace Ui
 {
   class ValgrindGenericConfig;
@@ -34,11 +37,15 @@ class	ValgrindGenericConfigPage : public KDevelop::LaunchConfigurationPage
 
 public:
 
-  ValgrindGenericConfigPage(QWidget * parent = 0);
+  ValgrindGenericConfigPage(ValgrindPlugin * plugin, QWidget * parent = 0);
+  ~ValgrindGenericConfigPage();
   virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
   virtual KIcon icon() const;
   virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
   virtual QString title() const;
+
+signals:
+  void newCurrentTool(QString newTool) const;
 
 private:
   Ui::ValgrindGenericConfig *ui;
@@ -47,9 +54,12 @@ private:
 class ValgrindGenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  ValgrindGenericConfigPageFactory();
+  ValgrindGenericConfigPageFactory( ValgrindPlugin* );
   virtual ~ValgrindGenericConfigPageFactory();
   virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+
+private:
+    ValgrindPlugin* m_plugin;
 };
 
 
