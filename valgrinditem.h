@@ -84,11 +84,11 @@ public:
 class ValgrindStack : public ValgrindItem
 {
  public:
-    ValgrindStack(ValgrindModel *model, ValgrindError* parent);
+    ValgrindStack(ValgrindModel *model, ValgrindError *parent);
 
     virtual ~ValgrindStack();
 
-    virtual ValgrindError* parent() const { return m_parent; }
+    virtual ValgrindError* parent() const;
 
     virtual void incomingData(QString name, QString value);
 
@@ -99,12 +99,19 @@ class ValgrindStack : public ValgrindItem
     ValgrindError* m_parent;
 };
 
+/**
+ * A frame describes the location of a notification
+ */
 class ValgrindFrame : public ValgrindItem
 {
  public:
+
+    /**
+     * Takes a pointer on the parent stack
+     */
     ValgrindFrame(ValgrindStack* parent);
 
-    virtual ValgrindStack* parent() const { return m_parent; }
+    virtual ValgrindStack* parent() const;
 
     virtual void incomingData(QString name, QString value);
 

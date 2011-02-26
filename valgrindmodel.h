@@ -90,7 +90,12 @@ public slots:
      * Reception of a new item in the model
      */
     void newElement(ValgrindModel::eElementType);
+
+    /**
+     * Reception of data to register to the current item
+     */
     void newData(ValgrindModel::eElementType, QString name, QString value);
+
     void reset();
 
  public:
