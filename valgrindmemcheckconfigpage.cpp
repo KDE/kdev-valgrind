@@ -65,7 +65,7 @@ void ValgrindMemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop:
 
 QString	ValgrindMemcheckConfigPage::title() const
 {
-  return i18n("Memcheck settings");
+  return i18n("Memcheck");
 }
 
 // The factory

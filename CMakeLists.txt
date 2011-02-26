@@ -19,6 +19,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindgenericconfigpage.cpp
     valgrindmemcheckconfigpage.cpp
     valgrindcachegrindconfigpage.cpp
+    valgrindcallgrindconfigpage.cpp
     valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
@@ -34,6 +35,7 @@ set(kdevvalgrind_PART_UI
     valgrindgenericconfig.ui
     valgrindmemcheckconfig.ui
     valgrindcachegrindconfig.ui
+    valgrindcallgrindconfig.ui
 )
 
 kde4_add_ui_files(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
