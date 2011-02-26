@@ -18,6 +18,7 @@ include_directories(
 set(kdevvalgrind_PART_SRCS
     valgrindgenericconfigpage.cpp
     valgrindmemcheckconfigpage.cpp
+    valgrindcachegrindconfigpage.cpp
     valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
@@ -29,7 +30,11 @@ set(kdevvalgrind_PART_SRCS
     valgrindwidget.cpp
 )
 
-set(kdevvalgrind_PART_UI valgrindgenericconfig.ui valgrindmemcheckconfig.ui)
+set(kdevvalgrind_PART_UI
+    valgrindgenericconfig.ui
+    valgrindmemcheckconfig.ui
+    valgrindcachegrindconfig.ui
+)
 
 kde4_add_ui_files(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
 
