@@ -133,6 +133,11 @@ ValgrindFrame::ValgrindFrame(ValgrindStack* parent)
 {
 }
 
+ValgrindStack *ValgrindFrame::parent() const
+ {
+     return m_parent;
+ }
+
 void ValgrindFrame::incomingData(QString name, QString value)
 {
     if (name == "ip")
@@ -172,6 +177,11 @@ ValgrindStack::ValgrindStack(ValgrindModel* model , ValgrindError *parent)
 ValgrindStack::~ ValgrindStack( )
 {
     qDeleteAll(frames);
+}
+
+ValgrindError* ValgrindStack::parent() const
+{
+    return m_parent;
 }
 
 void ValgrindStack::incomingData(QString name, QString value)

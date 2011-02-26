@@ -31,7 +31,18 @@
 #include <kglobalsettings.h>
 
 
-ValgrindModel::~ ValgrindModel( )
+ValgrindModel::ValgrindModel(QObject * parent)
+    : QAbstractItemModel(parent)
+    , m_error(0)
+    , m_stack(0)
+    , m_frame(0)
+{
+    m_error = 0L;
+    m_stack = 0L;
+    m_frame = 0L;
+}
+
+ValgrindModel::~ ValgrindModel()
 {
     qDeleteAll(errors);
 }
@@ -251,17 +262,8 @@ ValgrindItem* ValgrindModel::itemForIndex(const QModelIndex& index) const
     return 0L;
 }
 
-ValgrindModel::ValgrindModel(QObject * parent)
-    : QAbstractItemModel(parent)
-{
-    m_error = 0L;
-    m_stack = 0L;
-    m_frame = 0L;
-}
-
 void ValgrindModel::newElement(ValgrindModel::eElementType e)
 {
-    qDebug() << "New Element" << e;
     switch (e) {
     case startError:
 	newStartError();
@@ -280,29 +282,11 @@ void ValgrindModel::newElement(ValgrindModel::eElementType e)
     }
 }
 
-void ValgrindModel::newData(ValgrindModel::eElementType e, QString name, QString value)
-{
-    qDebug() << "New Data" << e << " " << name << " " << value;
-    switch (e) {
-    case error:
-	m_error->incomingData(name, value);
-	break;
-    case frame:
-	m_frame->incomingData(name, value);
-	break;
-    case stack:
-	m_stack->incomingData(name, value);
-	break;
-    default:
-	incomingData(name, value);
-    }
-}
-
 void ValgrindModel::newStartError()
 {
     m_error = new ValgrindError(this);
+    errors << m_error;
     beginInsertRows(QModelIndex(), errors.count(), errors.count());
-    errors.append(m_error);
     endInsertRows();
 }
 
@@ -328,6 +312,23 @@ void ValgrindModel::reset()
     qDeleteAll(errors);
     errors.clear();
     reset();
+}
+
+void ValgrindModel::newData(ValgrindModel::eElementType e, QString name, QString value)
+{
+    switch (e) {
+    case error:
+	m_error->incomingData(name, value);
+	break;
+    case frame:
+	m_frame->incomingData(name, value);
+	break;
+    case stack:
+	m_stack->incomingData(name, value);
+	break;
+    default:
+	incomingData(name, value);
+    }
 }
 
 void ValgrindModel::incomingData(QString name, QString value)
@@ -357,13 +358,12 @@ void ValgrindModel::incomingData(QString name, QString value)
 
 void ValgrindModel::insertIntoTree(ValgrindModel::eElementType e)
 {
-  if (e == error)
-    {
-      beginInsertRows(indexForItem(m_error), m_error->stack->frames.count(), m_error->stack->frames.count());
-      m_error->auxStack = m_stack;
-      endInsertRows();
+    if (e == error) {
+	beginInsertRows(indexForItem(m_error), m_error->stack->frames.count(), m_error->stack->frames.count());
+	m_error->auxStack = m_stack;
+	endInsertRows();
     }
-  else if (e == frame)
+    if (e == frame)
     {
       beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
       if (m_stack == m_stack->parent()->stack)
