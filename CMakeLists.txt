@@ -10,18 +10,13 @@ include_directories(
     ${KDE4_INCLUDES}
     ${valgrind_BINARY_DIR}
     ${valgrind_SOURCE_DIR}
+    ${valgrind_SOURCE_DIR}/config
 )
 
 
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
-    valgrindgenericconfigpage.cpp
-    valgrindmemcheckconfigpage.cpp
-    valgrindcachegrindconfigpage.cpp
-    valgrindcallgrindconfigpage.cpp
-    valgrindhelgrindconfigpage.cpp
-    valgrindmassifconfigpage.cpp
     valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
@@ -33,18 +28,28 @@ set(kdevvalgrind_PART_SRCS
     valgrindwidget.cpp
 )
 
-set(kdevvalgrind_PART_UI
-    valgrindgenericconfig.ui
-    valgrindmemcheckconfig.ui
-    valgrindcachegrindconfig.ui
-    valgrindmassifconfig.ui
-    valgrindhelgrindconfig.ui
-    valgrindcallgrindconfig.ui
+set(kdevvalgrind_CONFIG_SRCS
+    config/valgrindcachegrindconfigpage.cpp
+    config/valgrindcallgrindconfigpage.cpp
+    config/valgrindgenericconfigpage.cpp
+    config/valgrindhelgrindconfigpage.cpp
+    config/valgrindmassifconfigpage.cpp
+    config/valgrindmemcheckconfigpage.cpp
 )
 
-kde4_add_ui_files(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
+set(kdevvalgrind_PART_UI
+    config/ui/valgrindgenericconfig.ui
+    config/ui/valgrindmemcheckconfig.ui
+    config/ui/valgrindcachegrindconfig.ui
+    config/ui/valgrindmassifconfig.ui
+    config/ui/valgrindhelgrindconfig.ui
+    config/ui/valgrindcallgrindconfig.ui
+)
 
-kde4_add_plugin(kdevvalgrind ${kdevvalgrind_PART_SRCS})
+kde4_add_ui_files(kdevvalgrind_PART_SRCS  ${kdevvalgrind_PART_UI})
+
+kde4_add_plugin(kdevvalgrind ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS})
+
 target_link_libraries(kdevvalgrind
     ${KDEVPLATFORM_INTERFACES_LIBRARIES}
     ${KDEVPLATFORM_PROJECT_LIBRARIES}
