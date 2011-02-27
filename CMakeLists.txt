@@ -64,7 +64,6 @@ target_link_libraries(kdevvalgrind
 
 install(TARGETS kdevvalgrind DESTINATION ${PLUGIN_INSTALL_DIR} )
 
-
 ########### install files ###############
 
 install( FILES kdevvalgrind.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
