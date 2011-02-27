@@ -3,6 +3,7 @@
    Copyright 2009 Andreas Pakulat <apaku@gmx.de>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Sebastien Rannou <mxs@buffout.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -47,6 +48,7 @@
 #include "valgrindcachegrindconfigpage.h"
 #include "valgrindhelgrindconfigpage.h"
 #include "valgrindcallgrindconfigpage.h"
+#include "valgrindmassifconfigpage.h"
 #include "valgrindlauncher.h"
 #include "valgrindconfig.h"
 #include "valgrindjob.h"
@@ -59,6 +61,7 @@ ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
     factories << new ValgrindCachegrindConfigPageFactory();
     factories << new ValgrindCallgrindConfigPageFactory();
     factories << new ValgrindHelgrindConfigPageFactory();
+    factories << new ValgrindMassifConfigPageFactory();
 }
 
 KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
