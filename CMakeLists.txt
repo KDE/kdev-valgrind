@@ -20,6 +20,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindmemcheckconfigpage.cpp
     valgrindcachegrindconfigpage.cpp
     valgrindcallgrindconfigpage.cpp
+    valgrindhelgrindconfigpage.cpp
     valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
@@ -35,6 +36,7 @@ set(kdevvalgrind_PART_UI
     valgrindgenericconfig.ui
     valgrindmemcheckconfig.ui
     valgrindcachegrindconfig.ui
+    valgrindhelgrindconfig.ui
     valgrindcallgrindconfig.ui
 )
 
