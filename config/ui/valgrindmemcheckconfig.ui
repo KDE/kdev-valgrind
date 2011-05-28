@@ -56,30 +56,108 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="7" column="0">
-       <widget class="QCheckBox" name="trackOrigin">
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="showInvalidFree">
         <property name="text">
-         <string>Track unitialized values origins</string>
+         <string>Show invalid frees</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QCheckBox" name="showReachable">
+      <item row="7" column="0">
+       <widget class="QCheckBox" name="showMismatchedFree">
         <property name="text">
-         <string>Show reachable</string>
+         <string>Show mismatched frees</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QCheckBox" name="showInvalidRead">
+        <property name="text">
+         <string>Show invalid reads</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QCheckBox" name="showInvalidWrite">
+        <property name="text">
+         <string>Show invalid writes</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QCheckBox" name="showInvalidJump">
+        <property name="text">
+         <string>Show invalid jumps</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QCheckBox" name="showOverlap">
+        <property name="text">
+         <string>Show overlaps</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QCheckBox" name="showInvalidMemPool">
+        <property name="text">
+         <string>Show invalid memory pools</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QCheckBox" name="showUninitCondition">
+        <property name="text">
+         <string>Show uninitialized conditions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QCheckBox" name="showUninitValue">
+        <property name="text">
+         <string>Show uninitialized values</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QCheckBox" name="showSyscallParam">
+        <property name="text">
+         <string>Show invalid syscall parameters</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QCheckBox" name="showClientCheck">
+        <property name="text">
+         <string>Show client checks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QCheckBox" name="showLeakDefinitelyLost">
+        <property name="text">
+         <string>Show definitely lost leaks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QCheckBox" name="showLeakIndirectlyLost">
+        <property name="text">
+         <string>Show indirectly lost leaks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QCheckBox" name="showLeakStillReachable">
+        <property name="text">
+         <string>Show still reachable leaks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="QCheckBox" name="showOthers">
+        <property name="text">
+         <string>Show others</string>
         </property>
        </widget>
       </item>
