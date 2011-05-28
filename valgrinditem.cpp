@@ -25,22 +25,16 @@
 
 #include <kdebug.h>
 
+///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
 ValgrindError::ValgrindError(ValgrindModel* parent)
-    : uniqueId(-1)
-    , threadId(-1)
-    , kind(Unknown)
-    , leakedBytes(0)
-    , leakedBlocks(0)
-    , stack(0L)
-    , auxStack(0L)
-    , m_parent(parent)
+    : m_parent(parent)
 {
 }
 
-ValgrindError::~ ValgrindError( )
+ValgrindError::~ValgrindError()
 {
-    delete stack;
-    delete auxStack;
 }
 
 ValgrindModel* ValgrindError::parent() const
@@ -62,81 +56,126 @@ void ValgrindError::incomingData(QString name, QString value)
 	this->leakedBytes = value.toInt();
     else if (name == "leakedblocks")
 	this->leakedBlocks = value.toInt();
+    else if (name == "text")
+	this->text = value;
     else if (name == "auxwhat")
 	this->auxWhat = value;
-    else if (name == "stack") {
-	if (!this->stack) {
-	    this->stack = this->m_parent->m_stack;
-	} else if (!this->auxStack) {
-	    m_parent->insertIntoTree(ValgrindModel::error);
-	} else {
-	    delete this->m_parent->m_stack;
-	    kWarning() << "Unexpected stack received";
-	}
-    }
 }
-
-QString ValgrindError::whatForStack(const ValgrindStack * s) const
-{
-    if (s == stack)
-        return what;
-    if (s == auxStack)
-        return auxWhat;
-    return "<INTERNAL ERROR>";
-}
-
 
 void ValgrindError::setKind(const QString& s)
 {
     if (s == "Unknown")
-        kind = Unknown;
+        m_kind = Unknown;
     else if (s == "InvalidFree")
-        kind = InvalidFree;
+        m_kind = InvalidFree;
     else if (s == "MismatchedFree")
-        kind = MismatchedFree;
+        m_kind = MismatchedFree;
     else if (s == "InvalidRead")
-        kind = InvalidRead;
+        m_kind = InvalidRead;
     else if (s == "InvalidWrite")
-        kind = InvalidWrite;
+        m_kind = InvalidWrite;
     else if (s == "InvalidJump")
-        kind = InvalidJump;
+        m_kind = InvalidJump;
     else if (s == "Overlap")
-        kind = Overlap;
+        m_kind = Overlap;
     else if (s == "InvalidMemPool")
-        kind = InvalidMemPool;
+        m_kind = InvalidMemPool;
     else if (s == "UninitCondition")
-        kind = UninitCondition;
+        m_kind = UninitCondition;
     else if (s == "UninitValue")
-        kind = UninitValue;
+        m_kind = UninitValue;
     else if (s == "SyscallParam")
-        kind = SyscallParam;
+        m_kind = SyscallParam;
     else if (s == "ClientCheck")
-        kind = ClientCheck;
+        m_kind = ClientCheck;
     else if (s == "Leak_DefinitelyLost")
-        kind = Leak_DefinitelyLost;
+        m_kind = Leak_DefinitelyLost;
     else if (s == "Leak_IndirectlyLost")
-        kind = Leak_IndirectlyLost;
+        m_kind = Leak_IndirectlyLost;
     else if (s == "Leak_PossiblyLost")
-        kind = Leak_PossiblyLost;
+        m_kind = Leak_PossiblyLost;
     else if (s == "Leak_StillReachable")
-        kind = Leak_StillReachable;
+        m_kind = Leak_StillReachable;
     else
-        kind = Unknown;
+        m_kind = Unknown;
 }
 
-/*-----------------------------------------------*/
 
-ValgrindFrame::ValgrindFrame(ValgrindStack* parent)
-    : instructionPointer(0)
-    , line(-1)
-    , m_parent(parent)
+ValgrindStack *ValgrindError::addStack()
+{
+    m_stack << new ValgrindStack(this);
+    return m_stack.back();
+}
+
+ValgrindStack *ValgrindError::lastStack() const
+{
+    return m_stack.back();
+}
+
+const QList<ValgrindStack *> &ValgrindError::getStack() const
+{
+    return m_stack;
+}
+
+////////////////////////
+
+QString ValgrindStack::what() const
+{
+    return "In valgrindstack what";
+}
+
+ValgrindStack::ValgrindStack(ValgrindError *parent)
+    : m_parent(parent)
 {
 }
 
-ValgrindStack *ValgrindFrame::parent() const
- {
-     return m_parent;
- }
+
+ValgrindStack::~ValgrindStack()
+{
+}
+
+ValgrindError* ValgrindStack::parent() const
+{
+    return m_parent;
+}
+
+void ValgrindStack::incomingData(QString name, QString value)
+{
+    Q_UNUSED(value)
+    if (name == "frame") {
+	qDebug() << "ValgrindStack::incomingData() Imcoming data with frame name error";
+// if (this == this->parent()->stack)
+	//     m_model->insertIntoTree(ValgrindModel::stack);
+	//this->frames.append(m_model->m_frame);
+    }
+}
+
+
+ValgrindFrame *ValgrindStack::addFrame()
+{
+    m_frames << new ValgrindFrame(this);
+    return m_frames.back();
+}
+
+ValgrindFrame *ValgrindStack::lastFrame() const
+{
+    return m_frames.back();
+}
+
+const QList<ValgrindFrame *> &ValgrindStack::getFrames() const
+{
+    return m_frames;
+}
+
+ValgrindFrame::ValgrindFrame(ValgrindStack* parent)
+    : m_parent(parent)
+{
+}
+
+ValgrindStack* ValgrindFrame::parent() const
+{
+    return m_parent;
+}
 
 void ValgrindFrame::incomingData(QString name, QString value)
 {
@@ -165,39 +204,3 @@ KUrl ValgrindFrame::url() const
     url.cleanPath();
     return url;
 }
-
-/*-----------------------------------------------*/
-
-ValgrindStack::ValgrindStack(ValgrindModel* model , ValgrindError *parent)
-    : m_model(model)
-    , m_parent(parent)
-{
-}
-
-ValgrindStack::~ ValgrindStack( )
-{
-    qDeleteAll(frames);
-}
-
-ValgrindError* ValgrindStack::parent() const
-{
-    return m_parent;
-}
-
-void ValgrindStack::incomingData(QString name, QString value)
-{
-    if (name == "frame") {
-	if (this == this->parent()->stack)
-	    m_model->insertIntoTree(ValgrindModel::stack);
-	this->frames.append(m_model->m_frame);
-    }
-}
-
-
-QString ValgrindStack::what() const
-{
-    return parent()->whatForStack(this);
-}
-
-
-

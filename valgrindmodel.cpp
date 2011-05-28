@@ -33,18 +33,12 @@
 
 ValgrindModel::ValgrindModel(QObject * parent)
     : QAbstractItemModel(parent)
-    , m_error(0)
-    , m_stack(0)
-    , m_frame(0)
 {
-    m_error = 0L;
-    m_stack = 0L;
-    m_frame = 0L;
 }
 
 ValgrindModel::~ ValgrindModel()
 {
-    qDeleteAll(errors);
+//    qDeleteAll(errors);
 }
 
 int ValgrindModel::columnCount ( const QModelIndex & parent ) const
@@ -68,20 +62,31 @@ QVariant ValgrindModel::data ( const QModelIndex & index, int role ) const
                     break;*/
 
                 case Function:
-                    if (ValgrindError* e = dynamic_cast<ValgrindError*>(item))
-                        return e->what;
+                    if (ValgrindError* e = dynamic_cast<ValgrindError*>(item)) {
+			if (e->what.isEmpty())
+			    return e->text;
+			else
+			    return e->what;
+		    }
                     else if (ValgrindStack* s = dynamic_cast<ValgrindStack*>(item))
                         return s->what();
                     else if (ValgrindFrame* f = dynamic_cast<ValgrindFrame*>(item)) {
-                        QString ret;
-                        if (!f->fn.isEmpty())
-                            ret = f->fn;
+                        QString ip;
+                        QString func;
+			ip = QString("0x%1").arg(QString::number(f->instructionPointer, 16));
+			if (!f->fn.isEmpty())
+			    func = f->fn;
+			if (!f->file.isEmpty()) {
+			    func += " (";
+			    func += f->file;
+			    func += " ";
+			    func += QString("%1").arg(QString::number(f->line));
+			    func += ")";
+			}
+                        if (f == f->parent()->getFrames().front())
+                            return i18n("at %1: %2", ip, func);
                         else
-                            ret = QString("0x%1").arg(QString::number(f->instructionPointer, 16));
-                        if (f == f->parent()->frames.first())
-                            return i18n("at: %1", ret);
-                        else
-                            return i18n("by: %1", ret);
+                            return i18n("by %1: %2", ip, func);
                     }
                     break;
 
@@ -128,6 +133,16 @@ QVariant ValgrindModel::data ( const QModelIndex & index, int role ) const
                     break;
             }
             break;
+
+        case Qt::UserRole:
+            switch (index.column()) {
+                case Function:
+		    if (ValgrindFrame* f = dynamic_cast<ValgrindFrame*>(item))
+			if (!f->file.isEmpty())
+			    return i18n("%1:%2", f->file, QString("%1").arg(QString::number(f->line)));
+	    }
+	    break;
+
     }
 
     return QVariant();
@@ -136,7 +151,6 @@ QVariant ValgrindModel::data ( const QModelIndex & index, int role ) const
 QVariant ValgrindModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation)
-
     switch (role) {
         case Qt::DisplayRole:
             switch (section) {
@@ -151,7 +165,6 @@ QVariant ValgrindModel::headerData(int section, Qt::Orientation orientation, int
         }
         break;
     }
-
     return QVariant();
 }
 
@@ -166,27 +179,23 @@ QModelIndex ValgrindModel::index ( int row, int column, const QModelIndex & p ) 
     ValgrindItem* parent = itemForIndex(p);
 
     if (!parent) {
-        if (row < errors.count())
-            return createIndex(row, column, errors.at(row));
+        if (row < m_errors.count())
+            return createIndex(row, column, m_errors.at(row));
 
     } else if (ValgrindError* e = dynamic_cast<ValgrindError*>(parent)) {
         int r2 = row;
 
-        if (e->stack) {
-            if (row < e->stack->frames.count())
-                return createIndex(row, column, e->stack->frames.at(row));
-
-            r2 -= e->stack->frames.count();
-        }
-
-        if (r2 == 0 && e->auxStack)
-            return createIndex(row, column, e->auxStack);
-
-    } else if (ValgrindStack* s = dynamic_cast<ValgrindStack*>(parent)) {
-        if (row < s->frames.count())
-            return createIndex(row, column, s->frames[row]);
+	foreach (ValgrindStack *stack, e->getStack())
+	{
+	    if (row < stack->getFrames().size())
+		return createIndex(row, column, stack->getFrames().at(row));
+	    r2 -= stack->getFrames().count();
+	}
     }
-
+    // } else if (ValgrindStack* s = dynamic_cast<ValgrindStack*>(parent)) {
+    //     if (row < s->frames.count())
+    //         return createIndex(row, column, s->frames[row]);
+    // }
     return QModelIndex();
 }
 
@@ -195,20 +204,14 @@ QModelIndex ValgrindModel::parent ( const QModelIndex & index ) const
     ValgrindItem* item = itemForIndex(index);
     if (!item)
         return QModelIndex();
-
     item = item->parent();
-
-    /*if (ValgrindStack* s = dynamic_cast<ValgrindStack*>(s))
-        if (s == s->parent()->stack)
-            item = item->parent();*/
-
     return indexForItem(item, 0);
 }
 
 int ValgrindModel::rowCount ( const QModelIndex & p ) const
 {
     if (!p.isValid())
-        return errors.count();
+        return m_errors.count();
 
     if (p.column() != 0)
         return 0;
@@ -217,18 +220,10 @@ int ValgrindModel::rowCount ( const QModelIndex & p ) const
 
     if (ValgrindError* e = dynamic_cast<ValgrindError*>(parent)) {
         int ret = 0;
-        if (e->stack)
-            ret += e->stack->frames.count();
-
-        if (e->auxStack)
-            ++ret;
-
+	foreach (const ValgrindStack *stack, e->getStack())
+	    ret += stack->getFrames().count();
         return ret;
     }
-
-    else if (ValgrindStack* s = dynamic_cast<ValgrindStack*>(parent))
-        return s->frames.count();
-
     return 0;
 }
 
@@ -237,20 +232,18 @@ QModelIndex ValgrindModel::indexForItem( ValgrindItem* item, int column ) const
     int index = -1;
 
     if (ValgrindError* e = dynamic_cast<ValgrindError*>(item))
-        index = e->parent()->errors.indexOf(e);
+        index = e->parent()->m_errors.indexOf(e);
     else if (ValgrindStack* s = dynamic_cast<ValgrindStack*>(item))
-        if (s == s->parent()->stack)
+        if (s == s->parent()->lastStack())
             return indexForItem(s->parent());
-        else if (s->parent()->stack)
-            index = s->parent()->stack->frames.count();
+	else if (s->parent()->getStack().count())
+	    index = s->parent()->lastStack()->getFrames().count();
         else
             index = 0;
     else if (ValgrindFrame* f = dynamic_cast<ValgrindFrame*>(item))
-        index = f->parent()->frames.indexOf(f);
-
+        index = f->parent()->getFrames().indexOf(f);
     if (index != -1)
         return createIndex(index, column, item);
-
     return QModelIndex();
 }
 
@@ -258,7 +251,6 @@ ValgrindItem* ValgrindModel::itemForIndex(const QModelIndex& index) const
 {
     if (index.internalPointer())
         return static_cast<ValgrindItem*>(index.internalPointer());
-
     return 0L;
 }
 
@@ -268,49 +260,42 @@ void ValgrindModel::newElement(ValgrindModel::eElementType e)
     case startError:
 	newStartError();
 	break;
-    case error:
-	newError();
-	break;
     case startStack:
-	m_stack = new ValgrindStack(this, m_error);
-	break;
+    	newStack();
+    	break;
     case startFrame:
-	m_frame = new ValgrindFrame(m_stack);
-	break;
+    	newFrame();
+    	break;
     default:
-	break;
+    	break;
     }
+}
+
+void ValgrindModel::newStack()
+{
+    if (m_errors.back()->getStack().count()) {
+	beginInsertRows(indexForItem(m_errors.back()), m_errors.back()->getStack().count(),
+			m_errors.back()->getStack().count());
+	endInsertRows();
+    }
+    m_errors.back()->addStack();
 }
 
 void ValgrindModel::newStartError()
 {
-    m_error = new ValgrindError(this);
-    errors << m_error;
-    beginInsertRows(QModelIndex(), errors.count(), errors.count());
-    endInsertRows();
+    m_errors << new ValgrindError(this);
 }
 
-void ValgrindModel::newError()
-{
-    beginInsertRows(indexForItem(m_error), m_error->stack->frames.count(), m_error->stack->frames.count());
-    m_error->auxStack = m_stack;
-    endInsertRows();
-}
 
 void ValgrindModel::newFrame()
 {
-    if (m_stack == m_stack->parent()->stack)
-	beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
-    m_stack->frames.append(m_frame);
-    if (m_stack == m_stack->parent()->stack)
-	endInsertRows();
-    m_frame = 0L;
+    m_errors.back()->lastStack()->addFrame();
 }
 
 void ValgrindModel::reset()
 {
-    qDeleteAll(errors);
-    errors.clear();
+//    qDeleteAll(errors);
+    m_errors.clear();
     reset();
 }
 
@@ -318,57 +303,22 @@ void ValgrindModel::newData(ValgrindModel::eElementType e, QString name, QString
 {
     switch (e) {
     case error:
-	m_error->incomingData(name, value);
+	m_errors.back()->incomingData(name, value);
 	break;
     case frame:
-	m_frame->incomingData(name, value);
-	break;
+     	m_errors.back()->lastStack()->lastFrame()->incomingData(name, value);
+     	break;
     case stack:
-	m_stack->incomingData(name, value);
-	break;
-    default:
-	incomingData(name, value);
+     	m_errors.back()->lastStack()->incomingData(name, value);
+     	break;
+     default:
+	 break;
     }
+    emit modelChanged();
 }
 
-void ValgrindModel::incomingData(QString name, QString value)
+void ValgrindModel::incomingData(QString, QString)
 {
-// case Preamble:
-//     if (name() == "line")
-// 	preamble.append(m_buffer);
-//     break;
-
-
-  //case Root:
-  // if (name() == "m_protocolVersion")
-  //     m_protocolVersion = m_buffer.toInt();
-  // else if (name() == "pid")
-  //     pid = m_buffer.toInt();
-  // else if (name() == "ppid")
-  //     ppid = m_buffer.toInt();
-  // else if (name() == "tool")
-  //     tool = m_buffer;
-  // else if (name() == "usercomment")
-  //     userComment = m_buffer;
-  // //          else if (name() == "error")
-  // //  m_currentError = 0L;
-  // break;
-
-}
-
-void ValgrindModel::insertIntoTree(ValgrindModel::eElementType e)
-{
-    if (e == error) {
-	beginInsertRows(indexForItem(m_error), m_error->stack->frames.count(), m_error->stack->frames.count());
-	m_error->auxStack = m_stack;
-	endInsertRows();
-    }
-    if (e == frame)
-    {
-      beginInsertRows(indexForItem(m_error), m_stack->frames.count(), m_stack->frames.count());
-      if (m_stack == m_stack->parent()->stack)
-  	endInsertRows();
-   }
 }
 
 #include "valgrindmodel.moc"

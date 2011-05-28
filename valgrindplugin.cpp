@@ -55,6 +55,7 @@
 
 
 #include "valgrindplugin.h"
+#include "valgrindmarks.h"
 #include "valgrindmodel.h"
 #include "valgrindjob.h"
 #include "valgrindconfig.h"
@@ -94,7 +95,9 @@ private:
 };
 
 ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
-    : IPlugin( ValgrindFactory::componentData(), parent), m_factory( new ValgrindWidgetFactory(this) )
+    : IPlugin( ValgrindFactory::componentData(), parent)
+    , m_factory( new ValgrindWidgetFactory(this) )
+    , m_marks ( new ValgrindMarks(this) )
 {
     kDebug() << "setting valgrind rc file";
     setXMLFile( "kdevvalgrind.rc" );

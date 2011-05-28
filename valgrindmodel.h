@@ -23,6 +23,7 @@
 #ifndef KDEV_VALGRIND_MODEL_H
 #define KDEV_VALGRIND_MODEL_H
 
+#include <QAbstractItemModel>
 #include <QHash>
 #include <QStack>
 
@@ -80,8 +81,8 @@ public:
       stack
     };
 
+    void newStack();
     void newFrame();
-    void newError();
     void newStartError();
 
 public slots:
@@ -98,13 +99,11 @@ public slots:
 
     void reset();
 
- public:
-    // private:
-    QList<ValgrindError*> errors;
-    ValgrindError *m_error;
-    ValgrindStack *m_stack;
-    ValgrindFrame *m_frame;
-    void insertIntoTree(ValgrindModel::eElementType);
+signals:
+    void modelChanged();
+
+private:
+    QList<ValgrindError *> m_errors;
 };
 
 #endif

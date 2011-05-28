@@ -21,6 +21,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindconfig.cpp
     valgrinditem.cpp
     valgrindjob.cpp
+    valgrindmarks.cpp
     valgrindmodel.cpp
     valgrindparser.cpp
     valgrindplugin.cpp

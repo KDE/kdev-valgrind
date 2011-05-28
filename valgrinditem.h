@@ -24,6 +24,7 @@
 #define _VALGRINDITEM_H_
 
 #include <QHash>
+#include <QList>
 #include <QStack>
 #include <QSortFilterProxyModel>
 #include <QStringList>
@@ -36,6 +37,7 @@ class ValgrindError;
 class ValgrindFrame;
 class ValgrindStack;
 
+
 class ValgrindError : public ValgrindItem
 {
 public:
@@ -45,11 +47,15 @@ public:
 
     virtual ValgrindModel* parent() const;
 
+    ValgrindStack *addStack();
+
+    ValgrindStack *lastStack() const;
+
+    const QList<ValgrindStack *> &getStack() const;
+
     virtual void incomingData(QString name, QString value);
 
     void setKind(const QString& s);
-
-    QString whatForStack(const ValgrindStack* stack) const;
 
     int uniqueId;
     int threadId;
@@ -71,20 +77,20 @@ public:
         Leak_IndirectlyLost,
         Leak_PossiblyLost,
         Leak_StillReachable
-    } kind;
+    } m_kind;
 
-    QString what, auxWhat;
+    QString what, auxWhat, text;
     int leakedBytes, leakedBlocks;
 
-    ValgrindStack* stack;
-    ValgrindStack* auxStack;
+private:
+    QList<ValgrindStack *> m_stack;
     ValgrindModel* m_parent;
 };
 
 class ValgrindStack : public ValgrindItem
 {
  public:
-    ValgrindStack(ValgrindModel *model, ValgrindError *parent);
+    ValgrindStack(ValgrindError *parent);
 
     virtual ~ValgrindStack();
 
@@ -94,8 +100,14 @@ class ValgrindStack : public ValgrindItem
 
     QString what() const;
 
-    QList<ValgrindFrame*> frames;
-    ValgrindModel* m_model;
+    ValgrindFrame *addFrame();
+
+    ValgrindFrame *lastFrame() const;
+
+    const QList<ValgrindFrame *> &getFrames() const;
+
+private:
+    QList<ValgrindFrame*> m_frames;
     ValgrindError* m_parent;
 };
 
