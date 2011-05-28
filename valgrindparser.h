@@ -77,7 +77,7 @@ class ValgrindParser : public QObject, public QXmlStreamReader
     Error,
     Stack,
     Frame
-  } m_state;
+  };
 
   QStack<State> m_stateStack;
   QString m_buffer;

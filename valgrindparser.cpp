@@ -34,7 +34,6 @@ ValgrindParser::~ValgrindParser()
 
 void ValgrindParser::clear( )
 {
-    m_state = Root;
     m_stateStack.clear();
     m_buffer.clear();
     valgrindArgs.clear();
@@ -70,15 +69,19 @@ bool ValgrindParser::startElement()
 	newState = Frame;
 	emit newElement(ValgrindModel::startFrame);
     }
-    m_stateStack.push(m_state);
-    m_state = newState;
+    else
+    {
+	m_stateStack.push(m_stateStack.top());
+	return true;
+    }
+    m_stateStack.push(newState);
     return true;
 }
 
 bool ValgrindParser::endElement()
 {
-    m_state = m_stateStack.pop();
-    switch (m_state) {
+    State state = m_stateStack.pop();
+    switch (state) {
     case Error:
 	emit newData(ValgrindModel::error, name().toString(), m_buffer);
 	break;

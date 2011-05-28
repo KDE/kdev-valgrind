@@ -1,5 +1,7 @@
 /* This file is part of KDevelop
- *  Copyright 2007-2008 Hamish Rodda <rodda@kde.org>
+ * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+ * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -15,32 +17,40 @@
    along with this program; see the file COPYING.  If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
- */
+*/
 
-#ifndef VALGRINDWIDGET_H
-#define VALGRINDWIDGET_H
+#ifndef _MARKS_H_
+#define _MARKS_H_
 
-#include <QTabWidget>
+#include <QObject>
 
-class ValgrindPlugin;
 class ValgrindModel;
+class ValgrindPlugin;
 
-class ValgrindWidget : public QTabWidget
+/*
+ * Interactions between the file editor and Valgrind's output
+ */
+class ValgrindMarks : public QObject
 {
     Q_OBJECT
 
 public:
-    ValgrindWidget(ValgrindPlugin* plugin, QWidget* parent);
 
-    ValgrindPlugin* plugin() const;
+    ValgrindMarks(ValgrindPlugin *plugin);
 
-private Q_SLOTS:
+    virtual ~ValgrindMarks();
 
+private slots:
+    /*
+     * Sets the new model
+     * Clean the previous marks if necessary
+     */
     void newModel(ValgrindModel* model);
-    void modelDestroyed(QObject* model);
 
+    void modelChanged();
 private:
-    ValgrindPlugin* m_plugin;
+    ValgrindPlugin *m_plugin;
+    ValgrindModel *m_model;
 };
 
-#endif // VALGRINDWIDGET_H
+#endif /* _MARKS_H_ */

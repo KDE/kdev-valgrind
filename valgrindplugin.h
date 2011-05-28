@@ -31,8 +31,8 @@
 class KJob;
 class KUrl;
 class QTreeView;
-class ValgrindModel;
 class ValgrindControl;
+class ValgrindMarks;
 class ValgrindModel;
 
 namespace KDevelop
@@ -67,6 +67,7 @@ private:
     QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
         m_lastCtExec, m_lastCtParams, m_lastKcExec;
     class ValgrindWidgetFactory* m_factory;
+    ValgrindMarks *m_marks;
 };
 
 #endif // VALGRINDPLUGIN_H
