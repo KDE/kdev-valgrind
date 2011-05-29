@@ -59,7 +59,7 @@
 	    <item row="6" column="0">
 	      <widget class="QCheckBox" name="showInvalidFree">
 		<property name="toolTip" >
-		  <string>Wheter or not to trace invalid frees (call to free on a non-allocated address)</string>
+		  <string>Whether or not to trace invalid frees (call to free on a non-allocated address)</string>
 		</property>
 		<property name="text">
 		  <string>Show invalid frees</string>
@@ -69,7 +69,7 @@
 	    <item row="7" column="0">
 	      <widget class="QCheckBox" name="showMismatchedFree">
 		<property name="toolTip" >
-		  <string>Wheter or not to trace mismatched frees (for example, trying to call free on an area allocated with new)</string>
+		  <string>Whether or not to trace mismatched frees (for example, trying to call free on an area allocated with new)</string>
 		</property>
 		<property name="text">
 		  <string>Show mismatched frees</string>
@@ -79,7 +79,7 @@
 	    <item row="8" column="0">
 	      <widget class="QCheckBox" name="showInvalidRead">
 		<property name="toolTip" >
-		  <string>Wheter or not to trace invalid reads (dereferencing of a non-allocated address)</string>
+		  <string>Whether or not to trace invalid reads (dereferencing of a non-allocated address)</string>
 		</property>
 		<property name="text">
 		  <string>Show invalid reads</string>
@@ -89,7 +89,7 @@
 	    <item row="9" column="0">
 	      <widget class="QCheckBox" name="showInvalidWrite">
 		<property name="toolTip" >
-		  <string>Wheter or not to trace invalid writes (writing to a non-allocated address)</string>
+		  <string>Whether or not to trace invalid writes (writing to a non-allocated address)</string>
 		</property>
 		<property name="text">
 		  <string>Show invalid writes</string>
@@ -99,7 +99,7 @@
 	    <item row="10" column="0">
 	      <widget class="QCheckBox" name="showInvalidJump">
 		<property name="toolTip" >
-		  <string>Wheter or not to trace invalid jumps (call to an invalid pointer of function for example)</string>
+		  <string>Whether or not to trace invalid jumps (call to an invalid pointer of function for example)</string>
 		</property>
 		<property name="text">
 		  <string>Show invalid jumps</string>
