@@ -34,10 +34,15 @@ ValgrindMemcheckConfigPage::ValgrindMemcheckConfigPage(QWidget *parent)
     connect( ui->memcheckParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
     connect( ui->freeListSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
 
+    connect( ui->showReachable, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect( ui->trackOrigins, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect( ui->undefValueErrors, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+
     connect( ui->showInvalidFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showMismatchedFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showInvalidRead, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showInvalidWrite, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect( ui->showInvalidJump, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showOverlap, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showInvalidMemPool, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showUninitCondition, SIGNAL(toggled(bool)), SIGNAL(changed()) );
@@ -63,11 +68,16 @@ void ValgrindMemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, 
     ui->memcheckParameters->setText( cfg.readEntry( "Memcheck Arguments", "" ) );
     ui->freeListSize->setValue( cfg.readEntry( "Freelist Size", 10000000 ) );
 
+    ui->showReachable->setChecked( cfg.readEntry( "Show Reachable", false ) );
+    ui->trackOrigins->setChecked( cfg.readEntry( "Track Origins", false ) );
+    ui->undefValueErrors->setChecked( cfg.readEntry( "Undef Value Errors", true ) );
+
     // by default everything is enabled
     ui->showInvalidFree->setChecked( cfg.readEntry( "Show Invalid Free", true ) );
     ui->showMismatchedFree->setChecked( cfg.readEntry( "Show Mismatched Free", true ) );
     ui->showInvalidRead->setChecked( cfg.readEntry( "Show Invalid Read", true ) );
     ui->showInvalidWrite->setChecked( cfg.readEntry( "Show Invalid Write", true ) );
+    ui->showInvalidJump->setChecked( cfg.readEntry( "Show Invalid Jump", true ) );
     ui->showOverlap->setChecked( cfg.readEntry( "Show Overlap", true ) );
     ui->showInvalidMemPool->setChecked( cfg.readEntry( "Show Invalid MemPool", true ) );
     ui->showUninitCondition->setChecked( cfg.readEntry( "Show Uninitialized Condition", true ) );
@@ -87,10 +97,15 @@ void ValgrindMemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop:
     cfg.writeEntry( "Memcheck Arguments", ui->memcheckParameters->text() );
     cfg.writeEntry( "Freelist Size", ui->freeListSize->value() );
 
+    cfg.writeEntry( "Show Reachable", ui->showReachable->isChecked() );
+    cfg.writeEntry( "Track Origins", ui->trackOrigins->isChecked() );
+    cfg.writeEntry( "Undef Value Errors", ui->undefValueErrors->isChecked() );
+    
     cfg.writeEntry( "Show Invalid Free", ui->showInvalidFree->isChecked() );
     cfg.writeEntry( "Show Mismatched Free", ui->showMismatchedFree->isChecked() );
     cfg.writeEntry( "Show Invalid Read", ui->showInvalidRead->isChecked() );
     cfg.writeEntry( "Show Invalid Write", ui->showInvalidWrite->isChecked() );
+    cfg.writeEntry( "Show Invalid Jump", ui->showInvalidJump->isChecked() );
     cfg.writeEntry( "Show Overlap", ui->showOverlap->isChecked() );
     cfg.writeEntry( "Show Invalid MemPool", ui->showInvalidMemPool->isChecked() );
     cfg.writeEntry( "Show Uninitialized Condition", ui->showUninitCondition->isChecked() );
