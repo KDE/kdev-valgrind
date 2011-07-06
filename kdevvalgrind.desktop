@@ -21,6 +21,7 @@ Comment[x-test]=xxValgrind is a tool that helps you find memory management probl
 Name=Valgrind Support
 Name[ca]=Implementació de Valgrind
 Name[ca@valencia]=Implementació de Valgrind
+Name[de]=Unterstützung für Valgrind
 Name[en_GB]=Valgrind Support
 Name[es]=Implementación de Valgrind
 Name[et]=Valgrindi toetus
