@@ -34,13 +34,58 @@ class ValgrindFrame;
 class ValgrindStack;
 
 
+namespace valgrind
+{
+
+  class Model: public QAbstractItemModel
+  {
+    Q_OBJECT
+
+    public:
+
+    Model(QObject* parent = 0);
+
+    enum eElementType {
+      startError,
+      error,
+      startFrame,
+      frame,
+      startStack,
+      stack
+    };
+
+    public slots:
+
+    /**
+     * Reception of a new item in the model
+     */
+    void newElement(valgrind::Model::eElementType);
+
+    /**
+     * Reception of data to register to the current item
+     */
+    void newData(valgrind::Model::eElementType, QString name, QString value);
+
+    void reset();
+
+    signals:
+
+    void modelChanged();
+
+  protected:
+
+    virtual void newElementImple(eElementType type) = 0;
+    virtual void newDataImple(eElementType type, QString name, QString value) = 0;
+    virtual void resetImple() = 0;
+  };
+}
+
 /**
  * A class that represents the item model
  * \author Hamish Rodda \<rodda@kde.org\>
  */
-class ValgrindModel : public QAbstractItemModel, public ValgrindItem
+class ValgrindModel : public valgrind::Model, public ValgrindItem
 {
-  Q_OBJECT
 
 public:
 
@@ -72,38 +117,17 @@ public:
     virtual QModelIndex parent ( const QModelIndex & index ) const;
     virtual int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 
-    enum eElementType {
-      startError,
-      error,
-      startFrame,
-      frame,
-      startStack,
-      stack
-    };
-
     void newStack();
     void newFrame();
     void newStartError();
 
-public slots:
-
-    /**
-     * Reception of a new item in the model
-     */
-    void newElement(ValgrindModel::eElementType);
-
-    /**
-     * Reception of data to register to the current item
-     */
-    void newData(ValgrindModel::eElementType, QString name, QString value);
-
-    void reset();
-
-signals:
-    void modelChanged();
-
 private:
     QList<ValgrindError *> m_errors;
+
+  void newElementImple(eElementType);
+  void newDataImple(eElementType, QString name, QString value);
+  void resetImple();
+
 };
 
 #endif

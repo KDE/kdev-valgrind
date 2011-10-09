@@ -51,8 +51,8 @@ class ValgrindParser : public QObject, public QXmlStreamReader
   /**
    * Emits this signal when a new item is parsed
    */
-  void newElement(ValgrindModel::eElementType);
-  void newData(ValgrindModel::eElementType, QString name, QString value);
+  void newElement(valgrind::Model::eElementType);
+  void newData(valgrind::Model::eElementType, QString name, QString value);
 
   void reset();
 

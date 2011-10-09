@@ -75,7 +75,7 @@ KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfig
     Q_ASSERT(cfg);
     if( !cfg )
         return 0;
-
+    qDebug() << "LAUNCHMODE" << launchMode;
     if( modes.contains( launchMode ) )
     {
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();

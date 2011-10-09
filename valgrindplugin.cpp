@@ -99,6 +99,7 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
     , m_factory( new ValgrindWidgetFactory(this) )
     , m_marks ( new ValgrindMarks(this) )
 {
+
     kDebug() << "setting valgrind rc file";
     setXMLFile( "kdevvalgrind.rc" );
 

@@ -68,10 +68,10 @@ ValgrindJob::ValgrindJob( KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *i
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
     // connect the parser and the model
-    connect(&m_parser, SIGNAL(newElement(ValgrindModel::eElementType)),
-	    m_model, SLOT(newElement(ValgrindModel::eElementType)));
-    connect(&m_parser, SIGNAL(newData(ValgrindModel::eElementType, QString, QString)),
-	    m_model, SLOT(newData(ValgrindModel::eElementType, QString, QString)));
+    connect(&m_parser, SIGNAL(newElement(valgrind::Model::eElementType)),
+	    static_cast<valgrind::Model *>(m_model), SLOT(newElement(valgrind::Model::eElementType)));
+    connect(&m_parser, SIGNAL(newData(valgrind::Model::eElementType, QString, QString)),
+	    dynamic_cast<valgrind::Model *>(m_model), SLOT(newData(valgrind::Model::eElementType, QString, QString)));
     connect(&m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
 #ifndef _UNIT_TESTS_
     m_plugin->incomingModel(m_model);

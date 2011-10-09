@@ -30,9 +30,31 @@
 #include <klocale.h>
 #include <kglobalsettings.h>
 
+namespace valgrind
+{
+
+  Model::Model(QObject* parent)
+    : QAbstractItemModel(parent)
+  {
+  }
+
+  void Model::newElement(Model::eElementType type)
+  {
+    newElementImple(type);
+  }
+
+  void Model::newData(Model::eElementType type, QString name, QString value)
+  {
+    newDataImple(type, name, value);
+  }
+
+  void Model::reset()
+  {
+    resetImple();
+  }
+}
 
 ValgrindModel::ValgrindModel(QObject * parent)
-    : QAbstractItemModel(parent)
 {
 }
 
@@ -254,7 +276,7 @@ ValgrindItem* ValgrindModel::itemForIndex(const QModelIndex& index) const
     return 0L;
 }
 
-void ValgrindModel::newElement(ValgrindModel::eElementType e)
+void ValgrindModel::newElementImple(ValgrindModel::eElementType e)
 {
     switch (e) {
     case startError:
@@ -292,14 +314,14 @@ void ValgrindModel::newFrame()
     m_errors.back()->lastStack()->addFrame();
 }
 
-void ValgrindModel::reset()
+void ValgrindModel::resetImple()
 {
 //    qDeleteAll(errors);
     m_errors.clear();
     reset();
 }
 
-void ValgrindModel::newData(ValgrindModel::eElementType e, QString name, QString value)
+void ValgrindModel::newDataImple(ValgrindModel::eElementType e, QString name, QString value)
 {
     switch (e) {
     case error:
