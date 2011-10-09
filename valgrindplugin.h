@@ -56,9 +56,6 @@ public:
 signals:
     void newModel(ValgrindModel* model);
 
-public slots:
-    void updateCurrentTool(QString tool);
-
 private slots:
     void loadOutput();
     void runValgrind();
