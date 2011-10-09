@@ -21,7 +21,7 @@
 */
 
 #include "valgrinditem.h"
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 
 #include <kdebug.h>
 

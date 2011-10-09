@@ -20,65 +20,17 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef KDEV_VALGRIND_MODEL_H
-#define KDEV_VALGRIND_MODEL_H
+#ifndef _MEMCHECKMODEL_H_
+#define _MEMCHECKMODEL_H_
 
-#include <QAbstractItemModel>
+
 #include <QHash>
 #include <QStack>
 
+#include "imodel.h"
 #include "ivalgrinditem.h"
 
 class ValgrindError;
-class ValgrindFrame;
-class ValgrindStack;
-
-
-namespace valgrind
-{
-
-  class Model: public QAbstractItemModel
-  {
-    Q_OBJECT
-
-    public:
-
-    Model(QObject* parent = 0);
-
-    enum eElementType {
-      startError,
-      error,
-      startFrame,
-      frame,
-      startStack,
-      stack
-    };
-
-    public slots:
-
-    /**
-     * Reception of a new item in the model
-     */
-    void newElement(valgrind::Model::eElementType);
-
-    /**
-     * Reception of data to register to the current item
-     */
-    void newData(valgrind::Model::eElementType, QString name, QString value);
-
-    void reset();
-
-    signals:
-
-    void modelChanged();
-
-  protected:
-
-    virtual void newElementImple(eElementType type) = 0;
-    virtual void newDataImple(eElementType type, QString name, QString value) = 0;
-    virtual void resetImple() = 0;
-  };
-}
 
 /**
  * A class that represents the item model
@@ -130,4 +82,4 @@ private:
 
 };
 
-#endif
+#endif /* _MEMCHECKMODEL_H_ */

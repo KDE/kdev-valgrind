@@ -56,7 +56,7 @@
 
 #include "valgrindplugin.h"
 #include "valgrindmarks.h"
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 #include "valgrindjob.h"
 #include "valgrindconfig.h"
 #include "valgrindwidget.h"
@@ -121,7 +121,7 @@ ValgrindPlugin::ValgrindPlugin( QObject *parent, const QVariantList& )
     ValgrindLaunchMode* mode = new ValgrindGenericLaunchMode();
     KDevelop::ICore::self()->runController()->addLaunchMode( mode );
     launcher->addMode( mode );
-    KDevelop::ICore::self()->runController()->setDefaultLaunch( mode );
+    //    KDevelop::ICore::self()->runController()->setDefaultLaunch( mode );
 
 
 

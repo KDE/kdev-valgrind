@@ -25,7 +25,7 @@
 #include <QAbstractItemModel>
 
 #include "valgrindmarks.h"
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 #include "valgrindplugin.h"
 
 ValgrindMarks::ValgrindMarks(ValgrindPlugin *plugin)

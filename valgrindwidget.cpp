@@ -25,7 +25,7 @@
 
 #include "valgrinditem.h"
 #include "valgrindplugin.h"
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 #include "valgrindtree.h"
 
 ValgrindWidget::ValgrindWidget(ValgrindPlugin* plugin, QWidget * parent)

@@ -43,7 +43,7 @@
 
 #include <execute/iexecuteplugin.h>
 
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 #include "valgrindplugin.h"
 
 ValgrindJob::ValgrindJob( KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent )

@@ -21,7 +21,7 @@
 */
 
 #include "valgrinditem.h"
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 
 #include <QApplication>
 
@@ -30,29 +30,6 @@
 #include <klocale.h>
 #include <kglobalsettings.h>
 
-namespace valgrind
-{
-
-  Model::Model(QObject* parent)
-    : QAbstractItemModel(parent)
-  {
-  }
-
-  void Model::newElement(Model::eElementType type)
-  {
-    newElementImple(type);
-  }
-
-  void Model::newData(Model::eElementType type, QString name, QString value)
-  {
-    newDataImple(type, name, value);
-  }
-
-  void Model::reset()
-  {
-    resetImple();
-  }
-}
 
 ValgrindModel::ValgrindModel(QObject * parent)
 {
@@ -60,7 +37,7 @@ ValgrindModel::ValgrindModel(QObject * parent)
 
 ValgrindModel::~ ValgrindModel()
 {
-//    qDeleteAll(errors);
+  //    qDeleteAll(errors);
 }
 
 int ValgrindModel::columnCount ( const QModelIndex & parent ) const
@@ -343,5 +320,5 @@ void ValgrindModel::incomingData(QString, QString)
 {
 }
 
-#include "valgrindmodel.moc"
+#include "memcheckmodel.moc"
 

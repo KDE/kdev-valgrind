@@ -31,7 +31,7 @@
 
 #include <KUrl>
 #include "ivalgrinditem.h"
-#include "valgrindmodel.h"
+#include "memcheckmodel.h"
 
 class ValgrindError;
 class ValgrindFrame;

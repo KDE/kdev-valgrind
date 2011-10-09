@@ -11,22 +11,25 @@ include_directories(
     ${valgrind_BINARY_DIR}
     ${valgrind_SOURCE_DIR}
     ${valgrind_SOURCE_DIR}/config
+    ${valgrind_SOURCE_DIR}/models
 )
 
 
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
+
     valgrindlauncher.cpp
     valgrindconfig.cpp
     valgrinditem.cpp
     valgrindjob.cpp
     valgrindmarks.cpp
-    valgrindmodel.cpp
+    imodel.cpp
     valgrindparser.cpp
     valgrindplugin.cpp
     valgrindtree.cpp
     valgrindwidget.cpp
+    models/memcheckmodel.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
