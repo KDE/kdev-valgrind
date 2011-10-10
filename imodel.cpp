@@ -18,7 +18,7 @@
 */
 
 #include "imodel.h"
-
+#include <iostream>
 namespace valgrind
 {
 
@@ -29,16 +29,13 @@ namespace valgrind
 
   void Model::newElement(Model::eElementType type)
   {
-    newElementImple(type);
   }
 
   void Model::newData(Model::eElementType type, QString name, QString value)
   {
-    newDataImple(type, name, value);
   }
 
   void Model::reset()
   {
-    resetImple();
   }
 }

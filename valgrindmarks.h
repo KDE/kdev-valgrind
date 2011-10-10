@@ -24,7 +24,11 @@
 
 #include <QObject>
 
-class ValgrindModel;
+namespace valgrind
+{
+  class Model;
+}
+
 class ValgrindPlugin;
 
 /*
@@ -45,12 +49,12 @@ private slots:
      * Sets the new model
      * Clean the previous marks if necessary
      */
-    void newModel(ValgrindModel* model);
+    void newModel(valgrind::Model* model);
 
     void modelChanged();
 private:
     ValgrindPlugin *m_plugin;
-    ValgrindModel *m_model;
+    valgrind::Model *m_model;
 };
 
 #endif /* _MARKS_H_ */

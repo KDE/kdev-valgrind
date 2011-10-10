@@ -35,7 +35,7 @@ class KJob;
 class KProcess;
 class QXmlInputSource;
 class QXmlSimpleReader;
-class ValgrindModel;
+class MemcheckModel;
 class QTcpServer;
 class QTcpSocket;
 class ValgrindPlugin;
@@ -94,7 +94,7 @@ private:
     QTcpServer* m_server;
     QTcpSocket* m_connection;
 
-    ValgrindModel* m_model;
+    valgrind::MemcheckModel* m_model;
     ValgrindParser m_parser;
 
     KDevelop::ProcessLineMaker* m_applicationOutput;

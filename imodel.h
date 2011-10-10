@@ -48,12 +48,12 @@ namespace valgrind
     /**
      * Reception of a new item in the model
      */
-    void newElement(valgrind::Model::eElementType);
+    virtual void newElement(valgrind::Model::eElementType);
 
     /**
      * Reception of data to register to the current item
      */
-    void newData(valgrind::Model::eElementType, QString name, QString value);
+    virtual void newData(valgrind::Model::eElementType, QString name, QString value);
 
     /**
      * Resets the model content
@@ -67,14 +67,6 @@ namespace valgrind
      */
     void modelChanged();
 
-  protected:
-
-    /**
-     * Slot wrapping
-     */
-    virtual void newElementImple(eElementType type) = 0;
-    virtual void newDataImple(eElementType type, QString name, QString value) = 0;
-    virtual void resetImple() = 0;
   };
 }
 

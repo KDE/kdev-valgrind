@@ -37,7 +37,7 @@ ValgrindTree::ValgrindTree()
 
 void ValgrindTree::openDocument(const QModelIndex & index)
 {
-    if (ValgrindFrame* frame = dynamic_cast<ValgrindFrame*>(static_cast<ValgrindModel*>(model())->itemForIndex(index))) {
+  if (valgrind::MemcheckFrame* frame = dynamic_cast<valgrind::MemcheckFrame*>(static_cast<valgrind::MemcheckModel*>(model())->itemForIndex(index))) {
         KUrl doc = frame->url();
         if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, frame->line - 1), 0));

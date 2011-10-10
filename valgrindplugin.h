@@ -27,13 +27,14 @@
 
 #include <interfaces/iplugin.h>
 #include <interfaces/istatus.h>
+#include "imodel.h"
 
 class KJob;
 class KUrl;
 class QTreeView;
 class ValgrindControl;
 class ValgrindMarks;
-class ValgrindModel;
+
 
 namespace KDevelop
 {
@@ -51,10 +52,10 @@ public:
 
     virtual void unload();
 
-    void incomingModel(ValgrindModel* model);
+    void incomingModel(valgrind::Model* model);
 
 signals:
-    void newModel(ValgrindModel* model);
+    void newModel(valgrind::Model* model);
 
 private slots:
     void loadOutput();

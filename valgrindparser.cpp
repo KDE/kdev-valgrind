@@ -59,15 +59,15 @@ bool ValgrindParser::startElement()
 	newState = Preamble;
     else if (name() == "error") {
 	newState = Error;
-	emit newElement(ValgrindModel::startError);
+	emit newElement(valgrind::MemcheckModel::startError);
     }
     else if (name() == "stack") {
 	newState = Stack;
-	emit newElement(ValgrindModel::startStack);
+	emit newElement(valgrind::MemcheckModel::startStack);
     }
     else if (name() == "frame") {
 	newState = Frame;
-	emit newElement(ValgrindModel::startFrame);
+	emit newElement(valgrind::MemcheckModel::startFrame);
     }
     else
     {
@@ -83,13 +83,13 @@ bool ValgrindParser::endElement()
     State state = m_stateStack.pop();
     switch (state) {
     case Error:
-	emit newData(ValgrindModel::error, name().toString(), m_buffer);
+	emit newData(valgrind::MemcheckModel::error, name().toString(), m_buffer);
 	break;
     case Stack:
-	emit newData(ValgrindModel::stack, name().toString(), m_buffer);
+	emit newData(valgrind::MemcheckModel::stack, name().toString(), m_buffer);
 	break;
     case Frame:
-	emit newData(ValgrindModel::frame, name().toString(), m_buffer);
+	emit newData(valgrind::MemcheckModel::frame, name().toString(), m_buffer);
 	break;
     default:
 	break;

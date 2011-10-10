@@ -32,7 +32,7 @@ ValgrindMarks::ValgrindMarks(ValgrindPlugin *plugin)
     : m_plugin(plugin)
     , m_model(0)
 {
-    connect(plugin, SIGNAL(newModel(ValgrindModel*)), this, SLOT(newModel(ValgrindModel*)));
+  connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
 }
 
 ValgrindMarks::~ValgrindMarks()
@@ -40,7 +40,7 @@ ValgrindMarks::~ValgrindMarks()
 }
 
 
-void ValgrindMarks::newModel(ValgrindModel* model)
+void ValgrindMarks::newModel(valgrind::Model* model)
 {
     m_model = model;
     connect(model, SIGNAL(modelChanged()),

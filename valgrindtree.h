@@ -24,7 +24,7 @@
 #include <QTreeView>
 
 class ValgrindPlugin;
-class ValgrindModel;
+class MemcheckModel;
 
 class ValgrindTree : public QTreeView
 {

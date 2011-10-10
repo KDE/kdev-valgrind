@@ -45,7 +45,7 @@ ValgrindWidget::ValgrindWidget(ValgrindPlugin* plugin, QWidget * parent)
         "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
         "some abuses of the POSIX pthread API.</p>" ) );
 
-    connect(plugin, SIGNAL(newModel(ValgrindModel*)), this, SLOT(newModel(ValgrindModel*)));
+    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
 }
 
 ValgrindPlugin * ValgrindWidget::plugin() const
@@ -53,7 +53,7 @@ ValgrindPlugin * ValgrindWidget::plugin() const
     return m_plugin;
 }
 
-void ValgrindWidget::newModel(ValgrindModel * model)
+void ValgrindWidget::newModel(valgrind::Model * model)
 {
     ValgrindTree* tree = new ValgrindTree();
     tree->setModel(model);

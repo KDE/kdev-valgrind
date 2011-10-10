@@ -30,7 +30,7 @@
 #include <klocale.h>
 
 #include "valgrinditem.h"
-
+#include "memcheckmodel.h"
 
 /**
  * A class which parses valgrind's XML output

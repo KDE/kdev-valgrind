@@ -137,7 +137,7 @@ void ValgrindPlugin::unload()
     core()->uiController()->removeToolView( m_factory );
 }
 
-void ValgrindPlugin::incomingModel(ValgrindModel *model)
+void ValgrindPlugin::incomingModel(valgrind::Model *model)
 {
     emit newModel(model);
 }

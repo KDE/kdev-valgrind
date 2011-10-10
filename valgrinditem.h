@@ -23,35 +23,54 @@
 #ifndef _VALGRINDITEM_H_
 #define _VALGRINDITEM_H_
 
+#include <KUrl>
 #include <QHash>
 #include <QList>
 #include <QStack>
 #include <QSortFilterProxyModel>
 #include <QStringList>
 
-#include <KUrl>
-#include "ivalgrinditem.h"
-#include "memcheckmodel.h"
 
-class ValgrindError;
-class ValgrindFrame;
-class ValgrindStack;
-
-
-class ValgrindError : public ValgrindItem
+namespace valgrind
 {
-public:
-    ValgrindError(ValgrindModel* parent);
 
-    virtual ~ValgrindError();
+  class MemcheckError;
+  class MemcheckFrame;
+  class MemcheckModel;
+  class MemcheckStack;
 
-    virtual ValgrindModel* parent() const;
 
-    ValgrindStack *addStack();
+  class MemcheckItem
+  {
 
-    ValgrindStack *lastStack() const;
+  public:
 
-    const QList<ValgrindStack *> &getStack() const;
+    virtual ~MemcheckItem() {}
+
+    virtual MemcheckItem* parent() const = 0;
+
+    /*
+     * Called when data related to the error has been parsed
+     */
+    virtual void incomingData(QString name, QString value) = 0;
+  };
+
+  class MemcheckError : public MemcheckItem
+  {
+
+  public:
+
+    MemcheckError(valgrind::MemcheckModel* parent);
+
+    virtual ~MemcheckError();
+
+    virtual MemcheckItem* parent() const;
+
+    MemcheckStack *addStack();
+
+    MemcheckStack *lastStack() const;
+
+    const QList<MemcheckStack *> &getStack() const;
 
     virtual void incomingData(QString name, QString value);
 
@@ -61,69 +80,69 @@ public:
     int threadId;
 
     enum {
-        Unknown,
-        InvalidFree,
-        MismatchedFree,
-        InvalidRead,
-        InvalidWrite,
-        InvalidJump,
-        Overlap,
-        InvalidMemPool,
-        UninitCondition,
-        UninitValue,
-        SyscallParam,
-        ClientCheck,
-        Leak_DefinitelyLost,
-        Leak_IndirectlyLost,
-        Leak_PossiblyLost,
-        Leak_StillReachable
+      Unknown,
+      InvalidFree,
+      MismatchedFree,
+      InvalidRead,
+      InvalidWrite,
+      InvalidJump,
+      Overlap,
+      InvalidMemPool,
+      UninitCondition,
+      UninitValue,
+      SyscallParam,
+      ClientCheck,
+      Leak_DefinitelyLost,
+      Leak_IndirectlyLost,
+      Leak_PossiblyLost,
+      Leak_StillReachable
     } m_kind;
 
     QString what, auxWhat, text;
     int leakedBytes, leakedBlocks;
 
-private:
-    QList<ValgrindStack *> m_stack;
-    ValgrindModel* m_parent;
-};
+  private:
+    QList<MemcheckStack *> m_stack;
+    MemcheckModel* m_parent;
+  };
 
-class ValgrindStack : public ValgrindItem
-{
- public:
-    ValgrindStack(ValgrindError *parent);
+  class MemcheckStack : public MemcheckItem
+  {
+  public:
+    MemcheckStack(MemcheckError *parent);
 
-    virtual ~ValgrindStack();
+    virtual ~MemcheckStack();
 
-    virtual ValgrindError* parent() const;
+    virtual MemcheckError* parent() const;
 
     virtual void incomingData(QString name, QString value);
 
     QString what() const;
 
-    ValgrindFrame *addFrame();
+    MemcheckFrame *addFrame();
 
-    ValgrindFrame *lastFrame() const;
+    MemcheckFrame *lastFrame() const;
 
-    const QList<ValgrindFrame *> &getFrames() const;
+    const QList<MemcheckFrame *> &getFrames() const;
 
-private:
-    QList<ValgrindFrame*> m_frames;
-    ValgrindError* m_parent;
-};
+  private:
+    QList<MemcheckFrame*> m_frames;
+    MemcheckError* m_parent;
+  };
 
-/**
- * A frame describes the location of a notification
- */
-class ValgrindFrame : public ValgrindItem
-{
- public:
+  /**
+   * A frame describes the location of a notification
+   */
+  class MemcheckFrame : public MemcheckItem
+  {
+  public:
 
     /**
      * Takes a pointer on the parent stack
      */
-    ValgrindFrame(ValgrindStack* parent);
+    MemcheckFrame(MemcheckStack* parent);
 
-    virtual ValgrindStack* parent() const;
+    virtual MemcheckStack* parent() const;
 
     virtual void incomingData(QString name, QString value);
 
@@ -131,7 +150,8 @@ class ValgrindFrame : public ValgrindItem
 
     int instructionPointer, line;
     QString obj, fn, dir, file;
-    ValgrindStack* m_parent;
-};
+    MemcheckStack* m_parent;
+  };
 
+}
 #endif /* _VALGRINDITEM_H_ */

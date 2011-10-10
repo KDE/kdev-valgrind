@@ -23,7 +23,10 @@
 #include <QTabWidget>
 
 class ValgrindPlugin;
-class ValgrindModel;
+namespace valgrind
+{
+  class Model;
+}
 
 class ValgrindWidget : public QTabWidget
 {
@@ -36,7 +39,7 @@ public:
 
 private Q_SLOTS:
 
-    void newModel(ValgrindModel* model);
+  void newModel(valgrind::Model* model);
     void modelDestroyed(QObject* model);
 
 private:

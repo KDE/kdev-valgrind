@@ -28,38 +28,43 @@
 #include <QStack>
 
 #include "imodel.h"
-#include "ivalgrinditem.h"
+#include "valgrinditem.h"
 
-class ValgrindError;
-
-/**
- * A class that represents the item model
- * \author Hamish Rodda \<rodda@kde.org\>
- */
-class ValgrindModel : public valgrind::Model, public ValgrindItem
+namespace valgrind
 {
 
-public:
+  class MemcheckError;
 
-    ValgrindModel(QObject* parent = 0);
 
-    virtual ~ValgrindModel();
+  /**
+   * A class that represents the item model
+   * \author Hamish Rodda \<rodda@kde.org\>
+   */
+  class MemcheckModel : public valgrind::Model, public MemcheckItem
+  {
+    Q_OBJECT
+
+  public:
+
+    MemcheckModel(QObject* parent = 0);
+
+    virtual ~MemcheckModel();
 
     enum Columns {
-        //Index = 0,
-        Function,
-        Source,
-        Object
+      //Index = 0,
+      Function,
+      Source,
+      Object
     };
 
     static const int numColumns = 1;
 
     // Item
-    virtual ValgrindItem* parent() const { return 0L; }
+    virtual MemcheckItem* parent() const { return 0L; }
 
     // Model
-    QModelIndex indexForItem(ValgrindItem* item, int column = 0) const;
-    ValgrindItem* itemForIndex(const QModelIndex& index) const;
+    QModelIndex indexForItem(MemcheckItem* item, int column = 0) const;
+    MemcheckItem* itemForIndex(const QModelIndex& index) const;
 
     virtual void incomingData(QString name, QString value);
     virtual int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
@@ -73,13 +78,28 @@ public:
     void newFrame();
     void newStartError();
 
-private:
-    QList<ValgrindError *> m_errors;
+    public slots:
 
-  void newElementImple(eElementType);
-  void newDataImple(eElementType, QString name, QString value);
-  void resetImple();
+    /**
+     * Reception of a new item in the model
+     */
+    virtual void newElement(valgrind::Model::eElementType);
 
-};
+    /**
+     * Reception of data to register to the current item
+     */
+    virtual void newData(valgrind::Model::eElementType, QString name, QString value);
 
+    /**
+     * Resets the model content
+     */
+    void reset();
+
+
+  private:
+    QList<MemcheckError *> m_errors;
+
+  };
+
+}
 #endif /* _MEMCHECKMODEL_H_ */
