@@ -1,4 +1,6 @@
 /* This file is part of KDevelop
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
 
