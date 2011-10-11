@@ -28,7 +28,7 @@
 #include <QStack>
 
 #include "imodel.h"
-#include "valgrinditem.h"
+#include "memcheckitems.h"
 
 namespace valgrind
 {

@@ -21,7 +21,6 @@ set(kdevvalgrind_PART_SRCS
 
     valgrindlauncher.cpp
     valgrindconfig.cpp
-    valgrinditem.cpp
     valgrindjob.cpp
     valgrindmarks.cpp
     imodel.cpp
@@ -29,6 +28,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindplugin.cpp
     valgrindtree.cpp
     valgrindwidget.cpp
+    models/memcheckitems.cpp
     models/memcheckmodel.cpp
 )
 

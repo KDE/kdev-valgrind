@@ -23,7 +23,7 @@
 #include <KIcon>
 #include <KLocale>
 
-#include "valgrinditem.h"
+#include "memcheckitems.h"
 #include "valgrindplugin.h"
 #include "memcheckmodel.h"
 #include "valgrindtree.h"

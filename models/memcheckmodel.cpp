@@ -20,7 +20,7 @@
  Boston, MA 02110-1301, USA.
 */
 
-#include "valgrinditem.h"
+#include "memcheckitems.h"
 #include "memcheckmodel.h"
 
 #include <QApplication>
@@ -29,6 +29,8 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kglobalsettings.h>
+
+#include <iostream>
 
 namespace valgrind
 {
@@ -233,9 +235,9 @@ namespace valgrind
   {
     int index = -1;
 
-    // if (MemcheckError* e = dynamic_cast<MemcheckError*>(item))
-    //   //index = e->parent()->m_errors.indexOf(e);
-     if (MemcheckStack* s = dynamic_cast<MemcheckStack*>(item))
+    if (MemcheckError* e = dynamic_cast<MemcheckError*>(item))
+      index = e->parent()->m_errors.indexOf(e);
+    else if (MemcheckStack* s = dynamic_cast<MemcheckStack*>(item))
       if (s == s->parent()->lastStack())
 	return indexForItem(s->parent());
       else if (s->parent()->getStack().count())

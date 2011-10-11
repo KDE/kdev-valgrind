@@ -29,7 +29,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include "valgrinditem.h"
+#include "memcheckitems.h"
 #include "memcheckmodel.h"
 
 /**
