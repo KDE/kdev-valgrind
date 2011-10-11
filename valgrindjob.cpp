@@ -63,7 +63,9 @@ ValgrindJob::ValgrindJob( KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *i
     QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
     // create the correct model for each tool
     if (tool == "memcheck")
-      m_model = new valgrind::MemcheckModel();
+	m_model = new valgrind::MemcheckModel();
+    //    else if (tool == "massif")
+    //	m_model = new valgrind::MassifModel();
 
     setCapabilities( KJob::Killable );
     m_process->setOutputChannelMode(KProcess::SeparateChannels);
@@ -121,6 +123,31 @@ void		ValgrindJob::processModeArgs(QStringList & out,
     }
 }
 
+void		ValgrindJob::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
+{
+    static const t_valgrind_cfg_argarray memcheck_args =
+	{
+	    {"Memcheck Arguments",	"",			"str"},
+	    {"Freelist Size",		"--freelist-vol=",	"int"},
+	    {"Show Reachable",		"--show-reachable=",	"bool"},
+	    {"Track Origins",		"--track-origins=",	"bool"},
+	    {"Undef Value Errors",	"--undef-value-errors=","bool"}
+	};
+    static const int		memcheck_args_count = sizeof(memcheck_args) / sizeof(*memcheck_args);
+    args << "--xml=yes";
+    if( m_server ) {
+        args << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );
+    }
+    processModeArgs(args, memcheck_args, memcheck_args_count, cfg);
+}
+
+
+void		ValgrindJob::addMassifArgs(QStringList &args, KConfigGroup &cfg) const
+{
+  Q_UNUSED(args);
+  Q_UNUSED(cfg);
+}
+
 QStringList	ValgrindJob::buildCommandLine() const
 {
     static const t_valgrind_cfg_argarray generic_args =
@@ -131,31 +158,18 @@ QStringList	ValgrindJob::buildCommandLine() const
 	    {"Limit Errors",		"--error-limit=",	"bool"} // already.
 	};
     static const int		generic_args_count = sizeof(generic_args) / sizeof(*generic_args);
-    static const t_valgrind_cfg_argarray memcheck_args =
-	{
-	    {"Memcheck Arguments",	"",			"str"},
-	    {"Freelist Size",		"--freelist-vol=",	"int"},
-	    {"Show Reachable",		"--show-reachable=",	"bool"},
-	    {"Track Origins",		"--track-origins=",	"bool"},
-	    {"Undef Value Errors",	"--undef-value-errors=","bool"}
-	};
-    static const int		memcheck_args_count = sizeof(memcheck_args) / sizeof(*memcheck_args);
 
     KConfigGroup		cfg = m_launchcfg->config();
     QStringList			args;
     QString			tool = cfg.readEntry( "Current Tool", "memcheck" );
 
     args += KShell::splitArgs( cfg.readEntry( "Valgrind Arguments", "" ) );
-    args << "--xml=yes";
-    if( m_server ) {
-        args << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );
-    }
     processModeArgs(args, generic_args, generic_args_count, cfg);
 
     if (tool == "memcheck")
-	processModeArgs(args, memcheck_args, memcheck_args_count, cfg);
-
-    // Other tools will come later !
+	addMemcheckArgs(args, cfg);
+    else if (tool == "massif")
+	addMassifArgs(args, cfg);
 
     return args;
 }

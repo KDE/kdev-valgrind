@@ -82,6 +82,8 @@ private:
 				int mode_args_count,
 				KConfigGroup & cfg) const;
 
+    void	addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
+    void	addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
     QStringList	buildCommandLine() const;
 
     KDevelop::OutputModel* model();
