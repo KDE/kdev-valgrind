@@ -94,7 +94,7 @@ private:
     QTcpServer* m_server;
     QTcpSocket* m_connection;
 
-    valgrind::MemcheckModel* m_model;
+    valgrind::Model* m_model;
     ValgrindParser m_parser;
 
     KDevelop::ProcessLineMaker* m_applicationOutput;

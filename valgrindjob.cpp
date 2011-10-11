@@ -54,12 +54,16 @@ ValgrindJob::ValgrindJob( KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *i
     , m_job(0)
     , m_server(0)
     , m_connection(0)
-    , m_model(new valgrind::MemcheckModel())
+    , m_model(0)
     , m_parser()
     , m_applicationOutput(new KDevelop::ProcessLineMaker(this))
     , m_launchcfg( cfg )
     , m_plugin(inst)
 {
+    QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
+    // create the correct model for each tool
+    if (tool == "memcheck")
+      m_model = new valgrind::MemcheckModel();
 
     setCapabilities( KJob::Killable );
     m_process->setOutputChannelMode(KProcess::SeparateChannels);
@@ -75,6 +79,7 @@ ValgrindJob::ValgrindJob( KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *i
     connect(&m_parser, SIGNAL(newData(valgrind::Model::eElementType, QString, QString)),
 	    m_model, SLOT(newData(valgrind::Model::eElementType, QString, QString)));
     connect(&m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
+
 #ifndef _UNIT_TESTS_
     m_plugin->incomingModel(m_model);
 #endif

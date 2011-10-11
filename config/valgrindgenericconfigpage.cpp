@@ -40,6 +40,7 @@ ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWi
     QStringList	tools;
 
     tools << "memcheck";
+    tools << "massif";
 
     /*
     ** Unimplemented tools: See valgrindlauncher.cpp to activate their configuration tab
@@ -47,7 +48,6 @@ ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWi
     // tools << "cachegrind";
     // tools << "callgrind";
     // tools << "helgrind";
-    // tools << "massif";
 
     ui->currentTool->addItems(tools);
 
