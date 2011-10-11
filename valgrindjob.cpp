@@ -74,7 +74,7 @@ ValgrindJob::ValgrindJob( KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *i
 	    m_model, SLOT(newData(valgrind::Model::eElementType, QString, QString)));
     connect(&m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
 #ifndef _UNIT_TESTS_
-    //m_plugin->incomingModel(m_model);
+    m_plugin->incomingModel(m_model);
 #endif
 }
 
