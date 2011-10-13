@@ -20,7 +20,7 @@
  Boston, MA 02110-1301, USA.
 */
 
-#include "memcheckitems.h"
+#include "memcheckitemsimpl.h"
 #include "memcheckmodel.h"
 
 #include <QApplication>
