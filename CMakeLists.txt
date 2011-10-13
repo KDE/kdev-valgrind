@@ -30,6 +30,7 @@ set(kdevvalgrind_PART_SRCS
     valgrindwidget.cpp
     models/memcheckitems.cpp
     models/memcheckmodel.cpp
+    models/memcheckitemsimpl.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS

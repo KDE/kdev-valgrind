@@ -23,24 +23,12 @@
 #ifndef _VALGRINDITEM_H_
 #define _VALGRINDITEM_H_
 
-#include <KUrl>
-#include <QHash>
-#include <QList>
-#include <QStack>
-#include <QSortFilterProxyModel>
-#include <QStringList>
+#include <QString>
 
 #include "imodel.h"
 
 namespace valgrind
 {
-
-  class MemcheckError;
-  class MemcheckFrame;
-  class MemcheckModel;
-  class MemcheckStack;
-
-
   class MemcheckItem
   {
 
@@ -55,104 +43,5 @@ namespace valgrind
      */
     virtual void incomingData(QString name, QString value) = 0;
   };
-
-  class MemcheckError : public MemcheckItem
-  {
-
-  public:
-
-    MemcheckError(valgrind::MemcheckModel* parent);
-
-    virtual ~MemcheckError();
-
-    virtual MemcheckModel* parent() const;
-
-    MemcheckStack *addStack();
-
-    MemcheckStack *lastStack() const;
-
-    const QList<MemcheckStack *> &getStack() const;
-
-    virtual void incomingData(QString name, QString value);
-
-    void setKind(const QString& s);
-
-    int uniqueId;
-    int threadId;
-
-    enum {
-      Unknown,
-      InvalidFree,
-      MismatchedFree,
-      InvalidRead,
-      InvalidWrite,
-      InvalidJump,
-      Overlap,
-      InvalidMemPool,
-      UninitCondition,
-      UninitValue,
-      SyscallParam,
-      ClientCheck,
-      Leak_DefinitelyLost,
-      Leak_IndirectlyLost,
-      Leak_PossiblyLost,
-      Leak_StillReachable
-    } m_kind;
-
-    QString what, auxWhat, text;
-    int leakedBytes, leakedBlocks;
-
-  private:
-    QList<MemcheckStack *> m_stack;
-    MemcheckModel* m_parent;
-  };
-
-  class MemcheckStack : public MemcheckItem
-  {
-  public:
-    MemcheckStack(MemcheckError *parent);
-
-    virtual ~MemcheckStack();
-
-    virtual MemcheckError* parent() const;
-
-    virtual void incomingData(QString name, QString value);
-
-    QString what() const;
-
-    MemcheckFrame *addFrame();
-
-    MemcheckFrame *lastFrame() const;
-
-    const QList<MemcheckFrame *> &getFrames() const;
-
-  private:
-    QList<MemcheckFrame*> m_frames;
-    MemcheckError* m_parent;
-  };
-
-  /**
-   * A frame describes the location of a notification
-   */
-  class MemcheckFrame : public MemcheckItem
-  {
-  public:
-
-    /**
-     * Takes a pointer on the parent stack
-     */
-    MemcheckFrame(MemcheckStack* parent);
-
-    virtual MemcheckStack* parent() const;
-
-    virtual void incomingData(QString name, QString value);
-
-    KUrl url() const;
-
-    int instructionPointer, line;
-    QString obj, fn, dir, file;
-    MemcheckStack* m_parent;
-  };
-
 }
 #endif /* _VALGRINDITEM_H_ */

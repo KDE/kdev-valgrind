@@ -27,7 +27,7 @@
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
-#include "memcheckitems.h"
+#include "memcheckitemsimpl.h"
 #include "memcheckmodel.h"
 
 ValgrindTree::ValgrindTree()
