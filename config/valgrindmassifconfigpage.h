@@ -23,31 +23,35 @@
 #include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
+namespace valgrind
+{
 namespace Ui
 {
-  class ValgrindMassifConfig;
+  class MassifConfig;
 }
 
-class ValgrindMassifConfigPage : public KDevelop::LaunchConfigurationPage
+class MassifConfigPage : public KDevelop::LaunchConfigurationPage
 {
   Q_OBJECT
 public:
-  ValgrindMassifConfigPage( QWidget * parent = 0 );
+  MassifConfigPage( QWidget * parent = 0 );
   virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
   virtual KIcon			icon( void ) const;
   virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
   virtual QString		title( void ) const;
 
 private:
-  Ui::ValgrindMassifConfig	*ui;
+  Ui::MassifConfig	*ui;
 };
 
-class ValgrindMassifConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class MassifConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  ValgrindMassifConfigPageFactory( void );
-  virtual ~ValgrindMassifConfigPageFactory( void );
+  MassifConfigPageFactory( void );
+  virtual ~MassifConfigPageFactory( void );
   virtual KDevelop::LaunchConfigurationPage* createWidget( QWidget * parent );
 };
+
+}
 
 #endif /* VALGRINDMASSIFCONFIGPAGE_H_ */

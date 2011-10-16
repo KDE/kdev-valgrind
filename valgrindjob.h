@@ -35,11 +35,8 @@ class KJob;
 class KProcess;
 class QXmlInputSource;
 class QXmlSimpleReader;
-class MemcheckModel;
 class QTcpServer;
 class QTcpSocket;
-class ValgrindPlugin;
-class ValgrindParser;
 class QBuffer;
 
 namespace KDevelop
@@ -49,59 +46,64 @@ class ILaunchConfiguration;
 class OutputModel;
 class ILaunchConfiguration;
 }
-
-class ValgrindJob : public KDevelop::OutputJob
+namespace valgrind
 {
-  Q_OBJECT
+  class Plugin;
+  class Parser;
 
-public:
-    ValgrindJob(KDevelop::ILaunchConfiguration* cfg, ValgrindPlugin *inst, QObject* parent = 0);
-    virtual ~ValgrindJob();
+  class Job : public KDevelop::OutputJob
+  {
+    Q_OBJECT
 
-    ValgrindPlugin* plugin() const;
+  public:
+      Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
+      virtual ~Job();
 
-    virtual void start();
-protected:
-    virtual bool doKill();
+      valgrind::Plugin* plugin() const;
 
-private slots:
-    void newValgrindConnection();
-    void socketError(QAbstractSocket::SocketError err);
-    void readFromValgrind();
+      virtual void start();
+  protected:
+      virtual bool doKill();
 
-    void readyReadStandardOutput();
-    void readyReadStandardError();
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void processErrored(QProcess::ProcessError);
+  private slots:
+      void newValgrindConnection();
+      void socketError(QAbstractSocket::SocketError err);
+      void readFromValgrind();
 
-private:
-    typedef QString	t_valgrind_cfg_argarray[][3];
+      void readyReadStandardOutput();
+      void readyReadStandardError();
+      void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+      void processErrored(QProcess::ProcessError);
 
-    void	processModeArgs(QStringList & out,
-				const t_valgrind_cfg_argarray mode_args,
-				int mode_args_count,
-				KConfigGroup & cfg) const;
+  private:
+      typedef QString	t_valgrind_cfg_argarray[][3];
 
-    void	addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
-    void	addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
-    QStringList	buildCommandLine() const;
+      void	processModeArgs(QStringList & out,
+          const t_valgrind_cfg_argarray mode_args,
+          int mode_args_count,
+          KConfigGroup & cfg) const;
 
-    KDevelop::OutputModel* model();
+      void	addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
+      void	addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
+      QStringList	buildCommandLine() const;
+
+      KDevelop::OutputModel* model();
 
 
-    KProcess* m_process;
-    int m_currentPid;
-    KJob* m_job;
+      KProcess* m_process;
+      int m_currentPid;
+      KJob* m_job;
 
-    QTcpServer* m_server;
-    QTcpSocket* m_connection;
+      QTcpServer* m_server;
+      QTcpSocket* m_connection;
 
-    valgrind::Model* m_model;
-    ValgrindParser m_parser;
+      valgrind::Model* m_model;
+      valgrind::Parser m_parser;
 
-    KDevelop::ProcessLineMaker* m_applicationOutput;
-    KDevelop::ILaunchConfiguration* m_launchcfg;
-    ValgrindPlugin *m_plugin;
-};
+      KDevelop::ProcessLineMaker* m_applicationOutput;
+      KDevelop::ILaunchConfiguration* m_launchcfg;
+      valgrind::Plugin *m_plugin;
+  };
 
+}
 #endif

@@ -25,18 +25,20 @@
 #include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
+namespace valgrind
+{
 namespace Ui
 {
-  class ValgrindMemcheckConfig;
+  class MemcheckConfig;
 }
 
-class	ValgrindMemcheckConfigPage : public KDevelop::LaunchConfigurationPage
+class	MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
 {
   Q_OBJECT
 
 public:
 
-  ValgrindMemcheckConfigPage(QWidget * parent = 0);
+  MemcheckConfigPage(QWidget * parent = 0);
   virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
   virtual KIcon icon() const;
   virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
@@ -44,17 +46,17 @@ public:
 
 
 private:
-  Ui::ValgrindMemcheckConfig *ui;
+  Ui::MemcheckConfig *ui;
 };
 
-class ValgrindMemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  ValgrindMemcheckConfigPageFactory();
-  virtual ~ValgrindMemcheckConfigPageFactory();
+  MemcheckConfigPageFactory();
+  virtual ~MemcheckConfigPageFactory();
   virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 };
-
+}
 
 #endif /* VALGRINDMEMCHECKCONFIGPAGE_H_ */
 

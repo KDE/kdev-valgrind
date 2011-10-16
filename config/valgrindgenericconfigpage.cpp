@@ -24,10 +24,13 @@
 
 #include "ui_valgrindgenericconfig.h"
 
-ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWidget *parent)
+namespace valgrind
+{
+
+GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::ValgrindGenericConfig();
+    ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
     connect( ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()) );
@@ -55,15 +58,15 @@ ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWi
     connect( this, SIGNAL(newCurrentTool(QString)), plugin, SLOT(updateCurrentTool(QString)) );
 }
 
-ValgrindGenericConfigPage::~ValgrindGenericConfigPage(void)
+GenericConfigPage::~GenericConfigPage(void)
 {}
 
-KIcon ValgrindGenericConfigPage::icon() const
+KIcon GenericConfigPage::icon() const
 {
     return KIcon("fork");
 }
 
-void ValgrindGenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
+void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
 {
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
@@ -83,7 +86,7 @@ void ValgrindGenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, K
     blockSignals(wasBlocked);
 }
 
-void ValgrindGenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
+void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
     cfg.writeEntry( "Valgrind Executable", ui->valgrindExecutable->url() );
     cfg.writeEntry( "Valgrind Arguments", ui->valgrindParameters->text() );
@@ -95,20 +98,21 @@ void ValgrindGenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::
     emit newCurrentTool( ui->currentTool->currentText() );
 }
 
-QString	ValgrindGenericConfigPage::title() const
+QString	GenericConfigPage::title() const
 {
     return i18n("Global settings");
 }
 
 // The factory
-ValgrindGenericConfigPageFactory::ValgrindGenericConfigPageFactory(ValgrindPlugin * plugin)
+GenericConfigPageFactory::GenericConfigPageFactory(valgrind::Plugin * plugin)
     : m_plugin(plugin)
 {}
 
-ValgrindGenericConfigPageFactory::~ValgrindGenericConfigPageFactory()
+GenericConfigPageFactory::~GenericConfigPageFactory()
 {}
 
-KDevelop::LaunchConfigurationPage* ValgrindGenericConfigPageFactory::createWidget(QWidget * parent)
+KDevelop::LaunchConfigurationPage* GenericConfigPageFactory::createWidget(QWidget * parent)
 {
-    return new ValgrindGenericConfigPage(m_plugin, parent);
+    return new valgrind::GenericConfigPage(m_plugin, parent);
+}
 }

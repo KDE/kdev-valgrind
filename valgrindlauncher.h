@@ -32,25 +32,30 @@
 
 class KJob;
 class KIcon;
-class ValgrindPlugin;
 
-class ValgrindLauncher : public KDevelop::ILauncher
+namespace valgrind
 {
+  class Plugin;
 
-public:
-    ValgrindLauncher(ValgrindPlugin *inst);
-    virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
-    void addMode( ValgrindLaunchMode* mode );
-    virtual QString description() const;
-    virtual QString id();
-    virtual QString name() const;
-    virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
-    virtual QStringList supportedModes() const;
+  class Launcher : public KDevelop::ILauncher
+  {
 
-private:
-    QList<KDevelop::LaunchConfigurationPageFactory*> factories;
-    QMap<QString, ValgrindLaunchMode*> modes;
-    ValgrindPlugin * m_plugin;
-};
+  public:
+      Launcher(valgrind::Plugin *inst);
+      virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
+      void addMode( valgrind::LaunchMode* mode );
+      virtual QString description() const;
+      virtual QString id();
+      virtual QString name() const;
+      virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
+      virtual QStringList supportedModes() const;
+
+  private:
+      QList<KDevelop::LaunchConfigurationPageFactory*> factories;
+      QMap<QString, valgrind::LaunchMode*> modes;
+      valgrind::Plugin * m_plugin;
+  };
+
+}
 
 #endif /* VALGRINDLAUNCHER_H_ */

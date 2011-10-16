@@ -26,15 +26,18 @@
 class ValgrindPlugin;
 class MemcheckModel;
 
-class ValgrindTree : public QTreeView
+namespace valgrind
+{
+
+class Tree : public QTreeView
 {
     Q_OBJECT
 
 public:
-    ValgrindTree();
+    Tree();
 
 private Q_SLOTS:
     void openDocument(const QModelIndex& index);
 };
-
+}
 #endif // VALGRINDTREE_H

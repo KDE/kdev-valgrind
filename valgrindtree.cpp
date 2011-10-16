@@ -30,12 +30,15 @@
 #include "memcheckitemsimpl.h"
 #include "memcheckmodel.h"
 
-ValgrindTree::ValgrindTree()
+namespace valgrind
+{
+
+Tree::Tree()
 {
     connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
 }
 
-void ValgrindTree::openDocument(const QModelIndex & index)
+void Tree::openDocument(const QModelIndex & index)
 {
   if (valgrind::MemcheckFrame* frame = dynamic_cast<valgrind::MemcheckFrame*>(static_cast<valgrind::MemcheckModel*>(model())->itemForIndex(index))) {
         KUrl doc = frame->url();
@@ -43,6 +46,8 @@ void ValgrindTree::openDocument(const QModelIndex & index)
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, frame->line - 1), 0));
         }
     }
+}
+
 }
 
 #include "valgrindtree.moc"

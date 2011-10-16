@@ -32,40 +32,45 @@
 class KJob;
 class KUrl;
 class QTreeView;
-class ValgrindControl;
-class ValgrindMarks;
-
 
 namespace KDevelop
 {
 class ILaunchConfiguration;
 }
 
-class ValgrindPlugin : public KDevelop::IPlugin
+namespace valgrind
 {
-    Q_OBJECT
+  class Control;
+  class Marks;
+  class WidgetFactory;
 
-public:
-    ValgrindPlugin( QObject *parent, const QVariantList & = QVariantList() );
+  class Plugin : public KDevelop::IPlugin
+  {
+      Q_OBJECT
 
-    virtual ~ValgrindPlugin();
+  public:
+      Plugin( QObject *parent, const QVariantList & = QVariantList() );
 
-    virtual void unload();
+      virtual ~Plugin();
 
-    void incomingModel(valgrind::Model* model);
+      virtual void unload();
 
-signals:
-    void newModel(valgrind::Model* model);
+      void incomingModel(valgrind::Model* model);
 
-private slots:
-    void loadOutput();
-    void runValgrind();
+  signals:
+      void newModel(valgrind::Model* model);
 
-private:
-    QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
-        m_lastCtExec, m_lastCtParams, m_lastKcExec;
-    class ValgrindWidgetFactory* m_factory;
-    ValgrindMarks *m_marks;
-};
+  private slots:
+      void loadOutput();
+      void runValgrind();
+
+  private:
+      QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
+          m_lastCtExec, m_lastCtParams, m_lastKcExec;
+      valgrind::WidgetFactory *m_factory;
+      valgrind::Marks         *m_marks;
+  };
+}
+
 
 #endif // VALGRINDPLUGIN_H

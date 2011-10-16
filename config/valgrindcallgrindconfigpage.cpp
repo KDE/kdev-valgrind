@@ -21,10 +21,13 @@
 
 #include "ui_valgrindcallgrindconfig.h"
 
-ValgrindCallgrindConfigPage::ValgrindCallgrindConfigPage(QWidget *parent)
+namespace valgrind
+{
+
+CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
     : LaunchConfigurationPage( parent )
 {
-    ui = new Ui::ValgrindCallgrindConfig();
+    ui = new Ui::CallgrindConfig();
     ui->setupUi( this );
 
     connect( ui->separateThreadReporting, SIGNAL(toggled(bool)), SIGNAL(changed()) );
@@ -32,7 +35,7 @@ ValgrindCallgrindConfigPage::ValgrindCallgrindConfigPage(QWidget *parent)
     connect( ui->simulateHardwarePrefetcher, SIGNAL(toggled(bool)), SIGNAL(changed()) );
 }
 
-void	ValgrindCallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
+void	CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
 {
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
@@ -44,31 +47,32 @@ void	ValgrindCallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg,
     blockSignals(wasBlocked);
 }
 
-KIcon	ValgrindCallgrindConfigPage::icon( void ) const
+KIcon	CallgrindConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
 
-void	ValgrindCallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
+void	CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
     cfg.writeEntry( "Separate Thread Reporting", ui->separateThreadReporting->isChecked() );
     cfg.writeEntry( "Full Cache Simulation", ui->fullCacheSimulation->isChecked() );
     cfg.writeEntry( "Simulate Hardware Prefetcher", ui->simulateHardwarePrefetcher->isChecked() );
 }
 
-QString	ValgrindCallgrindConfigPage::title(void) const
+QString	CallgrindConfigPage::title(void) const
 {
     return i18n("Callgrind");
 }
 
 // The factory
-ValgrindCallgrindConfigPageFactory::ValgrindCallgrindConfigPageFactory(void)
+CallgrindConfigPageFactory::CallgrindConfigPageFactory(void)
 {}
 
-ValgrindCallgrindConfigPageFactory::~ValgrindCallgrindConfigPageFactory(void)
+CallgrindConfigPageFactory::~CallgrindConfigPageFactory(void)
 {}
 
-KDevelop::LaunchConfigurationPage* ValgrindCallgrindConfigPageFactory::createWidget(QWidget *parent)
+KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new ValgrindCallgrindConfigPage( parent );
+    return new valgrind::CallgrindConfigPage( parent );
+}
 }

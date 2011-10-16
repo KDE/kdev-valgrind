@@ -23,31 +23,35 @@
 #include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
-namespace Ui
+namespace valgrind
 {
-  class ValgrindCallgrindConfig;
-}
+  namespace Ui
+  {
+    class CallgrindConfig;
+  }
 
-class ValgrindCallgrindConfigPage : public KDevelop::LaunchConfigurationPage
+class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
   Q_OBJECT
 public:
-  ValgrindCallgrindConfigPage( QWidget * parent = 0 );
+  CallgrindConfigPage( QWidget * parent = 0 );
   virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
   virtual KIcon			icon( void ) const;
   virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
   virtual QString		title( void ) const;
 
 private:
-  Ui::ValgrindCallgrindConfig	*ui;
+  Ui::CallgrindConfig	*ui;
 };
 
-class ValgrindCallgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class CallgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  ValgrindCallgrindConfigPageFactory( void );
-  virtual ~ValgrindCallgrindConfigPageFactory( void );
+  CallgrindConfigPageFactory( void );
+  virtual ~CallgrindConfigPageFactory( void );
   virtual KDevelop::LaunchConfigurationPage* createWidget( QWidget * parent );
 };
+
+}
 
 #endif /* VALGRINDCALLGRINDCONFIGPAGE_H_ */

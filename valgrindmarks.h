@@ -27,34 +27,36 @@
 namespace valgrind
 {
   class Model;
+  class Plugin;
+
+  /*
+   * Interactions between the file editor and Valgrind's output
+   */
+  class Marks : public QObject
+  {
+      Q_OBJECT
+
+  public:
+
+      Marks(valgrind::Plugin *plugin);
+
+      virtual ~Marks();
+
+  private slots:
+      /*
+       * Sets the new model
+       * Clean the previous marks if necessary
+       */
+      void newModel(valgrind::Model* model);
+
+      void modelChanged();
+  private:
+      valgrind::Plugin  *m_plugin;
+      valgrind::Model   *m_model;
+  };
+
 }
 
-class ValgrindPlugin;
 
-/*
- * Interactions between the file editor and Valgrind's output
- */
-class ValgrindMarks : public QObject
-{
-    Q_OBJECT
-
-public:
-
-    ValgrindMarks(ValgrindPlugin *plugin);
-
-    virtual ~ValgrindMarks();
-
-private slots:
-    /*
-     * Sets the new model
-     * Clean the previous marks if necessary
-     */
-    void newModel(valgrind::Model* model);
-
-    void modelChanged();
-private:
-    ValgrindPlugin *m_plugin;
-    valgrind::Model *m_model;
-};
 
 #endif /* _MARKS_H_ */

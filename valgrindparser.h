@@ -32,18 +32,21 @@
 #include "memcheckitems.h"
 #include "memcheckmodel.h"
 
+namespace valgrind
+{
+
 /**
  * A class which parses valgrind's XML output
  * and emits signals when items are parsed
  */
-class ValgrindParser : public QObject, public QXmlStreamReader
+class Parser : public QObject, public QXmlStreamReader
 {
   Q_OBJECT
 
     public:
 
-  ValgrindParser(QObject *parent = 0);
-  virtual ~ValgrindParser();
+  Parser(QObject *parent = 0);
+  virtual ~Parser();
 
 
  signals:
@@ -83,5 +86,7 @@ class ValgrindParser : public QObject, public QXmlStreamReader
   QString m_buffer;
   QHash<QString, QString> valgrindArgs, programArgs;
 };
+}
+
 
 #endif /* _VALGRINDPARSER_H_ */
