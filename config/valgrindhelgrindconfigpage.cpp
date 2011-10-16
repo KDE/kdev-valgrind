@@ -21,10 +21,13 @@
 
 #include "ui_valgrindhelgrindconfig.h"
 
-ValgrindHelgrindConfigPage::ValgrindHelgrindConfigPage( QWidget *parent )
+namespace valgrind
+{
+
+HelgrindConfigPage::HelgrindConfigPage( QWidget *parent )
     : LaunchConfigurationPage( parent )
 {
-    ui = new Ui::ValgrindHelgrindConfig();
+    ui = new Ui::HelgrindConfig();
     ui->setupUi( this );
 
     QStringList events;
@@ -37,7 +40,7 @@ ValgrindHelgrindConfigPage::ValgrindHelgrindConfigPage( QWidget *parent )
     connect( ui->extraSynchronizationEvents, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
 }
 
-void	ValgrindHelgrindConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop::IProject * )
+void	HelgrindConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop::IProject * )
 {
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
@@ -52,29 +55,30 @@ void	ValgrindHelgrindConfigPage::loadFromConfiguration( const KConfigGroup& cfg,
     blockSignals(wasBlocked);
 }
 
-KIcon	ValgrindHelgrindConfigPage::icon( void ) const
+KIcon	HelgrindConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
 
-void	ValgrindHelgrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
+void	HelgrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
 {
     cfg.writeEntry( "Extra Synchronization Events", ui->extraSynchronizationEvents->currentText() );
 }
 
-QString	ValgrindHelgrindConfigPage::title( void ) const
+QString	HelgrindConfigPage::title( void ) const
 {
     return i18n("Helgrind");
 }
 
 // The factory
-ValgrindHelgrindConfigPageFactory::ValgrindHelgrindConfigPageFactory( void )
+HelgrindConfigPageFactory::HelgrindConfigPageFactory( void )
 {}
 
-ValgrindHelgrindConfigPageFactory::~ValgrindHelgrindConfigPageFactory( void )
+HelgrindConfigPageFactory::~HelgrindConfigPageFactory( void )
 {}
 
-KDevelop::LaunchConfigurationPage* ValgrindHelgrindConfigPageFactory::createWidget( QWidget *parent)
+KDevelop::LaunchConfigurationPage* HelgrindConfigPageFactory::createWidget( QWidget *parent)
 {
-    return new ValgrindHelgrindConfigPage( parent );
+    return new valgrind::HelgrindConfigPage( parent );
+}
 }

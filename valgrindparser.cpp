@@ -22,17 +22,19 @@
 
 #include "valgrindparser.h"
 
-
-ValgrindParser::ValgrindParser(QObject *parent)
+namespace valgrind
 {
-  Q_UNUSED(parent)
+
+Parser::Parser(QObject *parent)
+{
+    Q_UNUSED(parent)
 }
 
-ValgrindParser::~ValgrindParser()
+Parser::~Parser()
 {
 }
 
-void ValgrindParser::clear( )
+void Parser::clear( )
 {
     m_stateStack.clear();
     m_buffer.clear();
@@ -46,90 +48,100 @@ void ValgrindParser::clear( )
     // reset();
 }
 
-bool ValgrindParser::startElement()
+bool Parser::startElement()
 {
     m_buffer.clear();
     State newState = Unknown;
 
     if (name() == "valgrindoutput")
-	newState = Session;
+        newState = Session;
     else if (name() == "status")
-	newState = Status;
+        newState = Status;
     else if (name() == "preamble")
-	newState = Preamble;
-    else if (name() == "error") {
-	newState = Error;
-	emit newElement(valgrind::MemcheckModel::startError);
+        newState = Preamble;
+    else if (name() == "error")
+    {
+        newState = Error;
+        emit newElement(valgrind::MemcheckModel::startError);
     }
-    else if (name() == "stack") {
-	newState = Stack;
-	emit newElement(valgrind::MemcheckModel::startStack);
+    else if (name() == "stack")
+    {
+        newState = Stack;
+        emit newElement(valgrind::MemcheckModel::startStack);
     }
-    else if (name() == "frame") {
-	newState = Frame;
-	emit newElement(valgrind::MemcheckModel::startFrame);
+    else if (name() == "frame")
+    {
+        newState = Frame;
+        emit newElement(valgrind::MemcheckModel::startFrame);
     }
     else
     {
-	m_stateStack.push(m_stateStack.top());
-	return true;
+        m_stateStack.push(m_stateStack.top());
+        return true;
     }
     m_stateStack.push(newState);
     return true;
 }
 
-bool ValgrindParser::endElement()
+bool Parser::endElement()
 {
     State state = m_stateStack.pop();
-    switch (state) {
+    switch (state)
+    {
     case Error:
-	emit newData(valgrind::MemcheckModel::error, name().toString(), m_buffer);
-	break;
+        emit newData(valgrind::MemcheckModel::error, name().toString(), m_buffer);
+        break;
     case Stack:
-	emit newData(valgrind::MemcheckModel::stack, name().toString(), m_buffer);
-	break;
+        emit newData(valgrind::MemcheckModel::stack, name().toString(), m_buffer);
+        break;
     case Frame:
-	emit newData(valgrind::MemcheckModel::frame, name().toString(), m_buffer);
-	break;
+        emit newData(valgrind::MemcheckModel::frame, name().toString(), m_buffer);
+        break;
     default:
-	break;
+        break;
     }
     return true;
 }
 
-void ValgrindParser::parse()
+void Parser::parse()
 {
-    while (!atEnd()) {
-        switch (readNext()) {
-	case StartDocument:
-	    clear();
-	    break;
-	case StartElement:
-	    startElement();
-	    break;
-	case EndElement:
-	    endElement();
-	    break;
-	case Characters:
-	    m_buffer += text().toString();
-	    break;
-	default:
-	    break;
+    while (!atEnd())
+    {
+        switch (readNext())
+        {
+        case StartDocument:
+            clear();
+            break;
+        case StartElement:
+            startElement();
+            break;
+        case EndElement:
+            endElement();
+            break;
+        case Characters:
+            m_buffer += text().toString();
+            break;
+        default:
+            break;
         }
     }
 
-    if (hasError()) {
-        switch (error()) {
-	case CustomError:
-	case UnexpectedElementError:
-	case NotWellFormedError:
-	    KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
-	    break;
-	case NoError:
-	case PrematureEndOfDocumentError:
-	    break;
+    if (hasError())
+    {
+        switch (error())
+        {
+        case CustomError:
+        case UnexpectedElementError:
+        case NotWellFormedError:
+            KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
+            break;
+        case NoError:
+        case PrematureEndOfDocumentError:
+            break;
         }
     }
+}
+
 }
 
 #include "valgrindparser.moc"

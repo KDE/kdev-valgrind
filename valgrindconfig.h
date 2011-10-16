@@ -29,33 +29,37 @@
 
 class KJob;
 class KIcon;
-class ValgrindPlugin;
 
 namespace KDevelop
 {
-class IProject;
+  class IProject;
 }
 
 // TODO: remove this useless inheritance
-
-class ValgrindLaunchMode : public KDevelop::ILaunchMode
+namespace valgrind
 {
-public:
-    virtual QString tool() const = 0;
-};
+  class Plugin;
 
-class ValgrindGenericLaunchMode : public ValgrindLaunchMode
-{
-public:
-    ValgrindGenericLaunchMode();
+  class LaunchMode : public KDevelop::ILaunchMode
+  {
+  public:
+      virtual QString tool() const = 0;
+  };
 
-    virtual KIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
+  class GenericLaunchMode : public LaunchMode
+  {
+  public:
+      GenericLaunchMode();
 
- protected:
-  QString	m_toolname;
-};
+      virtual KIcon icon() const;
+      virtual QString id() const;
+      virtual QString name() const;
+      virtual QString tool() const;
+
+   protected:
+    QString	m_toolname;
+  };
+
+}
 
 #endif

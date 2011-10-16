@@ -26,28 +26,31 @@
 #include "valgrindjob.h"
 
 // Generic valgrind mode
-
-ValgrindGenericLaunchMode::ValgrindGenericLaunchMode()
+namespace valgrind
+{
+  GenericLaunchMode::GenericLaunchMode()
   : m_toolname("UNSET TOOL")
-{
-}
+  {
+  }
 
-KIcon	ValgrindGenericLaunchMode::icon() const
-{
-  return KIcon();
-}
+  KIcon	GenericLaunchMode::icon() const
+  {
+    return KIcon();
+  }
 
-QString	ValgrindGenericLaunchMode::id() const
-{
-  return "valgrind_generic";
-}
+  QString	GenericLaunchMode::id() const
+  {
+    return "valgrind_generic";
+  }
 
-QString ValgrindGenericLaunchMode::name() const
-{
-  return "Valgrind";
-}
+  QString GenericLaunchMode::name() const
+  {
+    return "Valgrind";
+  }
 
-QString ValgrindGenericLaunchMode::tool() const
-{
-  return m_toolname;
+  QString GenericLaunchMode::tool() const
+  {
+    return m_toolname;
+  }
+
 }

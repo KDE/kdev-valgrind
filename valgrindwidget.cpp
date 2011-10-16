@@ -28,7 +28,11 @@
 #include "memcheckmodel.h"
 #include "valgrindtree.h"
 
-ValgrindWidget::ValgrindWidget(ValgrindPlugin* plugin, QWidget * parent)
+
+namespace valgrind
+{
+
+Widget::Widget(valgrind::Plugin* plugin, QWidget * parent)
     : QTabWidget(parent)
     , m_plugin(plugin)
 {
@@ -36,37 +40,39 @@ ValgrindWidget::ValgrindWidget(ValgrindPlugin* plugin, QWidget * parent)
     setWindowTitle(i18n("Valgrind Output"));
 
     setWhatsThis( i18n( "<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>"
-        "use of uninitialized memory;<br/>"
-        "reading/writing memory after it has been free'd;<br/>"
-        "reading/writing off the end of malloc'd blocks;<br/>"
-        "reading/writing inappropriate areas on the stack;<br/>"
-        "memory leaks &mdash; where pointers to malloc'd blocks are lost forever;<br/>"
-        "passing of uninitialised and/or unaddressable memory to system calls;<br/>"
-        "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
-        "some abuses of the POSIX pthread API.</p>" ) );
+                        "use of uninitialized memory;<br/>"
+                        "reading/writing memory after it has been free'd;<br/>"
+                        "reading/writing off the end of malloc'd blocks;<br/>"
+                        "reading/writing inappropriate areas on the stack;<br/>"
+                        "memory leaks &mdash; where pointers to malloc'd blocks are lost forever;<br/>"
+                        "passing of uninitialised and/or unaddressable memory to system calls;<br/>"
+                        "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
+                        "some abuses of the POSIX pthread API.</p>" ) );
 
     connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
 }
 
-ValgrindPlugin * ValgrindWidget::plugin() const
+valgrind::Plugin * Widget::plugin() const
 {
     return m_plugin;
 }
 
-void ValgrindWidget::newModel(valgrind::Model * model)
+void Widget::newModel(valgrind::Model * model)
 {
-    ValgrindTree* tree = new ValgrindTree();
+    valgrind::Tree* tree = new valgrind::Tree();
     tree->setModel(model);
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
     addTab(tree, QString());
     setCurrentWidget(tree);
 }
 
-void ValgrindWidget::modelDestroyed(QObject * model)
+void Widget::modelDestroyed(QObject * model)
 {
     for (int i = 0; i < count(); ++i)
-        if (static_cast<ValgrindTree*>(widget(i))->model() == model)
+        if (static_cast<valgrind::Tree*>(widget(i))->model() == model)
             return removeTab(i);
+}
+
 }
 
 #include "valgrindwidget.moc"

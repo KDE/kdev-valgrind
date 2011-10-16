@@ -28,54 +28,61 @@
 #include "memcheckmodel.h"
 #include "valgrindplugin.h"
 
-ValgrindMarks::ValgrindMarks(ValgrindPlugin *plugin)
+namespace valgrind
+{
+
+Marks::Marks(valgrind::Plugin *plugin)
     : m_plugin(plugin)
     , m_model(0)
 {
-  connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
+    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
 }
 
-ValgrindMarks::~ValgrindMarks()
+Marks::~Marks()
 {
 }
 
 
-void ValgrindMarks::newModel(valgrind::Model* model)
+void Marks::newModel(valgrind::Model* model)
 {
     m_model = model;
     connect(model, SIGNAL(modelChanged()),
-	    this, SLOT(modelChanged()));
+            this, SLOT(modelChanged()));
 }
 
-void ValgrindMarks::modelChanged()
+void Marks::modelChanged()
 {
     // parse model to display errors in the editor
     KTextEditor::Editor* editor = KTextEditor::editor("katepart");
     QList<KTextEditor::Document*> docList = editor->documents();
     for (int i = 0; i < docList.size(); ++i)
-	if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
-	    iface->clearMarks();
+        if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
+            iface->clearMarks();
     // errors
     QModelIndex parentIndex = QModelIndex();
     int numRows = m_model->rowCount();
-    for (int row = 0; row < numRows; ++row) {
-	QModelIndex index = m_model->index(row, 0, parentIndex);
-	int numRows2 = m_model->rowCount(index);
-	for (int row2 = 0; row2 < numRows2; ++row2) {
-	    QModelIndex index2 = m_model->index(row2, 0, index);
-	    QString text = m_model->data(index2, Qt::UserRole).toString();
-	    if (!text.isEmpty())
-	    {
-		QString delimiterPattern(":");
-		QStringList fileInfo = text.split(delimiterPattern);
-		if (fileInfo.size() == 2)
-		    for (int i = 0; i < docList.size(); ++i)
-			if (docList.at(i)->documentName() == fileInfo[0])
-			    if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
-				iface->addMark(fileInfo[1].toInt()-1, KTextEditor::MarkInterface::markType07);
-	    }
-	}
+    for (int row = 0; row < numRows; ++row)
+    {
+        QModelIndex index = m_model->index(row, 0, parentIndex);
+        int numRows2 = m_model->rowCount(index);
+        for (int row2 = 0; row2 < numRows2; ++row2)
+        {
+            QModelIndex index2 = m_model->index(row2, 0, index);
+            QString text = m_model->data(index2, Qt::UserRole).toString();
+            if (!text.isEmpty())
+            {
+                QString delimiterPattern(":");
+                QStringList fileInfo = text.split(delimiterPattern);
+                if (fileInfo.size() == 2)
+                    for (int i = 0; i < docList.size(); ++i)
+                        if (docList.at(i)->documentName() == fileInfo[0])
+                            if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
+                                iface->addMark(fileInfo[1].toInt()-1, KTextEditor::MarkInterface::markType07);
+            }
+        }
     }
+}
+
 }
 
 #include "valgrindmarks.moc"

@@ -20,38 +20,41 @@
 #include "valgrindcachegrindconfigpage.h"
 
 #include "ui_valgrindcachegrindconfig.h"
+namespace valgrind
+{
 
-ValgrindCachegrindConfigPage::ValgrindCachegrindConfigPage( QWidget *parent )
+CachegrindConfigPage::CachegrindConfigPage( QWidget *parent )
     : LaunchConfigurationPage( parent )
 {
-    ui = new Ui::ValgrindCachegrindConfig();
+    ui = new Ui::CachegrindConfig();
     ui->setupUi( this );
 }
 
-void	ValgrindCachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
+void	CachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
 {}
 
-KIcon	ValgrindCachegrindConfigPage::icon( void ) const
+KIcon	CachegrindConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
 
-void	ValgrindCachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
+void	CachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
 {}
 
-QString	ValgrindCachegrindConfigPage::title( void ) const
+QString	CachegrindConfigPage::title( void ) const
 {
     return i18n("Cachegrind");
 }
 
 // The factory
-ValgrindCachegrindConfigPageFactory::ValgrindCachegrindConfigPageFactory( void )
+CachegrindConfigPageFactory::CachegrindConfigPageFactory( void )
 {}
 
-ValgrindCachegrindConfigPageFactory::~ValgrindCachegrindConfigPageFactory( void )
+CachegrindConfigPageFactory::~CachegrindConfigPageFactory( void )
 {}
 
-KDevelop::LaunchConfigurationPage* ValgrindCachegrindConfigPageFactory::createWidget( QWidget *parent)
+KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget( QWidget *parent)
 {
-    return new ValgrindCachegrindConfigPage( parent );
+    return new valgrind::CachegrindConfigPage( parent );
+}
 }

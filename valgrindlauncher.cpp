@@ -53,12 +53,15 @@
 #include "valgrindconfig.h"
 #include "valgrindjob.h"
 
-ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
+namespace valgrind
+{
+
+Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
 {
     // these are tabs in each menu
-    factories << new ValgrindGenericConfigPageFactory(m_plugin);
-    factories << new ValgrindMemcheckConfigPageFactory();
-    factories << new ValgrindMassifConfigPageFactory();
+    factories << new valgrind::GenericConfigPageFactory(m_plugin);
+    factories << new valgrind::MemcheckConfigPageFactory();
+    factories << new valgrind::MassifConfigPageFactory();
 
     /*
     ** Those are unimplemented at the moment: see config/valgrindgenericconfigpage.cpp
@@ -71,7 +74,7 @@ ValgrindLauncher::ValgrindLauncher(ValgrindPlugin *inst) : m_plugin(inst)
 
 }
 
-KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
+KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
     if( !cfg )
@@ -88,14 +91,14 @@ KJob* ValgrindLauncher::start(const QString& launchMode, KDevelop::ILaunchConfig
         {
             l << depjob;
         }
-        l << new ValgrindJob( cfg, m_plugin, KDevelop::ICore::self()->runController() );
+        l << new valgrind::Job( cfg, m_plugin, KDevelop::ICore::self()->runController() );
         return new KDevelop::ExecuteCompositeJob( KDevelop::ICore::self()->runController(), l );
     }
     kWarning() << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
     return 0;
 }
 
-void ValgrindLauncher::addMode(ValgrindLaunchMode* mode)
+void Launcher::addMode(valgrind::LaunchMode* mode)
 {
     if( !modes.contains( mode->id() ) )
     {
@@ -103,27 +106,29 @@ void ValgrindLauncher::addMode(ValgrindLaunchMode* mode)
     }
 }
 
-QStringList ValgrindLauncher::supportedModes() const
+QStringList Launcher::supportedModes() const
 {
     return modes.keys(); // these are entries in menus
 }
 
-QList< KDevelop::LaunchConfigurationPageFactory* > ValgrindLauncher::configPages() const
+QList< KDevelop::LaunchConfigurationPageFactory* > Launcher::configPages() const
 {
     return factories;
 }
 
-QString ValgrindLauncher::description() const
+QString Launcher::description() const
 {
     return i18n( "Profile application with Valgrind" );
 }
 
-QString ValgrindLauncher::id()
+QString Launcher::id()
 {
     return "valgrind";
 }
 
-QString ValgrindLauncher::name() const
+QString Launcher::name() const
 {
     return i18n("Valgrind");
 }
+}
+

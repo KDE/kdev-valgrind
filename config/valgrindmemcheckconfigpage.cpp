@@ -24,11 +24,13 @@
 
 #include "ui_valgrindmemcheckconfig.h"
 
+namespace valgrind
+{
 
-ValgrindMemcheckConfigPage::ValgrindMemcheckConfigPage(QWidget *parent)
+MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::ValgrindMemcheckConfig();
+    ui = new Ui::MemcheckConfig();
     ui->setupUi(this);
 
     connect( ui->memcheckParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
@@ -55,12 +57,12 @@ ValgrindMemcheckConfigPage::ValgrindMemcheckConfigPage(QWidget *parent)
     connect( ui->showOthers, SIGNAL(toggled(bool)), SIGNAL(changed()) );
 }
 
-KIcon ValgrindMemcheckConfigPage::icon() const
+KIcon MemcheckConfigPage::icon() const
 {
     return KIcon("fork");
 }
 
-void ValgrindMemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
+void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
 {
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
@@ -92,7 +94,7 @@ void ValgrindMemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, 
     blockSignals(wasBlocked);
 }
 
-void ValgrindMemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
+void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
     cfg.writeEntry( "Memcheck Arguments", ui->memcheckParameters->text() );
     cfg.writeEntry( "Freelist Size", ui->freeListSize->value() );
@@ -100,7 +102,7 @@ void ValgrindMemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop:
     cfg.writeEntry( "Show Reachable", ui->showReachable->isChecked() );
     cfg.writeEntry( "Track Origins", ui->trackOrigins->isChecked() );
     cfg.writeEntry( "Undef Value Errors", ui->undefValueErrors->isChecked() );
-    
+
     cfg.writeEntry( "Show Invalid Free", ui->showInvalidFree->isChecked() );
     cfg.writeEntry( "Show Mismatched Free", ui->showMismatchedFree->isChecked() );
     cfg.writeEntry( "Show Invalid Read", ui->showInvalidRead->isChecked() );
@@ -118,19 +120,20 @@ void ValgrindMemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop:
     cfg.writeEntry( "Show Others", ui->showOthers->isChecked() );
 }
 
-QString	ValgrindMemcheckConfigPage::title() const
+QString	MemcheckConfigPage::title() const
 {
   return i18n("Memcheck");
 }
 
 // The factory
-ValgrindMemcheckConfigPageFactory::ValgrindMemcheckConfigPageFactory()
+MemcheckConfigPageFactory::MemcheckConfigPageFactory()
 {}
 
-ValgrindMemcheckConfigPageFactory::~ValgrindMemcheckConfigPageFactory()
+MemcheckConfigPageFactory::~MemcheckConfigPageFactory()
 {}
 
-KDevelop::LaunchConfigurationPage* ValgrindMemcheckConfigPageFactory::createWidget(QWidget * parent)
+KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget * parent)
 {
-  return new ValgrindMemcheckConfigPage(parent);
+  return new valgrind::MemcheckConfigPage(parent);
+}
 }

@@ -22,28 +22,28 @@
 
 #include <QTabWidget>
 
-class ValgrindPlugin;
 namespace valgrind
 {
-  class Model;
-}
+class Model;
+class Plugin;
 
-class ValgrindWidget : public QTabWidget
+class Widget : public QTabWidget
 {
     Q_OBJECT
 
 public:
-    ValgrindWidget(ValgrindPlugin* plugin, QWidget* parent);
+    Widget(valgrind::Plugin* plugin, QWidget* parent);
 
-    ValgrindPlugin* plugin() const;
+    valgrind::Plugin* plugin() const;
 
 private Q_SLOTS:
 
   void newModel(valgrind::Model* model);
-    void modelDestroyed(QObject* model);
+  void modelDestroyed(QObject* model);
 
 private:
-    ValgrindPlugin* m_plugin;
+    valgrind::Plugin* m_plugin;
 };
+}
 
 #endif // VALGRINDWIDGET_H

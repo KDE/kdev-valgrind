@@ -21,37 +21,41 @@
 
 #include "ui_valgrindmassifconfig.h"
 
-ValgrindMassifConfigPage::ValgrindMassifConfigPage( QWidget *parent )
+namespace valgrind
+{
+
+MassifConfigPage::MassifConfigPage( QWidget *parent )
     : LaunchConfigurationPage( parent )
 {
-    ui = new Ui::ValgrindMassifConfig();
+    ui = new Ui::MassifConfig();
     ui->setupUi( this );
 }
 
-void	ValgrindMassifConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
+void	MassifConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
 {}
 
-KIcon	ValgrindMassifConfigPage::icon( void ) const
+KIcon	MassifConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
 
-void	ValgrindMassifConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
+void	MassifConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
 {}
 
-QString	ValgrindMassifConfigPage::title( void ) const
+QString	MassifConfigPage::title( void ) const
 {
     return i18n("Massif");
 }
 
 // The factory
-ValgrindMassifConfigPageFactory::ValgrindMassifConfigPageFactory( void )
+MassifConfigPageFactory::MassifConfigPageFactory( void )
 {}
 
-ValgrindMassifConfigPageFactory::~ValgrindMassifConfigPageFactory( void )
+MassifConfigPageFactory::~MassifConfigPageFactory( void )
 {}
 
-KDevelop::LaunchConfigurationPage* ValgrindMassifConfigPageFactory::createWidget( QWidget *parent)
+KDevelop::LaunchConfigurationPage* MassifConfigPageFactory::createWidget( QWidget *parent)
 {
-    return new ValgrindMassifConfigPage( parent );
+    return new valgrind::MassifConfigPage( parent );
+}
 }
