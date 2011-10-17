@@ -17,44 +17,45 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "valgrindcachegrindconfigpage.h"
+#include "massifconfigpage.h"
 
-#include "ui_valgrindcachegrindconfig.h"
+#include "ui_massifconfig.h"
+
 namespace valgrind
 {
 
-CachegrindConfigPage::CachegrindConfigPage( QWidget *parent )
+MassifConfigPage::MassifConfigPage( QWidget *parent )
     : LaunchConfigurationPage( parent )
 {
-    ui = new Ui::CachegrindConfig();
+    ui = new Ui::MassifConfig();
     ui->setupUi( this );
 }
 
-void	CachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
+void	MassifConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
 {}
 
-KIcon	CachegrindConfigPage::icon( void ) const
+KIcon	MassifConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
 
-void	CachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
+void	MassifConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
 {}
 
-QString	CachegrindConfigPage::title( void ) const
+QString	MassifConfigPage::title( void ) const
 {
-    return i18n("Cachegrind");
+    return i18n("Massif");
 }
 
 // The factory
-CachegrindConfigPageFactory::CachegrindConfigPageFactory( void )
+MassifConfigPageFactory::MassifConfigPageFactory( void )
 {}
 
-CachegrindConfigPageFactory::~CachegrindConfigPageFactory( void )
+MassifConfigPageFactory::~MassifConfigPageFactory( void )
 {}
 
-KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget( QWidget *parent)
+KDevelop::LaunchConfigurationPage* MassifConfigPageFactory::createWidget( QWidget *parent)
 {
-    return new valgrind::CachegrindConfigPage( parent );
+    return new valgrind::MassifConfigPage( parent );
 }
 }

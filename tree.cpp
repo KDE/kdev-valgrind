@@ -18,7 +18,7 @@
 
  */
 
-#include "valgrindtree.h"
+#include "tree.h"
 
 #include <QApplication>
 
@@ -50,4 +50,4 @@ void Tree::openDocument(const QModelIndex & index)
 
 }
 
-#include "valgrindtree.moc"
+#include "tree.moc"

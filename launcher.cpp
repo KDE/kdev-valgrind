@@ -43,15 +43,15 @@
 
 #include <execute/iexecuteplugin.h>
 
-#include "valgrindgenericconfigpage.h"
-#include "valgrindmemcheckconfigpage.h"
-#include "valgrindcachegrindconfigpage.h"
-#include "valgrindhelgrindconfigpage.h"
-#include "valgrindcallgrindconfigpage.h"
-#include "valgrindmassifconfigpage.h"
-#include "valgrindlauncher.h"
-#include "valgrindconfig.h"
-#include "valgrindjob.h"
+#include "genericconfigpage.h"
+#include "memcheckconfigpage.h"
+#include "cachegrindconfigpage.h"
+#include "helgrindconfigpage.h"
+#include "callgrindconfigpage.h"
+#include "massifconfigpage.h"
+#include "launcher.h"
+#include "config.h"
+#include "job.h"
 
 namespace valgrind
 {
