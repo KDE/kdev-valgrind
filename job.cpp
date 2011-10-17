@@ -132,7 +132,7 @@ void		Job::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
         {"Memcheck Arguments",	"",			"str"},
         {"Freelist Size",		"--freelist-vol=",	"int"},
         {"Show Reachable",		"--show-reachable=",	"bool"},
-        {"Track Origins",		"--track-origins=",	"bool"},
+	//        {"Track Origins",		"--track-origins=",	"bool"},
         {"Undef Value Errors",	"--undef-value-errors=","bool"}
     };
     static const int		memcheck_args_count = sizeof(memcheck_args) / sizeof(*memcheck_args);

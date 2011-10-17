@@ -37,9 +37,9 @@ MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     connect( ui->freeListSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
 
     connect( ui->showReachable, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect( ui->trackOrigins, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    //    connect( ui->trackOrigins, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->undefValueErrors, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-
+    /*
     connect( ui->showInvalidFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showMismatchedFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showInvalidRead, SIGNAL(toggled(bool)), SIGNAL(changed()) );
@@ -55,6 +55,7 @@ MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     connect( ui->showLeakIndirectlyLost, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showLeakStillReachable, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showOthers, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    */
 }
 
 KIcon MemcheckConfigPage::icon() const
@@ -70,11 +71,12 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop
     ui->memcheckParameters->setText( cfg.readEntry( "Memcheck Arguments", "" ) );
     ui->freeListSize->setValue( cfg.readEntry( "Freelist Size", 10000000 ) );
 
-    ui->showReachable->setChecked( cfg.readEntry( "Show Reachable", false ) );
-    ui->trackOrigins->setChecked( cfg.readEntry( "Track Origins", false ) );
+    ui->showReachable->setChecked( cfg.readEntry( "Show Reachable", true ) );
+    //    ui->trackOrigins->setChecked( cfg.readEntry( "Track Origins", false ) );
     ui->undefValueErrors->setChecked( cfg.readEntry( "Undef Value Errors", true ) );
 
     // by default everything is enabled
+    /*
     ui->showInvalidFree->setChecked( cfg.readEntry( "Show Invalid Free", true ) );
     ui->showMismatchedFree->setChecked( cfg.readEntry( "Show Mismatched Free", true ) );
     ui->showInvalidRead->setChecked( cfg.readEntry( "Show Invalid Read", true ) );
@@ -90,7 +92,7 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop
     ui->showLeakIndirectlyLost->setChecked( cfg.readEntry( "Show Leak Indirectly Lost", true ) );
     ui->showLeakStillReachable->setChecked( cfg.readEntry( "Show Leak Still Reachable", true ) );
     ui->showOthers->setChecked( cfg.readEntry( "Show Others", true ) );
-
+    */
     blockSignals(wasBlocked);
 }
 
@@ -100,9 +102,9 @@ void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProjec
     cfg.writeEntry( "Freelist Size", ui->freeListSize->value() );
 
     cfg.writeEntry( "Show Reachable", ui->showReachable->isChecked() );
-    cfg.writeEntry( "Track Origins", ui->trackOrigins->isChecked() );
+    //    cfg.writeEntry( "Track Origins", ui->trackOrigins->isChecked() );
     cfg.writeEntry( "Undef Value Errors", ui->undefValueErrors->isChecked() );
-
+    /*
     cfg.writeEntry( "Show Invalid Free", ui->showInvalidFree->isChecked() );
     cfg.writeEntry( "Show Mismatched Free", ui->showMismatchedFree->isChecked() );
     cfg.writeEntry( "Show Invalid Read", ui->showInvalidRead->isChecked() );
@@ -118,6 +120,7 @@ void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProjec
     cfg.writeEntry( "Show Leak Indirectly Lost", ui->showLeakIndirectlyLost->isChecked() );
     cfg.writeEntry( "Show Leak Still Reachable", ui->showLeakStillReachable->isChecked() );
     cfg.writeEntry( "Show Others", ui->showOthers->isChecked() );
+    */
 }
 
 QString	MemcheckConfigPage::title() const
