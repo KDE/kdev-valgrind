@@ -20,7 +20,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "valgrindjob.h"
+#include "job.h"
 
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
@@ -46,7 +46,7 @@
 #include <execute/iexecuteplugin.h>
 
 #include "memcheckmodel.h"
-#include "valgrindplugin.h"
+#include "plugin.h"
 
 namespace valgrind
 {
@@ -368,4 +368,4 @@ KDevelop::OutputModel* Job::model()
 }
 
 
-#include "valgrindjob.moc"
+#include "job.moc"

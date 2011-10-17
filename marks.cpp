@@ -24,9 +24,9 @@
 #include <KTextEditor/MarkInterface>
 #include <QAbstractItemModel>
 
-#include "valgrindmarks.h"
+#include "marks.h"
 #include "memcheckmodel.h"
-#include "valgrindplugin.h"
+#include "plugin.h"
 
 namespace valgrind
 {
@@ -85,4 +85,4 @@ void Marks::modelChanged()
 
 }
 
-#include "valgrindmarks.moc"
+#include "marks.moc"

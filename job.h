@@ -29,7 +29,7 @@
 
 #include <outputview/outputjob.h>
 
-#include "valgrindparser.h"
+#include "parser.h"
 
 class KJob;
 class KProcess;

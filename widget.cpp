@@ -18,15 +18,15 @@
 
  */
 
-#include "valgrindwidget.h"
+#include "widget.h"
 
 #include <KIcon>
 #include <KLocale>
 
 #include "memcheckitems.h"
-#include "valgrindplugin.h"
+#include "plugin.h"
 #include "memcheckmodel.h"
-#include "valgrindtree.h"
+#include "tree.h"
 
 
 namespace valgrind
@@ -75,4 +75,4 @@ void Widget::modelDestroyed(QObject * model)
 
 }
 
-#include "valgrindwidget.moc"
+#include "widget.moc"

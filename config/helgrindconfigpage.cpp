@@ -17,9 +17,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "valgrindhelgrindconfigpage.h"
+#include "helgrindconfigpage.h"
 
-#include "ui_valgrindhelgrindconfig.h"
+#include "ui_helgrindconfig.h"
 
 namespace valgrind
 {

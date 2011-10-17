@@ -20,9 +20,9 @@
 */
 
 
-#include "valgrindmemcheckconfigpage.h"
+#include "memcheckconfigpage.h"
 
-#include "ui_valgrindmemcheckconfig.h"
+#include "ui_memcheckconfig.h"
 
 namespace valgrind
 {

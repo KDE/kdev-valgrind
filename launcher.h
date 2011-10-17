@@ -28,7 +28,7 @@
 #include <interfaces/launchconfigurationpage.h>
 #include <interfaces/ilauncher.h>
 #include <interfaces/ilaunchmode.h>
-#include "valgrindconfig.h"
+#include "config.h"
 
 class KJob;
 class KIcon;

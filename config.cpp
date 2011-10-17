@@ -18,12 +18,12 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "valgrindconfig.h"
+#include "config.h"
 
 #include <kicon.h>
 #include <klocale.h>
 
-#include "valgrindjob.h"
+#include "job.h"
 
 // Generic valgrind mode
 namespace valgrind

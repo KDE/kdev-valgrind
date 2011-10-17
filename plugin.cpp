@@ -54,13 +54,13 @@
 #include <interfaces/iplugincontroller.h>
 
 
-#include "valgrindplugin.h"
-#include "valgrindmarks.h"
+#include "plugin.h"
+#include "marks.h"
 #include "memcheckmodel.h"
-#include "valgrindjob.h"
-#include "valgrindconfig.h"
-#include "valgrindwidget.h"
-#include "valgrindlauncher.h"
+#include "job.h"
+#include "config.h"
+#include "widget.h"
+#include "launcher.h"
 
 
 using namespace KDevelop;
@@ -255,4 +255,4 @@ void Plugin::savePartialProjectSession( QDomElement* el )
 
 }
 
-#include "valgrindplugin.moc"
+#include "plugin.moc"

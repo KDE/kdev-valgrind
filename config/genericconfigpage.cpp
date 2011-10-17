@@ -19,10 +19,10 @@
 
 #include <kdebug.h>
 
-#include "valgrindgenericconfigpage.h"
-#include "valgrindplugin.h"
+#include "genericconfigpage.h"
+#include "plugin.h"
 
-#include "ui_valgrindgenericconfig.h"
+#include "ui_genericconfig.h"
 
 namespace valgrind
 {

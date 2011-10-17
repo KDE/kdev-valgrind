@@ -20,7 +20,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "valgrindparser.h"
+#include "parser.h"
 
 namespace valgrind
 {
@@ -144,4 +144,4 @@ void Parser::parse()
 
 }
 
-#include "valgrindparser.moc"
+#include "parser.moc"
