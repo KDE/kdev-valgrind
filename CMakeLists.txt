@@ -28,7 +28,6 @@ set(kdevvalgrind_PART_SRCS
     plugin.cpp
     tree.cpp
     widget.cpp
-    models/memcheckitems.cpp
     models/memcheckmodel.cpp
     models/memcheckitemsimpl.cpp
 )
