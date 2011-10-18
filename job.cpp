@@ -46,6 +46,7 @@
 #include <execute/iexecuteplugin.h>
 
 #include "memcheckmodel.h"
+#include "massifmodel.h"
 #include "plugin.h"
 
 namespace valgrind
@@ -65,9 +66,9 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
     // create the correct model for each tool
     if (tool == "memcheck")
-        m_model = new valgrind::MemcheckModel();
-    //    else if (tool == "massif")
-    //	m_model = new valgrind::MassifModel();
+      m_model = new valgrind::MemcheckModel();
+    else if (tool == "massif")
+      m_model = new valgrind::MassifModel();
 
     setCapabilities( KJob::Killable );
     m_process->setOutputChannelMode(KProcess::SeparateChannels);
