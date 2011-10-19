@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,30 +18,29 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "imodel.h"
-#include <iostream>
+#include "massifparser.h"
 
 namespace valgrind
 {
 
-  Model::Model(QObject* parent)
-    : QAbstractItemModel(parent)
-  {
-  }
-
-  void Model::newElement(Model::eElementType type)
-  {
-    Q_UNUSED(type);
-  }
-
-  void Model::newData(Model::eElementType type, QString name, QString value)
-  {
-    Q_UNUSED(type);
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-  }
-
-  void Model::reset()
-  {
-  }
+MassifParser::MassifParser(QObject *parent)
+{
+  Q_UNUSED(parent);
 }
+
+MassifParser::~MassifParser()
+{
+}
+
+void MassifParser::parse()
+{
+  qDebug() << "Massif Parse";
+
+  while (!QXmlStreamReader::device()->atEnd())
+    qDebug() << QXmlStreamReader::device()->readLine();
+
+}
+
+}
+
+#include "massifparser.moc"

@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,30 +18,52 @@
    Boston, MA 02110-1301, USA.
 */
 
+#ifndef _MASSIFPARSER_H_
+#define _MASSIFPARSER_H_
+
+#include <QXmlStreamReader>
+#include <QApplication>
+#include <kdebug.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+
 #include "imodel.h"
-#include <iostream>
+#include "iparser.h"
 
 namespace valgrind
 {
 
-  Model::Model(QObject* parent)
-    : QAbstractItemModel(parent)
-  {
-  }
+/**
+ * A class which parses valgrind's XML output
+ * and emits signals when items are parsed
+ */
+class MassifParser : public Parser
+{
+  Q_OBJECT
 
-  void Model::newElement(Model::eElementType type)
-  {
-    Q_UNUSED(type);
-  }
+    public:
 
-  void Model::newData(Model::eElementType type, QString name, QString value)
-  {
-    Q_UNUSED(type);
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-  }
+  MassifParser(QObject *parent = 0);
+  virtual ~MassifParser();
 
-  void Model::reset()
-  {
-  }
+
+ signals:
+
+  /**
+   * Emits this signal when a new item is parsed
+   */
+  void newElement(valgrind::Model::eElementType);
+  void newData(valgrind::Model::eElementType, QString name, QString value);
+  void reset();
+
+  public slots:
+  void parse();
+
+
+ private:
+  QString m_buffer;
+};
 }
+
+
+#endif /* _MASSIFPARSER_H_ */

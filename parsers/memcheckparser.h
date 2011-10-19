@@ -20,8 +20,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _VALGRINDPARSER_H_
-#define _VALGRINDPARSER_H_
+#ifndef _MEMCHECKPARSER_H_
+#define _MEMCHECKPARSER_H_
 
 #include <QXmlStreamReader>
 #include <QApplication>
@@ -32,6 +32,8 @@
 #include "memcheckitems.h"
 #include "memcheckmodel.h"
 
+#include "iparser.h"
+
 namespace valgrind
 {
 
@@ -39,14 +41,14 @@ namespace valgrind
  * A class which parses valgrind's XML output
  * and emits signals when items are parsed
  */
-class Parser : public QObject, public QXmlStreamReader
+class MemcheckParser : public Parser
 {
   Q_OBJECT
 
     public:
 
-  Parser(QObject *parent = 0);
-  virtual ~Parser();
+  MemcheckParser(QObject *parent = 0);
+  virtual ~MemcheckParser();
 
 
  signals:
@@ -89,4 +91,4 @@ class Parser : public QObject, public QXmlStreamReader
 }
 
 
-#endif /* _VALGRINDPARSER_H_ */
+#endif /* _MEMCHECKPARSER_H_ */

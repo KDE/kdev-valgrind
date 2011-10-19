@@ -26,10 +26,11 @@
 
 #include <QProcess>
 #include <QTcpSocket>
+#include <klocale.h>
 
 #include <outputview/outputjob.h>
 
-#include "parser.h"
+#include "iparser.h"
 
 class KJob;
 class KProcess;
@@ -98,7 +99,7 @@ namespace valgrind
       QTcpSocket* m_connection;
 
       valgrind::Model* m_model;
-      valgrind::Parser m_parser;
+      valgrind::Parser* m_parser;
 
       KDevelop::ProcessLineMaker* m_applicationOutput;
       KDevelop::ILaunchConfiguration* m_launchcfg;

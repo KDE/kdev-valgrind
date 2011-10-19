@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,30 +18,43 @@
    Boston, MA 02110-1301, USA.
 */
 
+#ifndef _IPARSER_H_
+#define _IPARSER_H_
+
+#include <QXmlStreamReader>
+
 #include "imodel.h"
-#include <iostream>
 
 namespace valgrind
 {
 
-  Model::Model(QObject* parent)
-    : QAbstractItemModel(parent)
+  class Parser: public QObject, public QXmlStreamReader
   {
-  }
+    Q_OBJECT
 
-  void Model::newElement(Model::eElementType type)
-  {
-    Q_UNUSED(type);
-  }
+    public:
 
-  void Model::newData(Model::eElementType type, QString name, QString value)
-  {
-    Q_UNUSED(type);
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-  }
+    Parser(QObject* parent = 0) {Q_UNUSED(parent);};
 
-  void Model::reset()
-  {
-  }
+    signals:
+    /**
+     * Emission of a new item from the parser
+     */
+    void newElement(valgrind::Model::eElementType);
+    /**
+     * Emission of data to register from the parser
+     */
+    void newData(valgrind::Model::eElementType, QString name, QString value);
+    /**
+     * Resets the parser content
+     */
+    void reset();
+
+
+    public slots:
+    virtual void parse() = 0;
+
+  };
 }
+
+#endif /* _IMODEL_H_ */
