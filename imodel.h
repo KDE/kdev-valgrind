@@ -32,7 +32,7 @@ namespace valgrind
 
     public:
 
-    Model(QObject* parent = 0);
+    Model(QObject* parent = 0) : QAbstractItemModel(parent) {};
 
     enum eElementType {
       startError,
@@ -48,17 +48,17 @@ namespace valgrind
     /**
      * Reception of a new item in the model
      */
-    virtual void newElement(valgrind::Model::eElementType);
+    virtual void newElement(valgrind::Model::eElementType) = 0;
 
     /**
      * Reception of data to register to the current item
      */
-    virtual void newData(valgrind::Model::eElementType, QString name, QString value);
+    virtual void newData(valgrind::Model::eElementType, QString name, QString value) = 0;
 
     /**
      * Resets the model content
      */
-    void reset();
+    virtual void reset() = 0;
 
     signals:
 
