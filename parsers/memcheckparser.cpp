@@ -20,21 +20,21 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "parser.h"
+#include "memcheckparser.h"
 
 namespace valgrind
 {
 
-Parser::Parser(QObject *parent)
+MemcheckParser::MemcheckParser(QObject *parent)
 {
     Q_UNUSED(parent)
 }
 
-Parser::~Parser()
+MemcheckParser::~MemcheckParser()
 {
 }
 
-void Parser::clear( )
+void MemcheckParser::clear( )
 {
     m_stateStack.clear();
     m_buffer.clear();
@@ -48,7 +48,7 @@ void Parser::clear( )
     // reset();
 }
 
-bool Parser::startElement()
+bool MemcheckParser::startElement()
 {
     m_buffer.clear();
     State newState = Unknown;
@@ -83,7 +83,7 @@ bool Parser::startElement()
     return true;
 }
 
-bool Parser::endElement()
+bool MemcheckParser::endElement()
 {
     State state = m_stateStack.pop();
     switch (state)
@@ -103,7 +103,7 @@ bool Parser::endElement()
     return true;
 }
 
-void Parser::parse()
+void MemcheckParser::parse()
 {
     while (!atEnd())
     {
@@ -144,4 +144,4 @@ void Parser::parse()
 
 }
 
-#include "parser.moc"
+#include "memcheckparser.moc"

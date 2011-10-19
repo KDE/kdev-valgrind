@@ -37,6 +37,7 @@ namespace valgrind
 
   MemcheckModel::MemcheckModel(QObject * parent)
   {
+    Q_UNUSED(parent); // do we need it ?
   }
 
   MemcheckModel::~ MemcheckModel()

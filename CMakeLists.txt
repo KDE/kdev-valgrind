@@ -12,6 +12,7 @@ include_directories(
     ${valgrind_SOURCE_DIR}
     ${valgrind_SOURCE_DIR}/config
     ${valgrind_SOURCE_DIR}/models
+    ${valgrind_SOURCE_DIR}/parsers
 )
 
 
@@ -24,13 +25,15 @@ set(kdevvalgrind_PART_SRCS
     job.cpp
     marks.cpp
     imodel.cpp
-    parser.cpp
+    iparser.cpp
     plugin.cpp
     tree.cpp
     widget.cpp
     models/memcheckmodel.cpp
     models/memcheckitemsimpl.cpp
     models/massifmodel.cpp
+    parsers/memcheckparser.cpp
+    parsers/massifparser.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
