@@ -17,57 +17,25 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _IMODEL_H_
-#define _IMODEL_H_
-
-#include <QAbstractItemModel>
-
-
+#include "imodel.h"
+#include <iostream>
 namespace valgrind
 {
 
-  class Model: public QAbstractItemModel
+  Model::Model(QObject* parent)
+    : QAbstractItemModel(parent)
   {
-    Q_OBJECT
+  }
 
-    public:
+  void Model::newElement(Model::eElementType type)
+  {
+  }
 
-    Model(QObject* parent = 0);
+  void Model::newData(Model::eElementType type, QString name, QString value)
+  {
+  }
 
-    enum eElementType {
-      startError,
-      error,
-      startFrame,
-      frame,
-      startStack,
-      stack
-    };
-
-    public slots:
-
-    /**
-     * Reception of a new item in the model
-     */
-    virtual void newElement(valgrind::Model::eElementType) = 0;
-
-    /**
-     * Reception of data to register to the current item
-     */
-    virtual void newData(valgrind::Model::eElementType, QString name, QString value) = 0;
-
-    /**
-     * Resets the model content
-     */
-    virtual void reset() = 0;
-
-    signals:
-
-    /**
-     * emit this signal to alert other modules that the model has been updated
-     */
-    void modelChanged();
-
-  };
+  void Model::reset()
+  {
+  }
 }
-
-#endif /* _IMODEL_H_ */
