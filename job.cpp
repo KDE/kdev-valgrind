@@ -288,7 +288,7 @@ void Job::start()
 	process2->start();
 	pid = process2->pid();
 	process2->waitForFinished();
-	QString massifFile = QString("/home/damien/projects/MassifTest/build/massif.out.%1").arg(pid);
+	QString massifFile = QString("%1/massif.out.%2").arg(wc.toLocalFile()).arg(pid);
 	m_process->setProgram("rm", QStringList(massifFile));
 	QTcpSocket *tcpSocket;
 	tcpSocket = new QTcpSocket(this);
