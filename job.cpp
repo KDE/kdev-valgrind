@@ -268,6 +268,44 @@ void Job::start()
     kDebug() << "executing:" << grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile() << valgrindArgs;
     m_process->setProgram( grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(),
                            valgrindArgs );
+
+    /*
+      /!\ Massif specific :
+      this is a trick : valgrind in run in a new process because it seem that m_server need to receive
+      the data before the end of m_process. Now m_process remove the file created by massif.
+      We need to do something better than that ! But it works for now to develop the new parser and model
+    */
+    QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
+    if (tool == "massif")
+      {
+	int pid;
+	KProcess* process2 = new KProcess(this);
+	process2->setOutputChannelMode(KProcess::SeparateChannels);
+	process2->setWorkingDirectory( wc.toLocalFile() );
+	process2->setProperty( "executable", executable );
+	process2->setProgram(grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(),
+                           valgrindArgs );
+	process2->start();
+	pid = process2->pid();
+	process2->waitForFinished();
+	QString massifFile = QString("/home/damien/projects/MassifTest/build/massif.out.%1").arg(pid);
+	m_process->setProgram("rm", QStringList(massifFile));
+	QTcpSocket *tcpSocket;
+	tcpSocket = new QTcpSocket(this);
+	tcpSocket->connectToHost("127.0.0.1", m_server->serverPort(), QIODevice::WriteOnly);
+	if (tcpSocket->waitForConnected(1000))
+	  {
+	    QFile file(massifFile);
+	    file.open(QIODevice::ReadOnly);
+	    QByteArray ba = file.readAll();
+	    file.close();
+	    tcpSocket->write(ba);
+	  }
+	tcpSocket->flush(); // it seems that fush is not the best method to use to wait the end of the write !
+	tcpSocket->close();
+      }
+    // End Massif stuff /!\
+
     m_process->start();
 }
 
