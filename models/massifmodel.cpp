@@ -60,13 +60,13 @@ namespace valgrind
 
   QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int role) const
   {
-    qDebug() << "Massif headerData";
+    //    qDebug() << "Massif headerData";
     return QVariant();
   }
 
   int MassifModel::rowCount ( const QModelIndex & p ) const
   {
-    qDebug() << "Massif rowCount";
+    // qDebug() << "Massif rowCount";
     return m_list.count();
   }
 
@@ -97,21 +97,21 @@ namespace valgrind
   // useless if use QAbstractListModel
   QModelIndex MassifModel::index(int, int, const QModelIndex&) const
   {
-    qDebug() << "Massif index";
+    // qDebug() << "Massif index";
     // no index
     return QModelIndex();
   }
 
   QModelIndex MassifModel::parent(const QModelIndex&) const
   {
-    qDebug() << "Massif parent";
+    // qDebug() << "Massif parent";
     // no parent
     return QModelIndex();
   }
 
   int MassifModel::columnCount(const QModelIndex&) const
   {
-    qDebug() << "Massif columnCount";
+    // qDebug() << "Massif columnCount";
     // only one column
     return 1;
   }
