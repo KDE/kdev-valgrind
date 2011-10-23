@@ -52,10 +52,11 @@ namespace valgrind
 	/**
 	 * Emits this signal when a new item is parsed
 	 */
-	void newItem(ModelItem*);
+      void newItem(valgrind::ModelItem*);
+
 	void reset();
 
-	public slots:
+    public slots:
 	void parse();
 
 

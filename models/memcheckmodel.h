@@ -95,6 +95,10 @@ namespace valgrind
      */
     void reset();
 
+    /**
+     * Reception of a new item
+     */
+    virtual void newItem(ModelItem *);
 
   private:
     QList<MemcheckError *> m_errors;

@@ -68,7 +68,7 @@ namespace valgrind
      * Reception of a new item in the model
      * Has to be pure
      */
-    virtual void newItem(ModelItem *); // = 0;
+    virtual void newItem(ModelItem *) = 0;
 
     /**
      * Reception of data to register to the current item

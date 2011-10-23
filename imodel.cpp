@@ -48,8 +48,4 @@ namespace valgrind
   {
   }
 
-  void Model::newItem(ModelItem *)
-  {
-    // METHOD TO REMOVE
-  }
 }

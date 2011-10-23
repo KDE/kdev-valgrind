@@ -41,21 +41,24 @@ namespace valgrind
      * Emission of a new item from the parser
      */
     void newElement(valgrind::Model::eElementType);
+
     /**
      * Emission of data to register from the parser
      */
-    void newData(valgrind::Model::eElementType, QString name, QString value);
-    /**
+     void newData(valgrind::Model::eElementType, QString name, QString value);
+
+     /**
      * Resets the parser content
      */
-    void reset();
+     void reset();
 
     /**
      * Emission of an item from a parser to a model
      */
-    void newItem(ModelItem *);
+     void newItem(ModelItem *);
 
     public slots:
+
     virtual void parse() = 0;
 
   };

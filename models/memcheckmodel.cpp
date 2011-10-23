@@ -326,6 +326,10 @@ namespace valgrind
   {
   }
 
+  void MemcheckModel::newItem(ModelItem *)
+  {
+    // TODO use it instead of the other signals
+  }
 }
 
 #include "memcheckmodel.moc"
