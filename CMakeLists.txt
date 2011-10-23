@@ -29,11 +29,12 @@ set(kdevvalgrind_PART_SRCS
     plugin.cpp
     tree.cpp
     widget.cpp
+    models/massifitem.cpp
+    models/massifmodel.cpp
     models/memcheckmodel.cpp
     models/memcheckitemsimpl.cpp
-    models/massifmodel.cpp
-    parsers/memcheckparser.cpp
     parsers/massifparser.cpp
+    parsers/memcheckparser.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS

@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+ * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -9,7 +10,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -17,39 +18,33 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "imodel.h"
-#include <iostream>
+#ifndef _MASSIFITEM_H_
+#define _MASSIFITEM_H_
+
+#include <QString>
+#include <QMap>
 
 namespace valgrind
 {
 
-  Model::Model(QObject* parent)
-    : QAbstractItemModel(parent)
+  class MassifItem
   {
-  }
 
-  Model::~Model()
-  {
-  }
+  public:
 
-  void Model::newElement(Model::eElementType type)
-  {
-    Q_UNUSED(type);
-  }
+    MassifItem();
 
-  void Model::newData(Model::eElementType type, QString name, QString value)
-  {
-    Q_UNUSED(type);
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-  }
+    virtual ~MassifItem();
 
-  void Model::reset()
-  {
-  }
+    /*
+     * Called when data related to the error has been parsed
+     */
+    void incomingData(const QString &name, const QString &value);
 
-  void Model::newItem(ModelItem *)
-  {
-    // METHOD TO REMOVE
-  }
+  private:
+    QMap<QString, QString> m_values;
+  };
+
 }
+
+#endif /* _MASSIFITEM_H_ */

@@ -29,53 +29,51 @@
 namespace valgrind
 {
 
+  class MassifItem;
+
   /**
    * A class that represents the item model for massif
    */
   class MassifModel : public valgrind::Model
-  {
-    Q_OBJECT
+    {
+      Q_OBJECT
 
-  public:
+	public:
 
-    MassifModel(QObject* parent = 0);
-    virtual ~MassifModel();
+      MassifModel(QObject* parent = 0);
 
-    // model
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+      virtual ~MassifModel();
 
-    // model useless if we use QAbstractListModel
-    QModelIndex index(int, int, const QModelIndex&) const;
-    QModelIndex parent(const QModelIndex&) const;
-    int columnCount(const QModelIndex&) const;
+      // model
+      int rowCount(const QModelIndex &parent = QModelIndex()) const;
+      QVariant data(const QModelIndex &index, int role) const;
+      QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-  private:
+      // model useless if we use QAbstractListModel
+      QModelIndex index(int, int, const QModelIndex&) const;
+      QModelIndex parent(const QModelIndex&) const;
+      int columnCount(const QModelIndex&) const;
 
-
-    public slots:
-
-    /**
-     * Reception of a new item in the model
-     */
-    virtual void newElement(valgrind::Model::eElementType);
-
-    /**
-     * Reception of data to register to the current item
-     */
-    virtual void newData(valgrind::Model::eElementType, QString name, QString value);
-
-    /**
-     * Resets the model content
-     */
-    void reset();
+    private:
 
 
-  private:
-    QStringList m_list;
+      public slots:
 
-  };
+      /**
+       * Reception of a new item in the model
+       */
+      virtual void newItem(ModelItem *item);
+
+      /**
+       * Resets the model content
+       */
+      void reset();
+
+
+    private:
+      QList<MassifItem *> m_snapshots;
+
+    };
 
 }
 #endif /* _MASSIFMODEL_H_ */
