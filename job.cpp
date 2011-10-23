@@ -81,7 +81,7 @@ namespace valgrind
 	    m_model = new valgrind::MassifModel();
 	    m_parser = new valgrind::MassifParser();
 	    QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
-		    m_model, SLOT(newData(valgrind::ModelItem*)));
+		    m_model, SLOT(newItem(valgrind::ModelItem*)));
 
 	}
 
