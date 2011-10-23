@@ -47,14 +47,12 @@ namespace valgrind
 	MassifParser(QObject *parent = 0);
 	virtual ~MassifParser();
 
-
     signals:
 
 	/**
 	 * Emits this signal when a new item is parsed
 	 */
-	void newElement(valgrind::Model::eElementType);
-	void newData(valgrind::Model::eElementType, QString name, QString value);
+	void newItem(ModelItem*);
 	void reset();
 
 	public slots:
