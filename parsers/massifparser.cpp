@@ -34,8 +34,6 @@ namespace valgrind
 
     void MassifParser::parse()
     {
-	qDebug() << "Massif Parse";
-
 	while (!device()->atEnd())
 	{
 	    m_buffer = device()->readLine();
@@ -46,7 +44,6 @@ namespace valgrind
 	    if (m_lst[0] == "snapshot") // new snapshot
 	      {
 		m_item = new MassifItem();
-		qDebug() << "new MassifItem";
 		continue;
 	      }
 	    m_item->incomingData(m_lst[0], m_lst[1]);
@@ -59,7 +56,6 @@ namespace valgrind
 		    m_item->incomingAlloc(m_buffer);
 		  }
 	      // this is the last info, send the item to the model
-	      qDebug() << "emit !";
 	      emit newItem(m_item);
 	    }
 	}

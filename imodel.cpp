@@ -44,6 +44,11 @@ namespace valgrind
     Q_UNUSED(value);
   }
 
+  void Model::newItem(ModelItem *item)
+  {
+    Q_UNUSED(item);
+  }
+
   void Model::reset()
   {
   }

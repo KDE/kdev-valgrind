@@ -62,7 +62,7 @@ namespace valgrind
       /**
        * Reception of a new item in the model
        */
-      virtual void newItem(ModelItem *item);
+      virtual void newItem(valgrind::ModelItem *item);
 
       /**
        * Resets the model content

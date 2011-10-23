@@ -326,7 +326,7 @@ namespace valgrind
   {
   }
 
-  void MemcheckModel::newItem(ModelItem *)
+  void MemcheckModel::newItem(valgrind::ModelItem *)
   {
     // TODO use it instead of the other signals
   }

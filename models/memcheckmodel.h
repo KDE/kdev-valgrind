@@ -98,7 +98,7 @@ namespace valgrind
     /**
      * Reception of a new item
      */
-    virtual void newItem(ModelItem *);
+    virtual void newItem(valgrind::ModelItem *);
 
   private:
     QList<MemcheckError *> m_errors;
