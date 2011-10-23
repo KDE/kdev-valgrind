@@ -91,6 +91,8 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
             m_model, SLOT(newElement(valgrind::Model::eElementType)));
     connect(m_parser, SIGNAL(newData(valgrind::Model::eElementType, QString, QString)),
             m_model, SLOT(newData(valgrind::Model::eElementType, QString, QString)));
+    connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
+            m_model, SLOT(newData(valgrind::ModelItem*)));
     connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
 
 #ifndef _UNIT_TESTS_
