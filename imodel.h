@@ -34,6 +34,8 @@ namespace valgrind
 
     Model(QObject* parent = 0);
 
+    virtual ~Model(){}
+
     enum eElementType {
       startError,
       error,
