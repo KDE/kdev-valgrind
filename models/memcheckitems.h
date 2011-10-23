@@ -29,7 +29,7 @@
 
 namespace valgrind
 {
-  class MemcheckItem
+  class MemcheckItem : public ModelItem
   {
 
   public:

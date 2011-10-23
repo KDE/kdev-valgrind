@@ -50,6 +50,10 @@ namespace valgrind
      */
     void reset();
 
+    /**
+     * Emission of an item from a parser to a model
+     */
+    void newItem(ModelItem *);
 
     public slots:
     virtual void parse() = 0;
