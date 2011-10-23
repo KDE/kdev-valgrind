@@ -53,6 +53,38 @@
 
 namespace valgrind
 {
+   /*!
+    * Creates a model and a parser according to the specified name and
+    * connects the 2 items
+    */
+    class ModelParserFactoryPrivate
+    {
+
+    public:
+	void make(const QString &type, valgrind::Model* &m_model, valgrind::Parser* &m_parser);
+
+    };
+
+    void ModelParserFactoryPrivate::make(const QString &tool, valgrind::Model* &m_model, valgrind::Parser* &m_parser)
+    {
+	if (tool == "memcheck")
+	{
+	    m_model = new valgrind::MemcheckModel();
+	    m_parser = new valgrind::MemcheckParser();
+	    QObject::connect(m_parser, SIGNAL(newElement(valgrind::Model::eElementType)),
+		    m_model, SLOT(newElement(valgrind::Model::eElementType)));
+	    QObject::connect(m_parser, SIGNAL(newData(valgrind::Model::eElementType, QString, QString)),
+		    m_model, SLOT(newData(valgrind::Model::eElementType, QString, QString)));
+	}
+	else if (tool == "massif")
+	{
+	    m_model = new valgrind::MassifModel();
+	    m_parser = new valgrind::MassifParser();
+	}
+	QObject::connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
+    }
+
+
 Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
@@ -67,16 +99,6 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
 {
     QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
     // create the correct model for each tool
-    if (tool == "memcheck")
-      {
-	m_model = new valgrind::MemcheckModel();
-	m_parser = new valgrind::MemcheckParser();
-      }
-    else if (tool == "massif")
-      {
-	m_model = new valgrind::MassifModel();
-	m_parser = new valgrind::MassifParser();
-      }
 
     setCapabilities( KJob::Killable );
     m_process->setOutputChannelMode(KProcess::SeparateChannels);
@@ -87,12 +109,8 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
     // connect the parser and the model
-    connect(m_parser, SIGNAL(newElement(valgrind::Model::eElementType)),
-            m_model, SLOT(newElement(valgrind::Model::eElementType)));
-    connect(m_parser, SIGNAL(newData(valgrind::Model::eElementType, QString, QString)),
-            m_model, SLOT(newData(valgrind::Model::eElementType, QString, QString)));
-    connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
-
+    ModelParserFactoryPrivate factory;
+    factory.make(tool, m_model, m_parser);
 #ifndef _UNIT_TESTS_
     m_plugin->incomingModel(m_model);
 #endif
@@ -138,9 +156,9 @@ void		Job::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
 {
     static const t_valgrind_cfg_argarray memcheck_args =
     {
-        {"Memcheck Arguments",	"",			"str"},
-        {"Freelist Size",		"--freelist-vol=",	"int"},
-        {"Show Reachable",		"--show-reachable=",	"bool"},
+        {"Memcheck Arguments", "", "str"},
+        {"Freelist Size", "--freelist-vol=", "int"},
+        {"Show Reachable", "--show-reachable=", "bool"},
 	//        {"Track Origins",		"--track-origins=",	"bool"},
         {"Undef Value Errors",	"--undef-value-errors=","bool"}
     };

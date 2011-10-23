@@ -42,11 +42,12 @@ class QBuffer;
 
 namespace KDevelop
 {
-class ProcessLineMaker;
-class ILaunchConfiguration;
-class OutputModel;
-class ILaunchConfiguration;
+  class ProcessLineMaker;
+  class ILaunchConfiguration;
+  class OutputModel;
+  class ILaunchConfiguration;
 }
+
 namespace valgrind
 {
   class Plugin;
@@ -63,6 +64,7 @@ namespace valgrind
       valgrind::Plugin* plugin() const;
 
       virtual void start();
+
   protected:
       virtual bool doKill();
 
@@ -79,17 +81,16 @@ namespace valgrind
   private:
       typedef QString	t_valgrind_cfg_argarray[][3];
 
-      void	processModeArgs(QStringList & out,
-          const t_valgrind_cfg_argarray mode_args,
-          int mode_args_count,
-          KConfigGroup & cfg) const;
+      void processModeArgs(QStringList & out,
+			   const t_valgrind_cfg_argarray mode_args,
+			   int mode_args_count,
+			   KConfigGroup & cfg) const;
 
-      void	addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
-      void	addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
-      QStringList	buildCommandLine() const;
+      void addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
+      void addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
+      QStringList buildCommandLine() const;
 
       KDevelop::OutputModel* model();
-
 
       KProcess* m_process;
       int m_currentPid;
