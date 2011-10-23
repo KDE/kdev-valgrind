@@ -35,6 +35,7 @@ namespace valgrind
 
   MassifModel::MassifModel(QObject * parent)
   {
+    qDebug() << "Massif model Created";
   }
 
   MassifModel::~ MassifModel()
