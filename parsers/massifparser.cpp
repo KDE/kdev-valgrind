@@ -23,24 +23,46 @@
 namespace valgrind
 {
 
-MassifParser::MassifParser(QObject *parent)
-{
-  Q_UNUSED(parent);
+    MassifParser::MassifParser(QObject *parent)
+    {
+	Q_UNUSED(parent);
+    }
+
+    MassifParser::~MassifParser()
+    {
+    }
+
+    void MassifParser::parse()
+    {
+	qDebug() << "Massif Parse";
+
+	while (!device()->atEnd())
+	{
+	    m_buffer = device()->readLine();
+	    if (m_buffer.startsWith("#") || m_buffer.startsWith("desc")
+		|| m_buffer.startsWith("cmd") || m_buffer.startsWith("time_unit"))
+		continue; // skip comment and useless lines
+	    m_lst = m_buffer.split("=");
+	    if (m_lst[0] == "snapshot") // new snapshot
+	      {
+		m_item = new MassifItem();
+		qDebug() << "new MassifItem";
+		continue;
+	      }
+	    m_item->incomingData(m_lst[0], m_lst[1]);
+	    if (m_lst[0] == "heap_tree")
+	    {
+	      if (m_lst[1].startsWith("peak") || m_lst[1].startsWith("detailed"))
+		while (!m_buffer.startsWith("#"))
+		  {
+		    m_buffer = device()->readLine();
+		    m_item->incomingAlloc(m_buffer);
+		  }
+	      // this is the last info, send the item to the model
+	      qDebug() << "emit !";
+	      emit newItem(m_item);
+	    }
+	}
+    }
 }
-
-MassifParser::~MassifParser()
-{
-}
-
-void MassifParser::parse()
-{
-  qDebug() << "Massif Parse";
-
-  while (!QXmlStreamReader::device()->atEnd())
-    qDebug() << QXmlStreamReader::device()->readLine();
-
-}
-
-}
-
 #include "massifparser.moc"

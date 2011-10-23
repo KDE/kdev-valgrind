@@ -29,40 +29,43 @@
 
 #include "imodel.h"
 #include "iparser.h"
+#include "massifitem.h"
 
 namespace valgrind
 {
 
-/**
- * A class which parses valgrind's XML output
- * and emits signals when items are parsed
- */
-class MassifParser : public Parser
-{
-  Q_OBJECT
+    /**
+     * A class which parses valgrind's XML output
+     * and emits signals when items are parsed
+     */
+    class MassifParser : public Parser
+    {
+	Q_OBJECT
 
-    public:
+	    public:
 
-  MassifParser(QObject *parent = 0);
-  virtual ~MassifParser();
-
-
- signals:
-
-  /**
-   * Emits this signal when a new item is parsed
-   */
-  void newElement(valgrind::Model::eElementType);
-  void newData(valgrind::Model::eElementType, QString name, QString value);
-  void reset();
-
-  public slots:
-  void parse();
+	MassifParser(QObject *parent = 0);
+	virtual ~MassifParser();
 
 
- private:
-  QString m_buffer;
-};
+    signals:
+
+	/**
+	 * Emits this signal when a new item is parsed
+	 */
+	void newElement(valgrind::Model::eElementType);
+	void newData(valgrind::Model::eElementType, QString name, QString value);
+	void reset();
+
+	public slots:
+	void parse();
+
+
+    private:
+	QString m_buffer;
+	QStringList m_lst;
+	MassifItem *m_item;
+    };
 }
 
 

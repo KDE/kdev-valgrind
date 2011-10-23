@@ -23,11 +23,14 @@
 
 #include <QString>
 #include <QMap>
+#include <QStringList>
+
+#include "imodel.h"
 
 namespace valgrind
 {
 
-  class MassifItem
+  class MassifItem : public ModelItem
   {
 
   public:
@@ -41,8 +44,11 @@ namespace valgrind
      */
     void incomingData(const QString &name, const QString &value);
 
+    void incomingAlloc(const QString &value);
+
   private:
     QMap<QString, QString> m_values;
+    QStringList m_allocs;
   };
 
 }
