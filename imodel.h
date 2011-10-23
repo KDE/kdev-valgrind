@@ -29,6 +29,7 @@ namespace valgrind
   class ModelItem
   {
 
+  public:
     ModelItem(){};
 
     virtual ~ModelItem(){};

@@ -80,6 +80,9 @@ namespace valgrind
 	{
 	    m_model = new valgrind::MassifModel();
 	    m_parser = new valgrind::MassifParser();
+	    QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
+		    m_model, SLOT(newData(valgrind::ModelItem*)));
+
 	}
 	QObject::connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
     }
@@ -108,9 +111,11 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     connect(m_process, SIGNAL(readyReadStandardError()), SLOT(readyReadStandardError()));
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
+
     // connect the parser and the model
     ModelParserFactoryPrivate factory;
     factory.make(tool, m_model, m_parser);
+
 #ifndef _UNIT_TESTS_
     m_plugin->incomingModel(m_model);
 #endif
