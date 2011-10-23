@@ -28,7 +28,7 @@
 #include <klocale.h>
 #include <kglobalsettings.h>
 
-#include <iostream>
+#include <massifitem.h>
 
 namespace valgrind
 {
@@ -49,48 +49,38 @@ namespace valgrind
     if (!index.isValid())
       return QVariant();
 
-    if (index.row() >= m_list.size())
+    if (index.row() >= m_snapshots.size())
       return QVariant();
 
-    if (role == Qt::DisplayRole)
-      return m_list.at(index.row());
-    else
-      return QVariant();
+    //    if (role == Qt::DisplayRole)
+    // return m_snapshots.at(index.row());
+    return QVariant();
   }
 
   QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int role) const
   {
-    //    qDebug() << "Massif headerData";
     return QVariant();
   }
 
   int MassifModel::rowCount ( const QModelIndex & p ) const
   {
-    // qDebug() << "Massif rowCount";
-    return m_list.count();
+    return m_snapshots.count();
   }
 
 
-  void MassifModel::newElement(MassifModel::eElementType e)
+  void MassifModel::newItem(ModelItem *i)
   {
+    MassifItem *m = dynamic_cast<MassifItem *>(i);
+    Q_ASSERT(m);
     qDebug() << "Massif new Element";
-  }
-
-  void MassifModel::newData(MassifModel::eElementType e, QString name, QString value)
-  {
-    qDebug() << "Massif new Data";// << name << value;
-
-    beginInsertRows(QModelIndex(), m_list.size(), m_list.size() + 1);
-    m_list << value;
-    endInsertRows();
+    m_snapshots << m;
   }
 
   void MassifModel::reset()
   {
     qDebug() << "Massif Reset";
-    //    qDeleteAll(errors);
-    //    m_errors.clear();
-    //    reset();
+    qDeleteAll(m_snapshots);
+    m_snapshots.clear();
   }
 
 

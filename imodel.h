@@ -26,6 +26,15 @@
 namespace valgrind
 {
 
+  class ModelItem
+  {
+
+    ModelItem(){};
+
+    virtual ~ModelItem(){};
+
+  };
+
   class Model: public QAbstractItemModel
   {
     Q_OBJECT
@@ -34,7 +43,7 @@ namespace valgrind
 
     Model(QObject* parent = 0);
 
-    virtual ~Model(){}
+    virtual ~Model();
 
     enum eElementType {
       startError,
@@ -48,14 +57,23 @@ namespace valgrind
     public slots:
 
     /**
+     * Compatibility with memcheck module, TO REMOVE
      * Reception of a new item in the model
      */
-    virtual void newElement(valgrind::Model::eElementType) = 0;
+    virtual void newElement(valgrind::Model::eElementType);
+
+    /**
+     * Compatibility with memcheck module, to remove
+     * Reception of a new item in the model
+     * Has to be pure
+     */
+    virtual void newItem(ModelItem *); // = 0;
 
     /**
      * Reception of data to register to the current item
+     * TO REMOVE
      */
-    virtual void newData(valgrind::Model::eElementType, QString name, QString value) = 0;
+    virtual void newData(valgrind::Model::eElementType, QString name, QString value);
 
     /**
      * Resets the model content

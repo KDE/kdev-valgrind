@@ -31,7 +31,6 @@
 #include <QSortFilterProxyModel>
 #include <QStringList>
 
-//#include "imodel.h"
 #include "memcheckmodel.h"
 
  namespace valgrind
