@@ -11,40 +11,47 @@ include_directories(
     ${valgrind_BINARY_DIR}
     ${valgrind_SOURCE_DIR}
     ${valgrind_SOURCE_DIR}/config
+    ${valgrind_SOURCE_DIR}/models
+    ${valgrind_SOURCE_DIR}/parsers
 )
 
 
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
-    valgrindlauncher.cpp
-    valgrindconfig.cpp
-    valgrinditem.cpp
-    valgrindjob.cpp
-    valgrindmarks.cpp
-    valgrindmodel.cpp
-    valgrindparser.cpp
-    valgrindplugin.cpp
-    valgrindtree.cpp
-    valgrindwidget.cpp
+    launcher.cpp
+    config.cpp
+    job.cpp
+    marks.cpp
+    imodel.cpp
+    iparser.cpp
+    plugin.cpp
+    tree.cpp
+    widget.cpp
+    models/massifitem.cpp
+    models/massifmodel.cpp
+    models/memcheckmodel.cpp
+    models/memcheckitemsimpl.cpp
+    parsers/massifparser.cpp
+    parsers/memcheckparser.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
-    config/valgrindcachegrindconfigpage.cpp
-    config/valgrindcallgrindconfigpage.cpp
-    config/valgrindgenericconfigpage.cpp
-    config/valgrindhelgrindconfigpage.cpp
-    config/valgrindmassifconfigpage.cpp
-    config/valgrindmemcheckconfigpage.cpp
+    config/cachegrindconfigpage.cpp
+    config/callgrindconfigpage.cpp
+    config/genericconfigpage.cpp
+    config/helgrindconfigpage.cpp
+    config/massifconfigpage.cpp
+    config/memcheckconfigpage.cpp
 )
 
 set(kdevvalgrind_PART_UI
-    config/ui/valgrindgenericconfig.ui
-    config/ui/valgrindmemcheckconfig.ui
-    config/ui/valgrindcachegrindconfig.ui
-    config/ui/valgrindmassifconfig.ui
-    config/ui/valgrindhelgrindconfig.ui
-    config/ui/valgrindcallgrindconfig.ui
+    config/ui/genericconfig.ui
+    config/ui/memcheckconfig.ui
+    config/ui/cachegrindconfig.ui
+    config/ui/massifconfig.ui
+    config/ui/helgrindconfig.ui
+    config/ui/callgrindconfig.ui
 )
 
 kde4_add_ui_files(kdevvalgrind_PART_SRCS  ${kdevvalgrind_PART_UI})
