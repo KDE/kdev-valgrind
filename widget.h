@@ -26,6 +26,7 @@ namespace valgrind
 {
 class Model;
 class Plugin;
+class Job;
 
 class Widget : public QTabWidget
 {
@@ -36,10 +37,13 @@ public:
 
     valgrind::Plugin* plugin() const;
 
+public slots:
+  void updateTabText(int index, const QString & text);
+
 private Q_SLOTS:
 
-  void newModel(valgrind::Model* model);
-  void modelDestroyed(QObject* model);
+    void newModel(valgrind::Model* model, valgrind::Job *job);
+    void modelDestroyed(QObject* model);
 
 private:
     valgrind::Plugin* m_plugin;

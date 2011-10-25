@@ -77,11 +77,6 @@ namespace valgrind
     virtual void newData(valgrind::Model::eElementType, QString name, QString value);
 
     /**
-     * Set the corresponding tab index
-     */
-    virtual void setTabIndex(int index);
-
-    /**
      * Resets the model content
      */
     virtual void reset() = 0;
@@ -92,10 +87,6 @@ namespace valgrind
      * emit this signal to alert other modules that the model has been updated
      */
     void modelChanged();
-
-  private:
-    int m_index;
-
   };
 }
 

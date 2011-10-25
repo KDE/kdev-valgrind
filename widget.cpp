@@ -25,6 +25,7 @@
 
 #include "memcheckitems.h"
 #include "plugin.h"
+#include "job.h"
 #include "memcheckmodel.h"
 #include "tree.h"
 
@@ -49,7 +50,7 @@ Widget::Widget(valgrind::Plugin* plugin, QWidget * parent)
                         "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
                         "some abuses of the POSIX pthread API.</p>" ) );
 
-    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
+    connect(plugin, SIGNAL(newModel(valgrind::Model*, valgrind::Job*)), this, SLOT(newModel(valgrind::Model*,valgrind::Job*)));
 }
 
 valgrind::Plugin * Widget::plugin() const
@@ -57,15 +58,16 @@ valgrind::Plugin * Widget::plugin() const
     return m_plugin;
 }
 
-void Widget::newModel(valgrind::Model * model)
+void Widget::newModel(valgrind::Model * model, valgrind::Job * job)
 {
     int index;
 
     valgrind::Tree* tree = new valgrind::Tree();
     tree->setModel(model);
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
-    index = addTab(tree, QString(i18n("scheduled")));
-    model->setTabIndex(index);
+    connect(job, SIGNAL(updateTabText(int, const QString &)), this, SLOT(updateTabText(int, const QString &)));
+    index = addTab(tree, QString("scheduled"));
+    job->setTabIndex(index);
     setCurrentWidget(tree);
 }
 
@@ -74,6 +76,11 @@ void Widget::modelDestroyed(QObject * model)
     for (int i = 0; i < count(); ++i)
         if (static_cast<valgrind::Tree*>(widget(i))->model() == model)
             return removeTab(i);
+}
+
+void Widget::updateTabText(int index, const QString & text)
+{
+    setTabText(index, text);
 }
 
 }

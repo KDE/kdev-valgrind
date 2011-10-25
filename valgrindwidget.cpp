@@ -58,7 +58,7 @@ void ValgrindWidget::newModel(ValgrindModel * model)
     ValgrindTree* tree = new ValgrindTree();
     tree->setModel(model);
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
-    addTab(tree, QString());
+    addTab(tree, QString("new job"));
     setCurrentWidget(tree);
 }
 

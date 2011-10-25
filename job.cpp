@@ -92,6 +92,7 @@ namespace valgrind
 Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
+    , m_tabIndex(0)
     , m_job(0)
     , m_server(0)
     , m_connection(0)
@@ -118,12 +119,17 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
 
 #ifndef _UNIT_TESTS_
-    m_plugin->incomingModel(m_model);
+    m_plugin->incomingModel(m_model, this);
 #endif
 }
 
 Job::~Job()
 {
+}
+
+void		Job::setTabIndex(int index)
+{
+    m_tabIndex = index;
 }
 
 void		Job::processModeArgs(QStringList & out,
@@ -176,7 +182,6 @@ void		Job::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
     }
     processModeArgs(args, memcheck_args, memcheck_args_count, cfg);
 }
-
 
 void		Job::addMassifArgs(QStringList &args, KConfigGroup &cfg) const
 {
@@ -331,11 +336,15 @@ void Job::start()
     // End Massif stuff /!\
 
     m_process->start();
+    QString	s = "process running";
+    emit updateTabText(m_tabIndex, s);
 }
 
 bool Job::doKill()
 {
     m_process->kill();
+    QString	s = "process killed";
+    emit updateTabText(m_tabIndex, s);
     return true;
 }
 

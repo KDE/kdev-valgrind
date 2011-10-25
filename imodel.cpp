@@ -24,8 +24,7 @@ namespace valgrind
 {
 
   Model::Model(QObject* parent)
-      : QAbstractItemModel(parent),
-	m_index(0)
+      : QAbstractItemModel(parent)
   {
   }
 
@@ -53,10 +52,4 @@ namespace valgrind
   void Model::reset()
   {
   }
-
-  void Model::setTabIndex(int index)
-  {
-      m_index = index;
-  }
-
 }

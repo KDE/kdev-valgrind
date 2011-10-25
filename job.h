@@ -64,9 +64,13 @@ namespace valgrind
       valgrind::Plugin* plugin() const;
 
       virtual void start();
+      void setTabIndex(int index);
 
   protected:
       virtual bool doKill();
+
+  signals:
+      void updateTabText(int index, const QString & text);
 
   private slots:
       void newValgrindConnection();
@@ -94,6 +98,7 @@ namespace valgrind
 
       KProcess* m_process;
       int m_currentPid;
+      int m_tabIndex;
       KJob* m_job;
 
       QTcpServer* m_server;
