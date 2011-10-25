@@ -50,6 +50,8 @@ Widget::Widget(valgrind::Plugin* plugin, QWidget * parent)
                         "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
                         "some abuses of the POSIX pthread API.</p>" ) );
 
+    setTabsClosable(true);
+    connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(destroyRequestedTab(int)));
     connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
 }
 
@@ -69,6 +71,7 @@ void Widget::newModel(valgrind::Model * model)
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
     connect(job, SIGNAL(updateTabText(int, const QString &)), this, SLOT(updateTabText(int, const QString &)));
     index = addTab(tree, i18n( "job scheduled" ));
+
     job->setTabIndex(index);
     setCurrentWidget(tree);
 }
@@ -78,6 +81,11 @@ void Widget::modelDestroyed(QObject * model)
     for (int i = 0; i < count(); ++i)
         if (static_cast<valgrind::Tree*>(widget(i))->model() == model)
             return removeTab(i);
+}
+
+void Widget::destroyRequestedTab(int index)
+{
+    removeTab(index);
 }
 
 void Widget::updateTabText(int index, const QString & text)

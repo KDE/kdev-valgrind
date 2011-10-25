@@ -44,6 +44,7 @@ private Q_SLOTS:
 
     void newModel(valgrind::Model* model);
     void modelDestroyed(QObject* model);
+    void destroyRequestedTab(int index);
 
 private:
     valgrind::Plugin* m_plugin;
