@@ -42,7 +42,7 @@ public slots:
 
 private Q_SLOTS:
 
-    void newModel(valgrind::Model* model, valgrind::Job *job);
+    void newModel(valgrind::Model* model);
     void modelDestroyed(QObject* model);
 
 private:

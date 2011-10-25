@@ -50,7 +50,7 @@ Widget::Widget(valgrind::Plugin* plugin, QWidget * parent)
                         "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
                         "some abuses of the POSIX pthread API.</p>" ) );
 
-    connect(plugin, SIGNAL(newModel(valgrind::Model*, valgrind::Job*)), this, SLOT(newModel(valgrind::Model*,valgrind::Job*)));
+    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
 }
 
 valgrind::Plugin * Widget::plugin() const
@@ -58,15 +58,17 @@ valgrind::Plugin * Widget::plugin() const
     return m_plugin;
 }
 
-void Widget::newModel(valgrind::Model * model, valgrind::Job * job)
+void Widget::newModel(valgrind::Model * model)
 {
     int index;
+    valgrind::Job * job;
 
+    job = model->getJob();
     valgrind::Tree* tree = new valgrind::Tree();
     tree->setModel(model);
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
     connect(job, SIGNAL(updateTabText(int, const QString &)), this, SLOT(updateTabText(int, const QString &)));
-    index = addTab(tree, i18n( "Job Scheduled" ));
+    index = addTab(tree, i18n( "job scheduled" ));
     job->setTabIndex(index);
     setCurrentWidget(tree);
 }

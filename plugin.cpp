@@ -140,9 +140,9 @@ void Plugin::unload()
     core()->uiController()->removeToolView( m_factory );
 }
 
-void Plugin::incomingModel(valgrind::Model *model, valgrind::Job *job)
+void Plugin::incomingModel(valgrind::Model *model)
 {
-    emit newModel(model, job);
+    emit newModel(model);
 }
 
 Plugin::~Plugin()

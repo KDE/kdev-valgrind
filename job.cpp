@@ -111,6 +111,7 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     // connect the parser and the model
     ModelParserFactoryPrivate factory;
     factory.make(tool, m_model, m_parser);
+    m_model->setJob(this);
     m_parser->setDevice(m_process);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readyReadStandardOutput()));
@@ -119,7 +120,7 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
 
 #ifndef _UNIT_TESTS_
-    m_plugin->incomingModel(m_model, this);
+    m_plugin->incomingModel(m_model);
 #endif
 }
 
@@ -336,14 +337,14 @@ void Job::start()
     // End Massif stuff /!\
 
     m_process->start();
-    QString	s = i18n( "Job %1 Running", m_process->pid() );
+    QString	s = i18n( "job running (pid=%1)", m_process->pid() );
     emit updateTabText(m_tabIndex, s);
 }
 
 bool Job::doKill()
 {
     m_process->kill();
-    QString	s = i18n( "Job %1 Killed", m_process->pid() );
+    QString	s = i18n( "job killed" );
     emit updateTabText(m_tabIndex, s);
     return true;
 }
@@ -422,7 +423,7 @@ void Job::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     kDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
-    QString	s = i18n( "Job %1 Finished (%2)", exitCode, m_process->pid() );
+    QString	s = i18n( "job finished (%1)", exitCode );
     emit updateTabText(m_tabIndex, s);
     emitResult();
 }

@@ -25,11 +25,22 @@ namespace valgrind
 
   Model::Model(QObject* parent)
       : QAbstractItemModel(parent)
+      , m_job(0)
   {
   }
 
   Model::~Model()
   {
+  }
+
+  void Model::setJob(valgrind::Job * job)
+  {
+      m_job = job;
+  }
+
+  valgrind::Job * Model::getJob(void)
+  {
+      return m_job;
   }
 
   void Model::newElement(Model::eElementType type)

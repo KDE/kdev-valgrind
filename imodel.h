@@ -26,6 +26,8 @@
 namespace valgrind
 {
 
+  class Job;
+
   class ModelItem
   {
 
@@ -81,12 +83,25 @@ namespace valgrind
      */
     virtual void reset() = 0;
 
+    /**
+     * Set the associated process
+     */
+    void setJob(valgrind::Job * job);
+
+    /**
+     * Get the associated process
+     */
+    valgrind::Job * getJob(void);
+
     signals:
 
     /**
      * emit this signal to alert other modules that the model has been updated
      */
     void modelChanged();
+
+  private:
+      valgrind::Job *m_job;
   };
 }
 

@@ -43,7 +43,6 @@ namespace valgrind
   class Control;
   class Marks;
   class WidgetFactory;
-  class Job;
 
   class Plugin : public KDevelop::IPlugin
   {
@@ -56,10 +55,10 @@ namespace valgrind
 
       virtual void unload();
 
-      void incomingModel(valgrind::Model* model, valgrind::Job* job);
+      void incomingModel(valgrind::Model* model);
 
   signals:
-      void newModel(valgrind::Model* model, valgrind::Job* job);
+      void newModel(valgrind::Model* model);
 
   private slots:
       void loadOutput();
