@@ -59,10 +59,13 @@ valgrind::Plugin * Widget::plugin() const
 
 void Widget::newModel(valgrind::Model * model)
 {
+    int index;
+
     valgrind::Tree* tree = new valgrind::Tree();
     tree->setModel(model);
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
-    addTab(tree, QString());
+    index = addTab(tree, QString(i18n("scheduled")));
+    model->setTabIndex(index);
     setCurrentWidget(tree);
 }
 
