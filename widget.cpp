@@ -66,7 +66,7 @@ void Widget::newModel(valgrind::Model * model, valgrind::Job * job)
     tree->setModel(model);
     connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
     connect(job, SIGNAL(updateTabText(int, const QString &)), this, SLOT(updateTabText(int, const QString &)));
-    index = addTab(tree, QString("scheduled"));
+    index = addTab(tree, i18n( "Job Scheduled" ));
     job->setTabIndex(index);
     setCurrentWidget(tree);
 }

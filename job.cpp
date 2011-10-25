@@ -336,14 +336,14 @@ void Job::start()
     // End Massif stuff /!\
 
     m_process->start();
-    QString	s = "process running";
+    QString	s = i18n( "Job %1 Running", m_process->pid() );
     emit updateTabText(m_tabIndex, s);
 }
 
 bool Job::doKill()
 {
     m_process->kill();
-    QString	s = "process killed";
+    QString	s = i18n( "Job %1 Killed", m_process->pid() );
     emit updateTabText(m_tabIndex, s);
     return true;
 }
@@ -422,6 +422,8 @@ void Job::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     kDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
+    QString	s = i18n( "Job %1 Finished (%2)", exitCode, m_process->pid() );
+    emit updateTabText(m_tabIndex, s);
     emitResult();
 }
 
