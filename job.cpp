@@ -126,16 +126,6 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
 
 Job::~Job()
 {
-  // We need to clean up some memory here !
-
-  qDebug() << "Job deleted : "  << "\n"
-	   << "m_server = " << m_server << "\n"
-	   << "m_process = " << m_process << "\n"
-	   << "m_connection = " << m_connection << "\n"
-	   << "m_parser = " << m_parser << "\n"
-	   << "m_applicationOutput" << m_applicationOutput << "\n";
-
-
 
   // We don't need this connection anymore
   if (m_connection)
