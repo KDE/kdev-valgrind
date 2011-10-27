@@ -99,7 +99,6 @@ namespace valgrind
       KProcess* m_process;
       int m_currentPid;
       int m_tabIndex;
-      KJob* m_job;
 
       QTcpServer* m_server;
       QTcpSocket* m_connection;

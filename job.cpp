@@ -44,6 +44,7 @@
 #include <interfaces/iplugincontroller.h>
 
 #include <execute/iexecuteplugin.h>
+#include <assert.h>
 
 #include "memcheckmodel.h"
 #include "memcheckparser.h"
@@ -93,7 +94,6 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
     , m_tabIndex(0)
-    , m_job(0)
     , m_server(0)
     , m_connection(0)
     , m_model(0)
@@ -126,7 +126,40 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
 
 Job::~Job()
 {
+  // We need to clean up some memory here !
+
+  qDebug() << "Job deleted : "  << "\n"
+	   << "m_server = " << m_server << "\n"
+	   << "m_process = " << m_process << "\n"
+	   << "m_connection = " << m_connection << "\n"
+	   << "m_parser = " << m_parser << "\n"
+	   << "m_applicationOutput" << m_applicationOutput << "\n";
+
+
+
+  // We don't need this connection anymore
+  if (m_connection)
+    {
+      m_connection->close();
+      delete m_connection;
+    }
+  // This server either (TODO: could the server be static ?)
+  if (m_server)
+    {
+      m_server->close();
+      delete m_server; // XXX: kdevelop will SEGV if the server is deleted *before* the connection
+    }
+
+  // these are allocated in the constructor
+  delete m_process;
+  delete m_applicationOutput;
+  delete m_parser;
+
+  //We cannot delete the model here, or it won't show up in the GUI: is it done somewhere else?
+
+  //delete m_model;
 }
+
 
 void		Job::setTabIndex(int index)
 {
@@ -333,8 +366,9 @@ void Job::start()
 	  }
 	tcpSocket->flush(); // it seems that fush is not the best method to use to wait the end of the write !
 	tcpSocket->close();
+	delete tcpSocket;
       }
-    // End Massif stuff /!\
+    // End Massif stuff
 
     m_process->start();
     QString	s = i18n( "job running (pid=%1)", m_process->pid() );

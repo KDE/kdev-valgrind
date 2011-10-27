@@ -42,6 +42,7 @@ namespace valgrind
 
   public:
       Launcher(valgrind::Plugin *inst);
+
       virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
       void addMode( valgrind::LaunchMode* mode );
       virtual QString description() const;
