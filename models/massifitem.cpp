@@ -29,6 +29,7 @@ namespace valgrind
 
   MassifItem::~MassifItem()
   {
+    qDeleteAll(m_childItems);
   }
 
   void MassifItem::incomingData(const QString &name, const QString &value)
@@ -41,5 +42,59 @@ namespace valgrind
     m_allocs << value;
   }
 
+  void MassifItem::appendChild(MassifItem *item)
+  {
+    m_childItems.append(item);
+  }
+
+  void MassifItem::setParent(MassifItem *parent)
+  {
+    m_parentItem = parent;
+  }
+
+  MassifItem *MassifItem::child(int row)
+  {
+    return m_childItems.value(row);
+  }
+
+  int MassifItem::childCount() const
+  {
+    return m_childItems.count();
+  }
+
+  int MassifItem::columnCount() const
+  {
+    return m_values.size();
+  }
+
+  QVariant MassifItem::data(int column) const
+  {
+    switch (column) {
+    case Snapshot:
+      return m_values["snapshot"];
+    case Time:
+      return m_values["time"];
+    case MemHeapB:
+      return m_values["mem_heap_B"];
+    case MemHeapExtraB:
+      return m_values["mem_heap_extra_B"];
+    case MemStacksB:
+      return m_values["mem_stacks_B"];
+    }
+    return QVariant();
+  }
+
+  MassifItem *MassifItem::parent()
+  {
+    return m_parentItem;
+  }
+
+  int MassifItem::row() const
+  {
+    if (m_parentItem)
+      return m_parentItem->m_childItems.indexOf(const_cast<MassifItem*>(this));
+
+    return 0;
+  }
 
 }

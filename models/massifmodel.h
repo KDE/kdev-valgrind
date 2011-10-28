@@ -41,38 +41,29 @@ namespace valgrind
 	public:
 
       MassifModel(QObject* parent = 0);
-
       virtual ~MassifModel();
 
-      // model
+      QModelIndex index(int, int, const QModelIndex&) const;
+      QModelIndex parent(const QModelIndex&) const;
       int rowCount(const QModelIndex &parent = QModelIndex()) const;
+      int columnCount(const QModelIndex&) const;
       QVariant data(const QModelIndex &index, int role) const;
       QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-      // model useless if we use QAbstractListModel
-      QModelIndex index(int, int, const QModelIndex&) const;
-      QModelIndex parent(const QModelIndex&) const;
-      int columnCount(const QModelIndex&) const;
-
     private:
 
-
       public slots:
-
       /**
        * Reception of a new item in the model
        */
       virtual void newItem(valgrind::ModelItem *item);
-
       /**
        * Resets the model content
        */
       void reset();
 
-
     private:
-      QList<MassifItem *> m_snapshots;
-
+      MassifItem *m_rootItem;
     };
 
 }

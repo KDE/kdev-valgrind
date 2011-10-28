@@ -44,6 +44,7 @@ namespace valgrind
 	    if (m_lst[0] == "snapshot") // new snapshot
 	      {
 		m_item = new MassifItem();
+		m_item->incomingData(m_lst[0], m_lst[1]);
 		continue;
 	      }
 	    m_item->incomingData(m_lst[0], m_lst[1]);
@@ -59,6 +60,7 @@ namespace valgrind
 	      emit newItem(m_item);
 	    }
 	}
+	emit newItem(NULL);
     }
 }
 #include "massifparser.moc"
