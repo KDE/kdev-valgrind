@@ -445,15 +445,42 @@ void Job::processErrored(QProcess::ProcessError e)
 
 void Job::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    kDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
+  qDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
-    QString	s = i18n( "job finished (%1)", exitCode );
-    emit updateTabText(m_tabIndex, s);
+  QString	tabname = i18n( "job finished (%1)", exitCode );
+
+  if (exitCode != 0)
+    {
+      /*
+      ** Here, check if Valgrind failed (because of bad parameters or whatever).
+      ** Because Valgrind always returns 1 on failure, and the profiled application's return
+      ** on success, we cannot know for sure which process returned != 0.
+      ** 
+      ** The only way to guess that it is Valgrind which failed is to check stderr and look for
+      ** "valgrind:" at the beginning of each line, even though it can still be the profiled
+      ** process that writes it on stderr. It is, however, unlikely enough to be reliable in
+      ** most cases.
+      */ 
+      const QString &s = m_process->readAllStandardError();
+
+      if (s.startsWith("valgrind:"))
+	{
+	  QString err = s.split("\n")[0];
+	  err = err.replace("valgrind:", "");
+	  err += "\n\nPlease review your Valgrind launch configuration.";
+
+	  KMessageBox::error(qApp->activeWindow(), err, i18n("Valgrind Error"));
+	  tabname = i18n( "job failed");
+	}
+    }
+
+    emit updateTabText(m_tabIndex, tabname);
     emitResult();
 }
 
 void Job::readyReadStandardError()
 {
+  // CarefulThis method is also called when the profiled project writes on stderr
     if (m_connection)
     {
         m_applicationOutput->slotReceivedStderr(m_process->readAllStandardError());
