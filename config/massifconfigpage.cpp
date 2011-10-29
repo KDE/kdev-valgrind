@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Sebastien Rannou <mxs@buffout.org>
+ * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -29,18 +30,29 @@ MassifConfigPage::MassifConfigPage( QWidget *parent )
 {
     ui = new Ui::MassifConfig();
     ui->setupUi( this );
+    connect(ui->massifParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
+    // TODO: finish the other ones (due on sunday)
 }
 
-void	MassifConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
-{}
+void	MassifConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop::IProject * )
+{
+    bool wasBlocked = signalsBlocked();
+    blockSignals(true);
+
+    ui->massifParameters->setText( cfg.readEntry("Massif Arguments", "") );
+
+    blockSignals(wasBlocked);
+}
 
 KIcon	MassifConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
 
-void	MassifConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
-{}
+void	MassifConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
+{
+  cfg.writeEntry( "Massif Arguments", ui->massifParameters->text() );
+}
 
 QString	MassifConfigPage::title( void ) const
 {

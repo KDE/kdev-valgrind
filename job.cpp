@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
 
@@ -126,7 +127,6 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
 
 Job::~Job()
 {
-
   // We don't need this connection anymore
   if (m_connection)
     {
@@ -209,8 +209,13 @@ void		Job::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
 
 void		Job::addMassifArgs(QStringList &args, KConfigGroup &cfg) const
 {
-    Q_UNUSED(args);
-    Q_UNUSED(cfg);
+    static const t_valgrind_cfg_argarray massif_args =
+    {
+        {"Massif Arguments", "", "str"}
+    };
+    static const int count = sizeof(massif_args) / sizeof(*massif_args);
+    
+    processModeArgs(args, massif_args, count, cfg);
 }
 
 QStringList	Job::buildCommandLine() const
@@ -327,6 +332,11 @@ void Job::start()
       this is a trick : valgrind in run in a new process because it seem that m_server need to receive
       the data before the end of m_process. Now m_process remove the file created by massif.
       We need to do something better than that ! But it works for now to develop the new parser and model
+      
+      XXX: this also prevents the Job from detecting valgrind errors, because it is done by
+      reading the m_process stderr, which is now the one from /bin/rm, instead of valgrind's.
+
+
     */
     QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
     if (tool == "massif")
@@ -409,6 +419,10 @@ void Job::socketError(QAbstractSocket::SocketError)
 
     //FIXME: The user should be notified about that but we cannot use KMessageBox because we might not be on
     //the UI thread.
+
+    // Update: Sort of fixed, the stderr of valgrind is checked at the end of the process. The only
+    // reason for a socket error to happened here is because Valgrind could not be launched, which is
+    // precisely what is handled in processFinished
     kWarning() << i18n("Socket error while communicating with valgrind: \"%1\"", m_connection->errorString()) <<
     i18n("Valgrind communication error");
 }
