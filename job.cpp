@@ -2,10 +2,10 @@
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-
+   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
-   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
    License as published by the Free Software Foundation; either
@@ -501,7 +501,6 @@ namespace valgrind
     {
 	return dynamic_cast<KDevelop::OutputModel*>( KDevelop::OutputJob::model() );
     }
-
 }
 
 

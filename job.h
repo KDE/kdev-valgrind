@@ -93,6 +93,7 @@ namespace valgrind
   private:
 
       KProcess* m_process;
+      int m_tabIndex;
 
       QTcpServer* m_server;
       QTcpSocket* m_connection;

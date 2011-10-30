@@ -70,16 +70,14 @@ Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
     // factories << new ValgrindCachegrindConfigPageFactory();
     // factories << new ValgrindCallgrindConfigPageFactory();
     // factories << new ValgrindHelgrindConfigPageFactory();
-
-
 }
+
 
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
     if( !cfg )
         return 0;
-    qDebug() << "LAUNCHMODE" << launchMode;
     if( modes.contains( launchMode ) )
     {
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();

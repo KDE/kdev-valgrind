@@ -36,19 +36,40 @@ namespace valgrind
   public:
 
     MassifItem();
-
     virtual ~MassifItem();
+
+    enum Columns {
+      Snapshot,
+      Time,
+      MemHeapB,
+      MemHeapExtraB,
+      MemStacksB
+    };
 
     /*
      * Called when data related to the error has been parsed
      */
     void incomingData(const QString &name, const QString &value);
-
     void incomingAlloc(const QString &value);
+
+    // use by the model
+    void appendChild(MassifItem *child);
+    void setParent(MassifItem *parent);
+    MassifItem *child(int row);
+    int childCount() const;
+    int columnCount() const;
+    QVariant data(int column) const;
+    int row() const;
+    MassifItem *parent();
+
 
   private:
     QMap<QString, QString> m_values;
     QStringList m_allocs;
+
+    // use by the model
+    QList<MassifItem*> m_childItems;
+    MassifItem *m_parentItem;
   };
 
 }

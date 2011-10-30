@@ -55,7 +55,7 @@ GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
     ui->currentTool->addItems(tools);
 
     connect( ui->currentTool, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
-    connect( this, SIGNAL(newCurrentTool(QString)), plugin, SLOT(updateCurrentTool(QString)) );
+    //connect( this, SIGNAL(newCurrentTool(QString)), plugin, SLOT(updateCurrentTool(QString)) );
 }
 
 GenericConfigPage::~GenericConfigPage(void)
