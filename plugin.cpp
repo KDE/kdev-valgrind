@@ -53,7 +53,6 @@
 #include <interfaces/launchconfigurationtype.h>
 #include <interfaces/iplugincontroller.h>
 
-
 #include "plugin.h"
 #include "marks.h"
 #include "memcheckmodel.h"

@@ -46,7 +46,7 @@ GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
     tools << "massif";
 
     /*
-    ** Unimplemented tools: See valgrindlauncher.cpp to activate their configuration tab
+    ** Unimplemented tools: See launcher.cpp to activate their configuration tab
     */
     // tools << "cachegrind";
     // tools << "callgrind";

@@ -60,17 +60,12 @@ namespace valgrind
   public:
       Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
       virtual ~Job();
-
       valgrind::Plugin* plugin() const;
-
       virtual void start();
-      void setTabIndex(int index);
-
-  protected:
       virtual bool doKill();
 
   signals:
-      void updateTabText(int index, const QString & text);
+      void updateTabText(valgrind::Model *, const QString & text);
 
   private slots:
       void newValgrindConnection();
@@ -98,7 +93,6 @@ namespace valgrind
 
       KProcess* m_process;
       int m_currentPid;
-      int m_tabIndex;
       KJob* m_job;
 
       QTcpServer* m_server;
@@ -110,6 +104,7 @@ namespace valgrind
       KDevelop::ProcessLineMaker* m_applicationOutput;
       KDevelop::ILaunchConfiguration* m_launchcfg;
       valgrind::Plugin *m_plugin;
+      bool m_killed;
   };
 
 }

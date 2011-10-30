@@ -33,12 +33,12 @@ namespace valgrind
   {
   }
 
-  void Model::setJob(valgrind::Job * job)
+  void Model::job(valgrind::Job * job)
   {
       m_job = job;
   }
 
-  valgrind::Job * Model::getJob(void)
+  valgrind::Job * Model::job(void)
   {
       return m_job;
   }

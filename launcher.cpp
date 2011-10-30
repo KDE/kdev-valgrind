@@ -64,7 +64,7 @@ Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
     factories << new valgrind::MassifConfigPageFactory();
 
     /*
-    ** Those are unimplemented at the moment: see config/valgrindgenericconfigpage.cpp
+    ** Those are unimplemented at the moment: see config/genericconfigpage.cpp
     **	to enable them.
     */
     // factories << new ValgrindCachegrindConfigPageFactory();

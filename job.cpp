@@ -1,4 +1,6 @@
+// -*- Mode: C++/l; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 8; -*-
 /* This file is part of KDevelop
+   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
@@ -92,7 +94,6 @@ namespace valgrind
 Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
-    , m_tabIndex(0)
     , m_job(0)
     , m_server(0)
     , m_connection(0)
@@ -100,18 +101,16 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
     , m_parser(0)
     , m_applicationOutput(new KDevelop::ProcessLineMaker(this))
     , m_launchcfg( cfg )
-    , m_plugin(inst)
+    , m_plugin( inst )
+    , m_killed( false )
 {
     QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
-    // create the correct model for each tool
-
     setCapabilities( KJob::Killable );
-    m_process->setOutputChannelMode(KProcess::SeparateChannels);
-
+    m_process->setOutputChannelMode( KProcess::SeparateChannels );
     // connect the parser and the model
     ModelParserFactoryPrivate factory;
     factory.make(tool, m_model, m_parser);
-    m_model->setJob(this);
+    m_model->job(this);
     m_parser->setDevice(m_process);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readyReadStandardOutput()));
@@ -126,11 +125,6 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
 
 Job::~Job()
 {
-}
-
-void		Job::setTabIndex(int index)
-{
-    m_tabIndex = index;
 }
 
 void		Job::processModeArgs(QStringList & out,
@@ -338,14 +332,15 @@ void Job::start()
 
     m_process->start();
     QString	s = i18n( "job running (pid=%1)", m_process->pid() );
-    emit updateTabText(m_tabIndex, s);
+    emit updateTabText(m_model, s);
 }
 
 bool Job::doKill()
 {
-    m_process->kill();
-    QString	s = i18n( "job killed" );
-    emit updateTabText(m_tabIndex, s);
+    if ( m_process && m_process->pid() ) {
+        m_process->kill();
+        m_killed = true;
+    }
     return true;
 }
 
@@ -402,7 +397,10 @@ void Job::processErrored(QProcess::ProcessError e)
         KMessageBox::error(qApp->activeWindow(), i18n("Failed to start valgrind from \"%1\".", m_process->property("executable").toString()), i18n("Failed to start Valgrind"));
         break;
     case QProcess::Crashed:
-        KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
+        // if the process was killed by the user, the crash was expected
+        // don't notify the user
+        if ( !m_killed )
+            KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
         break;
     case QProcess::Timedout:
         KMessageBox::error(qApp->activeWindow(), i18n("Valgrind process timed out."), i18n("Valgrind Error"));
@@ -424,7 +422,7 @@ void Job::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
     kDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
     QString	s = i18n( "job finished (%1)", exitCode );
-    emit updateTabText(m_tabIndex, s);
+    emit updateTabText(m_model, s);
     emitResult();
 }
 
@@ -449,6 +447,5 @@ KDevelop::OutputModel* Job::model()
 }
 
 }
-
 
 #include "job.moc"

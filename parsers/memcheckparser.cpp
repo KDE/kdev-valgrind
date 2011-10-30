@@ -20,6 +20,8 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include <kdebug.h>
+
 #include "memcheckparser.h"
 
 namespace valgrind
