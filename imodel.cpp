@@ -17,50 +17,59 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "imodel.h"
 #include <iostream>
+
+#include "imodel.h"
+#include "job.h"
 
 namespace valgrind
 {
 
-  Model::Model(QObject* parent)
-      : QAbstractItemModel(parent)
-      , m_job(0)
-  {
-  }
+    Model::Model(QObject* parent)
+        : QAbstractItemModel(parent)
+        , m_job(0)
+    {
+    }
 
-  Model::~Model()
-  {
-  }
+    Model::~Model()
+    {
+    }
 
-  void Model::job(valgrind::Job * job)
-  {
-      m_job = job;
-  }
+    void Model::job(valgrind::Job * job)
+    {
+        connect( job, SIGNAL( destroyed() ),
+                 this, SLOT( jobDestroyed() ) );
+        m_job = job;
+    }
 
-  valgrind::Job * Model::job(void)
-  {
-      return m_job;
-  }
+    valgrind::Job * Model::job(void)
+    {
+        return m_job;
+    }
 
-  void Model::newElement(Model::eElementType type)
-  {
-    Q_UNUSED(type);
-  }
+    void Model::jobDestroyed( void )
+    {
+        m_job = NULL;
+    }
 
-  void Model::newData(Model::eElementType type, QString name, QString value)
-  {
-    Q_UNUSED(type);
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-  }
+    void Model::newElement(Model::eElementType type)
+    {
+        Q_UNUSED(type);
+    }
 
-  void Model::newItem(ModelItem *item)
-  {
-    Q_UNUSED(item);
-  }
+    void Model::newData(Model::eElementType type, QString name, QString value)
+    {
+        Q_UNUSED(type);
+        Q_UNUSED(name);
+        Q_UNUSED(value);
+    }
 
-  void Model::reset()
-  {
-  }
+    void Model::newItem(ModelItem *item)
+    {
+        Q_UNUSED(item);
+    }
+
+    void Model::reset()
+    {
+    }
 }

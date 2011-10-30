@@ -93,6 +93,9 @@ namespace valgrind
      */
     valgrind::Job * job(void);
 
+    void jobDestroyed(void);
+
+
     signals:
 
     /**

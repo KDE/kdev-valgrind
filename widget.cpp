@@ -84,7 +84,7 @@ void Widget::destroyRequestedTab(int index)
 
     // kill the job if it's still runningg
     model = static_cast<valgrind::Model*>( static_cast<valgrind::Tree*>( widget( index ) )->model() );
-    if ( model )
+    if ( model && model->job() )
         model->job()->doKill();
     delete model;
     removeTab( index );

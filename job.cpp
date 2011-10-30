@@ -125,6 +125,7 @@ Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* 
 
 Job::~Job()
 {
+    m_model->jobDestroyed ();
 }
 
 void		Job::processModeArgs(QStringList & out,
