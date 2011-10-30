@@ -91,6 +91,8 @@ namespace valgrind
 
       void addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
       void addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
+      void addCachegrindArgs(QStringList &args, KConfigGroup &cfg) const;
+
       QStringList buildCommandLine() const;
       KDevelop::OutputModel* model();
 

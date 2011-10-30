@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
- * Copyright 2011 Sebastien Rannou <mxs@buffout.org>
+   Copyright 2011 Sebastien Rannou <mxs@buffout.org>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -18,8 +19,8 @@
 */
 
 #include "cachegrindconfigpage.h"
-
 #include "ui_cachegrindconfig.h"
+
 namespace valgrind
 {
 
@@ -28,18 +29,35 @@ CachegrindConfigPage::CachegrindConfigPage( QWidget *parent )
 {
     ui = new Ui::CachegrindConfig();
     ui->setupUi( this );
+
+    connect(ui->cachegrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
+    connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
 }
 
-void	CachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
-{}
+void	CachegrindConfigPage::loadFromConfiguration( const KConfigGroup&cfg, KDevelop::IProject * )
+{
+  bool	wasBlocked = signalsBlocked();
+  blockSignals(true);
+
+  ui->cachegrindParameters->setText( cfg.readEntry("Cachegrind Arguments", "") );
+  ui->launchKCachegrind->setChecked( cfg.readEntry("Launch KCachegrind", false) );
+  ui->KCachegrindExecutable->setText( cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind") );
+
+  blockSignals(wasBlocked);
+}
+
+void	CachegrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
+{
+  cfg.writeEntry( "Cachegrind Arguments", ui->cachegrindParameters->text() );
+  cfg.writeEntry( "Launch KCachegrind", ui->launchKCachegrind->isChecked() );
+  cfg.writeEntry( "KCachegrindExecutable", ui->KCachegrindExecutable->text() );
+}
 
 KIcon	CachegrindConfigPage::icon( void ) const
 {
     return KIcon( "fork" );
 }
-
-void	CachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const
-{}
 
 QString	CachegrindConfigPage::title( void ) const
 {

@@ -49,8 +49,14 @@
 
 #include "memcheckmodel.h"
 #include "memcheckparser.h"
+
 #include "massifmodel.h"
 #include "massifparser.h"
+
+#include "cachegrindmodel.h"
+#include "cachegrindparser.h"
+
+
 #include "plugin.h"
 
 namespace valgrind
@@ -86,6 +92,13 @@ namespace valgrind
 			     m_model, SLOT(newItem(valgrind::ModelItem*)));
 
 	}
+	else if (tool == "cachegrind")
+	{
+	    m_model = new valgrind::CachegrindModel();
+	    m_parser = new valgrind::CachegrindParser();
+	    QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
+			     m_model, SLOT(newItem(valgrind::ModelItem*)));
+	}
 
 	QObject::connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
     }
@@ -116,8 +129,10 @@ namespace valgrind
 	m_model->setJob(this);
 	m_parser->setDevice(m_process);
 
-	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)));
-	connect(m_process, SIGNAL(error(QProcess::ProcessError)), SLOT(processErrored(QProcess::ProcessError)));
+	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
+		SLOT(processFinished(int, QProcess::ExitStatus)));
+	connect(m_process, SIGNAL(error(QProcess::ProcessError)),
+		SLOT(processErrored(QProcess::ProcessError)));
 
 #ifndef _UNIT_TESTS_
 	m_plugin->incomingModel(m_model);
@@ -126,17 +141,11 @@ namespace valgrind
 
     Job::~Job()
     {
-	// We don't need this connection anymore
-	if (m_connection)
-	{
-	    m_connection->close();
-	    delete m_connection;
-	}
-	// This server either (TODO: could the server be static ?)
 	if (m_server)
 	{
 	    m_server->close();
 	    delete m_server;
+	    // m_connection is deleted by the server
 	}
 
 	if (m_file) // a file was used by valgrind (e.g. with massif or cachegrind)
@@ -152,7 +161,6 @@ namespace valgrind
 	delete m_parser;
 
 	//We cannot delete the model here, or it won't show up in the GUI: is it done somewhere else?
-
 	//delete m_model;
     }
 
@@ -246,6 +254,17 @@ namespace valgrind
 	    args << QString("--time-unit=B");
     }
 
+    void	Job::addCachegrindArgs(QStringList &args, KConfigGroup &cfg) const
+    {
+	static const t_valgrind_cfg_argarray cg_args =
+	    {
+		{"Cachegrind Arguments", "", "str"}
+	    };
+	static const int count = sizeof(cg_args) / sizeof(*cg_args);
+	
+	processModeArgs(args, cg_args, count, cfg);
+    }
+
     QStringList	Job::buildCommandLine() const
     {
 	static const t_valgrind_cfg_argarray generic_args =
@@ -258,16 +277,19 @@ namespace valgrind
 	static const int		generic_args_count = sizeof(generic_args) / sizeof(*generic_args);
 
 	KConfigGroup		cfg = m_launchcfg->config();
-	QStringList			args;
-	QString			    tool = cfg.readEntry( "Current Tool", "memcheck" );
+	QStringList		args;
+	QString			tool = cfg.readEntry( "Current Tool", "memcheck" );
 
 	args += KShell::splitArgs( cfg.readEntry( "Valgrind Arguments", "" ) );
 	processModeArgs(args, generic_args, generic_args_count, cfg);
 
+	// XXX: we could probably subclass Job with each tool and use a virtual addToolArgs()
 	if (tool == "memcheck")
 	    addMemcheckArgs(args, cfg);
 	else if (tool == "massif")
 	    addMassifArgs(args, cfg);
+	else if (tool == "cachegrind")
+	    addCachegrindArgs(args, cfg);
 
 	return args;
     }
@@ -370,7 +392,7 @@ namespace valgrind
 	if (tool == "massif")
 	    filename = QString("%1/massif.out.%2").arg(wc.toLocalFile()).arg(m_process->pid());
 	else if (tool == "cachegrind")
-	    filename = QString("%1/massif.out.%2").arg(wc.toLocalFile()).arg(m_process->pid());
+	    filename = QString("%1/cachegrind.out.%2").arg(wc.toLocalFile()).arg(m_process->pid());
 
 	if (filename.length())
 	    m_file = new QFile(filename);
@@ -400,9 +422,8 @@ namespace valgrind
 	}
 	else
 	{
-	    // The connection is successfull we connect the parser to the ??
 	    m_connection = sock;
-	    //TODO still USEFUL? Probably, since parsers read from their device() attribute
+	    //TODO still USEFUL? -> Probably, since parsers read from their device() attribute
 	    m_parser->setDevice(m_connection);
 	    // Connects the parser to the socket
 	    connect(m_connection, SIGNAL(readyRead()), m_parser, SLOT(parse()));
@@ -495,6 +516,24 @@ namespace valgrind
 
 	emit updateTabText(m_tabIndex, tabname);
 	emitResult();
+
+	// we might want to execute kcachegrind here. Again, a virtual function to postprocess would be nice
+	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
+	KConfigGroup grp = m_launchcfg->config();
+
+	if (tool == "cachegrind" && grp.readEntry("Launch KCachegrind", false) )
+	{
+	    QStringList args;
+	    args << m_file->fileName();
+
+	    // FIXME: cannot work because the file is removed in ~Job... Subclass Job for each tool
+	    bool success = QProcess::startDetached( grp.readEntry("KCachegrindPath", "/usr/bin/kcachegrind"),
+				    args);
+	    if (!success)
+	      KMessageBox::error(qApp->activeWindow(), "Failed to start KCachegrind.", i18n("Valgrind Error"));
+
+
+	}
     }
 
     KDevelop::OutputModel* Job::model()

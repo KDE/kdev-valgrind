@@ -32,8 +32,10 @@ set(kdevvalgrind_PART_SRCS
     models/massifmodel.cpp
     models/memcheckmodel.cpp
     models/memcheckitemsimpl.cpp
+    models/cachegrindmodel.cpp
     parsers/massifparser.cpp
     parsers/memcheckparser.cpp
+    parsers/cachegrindparser.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS

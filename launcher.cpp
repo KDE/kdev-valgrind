@@ -62,12 +62,12 @@ Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
     factories << new valgrind::GenericConfigPageFactory(m_plugin);
     factories << new valgrind::MemcheckConfigPageFactory();
     factories << new valgrind::MassifConfigPageFactory();
+    factories << new valgrind::CachegrindConfigPageFactory();
 
     /*
     ** Those are unimplemented at the moment: see config/valgrindgenericconfigpage.cpp
     **	to enable them.
     */
-    // factories << new ValgrindCachegrindConfigPageFactory();
     // factories << new ValgrindCallgrindConfigPageFactory();
     // factories << new ValgrindHelgrindConfigPageFactory();
 }
