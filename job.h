@@ -64,15 +64,11 @@ namespace valgrind
       virtual ~Job();
 
       valgrind::Plugin* plugin() const;
-
       virtual void start();
-      void setTabIndex(int index);
-
-  protected:
       virtual bool doKill();
 
   signals:
-      void updateTabText(int index, const QString & text);
+      void updateTabText(valgrind::Model *, const QString & text);
 
   private slots:
       void newValgrindConnection();
@@ -113,6 +109,7 @@ namespace valgrind
 
       // The valgrind output file
       QFile	*m_file;
+      bool      m_killed;
   };
 
 }

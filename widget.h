@@ -21,6 +21,7 @@
 #define VALGRINDWIDGET_H
 
 #include <QTabWidget>
+#include <QMap>
 
 namespace valgrind
 {
@@ -34,20 +35,18 @@ class Widget : public QTabWidget
 
 public:
     Widget(valgrind::Plugin* plugin, QWidget* parent);
-
     valgrind::Plugin* plugin() const;
 
 public slots:
-  void updateTabText(int index, const QString & text);
+    void updateTabText(valgrind::Model * model, const QString & text);
 
 private Q_SLOTS:
-
     void newModel(valgrind::Model* model);
-    void modelDestroyed(QObject* model);
-    void destroyRequestedTab(int index);
+    void destroyRequestedTab(int tab);
 
 private:
     valgrind::Plugin* m_plugin;
+    QMap<int, valgrind::Model*> m_tabs;
 };
 }
 

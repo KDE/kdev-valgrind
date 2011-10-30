@@ -86,12 +86,15 @@ namespace valgrind
     /**
      * Set the associated process
      */
-    void setJob(valgrind::Job * job);
+    void job(valgrind::Job * job);
 
     /**
      * Get the associated process
      */
-    valgrind::Job * getJob(void);
+    valgrind::Job * job(void);
+
+    void jobDestroyed(void);
+
 
     signals:
 

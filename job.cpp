@@ -2,6 +2,7 @@
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
 
@@ -107,26 +108,26 @@ namespace valgrind
     Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
 	: KDevelop::OutputJob(parent)
 	, m_process(new KProcess(this))
-	, m_tabIndex(0)
 	, m_server(0)
 	, m_connection(0)
 	, m_model(0)
 	, m_parser(0)
 	, m_applicationOutput(new KDevelop::ProcessLineMaker(this))
 	, m_launchcfg( cfg )
-	, m_plugin(inst)
-	, m_file(0)
+	, m_plugin( inst )
+	, m_file( 0 )
+        , m_killed( false )
     {
 	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
 	// create the correct model for each tool
 
 	setCapabilities( KJob::Killable );
-	m_process->setOutputChannelMode(KProcess::SeparateChannels);
+	m_process->setOutputChannelMode( KProcess::SeparateChannels );
 
 	// connect the parser and the model
 	ModelParserFactoryPrivate factory;
 	factory.make(tool, m_model, m_parser);
-	m_model->setJob(this);
+	m_model->job(this);
 	m_parser->setDevice(m_process);
 
 	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
@@ -162,11 +163,6 @@ namespace valgrind
 
 	//We cannot delete the model here, or it won't show up in the GUI: is it done somewhere else?
 	//delete m_model;
-    }
-
-    void		Job::setTabIndex(int index)
-    {
-	m_tabIndex = index;
     }
 
     void		Job::processModeArgs(QStringList & out,
@@ -242,10 +238,10 @@ namespace valgrind
 		{"profileStack", "--stacks=", "bool"}
 	    };
 	static const int count = sizeof(massif_args) / sizeof(*massif_args);
-    
+
 	processModeArgs(args, massif_args, count, cfg);
 
-	int tu = cfg.readEntry("timeUnit", 0);    
+	int tu = cfg.readEntry("timeUnit", 0);
 	if (tu == 0)
 	    args << QString("--time-unit=i");
 	else if (tu == 1)
@@ -380,7 +376,7 @@ namespace valgrind
 
 	m_process->start();
 	QString	s = i18n( "job running (pid=%1)", m_process->pid() );
-	emit updateTabText(m_tabIndex, s);
+	emit updateTabText(m_model, s);
 
 
 	/* Some Valgrind tools do not write to sockets, so we will
@@ -401,9 +397,10 @@ namespace valgrind
 
     bool Job::doKill()
     {
-	m_process->kill();
-	QString	s = i18n( "job killed" );
-	emit updateTabText(m_tabIndex, s);
+        if ( m_process && m_process->pid() ) {
+            m_process->kill();
+            m_killed = true;
+        }
 	return true;
     }
 
@@ -459,7 +456,10 @@ namespace valgrind
 	    KMessageBox::error(qApp->activeWindow(), i18n("Failed to start valgrind from \"%1\".", m_process->property("executable").toString()), i18n("Failed to start Valgrind"));
 	    break;
 	case QProcess::Crashed:
-	    KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
+            // if the process was killed by the user, the crash was expected
+            // don't notify the user
+            if ( !m_killed )
+                KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
 	    break;
 	case QProcess::Timedout:
 	    KMessageBox::error(qApp->activeWindow(), i18n("Valgrind process timed out."), i18n("Valgrind Error"));
@@ -488,12 +488,12 @@ namespace valgrind
 	    ** Here, check if Valgrind failed (because of bad parameters or whatever).
 	    ** Because Valgrind always returns 1 on failure, and the profiled application's return
 	    ** on success, we cannot know for sure which process returned != 0.
-	    ** 
+	    **
 	    ** The only way to guess that it is Valgrind which failed is to check stderr and look for
 	    ** "valgrind:" at the beginning of each line, even though it can still be the profiled
 	    ** process that writes it on stderr. It is, however, unlikely enough to be reliable in
 	    ** most cases.
-	    */ 
+	    */
 	    const QString &s = m_process->readAllStandardError();
 
 	    if (s.startsWith("valgrind:"))
@@ -514,7 +514,7 @@ namespace valgrind
 	    m_parser->parse();
 	}
 
-	emit updateTabText(m_tabIndex, tabname);
+	emit updateTabText(m_model, tabname);
 	emitResult();
 
 	// we might want to execute kcachegrind here. Again, a virtual function to postprocess would be nice
@@ -540,7 +540,6 @@ namespace valgrind
     {
 	return dynamic_cast<KDevelop::OutputModel*>( KDevelop::OutputJob::model() );
     }
-
 }
 
 

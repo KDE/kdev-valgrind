@@ -1,4 +1,7 @@
+// -*- Mode: C++/l; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 8; -*-
+
 /* This file is part of KDevelop
+ *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2007-2008 Hamish Rodda <rodda@kde.org>
 
    This program is free software; you can redistribute it and/or
@@ -22,6 +25,7 @@
 
 #include <KIcon>
 #include <KLocale>
+#include <KDebug>
 
 #include "memcheckitems.h"
 #include "plugin.h"
@@ -29,11 +33,10 @@
 #include "memcheckmodel.h"
 #include "tree.h"
 
-
 namespace valgrind
 {
 
-Widget::Widget(valgrind::Plugin* plugin, QWidget * parent)
+Widget::Widget(valgrind::Plugin * plugin, QWidget * parent)
     : QTabWidget(parent)
     , m_plugin(plugin)
 {
@@ -52,7 +55,7 @@ Widget::Widget(valgrind::Plugin* plugin, QWidget * parent)
 
     setTabsClosable(true);
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(destroyRequestedTab(int)));
-    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
+    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model *)));
 }
 
 valgrind::Plugin * Widget::plugin() const
@@ -62,35 +65,38 @@ valgrind::Plugin * Widget::plugin() const
 
 void Widget::newModel(valgrind::Model * model)
 {
-    int index;
     valgrind::Job * job;
 
-    job = model->getJob();
-    valgrind::Tree* tree = new valgrind::Tree();
-    tree->setModel(model);
-    connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(modelDestroyed(QObject*)));
-    connect(job, SIGNAL(updateTabText(int, const QString &)), this, SLOT(updateTabText(int, const QString &)));
-    index = addTab(tree, i18n( "job scheduled" ));
-
-    job->setTabIndex(index);
-    setCurrentWidget(tree);
-}
-
-void Widget::modelDestroyed(QObject * model)
-{
-    for (int i = 0; i < count(); ++i)
-        if (static_cast<valgrind::Tree*>(widget(i))->model() == model)
-            return removeTab(i);
+    job = model->job();
+    if ( job ) {
+        valgrind::Tree* tree = new valgrind::Tree();
+        tree->setModel( model );
+        connect(job, SIGNAL(updateTabText(valgrind::Model *, const QString &)),
+                this, SLOT(updateTabText(valgrind::Model *, const QString &)) );
+        addTab( tree, i18n( "job scheduled" ) );
+        setCurrentWidget( tree );
+    }
 }
 
 void Widget::destroyRequestedTab(int index)
 {
-    removeTab(index);
+    valgrind::Model * model;
+
+    // kill the job if it's still runningg
+    model = static_cast<valgrind::Model*>( static_cast<valgrind::Tree*>( widget( index ) )->model() );
+    if ( model && model->job() )
+        model->job()->doKill();
+    delete model;
+    removeTab( index );
 }
 
-void Widget::updateTabText(int index, const QString & text)
+void Widget::updateTabText(valgrind::Model * model, const QString & text)
 {
-    setTabText(index, text);
+    for (int i = 0; i < count(); ++i) {
+        if (static_cast<valgrind::Tree*>(widget(i))->model() == model) {
+            setTabText( i, text );
+        }
+    }
 }
 
 }
