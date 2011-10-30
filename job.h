@@ -27,6 +27,8 @@
 #include <QProcess>
 #include <QTcpSocket>
 #include <klocale.h>
+#include <QFileInfo>
+#include <QTimer>
 
 #include <outputview/outputjob.h>
 
@@ -75,10 +77,7 @@ namespace valgrind
   private slots:
       void newValgrindConnection();
       void socketError(QAbstractSocket::SocketError err);
-      void readFromValgrind();
 
-      void readyReadStandardOutput();
-      void readyReadStandardError();
       void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
       void processErrored(QProcess::ProcessError);
 
@@ -93,11 +92,11 @@ namespace valgrind
       void addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
       void addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
       QStringList buildCommandLine() const;
-
       KDevelop::OutputModel* model();
 
+  private:
+
       KProcess* m_process;
-      int m_currentPid;
       int m_tabIndex;
 
       QTcpServer* m_server;
@@ -109,6 +108,9 @@ namespace valgrind
       KDevelop::ProcessLineMaker* m_applicationOutput;
       KDevelop::ILaunchConfiguration* m_launchcfg;
       valgrind::Plugin *m_plugin;
+
+      // The valgrind output file
+      QFile	*m_file;
   };
 
 }
