@@ -180,6 +180,14 @@ void		Job::processModeArgs(QStringList & out,
             bool n = cfg.readEntry( mode_args[i][0], false );
             val = n ? "yes" : "no";
         }
+	else if (argtype == "float")
+	{
+	    // FIXME: fake float
+	    int n = cfg.readEntry( mode_args[i][0], 1 );
+
+	    val.sprintf("%d.0", n);
+
+	}
         if (val.length()) // Finally, if our argument is meaningful, add it
         {
             QString argument = QString(mode_args[i][1]) + val;
@@ -210,12 +218,28 @@ void		Job::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
 void		Job::addMassifArgs(QStringList &args, KConfigGroup &cfg) const
 {
     static const t_valgrind_cfg_argarray massif_args =
-    {
-        {"Massif Arguments", "", "str"}
-    };
+	{
+	    {"Massif Arguments", "", "str"},
+	    {"depth", "--depth=", "int"},
+	    {"threshold", "--threshold=", "float"},
+	    {"peakInaccuracy", "--peak-inaccuracy=", "float"},
+	    {"maxSnapshots", "--max-snapshots=", "int"},
+	    {"snapshotFreq", "--detailed-freq=", "int"},
+	    {"profileHeap", "--heap=", "bool"},
+	    {"profileStack", "--stacks=", "bool"}
+	};
     static const int count = sizeof(massif_args) / sizeof(*massif_args);
     
     processModeArgs(args, massif_args, count, cfg);
+    // process timeUnit
+
+    int tu = cfg.readEntry("timeUnit", 0);    
+    if (tu == 0)
+	args << QString("--time-unit=i");
+    else if (tu == 1)
+	args << QString("--time-unit=ms");
+    else if (tu == 2)
+	args << QString("--time-unit=B");
 }
 
 QStringList	Job::buildCommandLine() const

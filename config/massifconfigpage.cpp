@@ -31,7 +31,14 @@ MassifConfigPage::MassifConfigPage( QWidget *parent )
     ui = new Ui::MassifConfig();
     ui->setupUi( this );
     connect(ui->massifParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
-    // TODO: finish the other ones (due on sunday)
+    connect(ui->depth, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->threshold, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->peakInaccuracy, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->maxSnapshots, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->snapshotFreq, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->timeUnit, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
+    connect(ui->profileHeap, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect(ui->profileStack, SIGNAL(toggled(bool)), SIGNAL(changed()) );
 }
 
 void	MassifConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop::IProject * )
@@ -40,6 +47,14 @@ void	MassifConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop:
     blockSignals(true);
 
     ui->massifParameters->setText( cfg.readEntry("Massif Arguments", "") );
+    ui->depth->setValue( cfg.readEntry("depth", 30) );
+    ui->threshold->setValue( cfg.readEntry("threshold", 1) );
+    ui->peakInaccuracy->setValue( cfg.readEntry("peakInaccuracy", 1) );
+    ui->maxSnapshots->setValue( cfg.readEntry("maxSnapshots", 100) );
+    ui->snapshotFreq->setValue( cfg.readEntry("snapshotFreq", 10) );
+    ui->timeUnit->setCurrentIndex( cfg.readEntry("timeUnit", 0) );
+    ui->profileHeap->setChecked( cfg.readEntry("profileHeap", true) );
+    ui->profileStack->setChecked( cfg.readEntry("profileStack", false) );
 
     blockSignals(wasBlocked);
 }
@@ -51,7 +66,15 @@ KIcon	MassifConfigPage::icon( void ) const
 
 void	MassifConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
 {
-  cfg.writeEntry( "Massif Arguments", ui->massifParameters->text() );
+    cfg.writeEntry( "Massif Arguments", ui->massifParameters->text() );
+    cfg.writeEntry( "depth", ui->depth->value() );
+    cfg.writeEntry( "threshold", ui->threshold->value() );
+    cfg.writeEntry( "peakInaccuracy", ui->peakInaccuracy->value() );
+    cfg.writeEntry( "maxSnapshots", ui->maxSnapshots->value() );
+    cfg.writeEntry( "snapshotsFreq", ui->snapshotFreq->value() );
+    cfg.writeEntry( "timeUnit", ui->timeUnit->currentIndex() );
+    cfg.writeEntry( "profileHeap", ui->profileHeap->isChecked() );
+    cfg.writeEntry( "profileStack", ui->profileStack->isChecked() );
 }
 
 QString	MassifConfigPage::title( void ) const
