@@ -1,5 +1,5 @@
 /* This file is part of KDevelop
- * Copyright 2011 Sebastien Rannou <mxs@buffout.org>
+ * Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public

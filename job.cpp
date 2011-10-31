@@ -116,6 +116,7 @@ namespace valgrind
 	    return new MassifJob(cfg, inst, parent);
 	else if (name == "cachegrind")
 	    return new CachegrindJob(cfg, inst, parent);
+        kDebug() << "can't create this job";
 	return NULL;
     }
 
@@ -239,6 +240,7 @@ namespace valgrind
 	{
 	    setError( -1 );
 	    setErrorText( err );
+            emit updateTabText(m_model, i18n(  "job failed" ) );
 	    return;
 	}
 
@@ -255,6 +257,7 @@ namespace valgrind
 	{
 	    setError( -1 );
 	    setErrorText( err );
+            emit updateTabText(m_model, i18n(  "job failed" ) );
 	}
 	if( error() != 0 )
 	{
@@ -293,8 +296,7 @@ namespace valgrind
 	m_process->setProgram( grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(),
 			       valgrindArgs );
 	m_process->start();
-	QString	s = i18n( "job running (pid=%1)", m_process->pid() );
-	emit updateTabText(m_model, s);
+	emit updateTabText(m_model, i18n(  "job running (pid=%1)",  m_process->pid() ) );
 
 	this->processStarted();
     }
