@@ -51,10 +51,15 @@ namespace valgrind
 	    if (m_lst[0] == "heap_tree")
 	    {
 	      if (m_lst[1].startsWith("peak") || m_lst[1].startsWith("detailed"))
-		while (!m_buffer.startsWith("#"))
+		while (!m_buffer.startsWith("#") && !device()->atEnd())
 		  {
 		    m_buffer = device()->readLine();
-		    m_item->incomingAlloc(m_buffer);
+		    if (m_buffer.startsWith("#"))
+		      break;
+		    MassifItem *child = new MassifItem(true);
+		    child->setParent(m_item);
+		    child->incomingData("child", m_buffer);
+		    m_item->appendChild(child);
 		  }
 	      // this is the last info, send the item to the model
 	      emit newItem(m_item);

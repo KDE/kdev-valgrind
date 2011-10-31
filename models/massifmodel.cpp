@@ -58,7 +58,7 @@ namespace valgrind
       }
     MassifItem *m = dynamic_cast<MassifItem *>(i);
     Q_ASSERT(m);
-    m->setParent(m);
+    m->setParent(m_rootItem);
     m_rootItem->appendChild(m);
   }
 

@@ -19,12 +19,19 @@
 */
 
 #include "massifitem.h"
+#include <QDebug>
 
 namespace valgrind
 {
 
   MassifItem::MassifItem()
   {
+    m_child = false;
+  }
+
+  MassifItem::MassifItem(bool child)
+  {
+    m_child = child;
   }
 
   MassifItem::~MassifItem()
@@ -69,6 +76,8 @@ namespace valgrind
 
   QVariant MassifItem::data(int column) const
   {
+    if (m_child && column == MemStacksB)
+      return m_values["child"];
     switch (column) {
     case Snapshot:
       return m_values["snapshot"];

@@ -36,6 +36,7 @@ namespace valgrind
   public:
 
     MassifItem();
+    MassifItem(bool);
     virtual ~MassifItem();
 
     enum Columns {
@@ -62,10 +63,10 @@ namespace valgrind
     int row() const;
     MassifItem *parent();
 
-
   private:
     QMap<QString, QString> m_values;
     QStringList m_allocs;
+    bool m_child;
 
     // use by the model
     QList<MassifItem*> m_childItems;
