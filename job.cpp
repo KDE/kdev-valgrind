@@ -141,6 +141,7 @@ namespace valgrind
 	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
 	ModelParserFactoryPrivate factory;
 
+        setTitle( QString( "valgrind (" + tool + ")" ));
 	factory.make(tool, m_model, m_parser);
 	m_model->job(this);
 	// every job seems to overwrite this parameter, is it really useful ?
@@ -382,7 +383,7 @@ namespace valgrind
     void	Job::beforeStart()
     {
     }
-    
+
     void	Job::processStarted()
     {
     }
