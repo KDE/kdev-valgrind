@@ -44,11 +44,6 @@ namespace valgrind
     m_values[name] = value;
   }
 
-  void MassifItem::incomingAlloc(const QString &value)
-  {
-    m_allocs << value;
-  }
-
   void MassifItem::appendChild(MassifItem *item)
   {
     m_childItems.append(item);
