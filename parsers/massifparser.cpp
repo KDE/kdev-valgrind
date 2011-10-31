@@ -44,10 +44,10 @@ namespace valgrind
 	    if (m_lst[0] == "snapshot") // new snapshot
 	      {
 		m_item = new MassifItem();
-		m_item->incomingData(m_lst[0], m_lst[1]);
+		m_item->incomingData(m_lst[0], m_lst[1].trimmed());
 		continue;
 	      }
-	    m_item->incomingData(m_lst[0], m_lst[1]);
+	    m_item->incomingData(m_lst[0], m_lst[1].trimmed());
 	    if (m_lst[0] == "heap_tree")
 	    {
 	      if (m_lst[1].startsWith("peak") || m_lst[1].startsWith("detailed"))
@@ -58,7 +58,7 @@ namespace valgrind
 		      break;
 		    MassifItem *child = new MassifItem(true);
 		    child->setParent(m_item);
-		    child->incomingData("child", m_buffer);
+		    child->incomingData("child", m_buffer.trimmed());
 		    m_item->appendChild(child);
 		  }
 	      // this is the last info, send the item to the model

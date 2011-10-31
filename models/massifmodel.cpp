@@ -128,7 +128,8 @@ namespace valgrind
     case Qt::FontRole:
       {
 	QFont f = KGlobalSettings::generalFont();
-	//f.setBold(true);
+	if ((static_cast<MassifItem*>(index.internalPointer()))->parent() == m_rootItem)
+	  f.setBold(true);
 	return f;
       }
       break;
