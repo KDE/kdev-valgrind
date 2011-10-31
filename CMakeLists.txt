@@ -13,6 +13,7 @@ include_directories(
     ${valgrind_SOURCE_DIR}/config
     ${valgrind_SOURCE_DIR}/models
     ${valgrind_SOURCE_DIR}/parsers
+    ${valgrind_SOURCE_DIR}/jobs
 )
 
 
@@ -36,6 +37,9 @@ set(kdevvalgrind_PART_SRCS
     parsers/massifparser.cpp
     parsers/memcheckparser.cpp
     parsers/cachegrindparser.cpp
+    jobs/memcheckjob.cpp
+    jobs/massifjob.cpp
+    jobs/cachegrindjob.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS

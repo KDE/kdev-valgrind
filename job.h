@@ -62,43 +62,45 @@ namespace valgrind
   public:
       Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
       virtual ~Job();
-
       valgrind::Plugin* plugin() const;
+      KDevelop::OutputModel* model();
       virtual void start();
       virtual bool doKill();
+
+      // Factory
+      static Job *	createToolJob(KDevelop::ILaunchConfiguration* cfg,
+				      Plugin *inst,
+				      QObject* parent = 0);
 
   signals:
       void updateTabText(valgrind::Model *, const QString & text);
 
   private slots:
-      void newValgrindConnection();
-      void socketError(QAbstractSocket::SocketError err);
 
       void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
       void processErrored(QProcess::ProcessError);
 
-  private:
+  protected:
       typedef QString	t_valgrind_cfg_argarray[][3];
+
+      virtual void beforeStart(); // called before launching the process
+      virtual void processStarted(); // called after the process has been launched
+      virtual void processEnded(); // called when the process ended
+
+      virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const = 0;
 
       void processModeArgs(QStringList & out,
 			   const t_valgrind_cfg_argarray mode_args,
 			   int mode_args_count,
 			   KConfigGroup & cfg) const;
 
-      void addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const;
-      void addMassifArgs(QStringList &args, KConfigGroup &cfg) const;
-      void addCachegrindArgs(QStringList &args, KConfigGroup &cfg) const;
-
       QStringList buildCommandLine() const;
-      KDevelop::OutputModel* model();
 
-  private:
+
+  protected:
 
       KProcess* m_process;
       int m_tabIndex;
-
-      QTcpServer* m_server;
-      QTcpSocket* m_connection;
 
       valgrind::Model* m_model;
       valgrind::Parser* m_parser;

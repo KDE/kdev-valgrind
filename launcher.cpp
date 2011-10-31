@@ -89,7 +89,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         {
             l << depjob;
         }
-        l << new valgrind::Job( cfg, m_plugin, KDevelop::ICore::self()->runController() );
+        l << valgrind::Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
         return new KDevelop::ExecuteCompositeJob( KDevelop::ICore::self()->runController(), l );
     }
     kWarning() << "Unknown launch mode " << launchMode << "for config:" << cfg->name();

@@ -26,8 +26,6 @@
 
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
-#include <QTcpServer>
-#include <QTcpSocket>
 #include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>
@@ -50,13 +48,15 @@
 
 #include "memcheckmodel.h"
 #include "memcheckparser.h"
+#include "memcheckjob.h"
 
 #include "massifmodel.h"
 #include "massifparser.h"
+#include "massifjob.h"
 
 #include "cachegrindmodel.h"
 #include "cachegrindparser.h"
-
+#include "cachegrindjob.h"
 
 #include "plugin.h"
 
@@ -105,64 +105,60 @@ namespace valgrind
     }
 
 
+    // The factory for jobs
+
+    /*static */ Job	*Job::createToolJob( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
+    {
+	const QString &name = cfg->config().readEntry( "Current Tool", "memcheck" );
+	if (name == "memcheck")
+	    return new MemcheckJob(cfg, inst, parent);
+	else if (name == "massif")
+	    return new MassifJob(cfg, inst, parent);
+	else if (name == "cachegrind")
+	    return new CachegrindJob(cfg, inst, parent);
+	return NULL;
+    }
+
     Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
 	: KDevelop::OutputJob(parent)
 	, m_process(new KProcess(this))
-	, m_server(0)
-	, m_connection(0)
 	, m_model(0)
 	, m_parser(0)
 	, m_applicationOutput(new KDevelop::ProcessLineMaker(this))
 	, m_launchcfg( cfg )
 	, m_plugin( inst )
-	, m_file( 0 )
         , m_killed( false )
     {
-	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
-	// create the correct model for each tool
-
 	setCapabilities( KJob::Killable );
 	m_process->setOutputChannelMode( KProcess::SeparateChannels );
-
-	// connect the parser and the model
-	ModelParserFactoryPrivate factory;
-	factory.make(tool, m_model, m_parser);
-	m_model->job(this);
-	m_parser->setDevice(m_process);
-
 	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
 		SLOT(processFinished(int, QProcess::ExitStatus)));
 	connect(m_process, SIGNAL(error(QProcess::ProcessError)),
 		SLOT(processErrored(QProcess::ProcessError)));
 
+
+	// create the correct model for each tool
+	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
+	ModelParserFactoryPrivate factory;
+
+	factory.make(tool, m_model, m_parser);
+	m_model->job(this);
+	// every job seems to overwrite this parameter, is it really useful ?
+	//m_parser->setDevice(m_process);
+
+
 #ifndef _UNIT_TESTS_
 	m_plugin->incomingModel(m_model);
 #endif
+
     }
 
     Job::~Job()
     {
-	if (m_server)
-	{
-	    m_server->close();
-	    delete m_server;
-	    // m_connection is deleted by the server
-	}
-
-	if (m_file) // a file was used by valgrind (e.g. with massif or cachegrind)
-	{
-	    m_file->close();
-	    m_file->remove();
-	    delete m_file;
-	}
-
 	// these are allocated in the constructor
 	delete m_process;
 	delete m_applicationOutput;
 	delete m_parser;
-
-	//We cannot delete the model here, or it won't show up in the GUI: is it done somewhere else?
-	//delete m_model;
     }
 
     void		Job::processModeArgs(QStringList & out,
@@ -205,62 +201,6 @@ namespace valgrind
 	}
     }
 
-    void		Job::addMemcheckArgs(QStringList &args, KConfigGroup &cfg) const
-    {
-	static const t_valgrind_cfg_argarray memcheck_args =
-	    {
-		{"Memcheck Arguments", "", "str"},
-		{"Freelist Size", "--freelist-vol=", "int"},
-		{"Show Reachable", "--show-reachable=", "bool"},
-		//        {"Track Origins",		"--track-origins=",	"bool"},
-		{"Undef Value Errors",	"--undef-value-errors=","bool"}
-	    };
-	static const int		memcheck_args_count = sizeof(memcheck_args) / sizeof(*memcheck_args);
-	args << "--xml=yes";
-	if( m_server )
-	{
-	    args << QString( "--xml-socket=127.0.0.1:%1").arg( m_server->serverPort() );
-	}
-	processModeArgs(args, memcheck_args, memcheck_args_count, cfg);
-    }
-
-    void		Job::addMassifArgs(QStringList &args, KConfigGroup &cfg) const
-    {
-	static const t_valgrind_cfg_argarray massif_args =
-	    {
-		{"Massif Arguments", "", "str"},
-		{"depth", "--depth=", "int"},
-		{"threshold", "--threshold=", "float"},
-		{"peakInaccuracy", "--peak-inaccuracy=", "float"},
-		{"maxSnapshots", "--max-snapshots=", "int"},
-		{"snapshotFreq", "--detailed-freq=", "int"},
-		{"profileHeap", "--heap=", "bool"},
-		{"profileStack", "--stacks=", "bool"}
-	    };
-	static const int count = sizeof(massif_args) / sizeof(*massif_args);
-
-	processModeArgs(args, massif_args, count, cfg);
-
-	int tu = cfg.readEntry("timeUnit", 0);
-	if (tu == 0)
-	    args << QString("--time-unit=i");
-	else if (tu == 1)
-	    args << QString("--time-unit=ms");
-	else if (tu == 2)
-	    args << QString("--time-unit=B");
-    }
-
-    void	Job::addCachegrindArgs(QStringList &args, KConfigGroup &cfg) const
-    {
-	static const t_valgrind_cfg_argarray cg_args =
-	    {
-		{"Cachegrind Arguments", "", "str"}
-	    };
-	static const int count = sizeof(cg_args) / sizeof(*cg_args);
-	
-	processModeArgs(args, cg_args, count, cfg);
-    }
-
     QStringList	Job::buildCommandLine() const
     {
 	static const t_valgrind_cfg_argarray generic_args =
@@ -279,13 +219,7 @@ namespace valgrind
 	args += KShell::splitArgs( cfg.readEntry( "Valgrind Arguments", "" ) );
 	processModeArgs(args, generic_args, generic_args_count, cfg);
 
-	// XXX: we could probably subclass Job with each tool and use a virtual addToolArgs()
-	if (tool == "memcheck")
-	    addMemcheckArgs(args, cfg);
-	else if (tool == "massif")
-	    addMassifArgs(args, cfg);
-	else if (tool == "cachegrind")
-	    addCachegrindArgs(args, cfg);
+	addToolArgs(args, cfg);
 
 	return args;
     }
@@ -293,16 +227,13 @@ namespace valgrind
     void Job::start()
     {
 	KConfigGroup grp = m_launchcfg->config();
-
 	IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-	Q_ASSERT(iface);
-
 	KDevelop::EnvironmentGroupList l(KGlobal::config());
 	QString envgrp = iface->environmentGroup( m_launchcfg );
-
 	QString err;
 	QString executable = iface->executable( m_launchcfg, err ).toLocalFile();
 
+	Q_ASSERT(iface);
 	if( !err.isEmpty() )
 	{
 	    setError( -1 );
@@ -333,36 +264,24 @@ namespace valgrind
 	setStandardToolView(KDevelop::IOutputView::DebugView);
 	setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
 	setModel( new KDevelop::OutputModel(), KDevelop::IOutputView::TakeOwnership );
-
 	startOutput();
 
-	connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)), model(), SLOT(appendLines(QStringList)));
-	connect(m_applicationOutput, SIGNAL(receivedStderrLines(QStringList)), model(), SLOT(appendLines(QStringList)));
+	connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)),
+		model(), SLOT(appendLines(QStringList)));
+	connect(m_applicationOutput, SIGNAL(receivedStderrLines(QStringList)),
+		model(), SLOT(appendLines(QStringList)));
+	m_process->setEnvironment( l.createEnvironment( envgrp, m_process->systemEnvironment()) );
 
 	Q_ASSERT(m_process->state() != QProcess::Running);
 
-	if (!m_server)
-	{
-	    m_server = new QTcpServer(this);
-	    if (!m_server->listen())
-	    {
-		kWarning() << "Could not open TCP socket for communication with Valgrind: "
-			   << m_server->errorString();
-		delete m_server;
-		m_server = 0;
-	    }
-	    if(m_server)
-		connect(m_server, SIGNAL(newConnection()), SLOT(newValgrindConnection()));
-	}
-
-	m_process->setEnvironment( l.createEnvironment( envgrp, m_process->systemEnvironment()) );
 	KUrl wc = iface->workingDirectory( m_launchcfg );
 	if( wc.isEmpty() || ! wc.isValid() )
-	{
-	    wc = KUrl( QFileInfo( executable ).absolutePath() );
-	}
+	  wc = KUrl( QFileInfo( executable ).absolutePath() );
 	m_process->setWorkingDirectory( wc.toLocalFile() );
 	m_process->setProperty( "executable", executable );
+
+	// some tools need to initialize stuff before the process starts
+	this->beforeStart();
 
 	QStringList valgrindArgs;
 
@@ -372,27 +291,11 @@ namespace valgrind
 	kDebug() << "executing:" << grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile() << valgrindArgs;
 	m_process->setProgram( grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(),
 			       valgrindArgs );
-
-
 	m_process->start();
 	QString	s = i18n( "job running (pid=%1)", m_process->pid() );
 	emit updateTabText(m_model, s);
 
-
-	/* Some Valgrind tools do not write to sockets, so we will
-	** have to read the output file when the process ends.
-	*/
-	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
-	QString filename;
-
-	if (tool == "massif")
-	    filename = QString("%1/massif.out.%2").arg(wc.toLocalFile()).arg(m_process->pid());
-	else if (tool == "cachegrind")
-	    filename = QString("%1/cachegrind.out.%2").arg(wc.toLocalFile()).arg(m_process->pid());
-
-	if (filename.length())
-	    m_file = new QFile(filename);
-
+	this->processStarted();
     }
 
     bool Job::doKill()
@@ -404,44 +307,7 @@ namespace valgrind
 	return true;
     }
 
-    void Job::newValgrindConnection()
-    {
-	Q_ASSERT(m_server);
 
-	QTcpSocket* sock = m_server->nextPendingConnection();
-	if (!sock)
-	    return;
-
-	if (m_connection)
-	{
-	    kWarning() << "Got a new valgrind connection while old one was still alive!";
-	    delete sock; // discard new connection
-	}
-	else
-	{
-	    m_connection = sock;
-	    //TODO still USEFUL? -> Probably, since parsers read from their device() attribute
-	    m_parser->setDevice(m_connection);
-	    // Connects the parser to the socket
-	    connect(m_connection, SIGNAL(readyRead()), m_parser, SLOT(parse()));
-	    connect(m_connection, SIGNAL(error(QAbstractSocket::SocketError)),
-		    SLOT(socketError(QAbstractSocket::SocketError)));
-	}
-    }
-
-    void Job::socketError(QAbstractSocket::SocketError)
-    {
-	Q_ASSERT(m_connection);
-
-	//FIXME: The user should be notified about that but we cannot use KMessageBox because we might not be on
-	//the UI thread.
-
-	// Update: Sort of fixed, the stderr of valgrind is checked at the end of the process. The only
-	// reason for a socket error to happen here is because Valgrind could not be launched, which is
-	// precisely what is handled in processFinished
-	kWarning() << i18n("Socket error while communicating with valgrind: \"%1\"", m_connection->errorString()) <<
-	    i18n("Valgrind communication error");
-    }
 
     valgrind::Plugin * Job::plugin() const
     {
@@ -507,39 +373,29 @@ namespace valgrind
 	    }
 	}
 
-	if (m_file) //valgrind wrote some infos in m_file, parse it
-	{
-	    m_file->open(QIODevice::ReadOnly);
-	    m_parser->setDevice(m_file);
-	    m_parser->parse();
-	}
+	this->processEnded();
 
 	emit updateTabText(m_model, tabname);
 	emitResult();
+    }
 
-	// we might want to execute kcachegrind here. Again, a virtual function to postprocess would be nice
-	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
-	KConfigGroup grp = m_launchcfg->config();
+    void	Job::beforeStart()
+    {
+    }
+    
+    void	Job::processStarted()
+    {
+    }
 
-	if (tool == "cachegrind" && grp.readEntry("Launch KCachegrind", false) )
-	{
-	    QStringList args;
-	    args << m_file->fileName();
-
-	    // FIXME: cannot work because the file is removed in ~Job... Subclass Job for each tool
-	    bool success = QProcess::startDetached( grp.readEntry("KCachegrindPath", "/usr/bin/kcachegrind"),
-				    args);
-	    if (!success)
-	      KMessageBox::error(qApp->activeWindow(), "Failed to start KCachegrind.", i18n("Valgrind Error"));
-
-
-	}
+    void	Job::processEnded()
+    {
     }
 
     KDevelop::OutputModel* Job::model()
     {
 	return dynamic_cast<KDevelop::OutputModel*>( KDevelop::OutputJob::model() );
     }
+
 }
 
 
