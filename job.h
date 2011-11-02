@@ -102,6 +102,7 @@ namespace valgrind
   protected:
 
       KProcess* m_process;
+      int m_pid;
       int m_tabIndex;
 
       valgrind::Model* m_model;

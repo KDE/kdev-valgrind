@@ -123,8 +123,9 @@ namespace valgrind
     Job::Job( KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent )
 	: KDevelop::OutputJob(parent)
 	, m_process(new KProcess(this))
-	, m_model(0)
-	, m_parser(0)
+        , m_pid( 0 )
+	, m_model( 0 )
+	, m_parser( 0 )
 	, m_applicationOutput(new KDevelop::ProcessLineMaker(this))
 	, m_launchcfg( cfg )
 	, m_plugin( inst )
@@ -146,7 +147,6 @@ namespace valgrind
 	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
 	ModelParserFactoryPrivate factory;
 
-        setTitle( QString( "valgrind (" + tool + ")" ));
 	factory.make(tool, m_model, m_parser);
 	m_model->job(this);
 	// every job seems to overwrite this parameter, is it really useful ?
@@ -209,7 +209,7 @@ namespace valgrind
 
     void Job::readyReadStandardError()
     {
-        m_applicationOutput->slotReceivedStderr(m_process->readAllStandardError());
+       m_applicationOutput->slotReceivedStderr(m_process->readAllStandardError());
     }
 
     void Job::readyReadStandardOutput()
@@ -282,12 +282,7 @@ namespace valgrind
 	setStandardToolView(KDevelop::IOutputView::DebugView);
 	setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
 	setModel( new KDevelop::OutputModel(), KDevelop::IOutputView::TakeOwnership );
-	startOutput();
 
-	connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)),
-		model(), SLOT(appendLines(QStringList)));
-	connect(m_applicationOutput, SIGNAL(receivedStderrLines(QStringList)),
-		model(), SLOT(appendLines(QStringList)));
 	m_process->setEnvironment( l.createEnvironment( envgrp, m_process->systemEnvironment()) );
 
 	Q_ASSERT(m_process->state() != QProcess::Running);
@@ -310,7 +305,15 @@ namespace valgrind
 	m_process->setProgram( grp.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ).toLocalFile(),
 			       valgrindArgs );
 	m_process->start();
-	emit updateTabText(m_model, i18n(  "job running (pid=%1)",  m_process->pid() ) );
+        m_pid = m_process->pid();
+        setTitle( QString( i18n("job output (pid=%1)", m_pid ) ) );
+        startOutput();
+        connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)),
+		model(), SLOT(appendLines(QStringList)));
+	connect(m_applicationOutput, SIGNAL(receivedStderrLines(QStringList)),
+		model(), SLOT(appendLines(QStringList)));
+
+        emit updateTabText(m_model, i18n(  "job running (pid=%1)",  m_pid ) );
 
 	this->processStarted();
     }
@@ -363,7 +366,7 @@ namespace valgrind
     {
 	qDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
-	QString	tabname = i18n( "job finished (%1)", exitCode );
+	QString	tabname = i18n( "job finished (pid=%1,exit=%2)", m_pid, exitCode );
 
 	if (exitCode != 0)
 	{
