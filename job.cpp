@@ -102,6 +102,7 @@ namespace valgrind
 	}
 
 	QObject::connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
+        m_model->reset();
     }
 
 

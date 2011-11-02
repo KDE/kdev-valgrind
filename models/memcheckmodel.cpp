@@ -231,7 +231,6 @@ namespace valgrind
     return 0;
   }
 
-
   QModelIndex MemcheckModel::indexForItem(MemcheckItem* item, int column ) const
   {
     int index = -1;
@@ -301,7 +300,7 @@ namespace valgrind
   {
     //    qDeleteAll(errors);
     m_errors.clear();
-    reset();
+    QAbstractItemModel::reset();
   }
 
   void MemcheckModel::newData(MemcheckModel::eElementType e, QString name, QString value)
@@ -333,4 +332,3 @@ namespace valgrind
 }
 
 #include "memcheckmodel.moc"
-
