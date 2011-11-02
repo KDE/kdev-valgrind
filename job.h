@@ -77,6 +77,8 @@ namespace valgrind
 
   private slots:
 
+      void readyReadStandardError();
+      void readyReadStandardOutput();
       void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
       void processErrored(QProcess::ProcessError);
 

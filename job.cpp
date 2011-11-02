@@ -132,7 +132,11 @@ namespace valgrind
     {
 	setCapabilities( KJob::Killable );
 	m_process->setOutputChannelMode( KProcess::SeparateChannels );
-	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
+        connect( m_process,  SIGNAL( readyReadStandardOutput() ),
+                 SLOT( readyReadStandardOutput() ) );
+        connect( m_process,  SIGNAL( readyReadStandardError() ),
+                 SLOT( readyReadStandardError() ) );
+        connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
 		SLOT(processFinished(int, QProcess::ExitStatus)));
 	connect(m_process, SIGNAL(error(QProcess::ProcessError)),
 		SLOT(processErrored(QProcess::ProcessError)));
@@ -201,6 +205,16 @@ namespace valgrind
 		out << argument;
 	    }
 	}
+    }
+
+    void Job::readyReadStandardError()
+    {
+        m_applicationOutput->slotReceivedStderr(m_process->readAllStandardError());
+    }
+
+    void Job::readyReadStandardOutput()
+    {
+        m_applicationOutput->slotReceivedStdout(m_process->readAllStandardOutput());
     }
 
     QStringList	Job::buildCommandLine() const
