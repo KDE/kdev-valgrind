@@ -143,6 +143,7 @@ namespace valgrind
 		SLOT(processErrored(QProcess::ProcessError)));
 
 
+
 	// create the correct model for each tool
 	QString tool = m_launchcfg->config().readEntry( "Current Tool", "memcheck" );
 	ModelParserFactoryPrivate factory;
@@ -287,10 +288,10 @@ namespace valgrind
 
 	Q_ASSERT(m_process->state() != QProcess::Running);
 
-	KUrl wc = iface->workingDirectory( m_launchcfg );
-	if( wc.isEmpty() || ! wc.isValid() )
-	  wc = KUrl( QFileInfo( executable ).absolutePath() );
-	m_process->setWorkingDirectory( wc.toLocalFile() );
+	m_workingDir = iface->workingDirectory( m_launchcfg );
+	if( m_workingDir.isEmpty() || ! m_workingDir.isValid() )
+	  m_workingDir = KUrl( QFileInfo( executable ).absolutePath() );
+	m_process->setWorkingDirectory( m_workingDir.toLocalFile() );
 	m_process->setProperty( "executable", executable );
 
 	// some tools need to initialize stuff before the process starts

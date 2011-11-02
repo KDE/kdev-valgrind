@@ -27,6 +27,7 @@
 #include <QProcess>
 #include <QTcpSocket>
 #include <klocale.h>
+#include <kurl.h>
 #include <QFileInfo>
 #include <QTimer>
 
@@ -102,8 +103,8 @@ namespace valgrind
   protected:
 
       KProcess* m_process;
+      KUrl m_workingDir;
       int m_pid;
-      int m_tabIndex;
 
       valgrind::Model* m_model;
       valgrind::Parser* m_parser;
