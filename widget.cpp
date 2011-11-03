@@ -75,6 +75,7 @@ void Widget::newModel(valgrind::Model * model)
                 this, SLOT(updateTabText(valgrind::Model *, const QString &)) );
         addTab( tree, i18n( "job scheduled" ) );
         setCurrentWidget( tree );
+        setMovable( true );
     }
 }
 

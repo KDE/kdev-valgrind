@@ -46,7 +46,6 @@ private Q_SLOTS:
 
 private:
     valgrind::Plugin* m_plugin;
-    QMap<int, valgrind::Model*> m_tabs;
 };
 }
 

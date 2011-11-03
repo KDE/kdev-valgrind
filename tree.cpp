@@ -24,6 +24,7 @@
 
 #include <KIO/NetAccess>
 
+#include <kdebug.h>
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
