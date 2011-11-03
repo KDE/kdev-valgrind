@@ -61,6 +61,7 @@ namespace valgrind
 
 
     private:
+	QString m_workingDir;
 	QString m_buffer;
 	QStringList m_lst;
 	MassifItem *m_item;

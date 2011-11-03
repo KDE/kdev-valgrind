@@ -24,6 +24,7 @@
 #include <QString>
 #include <QMap>
 #include <QStringList>
+#include <KUrl>
 
 #include "imodel.h"
 
@@ -50,7 +51,7 @@ namespace valgrind
     /*
      * Called when data related to the error has been parsed
      */
-    void incomingData(const QString &name, const QString &value);
+    void incomingData(const QString &name, const QString &value, const QString &dir = "");
     void incomingAlloc(const QString &value);
 
     // use by the model
@@ -63,9 +64,15 @@ namespace valgrind
     int row() const;
     MassifItem *parent();
 
+    KUrl url() const;
+    int getLine() const;
+
   private:
     QMap<QString, QString> m_values;
     bool m_child;
+
+    int m_line;
+    QString m_dir, m_file;
 
     // use by the model
     QList<MassifItem*> m_childItems;

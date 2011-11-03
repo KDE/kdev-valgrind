@@ -39,9 +39,18 @@ namespace valgrind
     qDeleteAll(m_childItems);
   }
 
-  void MassifItem::incomingData(const QString &name, const QString &value)
+  void MassifItem::incomingData(const QString &name, const QString &value, const QString &dir)
   {
     m_values[name] = value;
+    if (name == "child")
+      {
+	QStringList lst = value.mid(value.lastIndexOf('(') + 1).remove(')').split(':');
+	if (lst.size() != 2)
+	  return;
+	m_file = lst[0];
+	m_line = lst[1].toInt();
+	m_dir = dir;
+      }
   }
 
   void MassifItem::appendChild(MassifItem *item)
@@ -101,4 +110,20 @@ namespace valgrind
     return 0;
   }
 
+  KUrl MassifItem::url() const
+  {
+    if (m_dir.isEmpty() && m_file.isEmpty())
+      return KUrl();
+
+    KUrl base = KUrl::fromPath(m_dir);
+    base.adjustPath(KUrl::AddTrailingSlash);
+    KUrl url(base, m_file);
+    url.cleanPath();
+    return url;
+  }
+
+  int MassifItem::getLine() const
+  {
+    return m_line;
+  }
 }

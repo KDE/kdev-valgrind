@@ -38,8 +38,13 @@ namespace valgrind
 	{
 	    m_buffer = device()->readLine();
 	    if (m_buffer.startsWith("#") || m_buffer.startsWith("desc")
-		|| m_buffer.startsWith("cmd") || m_buffer.startsWith("time_unit"))
+	        || m_buffer.startsWith("time_unit"))
 		continue; // skip comment and useless lines
+	    if (m_buffer.startsWith("cmd"))
+	    {
+		m_workingDir = m_buffer.split(' ')[1].split("build")[0];
+		continue;
+	    }
 	    m_lst = m_buffer.split("=");
 	    if (m_lst[0] == "snapshot") // new snapshot
 	      {
@@ -58,7 +63,7 @@ namespace valgrind
 		      break;
 		    MassifItem *child = new MassifItem(true);
 		    child->setParent(m_item);
-		    child->incomingData("child", m_buffer.trimmed());
+		    child->incomingData("child", m_buffer.trimmed(), m_workingDir);
 		    m_item->appendChild(child);
 		  }
 	      // this is the last info, send the item to the model
