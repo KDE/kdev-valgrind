@@ -1,4 +1,5 @@
 /* This file is part of KDevelop
+ *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
 
    This program is free software; you can redistribute it and/or
@@ -18,26 +19,34 @@
 
  */
 
-#ifndef VALGRINDTREE_H
-#define VALGRINDTREE_H
+#ifndef MASSIFVIEW_H
+#define MASSIFVIEW_H
 
+#include <QObject>
 #include <QTreeView>
 
-class ValgrindPlugin;
-class MemcheckModel;
+#include "iview.h"
 
 namespace valgrind
 {
 
-class Tree : public QTreeView
-{
-    Q_OBJECT
+    class MassifView : public QObject, public valgrind::IView
+    {
+        Q_OBJECT
 
-public:
-    Tree();
+    public:
+        MassifView();
+        ~MassifView();
+        void setModel( valgrind::Model * m );
+        valgrind::Model * model( void );
+        QWidget * widget( void );
 
-private Q_SLOTS:
-    void openDocument(const QModelIndex& index);
-};
+    private Q_SLOTS:
+        void openDocument(const QModelIndex& index);
+
+    private:
+        QTreeView m_tree;
+        valgrind::Model * m_model;
+    };
 }
-#endif // VALGRINDTREE_H
+#endif // MASSIFVIEW_H

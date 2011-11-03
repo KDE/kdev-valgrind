@@ -14,6 +14,7 @@ include_directories(
     ${valgrind_SOURCE_DIR}/models
     ${valgrind_SOURCE_DIR}/parsers
     ${valgrind_SOURCE_DIR}/jobs
+    ${valgrind_SOURCE_DIR}/views
 )
 
 
@@ -27,7 +28,6 @@ set(kdevvalgrind_PART_SRCS
     imodel.cpp
     iparser.cpp
     plugin.cpp
-    tree.cpp
     widget.cpp
     models/massifitem.cpp
     models/massifmodel.cpp
@@ -40,6 +40,8 @@ set(kdevvalgrind_PART_SRCS
     jobs/memcheckjob.cpp
     jobs/massifjob.cpp
     jobs/cachegrindjob.cpp
+    views/massifview.cpp
+    views/memcheckview.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS

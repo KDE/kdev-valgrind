@@ -27,6 +27,7 @@
 
 #include <interfaces/iplugin.h>
 #include <interfaces/istatus.h>
+
 #include "imodel.h"
 
 class KJob;
