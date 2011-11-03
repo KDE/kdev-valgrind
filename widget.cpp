@@ -104,17 +104,20 @@ namespace valgrind
         valgrind::Model * model;
 
         // kill the job if it's still running
-        model = static_cast<valgrind::Model*>( static_cast<QAbstractItemView*>( widget( index ) )->model() );
-        if ( model && model->job() )
-            model->job()->doKill();
-        delete model;
+        model = dynamic_cast<valgrind::IView *>( widget( index ) )->model();
+        if ( model ) {
+            if (dynamic_cast model->job() ) {
+                model->job()->doKill();
+            }
+            delete model;
+        }
         removeTab( index );
     }
 
     void Widget::updateTabText(valgrind::Model * model, const QString & text)
     {
         for (int i = 0; i < count(); ++i) {
-            if (static_cast<QAbstractItemView *>(widget(i))->model() == model) {
+            if (dynamic_cast<valgrind::IView *>(widget(i))->model() == model) {
                 setTabText( i, text );
             }
         }
