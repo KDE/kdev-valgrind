@@ -106,7 +106,7 @@ namespace valgrind
         // kill the job if it's still running
         model = dynamic_cast<valgrind::IView *>( widget( index ) )->model();
         if ( model ) {
-            if (dynamic_cast model->job() ) {
+            if ( model->job() ) {
                 model->job()->doKill();
             }
             delete model;

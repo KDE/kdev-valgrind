@@ -22,7 +22,7 @@
 #ifndef MASSIFVIEW_H
 #define MASSIFVIEW_H
 
-#include <QObject>
+#include <QTabWidget>
 #include <QTreeView>
 
 #include "iview.h"
@@ -30,7 +30,7 @@
 namespace valgrind
 {
 
-    class MassifView : public QObject, public valgrind::IView
+    class MassifView : public QTabWidget, public valgrind::IView
     {
         Q_OBJECT
 
@@ -46,6 +46,7 @@ namespace valgrind
 
     private:
         QTreeView m_tree;
+        QTreeView m_tree_test;
         valgrind::Model * m_model;
     };
 }

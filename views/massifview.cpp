@@ -22,10 +22,13 @@
 #include "massifview.h"
 
 #include <QApplication>
+#include <QString>
 
 #include <KIO/NetAccess>
 
 #include <kdebug.h>
+
+#include <klocale.h>
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
@@ -36,6 +39,11 @@ namespace valgrind
     MassifView::MassifView() : m_model( 0 )
     {
         connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+        addTab( &m_tree, i18n( "statistics" ) );
+        addTab( &m_tree_test, i18n( "graph" ) );
+        setCurrentWidget(&m_tree);
+        setMovable( true );
+        setTabPosition( QTabWidget::East );
     }
 
     MassifView::~MassifView( void ) {}
@@ -44,6 +52,7 @@ namespace valgrind
     {
         m_model = m;
         m_tree.setModel( m );
+        m_tree_test.setModel( m );
     }
 
     valgrind::Model * MassifView::model( void )
@@ -53,7 +62,7 @@ namespace valgrind
 
     QWidget * MassifView::widget( void )
     {
-        return &m_tree;
+        return this;
     }
 
     void MassifView::openDocument(const QModelIndex & index)
