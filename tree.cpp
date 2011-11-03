@@ -30,6 +30,7 @@
 
 #include "memcheckitemsimpl.h"
 #include "memcheckmodel.h"
+#include "massifitem.h"
 
 namespace valgrind
 {
@@ -45,6 +46,12 @@ void Tree::openDocument(const QModelIndex & index)
         KUrl doc = frame->url();
         if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, frame->line - 1), 0));
+        }
+    }
+  if (valgrind::MassifItem* item = static_cast<valgrind::MassifItem*>(index.internalPointer())) {
+        KUrl doc = item->url();
+        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
+            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->getLine() - 1), 0));
         }
     }
 }
