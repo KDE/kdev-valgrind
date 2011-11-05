@@ -23,6 +23,7 @@
 #define _MASSIFMODEL_H_
 
 #include "imodel.h"
+#include "massifitem.h"
 
 #include <QStringList>
 
@@ -38,11 +39,12 @@ namespace valgrind
     {
       Q_OBJECT
 
-	public:
+    public:
 
       MassifModel(QObject* parent = 0);
       virtual ~MassifModel();
 
+        QVariant getColumnAtSnapshot( int snap, MassifItem::Columns col );
       QModelIndex index(int, int, const QModelIndex&) const;
       QModelIndex parent(const QModelIndex&) const;
       int rowCount(const QModelIndex &parent = QModelIndex()) const;

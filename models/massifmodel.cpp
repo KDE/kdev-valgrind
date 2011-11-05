@@ -66,6 +66,11 @@ namespace valgrind
   {
   }
 
+  QVariant MassifModel::getColumnAtSnapshot( int snap, MassifItem::Columns col )
+  {
+      return m_rootItem->child( snap )->data( col );
+  }
+
   QModelIndex MassifModel::index(int row, int column, const QModelIndex &parent) const
   {
     if (!hasIndex(row, column, parent))
@@ -161,4 +166,3 @@ namespace valgrind
 }
 
 #include "massifmodel.moc"
-

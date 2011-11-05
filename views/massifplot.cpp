@@ -50,7 +50,8 @@ namespace valgrind
         setAutoReplot( false );
         canvas()->setBorderRadius( 10 );
         plotLayout()->setAlignCanvasToScales( true );
-        setAxisTitle( QwtPlot::xBottom, "Snapshots" );
+        setAxisTitle( QwtPlot::xBottom, i18n( "Snapshots" ) );
+        setAxisTitle( QwtPlot::yLeft, i18n( "Memory usage [b]" ) );
 
         m_memheap = new QwtPlotCurve( i18n( "Memory heap" ) );
         m_memheap->setPen( QColor( Qt::red ) );
@@ -75,7 +76,18 @@ namespace valgrind
 
     void MassifPlot::modelChanged( void )
     {
-        setAxisScale( QwtPlot::xBottom, 0.0, m_model->rowCount() );
+        int nb_snaps = m_model->rowCount();
+        QPolygonF heap_points, heap_extra_points, stack_points;
+
+        setAxisScale( QwtPlot::xBottom, 0.0, nb_snaps );
+        for ( int x = 0; x < nb_snaps; ++x ) {
+            heap_points << QPointF( x, m_model->getColumnAtSnapshot(x, MassifItem::MemHeapB).toDouble() );
+            heap_extra_points << QPointF( x, m_model->getColumnAtSnapshot(x, MassifItem::MemHeapExtraB).toDouble() );
+            stack_points << QPointF( x, m_model->getColumnAtSnapshot(x, MassifItem::MemStacksB).toDouble() );
+        }
+        m_memheap->setSamples(heap_points);
+        m_memheap_extra->setSamples(heap_extra_points);
+        m_memstack->setSamples(stack_points);
 
         replot();
     }
