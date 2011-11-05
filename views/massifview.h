@@ -39,14 +39,12 @@ namespace valgrind
         ~MassifView();
         void setModel( valgrind::Model * m );
         valgrind::Model * model( void );
-        QWidget * widget( void );
 
     private Q_SLOTS:
         void openDocument(const QModelIndex& index);
 
     private:
-        QTreeView m_tree;
-        QTreeView m_tree_test;
+        QTreeView * m_tree;
         valgrind::Model * m_model;
     };
 }

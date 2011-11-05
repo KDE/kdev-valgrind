@@ -38,31 +38,29 @@ namespace valgrind
 {
     MassifView::MassifView() : m_model( 0 )
     {
-        connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
-        addTab( &m_tree, i18n( "statistics" ) );
-        addTab( &m_tree_test, i18n( "graph" ) );
-        setCurrentWidget(&m_tree);
+        m_tree = new QTreeView();
+        connect(m_tree, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+        addTab( m_tree, i18n( "statistics" ) );
+        addTab( m_tree, i18n( "graph" ) );
+        setCurrentWidget(m_tree);
         setMovable( true );
         setTabPosition( QTabWidget::East );
     }
 
-    MassifView::~MassifView( void ) {}
+    MassifView::~MassifView( void )
+    {
+        delete m_tree;
+    }
 
     void MassifView::setModel( valgrind::Model * m )
     {
         m_model = m;
-        m_tree.setModel( m );
-        m_tree_test.setModel( m );
+        m_tree->setModel( m );
     }
 
     valgrind::Model * MassifView::model( void )
     {
         return m_model;
-    }
-
-    QWidget * MassifView::widget( void )
-    {
-        return this;
     }
 
     void MassifView::openDocument(const QModelIndex & index)

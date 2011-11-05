@@ -93,23 +93,25 @@ namespace valgrind
             w->setModel( model );
             connect(job, SIGNAL(updateTabText(valgrind::Model *, const QString &)),
                     this, SLOT(updateTabText(valgrind::Model *, const QString &)) );
-            addTab( w->widget(), i18n( "job scheduled" ) );
-            setCurrentWidget( w->widget() );
+            addTab( dynamic_cast<QWidget *>( w ), i18n( "job scheduled" ) );
+            setCurrentWidget( dynamic_cast<QWidget *>( w ) );
             setMovable( true );
         }
     }
 
     void Widget::destroyRequestedTab(int index)
     {
-        valgrind::Model * model;
+        valgrind::IView * view = dynamic_cast<valgrind::IView *>(  widget(  index ) );
 
         // kill the job if it's still running
-        model = dynamic_cast<valgrind::IView *>( widget( index ) )->model();
-        if ( model ) {
-            if ( model->job() ) {
-                model->job()->doKill();
+        if ( view ) {
+            valgrind::Model * model = dynamic_cast<valgrind::IView *>( widget( index ) )->model();
+            if ( model ) {
+                if ( model->job() ) {
+                    model->job()->doKill();
+                }
+                delete model;
             }
-            delete model;
         }
         removeTab( index );
     }
@@ -117,7 +119,8 @@ namespace valgrind
     void Widget::updateTabText(valgrind::Model * model, const QString & text)
     {
         for (int i = 0; i < count(); ++i) {
-            if (dynamic_cast<valgrind::IView *>(widget(i))->model() == model) {
+            valgrind::IView * view = dynamic_cast<valgrind::IView *>( widget( i ) );
+            if (view && view->model() == model) {
                 setTabText( i, text );
             }
         }

@@ -29,9 +29,8 @@ namespace valgrind
     class IView
     {
     public:
-        virtual valgrind::Model* model( void ) = 0;
+        virtual Model* model( void ) = 0;
         virtual void setModel( valgrind::Model * ) = 0;
-        virtual QWidget * widget( void ) = 0;
         virtual ~IView ( void ) {}
     };
 }

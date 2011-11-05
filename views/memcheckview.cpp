@@ -34,7 +34,7 @@
 
 namespace valgrind
 {
-    MemcheckView::MemcheckView() : m_model( 0 )
+    MemcheckView::MemcheckView()
     {
         connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
     }
@@ -43,18 +43,12 @@ namespace valgrind
 
     void MemcheckView::setModel( valgrind::Model * m )
     {
-        m_model = m;
-        m_tree.setModel( m );
+        QTreeView::setModel( m );
     }
 
     valgrind::Model * MemcheckView::model( void )
     {
-        return m_model;
-    }
-
-    QWidget * MemcheckView::widget( void )
-    {
-        return &m_tree;
+        return dynamic_cast<valgrind::Model *>(QTreeView::model());
     }
 
     void MemcheckView::openDocument(const QModelIndex & index)
