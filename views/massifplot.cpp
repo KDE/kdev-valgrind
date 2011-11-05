@@ -20,24 +20,70 @@
  */
 
 #include <QString>
+#include <qlayout.h>
+#include <qlabel.h>
+#include <qpainter.h>
+
 #include <qwt/qwt_plot.h>
 #include <qwt/qwt_plot_marker.h>
+#include <qwt/qwt_scale_draw.h>
+#include <qwt/qwt_plot_layout.h>
+#include <qwt/qwt_plot_canvas.h>
 #include <qwt/qwt_plot_curve.h>
 #include <qwt/qwt_plot_grid.h>
 #include <qwt/qwt_symbol.h>
 #include <qwt/qwt_legend.h>
 
+#include <kdebug.h>
 #include <klocale.h>
 
 #include "massifplot.h"
+#include "massifmodel.h"
 
 namespace valgrind
 {
     MassifPlot::MassifPlot( void )
     {
-     this->setTitle(i18n("Massif statistics"));
-     this->setCanvasBackground(  Qt::white );
+        setTitle(i18n("Massif statistics"));
+        setCanvasBackground(  Qt::white );
+        insertLegend( new QwtLegend(), QwtPlot::BottomLegend );
+        setAutoReplot( false );
+        canvas()->setBorderRadius( 10 );
+        plotLayout()->setAlignCanvasToScales( true );
+        setAxisTitle( QwtPlot::xBottom, "Snapshots" );
+
+        m_memheap = new QwtPlotCurve( i18n( "Memory heap" ) );
+        m_memheap->setPen( QColor( Qt::red ) );
+        m_memheap->attach( this );
+
+        m_memheap_extra = new QwtPlotCurve( i18n( "Memory heap extra" ) );
+        m_memheap_extra->setPen( QColor( Qt::blue ) );
+        m_memheap_extra->attach( this );
+
+        m_memstack = new QwtPlotCurve( i18n( "Memory stack" ) );
+        m_memstack->setPen( QColor( Qt::darkCyan ) );
+        m_memstack->attach( this );
+
+        replot();
     }
 
-    MassifPlot::~MassifPlot( void ) {}
+    void MassifPlot::setModel( Model * model )
+    {
+        m_model = dynamic_cast<MassifModel *>( model );
+        connect( m_model, SIGNAL( modelChanged() ), this,  SLOT( modelChanged() ) );
+    }
+
+    void MassifPlot::modelChanged( void )
+    {
+        setAxisScale( QwtPlot::xBottom, 0.0, m_model->rowCount() );
+
+        replot();
+    }
+
+    MassifPlot::~MassifPlot( void )
+    {
+        delete m_memheap;
+        delete m_memheap_extra;
+        delete m_memstack;
+    }
 }

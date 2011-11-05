@@ -21,13 +21,35 @@
 #ifndef MASSIFPLOT_H
 #define MASSIFPLOT_H
 
+#include <qwt/qwt_plot.h>
+
+class QwtPlotCurve;
+class QwtPlotItem;
+
 namespace valgrind
 {
+    class MassifModel;
+    class Model;
+
     class MassifPlot: public QwtPlot
     {
+        Q_OBJECT
+
     public:
         MassifPlot();
         ~MassifPlot();
+
+        void setModel( Model * );
+
+    protected slots:
+        void modelChanged();
+
+    protected:
+        MassifModel * m_model;
+
+        QwtPlotCurve * m_memheap;
+        QwtPlotCurve * m_memheap_extra;
+        QwtPlotCurve * m_memstack;
     };
 }
 
