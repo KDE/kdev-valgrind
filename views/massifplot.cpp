@@ -19,35 +19,25 @@
 
  */
 
-#ifndef MASSIFVIEW_H
-#define MASSIFVIEW_H
+#include <QString>
+#include <qwt/qwt_plot.h>
+#include <qwt/qwt_plot_marker.h>
+#include <qwt/qwt_plot_curve.h>
+#include <qwt/qwt_plot_grid.h>
+#include <qwt/qwt_symbol.h>
+#include <qwt/qwt_legend.h>
 
-#include <QTabWidget>
-#include <QTreeView>
+#include <klocale.h>
 
-#include "iview.h"
+#include "massifplot.h"
 
 namespace valgrind
 {
-    class MassifPlot;
-
-    class MassifView : public QTabWidget, public valgrind::IView
+    MassifPlot::MassifPlot( void )
     {
-        Q_OBJECT
+     this->setTitle(i18n("Massif statistics"));
+     this->setCanvasBackground(  Qt::white );
+    }
 
-    public:
-        MassifView();
-        ~MassifView();
-        void setModel( valgrind::Model * m );
-        valgrind::Model * model( void );
-
-    private Q_SLOTS:
-        void openDocument(const QModelIndex& index);
-
-    private:
-        QTreeView * m_tree;
-        MassifPlot * m_plot;
-        valgrind::Model * m_model;
-    };
+    MassifPlot::~MassifPlot( void ) {}
 }
-#endif // MASSIFVIEW_H

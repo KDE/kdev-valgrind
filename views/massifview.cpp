@@ -33,15 +33,19 @@
 #include <interfaces/idocumentcontroller.h>
 
 #include "massifitem.h"
+#include "massifplot.h"
 
 namespace valgrind
 {
     MassifView::MassifView() : m_model( 0 )
     {
         m_tree = new QTreeView();
+        m_plot = new MassifPlot();
         connect(m_tree, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
         addTab( m_tree, i18n( "statistics" ) );
-        addTab( m_tree, i18n( "graph" ) );
+
+        addTab( m_plot, i18n( "graph" ) );
+
         setCurrentWidget(m_tree);
         setMovable( true );
         setTabPosition( QTabWidget::East );
@@ -50,6 +54,7 @@ namespace valgrind
     MassifView::~MassifView( void )
     {
         delete m_tree;
+        delete m_plot;
     }
 
     void MassifView::setModel( valgrind::Model * m )

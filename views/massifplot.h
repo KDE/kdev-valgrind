@@ -1,6 +1,5 @@
 /* This file is part of KDevelop
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
- *  Copyright 2008 Hamish Rodda <rodda@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,35 +18,17 @@
 
  */
 
-#ifndef MASSIFVIEW_H
-#define MASSIFVIEW_H
-
-#include <QTabWidget>
-#include <QTreeView>
-
-#include "iview.h"
+#ifndef MASSIFPLOT_H
+#define MASSIFPLOT_H
 
 namespace valgrind
 {
-    class MassifPlot;
-
-    class MassifView : public QTabWidget, public valgrind::IView
+    class MassifPlot: public QwtPlot
     {
-        Q_OBJECT
-
     public:
-        MassifView();
-        ~MassifView();
-        void setModel( valgrind::Model * m );
-        valgrind::Model * model( void );
-
-    private Q_SLOTS:
-        void openDocument(const QModelIndex& index);
-
-    private:
-        QTreeView * m_tree;
-        MassifPlot * m_plot;
-        valgrind::Model * m_model;
+        MassifPlot();
+        ~MassifPlot();
     };
 }
-#endif // MASSIFVIEW_H
+
+#endif
