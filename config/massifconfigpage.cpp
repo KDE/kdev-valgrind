@@ -31,6 +31,8 @@ MassifConfigPage::MassifConfigPage( QWidget *parent )
     ui = new Ui::MassifConfig();
     ui->setupUi( this );
     connect(ui->massifParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
+    connect( ui->launchMassifVisualizer,  SIGNAL( toggled( bool ) ),  SIGNAL( changed() ) );
+    connect( ui->massifVisualizerExecutable, SIGNAL( textEdited( QString ) ),  SIGNAL( changed() ) );
     connect(ui->depth, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
     connect(ui->threshold, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
     connect(ui->peakInaccuracy, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
@@ -47,6 +49,8 @@ void	MassifConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop:
     blockSignals(true);
 
     ui->massifParameters->setText( cfg.readEntry("Massif Arguments", "") );
+    ui->launchMassifVisualizer->setChecked( cfg.readEntry("launchVisualizer", false) );
+    ui->massifVisualizerExecutable->setText(cfg.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer"));
     ui->depth->setValue( cfg.readEntry("depth", 30) );
     ui->threshold->setValue( cfg.readEntry("threshold", 1) );
     ui->peakInaccuracy->setValue( cfg.readEntry("peakInaccuracy", 1) );
@@ -67,6 +71,8 @@ KIcon	MassifConfigPage::icon( void ) const
 void	MassifConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
 {
     cfg.writeEntry( "Massif Arguments", ui->massifParameters->text() );
+    cfg.writeEntry( "launchVisualizer", ui->launchMassifVisualizer->isChecked() );
+    cfg.writeEntry( "visualizerExecutable", ui->massifVisualizerExecutable->text() );
     cfg.writeEntry( "depth", ui->depth->value() );
     cfg.writeEntry( "threshold", ui->threshold->value() );
     cfg.writeEntry( "peakInaccuracy", ui->peakInaccuracy->value() );

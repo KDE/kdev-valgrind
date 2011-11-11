@@ -72,7 +72,6 @@ Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
     // factories << new ValgrindHelgrindConfigPageFactory();
 }
 
-
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
