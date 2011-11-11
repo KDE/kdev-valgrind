@@ -69,16 +69,9 @@ namespace valgrind
 	    {
 		QStringList args;
 		args << m_file->fileName();
-		QString kcg = grp.readEntry("KCachegrindPath", "/usr/bin/kcachegrind");
-		QFileProxyRemove *rmFile = new QFileProxyRemove(kcg, args, m_file);
-		//bool success = QProcess::startDetached( kcg, args );
-		
-		// FIXME: Find a way to handle the process end and remove the cachegrind file.
-
-		//if (!success)
-		//  KMessageBox::error( qApp->activeWindow(),
-		//		       "Failed to start KCachegrind.",
-		//		       i18n("Valgrind Error") );
+		QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
+		//Proxy used to remove file at the end of KCachegrind
+		new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
 	    }
 	    else
 	    {

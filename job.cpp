@@ -418,31 +418,40 @@ namespace valgrind
 	return dynamic_cast<KDevelop::OutputModel*>( KDevelop::OutputJob::model() );
     }
 
-  QFileProxyRemove::QFileProxyRemove()
-  {
-
-  }
   
-  QFileProxyRemove::QFileProxyRemove(QString programPath, QStringList args, QFile *toRemove)
+  QFileProxyRemove::QFileProxyRemove(QString programPath, QStringList args, QFile *toRemove, QObject *parent) : QObject(parent)
   {
+    m_execPath = programPath;
     m_process = new KProcess();
     m_file = toRemove;
     m_process->setProgram( programPath, args );
-    m_process->start();
     QObject::connect (m_process, SIGNAL(finished( int, QProcess::ExitStatus)),
 		      this, SLOT(prEnded(int, QProcess::ExitStatus)));
+    QObject::connect (m_process, SIGNAL(error(QProcess::ProcessError)),
+		      this, SLOT(prError(QProcess::ProcessError)));
+    m_process->start();
   }
 
   QFileProxyRemove::~QFileProxyRemove()
   {
-      delete m_file;
-      delete m_process;
+    if ( m_file != 0 )
+      m_file->remove();
+    delete m_process;
+  }
+
+  void QFileProxyRemove::prError(QProcess::ProcessError error)
+  {
+    if (error == QProcess::FailedToStart)
+    KMessageBox::error(qApp->activeWindow(), i18n("Unable to launch the process %1 (%2)", m_execPath, error), i18n("Valgrind Error"));
   }
 
   void QFileProxyRemove::prEnded(int exitCode, QProcess::ExitStatus status)
   {
+    Q_UNUSED(exitCode)
+    Q_UNUSED(status)
     m_file->remove();
-    delete this;
+    delete m_file;
+    m_file = 0;
   }
 
 

@@ -123,16 +123,17 @@ namespace valgrind
     Q_OBJECT
 
   public:
-    QFileProxyRemove();
-    QFileProxyRemove(QString programPath, QStringList args, QFile* toRemove);
+    QFileProxyRemove(QString programPath, QStringList args, QFile* toRemove, QObject *parent = 0);
     virtual ~QFileProxyRemove();
 
   private slots:
     void prEnded(int exitCode, QProcess::ExitStatus status);
+    void prError(QProcess::ProcessError error);
 
   private:
     QFile *m_file;
     KProcess *m_process;
+    QString m_execPath;
   };
 
 
