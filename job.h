@@ -118,5 +118,23 @@ namespace valgrind
       bool      m_killed;
   };
 
+  class	QFileProxyRemove : public QObject
+  {
+    Q_OBJECT
+
+  public:
+    QFileProxyRemove();
+    QFileProxyRemove(QString programPath, QStringList args, QFile* toRemove);
+    virtual ~QFileProxyRemove();
+
+  private slots:
+    void prEnded(int exitCode, QProcess::ExitStatus status);
+
+  private:
+    QFile *m_file;
+    KProcess *m_process;
+  };
+
+
 }
 #endif

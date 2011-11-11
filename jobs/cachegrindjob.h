@@ -27,7 +27,6 @@
 
 namespace valgrind
 {
-
     class CachegrindJob : public Job
     {
 
@@ -42,7 +41,7 @@ namespace valgrind
 	virtual void processStarted();
 	virtual void processEnded();
 	virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
-
+   
     private:
 	QFile	*m_file;
     };

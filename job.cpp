@@ -418,6 +418,34 @@ namespace valgrind
 	return dynamic_cast<KDevelop::OutputModel*>( KDevelop::OutputJob::model() );
     }
 
+  QFileProxyRemove::QFileProxyRemove()
+  {
+
+  }
+  
+  QFileProxyRemove::QFileProxyRemove(QString programPath, QStringList args, QFile *toRemove)
+  {
+    m_process = new KProcess();
+    m_file = toRemove;
+    m_process->setProgram( programPath, args );
+    m_process->start();
+    QObject::connect (m_process, SIGNAL(finished( int, QProcess::ExitStatus)),
+		      this, SLOT(prEnded(int, QProcess::ExitStatus)));
+  }
+
+  QFileProxyRemove::~QFileProxyRemove()
+  {
+      delete m_file;
+      delete m_process;
+  }
+
+  void QFileProxyRemove::prEnded(int exitCode, QProcess::ExitStatus status)
+  {
+    m_file->remove();
+    delete this;
+  }
+
+
 }
 
 
