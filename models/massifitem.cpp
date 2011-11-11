@@ -24,106 +24,105 @@
 namespace valgrind
 {
 
-  MassifItem::MassifItem()
-  {
+MassifItem::MassifItem()
+{
     m_child = false;
-  }
+}
 
-  MassifItem::MassifItem(bool child)
-  {
+MassifItem::MassifItem(bool child)
+{
     m_child = child;
-  }
+}
 
-  MassifItem::~MassifItem()
-  {
+MassifItem::~MassifItem()
+{
     qDeleteAll(m_childItems);
-  }
+}
 
-  void MassifItem::incomingData(const QString &name, const QString &value, const QString &dir)
-  {
+void MassifItem::incomingData(const QString &name, const QString &value, const QString &dir)
+{
     m_values[name] = value;
-    if (name == "child")
-      {
-	QStringList lst = value.mid(value.lastIndexOf('(') + 1).remove(')').split(':');
-	if (lst.size() != 2)
-	  return;
-	m_file = lst[0];
-	m_line = lst[1].toInt();
-	m_dir = dir;
-      }
-  }
+    if (name == "child") {
+        QStringList lst = value.mid(value.lastIndexOf('(') + 1).remove(')').split(':');
+        if (lst.size() != 2)
+            return;
+        m_file = lst[0];
+        m_line = lst[1].toInt();
+        m_dir = dir;
+    }
+}
 
-  void MassifItem::appendChild(MassifItem *item)
-  {
+void MassifItem::appendChild(MassifItem *item)
+{
     m_childItems.append(item);
-  }
+}
 
-  void MassifItem::setParent(MassifItem *parent)
-  {
+void MassifItem::setParent(MassifItem *parent)
+{
     m_parentItem = parent;
-  }
+}
 
-  MassifItem *MassifItem::child(int row)
-  {
+MassifItem *MassifItem::child(int row)
+{
     return m_childItems.value(row);
-  }
+}
 
-  int MassifItem::childCount() const
-  {
+int MassifItem::childCount() const
+{
     return m_childItems.count();
-  }
+}
 
-  int MassifItem::columnCount() const
-  {
+int MassifItem::columnCount() const
+{
     return m_values.size();
-  }
+}
 
-  QVariant MassifItem::data(int column) const
-  {
+QVariant MassifItem::data(int column) const
+{
     if (m_child && column == MemStacksB)
-      return m_values["child"];
+        return m_values["child"];
     switch (column) {
     case Snapshot:
-      return m_values["snapshot"];
+        return m_values["snapshot"];
     case Time:
-      return m_values["time"];
+        return m_values["time"];
     case MemHeapB:
-      return m_values["mem_heap_B"];
+        return m_values["mem_heap_B"];
     case MemHeapExtraB:
-      return m_values["mem_heap_extra_B"];
+        return m_values["mem_heap_extra_B"];
     case MemStacksB:
-      return m_values["mem_stacks_B"];
+        return m_values["mem_stacks_B"];
     }
     return QVariant();
-  }
+}
 
-  MassifItem *MassifItem::parent()
-  {
+MassifItem *MassifItem::parent()
+{
     return m_parentItem;
-  }
+}
 
-  int MassifItem::row() const
-  {
+int MassifItem::row() const
+{
     if (m_parentItem)
-      return m_parentItem->m_childItems.indexOf(const_cast<MassifItem*>(this));
+        return m_parentItem->m_childItems.indexOf(const_cast<MassifItem*>(this));
 
     return 0;
-  }
+}
 
-  KUrl MassifItem::url() const
-  {
+KUrl MassifItem::url() const
+{
     if (m_dir.isEmpty() && m_file.isEmpty())
-      return KUrl();
+        return KUrl();
 
     KUrl base = KUrl::fromPath(m_dir);
     base.adjustPath(KUrl::AddTrailingSlash);
     KUrl url(base, m_file);
     url.cleanPath();
     return url;
-  }
+}
 
-  int MassifItem::getLine() const
-  {
+int MassifItem::getLine() const
+{
     return m_line;
-  }
+}
 }

@@ -27,24 +27,24 @@
 
 namespace valgrind
 {
-    class CachegrindJob : public Job
-    {
+class CachegrindJob : public Job
+{
 
-    public:
-	CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
-		      valgrind::Plugin *inst,
-		      QObject* parent = 0);
-	virtual ~CachegrindJob();
+public:
+    CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
+                  valgrind::Plugin *inst,
+                  QObject* parent = 0);
+    virtual ~CachegrindJob();
 
-    protected:
+protected:
 
-	virtual void processStarted();
-	virtual void processEnded();
-	virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
-   
-    private:
-	QFile	*m_file;
-    };
+    virtual void processStarted();
+    virtual void processEnded();
+    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
+
+private:
+    QFile   *m_file;
+};
 
 }
 

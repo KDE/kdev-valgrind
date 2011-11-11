@@ -34,38 +34,38 @@
 namespace valgrind
 {
 
+/**
+ * A class which parses valgrind's XML output
+ * and emits signals when items are parsed
+ */
+class MassifParser : public Parser
+{
+    Q_OBJECT
+
+public:
+
+    MassifParser(QObject *parent = 0);
+    virtual ~MassifParser();
+
+signals:
+
     /**
-     * A class which parses valgrind's XML output
-     * and emits signals when items are parsed
+     * Emits this signal when a new item is parsed
      */
-    class MassifParser : public Parser
-    {
-	Q_OBJECT
+    void newItem(valgrind::ModelItem*);
 
-	    public:
+    void reset();
 
-	MassifParser(QObject *parent = 0);
-	virtual ~MassifParser();
-
-    signals:
-
-	/**
-	 * Emits this signal when a new item is parsed
-	 */
-      void newItem(valgrind::ModelItem*);
-
-	void reset();
-
-    public slots:
-	void parse();
+public slots:
+    void parse();
 
 
-    private:
-	QString m_workingDir;
-	QString m_buffer;
-	QStringList m_lst;
-	MassifItem *m_item;
-    };
+private:
+    QString m_workingDir;
+    QString m_buffer;
+    QStringList m_lst;
+    MassifItem *m_item;
+};
 }
 
 

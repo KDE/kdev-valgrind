@@ -36,7 +36,7 @@ MemcheckParser::~MemcheckParser()
 {
 }
 
-void MemcheckParser::clear( )
+void MemcheckParser::clear()
 {
     m_stateStack.clear();
     m_buffer.clear();
@@ -61,23 +61,16 @@ bool MemcheckParser::startElement()
         newState = Status;
     else if (name() == "preamble")
         newState = Preamble;
-    else if (name() == "error")
-    {
+    else if (name() == "error") {
         newState = Error;
         emit newElement(valgrind::MemcheckModel::startError);
-    }
-    else if (name() == "stack")
-    {
+    } else if (name() == "stack") {
         newState = Stack;
         emit newElement(valgrind::MemcheckModel::startStack);
-    }
-    else if (name() == "frame")
-    {
+    } else if (name() == "frame") {
         newState = Frame;
         emit newElement(valgrind::MemcheckModel::startFrame);
-    }
-    else
-    {
+    } else {
         m_stateStack.push(m_stateStack.top());
         return true;
     }
@@ -88,8 +81,7 @@ bool MemcheckParser::startElement()
 bool MemcheckParser::endElement()
 {
     State state = m_stateStack.pop();
-    switch (state)
-    {
+    switch (state) {
     case Error:
         emit newData(valgrind::MemcheckModel::error, name().toString(), m_buffer);
         break;
@@ -107,10 +99,8 @@ bool MemcheckParser::endElement()
 
 void MemcheckParser::parse()
 {
-    while (!atEnd())
-    {
-        switch (readNext())
-        {
+    while (!atEnd()) {
+        switch (readNext()) {
         case StartDocument:
             clear();
             break;
@@ -128,10 +118,8 @@ void MemcheckParser::parse()
         }
     }
 
-    if (hasError())
-    {
-        switch (error())
-        {
+    if (hasError()) {
+        switch (error()) {
         case CustomError:
         case UnexpectedElementError:
         case NotWellFormedError:

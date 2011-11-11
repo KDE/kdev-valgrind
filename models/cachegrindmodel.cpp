@@ -33,48 +33,48 @@
 namespace valgrind
 {
 
-    CachegrindModel::CachegrindModel(QObject * parent)
-    {
-	Q_UNUSED(parent);
-    }
+CachegrindModel::CachegrindModel(QObject * parent)
+{
+    Q_UNUSED(parent);
+}
 
-    CachegrindModel::~CachegrindModel()
-    {
-    }
+CachegrindModel::~CachegrindModel()
+{
+}
 
-    void CachegrindModel::reset()
-    {
-    }
+void CachegrindModel::reset()
+{
+}
 
-    QModelIndex CachegrindModel::index(int row, int column, const QModelIndex &parent) const
-    {
-	return QModelIndex();
-    }
+QModelIndex CachegrindModel::index(int row, int column, const QModelIndex &parent) const
+{
+    return QModelIndex();
+}
 
-    QModelIndex CachegrindModel::parent(const QModelIndex &index) const
-    {
-	return QModelIndex();
-    }
+QModelIndex CachegrindModel::parent(const QModelIndex &index) const
+{
+    return QModelIndex();
+}
 
-    int CachegrindModel::rowCount(const QModelIndex &parent) const
-    {
-	return 0;
-    }
+int CachegrindModel::rowCount(const QModelIndex &parent) const
+{
+    return 0;
+}
 
-    int CachegrindModel::columnCount(const QModelIndex &parent) const
-    {
-	return 0;
-    }
+int CachegrindModel::columnCount(const QModelIndex &parent) const
+{
+    return 0;
+}
 
-    QVariant CachegrindModel::data(const QModelIndex & index, int role) const
-    {
-	return QVariant();
-    }
+QVariant CachegrindModel::data(const QModelIndex & index, int role) const
+{
+    return QVariant();
+}
 
-    QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, int role) const
-    {
-	return QVariant();
-    }
+QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    return QVariant();
+}
 
 
 }

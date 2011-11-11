@@ -29,32 +29,32 @@ namespace valgrind
 {
 namespace Ui
 {
-  class MemcheckConfig;
+class MemcheckConfig;
 }
 
-class	MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
+class   MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  MemcheckConfigPage(QWidget * parent = 0);
-  virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
-  virtual KIcon icon() const;
-  virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
-  virtual QString title() const;
+    MemcheckConfigPage(QWidget * parent = 0);
+    virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
+    virtual KIcon icon() const;
+    virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
+    virtual QString title() const;
 
 
 private:
-  Ui::MemcheckConfig *ui;
+    Ui::MemcheckConfig *ui;
 };
 
 class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  MemcheckConfigPageFactory();
-  virtual ~MemcheckConfigPageFactory();
-  virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+    MemcheckConfigPageFactory();
+    virtual ~MemcheckConfigPageFactory();
+    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 };
 }
 

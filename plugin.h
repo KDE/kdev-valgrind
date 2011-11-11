@@ -41,36 +41,36 @@ class ILaunchConfiguration;
 
 namespace valgrind
 {
-  class Control;
-  class Marks;
-  class WidgetFactory;
+class Control;
+class Marks;
+class WidgetFactory;
 
-  class Plugin : public KDevelop::IPlugin
-  {
-      Q_OBJECT
+class Plugin : public KDevelop::IPlugin
+{
+    Q_OBJECT
 
-  public:
-      Plugin( QObject *parent, const QVariantList & = QVariantList() );
+public:
+    Plugin(QObject *parent, const QVariantList & = QVariantList());
 
-      virtual ~Plugin();
+    virtual ~Plugin();
 
-      virtual void unload();
+    virtual void unload();
 
-      void incomingModel(valgrind::Model* model);
+    void incomingModel(valgrind::Model* model);
 
-  signals:
-      void newModel(valgrind::Model* model);
+signals:
+    void newModel(valgrind::Model* model);
 
-  private slots:
-      void loadOutput();
-      void runValgrind();
+private slots:
+    void loadOutput();
+    void runValgrind();
 
-  private:
-      QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
-          m_lastCtExec, m_lastCtParams, m_lastKcExec;
-      valgrind::WidgetFactory *m_factory;
-      valgrind::Marks         *m_marks;
-  };
+private:
+    QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
+            m_lastCtExec, m_lastCtParams, m_lastKcExec;
+    valgrind::WidgetFactory *m_factory;
+    valgrind::Marks         *m_marks;
+};
 }
 
 

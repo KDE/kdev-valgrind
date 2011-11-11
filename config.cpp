@@ -28,29 +28,29 @@
 // Generic valgrind mode
 namespace valgrind
 {
-  GenericLaunchMode::GenericLaunchMode()
-  : m_toolname("UNSET TOOL")
-  {
-  }
+GenericLaunchMode::GenericLaunchMode()
+    : m_toolname("UNSET TOOL")
+{
+}
 
-  KIcon	GenericLaunchMode::icon() const
-  {
+KIcon GenericLaunchMode::icon() const
+{
     return KIcon();
-  }
+}
 
-  QString	GenericLaunchMode::id() const
-  {
+QString   GenericLaunchMode::id() const
+{
     return "valgrind_generic";
-  }
+}
 
-  QString GenericLaunchMode::name() const
-  {
+QString GenericLaunchMode::name() const
+{
     return "Valgrind";
-  }
+}
 
-  QString GenericLaunchMode::tool() const
-  {
+QString GenericLaunchMode::tool() const
+{
     return m_toolname;
-  }
+}
 
 }

@@ -31,21 +31,21 @@
 namespace valgrind
 {
 
-  class MassifItem : public ModelItem
-  {
+class MassifItem : public ModelItem
+{
 
-  public:
+public:
 
     MassifItem();
     MassifItem(bool);
     virtual ~MassifItem();
 
     enum Columns {
-      Snapshot,
-      Time,
-      MemHeapB,
-      MemHeapExtraB,
-      MemStacksB
+        Snapshot,
+        Time,
+        MemHeapB,
+        MemHeapExtraB,
+        MemStacksB
     };
 
     /*
@@ -67,7 +67,7 @@ namespace valgrind
     KUrl url() const;
     int getLine() const;
 
-  private:
+private:
     QMap<QString, QString> m_values;
     bool m_child;
 
@@ -77,7 +77,7 @@ namespace valgrind
     // use by the model
     QList<MassifItem*> m_childItems;
     MassifItem *m_parentItem;
-  };
+};
 
 }
 

@@ -45,96 +45,96 @@ class QBuffer;
 
 namespace KDevelop
 {
-  class ProcessLineMaker;
-  class ILaunchConfiguration;
-  class OutputModel;
-  class ILaunchConfiguration;
+class ProcessLineMaker;
+class ILaunchConfiguration;
+class OutputModel;
+class ILaunchConfiguration;
 }
 
 namespace valgrind
 {
-  class Plugin;
-  class Parser;
+class Plugin;
+class Parser;
 
-  class Job : public KDevelop::OutputJob
-  {
+class Job : public KDevelop::OutputJob
+{
     Q_OBJECT
 
-  public:
-      Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
-      virtual ~Job();
-      valgrind::Plugin* plugin() const;
-      KDevelop::OutputModel* model();
-      virtual void start();
-      virtual bool doKill();
+public:
+    Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
+    virtual ~Job();
+    valgrind::Plugin* plugin() const;
+    KDevelop::OutputModel* model();
+    virtual void start();
+    virtual bool doKill();
 
-      // Factory
-      static Job *	createToolJob(KDevelop::ILaunchConfiguration* cfg,
-				      Plugin *inst,
-				      QObject* parent = 0);
+    // Factory
+    static Job *  createToolJob(KDevelop::ILaunchConfiguration* cfg,
+                                Plugin *inst,
+                                QObject* parent = 0);
 
-  signals:
-      void updateTabText(valgrind::Model *, const QString & text);
+signals:
+    void updateTabText(valgrind::Model *, const QString & text);
 
-  private slots:
+private slots:
 
-      void readyReadStandardError();
-      void readyReadStandardOutput();
-      void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-      void processErrored(QProcess::ProcessError);
+    void readyReadStandardError();
+    void readyReadStandardOutput();
+    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void processErrored(QProcess::ProcessError);
 
-  protected:
-      typedef QString	t_valgrind_cfg_argarray[][3];
+protected:
+    typedef QString   t_valgrind_cfg_argarray[][3];
 
-      virtual void beforeStart(); // called before launching the process
-      virtual void processStarted(); // called after the process has been launched
-      virtual void processEnded(); // called when the process ended
+    virtual void beforeStart(); // called before launching the process
+    virtual void processStarted(); // called after the process has been launched
+    virtual void processEnded(); // called when the process ended
 
-      virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const = 0;
+    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const = 0;
 
-      void processModeArgs(QStringList & out,
-			   const t_valgrind_cfg_argarray mode_args,
-			   int mode_args_count,
-			   KConfigGroup & cfg) const;
+    void processModeArgs(QStringList & out,
+                         const t_valgrind_cfg_argarray mode_args,
+                         int mode_args_count,
+                         KConfigGroup & cfg) const;
 
-      QStringList buildCommandLine() const;
+    QStringList buildCommandLine() const;
 
 
-  protected:
+protected:
 
-      KProcess* m_process;
-      KUrl m_workingDir;
-      int m_pid;
+    KProcess* m_process;
+    KUrl m_workingDir;
+    int m_pid;
 
-      valgrind::Model* m_model;
-      valgrind::Parser* m_parser;
+    valgrind::Model* m_model;
+    valgrind::Parser* m_parser;
 
-      KDevelop::ProcessLineMaker* m_applicationOutput;
-      KDevelop::ILaunchConfiguration* m_launchcfg;
-      valgrind::Plugin *m_plugin;
+    KDevelop::ProcessLineMaker* m_applicationOutput;
+    KDevelop::ILaunchConfiguration* m_launchcfg;
+    valgrind::Plugin *m_plugin;
 
-      // The valgrind output file
-      QFile	*m_file;
-      bool      m_killed;
-  };
+    // The valgrind output file
+    QFile *m_file;
+    bool      m_killed;
+};
 
-  class	QFileProxyRemove : public QObject
-  {
+class QFileProxyRemove : public QObject
+{
     Q_OBJECT
 
-  public:
+public:
     QFileProxyRemove(QString programPath, QStringList args, QFile* toRemove, QObject *parent = 0);
     virtual ~QFileProxyRemove();
 
-  private slots:
+private slots:
     void prEnded(int exitCode, QProcess::ExitStatus status);
     void prError(QProcess::ProcessError error);
 
-  private:
+private:
     QFile *m_file;
     KProcess *m_process;
     QString m_execPath;
-  };
+};
 
 
 }

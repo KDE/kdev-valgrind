@@ -28,24 +28,24 @@
 namespace valgrind
 {
 
-    class MassifJob : public Job
-    {
+class MassifJob : public Job
+{
 
-    public:
-      MassifJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
-      virtual ~MassifJob();
+public:
+    MassifJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
+    virtual ~MassifJob();
 
-    protected:
+protected:
 
-      virtual void processStarted();
-      virtual void processEnded();
-      virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
+    virtual void processStarted();
+    virtual void processEnded();
+    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
 
 
-    private:
-      QFile	*m_file;
+private:
+    QFile *m_file;
 
-    };
+};
 
 }
 

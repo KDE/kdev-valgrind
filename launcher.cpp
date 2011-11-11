@@ -66,7 +66,7 @@ Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
 
     /*
     ** Those are unimplemented at the moment: see config/genericconfigpage.cpp
-    **	to enable them.
+    **  to enable them.
     */
     // factories << new ValgrindCallgrindConfigPageFactory();
     // factories << new ValgrindHelgrindConfigPageFactory();
@@ -75,21 +75,19 @@ Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
-    if( !cfg )
+    if (!cfg)
         return 0;
-    if( modes.contains( launchMode ) )
-    {
+    if (modes.contains(launchMode)) {
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
         Q_ASSERT(iface);
 
         QList<KJob*> l;
-        KJob* depjob = iface->dependecyJob( cfg );
-        if( depjob )
-        {
+        KJob* depjob = iface->dependecyJob(cfg);
+        if (depjob) {
             l << depjob;
         }
         l << valgrind::Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
-        return new KDevelop::ExecuteCompositeJob( KDevelop::ICore::self()->runController(), l );
+        return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), l);
     }
     kWarning() << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
     return 0;
@@ -97,9 +95,8 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
 
 void Launcher::addMode(valgrind::LaunchMode* mode)
 {
-    if( !modes.contains( mode->id() ) )
-    {
-        modes.insert( mode->id(), mode );
+    if (!modes.contains(mode->id())) {
+        modes.insert(mode->id(), mode);
     }
 }
 
@@ -115,7 +112,7 @@ QList< KDevelop::LaunchConfigurationPageFactory* > Launcher::configPages() const
 
 QString Launcher::description() const
 {
-    return i18n( "Profile application with Valgrind" );
+    return i18n("Profile application with Valgrind");
 }
 
 QString Launcher::id()

@@ -36,59 +36,54 @@
 
 namespace valgrind
 {
-    CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
-				 valgrind::Plugin *inst,
-				 QObject* parent)
-	: Job(cfg, inst, parent)
-	, m_file(0)
-    {
+CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
+                             valgrind::Plugin *inst,
+                             QObject* parent)
+    : Job(cfg, inst, parent)
+    , m_file(0)
+{
+}
+
+CachegrindJob::~CachegrindJob()
+{
+}
+
+void CachegrindJob::processStarted()
+{
+    QString filename = QString("%1/cachegrind.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
+
+    m_file = new QFile(filename);
+}
+
+void CachegrindJob::processEnded()
+{
+    if (m_file) {
+        m_file->open(QIODevice::ReadOnly);
+        m_parser->setDevice(m_file);
+        m_parser->parse();
+        m_file->close();
+
+        KConfigGroup grp = m_launchcfg->config();
+        if (grp.readEntry("Launch KCachegrind", false)) {
+            QStringList args;
+            args << m_file->fileName();
+            QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
+            //Proxy used to remove file at the end of KCachegrind
+            new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
+        } else {
+            m_file->remove();
+            delete m_file;
+        }
     }
+}
 
-    CachegrindJob::~CachegrindJob()
-    {
-    }
+void CachegrindJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
+{
+    static const t_valgrind_cfg_argarray cg_args = {
+        {"Cachegrind Arguments", "", "str"}
+    };
+    static const int count = sizeof(cg_args) / sizeof(*cg_args);
 
-    void CachegrindJob::processStarted()
-    {
-	QString filename = QString("%1/cachegrind.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
-
-	m_file = new QFile(filename);
-    }
-
-    void CachegrindJob::processEnded()
-    {
-	if (m_file)
-	{
-	    m_file->open(QIODevice::ReadOnly);
-	    m_parser->setDevice(m_file);
-	    m_parser->parse();
-	    m_file->close();
-
-	    KConfigGroup grp = m_launchcfg->config();
-	    if (grp.readEntry("Launch KCachegrind", false) )
-	    {
-		QStringList args;
-		args << m_file->fileName();
-		QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
-		//Proxy used to remove file at the end of KCachegrind
-		new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
-	    }
-	    else
-	    {
-		m_file->remove();
-		delete m_file;
-	    }
-	}
-    }
-
-    void CachegrindJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
-    {
-	static const t_valgrind_cfg_argarray cg_args =
-	    {
-     		{"Cachegrind Arguments", "", "str"}
-     	    };
-     	static const int count = sizeof(cg_args) / sizeof(*cg_args);
-
-	processModeArgs(args, cg_args, count, cfg);
-    }
+    processModeArgs(args, cg_args, count, cfg);
+}
 }

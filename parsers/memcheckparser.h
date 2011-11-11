@@ -43,50 +43,50 @@ namespace valgrind
  */
 class MemcheckParser : public Parser
 {
-  Q_OBJECT
+    Q_OBJECT
 
-    public:
+public:
 
-  MemcheckParser(QObject *parent = 0);
-  virtual ~MemcheckParser();
-
-
- signals:
-
-  /**
-   * Emits this signal when a new item is parsed
-   */
-  void newElement(valgrind::Model::eElementType);
-  void newData(valgrind::Model::eElementType, QString name, QString value);
-
-  void reset();
-
-  public slots:
-
-  void parse();
+    MemcheckParser(QObject *parent = 0);
+    virtual ~MemcheckParser();
 
 
- private:
+signals:
 
-  // XML parsing
-  bool endElement();
-  bool startElement();
-  void clear();
+    /**
+     * Emits this signal when a new item is parsed
+     */
+    void newElement(valgrind::Model::eElementType);
+    void newData(valgrind::Model::eElementType, QString name, QString value);
 
-  enum State {
-    Unknown,
-    Root,
-    Session,
-    Status,
-    Preamble,
-    Error,
-    Stack,
-    Frame
-  };
+    void reset();
 
-  QStack<State> m_stateStack;
-  QString m_buffer;
-  QHash<QString, QString> valgrindArgs, programArgs;
+public slots:
+
+    void parse();
+
+
+private:
+
+    // XML parsing
+    bool endElement();
+    bool startElement();
+    void clear();
+
+    enum State {
+        Unknown,
+        Root,
+        Session,
+        Status,
+        Preamble,
+        Error,
+        Stack,
+        Frame
+    };
+
+    QStack<State> m_stateStack;
+    QString m_buffer;
+    QHash<QString, QString> valgrindArgs, programArgs;
 };
 }
 

@@ -34,32 +34,32 @@
 
 namespace valgrind
 {
-    MemcheckView::MemcheckView()
-    {
-        connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
-    }
+MemcheckView::MemcheckView()
+{
+    connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+}
 
-    MemcheckView::~MemcheckView() {}
+MemcheckView::~MemcheckView() {}
 
-    void MemcheckView::setModel( valgrind::Model * m )
-    {
-        QTreeView::setModel( m );
-    }
+void MemcheckView::setModel(valgrind::Model * m)
+{
+    QTreeView::setModel(m);
+}
 
-    valgrind::Model * MemcheckView::model( void )
-    {
-        return dynamic_cast<valgrind::Model *>(QTreeView::model());
-    }
+valgrind::Model * MemcheckView::model(void)
+{
+    return dynamic_cast<valgrind::Model *>(QTreeView::model());
+}
 
-    void MemcheckView::openDocument(const QModelIndex & index)
-    {
-        if (valgrind::MemcheckFrame* frame = dynamic_cast<valgrind::MemcheckFrame*>(static_cast<valgrind::MemcheckModel*>(model())->itemForIndex(index))) {
-            KUrl doc = frame->url();
-            if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
-                KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, frame->line - 1), 0));
-            }
+void MemcheckView::openDocument(const QModelIndex & index)
+{
+    if (valgrind::MemcheckFrame* frame = dynamic_cast<valgrind::MemcheckFrame*>(static_cast<valgrind::MemcheckModel*>(model())->itemForIndex(index))) {
+        KUrl doc = frame->url();
+        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
+            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, frame->line - 1), 0));
         }
     }
+}
 
 }
 

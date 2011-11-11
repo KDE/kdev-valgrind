@@ -26,31 +26,31 @@
 
 namespace valgrind
 {
-  namespace Ui
-  {
-    class CachegrindConfig;
-  }
+namespace Ui
+{
+class CachegrindConfig;
+}
 
 class CachegrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  CachegrindConfigPage( QWidget * parent = 0 );
-  virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
-  virtual KIcon			icon( void ) const;
-  virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
-  virtual QString		title( void ) const;
+    CachegrindConfigPage(QWidget * parent = 0);
+    virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
+    virtual KIcon         icon(void) const;
+    virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
+    virtual QString       title(void) const;
 
 private:
-  Ui::CachegrindConfig	*ui;
+    Ui::CachegrindConfig  *ui;
 };
 
 class CachegrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  CachegrindConfigPageFactory( void );
-  virtual ~CachegrindConfigPageFactory( void );
-  virtual KDevelop::LaunchConfigurationPage* createWidget( QWidget * parent );
+    CachegrindConfigPageFactory(void);
+    virtual ~CachegrindConfigPageFactory(void);
+    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 };
 }
 

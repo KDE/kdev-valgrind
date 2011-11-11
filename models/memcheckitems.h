@@ -29,19 +29,21 @@
 
 namespace valgrind
 {
-  class MemcheckItem : public ModelItem
-  {
+class MemcheckItem : public ModelItem
+{
 
-  public:
+public:
 
     virtual ~MemcheckItem() {}
 
-    virtual MemcheckItem* parent() const {return 0L;}
+    virtual MemcheckItem* parent() const {
+        return 0L;
+    }
 
     /*
      * Called when data related to the error has been parsed
      */
     virtual void incomingData(QString name, QString value) = 0;
-  };
+};
 }
 #endif /* _VALGRINDITEM_H_ */

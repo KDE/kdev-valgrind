@@ -34,30 +34,30 @@
 namespace valgrind
 {
 
+/**
+ * A class which parses valgrind's XML output
+ * and emits signals when items are parsed
+ */
+class CachegrindParser : public Parser
+{
+    Q_OBJECT
+
+public:
+
+    CachegrindParser(QObject *parent = 0);
+    virtual ~CachegrindParser();
+
+signals:
+
     /**
-     * A class which parses valgrind's XML output
-     * and emits signals when items are parsed
+     * Emits this signal when a new item is parsed
      */
-    class CachegrindParser : public Parser
-    {
-	Q_OBJECT
-
-	public:
-
-	CachegrindParser(QObject *parent = 0);
-	virtual ~CachegrindParser();
-
-    signals:
-
-	/**
-	 * Emits this signal when a new item is parsed
-	 */
-	void newItem(valgrind::ModelItem*);
+    void newItem(valgrind::ModelItem*);
 
 
-    public slots:
-	void parse();
-    };
+public slots:
+    void parse();
+};
 }
 
 

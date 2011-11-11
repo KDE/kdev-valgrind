@@ -24,15 +24,15 @@ class QWidget;
 
 namespace valgrind
 {
-    class Model;
+class Model;
 
-    class IView
-    {
-    public:
-        virtual Model* model( void ) = 0;
-        virtual void setModel( valgrind::Model * ) = 0;
-        virtual ~IView ( void ) {}
-    };
+class IView
+{
+public:
+    virtual Model* model(void) = 0;
+    virtual void setModel(valgrind::Model *) = 0;
+    virtual ~IView(void) {}
+};
 }
 
 #endif /* _IVIEW_H_ */

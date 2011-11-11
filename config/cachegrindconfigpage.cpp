@@ -24,55 +24,55 @@
 namespace valgrind
 {
 
-CachegrindConfigPage::CachegrindConfigPage( QWidget *parent )
-    : LaunchConfigurationPage( parent )
+CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
+    : LaunchConfigurationPage(parent)
 {
     ui = new Ui::CachegrindConfig();
-    ui->setupUi( this );
+    ui->setupUi(this);
 
-    connect(ui->cachegrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
-    connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
+    connect(ui->cachegrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
 }
 
-void	CachegrindConfigPage::loadFromConfiguration( const KConfigGroup&cfg, KDevelop::IProject * )
+void    CachegrindConfigPage::loadFromConfiguration(const KConfigGroup&cfg, KDevelop::IProject *)
 {
-  bool	wasBlocked = signalsBlocked();
-  blockSignals(true);
+    bool  wasBlocked = signalsBlocked();
+    blockSignals(true);
 
-  ui->cachegrindParameters->setText( cfg.readEntry("Cachegrind Arguments", "") );
-  ui->launchKCachegrind->setChecked( cfg.readEntry("Launch KCachegrind", false) );
-  ui->KCachegrindExecutable->setText( cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind") );
+    ui->cachegrindParameters->setText(cfg.readEntry("Cachegrind Arguments", ""));
+    ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
+    ui->KCachegrindExecutable->setText(cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind"));
 
-  blockSignals(wasBlocked);
+    blockSignals(wasBlocked);
 }
 
-void	CachegrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
+void    CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-  cfg.writeEntry( "Cachegrind Arguments", ui->cachegrindParameters->text() );
-  cfg.writeEntry( "Launch KCachegrind", ui->launchKCachegrind->isChecked() );
-  cfg.writeEntry( "KCachegrindExecutable", ui->KCachegrindExecutable->text() );
+    cfg.writeEntry("Cachegrind Arguments", ui->cachegrindParameters->text());
+    cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
+    cfg.writeEntry("KCachegrindExecutable", ui->KCachegrindExecutable->text());
 }
 
-KIcon	CachegrindConfigPage::icon( void ) const
+KIcon   CachegrindConfigPage::icon(void) const
 {
-    return KIcon( "fork" );
+    return KIcon("fork");
 }
 
-QString	CachegrindConfigPage::title( void ) const
+QString CachegrindConfigPage::title(void) const
 {
     return i18n("Cachegrind");
 }
 
 // The factory
-CachegrindConfigPageFactory::CachegrindConfigPageFactory( void )
+CachegrindConfigPageFactory::CachegrindConfigPageFactory(void)
 {}
 
-CachegrindConfigPageFactory::~CachegrindConfigPageFactory( void )
+CachegrindConfigPageFactory::~CachegrindConfigPageFactory(void)
 {}
 
-KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget( QWidget *parent)
+KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::CachegrindConfigPage( parent );
+    return new valgrind::CachegrindConfigPage(parent);
 }
 }

@@ -26,38 +26,38 @@
 namespace valgrind
 {
 
-  class Job;
+class Job;
 
-  class ModelItem
-  {
+class ModelItem
+{
 
-  public:
-    ModelItem(){};
+public:
+    ModelItem() {};
 
-    virtual ~ModelItem(){};
+    virtual ~ModelItem() {};
 
-  };
+};
 
-  class Model: public QAbstractItemModel
-  {
+class Model: public QAbstractItemModel
+{
     Q_OBJECT
 
-    public:
+public:
 
     Model(QObject* parent = 0);
 
     virtual ~Model();
 
     enum eElementType {
-      startError,
-      error,
-      startFrame,
-      frame,
-      startStack,
-      stack
+        startError,
+        error,
+        startFrame,
+        frame,
+        startStack,
+        stack
     };
 
-    public slots:
+public slots:
 
     /**
      * Compatibility with memcheck module, TO REMOVE
@@ -96,16 +96,16 @@ namespace valgrind
     void jobDestroyed(void);
 
 
-    signals:
+signals:
 
     /**
      * emit this signal to alert other modules that the model has been updated
      */
     void modelChanged();
 
-  private:
-      valgrind::Job *m_job;
-  };
+private:
+    valgrind::Job *m_job;
+};
 }
 
 #endif /* _IMODEL_H_ */

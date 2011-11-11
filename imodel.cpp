@@ -25,51 +25,51 @@
 namespace valgrind
 {
 
-    Model::Model(QObject* parent)
-        : QAbstractItemModel(parent)
-        , m_job(0)
-    {
-    }
+Model::Model(QObject* parent)
+    : QAbstractItemModel(parent)
+    , m_job(0)
+{
+}
 
-    Model::~Model()
-    {
-    }
+Model::~Model()
+{
+}
 
-    void Model::job(valgrind::Job * job)
-    {
-        connect( job, SIGNAL( destroyed() ),
-                 this, SLOT( jobDestroyed() ) );
-        m_job = job;
-    }
+void Model::job(valgrind::Job * job)
+{
+    connect(job, SIGNAL(destroyed()),
+            this, SLOT(jobDestroyed()));
+    m_job = job;
+}
 
-    valgrind::Job * Model::job(void)
-    {
-        return m_job;
-    }
+valgrind::Job * Model::job(void)
+{
+    return m_job;
+}
 
-    void Model::jobDestroyed( void )
-    {
-        m_job = NULL;
-    }
+void Model::jobDestroyed(void)
+{
+    m_job = NULL;
+}
 
-    void Model::newElement(Model::eElementType type)
-    {
-        Q_UNUSED(type);
-    }
+void Model::newElement(Model::eElementType type)
+{
+    Q_UNUSED(type);
+}
 
-    void Model::newData(Model::eElementType type, QString name, QString value)
-    {
-        Q_UNUSED(type);
-        Q_UNUSED(name);
-        Q_UNUSED(value);
-    }
+void Model::newData(Model::eElementType type, QString name, QString value)
+{
+    Q_UNUSED(type);
+    Q_UNUSED(name);
+    Q_UNUSED(value);
+}
 
-    void Model::newItem(ModelItem *item)
-    {
-        Q_UNUSED(item);
-    }
+void Model::newItem(ModelItem *item)
+{
+    Q_UNUSED(item);
+}
 
-    void Model::reset()
-    {
-    }
+void Model::reset()
+{
+}
 }

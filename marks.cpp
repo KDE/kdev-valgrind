@@ -61,23 +61,20 @@ void Marks::modelChanged()
     // errors
     QModelIndex parentIndex = QModelIndex();
     int numRows = m_model->rowCount();
-    for (int row = 0; row < numRows; ++row)
-    {
+    for (int row = 0; row < numRows; ++row) {
         QModelIndex index = m_model->index(row, 0, parentIndex);
         int numRows2 = m_model->rowCount(index);
-        for (int row2 = 0; row2 < numRows2; ++row2)
-        {
+        for (int row2 = 0; row2 < numRows2; ++row2) {
             QModelIndex index2 = m_model->index(row2, 0, index);
             QString text = m_model->data(index2, Qt::UserRole).toString();
-            if (!text.isEmpty())
-            {
+            if (!text.isEmpty()) {
                 QString delimiterPattern(":");
                 QStringList fileInfo = text.split(delimiterPattern);
                 if (fileInfo.size() == 2)
                     for (int i = 0; i < docList.size(); ++i)
                         if (docList.at(i)->documentName() == fileInfo[0])
                             if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
-                                iface->addMark(fileInfo[1].toInt()-1, KTextEditor::MarkInterface::markType07);
+                                iface->addMark(fileInfo[1].toInt() - 1, KTextEditor::MarkInterface::markType07);
             }
         }
     }

@@ -24,11 +24,11 @@
 namespace valgrind
 {
 
-HelgrindConfigPage::HelgrindConfigPage( QWidget *parent )
-    : LaunchConfigurationPage( parent )
+HelgrindConfigPage::HelgrindConfigPage(QWidget *parent)
+    : LaunchConfigurationPage(parent)
 {
     ui = new Ui::HelgrindConfig();
-    ui->setupUi( this );
+    ui->setupUi(this);
 
     QStringList events;
 
@@ -36,11 +36,11 @@ HelgrindConfigPage::HelgrindConfigPage( QWidget *parent )
     events << "Threads";
     events << "All";
 
-    ui->extraSynchronizationEvents->addItems( events );
-    connect( ui->extraSynchronizationEvents, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
+    ui->extraSynchronizationEvents->addItems(events);
+    connect(ui->extraSynchronizationEvents, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()));
 }
 
-void	HelgrindConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelop::IProject * )
+void    HelgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
 {
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
@@ -48,37 +48,37 @@ void	HelgrindConfigPage::loadFromConfiguration( const KConfigGroup& cfg, KDevelo
     int extra_events_index;
     QString extra_events;
 
-    extra_events = cfg.readEntry( "Extra Synchronization Events", "None (locks only)" );
-    extra_events_index = ui->extraSynchronizationEvents->findText( extra_events );
-    ui->extraSynchronizationEvents->setCurrentIndex( extra_events_index );
+    extra_events = cfg.readEntry("Extra Synchronization Events", "None (locks only)");
+    extra_events_index = ui->extraSynchronizationEvents->findText(extra_events);
+    ui->extraSynchronizationEvents->setCurrentIndex(extra_events_index);
 
     blockSignals(wasBlocked);
 }
 
-KIcon	HelgrindConfigPage::icon( void ) const
+KIcon   HelgrindConfigPage::icon(void) const
 {
-    return KIcon( "fork" );
+    return KIcon("fork");
 }
 
-void	HelgrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const
+void    HelgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry( "Extra Synchronization Events", ui->extraSynchronizationEvents->currentText() );
+    cfg.writeEntry("Extra Synchronization Events", ui->extraSynchronizationEvents->currentText());
 }
 
-QString	HelgrindConfigPage::title( void ) const
+QString HelgrindConfigPage::title(void) const
 {
     return i18n("Helgrind");
 }
 
 // The factory
-HelgrindConfigPageFactory::HelgrindConfigPageFactory( void )
+HelgrindConfigPageFactory::HelgrindConfigPageFactory(void)
 {}
 
-HelgrindConfigPageFactory::~HelgrindConfigPageFactory( void )
+HelgrindConfigPageFactory::~HelgrindConfigPageFactory(void)
 {}
 
-KDevelop::LaunchConfigurationPage* HelgrindConfigPageFactory::createWidget( QWidget *parent)
+KDevelop::LaunchConfigurationPage* HelgrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::HelgrindConfigPage( parent );
+    return new valgrind::HelgrindConfigPage(parent);
 }
 }

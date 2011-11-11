@@ -30,17 +30,19 @@ namespace valgrind
 GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
+    Q_UNUSED(plugin)
+
     ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
-    connect( ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()) );
-    connect( ui->valgrindExecutable, SIGNAL(urlSelected(KUrl)), SIGNAL(changed()) );
-    connect( ui->valgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
-    connect( ui->limitErrors, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect( ui->maxStackSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
-    connect( ui->stackDepth, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()));
+    connect(ui->valgrindExecutable, SIGNAL(urlSelected(KUrl)), SIGNAL(changed()));
+    connect(ui->valgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->limitErrors, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->maxStackSize, SIGNAL(valueChanged(int)), SIGNAL(changed()));
+    connect(ui->stackDepth, SIGNAL(valueChanged(int)), SIGNAL(changed()));
 
-    QStringList	tools;
+    QStringList tools;
 
     tools << "memcheck";
     tools << "massif";
@@ -54,7 +56,7 @@ GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
 
     ui->currentTool->addItems(tools);
 
-    connect( ui->currentTool, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
+    connect(ui->currentTool, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()));
 }
 
 GenericConfigPage::~GenericConfigPage(void)
@@ -70,15 +72,15 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop:
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->valgrindExecutable->setUrl( cfg.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ) );
-    ui->valgrindParameters->setText( cfg.readEntry( "Valgrind Arguments", "" ) );
-    ui->stackDepth->setValue( cfg.readEntry( "Stackframe Depth", 12 ) );
-    ui->maxStackSize->setValue( cfg.readEntry( "Maximum Stackframe Size", 2000000 ) );
-    ui->limitErrors->setChecked( cfg.readEntry( "Limit Errors", true ) );
+    ui->valgrindExecutable->setUrl(cfg.readEntry("Valgrind Executable", KUrl("/usr/bin/valgrind")));
+    ui->valgrindParameters->setText(cfg.readEntry("Valgrind Arguments", ""));
+    ui->stackDepth->setValue(cfg.readEntry("Stackframe Depth", 12));
+    ui->maxStackSize->setValue(cfg.readEntry("Maximum Stackframe Size", 2000000));
+    ui->limitErrors->setChecked(cfg.readEntry("Limit Errors", true));
 
-    int	tool_index;
-    QString	toolname;
-    toolname = cfg.readEntry( "Current Tool", "memcheck" );
+    int tool_index;
+    QString toolname;
+    toolname = cfg.readEntry("Current Tool", "memcheck");
     tool_index = ui->currentTool->findText(toolname);
     ui->currentTool->setCurrentIndex(tool_index);
 
@@ -87,17 +89,17 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop:
 
 void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry( "Valgrind Executable", ui->valgrindExecutable->url() );
-    cfg.writeEntry( "Valgrind Arguments", ui->valgrindParameters->text() );
-    cfg.writeEntry( "Stackframe Depth", ui->stackDepth->value() );
-    cfg.writeEntry( "Maximum Stackframe Size", ui->maxStackSize->value() );
-    cfg.writeEntry( "Limit Errors", ui->limitErrors->isChecked() );
-    cfg.writeEntry( "Current Tool", ui->currentTool->currentText() );
+    cfg.writeEntry("Valgrind Executable", ui->valgrindExecutable->url());
+    cfg.writeEntry("Valgrind Arguments", ui->valgrindParameters->text());
+    cfg.writeEntry("Stackframe Depth", ui->stackDepth->value());
+    cfg.writeEntry("Maximum Stackframe Size", ui->maxStackSize->value());
+    cfg.writeEntry("Limit Errors", ui->limitErrors->isChecked());
+    cfg.writeEntry("Current Tool", ui->currentTool->currentText());
 
-    emit newCurrentTool( ui->currentTool->currentText() );
+    emit newCurrentTool(ui->currentTool->currentText());
 }
 
-QString	GenericConfigPage::title() const
+QString GenericConfigPage::title() const
 {
     return i18n("Global settings");
 }

@@ -29,30 +29,30 @@
 namespace valgrind
 {
 
-  class CachegrindModel : public valgrind::Model
-    {
-      Q_OBJECT
+class CachegrindModel : public valgrind::Model
+{
+    Q_OBJECT
 
-	public:
+public:
 
-      CachegrindModel(QObject* parent = 0);
-      virtual ~CachegrindModel();
+    CachegrindModel(QObject* parent = 0);
+    virtual ~CachegrindModel();
 
-      QModelIndex index(int, int, const QModelIndex&) const;
-      QModelIndex parent(const QModelIndex&) const;
-      int rowCount(const QModelIndex &parent = QModelIndex()) const;
-      int columnCount(const QModelIndex&) const;
-      QVariant data(const QModelIndex &index, int role) const;
-      QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QModelIndex index(int, int, const QModelIndex&) const;
+    QModelIndex parent(const QModelIndex&) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex&) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-      public slots:
+public slots:
 
-      /**
-       * Resets the model content
-       */
-      void reset();
+    /**
+     * Resets the model content
+     */
+    void reset();
 
-    };
+};
 
 }
 #endif /* _CACHEGRINDMODEL_H_ */

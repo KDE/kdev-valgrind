@@ -34,72 +34,67 @@
 
 namespace valgrind
 {
-    MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg,
-			 valgrind::Plugin *inst,
-			 QObject* parent)
-	: Job(cfg, inst, parent)
-	, m_file(0)
-    {
+MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg,
+                     valgrind::Plugin *inst,
+                     QObject* parent)
+    : Job(cfg, inst, parent)
+    , m_file(0)
+{
+}
+
+MassifJob::~MassifJob() {}
+
+void MassifJob::processStarted()
+{
+    QString filename = QString("%1/massif.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
+
+    m_file = new QFile(filename);
+}
+
+void MassifJob::processEnded()
+{
+    if (m_file) {
+        m_file->open(QIODevice::ReadOnly);
+        m_parser->setDevice(m_file);
+        m_parser->parse();
+        m_file->close();
+
+        KConfigGroup grp = m_launchcfg->config();
+        if (grp.readEntry("launchVisualizer", false)) {
+            QStringList args;
+            args << m_file->fileName();
+            QString kcg = grp.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer");
+            new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
+        } else {
+            m_file->remove();
+            delete m_file;
+        }
     }
+}
 
-    MassifJob::~MassifJob() {}
+void MassifJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
+{
+    static const t_valgrind_cfg_argarray massif_args = {
+        {"Massif Arguments", "", "str"},
+        {"depth", "--depth=", "int"},
+        {"threshold", "--threshold=", "float"},
+        {"peakInaccuracy", "--peak-inaccuracy=", "float"},
+        {"maxSnapshots", "--max-snapshots=", "int"},
+        {"snapshotFreq", "--detailed-freq=", "int"},
+        {"profileHeap", "--heap=", "bool"},
+        {"profileStack", "--stacks=", "bool"}
+    };
+    static const int count = sizeof(massif_args) / sizeof(*massif_args);
 
-    void MassifJob::processStarted()
-    {
-	QString filename = QString("%1/massif.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
+    processModeArgs(args, massif_args, count, cfg);
 
-	m_file = new QFile(filename);
-    }
-
-    void MassifJob::processEnded()
-    {
-	if (m_file)
-	{
-	    m_file->open(QIODevice::ReadOnly);
-	    m_parser->setDevice(m_file);
-	    m_parser->parse();
-	    m_file->close();
-
-	    KConfigGroup grp = m_launchcfg->config();
-	    if (grp.readEntry("launchVisualizer", false) )
-	    {
-		QStringList args;
-		args << m_file->fileName();
-		QString kcg = grp.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer");
-		QFileProxyRemove *rmFile = new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
-	    }
-	    else
-            {
-		m_file->remove();
-                delete m_file;
-            }
-	}
-    }
-
-    void MassifJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
-    {
-    	static const t_valgrind_cfg_argarray massif_args =
-    	    {
-    		{"Massif Arguments", "", "str"},
-    		{"depth", "--depth=", "int"},
-    		{"threshold", "--threshold=", "float"},
-    		{"peakInaccuracy", "--peak-inaccuracy=", "float"},
-    		{"maxSnapshots", "--max-snapshots=", "int"},
-    		{"snapshotFreq", "--detailed-freq=", "int"},
-    		{"profileHeap", "--heap=", "bool"},
-    		{"profileStack", "--stacks=", "bool"}
-    	    };
-    	static const int count = sizeof(massif_args) / sizeof(*massif_args);
-
-    	processModeArgs(args, massif_args, count, cfg);
-
-    	int tu = cfg.readEntry("timeUnit", 0);
-    	if (tu == 0)
-    	    args << QString("--time-unit=i");
-    	else if (tu == 1)
-    	    args << QString("--time-unit=ms");
-    	else if (tu == 2)
-    	    args << QString("--time-unit=B");
-    }
+    int tu = cfg.readEntry("timeUnit", 0);
+    if (tu == 0)
+        args << QString("--time-unit=i");
+    else if (tu == 1)
+        args << QString("--time-unit=ms");
+    else if (tu == 2)
+        args << QString("--time-unit=B");
+}
 
 }

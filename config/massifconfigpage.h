@@ -27,29 +27,29 @@ namespace valgrind
 {
 namespace Ui
 {
-  class MassifConfig;
+class MassifConfig;
 }
 
 class MassifConfigPage : public KDevelop::LaunchConfigurationPage
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  MassifConfigPage( QWidget * parent = 0 );
-  virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
-  virtual KIcon			icon( void ) const;
-  virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
-  virtual QString		title( void ) const;
+    MassifConfigPage(QWidget * parent = 0);
+    virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
+    virtual KIcon         icon(void) const;
+    virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
+    virtual QString       title(void) const;
 
 private:
-  Ui::MassifConfig	*ui;
+    Ui::MassifConfig  *ui;
 };
 
 class MassifConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  MassifConfigPageFactory( void );
-  virtual ~MassifConfigPageFactory( void );
-  virtual KDevelop::LaunchConfigurationPage* createWidget( QWidget * parent );
+    MassifConfigPageFactory(void);
+    virtual ~MassifConfigPageFactory(void);
+    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 };
 
 }

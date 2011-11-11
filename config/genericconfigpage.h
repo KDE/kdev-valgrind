@@ -30,35 +30,35 @@ class Plugin;
 
 namespace Ui
 {
-  class GenericConfig;
+class GenericConfig;
 }
 
-class	GenericConfigPage : public KDevelop::LaunchConfigurationPage
+class   GenericConfigPage : public KDevelop::LaunchConfigurationPage
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  GenericConfigPage(valgrind::Plugin * plugin, QWidget * parent = 0);
-  ~GenericConfigPage();
-  virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
-  virtual KIcon icon() const;
-  virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
-  virtual QString title() const;
+    GenericConfigPage(valgrind::Plugin * plugin, QWidget * parent = 0);
+    ~GenericConfigPage();
+    virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
+    virtual KIcon icon() const;
+    virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
+    virtual QString title() const;
 
 signals:
-  void newCurrentTool(QString newTool) const;
+    void newCurrentTool(QString newTool) const;
 
 private:
-  Ui::GenericConfig *ui;
+    Ui::GenericConfig *ui;
 };
 
 class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  GenericConfigPageFactory( valgrind::Plugin* );
-  virtual ~GenericConfigPageFactory();
-  virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+    GenericConfigPageFactory(valgrind::Plugin*);
+    virtual ~GenericConfigPageFactory();
+    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 
 private:
     valgrind::Plugin* m_plugin;

@@ -25,31 +25,31 @@
 
 namespace valgrind
 {
-  namespace Ui
-  {
-    class CallgrindConfig;
-  }
+namespace Ui
+{
+class CallgrindConfig;
+}
 
 class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  CallgrindConfigPage( QWidget * parent = 0 );
-  virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
-  virtual KIcon			icon( void ) const;
-  virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
-  virtual QString		title( void ) const;
+    CallgrindConfigPage(QWidget * parent = 0);
+    virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
+    virtual KIcon         icon(void) const;
+    virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
+    virtual QString       title(void) const;
 
 private:
-  Ui::CallgrindConfig	*ui;
+    Ui::CallgrindConfig   *ui;
 };
 
 class CallgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  CallgrindConfigPageFactory( void );
-  virtual ~CallgrindConfigPageFactory( void );
-  virtual KDevelop::LaunchConfigurationPage* createWidget( QWidget * parent );
+    CallgrindConfigPageFactory(void);
+    virtual ~CallgrindConfigPageFactory(void);
+    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 };
 
 }

@@ -35,27 +35,27 @@ class KIcon;
 
 namespace valgrind
 {
-  class Plugin;
+class Plugin;
 
-  class Launcher : public KDevelop::ILauncher
-  {
+class Launcher : public KDevelop::ILauncher
+{
 
-  public:
-      Launcher(valgrind::Plugin *inst);
+public:
+    Launcher(valgrind::Plugin *inst);
 
-      virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
-      void addMode( valgrind::LaunchMode* mode );
-      virtual QString description() const;
-      virtual QString id();
-      virtual QString name() const;
-      virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
-      virtual QStringList supportedModes() const;
+    virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
+    void addMode(valgrind::LaunchMode* mode);
+    virtual QString description() const;
+    virtual QString id();
+    virtual QString name() const;
+    virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
+    virtual QStringList supportedModes() const;
 
-  private:
-      QList<KDevelop::LaunchConfigurationPageFactory*> factories;
-      QMap<QString, valgrind::LaunchMode*> modes;
-      valgrind::Plugin * m_plugin;
-  };
+private:
+    QList<KDevelop::LaunchConfigurationPageFactory*> factories;
+    QMap<QString, valgrind::LaunchMode*> modes;
+    valgrind::Plugin * m_plugin;
+};
 
 }
 

@@ -27,29 +27,29 @@ namespace valgrind
 {
 namespace Ui
 {
-  class HelgrindConfig;
+class HelgrindConfig;
 }
 
 class HelgrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  HelgrindConfigPage(QWidget * parent = 0 );
-  virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
-  virtual KIcon			icon( void ) const;
-  virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
-  virtual QString		title( void ) const;
+    HelgrindConfigPage(QWidget * parent = 0);
+    virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
+    virtual KIcon         icon(void) const;
+    virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
+    virtual QString       title(void) const;
 
 private:
-  Ui::HelgrindConfig	*ui;
+    Ui::HelgrindConfig    *ui;
 };
 
 class HelgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  HelgrindConfigPageFactory( void );
-  virtual ~HelgrindConfigPageFactory( void );
-  virtual KDevelop::LaunchConfigurationPage* createWidget( QWidget * parent );
+    HelgrindConfigPageFactory(void);
+    virtual ~HelgrindConfigPageFactory(void);
+    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 };
 }
 #endif /* VALGRINDHELGRINDCONFIGPAGE_H_ */

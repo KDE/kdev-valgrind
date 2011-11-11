@@ -33,52 +33,54 @@
 namespace valgrind
 {
 
-  class MemcheckError;
+class MemcheckError;
 
 
-  /**
-   * A class that represents the item model
-   * \author Hamish Rodda \<rodda@kde.org\>
-   */
-  class MemcheckModel : public valgrind::Model, public MemcheckItem
-  {
+/**
+ * A class that represents the item model
+ * \author Hamish Rodda \<rodda@kde.org\>
+ */
+class MemcheckModel : public valgrind::Model, public MemcheckItem
+{
     Q_OBJECT
 
-  public:
+public:
 
     MemcheckModel(QObject* parent = 0);
 
     virtual ~MemcheckModel();
 
     enum Columns {
-      //Index = 0,
-      Function,
-      Source,
-      Object
+        //Index = 0,
+        Function,
+        Source,
+        Object
     };
 
     static const int numColumns = 1;
 
     // Item
-    virtual MemcheckItem* parent() const { return 0L; }
+    virtual MemcheckItem* parent() const {
+        return 0L;
+    }
 
     // Model
     QModelIndex indexForItem(MemcheckItem* item, int column = 0) const;
     MemcheckItem* itemForIndex(const QModelIndex& index) const;
 
     virtual void incomingData(QString name, QString value);
-    virtual int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
-    virtual QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-    virtual QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
-    virtual QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
-    virtual QModelIndex parent ( const QModelIndex & index ) const;
-    virtual int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
+    virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const;
+    virtual QModelIndex parent(const QModelIndex & index) const;
+    virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
     void newStack();
     void newFrame();
     void newStartError();
 
-    public slots:
+public slots:
 
     /**
      * Reception of a new item in the model
@@ -100,10 +102,10 @@ namespace valgrind
      */
     virtual void newItem(valgrind::ModelItem *);
 
-  private:
+private:
     QList<MemcheckError *> m_errors;
 
-  };
+};
 
 }
 #endif /* _MEMCHECKMODEL_H_ */

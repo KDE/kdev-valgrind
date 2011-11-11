@@ -32,181 +32,181 @@
 namespace valgrind
 {
 
-  MemcheckError::MemcheckError(valgrind::MemcheckModel* parent)
+MemcheckError::MemcheckError(valgrind::MemcheckModel* parent)
     : m_parent(parent)
-  {
-  }
+{
+}
 
-  MemcheckError::~MemcheckError()
-  {
-  }
+MemcheckError::~MemcheckError()
+{
+}
 
-  MemcheckModel* MemcheckError::parent() const
-  {
+MemcheckModel* MemcheckError::parent() const
+{
     return m_parent;
-  }
+}
 
-  void MemcheckError::incomingData(QString name, QString value)
-  {
+void MemcheckError::incomingData(QString name, QString value)
+{
     if (name == "unique")
-      this->uniqueId = value.toInt(0L, 16);
+        this->uniqueId = value.toInt(0L, 16);
     else if (name == "tid")
-      this->threadId = value.toInt();
+        this->threadId = value.toInt();
     else if (name == "kind")
-      this->setKind(value);
+        this->setKind(value);
     else if (name == "what")
-      this->what = value;
+        this->what = value;
     else if (name == "leakedbytes")
-      this->leakedBytes = value.toInt();
+        this->leakedBytes = value.toInt();
     else if (name == "leakedblocks")
-      this->leakedBlocks = value.toInt();
+        this->leakedBlocks = value.toInt();
     else if (name == "text")
-      this->text = value;
+        this->text = value;
     else if (name == "auxwhat")
-      this->auxWhat = value;
-  }
+        this->auxWhat = value;
+}
 
-  void MemcheckError::setKind(const QString& s)
-  {
+void MemcheckError::setKind(const QString& s)
+{
     if (s == "Unknown")
-      m_kind = Unknown;
+        m_kind = Unknown;
     else if (s == "InvalidFree")
-      m_kind = InvalidFree;
+        m_kind = InvalidFree;
     else if (s == "MismatchedFree")
-      m_kind = MismatchedFree;
+        m_kind = MismatchedFree;
     else if (s == "InvalidRead")
-      m_kind = InvalidRead;
+        m_kind = InvalidRead;
     else if (s == "InvalidWrite")
-      m_kind = InvalidWrite;
+        m_kind = InvalidWrite;
     else if (s == "InvalidJump")
-      m_kind = InvalidJump;
+        m_kind = InvalidJump;
     else if (s == "Overlap")
-      m_kind = Overlap;
+        m_kind = Overlap;
     else if (s == "InvalidMemPool")
-      m_kind = InvalidMemPool;
+        m_kind = InvalidMemPool;
     else if (s == "UninitCondition")
-      m_kind = UninitCondition;
+        m_kind = UninitCondition;
     else if (s == "UninitValue")
-      m_kind = UninitValue;
+        m_kind = UninitValue;
     else if (s == "SyscallParam")
-      m_kind = SyscallParam;
+        m_kind = SyscallParam;
     else if (s == "ClientCheck")
-      m_kind = ClientCheck;
+        m_kind = ClientCheck;
     else if (s == "Leak_DefinitelyLost")
-      m_kind = Leak_DefinitelyLost;
+        m_kind = Leak_DefinitelyLost;
     else if (s == "Leak_IndirectlyLost")
-      m_kind = Leak_IndirectlyLost;
+        m_kind = Leak_IndirectlyLost;
     else if (s == "Leak_PossiblyLost")
-      m_kind = Leak_PossiblyLost;
+        m_kind = Leak_PossiblyLost;
     else if (s == "Leak_StillReachable")
-      m_kind = Leak_StillReachable;
+        m_kind = Leak_StillReachable;
     else
-      m_kind = Unknown;
-  }
+        m_kind = Unknown;
+}
 
 
-  MemcheckStack *MemcheckError::addStack()
-  {
+MemcheckStack *MemcheckError::addStack()
+{
     m_stack << new MemcheckStack(this);
     return m_stack.back();
-  }
+}
 
-  MemcheckStack *MemcheckError::lastStack() const
-  {
+MemcheckStack *MemcheckError::lastStack() const
+{
     return m_stack.back();
-  }
+}
 
-  const QList<MemcheckStack *> &MemcheckError::getStack() const
-  {
+const QList<MemcheckStack *> &MemcheckError::getStack() const
+{
     return m_stack;
-  }
+}
 
-  ////////////////////////
+////////////////////////
 
-  QString MemcheckStack::what() const
-  {
+QString MemcheckStack::what() const
+{
     return "In valgrindstack what";
-  }
+}
 
-  MemcheckStack::MemcheckStack(MemcheckError *parent)
+MemcheckStack::MemcheckStack(MemcheckError *parent)
     : m_parent(parent)
-  {
-  }
+{
+}
 
 
-  MemcheckStack::~MemcheckStack()
-  {
-  }
+MemcheckStack::~MemcheckStack()
+{
+}
 
-  MemcheckError* MemcheckStack::parent() const
-  {
+MemcheckError* MemcheckStack::parent() const
+{
     return m_parent;
-  }
+}
 
-  void MemcheckStack::incomingData(QString name, QString value)
-  {
+void MemcheckStack::incomingData(QString name, QString value)
+{
     Q_UNUSED(value)
-      if (name == "frame") {
-	qDebug() << "MemcheckStack::incomingData() Imcoming data with frame name error";
-	// if (this == this->parent()->stack)
-	//     m_model->insertIntoTree(MemcheckModel::stack);
-	//this->frames.append(m_model->m_frame);
-      }
-  }
+    if (name == "frame") {
+        qDebug() << "MemcheckStack::incomingData() Imcoming data with frame name error";
+        // if (this == this->parent()->stack)
+        //     m_model->insertIntoTree(MemcheckModel::stack);
+        //this->frames.append(m_model->m_frame);
+    }
+}
 
 
-  MemcheckFrame *MemcheckStack::addFrame()
-  {
+MemcheckFrame *MemcheckStack::addFrame()
+{
     m_frames << new MemcheckFrame(this);
     return m_frames.back();
-  }
+}
 
-  MemcheckFrame *MemcheckStack::lastFrame() const
-  {
+MemcheckFrame *MemcheckStack::lastFrame() const
+{
     return m_frames.back();
-  }
+}
 
-  const QList<MemcheckFrame *> &MemcheckStack::getFrames() const
-  {
+const QList<MemcheckFrame *> &MemcheckStack::getFrames() const
+{
     return m_frames;
-  }
+}
 
-  MemcheckFrame::MemcheckFrame(MemcheckStack* parent)
+MemcheckFrame::MemcheckFrame(MemcheckStack* parent)
     : m_parent(parent)
-  {
-  }
+{
+}
 
-  MemcheckStack* MemcheckFrame::parent() const
-  {
+MemcheckStack* MemcheckFrame::parent() const
+{
     return m_parent;
-  }
+}
 
-  void MemcheckFrame::incomingData(QString name, QString value)
-  {
+void MemcheckFrame::incomingData(QString name, QString value)
+{
     if (name == "ip")
-      this->instructionPointer = value.toInt(0L, 16);
+        this->instructionPointer = value.toInt(0L, 16);
     else if (name == "obj")
-      this->obj = value;
+        this->obj = value;
     else if (name == "fn")
-      this->fn = value;
+        this->fn = value;
     else if (name == "dir")
-      this->dir = value;
+        this->dir = value;
     else if (name == "file")
-      this->file = value;
+        this->file = value;
     else if (name == "line")
-      this->line = value.toInt();
-  }
+        this->line = value.toInt();
+}
 
-  KUrl MemcheckFrame::url() const
-  {
+KUrl MemcheckFrame::url() const
+{
     if (dir.isEmpty() && file.isEmpty())
-      return KUrl();
+        return KUrl();
 
     KUrl base = KUrl::fromPath(dir);
     base.adjustPath(KUrl::AddTrailingSlash);
     KUrl url(base, file);
     url.cleanPath();
     return url;
-  }
+}
 
 }

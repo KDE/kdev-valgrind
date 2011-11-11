@@ -29,19 +29,19 @@
 
 namespace valgrind
 {
-    class CachegrindView : public QTreeView, public valgrind::IView
-    {
-        Q_OBJECT
+class CachegrindView : public QTreeView, public valgrind::IView
+{
+    Q_OBJECT
 
-    public:
-        CachegrindView();
-        ~CachegrindView();
+public:
+    CachegrindView();
+    ~CachegrindView();
 
-        using QTreeView::setModel;
-        using QTreeView::model;
+    using QTreeView::setModel;
+    using QTreeView::model;
 
-        void setModel( valgrind::Model * m );
-        valgrind::Model * model( void );
-    };
+    void setModel(valgrind::Model * m);
+    valgrind::Model * model(void);
+};
 }
 #endif // CACHEGRINDVIEW_H

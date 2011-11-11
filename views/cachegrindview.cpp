@@ -33,22 +33,22 @@
 
 namespace valgrind
 {
-    CachegrindView::CachegrindView()
-    {
-        connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
-    }
+CachegrindView::CachegrindView()
+{
+    connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+}
 
-    CachegrindView::~CachegrindView() {}
+CachegrindView::~CachegrindView() {}
 
-    void CachegrindView::setModel( valgrind::Model * m )
-    {
-        QTreeView::setModel( m );
-    }
+void CachegrindView::setModel(valgrind::Model * m)
+{
+    QTreeView::setModel(m);
+}
 
-    valgrind::Model * CachegrindView::model( void )
-    {
-        return dynamic_cast<valgrind::Model *>(QTreeView::model());
-    }
+valgrind::Model * CachegrindView::model(void)
+{
+    return dynamic_cast<valgrind::Model *>(QTreeView::model());
+}
 }
 
 #include "cachegrindview.moc"

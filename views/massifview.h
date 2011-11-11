@@ -29,22 +29,22 @@
 
 namespace valgrind
 {
-    class MassifView : public QTreeView, public valgrind::IView
-    {
-        Q_OBJECT
+class MassifView : public QTreeView, public valgrind::IView
+{
+    Q_OBJECT
 
-    public:
-        MassifView();
-        ~MassifView();
+public:
+    MassifView();
+    ~MassifView();
 
-        using QTreeView::setModel;
-        using QTreeView::model;
+    using QTreeView::setModel;
+    using QTreeView::model;
 
-        void setModel( valgrind::Model * m );
-        valgrind::Model * model( void );
+    void setModel(valgrind::Model * m);
+    valgrind::Model * model(void);
 
-    private Q_SLOTS:
-        void openDocument(const QModelIndex& index);
-    };
+private Q_SLOTS:
+    void openDocument(const QModelIndex& index);
+};
 }
 #endif // MASSIFVIEW_H

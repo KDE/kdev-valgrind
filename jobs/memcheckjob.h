@@ -28,27 +28,27 @@
 namespace valgrind
 {
 
-    class MemcheckJob : public Job
-    {
-      Q_OBJECT;
+class MemcheckJob : public Job
+{
+    Q_OBJECT;
 
-    public:
-      MemcheckJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
-      virtual ~MemcheckJob();
+public:
+    MemcheckJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
+    virtual ~MemcheckJob();
 
-    protected:
-      virtual void beforeStart();
-      virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
+protected:
+    virtual void beforeStart();
+    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
 
-    private slots:
-      void newValgrindConnection();
-      void socketError(QAbstractSocket::SocketError err);
+private slots:
+    void newValgrindConnection();
+    void socketError(QAbstractSocket::SocketError err);
 
-    private:
-      QTcpServer* m_server;
-      QTcpSocket* m_connection;
+private:
+    QTcpServer* m_server;
+    QTcpSocket* m_connection;
 
-    };
+};
 
 }
 

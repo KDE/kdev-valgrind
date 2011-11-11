@@ -40,95 +40,95 @@
 namespace valgrind
 {
 
-    class ViewFactoryPrivate
-    {
-    public:
-        static valgrind::IView * make( valgrind::Model * m );
-    };
+class ViewFactoryPrivate
+{
+public:
+    static valgrind::IView * make(valgrind::Model * m);
+};
 
-    valgrind::IView * ViewFactoryPrivate::make( valgrind::Model * m )
-    {
-        if ( dynamic_cast<valgrind::MemcheckModel *>(m) )
-            return new valgrind::MemcheckView();
-        if ( dynamic_cast<valgrind::MassifModel *>(m) )
-            return new valgrind::MassifView();
-        if ( dynamic_cast<valgrind::CachegrindModel *>(m) )
-            return new valgrind::CachegrindView();
+valgrind::IView * ViewFactoryPrivate::make(valgrind::Model * m)
+{
+    if (dynamic_cast<valgrind::MemcheckModel *>(m))
+        return new valgrind::MemcheckView();
+    if (dynamic_cast<valgrind::MassifModel *>(m))
+        return new valgrind::MassifView();
+    if (dynamic_cast<valgrind::CachegrindModel *>(m))
+        return new valgrind::CachegrindView();
 
-        kDebug() << "view not yet implemented";
-        return NULL;
+    kDebug() << "view not yet implemented";
+    return NULL;
+}
+
+Widget::Widget(valgrind::Plugin * plugin, QWidget * parent)
+    : QTabWidget(parent)
+    , m_plugin(plugin)
+{
+    setWindowIcon(KIcon("fork"));
+    setWindowTitle(i18n("Valgrind Output"));
+
+    setWhatsThis(i18n("<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>"
+                      "use of uninitialized memory;<br/>"
+                      "reading/writing memory after it has been free'd;<br/>"
+                      "reading/writing off the end of malloc'd blocks;<br/>"
+                      "reading/writing inappropriate areas on the stack;<br/>"
+                      "memory leaks &mdash; where pointers to malloc'd blocks are lost forever;<br/>"
+                      "passing of uninitialised and/or unaddressable memory to system calls;<br/>"
+                      "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
+                      "some abuses of the POSIX pthread API.</p>"));
+
+    setTabsClosable(true);
+    connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(destroyRequestedTab(int)));
+    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model *)));
+}
+
+valgrind::Plugin * Widget::plugin() const
+{
+    return m_plugin;
+}
+
+void Widget::newModel(valgrind::Model * model)
+{
+    valgrind::Job * job;
+
+    job = model->job();
+    if (job) {
+        valgrind::IView * w = ViewFactoryPrivate::make(model);
+
+        w->setModel(model);
+        connect(job, SIGNAL(updateTabText(valgrind::Model *, const QString &)),
+                this, SLOT(updateTabText(valgrind::Model *, const QString &)));
+        addTab(dynamic_cast<QWidget *>(w), i18n("job scheduled"));
+        setCurrentWidget(dynamic_cast<QWidget *>(w));
+        setMovable(true);
     }
+}
 
-    Widget::Widget(valgrind::Plugin * plugin, QWidget * parent)
-        : QTabWidget(parent)
-        , m_plugin(plugin)
-    {
-        setWindowIcon(KIcon("fork"));
-        setWindowTitle(i18n("Valgrind Output"));
+void Widget::destroyRequestedTab(int index)
+{
+    valgrind::IView * view = dynamic_cast<valgrind::IView *>(widget(index));
 
-        setWhatsThis( i18n( "<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>"
-                            "use of uninitialized memory;<br/>"
-                            "reading/writing memory after it has been free'd;<br/>"
-                            "reading/writing off the end of malloc'd blocks;<br/>"
-                            "reading/writing inappropriate areas on the stack;<br/>"
-                            "memory leaks &mdash; where pointers to malloc'd blocks are lost forever;<br/>"
-                            "passing of uninitialised and/or unaddressable memory to system calls;<br/>"
-                            "mismatched use of malloc/new/new [] vs free/delete/delete [];<br/>"
-                            "some abuses of the POSIX pthread API.</p>" ) );
-
-        setTabsClosable(true);
-        connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(destroyRequestedTab(int)));
-        connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model *)));
-    }
-
-    valgrind::Plugin * Widget::plugin() const
-    {
-        return m_plugin;
-    }
-
-    void Widget::newModel(valgrind::Model * model)
-    {
-        valgrind::Job * job;
-
-        job = model->job();
-        if ( job ) {
-            valgrind::IView * w = ViewFactoryPrivate::make(model);
-
-            w->setModel( model );
-            connect(job, SIGNAL(updateTabText(valgrind::Model *, const QString &)),
-                    this, SLOT(updateTabText(valgrind::Model *, const QString &)) );
-            addTab( dynamic_cast<QWidget *>( w ), i18n( "job scheduled" ) );
-            setCurrentWidget( dynamic_cast<QWidget *>( w ) );
-            setMovable( true );
-        }
-    }
-
-    void Widget::destroyRequestedTab(int index)
-    {
-        valgrind::IView * view = dynamic_cast<valgrind::IView *>(  widget(  index ) );
-
-        // kill the job if it's still running
-        if ( view ) {
-            valgrind::Model * model = dynamic_cast<valgrind::IView *>( widget( index ) )->model();
-            if ( model ) {
-                if ( model->job() ) {
-                    model->job()->doKill();
-                }
-                delete model;
+    // kill the job if it's still running
+    if (view) {
+        valgrind::Model * model = dynamic_cast<valgrind::IView *>(widget(index))->model();
+        if (model) {
+            if (model->job()) {
+                model->job()->doKill();
             }
+            delete model;
         }
-        removeTab( index );
     }
+    removeTab(index);
+}
 
-    void Widget::updateTabText(valgrind::Model * model, const QString & text)
-    {
-        for (int i = 0; i < count(); ++i) {
-            valgrind::IView * view = dynamic_cast<valgrind::IView *>( widget( i ) );
-            if (view && view->model() == model) {
-                setTabText( i, text );
-            }
+void Widget::updateTabText(valgrind::Model * model, const QString & text)
+{
+    for (int i = 0; i < count(); ++i) {
+        valgrind::IView * view = dynamic_cast<valgrind::IView *>(widget(i));
+        if (view && view->model() == model) {
+            setTabText(i, text);
         }
     }
+}
 
 }
 

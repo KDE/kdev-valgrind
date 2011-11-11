@@ -30,43 +30,43 @@
 namespace valgrind
 {
 
-  class MassifItem;
+class MassifItem;
 
-  /**
-   * A class that represents the item model for massif
-   */
-  class MassifModel : public valgrind::Model
-    {
-      Q_OBJECT
+/**
+ * A class that represents the item model for massif
+ */
+class MassifModel : public valgrind::Model
+{
+    Q_OBJECT
 
-    public:
+public:
 
-      MassifModel(QObject* parent = 0);
-      virtual ~MassifModel();
+    MassifModel(QObject* parent = 0);
+    virtual ~MassifModel();
 
-        QVariant getColumnAtSnapshot( int snap, MassifItem::Columns col );
-      QModelIndex index(int, int, const QModelIndex&) const;
-      QModelIndex parent(const QModelIndex&) const;
-      int rowCount(const QModelIndex &parent = QModelIndex()) const;
-      int columnCount(const QModelIndex&) const;
-      QVariant data(const QModelIndex &index, int role) const;
-      QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QVariant getColumnAtSnapshot(int snap, MassifItem::Columns col);
+    QModelIndex index(int, int, const QModelIndex&) const;
+    QModelIndex parent(const QModelIndex&) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex&) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-    private:
+private:
 
-      public slots:
-      /**
-       * Reception of a new item in the model
-       */
-      virtual void newItem(valgrind::ModelItem *item);
-      /**
-       * Resets the model content
-       */
-      void reset();
+public slots:
+    /**
+     * Reception of a new item in the model
+     */
+    virtual void newItem(valgrind::ModelItem *item);
+    /**
+     * Resets the model content
+     */
+    void reset();
 
-    private:
-      MassifItem *m_rootItem;
-    };
+private:
+    MassifItem *m_rootItem;
+};
 
 }
 #endif /* _MASSIFMODEL_H_ */

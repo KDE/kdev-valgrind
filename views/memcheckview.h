@@ -29,22 +29,22 @@
 
 namespace valgrind
 {
-    class MemcheckView : public QTreeView, public valgrind::IView
-    {
-        Q_OBJECT
+class MemcheckView : public QTreeView, public valgrind::IView
+{
+    Q_OBJECT
 
-    public:
-        MemcheckView();
-        ~MemcheckView();
+public:
+    MemcheckView();
+    ~MemcheckView();
 
-        using QTreeView::setModel;
-        using QTreeView::model;
+    using QTreeView::setModel;
+    using QTreeView::model;
 
-        void setModel( valgrind::Model * m );
-        valgrind::Model * model( void );
+    void setModel(valgrind::Model * m);
+    valgrind::Model * model(void);
 
-    private Q_SLOTS:
-        void openDocument(const QModelIndex& index);
-    };
+private Q_SLOTS:
+    void openDocument(const QModelIndex& index);
+};
 }
 #endif // MEMCHECKVIEW_H

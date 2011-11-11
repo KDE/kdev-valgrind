@@ -28,15 +28,17 @@
 namespace valgrind
 {
 
-  class Parser: public QObject, public QXmlStreamReader
-  {
+class Parser: public QObject, public QXmlStreamReader
+{
     Q_OBJECT
 
-    public:
+public:
 
-    Parser(QObject* parent = 0) {Q_UNUSED(parent);};
+    Parser(QObject* parent = 0) {
+        Q_UNUSED(parent);
+    };
 
-    signals:
+signals:
     /**
      * Emission of a new item from the parser
      */
@@ -45,23 +47,23 @@ namespace valgrind
     /**
      * Emission of data to register from the parser
      */
-     void newData(valgrind::Model::eElementType, QString name, QString value);
+    void newData(valgrind::Model::eElementType, QString name, QString value);
 
-     /**
-     * Resets the parser content
-     */
-     void reset();
+    /**
+    * Resets the parser content
+    */
+    void reset();
 
     /**
      * Emission of an item from a parser to a model
      */
-     void newItem(ModelItem *);
+    void newItem(ModelItem *);
 
-    public slots:
+public slots:
 
     virtual void parse() = 0;
 
-  };
+};
 }
 
 #endif /* _IMODEL_H_ */

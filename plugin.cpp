@@ -64,8 +64,8 @@
 
 using namespace KDevelop;
 
-K_PLUGIN_FACTORY(ValgrindFactory, registerPlugin<valgrind::Plugin>(); )
-K_EXPORT_PLUGIN(ValgrindFactory(KAboutData("kdevvalgrind","kdevvalgrind", ki18n("Valgrind"), "0.1", ki18n("Support for running Valgrind"), KAboutData::License_GPL)))
+K_PLUGIN_FACTORY(ValgrindFactory, registerPlugin<valgrind::Plugin>();)
+K_EXPORT_PLUGIN(ValgrindFactory(KAboutData("kdevvalgrind", "kdevvalgrind", ki18n("Valgrind"), "0.1", ki18n("Support for running Valgrind"), KAboutData::License_GPL)))
 
 namespace valgrind
 {
@@ -74,22 +74,18 @@ class WidgetFactory : public KDevelop::IToolViewFactory
 {
 public:
     WidgetFactory(valgrind::Plugin* plugin)
-        : m_plugin( plugin )
-    {
+        : m_plugin(plugin) {
     }
 
-    virtual QWidget* create( QWidget *parent = 0 )
-    {
+    virtual QWidget* create(QWidget *parent = 0) {
         return new valgrind::Widget(m_plugin, parent);
     }
 
-    virtual Qt::DockWidgetArea defaultPosition()
-    {
+    virtual Qt::DockWidgetArea defaultPosition() {
         return Qt::BottomDockWidgetArea;
     }
 
-    virtual QString id() const
-    {
+    virtual QString id() const {
         return "org.kdevelop.ValgrindView";
     }
 
@@ -97,21 +93,21 @@ private:
     valgrind::Plugin* m_plugin;
 };
 
-Plugin::Plugin( QObject *parent, const QVariantList& )
-    : IPlugin( ValgrindFactory::componentData(), parent)
-    , m_factory( new valgrind::WidgetFactory(this) )
-    , m_marks ( new valgrind::Marks(this) )
+Plugin::Plugin(QObject *parent, const QVariantList&)
+    : IPlugin(ValgrindFactory::componentData(), parent)
+    , m_factory(new valgrind::WidgetFactory(this))
+    , m_marks(new valgrind::Marks(this))
 {
 
     kDebug() << "setting valgrind rc file";
-    setXMLFile( "kdevvalgrind.rc" );
+    setXMLFile("kdevvalgrind.rc");
 
     core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
     // Initialize actions for the launch modes
     KAction* act;
 
-    act = actionCollection()->addAction("valgrind_generic", this, SLOT(runValgrind()) );
-    act->setStatusTip( i18n("Launches the currently selected launch configuration with the Valgrind presets") );
+    act = actionCollection()->addAction("valgrind_generic", this, SLOT(runValgrind()));
+    act->setStatusTip(i18n("Launches the currently selected launch configuration with the Valgrind presets"));
     act->setText(i18n("Valgrind launch"));
 
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
@@ -121,22 +117,22 @@ Plugin::Plugin( QObject *parent, const QVariantList& )
     valgrind::Launcher* launcher = new valgrind::Launcher(this);
 
     valgrind::LaunchMode* mode = new valgrind::GenericLaunchMode();
-    KDevelop::ICore::self()->runController()->addLaunchMode( mode );
-    launcher->addMode( mode );
+    KDevelop::ICore::self()->runController()->addLaunchMode(mode);
+    launcher->addMode(mode);
     //    KDevelop::ICore::self()->runController()->setDefaultLaunch( mode );
 
 
 
     // Add launcher for native apps
-    KDevelop::LaunchConfigurationType* type = core()->runController()->launchConfigurationTypeForId( iface->nativeAppConfigTypeId() );
+    KDevelop::LaunchConfigurationType* type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
     Q_ASSERT(type);
-    type->addLauncher( launcher );
+    type->addLauncher(launcher);
 
 }
 
 void Plugin::unload()
 {
-    core()->uiController()->removeToolView( m_factory );
+    core()->uiController()->removeToolView(m_factory);
 }
 
 void Plugin::incomingModel(valgrind::Model *model)
@@ -150,107 +146,12 @@ Plugin::~Plugin()
 
 void Plugin::runValgrind()
 {
-    core()->runController()->executeDefaultLaunch( "valgrind_generic" );
+    core()->runController()->executeDefaultLaunch("valgrind_generic");
 }
 
 void Plugin::loadOutput()
 {
-#if 0
-    QString fName = KFileDialog::getOpenFileName(QString(), "*", 0, i18n("Open Valgrind Output"));
-    if ( fName.isEmpty() )
-        return;
-
-    QFile f( fName );
-    if ( !f.open( QIODevice::ReadOnly ) )
-    {
-        KMessageBox::sorry( 0, i18n("Could not open Valgrind output: %1", fName) );
-        return;
-    }
-
-    clear();
-
-    /*FIXME
-    QTextStream stream( &f );
-    while ( !stream.atEnd() ) {
-        receivedString( stream.readLine() + "\n" );
-    }*/
-    f.close();
-#endif
 }
-
-#if 0
-void Plugin::slotExecCalltree()
-{
-    /* FIXME add a mainProgram function or equivalent so this can be ported
-    ValgrindDialog* dlg = new ValgrindDialog(ValgrindDialog::Calltree);
-    if ( KDevApi::self()->project() && m_lastExec.isEmpty() ) {
-        dlg->setExecutable( project()->mainProgram() );
-    } else {
-        dlg->setExecutable( m_lastExec );
-    }
-    dlg->setParameters( m_lastParams );
-    dlg->setCtExecutable( m_lastCtExec );
-    dlg->setKcExecutable( m_lastKcExec );
-    dlg->setCtParams( m_lastCtParams );
-    kcInfo.runKc = true;
-    kcInfo.kcPath = dlg->kcExecutable();
-    //  kcInfo.kcWorkDir = KUrl(dlg->executableName()).directory();
-    if ( dlg->exec() == QDialog::Accepted ) {
-        runValgrind( dlg->executableName(), dlg->parameters(), dlg->ctExecutable(), dlg->ctParams() );
-    }
-    m_lastKcExec = dlg->kcExecutable();
-    m_lastCtExec = dlg->ctExecutable();
-    m_lastCtParams = dlg->ctParams();
-    */
-}
-#endif
-
-#if 0
-void Plugin::restorePartialProjectSession( const QDomElement* el )
-{
-    QDomElement execElem = el->namedItem( "executable" ).toElement();
-    m_lastExec = execElem.attribute( "path", "" );
-    m_lastParams = execElem.attribute( "params", "" );
-
-    QDomElement valElem = el->namedItem( "valgrind" ).toElement();
-    m_lastValExec = valElem.attribute( "path", "" );
-    m_lastValParams = valElem.attribute( "params", "" );
-
-    QDomElement ctElem = el->namedItem( "calltree" ).toElement();
-    m_lastCtExec = ctElem.attribute( "path", "" );
-    m_lastCtParams = ctElem.attribute( "params", "" );
-
-    QDomElement kcElem = el->namedItem( "kcachegrind" ).toElement();
-    m_lastKcExec = kcElem.attribute( "path", "" );
-}
-
-void Plugin::savePartialProjectSession( QDomElement* el )
-{
-    QDomDocument domDoc = el->ownerDocument();
-    if ( domDoc.isNull() )
-        return;
-
-    QDomElement execElem = domDoc.createElement( "executable" );
-    execElem.setAttribute( "path", m_lastExec );
-    execElem.setAttribute( "params", m_lastParams );
-
-    QDomElement valElem = domDoc.createElement( "valgrind" );
-    valElem.setAttribute( "path", m_lastValExec );
-    valElem.setAttribute( "params", m_lastValParams );
-
-    QDomElement ctElem = domDoc.createElement( "calltree" );
-    ctElem.setAttribute( "path", m_lastCtExec );
-    ctElem.setAttribute( "params", m_lastCtParams );
-
-    QDomElement kcElem = domDoc.createElement( "kcachegrind" );
-    kcElem.setAttribute( "path", m_lastKcExec );
-
-    el->appendChild( execElem );
-    el->appendChild( valElem );
-    el->appendChild( ctElem );
-    el->appendChild( kcElem );
-}
-#endif
 
 }
 

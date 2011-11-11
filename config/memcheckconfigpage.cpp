@@ -33,12 +33,12 @@ MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     ui = new Ui::MemcheckConfig();
     ui->setupUi(this);
 
-    connect( ui->memcheckParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
-    connect( ui->freeListSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+    connect(ui->memcheckParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->freeListSize, SIGNAL(valueChanged(int)), SIGNAL(changed()));
 
-    connect( ui->showReachable, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect(ui->showReachable, SIGNAL(toggled(bool)), SIGNAL(changed()));
     //    connect( ui->trackOrigins, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect( ui->undefValueErrors, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect(ui->undefValueErrors, SIGNAL(toggled(bool)), SIGNAL(changed()));
     /*
     connect( ui->showInvalidFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showMismatchedFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
@@ -68,12 +68,12 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->memcheckParameters->setText( cfg.readEntry( "Memcheck Arguments", "" ) );
-    ui->freeListSize->setValue( cfg.readEntry( "Freelist Size", 10000000 ) );
+    ui->memcheckParameters->setText(cfg.readEntry("Memcheck Arguments", ""));
+    ui->freeListSize->setValue(cfg.readEntry("Freelist Size", 10000000));
 
-    ui->showReachable->setChecked( cfg.readEntry( "Show Reachable", true ) );
+    ui->showReachable->setChecked(cfg.readEntry("Show Reachable", true));
     //    ui->trackOrigins->setChecked( cfg.readEntry( "Track Origins", false ) );
-    ui->undefValueErrors->setChecked( cfg.readEntry( "Undef Value Errors", true ) );
+    ui->undefValueErrors->setChecked(cfg.readEntry("Undef Value Errors", true));
 
     // by default everything is enabled
     /*
@@ -98,12 +98,12 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop
 
 void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry( "Memcheck Arguments", ui->memcheckParameters->text() );
-    cfg.writeEntry( "Freelist Size", ui->freeListSize->value() );
+    cfg.writeEntry("Memcheck Arguments", ui->memcheckParameters->text());
+    cfg.writeEntry("Freelist Size", ui->freeListSize->value());
 
-    cfg.writeEntry( "Show Reachable", ui->showReachable->isChecked() );
+    cfg.writeEntry("Show Reachable", ui->showReachable->isChecked());
     //    cfg.writeEntry( "Track Origins", ui->trackOrigins->isChecked() );
-    cfg.writeEntry( "Undef Value Errors", ui->undefValueErrors->isChecked() );
+    cfg.writeEntry("Undef Value Errors", ui->undefValueErrors->isChecked());
     /*
     cfg.writeEntry( "Show Invalid Free", ui->showInvalidFree->isChecked() );
     cfg.writeEntry( "Show Mismatched Free", ui->showMismatchedFree->isChecked() );
@@ -123,9 +123,9 @@ void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProjec
     */
 }
 
-QString	MemcheckConfigPage::title() const
+QString MemcheckConfigPage::title() const
 {
-  return i18n("Memcheck");
+    return i18n("Memcheck");
 }
 
 // The factory
@@ -137,6 +137,6 @@ MemcheckConfigPageFactory::~MemcheckConfigPageFactory()
 
 KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget * parent)
 {
-  return new valgrind::MemcheckConfigPage(parent);
+    return new valgrind::MemcheckConfigPage(parent);
 }
 }

@@ -25,41 +25,41 @@ namespace valgrind
 {
 
 CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
-    : LaunchConfigurationPage( parent )
+    : LaunchConfigurationPage(parent)
 {
     ui = new Ui::CallgrindConfig();
-    ui->setupUi( this );
+    ui->setupUi(this);
 
-    connect( ui->separateThreadReporting, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect( ui->fullCacheSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect( ui->simulateHardwarePrefetcher, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+    connect(ui->separateThreadReporting, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->fullCacheSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->simulateHardwarePrefetcher, SIGNAL(toggled(bool)), SIGNAL(changed()));
 }
 
-void	CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
+void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
 {
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->separateThreadReporting->setChecked( cfg.readEntry( "Separate Thread Reporting", false) );
-    ui->fullCacheSimulation->setChecked( cfg.readEntry( "Full Cache Simulation", false) );
-    ui->simulateHardwarePrefetcher->setChecked( cfg.readEntry( "Simulate Hardware Prefetcher", false) );
+    ui->separateThreadReporting->setChecked(cfg.readEntry("Separate Thread Reporting", false));
+    ui->fullCacheSimulation->setChecked(cfg.readEntry("Full Cache Simulation", false));
+    ui->simulateHardwarePrefetcher->setChecked(cfg.readEntry("Simulate Hardware Prefetcher", false));
 
     blockSignals(wasBlocked);
 }
 
-KIcon	CallgrindConfigPage::icon( void ) const
+KIcon   CallgrindConfigPage::icon(void) const
 {
-    return KIcon( "fork" );
+    return KIcon("fork");
 }
 
-void	CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
+void    CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry( "Separate Thread Reporting", ui->separateThreadReporting->isChecked() );
-    cfg.writeEntry( "Full Cache Simulation", ui->fullCacheSimulation->isChecked() );
-    cfg.writeEntry( "Simulate Hardware Prefetcher", ui->simulateHardwarePrefetcher->isChecked() );
+    cfg.writeEntry("Separate Thread Reporting", ui->separateThreadReporting->isChecked());
+    cfg.writeEntry("Full Cache Simulation", ui->fullCacheSimulation->isChecked());
+    cfg.writeEntry("Simulate Hardware Prefetcher", ui->simulateHardwarePrefetcher->isChecked());
 }
 
-QString	CallgrindConfigPage::title(void) const
+QString CallgrindConfigPage::title(void) const
 {
     return i18n("Callgrind");
 }
@@ -73,6 +73,6 @@ CallgrindConfigPageFactory::~CallgrindConfigPageFactory(void)
 
 KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::CallgrindConfigPage( parent );
+    return new valgrind::CallgrindConfigPage(parent);
 }
 }

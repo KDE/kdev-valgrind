@@ -32,33 +32,32 @@ class KIcon;
 
 namespace KDevelop
 {
-  class IProject;
+class IProject;
 }
 
-// TODO: remove this useless inheritance
 namespace valgrind
 {
-  class Plugin;
+class Plugin;
 
-  class LaunchMode : public KDevelop::ILaunchMode
-  {
-  public:
-      virtual QString tool() const = 0;
-  };
+class LaunchMode : public KDevelop::ILaunchMode
+{
+public:
+    virtual QString tool() const = 0;
+};
 
-  class GenericLaunchMode : public LaunchMode
-  {
-  public:
-      GenericLaunchMode();
+class GenericLaunchMode : public LaunchMode
+{
+public:
+    GenericLaunchMode();
 
-      virtual KIcon icon() const;
-      virtual QString id() const;
-      virtual QString name() const;
-      virtual QString tool() const;
+    virtual KIcon icon() const;
+    virtual QString id() const;
+    virtual QString name() const;
+    virtual QString tool() const;
 
-   protected:
-    QString	m_toolname;
-  };
+protected:
+    QString m_toolname;
+};
 
 }
 

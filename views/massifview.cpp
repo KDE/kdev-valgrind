@@ -36,32 +36,32 @@
 
 namespace valgrind
 {
-    MassifView::MassifView()
-    {
-        connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
-    }
+MassifView::MassifView()
+{
+    connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+}
 
-    MassifView::~MassifView( void ) {}
+MassifView::~MassifView(void) {}
 
-    void MassifView::setModel( valgrind::Model * m )
-    {
-        QTreeView::setModel( m );
-    }
+void MassifView::setModel(valgrind::Model * m)
+{
+    QTreeView::setModel(m);
+}
 
-    valgrind::Model * MassifView::model( void )
-    {
-        return dynamic_cast<valgrind::Model *>(QTreeView::model());
-    }
+valgrind::Model * MassifView::model(void)
+{
+    return dynamic_cast<valgrind::Model *>(QTreeView::model());
+}
 
-    void MassifView::openDocument(const QModelIndex & index)
-    {
-        if (valgrind::MassifItem* item = static_cast<valgrind::MassifItem*>(index.internalPointer())) {
-            KUrl doc = item->url();
-            if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
-                KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->getLine() - 1), 0));
-            }
+void MassifView::openDocument(const QModelIndex & index)
+{
+    if (valgrind::MassifItem* item = static_cast<valgrind::MassifItem*>(index.internalPointer())) {
+        KUrl doc = item->url();
+        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
+            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->getLine() - 1), 0));
         }
     }
+}
 
 }
 

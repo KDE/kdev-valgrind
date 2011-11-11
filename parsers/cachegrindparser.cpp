@@ -24,19 +24,18 @@
 namespace valgrind
 {
 
-    CachegrindParser::CachegrindParser(QObject *parent)
-    {
-	Q_UNUSED(parent);
-    }
+CachegrindParser::CachegrindParser(QObject *parent)
+{
+    Q_UNUSED(parent);
+}
 
-    CachegrindParser::~CachegrindParser()
-    {
-    }
+CachegrindParser::~CachegrindParser()
+{
+}
 
-    void CachegrindParser::parse()
-    {
-      //TODO
-    }
+void CachegrindParser::parse()
+{
+}
 }
 
 #include "cachegrindparser.moc"
