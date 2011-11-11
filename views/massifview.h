@@ -29,25 +29,22 @@
 
 namespace valgrind
 {
-    class MassifPlot;
-
-    class MassifView : public QTabWidget, public valgrind::IView
+    class MassifView : public QTreeView, public valgrind::IView
     {
         Q_OBJECT
 
     public:
         MassifView();
         ~MassifView();
+
+        using QTreeView::setModel;
+        using QTreeView::model;
+
         void setModel( valgrind::Model * m );
         valgrind::Model * model( void );
 
     private Q_SLOTS:
         void openDocument(const QModelIndex& index);
-
-    private:
-        QTreeView * m_tree;
-        MassifPlot * m_plot;
-        valgrind::Model * m_model;
     };
 }
 #endif // MASSIFVIEW_H

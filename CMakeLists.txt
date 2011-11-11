@@ -42,7 +42,6 @@ set(kdevvalgrind_PART_SRCS
     jobs/cachegrindjob.cpp
     views/massifview.cpp
     views/memcheckview.cpp
-    views/massifplot.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
@@ -77,8 +76,7 @@ target_link_libraries(kdevvalgrind
     ${KDE4_KUTILS_LIBS}
     ${KDEVPLATFORM_UTIL_LIBRARIES}
     ${KDE4_KTEXTEDITOR_LIBS}
-    ${QT_QTNETWORK_LIBRARY}
-    qwt)
+    ${QT_QTNETWORK_LIBRARY})
 
 install(TARGETS kdevvalgrind DESTINATION ${PLUGIN_INSTALL_DIR} )
 
