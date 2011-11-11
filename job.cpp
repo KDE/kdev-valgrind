@@ -164,7 +164,7 @@ namespace valgrind
     Job::~Job()
     {
 	// these are allocated in the constructor
-	delete m_process;
+        delete m_process;
 	delete m_applicationOutput;
 	delete m_parser;
     }
