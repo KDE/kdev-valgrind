@@ -81,7 +81,10 @@ namespace valgrind
 		//		       i18n("Valgrind Error") );
 	    }
 	    else
+	    {
 		m_file->remove();
+		delete m_file;
+	    }
 	}
     }
 
