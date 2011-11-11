@@ -42,11 +42,7 @@ namespace valgrind
     {
     }
 
-    MassifJob::~MassifJob()
-    {
-	if (m_file)
-	    delete m_file;
-    }
+    MassifJob::~MassifJob() {}
 
     void MassifJob::processStarted()
     {
@@ -63,7 +59,20 @@ namespace valgrind
 	    m_parser->setDevice(m_file);
 	    m_parser->parse();
 	    m_file->close();
-	    m_file->remove();
+
+	    KConfigGroup grp = m_launchcfg->config();
+	    if (grp.readEntry("launchVisualizer", false) )
+	    {
+		QStringList args;
+		args << m_file->fileName();
+		QString kcg = grp.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer");
+		QFileProxyRemove *rmFile = new QFileProxyRemove(kcg, args, m_file);
+	    }
+	    else
+            {
+		m_file->remove();
+                delete m_file;
+            }
 	}
     }
 
