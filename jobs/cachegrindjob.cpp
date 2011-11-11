@@ -52,10 +52,7 @@ namespace valgrind
 
     void CachegrindJob::processStarted()
     {
-	IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-	KUrl wc = iface->workingDirectory( m_launchcfg );
-
-	QString filename = QString("%1/cachegrind.out.%2").arg(wc.toLocalFile()).arg(m_process->pid());
+	QString filename = QString("%1/cachegrind.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
 
 	m_file = new QFile(filename);
     }
