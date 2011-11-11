@@ -66,7 +66,7 @@ namespace valgrind
 		QStringList args;
 		args << m_file->fileName();
 		QString kcg = grp.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer");
-		QFileProxyRemove *rmFile = new QFileProxyRemove(kcg, args, m_file);
+		QFileProxyRemove *rmFile = new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
 	    }
 	    else
             {
