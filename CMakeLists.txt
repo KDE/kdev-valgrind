@@ -42,6 +42,7 @@ set(kdevvalgrind_PART_SRCS
     jobs/cachegrindjob.cpp
     views/massifview.cpp
     views/memcheckview.cpp
+    views/cachegrindview.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS

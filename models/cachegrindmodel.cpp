@@ -46,8 +46,6 @@ namespace valgrind
     {
     }
 
-
-
     QModelIndex CachegrindModel::index(int row, int column, const QModelIndex &parent) const
     {
 	return QModelIndex();
@@ -82,4 +80,3 @@ namespace valgrind
 }
 
 #include "cachegrindmodel.moc"
-

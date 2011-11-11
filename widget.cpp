@@ -31,9 +31,11 @@
 #include "job.h"
 #include "imodel.h"
 #include "memcheckview.h"
+#include "cachegrindview.h"
 #include "massifview.h"
 #include "memcheckmodel.h"
 #include "massifmodel.h"
+#include "cachegrindmodel.h"
 
 namespace valgrind
 {
@@ -50,6 +52,8 @@ namespace valgrind
             return new valgrind::MemcheckView();
         if ( dynamic_cast<valgrind::MassifModel *>(m) )
             return new valgrind::MassifView();
+        if ( dynamic_cast<valgrind::CachegrindModel *>(m) )
+            return new valgrind::CachegrindView();
 
         kDebug() << "view not yet implemented";
         return NULL;
