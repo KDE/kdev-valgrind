@@ -1,4 +1,4 @@
-g/* This file is part of KDevelop
+/* This file is part of KDevelop
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
