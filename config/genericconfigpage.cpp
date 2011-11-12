@@ -47,11 +47,11 @@ GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
     tools << "memcheck";
     tools << "massif";
     tools << "cachegrind";
+    tools << "callgrind";
 
     /*
     ** Unimplemented tools: See launcher.cpp to activate their configuration tab
     */
-    // tools << "callgrind";
     // tools << "helgrind";
 
     ui->currentTool->addItems(tools);

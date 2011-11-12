@@ -118,6 +118,10 @@ protected:
     bool      m_killed;
 };
 
+/**
+ * This class is used for tools : massif, callgrind, cachegrind.
+ * It permits to remove the generated output file when the reading process (massif visuazer, kcachegrind) has been killed
+ */
 class QFileProxyRemove : public QObject
 {
     Q_OBJECT

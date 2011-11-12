@@ -30,9 +30,9 @@ CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
     ui = new Ui::CallgrindConfig();
     ui->setupUi(this);
 
-    connect(ui->separateThreadReporting, SIGNAL(toggled(bool)), SIGNAL(changed()));
-    connect(ui->fullCacheSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
-    connect(ui->simulateHardwarePrefetcher, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->callgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
 }
 
 void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
@@ -40,9 +40,9 @@ void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDev
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->separateThreadReporting->setChecked(cfg.readEntry("Separate Thread Reporting", false));
-    ui->fullCacheSimulation->setChecked(cfg.readEntry("Full Cache Simulation", false));
-    ui->simulateHardwarePrefetcher->setChecked(cfg.readEntry("Simulate Hardware Prefetcher", false));
+    ui->callgrindParameters->setText(cfg.readEntry("Callgrind Arguments", ""));
+    ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
+    ui->KCachegrindExecutable->setText(cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind"));
 
     blockSignals(wasBlocked);
 }
@@ -54,9 +54,9 @@ KIcon   CallgrindConfigPage::icon(void) const
 
 void    CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry("Separate Thread Reporting", ui->separateThreadReporting->isChecked());
-    cfg.writeEntry("Full Cache Simulation", ui->fullCacheSimulation->isChecked());
-    cfg.writeEntry("Simulate Hardware Prefetcher", ui->simulateHardwarePrefetcher->isChecked());
+    cfg.writeEntry("Cachegrind Arguments", ui->callgrindParameters->text());
+    cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
+    cfg.writeEntry("KCachegrindExecutable", ui->KCachegrindExecutable->text());
 }
 
 QString CallgrindConfigPage::title(void) const

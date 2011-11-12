@@ -3,6 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
 
@@ -58,6 +59,10 @@
 #include "cachegrindparser.h"
 #include "cachegrindjob.h"
 
+#include "callgrindmodel.h"
+#include "callgrindparser.h"
+#include "callgrindjob.h"
+
 #include "plugin.h"
 
 namespace valgrind
@@ -94,6 +99,11 @@ void ModelParserFactoryPrivate::make(const QString &tool, valgrind::Model* &m_mo
         m_parser = new valgrind::CachegrindParser();
         QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
                          m_model, SLOT(newItem(valgrind::ModelItem*)));
+    } else if (tool == "callgrind") {
+        m_model = new valgrind::CallgrindModel();
+        m_parser = new valgrind::CallgrindParser();
+        QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
+                         m_model, SLOT(newItem(valgrind::ModelItem*)));
     }
 
     QObject::connect(m_parser, SIGNAL(reset()), m_model, SLOT(reset()));
@@ -111,7 +121,9 @@ Job *Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *i
         return new MassifJob(cfg, inst, parent);
     else if (name == "cachegrind")
         return new CachegrindJob(cfg, inst, parent);
-    kDebug() << "can't create this job";
+    else if (name == "callgrind")
+        return new CallgrindJob(cfg, inst, parent);
+    kDebug() << "can't create this job, " << name << "unknow job";
     return NULL;
 }
 
@@ -387,7 +399,9 @@ KDevelop::OutputModel* Job::model()
     return dynamic_cast<KDevelop::OutputModel*>(KDevelop::OutputJob::model());
 }
 
-
+/**
+ * QFileProxyRemove Implementation
+ */
 QFileProxyRemove::QFileProxyRemove(QString programPath, QStringList args, QFile *toRemove, QObject *parent) : QObject(parent)
 {
     m_execPath = programPath;

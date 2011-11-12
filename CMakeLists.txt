@@ -34,15 +34,19 @@ set(kdevvalgrind_PART_SRCS
     models/memcheckmodel.cpp
     models/memcheckitemsimpl.cpp
     models/cachegrindmodel.cpp
+    models/callgrindmodel.cpp
     parsers/massifparser.cpp
     parsers/memcheckparser.cpp
     parsers/cachegrindparser.cpp
+    parsers/callgrindparser.cpp
     jobs/memcheckjob.cpp
     jobs/massifjob.cpp
     jobs/cachegrindjob.cpp
+    jobs/callgrindjob.cpp
     views/massifview.cpp
     views/memcheckview.cpp
     views/cachegrindview.cpp
+    views/callgrindview.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
