@@ -3,12 +3,7 @@
 <MenuBar>
  <Menu name="run">
    <text context="@title:menu">Run</text>
-   <Menu name="valgrind_profile" group="run_operations">
-     <text context="@title:menu">Profile Launch (Valgrind)</text>
-
-     <Action name="valgrind_generic"/>
-
-   </Menu>
+     <Action name="valgrind_generic" group="run_operations"/>
  </Menu>
 </MenuBar>
 </gui>
