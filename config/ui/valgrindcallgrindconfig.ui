@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>ValgrindCallgrindConfig</class>
+  <widget class="QWidget" name="ValgrindCallgrindConfig">
+    <property name="geometry">
+      <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>669</width>
+	<height>475</height>
+      </rect>
+    </property>
+    <layout class="QVBoxLayout">
+      <item>
+	<widget class="QGroupBox" name="groupBox">
+	  <property name="title">
+	    <string>Callgrind</string>
+	  </property>
+	  <layout class="QGridLayout">
+	    <item row="0" column="0">
+	      <widget class="QCheckBox" name="separateThreadReporting">
+		<property name="text">
+		  <string>Separate Thread Reporting</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="1" column="0">
+	      <widget class="QCheckBox" name="fullCacheSimulation">
+		<property name="text">
+		  <string>Full Cache Simulation</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="2" column="0">
+	      <widget class="QCheckBox" name="simulateHardwarePrefetcher">
+		<property name="text">
+		  <string>Simulate Hardware Prefetcher</string>
+		</property>
+	      </widget>
+	    </item>
+	  </layout>
+	</widget>
+      </item>
+      <item>
+	<spacer>
+	  <property name="orientation">
+	    <enum>Qt::Vertical</enum>
+	  </property>
+	  <property name="sizeHint" stdset="0">
+	    <size>
+	      <width>20</width>
+	      <height>71</height>
+	    </size>
+	  </property>
+	</spacer>
+      </item>
+    </layout>
+  </widget>
+  <resources/>
+  <connections/>
+</ui>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>ValgrindMemcheckConfig</class>
+  <widget class="QWidget" name="ValgrindMemcheckConfig">
+    <property name="geometry">
+      <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>669</width>
+	<height>475</height>
+      </rect>
+    </property>
+    <layout class="QVBoxLayout">
+      <item>
+	<widget class="QGroupBox" name="groupBox">
+	  <property name="title">
+	    <string>Memcheck</string>
+	  </property>
+	  <layout class="QGridLayout">
+	    <item row="2" column="0">
+	      <widget class="QLabel" name="label_3">
+		<property name="text">
+		  <string>Extra &amp;Parameters:</string>
+		</property>
+		<property name="buddy">
+		  <cstring>memcheckParameters</cstring>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="2" column="1">
+	      <widget class="KLineEdit" name="memcheckParameters"/>
+	    </item>
+	    <item row="3" column="0">
+	      <widget class="QLabel" name="label_2">
+		<property name="text">
+		  <string>Freelist size</string>
+		</property>
+		<property name="buddy">
+		  <cstring>freeListSize</cstring>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="3" column="1">
+	      <widget class="KIntNumInput" name="freeListSize">
+		<property name="value">
+		  <number>10000000</number>
+		</property>
+		<property name="minimum">
+		  <number>0</number>
+		</property>
+		<property name="relativeValue">
+		  <double>0.000000000000000</double>
+		</property>
+		<property name="suffix">
+		  <string> bytes</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="6" column="0">
+	      <widget class="QCheckBox" name="showInvalidFree">
+		<property name="toolTip" >
+		  <string>Whether or not to trace invalid frees (call to free on a non-allocated address)</string>
+		</property>
+		<property name="text">
+		  <string>Show invalid frees</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="7" column="0">
+	      <widget class="QCheckBox" name="showMismatchedFree">
+		<property name="toolTip" >
+		  <string>Whether or not to trace mismatched frees (for example, trying to call free on an area allocated with new)</string>
+		</property>
+		<property name="text">
+		  <string>Show mismatched frees</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="8" column="0">
+	      <widget class="QCheckBox" name="showInvalidRead">
+		<property name="toolTip" >
+		  <string>Whether or not to trace invalid reads (dereferencing of a non-allocated address)</string>
+		</property>
+		<property name="text">
+		  <string>Show invalid reads</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="9" column="0">
+	      <widget class="QCheckBox" name="showInvalidWrite">
+		<property name="toolTip" >
+		  <string>Whether or not to trace invalid writes (writing to a non-allocated address)</string>
+		</property>
+		<property name="text">
+		  <string>Show invalid writes</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="10" column="0">
+	      <widget class="QCheckBox" name="showInvalidJump">
+		<property name="toolTip" >
+		  <string>Whether or not to trace invalid jumps (call to an invalid pointer of function for example)</string>
+		</property>
+		<property name="text">
+		  <string>Show invalid jumps</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="11" column="0">
+	      <widget class="QCheckBox" name="showOverlap">
+		<property name="text">
+		  <string>Show overlaps</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="12" column="0">
+	      <widget class="QCheckBox" name="showInvalidMemPool">
+		<property name="text">
+		  <string>Show invalid memory pools</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="13" column="0">
+	      <widget class="QCheckBox" name="showUninitCondition">
+		<property name="text">
+		  <string>Show uninitialized conditions</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="6" column="1">
+	      <widget class="QCheckBox" name="showUninitValue">
+		<property name="text">
+		  <string>Show uninitialized values</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="7" column="1">
+	      <widget class="QCheckBox" name="showSyscallParam">
+		<property name="text">
+		  <string>Show invalid syscall parameters</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="8" column="1">
+	      <widget class="QCheckBox" name="showClientCheck">
+		<property name="text">
+		  <string>Show client checks</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="9" column="1">
+	      <widget class="QCheckBox" name="showLeakDefinitelyLost">
+		<property name="text">
+		  <string>Show definitely lost leaks</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="10" column="1">
+	      <widget class="QCheckBox" name="showLeakIndirectlyLost">
+		<property name="text">
+		  <string>Show indirectly lost leaks</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="11" column="1">
+	      <widget class="QCheckBox" name="showLeakStillReachable">
+		<property name="text">
+		  <string>Show still reachable leaks</string>
+		</property>
+	      </widget>
+	    </item>
+	    <item row="12" column="1">
+	      <widget class="QCheckBox" name="showOthers">
+		<property name="text">
+		  <string>Show others</string>
+		</property>
+	      </widget>
+	    </item>
+	  </layout>
+	</widget>
+      </item>
+      <item>
+	<spacer>
+	  <property name="orientation">
+	    <enum>Qt::Vertical</enum>
+	  </property>
+	  <property name="sizeHint" stdset="0">
+	    <size>
+	      <width>20</width>
+	      <height>71</height>
+	    </size>
+	  </property>
+	</spacer>
+      </item>
+    </layout>
+  </widget>
+  <customwidgets>
+    <customwidget>
+      <class>KLineEdit</class>
+      <extends>QLineEdit</extends>
+      <header>klineedit.h</header>
+    </customwidget>
+    <customwidget>
+      <class>KIntNumInput</class>
+      <extends>QWidget</extends>
+      <header>knuminput.h</header>
+    </customwidget>
+  </customwidgets>
+  <resources/>
+  <connections/>
+</ui>
