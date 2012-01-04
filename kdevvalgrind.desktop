@@ -60,6 +60,7 @@ GenericName[pt]=Interface do Depurador
 GenericName[pt_BR]=Interface do depurador
 GenericName[sv]=Avlusargränssnitt
 GenericName[tr]=Hata Ayıklayıcı Önucu
+GenericName[ug]=سازلىغۇچ ئالدى ئۇچى
 GenericName[uk]=Клієнтська програма зневадника
 GenericName[x-test]=xxDebugger Frontendxx
 ServiceTypes=KDevelop/Plugin
