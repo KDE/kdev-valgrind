@@ -39,6 +39,8 @@
 #include "cachegrindmodel.h"
 #include "callgrindmodel.h"
 
+#include <QResizeEvent>
+
 namespace valgrind
 {
 
@@ -95,7 +97,8 @@ void Widget::newModel(valgrind::Model * model)
     valgrind::Job * job;
 
     job = model->job();
-    if (job) {
+    if (job)
+    {
         valgrind::IView * w = ViewFactoryPrivate::make(model);
 
         w->setModel(model);
@@ -112,10 +115,13 @@ void Widget::destroyRequestedTab(int index)
     valgrind::IView * view = dynamic_cast<valgrind::IView *>(widget(index));
 
     // kill the job if it's still running
-    if (view) {
+    if (view)
+    {
         valgrind::Model * model = dynamic_cast<valgrind::IView *>(widget(index))->model();
-        if (model) {
-            if (model->job()) {
+        if (model)
+        {
+            if (model->job())
+            {
                 model->job()->doKill();
             }
             delete model;
@@ -126,11 +132,24 @@ void Widget::destroyRequestedTab(int index)
 
 void Widget::updateTabText(valgrind::Model * model, const QString & text)
 {
-    for (int i = 0; i < count(); ++i) {
+    for (int i = 0; i < count(); ++i)
+    {
         valgrind::IView * view = dynamic_cast<valgrind::IView *>(widget(i));
-        if (view && view->model() == model) {
+        if (view && view->model() == model)
+        {
             setTabText(i, text);
         }
+    }
+}
+
+void Widget::resizeEvent( QResizeEvent *event )
+{
+    for (int i = 0; i < this->count(); ++i)
+    {
+        //notify child size has changed
+        IView *view = dynamic_cast<IView *>(this->widget(i));
+        if (view != NULL)
+            view->WidgetContainerResizeEvent(event);
     }
 }
 

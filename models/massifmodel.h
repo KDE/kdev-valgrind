@@ -26,6 +26,7 @@
 #include "massifitem.h"
 
 #include <QStringList>
+#include <QAbstractItemModel>
 
 namespace valgrind
 {
@@ -35,7 +36,9 @@ class MassifItem;
 /**
  * A class that represents the item model for massif
  */
-class MassifModel : public valgrind::Model
+class MassifModel : public QAbstractItemModel,
+                    public valgrind::Model
+
 {
     Q_OBJECT
 
@@ -43,6 +46,8 @@ public:
 
     MassifModel(QObject* parent = 0);
     virtual ~MassifModel();
+
+    virtual QAbstractItemModel  *getQAbstractItemModel(int) {return this;}
 
     QVariant getColumnAtSnapshot(int snap, MassifItem::Columns col);
     QModelIndex index(int, int, const QModelIndex&) const;
@@ -52,9 +57,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-private:
-
-public slots:
+    /////SLOTS WRAPPER////
     /**
      * Reception of a new item in the model
      */
@@ -63,7 +66,7 @@ public slots:
      * Resets the model content
      */
     void reset();
-
+    ////END SLOTS WRAPER////
 private:
     MassifItem *m_rootItem;
 };

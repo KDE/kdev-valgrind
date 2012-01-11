@@ -43,7 +43,7 @@ MemcheckView::~MemcheckView() {}
 
 void MemcheckView::setModel(valgrind::Model * m)
 {
-    QTreeView::setModel(m);
+    QTreeView::setModel(m->getQAbstractItemModel());
 }
 
 valgrind::Model * MemcheckView::model(void)

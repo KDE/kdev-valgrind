@@ -26,6 +26,7 @@
 
 #include <QHash>
 #include <QStack>
+#include <QAbstractItemModel>
 
 #include "imodel.h"
 #include "memcheckitems.h"
@@ -40,15 +41,19 @@ class MemcheckError;
  * A class that represents the item model
  * \author Hamish Rodda \<rodda@kde.org\>
  */
-class MemcheckModel : public valgrind::Model, public MemcheckItem
+class MemcheckModel : public QAbstractItemModel,
+                      public valgrind::Model,
+                      public MemcheckItem
+
 {
     Q_OBJECT
 
 public:
 
     MemcheckModel(QObject* parent = 0);
-
     virtual ~MemcheckModel();
+
+    virtual QAbstractItemModel  *getQAbstractItemModel(int) {return this;}
 
     enum Columns {
         //Index = 0,
@@ -80,8 +85,7 @@ public:
     void newFrame();
     void newStartError();
 
-public slots:
-
+    /////SLOTS WRAPPER////
     /**
      * Reception of a new item in the model
      */
@@ -101,7 +105,7 @@ public slots:
      * Reception of a new item
      */
     virtual void newItem(valgrind::ModelItem *);
-
+    ////END SLOTS WRAPER////
 private:
     QList<MemcheckError *> m_errors;
 

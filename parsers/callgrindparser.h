@@ -34,6 +34,10 @@
 namespace valgrind
 {
 
+class CallgrindItem;
+class CallgrindCallstackItem;
+class CallgrindCallstackFunction;
+
 /**
  * A class which parses valgrind's XML output
  * and emits signals when items are parsed
@@ -46,6 +50,29 @@ public:
 
     CallgrindParser(QObject *parent = 0);
     virtual ~CallgrindParser();
+
+private:
+    /**
+     * build the root node of the tree
+     * it return false if some error happens
+     */
+    bool parseRootModel(const QString &buffer);
+
+    void parseNewCallgrindItem(const QString& buffer, bool totalProgram = false);
+
+    CallgrindCallstackItem  *getOrCreateNewItem(const QString& fullDescName);
+
+    QList<CallgrindCallstackItem *>  m_caller;
+    CallgrindCallstackItem           *m_lastCall;
+    QString                 m_programTotalStr;
+    QStringList             m_headersList;
+
+    CallgrindCallstackItem          *m_totalCountItem;
+
+    QList<CallgrindCallstackItem*>  m_allFunctions;
+    //CallgrindCallstackItem*         m_rootItem;
+    int                             m_fileNameHeaderIdx;
+    int                             m_functionNameHeaderIdx;
 
 signals:
 

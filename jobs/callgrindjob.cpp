@@ -25,6 +25,7 @@
 #include <QTcpSocket>
 #include <QApplication>
 #include <KProcess>
+#include <QBuffer>
 
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -33,6 +34,7 @@
 #include <interfaces/ilaunchconfiguration.h>
 #include <interfaces/iplugincontroller.h>
 
+#include "job.h"
 #include "callgrindjob.h"
 
 namespace valgrind
@@ -43,10 +45,13 @@ CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg,
     : Job(cfg, inst, parent)
     , m_file(0)
 {
+    m_postTreatment = 0;
 }
 
 CallgrindJob::~CallgrindJob()
 {
+    if (m_postTreatment != 0)
+        delete m_postTreatment;
 }
 
 void CallgrindJob::processStarted()
@@ -60,12 +65,14 @@ void CallgrindJob::processEnded()
 {
     if (m_file)
     {
-        m_file->open(QIODevice::ReadOnly);
-        m_parser->setDevice(m_file);
-        m_parser->parse();
-        m_file->close();
-
         KConfigGroup grp = m_launchcfg->config();
+
+        m_postTreatment = new KProcessOutputToParser(m_parser);
+        QStringList args;
+        args << m_file->fileName() << "--tree=both";
+        QString caPath = grp.readEntry("CallgrindAnnotateExecutable", "/usr/bin/callgrind_annotate");
+        m_postTreatment->execute(caPath, args);
+
         if (grp.readEntry("Launch KCachegrind", false))
         {
             QStringList args;
@@ -86,7 +93,9 @@ void CallgrindJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
 {
     static const t_valgrind_cfg_argarray cg_args =
     {
-        {"Callgrind Arguments", "", "str"}
+        {"Callgrind Arguments", "", "str"},
+        {"Callgrind Cache simulation", "--cache-sim=", "bool"},
+        {"Callgrind Branch simulation", "--branch-sim=", "bool"}
     };
     static const int count = sizeof(cg_args) / sizeof(*cg_args);
 

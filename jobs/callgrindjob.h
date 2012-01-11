@@ -24,7 +24,7 @@
 #ifndef CALLGRINDJOB_H
 # define CALLGRINDJOB_H
 
-# include "job.h"
+#include "job.h"
 
 namespace valgrind
 {
@@ -33,8 +33,8 @@ class CallgrindJob : public Job
 
 public:
     CallgrindJob(KDevelop::ILaunchConfiguration* cfg,
-                  valgrind::Plugin *inst,
-                  QObject* parent = 0);
+                 valgrind::Plugin *inst,
+                 QObject* parent = 0);
     virtual ~CallgrindJob();
 
 protected:
@@ -44,10 +44,10 @@ protected:
     virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
 
 private:
-    QFile   *m_file;
+    KProcessOutputToParser  *m_postTreatment;
+    QFile                   *m_file;
 };
 
 }
-
 
 #endif //!CALLGRINDJOB_H

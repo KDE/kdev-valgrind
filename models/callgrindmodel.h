@@ -25,12 +25,25 @@
 
 #include "imodel.h"
 
-#include <QStringList>
+#include <QList>
+#include <QAbstractTableModel>
+
+#include "icachegrinditem.h"
+#include "callgrinditem.h"
 
 namespace valgrind
 {
+class CallgrindItem;
+class CallgrindCallstackItem;
+class CallgrindFunctionsListTModel;
 
-class CallgrindModel : public valgrind::Model
+typedef bool (CallgrindFunctionsListTModel::*CSItemCompareFct)(const QVariant &, const QVariant &) const;
+
+/**
+ * This class will contains all the callgrind data models for the differents view
+ */
+class CallgrindModel :  public QObject,
+                        public valgrind::Model
 {
     Q_OBJECT
 
@@ -39,20 +52,75 @@ public:
     CallgrindModel(QObject* parent = 0);
     virtual ~CallgrindModel();
 
-    QModelIndex index(int, int, const QModelIndex&) const;
-    QModelIndex parent(const QModelIndex&) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex&) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QAbstractItemModel  *getQAbstractItemModel(int n);
 
-public slots:
+    const QList<CallgrindCallstackItem*>& getAllCsItem() const;
 
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
+    enum qAbstractItemModel
+    {
+        E_FCT_LIST,
+        E_INFO_LIST,
+        E_CALLER_LIST,
+        E_CALLEE_LIST
+    };
+
+    /////SLOTS WRAPPER////
+    /**
+     * Reception of a new item in the model
+     */
+    virtual void newItem(valgrind::ModelItem *item);
     /**
      * Resets the model content
      */
     void reset();
+    ////END SLOTS WRAPER////
+private:
+    QList<CallgrindCallstackItem*>  m_callgrindCsItems;
 
+    CallgrindCallstackItem          *m_totalCountItem;
+    CallgrindFunctionsListTModel    *m_callgrindFunctionModel;
+};
+
+/**
+ * Main view model
+ */
+class CallgrindFunctionsListTModel : public QAbstractItemModel
+{
+    Q_OBJECT
+
+public:
+    CallgrindFunctionsListTModel(CallgrindModel *mdl);
+
+    void                      setItemList(const QList<CallgrindCallstackItem *> items);
+
+    //inherit methods from QAbstractItemModel implementation
+    QModelIndex               index(int, int, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex               parent(const QModelIndex&) const;
+    int                       rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int                       columnCount(const QModelIndex&) const;
+    QVariant                  data(const QModelIndex &index, int role) const;
+    QVariant                  headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    CallgrindCallstackItem   *itemForIndex(const QModelIndex &index) const;
+    void                      sort ( int column, Qt::SortOrder order);
+
+    //Make the links between list comumn and data model
+    iCachegrindItem::Columns  columnToPosInModelList(int col) const;
+    CallgrindCallstackItem::numberDisplayMode columnToDisplayMode(int col) const;
+private:
+    //sort implementation
+    void                      quickSortCSItem( int first, int last,
+                                               QList<CallgrindCallstackItem*>& list,
+                                               iCachegrindItem::Columns col,
+                                               CSItemCompareFct cmp,
+                                               CallgrindCallstackItem::numberDisplayMode dispMode );
+    bool                      lessThan(const QVariant &left, const QVariant &right) const;
+    bool                      greatherThan(const QVariant &left, const QVariant &right) const;
+
+    /** list of all the items */
+    QList<CallgrindCallstackItem *> m_items;
+    CallgrindModel                  *m_model;
 };
 
 }

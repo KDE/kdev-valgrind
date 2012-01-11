@@ -42,10 +42,13 @@ CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
     : Job(cfg, inst, parent)
     , m_file(0)
 {
+    m_postTreatment = 0;
 }
 
 CachegrindJob::~CachegrindJob()
 {
+    if (m_postTreatment != 0)
+        delete m_postTreatment;
 }
 
 void CachegrindJob::processStarted()
@@ -57,20 +60,25 @@ void CachegrindJob::processStarted()
 
 void CachegrindJob::processEnded()
 {
-    if (m_file) {
-        m_file->open(QIODevice::ReadOnly);
-        m_parser->setDevice(m_file);
-        m_parser->parse();
-        m_file->close();
-
+    if (m_file)
+    {
         KConfigGroup grp = m_launchcfg->config();
-        if (grp.readEntry("Launch KCachegrind", false)) {
+        m_postTreatment = new KProcessOutputToParser(m_parser);
+        QStringList args;
+        args << m_file->fileName();
+        QString caPath = grp.readEntry("CachegrindAnnotateExecutable", "/usr/bin/cg_annotate");
+        m_postTreatment->execute(caPath, args);
+
+        if (grp.readEntry("Launch KCachegrind", false)) 
+        {
             QStringList args;
             args << m_file->fileName();
             QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
             //Proxy used to remove file at the end of KCachegrind
             new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
-        } else {
+        } 
+        else
+        {
             m_file->remove();
             delete m_file;
         }
@@ -79,8 +87,11 @@ void CachegrindJob::processEnded()
 
 void CachegrindJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
 {
-    static const t_valgrind_cfg_argarray cg_args = {
-        {"Cachegrind Arguments", "", "str"}
+    static const t_valgrind_cfg_argarray cg_args = 
+    {
+        {"Cachegrind Arguments", "", "str"},
+        {"Cachegrind Cache simulation", "--cache-sim=", "bool"},
+        {"Cachegrind Branch simulation", "--branch-sim=", "bool"}
     };
     static const int count = sizeof(cg_args) / sizeof(*cg_args);
 

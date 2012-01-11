@@ -1,6 +1,8 @@
 /* This file is part of KDevelop
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
+ *  Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -42,6 +44,10 @@ public:
 
     void setModel(valgrind::Model * m);
     valgrind::Model * model(void);
+protected:
+  void MousePressEvent(QMouseEvent *event);
+private Q_SLOTS:
+    void openDocument(const QModelIndex& index);
 };
 }
 #endif // CACHEGRINDVIEW_H

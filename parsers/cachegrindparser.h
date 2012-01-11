@@ -34,6 +34,8 @@
 namespace valgrind
 {
 
+class CachegrindItem;
+
 /**
  * A class which parses valgrind's XML output
  * and emits signals when items are parsed
@@ -46,6 +48,22 @@ public:
 
     CachegrindParser(QObject *parent = 0);
     virtual ~CachegrindParser();
+
+private:
+    /**
+     * build the root node of the tree
+     * it return false if some error happens
+     */
+    bool parseRootModel(const QString &buffer);
+
+    void parseNewCachegrindItem(const QString& buffer, bool totalProgram = false);
+
+    QList<CachegrindItem *>  m_caller;
+    CachegrindItem           *m_lastCall;
+    QString                 m_programTotalStr;
+    QStringList             m_headersList;
+
+    CachegrindItem *totalCountItem;
 
 signals:
 

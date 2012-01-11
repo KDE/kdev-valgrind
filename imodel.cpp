@@ -17,59 +17,32 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <iostream>
-
 #include "imodel.h"
+#include "modelwrapper.h"
 #include "job.h"
 
 namespace valgrind
 {
 
-Model::Model(QObject* parent)
-    : QAbstractItemModel(parent)
-    , m_job(0)
+Model::Model()
 {
+    m_modelWrapper = NULL;
 }
 
-Model::~Model()
+void Model::setModelWrapper(ModelWrapper *mdl)
 {
+    m_modelWrapper = mdl;
 }
 
-void Model::job(valgrind::Job * job)
+ModelWrapper* Model::getModelWrapper() const
 {
-    connect(job, SIGNAL(destroyed()),
-            this, SLOT(jobDestroyed()));
-    m_job = job;
+    return m_modelWrapper;
 }
 
-valgrind::Job * Model::job(void)
+Job*    Model::job() const
 {
-    return m_job;
-}
-
-void Model::jobDestroyed(void)
-{
-    m_job = NULL;
-}
-
-void Model::newElement(Model::eElementType type)
-{
-    Q_UNUSED(type);
-}
-
-void Model::newData(Model::eElementType type, QString name, QString value)
-{
-    Q_UNUSED(type);
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-}
-
-void Model::newItem(ModelItem *item)
-{
-    Q_UNUSED(item);
-}
-
-void Model::reset()
-{
+    if (m_modelWrapper != NULL)
+      return m_modelWrapper->job();
+    return NULL;
 }
 }

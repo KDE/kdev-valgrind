@@ -45,7 +45,7 @@ MassifView::~MassifView(void) {}
 
 void MassifView::setModel(valgrind::Model * m)
 {
-    QTreeView::setModel(m);
+    QTreeView::setModel(m->getQAbstractItemModel());
 }
 
 valgrind::Model * MassifView::model(void)

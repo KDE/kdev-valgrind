@@ -42,7 +42,8 @@ MassifItem::~MassifItem()
 void MassifItem::incomingData(const QString &name, const QString &value, const QString &dir)
 {
     m_values[name] = value;
-    if (name == "child") {
+    if (name == "child")
+    {
         QStringList lst = value.mid(value.lastIndexOf('(') + 1).remove(')').split(':');
         if (lst.size() != 2)
             return;
@@ -81,7 +82,8 @@ QVariant MassifItem::data(int column) const
 {
     if (m_child && column == MemStacksB)
         return m_values["child"];
-    switch (column) {
+    switch (column)
+    {
     case Snapshot:
         return m_values["snapshot"];
     case Time:

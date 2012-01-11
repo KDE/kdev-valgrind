@@ -21,6 +21,10 @@
 */
 
 #include "callgrindparser.h"
+#include "callgrinditem.h"
+
+//TODO: delete this !
+#include <iostream>
 
 namespace valgrind
 {
@@ -34,8 +38,195 @@ CallgrindParser::~CallgrindParser()
 {
 }
 
+bool CallgrindParser::parseRootModel(const QString &buffer)
+{
+    int i;
+    m_headersList = buffer.split(QChar(' '), QString::SkipEmptyParts);
+
+    m_programTotalStr = "";
+    for (i = 0; i < m_headersList.size(); ++i)
+    {
+        iCachegrindItem::Columns key = iCachegrindItem::dataKeyFromName(m_headersList[i]);
+        if (key != iCachegrindItem::Unknow)
+        {
+            m_programTotalStr += " " + m_headersList[i];
+        }
+        else
+        {
+            kDebug() << "Error : " << m_headersList[i] << " unknow header";
+            return false;
+        }
+    }
+    m_programTotalStr = m_programTotalStr.trimmed();
+    return true;
+}
+
+void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalProgram)
+{
+    CallgrindCallstackItem *csItem;
+    int             iBegin, iEnd;
+    int             i;
+    QList<QString>  dataList;
+
+    iBegin = iEnd = 0;
+    for (i = 0; i < m_headersList.size(); ++i)
+    {
+        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1)
+            break;
+        dataList.append(buffer.mid(iBegin, iEnd - iBegin).replace(',', ""));
+        iBegin = iEnd + 1;
+    }
+    if (!totalProgram)
+    {
+        if (buffer.at(iBegin) == '*' || buffer.at(iBegin) == '<' || buffer.at(iBegin) == '>')
+        {
+            char symbol = buffer.at(iBegin).toAscii();
+            iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
+            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1)
+            {
+                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1)
+                    iEnd = buffer.length();
+            }
+            else
+                iEnd += 1;
+            csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
+            switch (symbol)
+            {
+            case '*':
+            {
+                if (m_caller.size() > 0)
+                {
+                    for (int j = 0; j < m_caller.size(); ++j)
+                    {
+                        csItem->addParent(m_caller[j]);
+                        m_caller[j]->addChild(csItem);
+                    }
+                    m_caller.clear();
+                }
+                m_allFunctions.push_back(csItem);
+                m_lastCall = csItem;
+                emit newItem(csItem);
+                break;
+            }
+            case '<':
+            {
+                m_caller.append(csItem);
+                break;
+            }
+            case '>':
+            {
+                m_lastCall->addChild(csItem);
+                csItem->addParent(m_lastCall);
+                break;
+            }
+            }
+
+        }
+        else
+        {
+            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1)
+                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1)
+                    iEnd = buffer.length();
+            csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
+            emit newItem(csItem);
+        }
+
+        for (int j = 0; j < dataList.size(); ++j)
+        {
+            csItem->incommingData(m_headersList[j], dataList[j]);
+        }
+    }
+    else
+    {
+        //total program count
+        CallgrindCallstackItem *totalCount = getOrCreateNewItem(" :Program_Total_Count");
+        for (int j = 0; j < dataList.size(); ++j)
+        {
+            totalCount->incommingData(m_headersList[j], dataList[j]);
+        }
+        m_totalCountItem = totalCount;
+        emit newItem(totalCount);
+    }
+
+}
+
+CallgrindCallstackItem  *CallgrindParser::getOrCreateNewItem(const QString& fullDescName)
+{
+    CallgrindCallstackFunction  *csFct = NULL;
+    //kDebug() << fullDescName;
+    for (int i = 0; i < m_allFunctions.size(); ++i)
+    {
+        if (m_allFunctions[i]->getCsFunction()->getFullDescName().compare(fullDescName) == 0)
+        {
+            csFct = m_allFunctions[i]->getCsFunction();
+            break;
+        }
+    }
+    if (csFct == NULL)
+    {
+        csFct = new CallgrindCallstackFunction();
+        csFct->setFullDescName(fullDescName);
+        csFct->setTotalCountItem(m_totalCountItem);
+    }
+    CallgrindCallstackItem *item = new CallgrindCallstackItem(csFct);
+    return item;
+}
+
+enum CallgrindParserState
+{
+    ParseRootModel,
+    ParseProgramTotalHeader,
+    ParseProgramTotal,
+    ParseProgramHeader,
+    ParseProgram
+};
+
 void CallgrindParser::parse()
 {
+    CallgrindParserState  parserState = ParseRootModel;
+    QString               buffer;
+
+    while (!device()->atEnd())
+    {
+        //remove useless characters
+        buffer = device()->readLine().simplified();
+
+        if (parserState != ParseProgramTotal && parserState != ParseProgram)
+        {
+            if (parserState == ParseRootModel && buffer.startsWith("Events shown:"))
+            {
+                //13 is 'Events shown:' size;
+                if (!parseRootModel(buffer.mid(13, buffer.length() - 13)))
+                {
+                    kDebug() << "Input stream is misformated, cannot build the tree";
+                    return ;
+                }
+                parserState = ParseProgramTotalHeader;
+            }
+            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr)
+            {
+                parserState = ParseProgramTotal;
+            }
+            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr))
+            {
+                parserState = ParseProgram;
+            }
+        }
+        else
+        {
+            if (buffer.size() > 0 && buffer.at(0).isDigit())
+            {
+                if (parserState == ParseProgramTotal)
+                {
+                    parseNewCallgrindItem(buffer, true);
+                    parserState = ParseProgramHeader;
+                }
+                else
+                    parseNewCallgrindItem(buffer, false);
+            }
+        }
+    }
+    emit newItem(NULL);
 }
 }
 

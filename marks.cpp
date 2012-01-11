@@ -27,6 +27,8 @@
 #include "marks.h"
 #include "memcheckmodel.h"
 #include "plugin.h"
+#include "modelwrapper.h"
+
 
 namespace valgrind
 {
@@ -46,7 +48,7 @@ Marks::~Marks()
 void Marks::newModel(valgrind::Model* model)
 {
     m_model = model;
-    connect(model, SIGNAL(modelChanged()),
+    connect(m_model->getModelWrapper(), SIGNAL(modelChanged()),
             this, SLOT(modelChanged()));
 }
 
@@ -60,13 +62,14 @@ void Marks::modelChanged()
             iface->clearMarks();
     // errors
     QModelIndex parentIndex = QModelIndex();
-    int numRows = m_model->rowCount();
+    QAbstractItemModel *itemModel = m_model->getQAbstractItemModel();
+    int numRows = itemModel->rowCount();
     for (int row = 0; row < numRows; ++row) {
-        QModelIndex index = m_model->index(row, 0, parentIndex);
-        int numRows2 = m_model->rowCount(index);
+        QModelIndex index = itemModel->index(row, 0, parentIndex);
+        int numRows2 = itemModel->rowCount(index);
         for (int row2 = 0; row2 < numRows2; ++row2) {
-            QModelIndex index2 = m_model->index(row2, 0, index);
-            QString text = m_model->data(index2, Qt::UserRole).toString();
+            QModelIndex index2 = itemModel->index(row2, 0, index);
+            QString text = itemModel->data(index2, Qt::UserRole).toString();
             if (!text.isEmpty()) {
                 QString delimiterPattern(":");
                 QStringList fileInfo = text.split(delimiterPattern);

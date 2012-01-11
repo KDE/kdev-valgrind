@@ -32,6 +32,8 @@
 
 #include <iostream>
 
+#include "modelwrapper.h"
+
 namespace valgrind
 {
 
@@ -316,7 +318,7 @@ void MemcheckModel::newData(MemcheckModel::eElementType e, QString name, QString
     default:
         break;
     }
-    emit modelChanged();
+    emit static_cast<ModelEvents *>(m_modelWrapper)->modelChanged();
 }
 
 void MemcheckModel::incomingData(QString, QString)

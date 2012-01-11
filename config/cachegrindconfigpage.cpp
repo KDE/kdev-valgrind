@@ -33,6 +33,8 @@ CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
     connect(ui->cachegrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
     connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()));
     connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->cacheSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->branchSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
 }
 
 void    CachegrindConfigPage::loadFromConfiguration(const KConfigGroup&cfg, KDevelop::IProject *)
@@ -43,6 +45,9 @@ void    CachegrindConfigPage::loadFromConfiguration(const KConfigGroup&cfg, KDev
     ui->cachegrindParameters->setText(cfg.readEntry("Cachegrind Arguments", ""));
     ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
     ui->KCachegrindExecutable->setText(cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind"));
+    ui->CachegrindAnnotateExecutable->setText(cfg.readEntry("CachegrindAnnotateExecutable", "/usr/bin/cg_annotate"));
+    ui->cacheSimulation->setChecked(cfg.readEntry("Cachegrind Cache simulation", true));
+    ui->branchSimulation->setChecked(cfg.readEntry("Cachegrind Branch simulation", false));
 
     blockSignals(wasBlocked);
 }
@@ -52,6 +57,9 @@ void    CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IP
     cfg.writeEntry("Cachegrind Arguments", ui->cachegrindParameters->text());
     cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
     cfg.writeEntry("KCachegrindExecutable", ui->KCachegrindExecutable->text());
+    cfg.writeEntry("CachegrindAnnotateExecutable", ui->CachegrindAnnotateExecutable->text());
+    cfg.writeEntry("Cachegrind Cache simulation", ui->cacheSimulation->isChecked());
+    cfg.writeEntry("Cachegrind Branch simulation", ui->branchSimulation->isChecked());
 }
 
 KIcon   CachegrindConfigPage::icon(void) const

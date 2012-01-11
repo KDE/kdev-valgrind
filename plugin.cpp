@@ -121,8 +121,6 @@ Plugin::Plugin(QObject *parent, const QVariantList&)
     launcher->addMode(mode);
     //    KDevelop::ICore::self()->runController()->setDefaultLaunch( mode );
 
-
-
     // Add launcher for native apps
     KDevelop::LaunchConfigurationType* type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
     Q_ASSERT(type);

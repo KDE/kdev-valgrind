@@ -140,6 +140,27 @@ private:
     QString m_execPath;
 };
 
+/**
+ * This class is used for tool : callgrind, cachegrind
+ * It permits to call an process to do a post treatment on the valgrind output
+ */
+class KProcessOutputToParser : public QObject
+{
+Q_OBJECT
+public:
+    KProcessOutputToParser(Parser* inst);
+    ~KProcessOutputToParser();
+    int execute(QString execPath, QStringList args);
 
+private slots:
+    void  newDataFromStdOut();
+    void  processEnded(int returnCode, QProcess::ExitStatus status);
+
+private:
+    KProcess  *m_process;
+    QIODevice *m_device;
+    Parser    *m_parser;
+
+};
 }
 #endif

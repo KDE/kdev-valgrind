@@ -1,6 +1,8 @@
 /* This file is part of KDevelop
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
+ *  Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public
@@ -30,6 +32,7 @@
 #include <interfaces/idocumentcontroller.h>
 
 #include "cachegrindmodel.h"
+#include "cachegrinditem.h"
 
 namespace valgrind
 {
@@ -42,12 +45,30 @@ CachegrindView::~CachegrindView() {}
 
 void CachegrindView::setModel(valgrind::Model * m)
 {
-    QTreeView::setModel(m);
+    QTreeView::setModel(m->getQAbstractItemModel());
 }
 
 valgrind::Model * CachegrindView::model(void)
 {
     return dynamic_cast<valgrind::Model *>(QTreeView::model());
+}
+
+void CachegrindView::MousePressEvent(QMouseEvent *event)
+{
+  kDebug() << "Mouse pressed...";
+  //QWidget::mousePressEvent(event);
+}
+
+void CachegrindView::openDocument(const QModelIndex & index)
+{
+    if (valgrind::CachegrindItem* frame = dynamic_cast<valgrind::CachegrindItem*>(static_cast<valgrind::CachegrindModel*>(model())->itemForIndex(index)))
+    {
+        KUrl doc = frame->url();
+        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow()))
+        {
+            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, 0), 0));
+        }
+    }
 }
 }
 

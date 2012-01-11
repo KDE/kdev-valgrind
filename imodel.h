@@ -20,13 +20,16 @@
 #ifndef _IMODEL_H_
 #define _IMODEL_H_
 
+#include <QObject>
 #include <QAbstractItemModel>
 
+class job;
 
 namespace valgrind
 {
 
 class Job;
+class ModelWrapper;
 
 class ModelItem
 {
@@ -35,18 +38,13 @@ public:
     ModelItem() {};
 
     virtual ~ModelItem() {};
-
 };
 
-class Model: public QAbstractItemModel
+class Model
 {
-    Q_OBJECT
-
 public:
-
-    Model(QObject* parent = 0);
-
-    virtual ~Model();
+    Model();
+    virtual ~Model() {}
 
     enum eElementType {
         startError,
@@ -57,55 +55,20 @@ public:
         stack
     };
 
-public slots:
+    virtual QAbstractItemModel  *getQAbstractItemModel(int n = 0) = 0;
 
-    /**
-     * Compatibility with memcheck module, TO REMOVE
-     * Reception of a new item in the model
-     */
-    virtual void newElement(valgrind::Model::eElementType);
+    virtual void newElement(valgrind::Model::eElementType) {}
+    virtual void newItem(ModelItem *) {}
+    virtual void newData(valgrind::Model::eElementType, QString, QString ) {}
+    virtual void reset() {};
 
-    /**
-     * Compatibility with memcheck module, to remove
-     * Reception of a new item in the model
-     * Has to be pure
-     */
-    virtual void newItem(ModelItem *);
-
-    /**
-     * Reception of data to register to the current item
-     * TO REMOVE
-     */
-    virtual void newData(valgrind::Model::eElementType, QString name, QString value);
-
-    /**
-     * Resets the model content
-     */
-    virtual void reset() = 0;
-
-    /**
-     * Set the associated process
-     */
-    void job(valgrind::Job * job);
-
-    /**
-     * Get the associated process
-     */
-    valgrind::Job * job(void);
-
-    void jobDestroyed(void);
-
-
-signals:
-
-    /**
-     * emit this signal to alert other modules that the model has been updated
-     */
-    void modelChanged();
-
-private:
-    valgrind::Job *m_job;
+    void          setModelWrapper(ModelWrapper *mdlw);
+    ModelWrapper  *getModelWrapper() const;
+    Job           *job() const;
+protected:
+    ModelWrapper  *m_modelWrapper;
 };
+
 }
 
 #endif /* _IMODEL_H_ */

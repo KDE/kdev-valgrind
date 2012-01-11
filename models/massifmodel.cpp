@@ -30,6 +30,8 @@
 
 #include <massifitem.h>
 
+#include "modelwrapper.h"
+
 namespace valgrind
 {
 
@@ -52,7 +54,7 @@ MassifModel::~ MassifModel()
 void MassifModel::newItem(ModelItem *i)
 {
     if (!i) {
-        emit modelChanged();
+        emit static_cast<ModelEvents *>(m_modelWrapper)->modelChanged();
         return;
     }
     MassifItem *m = dynamic_cast<MassifItem *>(i);

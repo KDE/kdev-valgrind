@@ -2,6 +2,7 @@
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -25,11 +26,15 @@
 #include "imodel.h"
 
 #include <QStringList>
+#include <QAbstractItemModel>
 
 namespace valgrind
 {
+class CachegrindItem;
 
-class CachegrindModel : public valgrind::Model
+class CachegrindModel : public QAbstractItemModel,
+                        public valgrind::Model
+
 {
     Q_OBJECT
 
@@ -38,20 +43,28 @@ public:
     CachegrindModel(QObject* parent = 0);
     virtual ~CachegrindModel();
 
-    QModelIndex index(int, int, const QModelIndex&) const;
-    QModelIndex parent(const QModelIndex&) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex&) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    virtual QAbstractItemModel  *getQAbstractItemModel(int) {return this;}
 
-public slots:
+    QModelIndex     index(int, int, const QModelIndex&) const;
+    QModelIndex     parent(const QModelIndex&) const;
+    int             rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int             columnCount(const QModelIndex&) const;
+    QVariant        data(const QModelIndex &index, int role) const;
+    QVariant        headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    CachegrindItem  *itemForIndex(const QModelIndex &index) const;
 
+    /////SLOTS WRAPPER////
+    /**
+     * Reception of a new item in the model
+     */
+    virtual void newItem(valgrind::ModelItem *item);
     /**
      * Resets the model content
      */
     void reset();
-
+    ////END SLOTS WRAPER////
+private:
+    CachegrindItem *m_rootItem;
 };
 
 }

@@ -27,6 +27,8 @@
 
 namespace valgrind
 {
+class KProcessOutputToParser;
+
 class CachegrindJob : public Job
 {
 
@@ -43,7 +45,8 @@ protected:
     virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
 
 private:
-    QFile   *m_file;
+    KProcessOutputToParser  *m_postTreatment;
+    QFile                   *m_file;
 };
 
 }

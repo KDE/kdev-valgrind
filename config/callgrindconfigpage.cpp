@@ -33,6 +33,9 @@ CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
     connect(ui->callgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
     connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()));
     connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->CallgrindAnnotateExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
+    connect(ui->cacheSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->branchSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
 }
 
 void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
@@ -43,6 +46,9 @@ void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDev
     ui->callgrindParameters->setText(cfg.readEntry("Callgrind Arguments", ""));
     ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
     ui->KCachegrindExecutable->setText(cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind"));
+    ui->CallgrindAnnotateExecutable->setText(cfg.readEntry("CallgrindAnnotateExecutable", "/usr/bin/callgrind_annotate"));
+    ui->cacheSimulation->setChecked(cfg.readEntry("Callgrind Cache simulation", false));
+    ui->branchSimulation->setChecked(cfg.readEntry("Callgrind Branch simulation", false));
 
     blockSignals(wasBlocked);
 }
@@ -54,9 +60,12 @@ KIcon   CallgrindConfigPage::icon(void) const
 
 void    CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry("Cachegrind Arguments", ui->callgrindParameters->text());
+    cfg.writeEntry("Callgrind Arguments", ui->callgrindParameters->text());
     cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
     cfg.writeEntry("KCachegrindExecutable", ui->KCachegrindExecutable->text());
+    cfg.writeEntry("CallgrindAnnotateExecutable", ui->CallgrindAnnotateExecutable->text());
+    cfg.writeEntry("Callgrind Cache simulation", ui->cacheSimulation->isChecked());
+    cfg.writeEntry("Callgrind Branch simulation", ui->branchSimulation->isChecked());
 }
 
 QString CallgrindConfigPage::title(void) const

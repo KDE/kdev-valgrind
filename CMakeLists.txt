@@ -26,6 +26,7 @@ set(kdevvalgrind_PART_SRCS
     job.cpp
     marks.cpp
     imodel.cpp
+    modelwrapper.cpp
     iparser.cpp
     plugin.cpp
     widget.cpp
@@ -33,12 +34,17 @@ set(kdevvalgrind_PART_SRCS
     models/massifmodel.cpp
     models/memcheckmodel.cpp
     models/memcheckitemsimpl.cpp
+    models/icachegrinditem.cpp
     models/cachegrindmodel.cpp
+    models/cachegrinditem.cpp
     models/callgrindmodel.cpp
+    models/callgrinditem.cpp
+    models/cachegrindmodel.cpp
+    models/cachegrinditem.cpp
     parsers/massifparser.cpp
     parsers/memcheckparser.cpp
-    parsers/cachegrindparser.cpp
     parsers/callgrindparser.cpp
+    parsers/cachegrindparser.cpp
     jobs/memcheckjob.cpp
     jobs/massifjob.cpp
     jobs/cachegrindjob.cpp
@@ -47,6 +53,7 @@ set(kdevvalgrind_PART_SRCS
     views/memcheckview.cpp
     views/cachegrindview.cpp
     views/callgrindview.cpp
+    views/cachegrindview.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
@@ -65,6 +72,7 @@ set(kdevvalgrind_PART_UI
     config/ui/massifconfig.ui
     config/ui/helgrindconfig.ui
     config/ui/callgrindconfig.ui
+    config/ui/callgrindview.ui
 )
 
 kde4_add_ui_files(kdevvalgrind_PART_SRCS  ${kdevvalgrind_PART_UI})

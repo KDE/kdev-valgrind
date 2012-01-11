@@ -1,7 +1,7 @@
 /* This file is part of KDevelop
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
- * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ *  Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,25 +24,60 @@
 #define CALLGRINDVIEW_H
 
 #include <QObject>
-#include <QTreeView>
+#include <QWidget>
+#include <QItemSelection>
+
+#include "callgrinditem.h"
 
 #include "iview.h"
 
+
+class QResizeEvent;
+class QSortFilterProxyModel;
+
 namespace valgrind
 {
-class CallgrindView : public QTreeView, public valgrind::IView
+namespace Ui
+{
+class CallgrindView;
+}
+
+class CallgrindModel;
+
+class CallgrindView : public QWidget, public valgrind::IView
 {
     Q_OBJECT
 
 public:
-    CallgrindView();
+    CallgrindView(QWidget *parent = 0);
     ~CallgrindView();
-
-    using QTreeView::setModel;
-    using QTreeView::model;
 
     void setModel(valgrind::Model * m);
     valgrind::Model * model(void);
+
+    void WidgetContainerResizeEvent(QResizeEvent * event);
+
+public slots:
+    void percentInformationClicked(bool enable);
+
+    void selectionOnFctListChanged(const QItemSelection &, const QItemSelection &);
+    void selectionOnCallerListChanged(const QItemSelection &, const QItemSelection &);
+
+private:
+    Ui::CallgrindView                         *ui;
+
+    CallgrindModel                            *m_model;
+
+    QSortFilterProxyModel                     *m_callerProxyModel;
+    QSortFilterProxyModel                     *m_calleeProxyModel;
+
+    CallgrindCallstackItem                    *m_functionListSelectedItem;
+
+    CallgrindCallstackItem::numberDisplayMode m_informationDisplayMode;
+
+    void  updateInformationTab(CallgrindCallstackItem *item);
+    void  updateCallerTab(CallgrindCallstackItem *item);
+    void  updateCalleeTab(CallgrindCallstackItem *item);
 };
 }
 #endif // CALLGRINDVIEW_H

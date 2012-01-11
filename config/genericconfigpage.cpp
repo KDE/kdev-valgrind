@@ -95,7 +95,7 @@ void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject
     cfg.writeEntry("Maximum Stackframe Size", ui->maxStackSize->value());
     cfg.writeEntry("Limit Errors", ui->limitErrors->isChecked());
     cfg.writeEntry("Current Tool", ui->currentTool->currentText());
-
+    //useless ?
     emit newCurrentTool(ui->currentTool->currentText());
 }
 

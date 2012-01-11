@@ -23,6 +23,8 @@
 #include <QTabWidget>
 #include <QMap>
 
+class QResizeEvent;
+
 namespace valgrind
 {
 class Model;
@@ -37,6 +39,8 @@ public:
     Widget(valgrind::Plugin* plugin, QWidget* parent);
     valgrind::Plugin* plugin() const;
 
+protected:
+    virtual void 	resizeEvent ( QResizeEvent * event );
 public slots:
     void updateTabText(valgrind::Model * model, const QString & text);
 

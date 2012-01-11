@@ -32,6 +32,12 @@ public:
     virtual Model* model(void) = 0;
     virtual void setModel(valgrind::Model *) = 0;
     virtual ~IView(void) {}
+
+    //get notify that the container size has changed
+    virtual void WidgetContainerResizeEvent( QResizeEvent * event )
+    {
+        Q_UNUSED(event);
+    }
 };
 }
 
