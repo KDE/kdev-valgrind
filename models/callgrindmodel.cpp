@@ -110,7 +110,7 @@ QVariant CallgrindModel::headerData(int section, Qt::Orientation orientation, in
         case iCachegrindItem::DataCacheLLReadMiss:
             return i18n("DLmr (DL cache read miss)");
         case iCachegrindItem::DataCacheWrite:
-            return i18n("Dw (D cache read)");
+            return i18n("Dw (D cache write)");
         case iCachegrindItem::DataCacheD1WriteMiss:
             return i18n("D1mw (D1 cache write miss)");
         case iCachegrindItem::DataCacheLLWriteMiss:
