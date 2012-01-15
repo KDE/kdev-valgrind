@@ -28,7 +28,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Liste des fontions</string>
+        <string>List of functions</string>
        </property>
       </widget>
      </item>
@@ -52,7 +52,7 @@
          </sizepolicy>
         </property>
         <attribute name="title">
-         <string>Informations</string>
+         <string>Information</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>

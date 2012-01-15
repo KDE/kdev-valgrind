@@ -171,7 +171,7 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, i
         case CachegrindItem::DataCacheLLReadMiss:
             return i18n("DLmr (DL cache read miss)");
         case CachegrindItem::DataCacheWrite:
-            return i18n("Dw (D cache read)");
+            return i18n("Dw (D cache write)");
         case CachegrindItem::DataCacheD1WriteMiss:
             return i18n("D1mw (D1 cache write miss)");
         case CachegrindItem::DataCacheLLWriteMiss:
