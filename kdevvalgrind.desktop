@@ -6,6 +6,7 @@ Comment=Valgrind is a tool that helps you find memory management problems in pro
 Comment[bg]=Valgrind е инструмент, който ви помага да откривате проблеми с управлението на паметта в програмите. http://www.valgrind.org/
 Comment[ca]=Valgrind és una eina que us ajuda a trobar problemes de gestió de memòria en programes. http://www.valgrind.org/
 Comment[ca@valencia]=Valgrind és una eina que vos ajuda a trobar problemes de gestió de memòria en programes. http://www.valgrind.org/
+Comment[de]=Valgrind ist ein Werkzeug, das Ihnen hilft, Speicherverwaltungsprobleme in Programmen zu finden. http://www.valgrind.org/
 Comment[en_GB]=Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/
 Comment[es]=Valgrind es una herramienta que le ayuda a encontrar problemas de gestión de memoria en sus programas. http://www.valgrind.org/
 Comment[et]=Valgrind on tööriist, mis aitab leida programmide mäluhalduse probleeme. http://www.valgrind.org/
