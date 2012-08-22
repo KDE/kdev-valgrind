@@ -60,7 +60,7 @@
            <item>
             <widget class="QCheckBox" name="percentInformationEnabled">
              <property name="text">
-              <string>Show value as percent</string>
+              <string>Show value as percentage</string>
              </property>
              <property name="checked">
               <bool>true</bool>
