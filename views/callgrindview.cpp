@@ -122,8 +122,8 @@ void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
     if (m_callerProxyModel->sourceModel() != NULL)
         delete m_callerProxyModel->sourceModel();
     QStandardItemModel    *callerModel = new QStandardItemModel(this);
-    callerModel->setHorizontalHeaderItem(0, new i18n("Function Name"));
-    callerModel->setHorizontalHeaderItem(1, new i18n("Ir"));
+    callerModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
+    callerModel->setHorizontalHeaderItem(1, new QStandardItem (i18n("Ir")));
     int callerSize = item->getParentCount();
     for (int i = 0; i < callerSize; ++i)
     {
@@ -139,8 +139,8 @@ void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
     if (m_calleeProxyModel->sourceModel() != NULL)
         delete m_calleeProxyModel->sourceModel();
     QStandardItemModel  *calleeModel = new QStandardItemModel(this);
-    calleeModel->setHorizontalHeaderItem(0, new i18n("Function Name"));
-    calleeModel->setHorizontalHeaderItem(1, new i18n("Ir"));
+    calleeModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
+    calleeModel->setHorizontalHeaderItem(1, new QStandardItem(i18n("Ir")));
     int calleeSize = item->getChildCount();
     for (int i = 0; i < calleeSize; ++i)
     {
