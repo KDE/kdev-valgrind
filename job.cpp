@@ -298,7 +298,7 @@ void Job::start()
 
     setStandardToolView(KDevelop::IOutputView::DebugView);
     setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
-    setModel(new KDevelop::OutputModel(), KDevelop::IOutputView::TakeOwnership);
+    setModel(new KDevelop::OutputModel());
 
     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
 
