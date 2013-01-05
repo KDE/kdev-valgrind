@@ -46,6 +46,7 @@ Name[uk]=Підтримка Valgrind
 Name[x-test]=xxValgrind Supportxx
 GenericName=Debugger Frontend
 GenericName[bg]=Интерфейс на дебъгер
+GenericName[bs]=Korisničko okruženje za ispravljač grešaka
 GenericName[ca]=Frontal del depurador
 GenericName[ca@valencia]=Frontal del depurador
 GenericName[cs]=Rozhraní pro ladicí nástroj
