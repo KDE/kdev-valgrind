@@ -22,6 +22,8 @@
 
 #include "ui_massifconfig.h"
 
+#include <KConfigGroup>
+
 namespace valgrind
 {
 
@@ -63,9 +65,9 @@ void    MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelo
     blockSignals(wasBlocked);
 }
 
-KIcon   MassifConfigPage::icon(void) const
+QIcon   MassifConfigPage::icon(void) const
 {
-    return KIcon("fork");
+    return QIcon::fromTheme("fork");
 }
 
 void    MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const

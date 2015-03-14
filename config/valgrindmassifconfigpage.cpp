@@ -31,9 +31,9 @@ ValgrindMassifConfigPage::ValgrindMassifConfigPage( QWidget *parent )
 void	ValgrindMassifConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
 {}
 
-KIcon	ValgrindMassifConfigPage::icon( void ) const
+QIcon	ValgrindMassifConfigPage::icon( void ) const
 {
-    return KIcon( "fork" );
+    return QIcon( "fork" );
 }
 
 void	ValgrindMassifConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const

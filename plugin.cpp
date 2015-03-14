@@ -30,17 +30,10 @@
 #include <QTcpServer>
 #include <QDomElement>
 #include <QApplication>
+#include <QAction>
 
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kaction.h>
-#include <kprocess.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kdebug.h>
-#include <kicon.h>
 #include <kactioncollection.h>
-#include <kcmultidialog.h>
+#include <klocalizedstring.h>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
 #include <kaboutdata.h>
@@ -61,11 +54,11 @@
 #include "widget.h"
 #include "launcher.h"
 
+#include "debug.h"
 
 using namespace KDevelop;
 
 K_PLUGIN_FACTORY(ValgrindFactory, registerPlugin<valgrind::Plugin>();)
-K_EXPORT_PLUGIN(ValgrindFactory(KAboutData("kdevvalgrind", "kdevvalgrind", ki18n("Valgrind"), "0.1", ki18n("Support for running Valgrind"), KAboutData::License_GPL)))
 
 namespace valgrind
 {
@@ -94,17 +87,17 @@ private:
 };
 
 Plugin::Plugin(QObject *parent, const QVariantList&)
-    : IPlugin(ValgrindFactory::componentData(), parent)
+    : IPlugin("kdevvalgrind", parent)
     , m_factory(new valgrind::WidgetFactory(this))
     , m_marks(new valgrind::Marks(this))
 {
 
-    kDebug() << "setting valgrind rc file";
+    qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
 
     core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
     // Initialize actions for the launch modes
-    KAction* act;
+    QAction* act;
 
     act = actionCollection()->addAction("valgrind_generic", this, SLOT(runValgrind()));
     act->setStatusTip(i18n("Launches the currently selected launch configuration with the Valgrind presets"));

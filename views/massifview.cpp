@@ -24,15 +24,14 @@
 #include <QApplication>
 #include <QString>
 
-#include <KIO/NetAccess>
-
 #include <kdebug.h>
+#include "debug.h"
 
-#include <klocale.h>
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
 #include "massifitem.h"
+#include "statjob.h"
 
 namespace valgrind
 {
@@ -56,8 +55,8 @@ valgrind::Model * MassifView::model(void)
 void MassifView::openDocument(const QModelIndex & index)
 {
     if (valgrind::MassifItem* item = static_cast<valgrind::MassifItem*>(index.internalPointer())) {
-        KUrl doc = item->url();
-        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
+        QUrl doc = item->url();
+        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->getLine() - 1), 0));
         }
     }

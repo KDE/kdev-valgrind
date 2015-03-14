@@ -23,6 +23,8 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <kdebug.h>
+#include "debug.h"
+#include <KLocalizedString>
 
 #include "memcheckjob.h"
 

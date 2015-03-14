@@ -31,9 +31,9 @@ ValgrindCachegrindConfigPage::ValgrindCachegrindConfigPage( QWidget *parent )
 void	ValgrindCachegrindConfigPage::loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * )
 {}
 
-KIcon	ValgrindCachegrindConfigPage::icon( void ) const
+QIcon	ValgrindCachegrindConfigPage::icon( void ) const
 {
-    return KIcon( "fork" );
+    return QIcon( "fork" );
 }
 
 void	ValgrindCachegrindConfigPage::saveToConfiguration( KConfigGroup, KDevelop::IProject * ) const

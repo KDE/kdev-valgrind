@@ -24,6 +24,7 @@
 #include <QTcpSocket>
 #include <KProcess>
 #include <kdebug.h>
+#include "debug.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>

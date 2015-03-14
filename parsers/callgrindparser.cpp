@@ -53,7 +53,7 @@ bool CallgrindParser::parseRootModel(const QString &buffer)
         }
         else
         {
-            kDebug() << "Error : " << m_headersList[i] << " unknow header";
+            qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
             return false;
         }
     }
@@ -153,7 +153,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
 CallgrindCallstackItem  *CallgrindParser::getOrCreateNewItem(const QString& fullDescName)
 {
     CallgrindCallstackFunction  *csFct = NULL;
-    //kDebug() << fullDescName;
+    //qCDebug(KDEV_VALGRIND) << fullDescName;
     for (int i = 0; i < m_allFunctions.size(); ++i)
     {
         if (m_allFunctions[i]->getCsFunction()->getFullDescName().compare(fullDescName) == 0)
@@ -198,7 +198,7 @@ void CallgrindParser::parse()
                 //13 is 'Events shown:' size;
                 if (!parseRootModel(buffer.mid(13, buffer.length() - 13)))
                 {
-                    kDebug() << "Input stream is misformated, cannot build the tree";
+                    qCDebug(KDEV_VALGRIND) << "Input stream is misformated, cannot build the tree";
                     return ;
                 }
                 parserState = ParseProgramTotalHeader;

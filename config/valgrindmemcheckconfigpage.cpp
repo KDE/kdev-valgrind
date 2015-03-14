@@ -50,9 +50,9 @@ ValgrindMemcheckConfigPage::ValgrindMemcheckConfigPage(QWidget *parent)
     connect( ui->showOthers, SIGNAL(toggled(bool)), SIGNAL(changed()) );
 }
 
-KIcon ValgrindMemcheckConfigPage::icon() const
+QIcon ValgrindMemcheckConfigPage::icon() const
 {
-    return KIcon("fork");
+    return QIcon("fork");
 }
 
 void ValgrindMemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)

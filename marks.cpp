@@ -55,7 +55,7 @@ void Marks::newModel(valgrind::Model* model)
 void Marks::modelChanged()
 {
     // parse model to display errors in the editor
-    KTextEditor::Editor* editor = KTextEditor::editor("katepart");
+    KTextEditor::Editor* editor = KTextEditor::Editor::instance();
     QList<KTextEditor::Document*> docList = editor->documents();
     for (int i = 0; i < docList.size(); ++i)
         if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))

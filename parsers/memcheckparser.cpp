@@ -21,7 +21,8 @@
 */
 
 #include <kdebug.h>
-
+#include "debug.h"
+#include <klocalizedstring.h>
 #include "memcheckparser.h"
 
 namespace valgrind

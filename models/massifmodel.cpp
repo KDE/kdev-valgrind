@@ -24,13 +24,15 @@
 #include <QApplication>
 
 #include <kdebug.h>
+#include "debug.h"
 #include <kmessagebox.h>
-#include <klocale.h>
 #include <kglobalsettings.h>
 
 #include <massifitem.h>
 
 #include "modelwrapper.h"
+
+#include <klocalizedstring.h>
 
 namespace valgrind
 {

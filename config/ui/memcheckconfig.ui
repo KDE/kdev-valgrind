@@ -20,7 +20,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Extra &amp;Parameters:</string>
+         <string>E&amp;xtra Parameters:</string>
         </property>
         <property name="buddy">
          <cstring>memcheckParameters</cstring>
@@ -28,31 +28,12 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="KLineEdit" name="memcheckParameters"/>
+       <widget class="QLineEdit" name="memcheckParameters"/>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Freelist size</string>
-        </property>
-        <property name="buddy">
-         <cstring>freeListSize</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="KIntNumInput" name="freeListSize" native="true">
-        <property name="value" stdset="0">
-         <number>10000000</number>
-        </property>
-        <property name="minimum" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="relativeValue" stdset="0">
-         <double>0.000000000000000</double>
-        </property>
-        <property name="suffix" stdset="0">
-         <string> bytes</string>
+         <string>Freelist si&amp;ze</string>
         </property>
        </widget>
       </item>
@@ -87,6 +68,16 @@ p, li { white-space: pre-wrap; }
         </property>
        </widget>
       </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="freeListSize">
+        <property name="maximum">
+         <number>2000000000</number>
+        </property>
+        <property name="value">
+         <number>10000000</number>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -105,18 +96,6 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

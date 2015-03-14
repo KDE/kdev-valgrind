@@ -18,7 +18,7 @@
 */
 
 #include <kdebug.h>
-
+#include "debug.h"
 #include "genericconfigpage.h"
 #include "plugin.h"
 
@@ -36,7 +36,7 @@ GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()));
-    connect(ui->valgrindExecutable, SIGNAL(urlSelected(KUrl)), SIGNAL(changed()));
+    connect(ui->valgrindExecutable, SIGNAL(urlSelected(QUrl)), SIGNAL(changed()));
     connect(ui->valgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
     connect(ui->limitErrors, SIGNAL(toggled(bool)), SIGNAL(changed()));
     connect(ui->maxStackSize, SIGNAL(valueChanged(int)), SIGNAL(changed()));
@@ -62,9 +62,9 @@ GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
 GenericConfigPage::~GenericConfigPage(void)
 {}
 
-KIcon GenericConfigPage::icon() const
+QIcon GenericConfigPage::icon() const
 {
-    return KIcon("fork");
+    return QIcon::fromTheme("fork");
 }
 
 void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
@@ -72,7 +72,7 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop:
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->valgrindExecutable->setUrl(cfg.readEntry("Valgrind Executable", KUrl("/usr/bin/valgrind")));
+    ui->valgrindExecutable->setText( cfg.readEntry("Valgrind Executable", QString("/usr/bin/valgrind")) );
     ui->valgrindParameters->setText(cfg.readEntry("Valgrind Arguments", ""));
     ui->stackDepth->setValue(cfg.readEntry("Stackframe Depth", 12));
     ui->maxStackSize->setValue(cfg.readEntry("Maximum Stackframe Size", 2000000));
@@ -89,7 +89,7 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop:
 
 void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry("Valgrind Executable", ui->valgrindExecutable->url());
+    cfg.writeEntry("Valgrind Executable", ui->valgrindExecutable->text());
     cfg.writeEntry("Valgrind Arguments", ui->valgrindParameters->text());
     cfg.writeEntry("Stackframe Depth", ui->stackDepth->value());
     cfg.writeEntry("Maximum Stackframe Size", ui->maxStackSize->value());

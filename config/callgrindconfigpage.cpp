@@ -20,6 +20,7 @@
 #include "callgrindconfigpage.h"
 
 #include "ui_callgrindconfig.h"
+#include <KConfigGroup>
 
 namespace valgrind
 {
@@ -53,9 +54,9 @@ void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDev
     blockSignals(wasBlocked);
 }
 
-KIcon   CallgrindConfigPage::icon(void) const
+QIcon   CallgrindConfigPage::icon(void) const
 {
-    return KIcon("fork");
+    return QIcon::fromTheme("fork");
 }
 
 void    CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const

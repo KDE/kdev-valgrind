@@ -25,6 +25,9 @@
 #include "memcheckmodel.h"
 
 #include <kdebug.h>
+#include "debug.h"
+
+#include <QDir>
 
 ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
@@ -197,15 +200,15 @@ void MemcheckFrame::incomingData(QString name, QString value)
         this->line = value.toInt();
 }
 
-KUrl MemcheckFrame::url() const
+QUrl MemcheckFrame::url() const
 {
     if (dir.isEmpty() && file.isEmpty())
-        return KUrl();
+        return QUrl();
 
-    KUrl base = KUrl::fromPath(dir);
-    base.adjustPath(KUrl::AddTrailingSlash);
-    KUrl url(base, file);
-    url.cleanPath();
+    QUrl base = QUrl::fromLocalFile(dir);
+    base.setPath(base.path() + '/');
+    QUrl url = base.resolved(QUrl(file));
+
     return url;
 }
 

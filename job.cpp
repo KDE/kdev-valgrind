@@ -31,8 +31,8 @@
 #include <QBuffer>
 #include <QFileInfo>
 
-#include <klocale.h>
 #include <kdebug.h>
+#include "debug.h"
 #include <kmessagebox.h>
 #include <KProcess>
 #include <kshell.h>
@@ -136,7 +136,7 @@ Job *Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *i
         return new CachegrindJob(cfg, inst, parent);
     else if (name == "callgrind")
         return new CallgrindJob(cfg, inst, parent);
-    kDebug() << "can't create this job, " << name << "unknow job";
+    qCDebug(KDEV_VALGRIND) << "can't create this job, " << name << "unknow job";
     return NULL;
 }
 
@@ -261,7 +261,7 @@ void Job::start()
 {
     KConfigGroup grp = m_launchcfg->config();
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-    KDevelop::EnvironmentGroupList l(KGlobal::config());
+    KDevelop::EnvironmentGroupList l(KSharedConfig::openConfig());
     QString envgrp = iface->environmentGroup(m_launchcfg);
     QString err;
     QString executable = iface->executable(m_launchcfg, err).toLocalFile();
@@ -306,7 +306,7 @@ void Job::start()
 
     m_workingDir = iface->workingDirectory(m_launchcfg);
     if (m_workingDir.isEmpty() || ! m_workingDir.isValid())
-        m_workingDir = KUrl(QFileInfo(executable).absolutePath());
+        m_workingDir = QUrl::fromLocalFile(QFileInfo(executable).absolutePath());
     m_process->setWorkingDirectory(m_workingDir.toLocalFile());
     m_process->setProperty("executable", executable);
 
@@ -318,11 +318,13 @@ void Job::start()
     valgrindArgs = buildCommandLine();
     valgrindArgs << executable;
     valgrindArgs += arguments;
-    kDebug() << "executing:" << grp.readEntry("Valgrind Executable", KUrl("/usr/bin/valgrind")).toLocalFile() << valgrindArgs;
-    m_process->setProgram(grp.readEntry("Valgrind Executable", KUrl("/usr/bin/valgrind")).toLocalFile(),
-                          valgrindArgs);
+    qCDebug(KDEV_VALGRIND) << "executing:" << grp.readEntry("Valgrind Executable", QUrl::fromLocalFile("/usr/bin/valgrind")).toLocalFile() << valgrindArgs;
+
+    QString e = grp.readEntry("Valgrind Executable", QString("/usr/bin/valgrind"));
+    m_process->setProgram(e,valgrindArgs);
     m_process->start();
     m_pid = m_process->pid();
+
     setTitle(QString(i18n("job output (pid=%1)", m_pid)));
     startOutput();
     connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)),
@@ -463,7 +465,7 @@ int KProcessOutputToParser::execute(QString execPath, QStringList args)
 
 void KProcessOutputToParser::processEnded(int , QProcess::ExitStatus status)
 {
-    kDebug() << status;
+    qCDebug(KDEV_VALGRIND) << status;
     if (status == QProcess::NormalExit)
     {
         m_device->close();

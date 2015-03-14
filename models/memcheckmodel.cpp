@@ -26,10 +26,10 @@
 #include <QApplication>
 
 #include <kdebug.h>
+#include "debug.h"
 #include <kmessagebox.h>
-#include <klocale.h>
 #include <kglobalsettings.h>
-
+#include <klocalizedstring.h>
 #include <iostream>
 
 #include "modelwrapper.h"

@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QMap>
 #include <QStringList>
-#include <KUrl>
+#include <QUrl>
 
 #include "imodel.h"
 
@@ -85,7 +85,7 @@ public:
     int           row() const;
     CachegrindItem *parent() const;
 
-    KUrl          url() const;
+    QUrl          url() const;
 
 private:
     QMap<QString, QVariant> m_values;

@@ -26,8 +26,7 @@
 
 #include <QProcess>
 #include <QTcpSocket>
-#include <klocale.h>
-#include <kurl.h>
+#include <qurl.h>
 #include <QFileInfo>
 #include <QTimer>
 
@@ -42,6 +41,7 @@ class QXmlSimpleReader;
 class QTcpServer;
 class QTcpSocket;
 class QBuffer;
+class KConfigGroup;
 
 namespace KDevelop
 {
@@ -103,7 +103,7 @@ protected:
 protected:
 
     KProcess* m_process;
-    KUrl m_workingDir;
+    QUrl m_workingDir;
     int m_pid;
 
     valgrind::Model* m_model;

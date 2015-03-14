@@ -21,6 +21,8 @@
 
 #include "ui_helgrindconfig.h"
 
+#include <KConfigGroup>
+
 namespace valgrind
 {
 
@@ -55,9 +57,9 @@ void    HelgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDeve
     blockSignals(wasBlocked);
 }
 
-KIcon   HelgrindConfigPage::icon(void) const
+QIcon   HelgrindConfigPage::icon(void) const
 {
-    return KIcon("fork");
+    return QIcon::fromTheme("fork");
 }
 
 void    HelgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const

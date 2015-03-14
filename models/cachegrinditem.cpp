@@ -21,6 +21,7 @@
 
 #include "cachegrinditem.h"
 #include <QDebug>
+#include <QDir>
 
 namespace valgrind
 {
@@ -177,17 +178,15 @@ QVariant CachegrindItem::data(int column) const
     return QVariant();
 }
 
-KUrl CachegrindItem::url() const
+QUrl CachegrindItem::url() const
 {
     QString dir = m_values[CachegrindItem::dataKey(CachegrindItem::FileName)].toString();
     QString fName = m_values[CachegrindItem::dataKey(CachegrindItem::CallName)].toString();
     if (dir.isEmpty() && fName.isEmpty())
-        return KUrl();
+        return QUrl();
 
-    KUrl url = KUrl::fromPath(dir);
-    //base.adjustPath(KUrl::AddTrailingSlash);
-    //KUrl url(base, fName);
-    url.cleanPath();
+    QUrl url = QUrl::fromLocalFile(dir);
+
     return url;
 }
 

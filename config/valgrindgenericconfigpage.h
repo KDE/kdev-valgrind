@@ -40,7 +40,7 @@ public:
   ValgrindGenericConfigPage(ValgrindPlugin * plugin, QWidget * parent = 0);
   ~ValgrindGenericConfigPage();
   virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
-  virtual KIcon icon() const;
+  virtual QIcon icon() const;
   virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
   virtual QString title() const;
 

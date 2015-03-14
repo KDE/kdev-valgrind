@@ -20,6 +20,7 @@
 
 #include "massifitem.h"
 #include <QDebug>
+#include <QDir>
 
 namespace valgrind
 {
@@ -111,15 +112,15 @@ int MassifItem::row() const
     return 0;
 }
 
-KUrl MassifItem::url() const
+QUrl MassifItem::url() const
 {
     if (m_dir.isEmpty() && m_file.isEmpty())
-        return KUrl();
+        return QUrl();
 
-    KUrl base = KUrl::fromPath(m_dir);
-    base.adjustPath(KUrl::AddTrailingSlash);
-    KUrl url(base, m_file);
-    url.cleanPath();
+    QUrl base = QUrl::fromLocalFile(m_dir);
+    base.setPath(base.path() + '/');
+    QUrl url = base.resolved(QUrl(m_file));
+
     return url;
 }
 

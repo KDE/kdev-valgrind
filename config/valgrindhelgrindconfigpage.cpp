@@ -52,9 +52,9 @@ void	ValgrindHelgrindConfigPage::loadFromConfiguration( const KConfigGroup& cfg,
     blockSignals(wasBlocked);
 }
 
-KIcon	ValgrindHelgrindConfigPage::icon( void ) const
+QIcon	ValgrindHelgrindConfigPage::icon( void ) const
 {
-    return KIcon( "fork" );
+    return QIcon( "fork" );
 }
 
 void	ValgrindHelgrindConfigPage::saveToConfiguration( KConfigGroup cfg, KDevelop::IProject * ) const

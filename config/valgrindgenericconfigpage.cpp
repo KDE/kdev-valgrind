@@ -18,7 +18,7 @@
 */
 
 #include <kdebug.h>
-
+#include "debug.h"
 #include "valgrindgenericconfigpage.h"
 #include "valgrindplugin.h"
 
@@ -31,7 +31,7 @@ ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWi
     ui->setupUi(this);
 
     connect( ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()) );
-    connect( ui->valgrindExecutable, SIGNAL(urlSelected(KUrl)), SIGNAL(changed()) );
+    connect( ui->valgrindExecutable, SIGNAL(urlSelected(QUrl)), SIGNAL(changed()) );
     connect( ui->valgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()) );
     connect( ui->limitErrors, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->maxStackSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
@@ -58,9 +58,9 @@ ValgrindGenericConfigPage::ValgrindGenericConfigPage(ValgrindPlugin *plugin, QWi
 ValgrindGenericConfigPage::~ValgrindGenericConfigPage(void)
 {}
 
-KIcon ValgrindGenericConfigPage::icon() const
+QIcon ValgrindGenericConfigPage::icon() const
 {
-    return KIcon("fork");
+    return QIcon("fork");
 }
 
 void ValgrindGenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
@@ -68,7 +68,7 @@ void ValgrindGenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, K
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->valgrindExecutable->setUrl( cfg.readEntry( "Valgrind Executable", KUrl( "/usr/bin/valgrind" ) ) );
+    ui->valgrindExecutable->setUrl( cfg.readEntry( "Valgrind Executable", QUrl( "/usr/bin/valgrind" ) ) );
     ui->valgrindParameters->setText( cfg.readEntry( "Valgrind Arguments", "" ) );
     ui->stackDepth->setValue( cfg.readEntry( "Stackframe Depth", 12 ) );
     ui->maxStackSize->setValue( cfg.readEntry( "Maximum Stackframe Size", 2000000 ) );

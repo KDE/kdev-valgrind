@@ -19,10 +19,6 @@
 */
 
 #include "config.h"
-
-#include <kicon.h>
-#include <klocale.h>
-
 #include "job.h"
 
 // Generic valgrind mode
@@ -33,9 +29,9 @@ GenericLaunchMode::GenericLaunchMode()
 {
 }
 
-KIcon GenericLaunchMode::icon() const
+QIcon GenericLaunchMode::icon() const
 {
-    return KIcon();
+    return QIcon();
 }
 
 QString   GenericLaunchMode::id() const

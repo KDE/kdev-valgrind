@@ -24,7 +24,7 @@
 #include <QString>
 #include <QMap>
 #include <QStringList>
-#include <KUrl>
+#include <QUrl>
 
 #include "imodel.h"
 
@@ -64,7 +64,7 @@ public:
     int row() const;
     MassifItem *parent();
 
-    KUrl url() const;
+    QUrl url() const;
     int getLine() const;
 
 private:

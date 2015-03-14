@@ -20,6 +20,7 @@
 
 #include "cachegrindconfigpage.h"
 #include "ui_cachegrindconfig.h"
+#include <KConfigGroup>
 
 namespace valgrind
 {
@@ -62,9 +63,9 @@ void    CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IP
     cfg.writeEntry("Cachegrind Branch simulation", ui->branchSimulation->isChecked());
 }
 
-KIcon   CachegrindConfigPage::icon(void) const
+QIcon   CachegrindConfigPage::icon(void) const
 {
-    return KIcon("fork");
+    return QIcon::fromTheme("fork");
 }
 
 QString CachegrindConfigPage::title(void) const

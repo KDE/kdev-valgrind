@@ -31,7 +31,7 @@
 #include "imodel.h"
 
 class KJob;
-class KUrl;
+class QUrl;
 class QTreeView;
 
 namespace KDevelop

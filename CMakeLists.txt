@@ -1,17 +1,27 @@
+cmake_minimum_required(VERSION 2.8.12)
+cmake_policy(SET CMP0028 NEW)
 
 project(valgrind)
-add_definitions( -DKDE_DEFAULT_DEBUG_AREA=9002 )
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
-find_package(KDE4 REQUIRED)
-find_package(KDevPlatform 0.9.96 REQUIRED)
+find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+include(ECMAddTests)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings)
+
+find_package(Qt5 REQUIRED Core Widgets)
+find_package(KF5 REQUIRED COMPONENTS KDELibs4Support TextEditor ThreadWeaver)
+find_package(KDevPlatform 1.90.90 REQUIRED)
 
 include_directories(
     ${KDEVPLATFORM_INCLUDE_DIR}
-    ${KDE4_INCLUDES}
     ${valgrind_BINARY_DIR}
     ${valgrind_SOURCE_DIR}
     ${valgrind_SOURCE_DIR}/config
@@ -27,12 +37,14 @@ include_directories(
 set(kdevvalgrind_PART_SRCS
     launcher.cpp
     config.cpp
+    debug.cpp
     job.cpp
     marks.cpp
     imodel.cpp
     modelwrapper.cpp
     iparser.cpp
     plugin.cpp
+    statjob.cpp
     widget.cpp
     models/massifitem.cpp
     models/massifmodel.cpp
@@ -79,25 +91,31 @@ set(kdevvalgrind_PART_UI
     config/ui/callgrindview.ui
 )
 
-kde4_add_ui_files(kdevvalgrind_PART_SRCS  ${kdevvalgrind_PART_UI})
+ki18n_wrap_ui(kdevvalgrind_PART_SRCS  ${kdevvalgrind_PART_UI})
 
-kde4_add_plugin(kdevvalgrind ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS})
+add_library(kdevvalgrind MODULE ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS})
 
 target_link_libraries(kdevvalgrind
-    ${KDEVPLATFORM_INTERFACES_LIBRARIES}
-    ${KDEVPLATFORM_PROJECT_LIBRARIES}
-    ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
-    ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_KUTILS_LIBS}
-    ${KDEVPLATFORM_UTIL_LIBRARIES}
-    ${KDE4_KTEXTEDITOR_LIBS}
-    ${QT_QTNETWORK_LIBRARY})
+    KDev::Interfaces
+    KDev::Project
+    KDev::Language
+    KDev::OutputView
+    KF5::ConfigCore
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::WidgetsAddons
+    KF5::TextEditor
+    KF5::KDELibs4Support
+    Qt5::Network
+    )
+
+configure_file(kdevvalgrind.desktop.cmake ${CMAKE_CURRENT_BINARY_DIR}/kdevvalgrind.desktop)
 
 install(TARGETS kdevvalgrind DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES kdevvalgrind.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES kdevvalgrind.rc DESTINATION ${DATA_INSTALL_DIR}/kdevvalgrind )
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/kdevvalgrind.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind )
+
+

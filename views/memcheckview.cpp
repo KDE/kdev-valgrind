@@ -23,9 +23,10 @@
 
 #include <QApplication>
 
-#include <KIO/NetAccess>
+#include "statjob.h"
 
 #include <kdebug.h>
+#include "debug.h"
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
@@ -54,8 +55,8 @@ valgrind::Model * MemcheckView::model(void)
 void MemcheckView::openDocument(const QModelIndex & index)
 {
     if (valgrind::MemcheckFrame* frame = dynamic_cast<valgrind::MemcheckFrame*>(static_cast<valgrind::MemcheckModel*>(model())->itemForIndex(index))) {
-        KUrl doc = frame->url();
-        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow())) {
+        QUrl doc = frame->url();
+        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, frame->line - 1), 0));
         }
     }

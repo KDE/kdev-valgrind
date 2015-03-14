@@ -1,7 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2009 Andreas Pakulat <apaku@gmx.de>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright (C) 2015 Laszlo Kis-Adam
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,46 +17,13 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDCONFIG_H
-#define VALGRINDCONFIG_H
 
-#include <QtCore/QMap>
+#ifndef KDEV_VG_DEBUG_H
+#define KDEV_VG_DEBUG_H
 
-#include <interfaces/ilauncher.h>
-#include <interfaces/ilaunchmode.h>
+#include <QLoggingCategory>
 
-class KJob;
-class QIcon;
-
-namespace KDevelop
-{
-class IProject;
-}
-
-namespace valgrind
-{
-class Plugin;
-
-class LaunchMode : public KDevelop::ILaunchMode
-{
-public:
-    virtual QString tool() const = 0;
-};
-
-class GenericLaunchMode : public LaunchMode
-{
-public:
-    GenericLaunchMode();
-
-    virtual QIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-
-protected:
-    QString m_toolname;
-};
-
-}
+Q_DECLARE_LOGGING_CATEGORY(KDEV_VALGRIND)
 
 #endif
+

@@ -28,6 +28,7 @@
 #include <QBuffer>
 
 #include <kdebug.h>
+#include "debug.h"
 #include <kmessagebox.h>
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>

@@ -23,9 +23,8 @@
 
 #include "widget.h"
 
-#include <KIcon>
-#include <KLocale>
-#include <KDebug>
+#include <kdebug.h>
+#include "debug.h"
 
 #include "plugin.h"
 #include "job.h"
@@ -61,7 +60,7 @@ valgrind::IView * ViewFactoryPrivate::make(valgrind::Model * m)
     if (dynamic_cast<valgrind::CallgrindModel *>(m))
         return new valgrind::CallgrindView();
 
-    kDebug() << "view not yet implemented";
+    qCDebug(KDEV_VALGRIND) << "view not yet implemented";
     return NULL;
 }
 
@@ -69,7 +68,7 @@ Widget::Widget(valgrind::Plugin * plugin, QWidget * parent)
     : QTabWidget(parent)
     , m_plugin(plugin)
 {
-    setWindowIcon(KIcon("fork"));
+    setWindowIcon(QIcon::fromTheme("fork"));
     setWindowTitle(i18n("Valgrind Output"));
 
     setWhatsThis(i18n("<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>"

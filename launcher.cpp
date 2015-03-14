@@ -21,9 +21,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kicon.h>
-#include <klocale.h>
 #include <kdebug.h>
+#include "debug.h"
 #include <kmessagebox.h>
 #include <kconfiggroup.h>
 #include <kparts/mainwindow.h>
@@ -82,7 +81,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         Q_ASSERT(iface);
 
         QList<KJob*> l;
-        KJob* depjob = iface->dependecyJob(cfg);
+        KJob* depjob = iface->dependencyJob(cfg);
         if (depjob) {
             l << depjob;
         }

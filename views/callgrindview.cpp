@@ -27,9 +27,10 @@
 #include <QItemSelectionModel>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-#include <KIO/NetAccess>
+#include "statjob.h"
 
 #include <kdebug.h>
+#include "debug.h"
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
@@ -164,11 +165,11 @@ void CallgrindView::percentInformationClicked(bool enable)
 void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const QItemSelection &d)
 {
     Q_UNUSED(d);
-    kDebug() << "select";
+    qCDebug(KDEV_VALGRIND) << "select";
     CallgrindCallstackItem  *item = static_cast<CallgrindCallstackItem*>(s.indexes().first().internalPointer());
     if (item == NULL)
     {
-        kDebug() << "NULL";
+        qCDebug(KDEV_VALGRIND) << "NULL";
         return;
     }
     int size = ((int) iCachegrindItem::Unknow) - 1;
@@ -176,7 +177,7 @@ void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const 
     {
         if (item->hasKey(i))
         {
-            kDebug() << m_model->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString() <<
+            qCDebug(KDEV_VALGRIND) << m_model->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString() <<
                         item->data((iCachegrindItem::Columns) i).toString();
         }
     }

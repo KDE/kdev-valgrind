@@ -24,9 +24,8 @@
 #include <QXmlStreamReader>
 #include <QApplication>
 #include <kdebug.h>
+#include "debug.h"
 #include <kmessagebox.h>
-#include <klocale.h>
-
 #include "imodel.h"
 #include "iparser.h"
 #include "massifitem.h"

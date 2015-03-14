@@ -24,7 +24,7 @@
 #ifndef _VALGRINDITEMIMPL_H_
 #define _VALGRINDITEMIMPL_H_
 
-#include <KUrl>
+#include <QUrl>
 #include <QHash>
 #include <QList>
 #include <QStack>
@@ -130,7 +130,7 @@ public:
 
     virtual void incomingData(QString name, QString value);
 
-    KUrl url() const;
+    QUrl url() const;
 
     int instructionPointer, line;
     QString obj, fn, dir, file;

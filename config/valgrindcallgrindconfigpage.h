@@ -34,7 +34,7 @@ class ValgrindCallgrindConfigPage : public KDevelop::LaunchConfigurationPage
 public:
   ValgrindCallgrindConfigPage( QWidget * parent = 0 );
   virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
-  virtual KIcon			icon( void ) const;
+  virtual QIcon			icon( void ) const;
   virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;
   virtual QString		title( void ) const;
 

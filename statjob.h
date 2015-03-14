@@ -1,7 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2009 Andreas Pakulat <apaku@gmx.de>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright (C) 2015 Laszlo Kis-Adam
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,46 +17,16 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDCONFIG_H
-#define VALGRINDCONFIG_H
+#ifndef STATJOB_H
+#define STATJOB_H
 
-#include <QtCore/QMap>
+class QUrl;
+class QWidget;
 
-#include <interfaces/ilauncher.h>
-#include <interfaces/ilaunchmode.h>
-
-class KJob;
-class QIcon;
-
-namespace KDevelop
+namespace StatJob
 {
-class IProject;
-}
-
-namespace valgrind
-{
-class Plugin;
-
-class LaunchMode : public KDevelop::ILaunchMode
-{
-public:
-    virtual QString tool() const = 0;
-};
-
-class GenericLaunchMode : public LaunchMode
-{
-public:
-    GenericLaunchMode();
-
-    virtual QIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
-
-protected:
-    QString m_toolname;
-};
-
+    bool jobExists(const QUrl& url, QWidget* parent);
 }
 
 #endif
+

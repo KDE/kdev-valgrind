@@ -52,7 +52,7 @@ bool CachegrindParser::parseRootModel(const QString &buffer)
         }
         else
         {
-            kDebug() << "Error : " << m_headersList[i] << " unknow header";
+            qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
             return false;
         }
     }
@@ -161,7 +161,7 @@ void CachegrindParser::parse()
                 //13 is 'Events shown:' size;
                 if (!parseRootModel(buffer.mid(13, buffer.length() - 13)))
                 {
-                    kDebug() << "Input stream is misformated, cannot build the tree";
+                    qCDebug(KDEV_VALGRIND) << "Input stream is misformated, cannot build the tree";
                     return ;
                 }
                 parserState = ParseProgramTotalHeader;

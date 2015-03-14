@@ -25,9 +25,10 @@
 
 #include <QApplication>
 
-#include <KIO/NetAccess>
+#include "statjob.h"
 
 #include <kdebug.h>
+#include "debug.h"
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
@@ -55,7 +56,7 @@ valgrind::Model * CachegrindView::model(void)
 
 void CachegrindView::MousePressEvent(QMouseEvent *event)
 {
-  kDebug() << "Mouse pressed...";
+  qCDebug(KDEV_VALGRIND) << "Mouse pressed...";
   //QWidget::mousePressEvent(event);
 }
 
@@ -63,8 +64,8 @@ void CachegrindView::openDocument(const QModelIndex & index)
 {
     if (valgrind::CachegrindItem* frame = dynamic_cast<valgrind::CachegrindItem*>(static_cast<valgrind::CachegrindModel*>(model())->itemForIndex(index)))
     {
-        KUrl doc = frame->url();
-        if (doc.isValid() && KIO::NetAccess::exists(doc, KIO::NetAccess::SourceSide, qApp->activeWindow()))
+        QUrl doc = frame->url();
+        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow()))
         {
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, 0), 0));
         }

@@ -24,6 +24,8 @@
 
 #include "ui_memcheckconfig.h"
 
+#include <KConfigGroup>
+
 namespace valgrind
 {
 
@@ -58,9 +60,9 @@ MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     */
 }
 
-KIcon MemcheckConfigPage::icon() const
+QIcon MemcheckConfigPage::icon() const
 {
-    return KIcon("fork");
+    return QIcon::fromTheme("fork");
 }
 
 void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
