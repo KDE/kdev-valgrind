@@ -101,7 +101,8 @@ public:
 
     virtual void incomingData(QString name, QString value);
 
-    QString what() const;
+    QString what() const{ return m_what; }
+    void setWhat(const QString &what){ m_what = what; }
 
     MemcheckFrame *addFrame();
 
@@ -112,6 +113,9 @@ public:
 private:
     QList<MemcheckFrame*> m_frames;
     MemcheckError* m_parent;
+
+    // What is this stack about?
+    QString m_what;
 };
 
 /**

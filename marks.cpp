@@ -60,24 +60,35 @@ void Marks::modelChanged()
     for (int i = 0; i < docList.size(); ++i)
         if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
             iface->clearMarks();
-    // errors
+
     QModelIndex parentIndex = QModelIndex();
     QAbstractItemModel *itemModel = m_model->getQAbstractItemModel();
+
+    // errors
     int numRows = itemModel->rowCount();
     for (int row = 0; row < numRows; ++row) {
         QModelIndex index = itemModel->index(row, 0, parentIndex);
+
+        // stacks
         int numRows2 = itemModel->rowCount(index);
         for (int row2 = 0; row2 < numRows2; ++row2) {
             QModelIndex index2 = itemModel->index(row2, 0, index);
-            QString text = itemModel->data(index2, Qt::UserRole).toString();
-            if (!text.isEmpty()) {
-                QString delimiterPattern(":");
-                QStringList fileInfo = text.split(delimiterPattern);
-                if (fileInfo.size() == 2)
-                    for (int i = 0; i < docList.size(); ++i)
-                        if (docList.at(i)->documentName() == fileInfo[0])
-                            if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
-                                iface->addMark(fileInfo[1].toInt() - 1, KTextEditor::MarkInterface::markType07);
+
+            // frames
+            int numRows3 =itemModel->rowCount(index2);
+            for (int row3 = 0; row3 < numRows3; ++row3) {
+                QModelIndex index3 = itemModel->index(row3, 0, index2);
+
+                QString text = itemModel->data(index3, Qt::UserRole).toString();
+                if (!text.isEmpty()) {
+                    QString delimiterPattern(":");
+                    QStringList fileInfo = text.split(delimiterPattern);
+                    if (fileInfo.size() == 2)
+                        for (int i = 0; i < docList.size(); ++i)
+                            if (docList.at(i)->documentName() == fileInfo[0])
+                                if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
+                                    iface->addMark(fileInfo[1].toInt() - 1, KTextEditor::MarkInterface::markType07);
+                }
             }
         }
     }

@@ -111,7 +111,18 @@ void MemcheckError::setKind(const QString& s)
 MemcheckStack *MemcheckError::addStack()
 {
     m_stack << new MemcheckStack(this);
-    return m_stack.back();
+    MemcheckStack *stack = m_stack.back();
+
+    if (m_stack.count() == 1) {
+        if (!this->what.isEmpty())
+            stack->setWhat(this->what + " at:");
+        else
+            stack->setWhat(this->text + " at:");
+    } else {
+        stack->setWhat(this->auxWhat + " at:");
+    }
+
+    return stack;
 }
 
 MemcheckStack *MemcheckError::lastStack() const
@@ -125,11 +136,6 @@ const QList<MemcheckStack *> &MemcheckError::getStack() const
 }
 
 ////////////////////////
-
-QString MemcheckStack::what() const
-{
-    return "In valgrindstack what";
-}
 
 MemcheckStack::MemcheckStack(MemcheckError *parent)
     : m_parent(parent)

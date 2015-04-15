@@ -188,18 +188,13 @@ QModelIndex MemcheckModel::index(int row, int column, const QModelIndex & p) con
             return createIndex(row, column, m_errors.at(row));
 
     } else if (MemcheckError* e = dynamic_cast<MemcheckError*>(parent)) {
-        int r2 = row;
-
-        foreach(MemcheckStack * stack, e->getStack()) {
-            if (row < stack->getFrames().size())
-                return createIndex(row, column, stack->getFrames().at(row));
-            r2 -= stack->getFrames().count();
-        }
+        if(row < e->getStack().count())
+            return createIndex(row, column, e->getStack().at(row));
     }
-    // } else if (MemcheckStack* s = dynamic_cast<MemcheckStack*>(parent)) {
-    //     if (row < s->frames.count())
-    //         return createIndex(row, column, s->frames[row]);
-    // }
+    else if (MemcheckStack* s = dynamic_cast<MemcheckStack*>(parent)) {
+         if (row < s->getFrames().count())
+             return createIndex(row, column, s->getFrames().at(row));
+    }
     return QModelIndex();
 }
 
@@ -223,11 +218,12 @@ int MemcheckModel::rowCount(const QModelIndex & p) const
     MemcheckItem* parent = itemForIndex(p);
 
     if (MemcheckError* e = dynamic_cast<MemcheckError*>(parent)) {
-        int ret = 0;
-        foreach(const MemcheckStack * stack, e->getStack())
-        ret += stack->getFrames().count();
-        return ret;
+        return e->getStack().count();
     }
+    else if (MemcheckStack* stack = dynamic_cast<MemcheckStack*>(parent)) {
+        return stack->getFrames().count();
+    }
+
     return 0;
 }
 
@@ -237,14 +233,9 @@ QModelIndex MemcheckModel::indexForItem(MemcheckItem* item, int column) const
 
     if (MemcheckError* e = dynamic_cast<MemcheckError*>(item))
         index = e->parent()->m_errors.indexOf(e);
-    else if (MemcheckStack* s = dynamic_cast<MemcheckStack*>(item))
-        if (s == s->parent()->lastStack())
-            return indexForItem(s->parent());
-        else if (s->parent()->getStack().count())
-            index = s->parent()->lastStack()->getFrames().count();
-        else
-            index = 0;
-    else if (MemcheckFrame* f = dynamic_cast<MemcheckFrame*>(item))
+    else if (MemcheckStack* s = dynamic_cast<MemcheckStack*>(item)) {
+        index = s->parent()->getStack().indexOf(s);
+    } else if (MemcheckFrame* f = dynamic_cast<MemcheckFrame*>(item))
         index = f->parent()->getFrames().indexOf(f);
     if (index != -1)
         return createIndex(index, column, item);
