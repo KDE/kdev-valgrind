@@ -32,6 +32,7 @@ CallgrindCallstackItem::CallgrindCallstackItem(CallgrindCallstackFunction *funct
 {
     Q_ASSERT(function);
     m_csFunction = function;
+    m_numCalls = 0;
 }
 
 void  CallgrindCallstackItem::addChild(CallgrindCsItem *child)
@@ -114,6 +115,8 @@ QVariant  CallgrindCallstackItem::data(iCachegrindItem::Columns key, numberDispl
         return this->m_csFunction->getFilename();
     case iCachegrindItem::CallName:
         return this->m_csFunction->getFunctionName();
+    case iCachegrindItem::NumberOfCalls:
+        return m_numCalls;
     default:
         return (this->getNumericValue(key, disp));
     }

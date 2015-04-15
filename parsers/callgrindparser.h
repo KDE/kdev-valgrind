@@ -67,6 +67,10 @@ private:
     QString                 m_programTotalStr;
     QStringList             m_headersList;
 
+    // Temporary storage for the number of calls
+    // of a function that's being parsed
+    int                     m_numCalls;
+
     CallgrindCallstackItem          *m_totalCountItem;
 
     QList<CallgrindCallstackItem*>  m_allFunctions;

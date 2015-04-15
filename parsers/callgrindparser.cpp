@@ -29,9 +29,10 @@
 namespace valgrind
 {
 
-CallgrindParser::CallgrindParser(QObject *parent)
+CallgrindParser::CallgrindParser(QObject *parent) :
+Parser( parent ),
+m_numCalls(0)
 {
-    Q_UNUSED(parent);
 }
 
 CallgrindParser::~CallgrindParser()
@@ -68,6 +69,23 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
     int             i;
     QList<QString>  dataList;
 
+    int numCalls = 0;
+
+    // Find if we have the number of calls
+    // sample:  /some/path/somefile:somefunction() (666x)
+    // where 666 is the number of calls
+    int idx = buffer.lastIndexOf('(');
+    if (idx != -1) {
+        int idx2 = buffer.indexOf("x)", idx); // lastIndexOf somehow returns -1 here
+        if (idx2 != -1) {
+            // Grab the number of calls
+            // Example:
+            // (666x) => 666
+            QString sNumCalls = buffer.mid(idx + 1, idx2 - idx - 1);
+            numCalls = sNumCalls.toInt();
+        }
+    }
+
     iBegin = iEnd = 0;
     for (i = 0; i < m_headersList.size(); ++i)
     {
@@ -92,6 +110,8 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
             csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
             switch (symbol)
             {
+
+            // The function itself
             case '*':
             {
                 if (m_caller.size() > 0)
@@ -103,16 +123,28 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
                     }
                     m_caller.clear();
                 }
+
+                csItem->setNumCalls(m_numCalls);
+
+                m_numCalls = 0;
                 m_allFunctions.push_back(csItem);
                 m_lastCall = csItem;
                 emit newItem(csItem);
                 break;
             }
+
+            // a caller
             case '<':
             {
                 m_caller.append(csItem);
+
+                // Only add the number of calls here,
+                // since the total number of calls, is the sum of calls from callers
+                m_numCalls += numCalls;
                 break;
             }
+
+            // a called function
             case '>':
             {
                 m_lastCall->addChild(csItem);

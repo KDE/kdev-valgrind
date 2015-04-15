@@ -76,8 +76,12 @@ public:
     QVariant                  data(iCachegrindItem::Columns col, numberDisplayMode disp = E_NORMAL) const;
     CallgrindCallstackFunction *getCsFunction() const;
     //const QString&            getFullDescName() const { return m_fullDescName; }
+    int                         getNumCalls() const { return m_numCalls; }
+    void                        setNumCalls(int calls) { m_numCalls = calls; }
 
 private:
+    // The number of calls for this function
+    int m_numCalls;
     QMap<int, int>             m_numericValue;
 
     CallgrindCallstackItem    *getTotalCountItem() const;

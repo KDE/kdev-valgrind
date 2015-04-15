@@ -52,6 +52,7 @@ public:
         ConditionnalBranchMisprediced,//Bcm
         IndirectBranchExecuted,//Bi
         IndirectBranchMispredicted,//Bim
+        NumberOfCalls,
 
         Unknow
     };

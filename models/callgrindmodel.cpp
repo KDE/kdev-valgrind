@@ -124,6 +124,8 @@ QVariant CallgrindModel::headerData(int section, Qt::Orientation orientation, in
             return i18n("Bi (Indirect branches executed)");
         case iCachegrindItem::IndirectBranchMispredicted:
             return i18n("Bim (indirect branches mispredicted)");
+        case iCachegrindItem::NumberOfCalls:
+            return i18n("Number of calls");
         case iCachegrindItem::Unknow:
             return i18n("???");
         }
@@ -192,7 +194,8 @@ int CallgrindFunctionsListTModel::rowCount(const QModelIndex &parent) const
 int CallgrindFunctionsListTModel::columnCount(const QModelIndex &parent) const
 {
     if (!parent.isValid())
-        return 3;
+        // Call name, incl., IR, Number of calls
+        return 4;
     return 0;
 }
 
@@ -324,6 +327,8 @@ iCachegrindItem::Columns   CallgrindFunctionsListTModel::columnToPosInModelList(
         return iCachegrindItem::InstructionRead;
     case 2:
         return iCachegrindItem::InstructionRead;
+    case 3:
+        return iCachegrindItem::NumberOfCalls;
     default:
         return iCachegrindItem::Unknow;
     }
