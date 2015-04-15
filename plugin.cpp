@@ -58,7 +58,7 @@
 
 using namespace KDevelop;
 
-K_PLUGIN_FACTORY(ValgrindFactory, registerPlugin<valgrind::Plugin>();)
+K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin<valgrind::Plugin>();)
 
 namespace valgrind
 {
