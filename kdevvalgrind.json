@@ -52,6 +52,7 @@
         "License": "GPL", 
         "Name": "Valgrind Support", 
         "Name[ca]": "Implementació per a valgrind", 
+        "Name[cs]": "Podpora pro Valgrind", 
         "Name[es]": "Implementación de Valgrind", 
         "Name[gl]": "Integración de Valgrind", 
         "Name[nl]": "Ondersteuning voor Valgrind", 
