@@ -322,4 +322,3 @@ void MemcheckModel::newItem(valgrind::ModelItem *)
 }
 }
 
-#include "memcheckmodel.moc"

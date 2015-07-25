@@ -64,4 +64,3 @@ void MemcheckView::openDocument(const QModelIndex & index)
 
 }
 
-#include "memcheckview.moc"

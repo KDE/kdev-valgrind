@@ -193,4 +193,3 @@ void CachegrindParser::parse()
 }
 }
 
-#include "cachegrindparser.moc"

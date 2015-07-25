@@ -200,4 +200,3 @@ CachegrindItem* CachegrindModel::itemForIndex(const QModelIndex& index) const
 }
 }
 
-#include "cachegrindmodel.moc"

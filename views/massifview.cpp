@@ -64,4 +64,3 @@ void MassifView::openDocument(const QModelIndex & index)
 
 }
 
-#include "massifview.moc"

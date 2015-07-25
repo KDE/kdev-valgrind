@@ -77,4 +77,3 @@ void ModelWrapper::reset()
 }
 }
 
-#include "modelwrapper.moc"

@@ -262,4 +262,3 @@ void CallgrindParser::parse()
 }
 }
 
-#include "callgrindparser.moc"

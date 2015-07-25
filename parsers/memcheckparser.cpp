@@ -135,4 +135,3 @@ void MemcheckParser::parse()
 
 }
 
-#include "memcheckparser.moc"

@@ -73,4 +73,3 @@ void CachegrindView::openDocument(const QModelIndex & index)
 }
 }
 
-#include "cachegrindview.moc"

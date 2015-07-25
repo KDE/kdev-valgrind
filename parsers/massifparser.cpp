@@ -68,4 +68,3 @@ void MassifParser::parse()
     emit newItem(NULL);
 }
 }
-#include "massifparser.moc"

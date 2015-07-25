@@ -110,4 +110,3 @@ void MemcheckJob::socketError(QAbstractSocket::SocketError)
 
 }
 
-#include "memcheckjob.moc"

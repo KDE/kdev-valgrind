@@ -154,4 +154,3 @@ void Widget::resizeEvent( QResizeEvent *event )
 
 }
 
-#include "widget.moc"

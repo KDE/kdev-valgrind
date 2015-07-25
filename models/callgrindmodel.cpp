@@ -343,4 +343,3 @@ CallgrindCallstackItem::numberDisplayMode CallgrindFunctionsListTModel::columnTo
 
 }
 
-#include "callgrindmodel.moc"

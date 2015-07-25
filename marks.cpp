@@ -96,4 +96,3 @@ void Marks::modelChanged()
 
 }
 
-#include "marks.moc"

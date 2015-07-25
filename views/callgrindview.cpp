@@ -198,4 +198,3 @@ void CallgrindView::WidgetContainerResizeEvent( QResizeEvent *event )
 
 }
 
-#include "callgrindview.moc"

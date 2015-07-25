@@ -521,4 +521,3 @@ void QFileProxyRemove::prEnded(int exitCode, QProcess::ExitStatus status)
 }
 
 
-#include "job.moc"
