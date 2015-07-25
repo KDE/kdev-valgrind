@@ -48,7 +48,7 @@ set(kdevvalgrind_PART_SRCS
     widget.cpp
     models/massifitem.cpp
     models/massifmodel.cpp
-    models/memcheckmodel.cpp
+    models/memcheckfakemodel.cpp
     models/memcheckitemsimpl.cpp
     models/icachegrinditem.cpp
     models/cachegrindmodel.cpp
@@ -66,7 +66,6 @@ set(kdevvalgrind_PART_SRCS
     jobs/cachegrindjob.cpp
     jobs/callgrindjob.cpp
     views/massifview.cpp
-    views/memcheckview.cpp
     views/cachegrindview.cpp
     views/callgrindview.cpp
     views/cachegrindview.cpp
@@ -100,6 +99,7 @@ target_link_libraries(kdevvalgrind
     KDev::Project
     KDev::Language
     KDev::OutputView
+    KDev::Shell
     KF5::ConfigCore
     KF5::IconThemes
     KF5::KIOCore

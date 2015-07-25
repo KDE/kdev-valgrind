@@ -30,8 +30,7 @@
 #include <QStack>
 #include <QSortFilterProxyModel>
 #include <QStringList>
-
-#include "memcheckmodel.h"
+#include "./memcheckitems.h"
 
 namespace valgrind
 {
@@ -44,11 +43,9 @@ class MemcheckError : public MemcheckItem
 
 public:
 
-    MemcheckError(valgrind::MemcheckModel* parent);
+    MemcheckError();
 
     virtual ~MemcheckError();
-
-    virtual MemcheckModel* parent() const;
 
     MemcheckStack *addStack();
 
@@ -87,7 +84,6 @@ public:
 
 private:
     QList<MemcheckStack *> m_stack;
-    MemcheckModel* m_parent;
 };
 
 class MemcheckStack : public MemcheckItem

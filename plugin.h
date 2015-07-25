@@ -37,6 +37,7 @@ class QTreeView;
 namespace KDevelop
 {
 class ILaunchConfiguration;
+class ProblemModel;
 }
 
 namespace valgrind
@@ -70,6 +71,7 @@ private:
             m_lastCtExec, m_lastCtParams, m_lastKcExec;
     valgrind::WidgetFactory *m_factory;
     valgrind::Marks         *m_marks;
+    QScopedPointer<KDevelop::ProblemModel> m_model;
 };
 }
 

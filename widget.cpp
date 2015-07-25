@@ -29,11 +29,9 @@
 #include "plugin.h"
 #include "job.h"
 #include "imodel.h"
-#include "memcheckview.h"
 #include "cachegrindview.h"
 #include "callgrindview.h"
 #include "massifview.h"
-#include "memcheckmodel.h"
 #include "massifmodel.h"
 #include "cachegrindmodel.h"
 #include "callgrindmodel.h"
@@ -51,8 +49,6 @@ public:
 
 valgrind::IView * ViewFactoryPrivate::make(valgrind::Model * m)
 {
-    if (dynamic_cast<valgrind::MemcheckModel *>(m))
-        return new valgrind::MemcheckView();
     if (dynamic_cast<valgrind::MassifModel *>(m))
         return new valgrind::MassifView();
     if (dynamic_cast<valgrind::CachegrindModel *>(m))
@@ -99,6 +95,8 @@ void Widget::newModel(valgrind::Model * model)
     if (job)
     {
         valgrind::IView * w = ViewFactoryPrivate::make(model);
+        if(!w)
+            return;
 
         w->setModel(model);
         connect(job, SIGNAL(updateTabText(valgrind::Model *, const QString &)),

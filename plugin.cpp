@@ -45,10 +45,13 @@
 #include <interfaces/iruncontroller.h>
 #include <interfaces/launchconfigurationtype.h>
 #include <interfaces/iplugincontroller.h>
+#include <interfaces/ilanguagecontroller.h>
+
+#include <shell/problemmodelset.h>
+#include <shell/problemmodel.h>
 
 #include "plugin.h"
 #include "marks.h"
-#include "memcheckmodel.h"
 #include "job.h"
 #include "config.h"
 #include "widget.h"
@@ -90,6 +93,7 @@ Plugin::Plugin(QObject *parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
     , m_factory(new valgrind::WidgetFactory(this))
     , m_marks(new valgrind::Marks(this))
+    , m_model(new ProblemModel(parent))
 {
 
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
@@ -119,11 +123,15 @@ Plugin::Plugin(QObject *parent, const QVariantList&)
     Q_ASSERT(type);
     type->addLauncher(launcher);
 
+    KDevelop::ProblemModelSet *pms = core()->languageController()->problemModelSet();
+    pms->addModel(QStringLiteral("Valgrind"), m_model.data());
 }
 
 void Plugin::unload()
 {
     core()->uiController()->removeToolView(m_factory);
+    KDevelop::ProblemModelSet *pms = core()->languageController()->problemModelSet();
+    pms->removeModel(QStringLiteral("Valgrind"));
 }
 
 void Plugin::incomingModel(valgrind::Model *model)

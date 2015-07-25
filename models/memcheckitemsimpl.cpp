@@ -22,7 +22,6 @@
 */
 
 #include "memcheckitemsimpl.h"
-#include "memcheckmodel.h"
 
 #include <kdebug.h>
 #include "debug.h"
@@ -35,18 +34,12 @@
 namespace valgrind
 {
 
-MemcheckError::MemcheckError(valgrind::MemcheckModel* parent)
-    : m_parent(parent)
+MemcheckError::MemcheckError()
 {
 }
 
 MemcheckError::~MemcheckError()
 {
-}
-
-MemcheckModel* MemcheckError::parent() const
-{
-    return m_parent;
 }
 
 void MemcheckError::incomingData(QString name, QString value)
@@ -157,9 +150,6 @@ void MemcheckStack::incomingData(QString name, QString value)
     Q_UNUSED(value)
     if (name == "frame") {
         qDebug() << "MemcheckStack::incomingData() Imcoming data with frame name error";
-        // if (this == this->parent()->stack)
-        //     m_model->insertIntoTree(MemcheckModel::stack);
-        //this->frames.append(m_model->m_frame);
     }
 }
 

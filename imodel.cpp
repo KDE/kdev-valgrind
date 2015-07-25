@@ -29,6 +29,12 @@ Model::Model()
     m_modelWrapper = NULL;
 }
 
+QAbstractItemModel* Model::getQAbstractItemModel(int n)
+{
+    Q_UNUSED(n);
+    return nullptr;
+}
+
 void Model::setModelWrapper(ModelWrapper *mdl)
 {
     m_modelWrapper = mdl;

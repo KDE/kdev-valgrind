@@ -55,11 +55,11 @@ public:
         stack
     };
 
-    virtual QAbstractItemModel  *getQAbstractItemModel(int n = 0) = 0;
+    virtual QAbstractItemModel  *getQAbstractItemModel(int n = 0);
 
     virtual void newElement(valgrind::Model::eElementType) {}
     virtual void newItem(ModelItem *) {}
-    virtual void newData(valgrind::Model::eElementType, QString, QString ) {}
+    virtual void newData(valgrind::Model::eElementType, const QString&, const QString& ) {}
     virtual void reset() {};
 
     void          setModelWrapper(ModelWrapper *mdlw);

@@ -47,7 +47,7 @@
 #include <execute/iexecuteplugin.h>
 #include <assert.h>
 
-#include "memcheckmodel.h"
+#include "memcheckfakemodel.h"
 #include "memcheckparser.h"
 #include "memcheckjob.h"
 
@@ -85,7 +85,7 @@ void ModelParserFactoryPrivate::make(const QString &tool, valgrind::Model* &m_mo
     ModelWrapper *modelWrapper = NULL;
     if (tool == "memcheck")
     {
-        m_model = new valgrind::MemcheckModel();
+        m_model = new valgrind::MemcheckFakeModel();
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new valgrind::MemcheckParser();
         QObject::connect(m_parser, SIGNAL(newElement(valgrind::Model::eElementType)),

@@ -25,11 +25,11 @@
 
 #include <QXmlStreamReader>
 #include <QApplication>
+#include <QStack>
 #include <kdebug.h>
 #include "debug.h"
 #include <kmessagebox.h>
 #include "memcheckitems.h"
-#include "memcheckmodel.h"
 
 #include "iparser.h"
 

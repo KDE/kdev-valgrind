@@ -25,7 +25,6 @@
 #include <QAbstractItemModel>
 
 #include "marks.h"
-#include "memcheckmodel.h"
 #include "plugin.h"
 #include "modelwrapper.h"
 
@@ -63,6 +62,8 @@ void Marks::modelChanged()
 
     QModelIndex parentIndex = QModelIndex();
     QAbstractItemModel *itemModel = m_model->getQAbstractItemModel();
+    if(!itemModel)
+        return;
 
     // errors
     int numRows = itemModel->rowCount();
