@@ -24,8 +24,9 @@
 #include "widget.h"
 
 #include <kdebug.h>
-#include "debug.h"
+#include <klocalizedstring.h>
 
+#include "debug.h"
 #include "plugin.h"
 #include "job.h"
 #include "imodel.h"

@@ -21,8 +21,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kdebug.h>
 #include "debug.h"
+
+#include <kdebug.h>
+#include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <kconfiggroup.h>
 #include <kparts/mainwindow.h>

@@ -25,14 +25,17 @@
 
 #include "job.h"
 
+#include "debug.h"
+
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
 #include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>
 
+#include <kconfiggroup.h>
 #include <kdebug.h>
-#include "debug.h"
+#include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <KProcess>
 #include <kshell.h>

@@ -20,20 +20,23 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include "cachegrindjob.h"
+
+#include "debug.h"
+
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QApplication>
 #include <KProcess>
 
+#include <kconfiggroup.h>
 #include <kdebug.h>
-#include "debug.h"
+#include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/ilaunchconfiguration.h>
 #include <interfaces/iplugincontroller.h>
-
-#include "cachegrindjob.h"
 
 namespace valgrind
 {

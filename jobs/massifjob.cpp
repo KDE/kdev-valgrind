@@ -20,18 +20,21 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include "massifjob.h"
+
+#include "debug.h"
+
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <KProcess>
+#include <kconfiggroup.h>
 #include <kdebug.h>
-#include "debug.h"
+#include <klocalizedstring.h>
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/ilaunchconfiguration.h>
 #include <interfaces/iplugincontroller.h>
-
-#include "massifjob.h"
 
 namespace valgrind
 {

@@ -17,6 +17,7 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include <kconfiggroup.h>
 #include <kdebug.h>
 #include "debug.h"
 #include "genericconfigpage.h"
