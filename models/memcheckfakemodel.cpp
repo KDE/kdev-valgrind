@@ -37,14 +37,7 @@ MemcheckFakeModel::MemcheckFakeModel()
     : m_model(nullptr)
 {
     ProblemModelSet *modelSet = ICore::self()->languageController()->problemModelSet();
-    QVector<ModelData> models = modelSet->models();
-
-    foreach (const ModelData &data, models) {
-        if (data.name == QLatin1String("Valgrind")) {
-            m_model = dynamic_cast<ProblemModel*>(data.model);
-            break;
-        }
-    }
+    m_model = modelSet->findModel(QStringLiteral("Valgrind"));
 
     Q_ASSERT(m_model != nullptr);
     m_model->clearProblems();
