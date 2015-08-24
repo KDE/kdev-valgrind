@@ -1,5 +1,5 @@
 /* This file is part of KDevelop
- * Copyright (C) 2015 Laszlo Kis-Adam
+ * Copyright (C) 2015 Laszlo Kis-Adam <laszlo.kis-adam@kdemail.net>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
