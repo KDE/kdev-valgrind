@@ -35,6 +35,7 @@
             }
         ], 
         "Description": "Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/", 
+        "Description[ca@valencia]": "Valgrind és una eina que vos ajudarà a trobar problemes en la gestió de la memòria en els programes. http://www.valgrind.org/", 
         "Description[ca]": "Valgrind és una eina que us ajudarà a trobar problemes en la gestió de la memòria en els programes. http://www.valgrind.org/", 
         "Description[de]": "Valgrind ist ein Werkzeug, das Ihnen hilft, Speicherverwaltungsprobleme in Programmen zu finden. http://www.valgrind.org/", 
         "Description[es]": "Valgrind es una herramienta que le ayuda a encontrar problemas de gestión de memoria en los programas. http://www.valgrind.org/", 
@@ -54,6 +55,7 @@
         "Id": "kdevvalgrind", 
         "License": "GPL", 
         "Name": "Valgrind Support", 
+        "Name[ca@valencia]": "Implementació per a valgrind", 
         "Name[ca]": "Implementació per a valgrind", 
         "Name[cs]": "Podpora pro Valgrind", 
         "Name[de]": "Unterstützung für Valgrind", 
