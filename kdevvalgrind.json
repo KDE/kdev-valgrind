@@ -55,6 +55,7 @@
         "Id": "kdevvalgrind", 
         "License": "GPL", 
         "Name": "Valgrind Support", 
+        "Name[ast]": "Sofitu de Valgrind", 
         "Name[ca@valencia]": "Implementació del valgrind", 
         "Name[ca]": "Implementació del valgrind", 
         "Name[cs]": "Podpora pro Valgrind", 
