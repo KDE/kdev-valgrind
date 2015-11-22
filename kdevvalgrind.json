@@ -35,6 +35,7 @@
             }
         ], 
         "Description": "Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/", 
+        "Description[ast]": "Valgrind ye una ferramienta que t'ayuda a alcontrar problemes de xestión de memoria nos programes. http://www.valgrind.org/", 
         "Description[ca@valencia]": "El Valgrind és una eina que vos ajudarà a trobar problemes en la gestió de la memòria en els programes. http://www.valgrind.org/", 
         "Description[ca]": "El Valgrind és una eina que us ajudarà a trobar problemes en la gestió de la memòria en els programes. http://www.valgrind.org/", 
         "Description[de]": "Valgrind ist ein Werkzeug, das Ihnen hilft, Speicherverwaltungsprobleme in Programmen zu finden. http://www.valgrind.org/", 
