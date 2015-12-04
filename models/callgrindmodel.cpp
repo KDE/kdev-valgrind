@@ -24,7 +24,6 @@
 
 #include <QApplication>
 
-#include <kdebug.h>
 #include "debug.h"
 #include <kmessagebox.h>
 #include <kglobalsettings.h>

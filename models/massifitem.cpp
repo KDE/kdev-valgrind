@@ -19,7 +19,7 @@
 */
 
 #include "massifitem.h"
-#include <QDebug>
+#include "debug.h"
 #include <QDir>
 
 namespace valgrind

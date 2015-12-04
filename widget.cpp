@@ -23,7 +23,7 @@
 
 #include "widget.h"
 
-#include <kdebug.h>
+#include "debug.h"
 #include <klocalizedstring.h>
 
 #include "debug.h"

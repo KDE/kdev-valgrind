@@ -23,7 +23,7 @@
 
 #include "debug.h"
 
-#include <kdebug.h>
+#include "debug.h"
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <kconfiggroup.h>
@@ -90,7 +90,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         l << valgrind::Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
         return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), l);
     }
-    kWarning() << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
+    qCWarning(KDEV_VALGRIND) << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
     return 0;
 }
 

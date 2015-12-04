@@ -27,7 +27,6 @@
 
 #include "statjob.h"
 
-#include <kdebug.h>
 #include "debug.h"
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>

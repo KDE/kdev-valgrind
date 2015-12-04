@@ -23,7 +23,6 @@
 
 #include "memcheckitemsimpl.h"
 
-#include <kdebug.h>
 #include "debug.h"
 
 #include <QDir>
@@ -149,7 +148,7 @@ void MemcheckStack::incomingData(QString name, QString value)
 {
     Q_UNUSED(value)
     if (name == "frame") {
-        qDebug() << "MemcheckStack::incomingData() Imcoming data with frame name error";
+        qCDebug(KDEV_VALGRIND) << "MemcheckStack::incomingData() Imcoming data with frame name error";
     }
 }
 

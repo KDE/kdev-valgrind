@@ -30,7 +30,7 @@
 #include <KProcess>
 
 #include <kconfiggroup.h>
-#include <kdebug.h>
+#include "debug.h"
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <execute/iexecuteplugin.h>

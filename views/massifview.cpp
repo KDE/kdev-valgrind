@@ -24,7 +24,6 @@
 #include <QApplication>
 #include <QString>
 
-#include <kdebug.h>
 #include "debug.h"
 
 #include <interfaces/icore.h>

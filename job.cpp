@@ -34,7 +34,7 @@
 #include <QFileInfo>
 
 #include <kconfiggroup.h>
-#include <kdebug.h>
+#include "debug.h"
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <KProcess>
@@ -280,7 +280,7 @@ void Job::start()
 
     if (envgrp.isEmpty())
     {
-        kWarning() << i18n("No environment group specified, looks like a broken "
+        qCWarning(KDEV_VALGRIND) << i18n("No environment group specified, looks like a broken "
                            "configuration, please check run configuration '%1'. "
                            "Using default environment group.", m_launchcfg->name());
         envgrp = l.defaultGroup();
@@ -387,7 +387,7 @@ void Job::processErrored(QProcess::ProcessError e)
 
 void Job::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    qDebug() << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
+    qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
     QString tabname = i18n("job finished (pid=%1,exit=%2)", m_pid, exitCode);
 

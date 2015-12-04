@@ -20,8 +20,6 @@
 */
 
 #include "callgrinditem.h"
-#include <QDebug>
-#include <kdebug.h>
 #include "debug.h"
 
 

@@ -20,7 +20,6 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kdebug.h>
 #include "debug.h"
 #include <klocalizedstring.h>
 #include "memcheckparser.h"

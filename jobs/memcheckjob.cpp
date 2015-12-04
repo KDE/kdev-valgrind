@@ -22,7 +22,6 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <kdebug.h>
 #include "debug.h"
 #include <KLocalizedString>
 
@@ -52,7 +51,7 @@ void MemcheckJob::beforeStart()
     if (!m_server) {
         m_server = new QTcpServer(this);
         if (!m_server->listen()) {
-            kWarning() << "Could not open TCP socket for communication with Valgrind: "
+            qCWarning(KDEV_VALGRIND) << "Could not open TCP socket for communication with Valgrind: "
                        << m_server->errorString();
             delete m_server;
             m_server = 0;
@@ -86,7 +85,7 @@ void MemcheckJob::newValgrindConnection()
         return;
 
     if (m_connection) {
-        kWarning() << "Got a new valgrind connection while old one was still alive!";
+        qCWarning(KDEV_VALGRIND) << "Got a new valgrind connection while old one was still alive!";
         delete sock; // discard new connection
     } else {
         m_connection = sock;
@@ -103,7 +102,7 @@ void MemcheckJob::socketError(QAbstractSocket::SocketError)
 {
     Q_ASSERT(m_connection);
 
-    kWarning() << i18n("Socket error while communicating with valgrind: \"%1\"", m_connection->errorString()) <<
+    qCWarning(KDEV_VALGRIND) << i18n("Socket error while communicating with valgrind: \"%1\"", m_connection->errorString()) <<
                i18n("Valgrind communication error");
 }
 

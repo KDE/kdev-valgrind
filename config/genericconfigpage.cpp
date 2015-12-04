@@ -18,7 +18,6 @@
 */
 
 #include <kconfiggroup.h>
-#include <kdebug.h>
 #include "debug.h"
 #include "genericconfigpage.h"
 #include "plugin.h"
