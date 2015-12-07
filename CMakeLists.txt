@@ -15,6 +15,7 @@ include(ECMAddTests)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
+include(FeatureSummary)
 
 find_package(Qt5 REQUIRED Core Widgets)
 find_package(KF5 REQUIRED COMPONENTS KDELibs4Support TextEditor ThreadWeaver)
@@ -117,4 +118,4 @@ install(TARGETS kdevvalgrind DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 install( FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind )
 
-
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
