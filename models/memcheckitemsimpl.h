@@ -27,9 +27,6 @@
 #include <QUrl>
 #include <QHash>
 #include <QList>
-#include <QStack>
-#include <QSortFilterProxyModel>
-#include <QStringList>
 #include "./memcheckitems.h"
 
 namespace valgrind

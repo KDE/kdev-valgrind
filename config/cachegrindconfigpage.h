@@ -20,7 +20,6 @@
 #ifndef VALGRINDCACHEGRINDCONFIGPAGE_H_
 #define VALGRINDCACHEGRINDCONFIGPAGE_H_
 
-#include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
 

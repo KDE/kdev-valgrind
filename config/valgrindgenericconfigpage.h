@@ -21,7 +21,6 @@
 #ifndef VALGRINDGENERICCONFIGPAGE_H_
 #define VALGRINDGENERICCONFIGPAGE_H_
 
-#include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
 class ValgrindPlugin;

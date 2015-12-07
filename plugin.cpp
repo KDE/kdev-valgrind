@@ -21,15 +21,7 @@
 
 #include <unistd.h>
 
-#include <QRegExp>
-#include <QFile>
 #include <QTreeView>
-#include <QXmlInputSource>
-#include <QXmlSimpleReader>
-#include <QTcpSocket>
-#include <QTcpServer>
-#include <QDomElement>
-#include <QApplication>
 #include <QAction>
 
 #include <kactioncollection.h>

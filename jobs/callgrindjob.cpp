@@ -26,11 +26,7 @@
 #include "job.h"
 #include "debug.h"
 
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QApplication>
 #include <KProcess>
-#include <QBuffer>
 
 #include <kconfiggroup.h>
 #include "debug.h"

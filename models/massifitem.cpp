@@ -20,7 +20,6 @@
 
 #include "massifitem.h"
 #include "debug.h"
-#include <QDir>
 
 namespace valgrind
 {

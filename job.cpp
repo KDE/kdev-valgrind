@@ -27,8 +27,6 @@
 
 #include "debug.h"
 
-#include <QXmlInputSource>
-#include <QXmlSimpleReader>
 #include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>

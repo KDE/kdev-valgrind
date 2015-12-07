@@ -22,8 +22,6 @@
 #ifndef _CACHEGRINDPARSER_H_
 #define _CACHEGRINDPARSER_H_
 
-#include <QXmlStreamReader>
-#include <QApplication>
 #include "debug.h"
 #include <kmessagebox.h>
 #include "imodel.h"

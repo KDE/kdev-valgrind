@@ -22,7 +22,6 @@
 #ifndef VALGRINDMEMCHECKCONFIGPAGE_H_
 #define VALGRINDMEMCHECKCONFIGPAGE_H_
 
-#include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
 namespace Ui

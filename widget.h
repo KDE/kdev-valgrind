@@ -21,7 +21,6 @@
 #define VALGRINDWIDGET_H
 
 #include <QTabWidget>
-#include <QMap>
 
 class QResizeEvent;
 

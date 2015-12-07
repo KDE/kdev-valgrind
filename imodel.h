@@ -20,7 +20,6 @@
 #ifndef _IMODEL_H_
 #define _IMODEL_H_
 
-#include <QObject>
 #include <QAbstractItemModel>
 
 class job;

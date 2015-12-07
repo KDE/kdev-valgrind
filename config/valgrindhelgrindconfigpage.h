@@ -20,7 +20,6 @@
 #ifndef VALGRINDHELGRINDCONFIGPAGE_H_
 #define VALGRINDHELGRINDCONFIGPAGE_H_
 
-#include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
 namespace Ui

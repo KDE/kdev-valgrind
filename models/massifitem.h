@@ -23,7 +23,6 @@
 
 #include <QString>
 #include <QMap>
-#include <QStringList>
 #include <QUrl>
 
 #include "imodel.h"

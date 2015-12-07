@@ -25,8 +25,6 @@
 #include <QString>
 #include <QVariant>
 #include <QMap>
-#include <QStringList>
-#include <QUrl>
 
 #include "icachegrinditem.h"
 #include "imodel.h"

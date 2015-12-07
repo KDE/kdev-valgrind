@@ -22,7 +22,6 @@
 #include "massifview.h"
 
 #include <QApplication>
-#include <QString>
 
 #include "debug.h"
 

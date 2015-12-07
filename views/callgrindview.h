@@ -23,7 +23,6 @@
 #ifndef CALLGRINDVIEW_H
 #define CALLGRINDVIEW_H
 
-#include <QObject>
 #include <QWidget>
 #include <QItemSelection>
 

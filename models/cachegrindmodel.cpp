@@ -22,7 +22,6 @@
 
 #include "cachegrindmodel.h"
 
-#include <QApplication>
 
 #include "debug.h"
 #include <kmessagebox.h>

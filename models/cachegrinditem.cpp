@@ -21,7 +21,6 @@
 
 #include "cachegrinditem.h"
 #include "debug.h"
-#include <QDir>
 
 namespace valgrind
 {

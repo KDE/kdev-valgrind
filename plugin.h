@@ -22,7 +22,6 @@
 #ifndef VALGRINDPLUGIN_H
 #define VALGRINDPLUGIN_H
 
-#include <QPointer>
 #include <QVariant>
 
 #include <interfaces/iplugin.h>

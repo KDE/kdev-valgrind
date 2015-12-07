@@ -20,7 +20,6 @@
 #ifndef VALGRINDMASSIFCONFIGPAGE_H_
 #define VALGRINDMASSIFCONFIGPAGE_H_
 
-#include <QObject>
 #include <interfaces/launchconfigurationpage.h>
 
 namespace valgrind

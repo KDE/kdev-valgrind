@@ -22,8 +22,6 @@
 #ifndef _CALLGRINDPARSER_H_
 #define _CALLGRINDPARSER_H_
 
-#include <QXmlStreamReader>
-#include <QApplication>
 #include "debug.h"
 #include <kmessagebox.h>
 

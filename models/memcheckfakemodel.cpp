@@ -25,7 +25,6 @@
 #include <shell/problemmodel.h>
 #include <shell/problem.h>
 
-#include <QVector>
 #include "debug.h"
 
 using namespace KDevelop;

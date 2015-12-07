@@ -21,7 +21,6 @@
 
 #include "massifmodel.h"
 
-#include <QApplication>
 
 #include "debug.h"
 #include <kmessagebox.h>

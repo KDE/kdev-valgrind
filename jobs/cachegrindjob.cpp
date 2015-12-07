@@ -24,9 +24,6 @@
 
 #include "debug.h"
 
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QApplication>
 #include <KProcess>
 
 #include <kconfiggroup.h>

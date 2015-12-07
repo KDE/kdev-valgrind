@@ -25,7 +25,6 @@
 
 #include "imodel.h"
 
-#include <QStringList>
 #include <QAbstractItemModel>
 
 namespace valgrind

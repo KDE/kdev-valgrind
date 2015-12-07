@@ -26,7 +26,6 @@
 #include "imodel.h"
 
 #include <QList>
-#include <QAbstractTableModel>
 
 #include "icachegrinditem.h"
 #include "callgrinditem.h"

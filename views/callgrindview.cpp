@@ -23,7 +23,6 @@
 #include "callgrindview.h"
 #include "ui_callgrindview.h"
 
-#include <QApplication>
 #include <QItemSelectionModel>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>

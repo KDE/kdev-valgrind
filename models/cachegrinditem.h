@@ -25,7 +25,6 @@
 #include <QString>
 #include <QVariant>
 #include <QMap>
-#include <QStringList>
 #include <QUrl>
 
 #include "imodel.h"

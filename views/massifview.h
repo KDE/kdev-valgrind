@@ -22,7 +22,6 @@
 #ifndef MASSIFVIEW_H
 #define MASSIFVIEW_H
 
-#include <QTabWidget>
 #include <QTreeView>
 
 #include "iview.h"

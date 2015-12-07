@@ -24,7 +24,6 @@
 #ifndef CACHEGRINDVIEW_H
 #define CACHEGRINDVIEW_H
 
-#include <QObject>
 #include <QTreeView>
 
 #include "iview.h"
