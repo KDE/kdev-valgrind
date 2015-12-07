@@ -31,7 +31,6 @@
 #include "config.h"
 
 class KJob;
-class QIcon;
 
 namespace valgrind
 {

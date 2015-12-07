@@ -32,7 +32,6 @@
 
 namespace valgrind
 {
-class CallgrindItem;
 class CallgrindCallstackItem;
 class CallgrindFunctionsListTModel;
 

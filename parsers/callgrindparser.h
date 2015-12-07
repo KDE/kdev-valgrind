@@ -33,7 +33,6 @@ namespace valgrind
 
 class CallgrindItem;
 class CallgrindCallstackItem;
-class CallgrindCallstackFunction;
 
 /**
  * A class which parses valgrind's XML output

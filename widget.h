@@ -28,7 +28,6 @@ namespace valgrind
 {
 class Model;
 class Plugin;
-class Job;
 
 class Widget : public QTabWidget
 {

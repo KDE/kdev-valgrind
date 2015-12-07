@@ -35,7 +35,6 @@ public:
     virtual void modelChanged() = 0;
 };
 
-class ModelInterface;
 
 /**
  * This class is used to wrap signal

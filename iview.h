@@ -20,7 +20,6 @@
 #ifndef _IVIEW_H_
 #define _IVIEW_H_
 
-class QWidget;
 
 namespace valgrind
 {

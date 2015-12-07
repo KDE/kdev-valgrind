@@ -29,19 +29,14 @@
 
 #include "imodel.h"
 
-class KJob;
-class QUrl;
-class QTreeView;
 
 namespace KDevelop
 {
-class ILaunchConfiguration;
 class ProblemModel;
 }
 
 namespace valgrind
 {
-class Control;
 class Marks;
 class WidgetFactory;
 

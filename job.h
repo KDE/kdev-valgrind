@@ -34,13 +34,9 @@
 
 #include "iparser.h"
 
-class KJob;
 class KProcess;
-class QXmlInputSource;
-class QXmlSimpleReader;
 class QTcpServer;
 class QTcpSocket;
-class QBuffer;
 class KConfigGroup;
 
 namespace KDevelop

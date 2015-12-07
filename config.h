@@ -27,17 +27,14 @@
 #include <interfaces/ilauncher.h>
 #include <interfaces/ilaunchmode.h>
 
-class KJob;
 class QIcon;
 
 namespace KDevelop
 {
-class IProject;
 }
 
 namespace valgrind
 {
-class Plugin;
 
 class LaunchMode : public KDevelop::ILaunchMode
 {
