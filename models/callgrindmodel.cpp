@@ -25,7 +25,6 @@
 
 #include "debug.h"
 #include <kmessagebox.h>
-#include <kglobalsettings.h>
 #include <klocalizedstring.h>
 
 #include "callgrinditem.h"

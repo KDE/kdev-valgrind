@@ -25,9 +25,8 @@
 
 #include "debug.h"
 #include <kmessagebox.h>
-#include <kglobalsettings.h>
 #include <klocalizedstring.h>
-
+#include <QFontDatabase>
 #include "cachegrinditem.h"
 
 #include "modelwrapper.h"
@@ -136,7 +135,7 @@ QVariant CachegrindModel::data(const QModelIndex & index, int role) const
     break;
     case Qt::FontRole:
     {
-        QFont f = KGlobalSettings::generalFont();
+        QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
         if ((static_cast<CachegrindItem*>(index.internalPointer()))->childCount() > 0)
             f.setBold(true);
         return f;

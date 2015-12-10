@@ -24,8 +24,7 @@
 
 #include "debug.h"
 #include <kmessagebox.h>
-#include <kglobalsettings.h>
-
+#include <QFontDatabase>
 #include <massifitem.h>
 
 #include "modelwrapper.h"
@@ -131,7 +130,7 @@ QVariant MassifModel::data(const QModelIndex & index, int role) const
     break;
 
     case Qt::FontRole: {
-        QFont f = KGlobalSettings::generalFont();
+        QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
         if ((static_cast<MassifItem*>(index.internalPointer()))->parent() == m_rootItem)
             f.setBold(true);
         return f;
