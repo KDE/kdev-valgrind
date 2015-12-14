@@ -98,7 +98,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
     {
         if (buffer.at(iBegin) == '*' || buffer.at(iBegin) == '<' || buffer.at(iBegin) == '>')
         {
-            char symbol = buffer.at(iBegin).toAscii();
+            char symbol = buffer.at(iBegin).toLatin1();
             iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
             if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1)
             {

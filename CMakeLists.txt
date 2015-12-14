@@ -18,7 +18,7 @@ include(KDECompilerSettings)
 include(FeatureSummary)
 
 find_package(Qt5 REQUIRED Core Widgets)
-find_package(KF5 REQUIRED COMPONENTS KDELibs4Support TextEditor ThreadWeaver)
+find_package(KF5 REQUIRED COMPONENTS IconThemes ItemModels TextEditor ThreadWeaver)
 find_package(KDevPlatform 1.90.90 REQUIRED)
 
 include_directories(
@@ -106,7 +106,6 @@ target_link_libraries(kdevvalgrind
     KF5::KIOCore
     KF5::WidgetsAddons
     KF5::TextEditor
-    KF5::KDELibs4Support
     Qt5::Network
     )
 
