@@ -31,7 +31,8 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "Harald Fernengel, Hamish Rodda"
+                "Name": "Harald Fernengel, Hamish Rodda", 
+                "Name[x-test]": "xxHarald Fernengel, Hamish Roddaxx"
             }
         ], 
         "Description": "Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/", 
