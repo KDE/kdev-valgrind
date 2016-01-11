@@ -78,12 +78,18 @@
         <property name="text">
          <string>&amp;Valgrind Executable:</string>
         </property>
+        <property name="buddy">
+         <cstring>valgrindExecutable</cstring>
+        </property>
        </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>&amp;Maximum frame stack size (bytes):</string>
+        </property>
+        <property name="buddy">
+         <cstring>maxStackSize</cstring>
         </property>
        </widget>
       </item>
