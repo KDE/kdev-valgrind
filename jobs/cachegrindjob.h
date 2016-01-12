@@ -31,6 +31,7 @@ class KProcessOutputToParser;
 
 class CachegrindJob : public Job
 {
+    Q_OBJECT
 
 public:
     CachegrindJob(KDevelop::ILaunchConfiguration* cfg,

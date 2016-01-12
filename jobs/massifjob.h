@@ -30,6 +30,7 @@ namespace valgrind
 
 class MassifJob : public Job
 {
+    Q_OBJECT
 
 public:
     MassifJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);

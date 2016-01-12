@@ -30,6 +30,7 @@ namespace valgrind
 {
 class CallgrindJob : public Job
 {
+    Q_OBJECT
 
 public:
     CallgrindJob(KDevelop::ILaunchConfiguration* cfg,

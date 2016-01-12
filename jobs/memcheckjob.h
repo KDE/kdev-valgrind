@@ -30,7 +30,7 @@ namespace valgrind
 
 class MemcheckJob : public Job
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     MemcheckJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
