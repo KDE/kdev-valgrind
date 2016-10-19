@@ -1,9 +1,10 @@
 <!DOCTYPE kpartgui>
-<gui name="valgrind" library="libvalgrindplugin" version="7">
+<gui name="kdevvalgrind" version="8">
 <MenuBar>
- <Menu name="run">
-   <text context="@title:menu">Run</text>
-     <Action name="valgrind_generic" group="run_operations"/>
- </Menu>
+  <Menu name="analyze">
+  <text context="@title:menu">Analyze</text>
+    <Action name="valgrind_generic" group="run_operations"/>
+    <Separator/>
+  </Menu>
 </MenuBar>
 </gui>
