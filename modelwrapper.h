@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
- * Copyright 2011 Lucas SARIE <lucas.sarie@gmail.com>
+   Copyright 2011 Lucas SARIE <lucas.sarie@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -8,8 +9,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -17,8 +18,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _MODELWRAPPER_H_
-#define _MODELWRAPPER_H_
+#pragma once
 
 #include "imodel.h"
 
@@ -35,25 +35,21 @@ public:
     virtual void modelChanged() = 0;
 };
 
-
 /**
  * This class is used to wrap signal
  * It has been created because there was problems with multiple QObject inheritence
  * Before Model inherit QAbstractItemModel but there was problem when a tool has many model
  * That why this class exists
  */
-class ModelWrapper :  public QObject,
-                      public ModelEvents
+class ModelWrapper :  public QObject, public ModelEvents
 {
   Q_OBJECT
+
 public:
-
-    ModelWrapper(Model *impl);
-
+    ModelWrapper(Model* impl);
     virtual ~ModelWrapper();
 
 public slots:
-
     /**
      * Compatibility with memcheck module, TO REMOVE
      * Reception of a new item in the model
@@ -65,13 +61,13 @@ public slots:
      * Reception of a new item in the model
      * Has to be pure
      */
-    void newItem(ModelItem *);
+    void newItem(ModelItem*);
 
     /**
      * Reception of data to register to the current item
      * TO REMOVE
      */
-    void newData(Model::eElementType, QString name, QString value);
+    void newData(Model::eElementType, const QString& name, const QString& value);
 
     /**
      * Resets the model content
@@ -81,26 +77,24 @@ public slots:
     /**
      * Set the associated process
      */
-    void job(Job * job);
+    void job(Job* job);
 
     /**
      * Get the associated process
      */
-    Job * job(void);
+    Job* job();
 
-    void jobDestroyed(void);
-
+    void jobDestroyed();
 
 signals:
-
     /**
      * emit this signal to alert other modules that the model has been updated
      */
     void modelChanged();
 
 private:
-    Job *m_job;
-    Model         *m_modelImplementation;
+    Job* m_job;
+    Model* m_modelImplementation;
 };
+
 }
-#endif

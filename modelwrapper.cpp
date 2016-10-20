@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
- * Copyright 2011 Lucas SARIE <lucas.sarie@gmail.com>
+   Copyright 2011 Lucas SARIE <lucas.sarie@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -8,8 +9,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -19,26 +20,23 @@
 
 #include "modelwrapper.h"
 
-#include "imodel.h"
 #include "job.h"
 
 namespace valgrind
 {
 
-ModelWrapper::ModelWrapper(Model *impl)
-    : m_job(0)
+ModelWrapper::ModelWrapper(Model* impl)
+    : m_job(nullptr)
 {
     Q_ASSERT(impl);
     m_modelImplementation = impl;
 }
 
-
-
 ModelWrapper::~ModelWrapper()
 {
 }
 
-void ModelWrapper::job(Job * job)
+void ModelWrapper::job(Job* job)
 {
     //TODO: Search an other way to that :
     //QObject::connect(job, SIGNAL(destroyed()),
@@ -46,14 +44,14 @@ void ModelWrapper::job(Job * job)
     m_job = job;
 }
 
-Job * ModelWrapper::job(void)
+Job* ModelWrapper::job()
 {
     return m_job;
 }
 
-void ModelWrapper::jobDestroyed(void)
+void ModelWrapper::jobDestroyed()
 {
-    m_job = NULL;
+    m_job = nullptr;
 }
 
 void ModelWrapper::newElement(Model::eElementType type)
@@ -61,12 +59,12 @@ void ModelWrapper::newElement(Model::eElementType type)
     m_modelImplementation->newElement(type);
 }
 
-void ModelWrapper::newData(Model::eElementType type, QString name, QString value)
+void ModelWrapper::newData(Model::eElementType type, const QString& name, const QString& value)
 {
     m_modelImplementation->newData(type, name, value);
 }
 
-void ModelWrapper::newItem(ModelItem *item)
+void ModelWrapper::newItem(ModelItem* item)
 {
     m_modelImplementation->newItem(item);
 }
@@ -75,5 +73,5 @@ void ModelWrapper::reset()
 {
     m_modelImplementation->reset();
 }
-}
 
+}
