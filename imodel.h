@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -8,8 +9,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -17,12 +18,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _IMODEL_H_
-#define _IMODEL_H_
+#pragma once
 
 #include <QAbstractItemModel>
-
-class job;
 
 namespace valgrind
 {
@@ -32,10 +30,8 @@ class ModelWrapper;
 
 class ModelItem
 {
-
 public:
     ModelItem() {};
-
     virtual ~ModelItem() {};
 };
 
@@ -54,20 +50,19 @@ public:
         stack
     };
 
-    virtual QAbstractItemModel  *getQAbstractItemModel(int n = 0);
+    virtual QAbstractItemModel* getQAbstractItemModel(int n = 0);
 
     virtual void newElement(valgrind::Model::eElementType) {}
-    virtual void newItem(ModelItem *) {}
-    virtual void newData(valgrind::Model::eElementType, const QString&, const QString& ) {}
+    virtual void newItem(ModelItem*) {}
+    virtual void newData(valgrind::Model::eElementType, const QString&, const QString&) {}
     virtual void reset() {};
 
-    void          setModelWrapper(ModelWrapper *mdlw);
-    ModelWrapper  *getModelWrapper() const;
-    Job           *job() const;
+    void setModelWrapper(ModelWrapper* mdlw);
+    ModelWrapper* getModelWrapper() const;
+    Job* job() const;
+
 protected:
-    ModelWrapper  *m_modelWrapper;
+    ModelWrapper* m_modelWrapper;
 };
 
 }
-
-#endif /* _IMODEL_H_ */
