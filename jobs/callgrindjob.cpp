@@ -27,6 +27,7 @@
 #include "debug.h"
 
 #include <KProcess>
+#include <QFile>
 
 #include <kconfiggroup.h>
 #include "debug.h"

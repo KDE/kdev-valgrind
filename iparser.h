@@ -44,7 +44,7 @@ signals:
     /**
      * Emission of data to register from the parser
      */
-    void newData(Model::eElementType, QString name, QString value);
+    void newData(Model::eElementType, const QString& name, const QString& value);
 
     /**
     * Resets the parser content

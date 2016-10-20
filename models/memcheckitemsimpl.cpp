@@ -40,7 +40,7 @@ MemcheckError::~MemcheckError()
 {
 }
 
-void MemcheckError::incomingData(QString name, QString value)
+void MemcheckError::incomingData(const QString& name, const QString& value)
 {
     if (name == "unique")
         this->uniqueId = value.toInt(0L, 16);
@@ -143,7 +143,7 @@ MemcheckError* MemcheckStack::parent() const
     return m_parent;
 }
 
-void MemcheckStack::incomingData(QString name, QString value)
+void MemcheckStack::incomingData(const QString& name, const QString& value)
 {
     Q_UNUSED(value)
     if (name == "frame") {
@@ -178,7 +178,7 @@ MemcheckStack* MemcheckFrame::parent() const
     return m_parent;
 }
 
-void MemcheckFrame::incomingData(QString name, QString value)
+void MemcheckFrame::incomingData(const QString& name, const QString& value)
 {
     if (name == "ip")
         this->instructionPointer = value.toInt(0L, 16);

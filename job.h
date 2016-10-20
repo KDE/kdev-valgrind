@@ -1,9 +1,10 @@
 /* This file is part of KDevelop
- * Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
- * Copyright 2002 Harald Fernengel <harry@kdevelop.org>
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+   Copyright 2002 Harald Fernengel <harry@kdevelop.org>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -12,8 +13,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -21,34 +22,30 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDJOB_H
-#define VALGRINDJOB_H
+#pragma once
 
 #include <QProcess>
-#include <QTcpSocket>
-#include <qurl.h>
-#include <QFileInfo>
-#include <QTimer>
+#include <QUrl>
 
 #include <outputview/outputjob.h>
 
-#include "iparser.h"
-
-class KProcess;
-class QTcpServer;
-class QTcpSocket;
 class KConfigGroup;
+class KProcess;
+class QFile;
 
 namespace KDevelop
 {
+
+class ILaunchConfiguration;
 class ProcessLineMaker;
-class ILaunchConfiguration;
 class OutputModel;
-class ILaunchConfiguration;
+
 }
 
 namespace valgrind
 {
+
+class Model;
 class Plugin;
 class Parser;
 
@@ -57,20 +54,19 @@ class Job : public KDevelop::OutputJob
     Q_OBJECT
 
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent = 0);
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
     virtual ~Job();
+
     Plugin* plugin() const;
     KDevelop::OutputModel* model();
     virtual void start();
     virtual bool doKill();
 
     // Factory
-    static Job *  createToolJob(KDevelop::ILaunchConfiguration* cfg,
-                                Plugin *inst,
-                                QObject* parent = 0);
+    static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
 
 signals:
-    void updateTabText(Model *, const QString & text);
+    void updateTabText(Model*, const QString& text);
 
 private slots:
 
@@ -80,24 +76,22 @@ private slots:
     void processErrored(QProcess::ProcessError);
 
 protected:
-    typedef QString   t_valgrind_cfg_argarray[][3];
+    using t_valgrind_cfg_argarray = QString[][3];
 
     virtual void beforeStart(); // called before launching the process
     virtual void processStarted(); // called after the process has been launched
     virtual void processEnded(); // called when the process ended
 
-    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const = 0;
+    virtual void addToolArgs(QStringList& args, KConfigGroup& cfg) const = 0;
 
-    void processModeArgs(QStringList & out,
+    void processModeArgs(QStringList& out,
                          const t_valgrind_cfg_argarray mode_args,
                          int mode_args_count,
-                         KConfigGroup & cfg) const;
+                         KConfigGroup& cfg) const;
 
     QStringList buildCommandLine() const;
 
-
 protected:
-
     KProcess* m_process;
     QUrl m_workingDir;
     int m_pid;
@@ -107,11 +101,11 @@ protected:
 
     KDevelop::ProcessLineMaker* m_applicationOutput;
     KDevelop::ILaunchConfiguration* m_launchcfg;
-    Plugin *m_plugin;
+    Plugin* m_plugin;
 
     // The valgrind output file
-    QFile *m_file;
-    bool      m_killed;
+    QFile* m_file;
+    bool m_killed;
 };
 
 /**
@@ -123,7 +117,7 @@ class QFileProxyRemove : public QObject
     Q_OBJECT
 
 public:
-    QFileProxyRemove(QString programPath, QStringList args, QFile* toRemove, QObject *parent = 0);
+    QFileProxyRemove(const QString& programPath, const QStringList& args, QFile* toRemove, QObject* parent = nullptr);
     virtual ~QFileProxyRemove();
 
 private slots:
@@ -131,8 +125,8 @@ private slots:
     void prError(QProcess::ProcessError error);
 
 private:
-    QFile *m_file;
-    KProcess *m_process;
+    QFile* m_file;
+    KProcess* m_process;
     QString m_execPath;
 };
 
@@ -146,17 +140,16 @@ Q_OBJECT
 public:
     KProcessOutputToParser(Parser* inst);
     ~KProcessOutputToParser();
-    int execute(QString execPath, QStringList args);
+    int execute(const QString& execPath, const QStringList& args);
 
 private slots:
     void  newDataFromStdOut();
     void  processEnded(int returnCode, QProcess::ExitStatus status);
 
 private:
-    KProcess  *m_process;
-    QIODevice *m_device;
-    Parser    *m_parser;
-
+    KProcess* m_process;
+    QIODevice* m_device;
+    Parser* m_parser;
 };
+
 }
-#endif

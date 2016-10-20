@@ -23,7 +23,9 @@
 #include "massifjob.h"
 
 #include "debug.h"
+#include "iparser.h"
 
+#include <QFile>
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <KProcess>

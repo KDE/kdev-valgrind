@@ -50,7 +50,7 @@ public:
 
     const QList<MemcheckStack *> &getStack() const;
 
-    virtual void incomingData(QString name, QString value);
+    virtual void incomingData(const QString& name, const QString& value);
 
     void setKind(const QString& s);
 
@@ -92,7 +92,7 @@ public:
 
     virtual MemcheckError* parent() const;
 
-    virtual void incomingData(QString name, QString value);
+    virtual void incomingData(const QString& name, const QString& value);
 
     QString what() const{ return m_what; }
     void setWhat(const QString &what){ m_what = what; }
@@ -125,7 +125,7 @@ public:
 
     virtual MemcheckStack* parent() const;
 
-    virtual void incomingData(QString name, QString value);
+    virtual void incomingData(const QString& name, const QString& value);
 
     QUrl url() const;
 

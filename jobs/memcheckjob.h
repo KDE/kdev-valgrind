@@ -21,9 +21,13 @@
 */
 
 #ifndef MEMCHECKJOB_H
-# define MEMCHECKJOB_H
+#define MEMCHECKJOB_H
 
-# include "job.h"
+#include "job.h"
+
+#include <QTcpSocket>
+
+class QTcpServer;
 
 namespace valgrind
 {

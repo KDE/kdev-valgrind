@@ -43,7 +43,7 @@ public:
     /*
      * Called when data related to the error has been parsed
      */
-    virtual void incomingData(QString name, QString value) = 0;
+    virtual void incomingData(const QString& name, const QString& value) = 0;
 };
 }
 #endif /* _VALGRINDITEM_H_ */

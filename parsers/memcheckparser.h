@@ -55,7 +55,7 @@ signals:
      * Emits this signal when a new item is parsed
      */
     void newElement(Model::eElementType);
-    void newData(Model::eElementType, QString name, QString value);
+    void newData(Model::eElementType, const QString& name, const QString& value);
 
     void reset();
 

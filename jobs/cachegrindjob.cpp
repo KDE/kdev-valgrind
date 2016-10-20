@@ -26,6 +26,7 @@
 
 #include <KProcess>
 
+#include <QFile>
 #include <kconfiggroup.h>
 #include "debug.h"
 #include <klocalizedstring.h>
@@ -70,14 +71,14 @@ void CachegrindJob::processEnded()
         QString caPath = grp.readEntry("CachegrindAnnotateExecutable", "/usr/bin/cg_annotate");
         m_postTreatment->execute(caPath, args);
 
-        if (grp.readEntry("Launch KCachegrind", false)) 
+        if (grp.readEntry("Launch KCachegrind", false))
         {
             QStringList args;
             args << m_file->fileName();
             QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
             //Proxy used to remove file at the end of KCachegrind
             new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
-        } 
+        }
         else
         {
             m_file->remove();
@@ -88,7 +89,7 @@ void CachegrindJob::processEnded()
 
 void CachegrindJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
 {
-    static const t_valgrind_cfg_argarray cg_args = 
+    static const t_valgrind_cfg_argarray cg_args =
     {
         {"Cachegrind Arguments", "", "str"},
         {"Cachegrind Cache simulation", "--cache-sim=", "bool"},

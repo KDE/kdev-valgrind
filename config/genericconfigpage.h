@@ -46,7 +46,7 @@ public:
     virtual QString title() const;
 
 signals:
-    void newCurrentTool(QString newTool) const;
+    void newCurrentTool(const QString& newTool) const;
 
 private:
     Ui::GenericConfig *ui;
