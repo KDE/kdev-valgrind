@@ -36,7 +36,7 @@ class MassifItem;
  * A class that represents the item model for massif
  */
 class MassifModel : public QAbstractItemModel,
-                    public valgrind::Model
+                    public Model
 
 {
     Q_OBJECT
@@ -60,7 +60,7 @@ public:
     /**
      * Reception of a new item in the model
      */
-    virtual void newItem(valgrind::ModelItem *item);
+    virtual void newItem(ModelItem *item);
     /**
      * Resets the model content
      */

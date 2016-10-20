@@ -30,7 +30,7 @@
 
 namespace valgrind
 {
-class CachegrindView : public QTreeView, public valgrind::IView
+class CachegrindView : public QTreeView, public IView
 {
     Q_OBJECT
 
@@ -41,8 +41,8 @@ public:
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(valgrind::Model * m);
-    valgrind::Model * model(void);
+    void setModel(Model * m);
+    Model * model(void);
 protected:
   void MousePressEvent(QMouseEvent *event);
 private Q_SLOTS:

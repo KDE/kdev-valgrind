@@ -38,7 +38,7 @@ ModelWrapper::~ModelWrapper()
 {
 }
 
-void ModelWrapper::job(valgrind::Job * job)
+void ModelWrapper::job(Job * job)
 {
     //TODO: Search an other way to that :
     //QObject::connect(job, SIGNAL(destroyed()),
@@ -46,7 +46,7 @@ void ModelWrapper::job(valgrind::Job * job)
     m_job = job;
 }
 
-valgrind::Job * ModelWrapper::job(void)
+Job * ModelWrapper::job(void)
 {
     return m_job;
 }

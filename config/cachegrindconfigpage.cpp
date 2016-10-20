@@ -82,6 +82,6 @@ CachegrindConfigPageFactory::~CachegrindConfigPageFactory(void)
 
 KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::CachegrindConfigPage(parent);
+    return new CachegrindConfigPage(parent);
 }
 }

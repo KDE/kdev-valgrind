@@ -99,6 +99,6 @@ MassifConfigPageFactory::~MassifConfigPageFactory(void)
 
 KDevelop::LaunchConfigurationPage* MassifConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::MassifConfigPage(parent);
+    return new MassifConfigPage(parent);
 }
 }

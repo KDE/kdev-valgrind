@@ -40,19 +40,19 @@ MassifView::MassifView()
 
 MassifView::~MassifView(void) {}
 
-void MassifView::setModel(valgrind::Model * m)
+void MassifView::setModel(Model * m)
 {
     QTreeView::setModel(m->getQAbstractItemModel());
 }
 
-valgrind::Model * MassifView::model(void)
+Model * MassifView::model(void)
 {
-    return dynamic_cast<valgrind::Model *>(QTreeView::model());
+    return dynamic_cast<Model *>(QTreeView::model());
 }
 
 void MassifView::openDocument(const QModelIndex & index)
 {
-    if (valgrind::MassifItem* item = static_cast<valgrind::MassifItem*>(index.internalPointer())) {
+    if (MassifItem* item = static_cast<MassifItem*>(index.internalPointer())) {
         QUrl doc = item->url();
         if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
             KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->getLine() - 1), 0));

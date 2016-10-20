@@ -34,7 +34,7 @@ class CallgrindJob : public Job
 
 public:
     CallgrindJob(KDevelop::ILaunchConfiguration* cfg,
-                 valgrind::Plugin *inst,
+                 Plugin *inst,
                  QObject* parent = 0);
     virtual ~CallgrindJob();
 

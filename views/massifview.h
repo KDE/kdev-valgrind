@@ -28,7 +28,7 @@
 
 namespace valgrind
 {
-class MassifView : public QTreeView, public valgrind::IView
+class MassifView : public QTreeView, public IView
 {
     Q_OBJECT
 
@@ -39,8 +39,8 @@ public:
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(valgrind::Model * m);
-    valgrind::Model * model(void);
+    void setModel(Model * m);
+    Model * model(void);
 
 private Q_SLOTS:
     void openDocument(const QModelIndex& index);

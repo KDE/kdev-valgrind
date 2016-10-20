@@ -27,7 +27,7 @@
 namespace valgrind
 {
 
-GenericConfigPage::GenericConfigPage(valgrind::Plugin *plugin, QWidget *parent)
+GenericConfigPage::GenericConfigPage(Plugin *plugin, QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
     Q_UNUSED(plugin)
@@ -105,7 +105,7 @@ QString GenericConfigPage::title() const
 }
 
 // The factory
-GenericConfigPageFactory::GenericConfigPageFactory(valgrind::Plugin * plugin)
+GenericConfigPageFactory::GenericConfigPageFactory(Plugin * plugin)
     : m_plugin(plugin)
 {}
 
@@ -114,6 +114,6 @@ GenericConfigPageFactory::~GenericConfigPageFactory()
 
 KDevelop::LaunchConfigurationPage* GenericConfigPageFactory::createWidget(QWidget * parent)
 {
-    return new valgrind::GenericConfigPage(m_plugin, parent);
+    return new GenericConfigPage(m_plugin, parent);
 }
 }

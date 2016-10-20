@@ -35,7 +35,7 @@ class CachegrindJob : public Job
 
 public:
     CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
-                  valgrind::Plugin *inst,
+                  Plugin *inst,
                   QObject* parent = 0);
     virtual ~CachegrindJob();
 

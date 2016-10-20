@@ -39,7 +39,7 @@
 namespace valgrind
 {
 MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg,
-                     valgrind::Plugin *inst,
+                     Plugin *inst,
                      QObject* parent)
     : Job(cfg, inst, parent)
     , m_file(0)

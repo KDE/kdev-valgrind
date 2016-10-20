@@ -57,9 +57,9 @@ class Job : public KDevelop::OutputJob
     Q_OBJECT
 
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent = 0);
     virtual ~Job();
-    valgrind::Plugin* plugin() const;
+    Plugin* plugin() const;
     KDevelop::OutputModel* model();
     virtual void start();
     virtual bool doKill();
@@ -70,7 +70,7 @@ public:
                                 QObject* parent = 0);
 
 signals:
-    void updateTabText(valgrind::Model *, const QString & text);
+    void updateTabText(Model *, const QString & text);
 
 private slots:
 
@@ -102,12 +102,12 @@ protected:
     QUrl m_workingDir;
     int m_pid;
 
-    valgrind::Model* m_model;
-    valgrind::Parser* m_parser;
+    Model* m_model;
+    Parser* m_parser;
 
     KDevelop::ProcessLineMaker* m_applicationOutput;
     KDevelop::ILaunchConfiguration* m_launchcfg;
-    valgrind::Plugin *m_plugin;
+    Plugin *m_plugin;
 
     // The valgrind output file
     QFile *m_file;

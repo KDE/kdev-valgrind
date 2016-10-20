@@ -38,7 +38,7 @@ class   GenericConfigPage : public KDevelop::LaunchConfigurationPage
 
 public:
 
-    GenericConfigPage(valgrind::Plugin * plugin, QWidget * parent = 0);
+    GenericConfigPage(Plugin * plugin, QWidget * parent = 0);
     ~GenericConfigPage();
     virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
     virtual QIcon icon() const;
@@ -55,12 +55,12 @@ private:
 class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    GenericConfigPageFactory(valgrind::Plugin*);
+    GenericConfigPageFactory(Plugin*);
     virtual ~GenericConfigPageFactory();
     virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 
 private:
-    valgrind::Plugin* m_plugin;
+    Plugin* m_plugin;
 };
 }
 

@@ -39,7 +39,7 @@ typedef CallgrindCallstackItem CallgrindCsItem;
 
 class CallgrindCallstackFunction;
 
-class CallgrindCallstackItem : public valgrind::ModelItem
+class CallgrindCallstackItem : public ModelItem
 {
 public:
     CallgrindCallstackItem(CallgrindCallstackFunction *function);

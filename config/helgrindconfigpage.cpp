@@ -81,6 +81,6 @@ HelgrindConfigPageFactory::~HelgrindConfigPageFactory(void)
 
 KDevelop::LaunchConfigurationPage* HelgrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::HelgrindConfigPage(parent);
+    return new HelgrindConfigPage(parent);
 }
 }

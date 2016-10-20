@@ -66,7 +66,7 @@ signals:
     /**
      * Emits this signal when a new item is parsed
      */
-    void newItem(valgrind::ModelItem*);
+    void newItem(ModelItem*);
 
 
 public slots:

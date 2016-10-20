@@ -33,7 +33,7 @@ class MassifJob : public Job
     Q_OBJECT
 
 public:
-    MassifJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent = 0);
+    MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent = 0);
     virtual ~MassifJob();
 
 protected:

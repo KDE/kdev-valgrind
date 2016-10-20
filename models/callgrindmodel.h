@@ -41,7 +41,7 @@ typedef bool (CallgrindFunctionsListTModel::*CSItemCompareFct)(const QVariant &,
  * This class will contains all the callgrind data models for the differents view
  */
 class CallgrindModel :  public QObject,
-                        public valgrind::Model
+                        public Model
 {
     Q_OBJECT
 
@@ -68,7 +68,7 @@ public:
     /**
      * Reception of a new item in the model
      */
-    virtual void newItem(valgrind::ModelItem *item);
+    virtual void newItem(ModelItem *item);
     /**
      * Resets the model content
      */

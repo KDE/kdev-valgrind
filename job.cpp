@@ -77,46 +77,46 @@ class ModelParserFactoryPrivate
 {
 
 public:
-    void make(const QString &type, valgrind::Model* &m_model, valgrind::Parser* &m_parser);
+    void make(const QString &type, Model* &m_model, Parser* &m_parser);
 
 };
 
-void ModelParserFactoryPrivate::make(const QString &tool, valgrind::Model* &m_model, valgrind::Parser* &m_parser)
+void ModelParserFactoryPrivate::make(const QString &tool, Model* &m_model, Parser* &m_parser)
 {
     ModelWrapper *modelWrapper = NULL;
     if (tool == "memcheck")
     {
-        m_model = new valgrind::MemcheckFakeModel();
+        m_model = new MemcheckFakeModel();
         modelWrapper = new ModelWrapper(m_model);
-        m_parser = new valgrind::MemcheckParser();
-        QObject::connect(m_parser, SIGNAL(newElement(valgrind::Model::eElementType)),
-                         modelWrapper, SLOT(newElement(valgrind::Model::eElementType)));
-        QObject::connect(m_parser, SIGNAL(newData(valgrind::Model::eElementType, QString, QString)),
-                         modelWrapper, SLOT(newData(valgrind::Model::eElementType, QString, QString)));
+        m_parser = new MemcheckParser();
+        QObject::connect(m_parser, SIGNAL(newElement(Model::eElementType)),
+                         modelWrapper, SLOT(newElement(Model::eElementType)));
+        QObject::connect(m_parser, SIGNAL(newData(Model::eElementType, QString, QString)),
+                         modelWrapper, SLOT(newData(Model::eElementType, QString, QString)));
     }
     else if (tool == "massif")
     {
-        m_model = new valgrind::MassifModel();
+        m_model = new MassifModel();
         modelWrapper = new ModelWrapper(m_model);
-        m_parser = new valgrind::MassifParser();
-        QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
-                         modelWrapper, SLOT(newItem(valgrind::ModelItem*)));
+        m_parser = new MassifParser();
+        QObject::connect(m_parser, SIGNAL(newItem(ModelItem*)),
+                         modelWrapper, SLOT(newItem(ModelItem*)));
     }
     else if (tool == "callgrind")
     {
-        m_model = new valgrind::CallgrindModel();
+        m_model = new CallgrindModel();
         modelWrapper = new ModelWrapper(m_model);
-        m_parser = new valgrind::CallgrindParser();
-        QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
-                         modelWrapper, SLOT(newItem(valgrind::ModelItem*)));
+        m_parser = new CallgrindParser();
+        QObject::connect(m_parser, SIGNAL(newItem(ModelItem*)),
+                         modelWrapper, SLOT(newItem(ModelItem*)));
     }
     else if (tool == "cachegrind")
     {
-        m_model = new valgrind::CachegrindModel();
+        m_model = new CachegrindModel();
         modelWrapper = new ModelWrapper(m_model);
-        m_parser = new valgrind::CachegrindParser();
-        QObject::connect(m_parser, SIGNAL(newItem(valgrind::ModelItem*)),
-                         modelWrapper, SLOT(newItem(valgrind::ModelItem*)));
+        m_parser = new CachegrindParser();
+        QObject::connect(m_parser, SIGNAL(newItem(ModelItem*)),
+                         modelWrapper, SLOT(newItem(ModelItem*)));
     }
 
     m_model->setModelWrapper(modelWrapper);
@@ -126,7 +126,7 @@ void ModelParserFactoryPrivate::make(const QString &tool, valgrind::Model* &m_mo
 
 
 // The factory for jobs
-Job *Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent)
+Job *Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent)
 {
     const QString &name = cfg->config().readEntry("Current Tool", "memcheck");
     if (name == "memcheck")
@@ -141,7 +141,7 @@ Job *Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *i
     return NULL;
 }
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, valgrind::Plugin *inst, QObject* parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent)
     : KDevelop::OutputJob(parent)
     , m_process(new KProcess(this))
     , m_pid(0)
@@ -351,7 +351,7 @@ bool Job::doKill()
 
 
 
-valgrind::Plugin * Job::plugin() const
+Plugin * Job::plugin() const
 {
     return m_plugin;
 }

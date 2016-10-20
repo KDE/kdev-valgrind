@@ -43,14 +43,14 @@ CachegrindView::CachegrindView()
 
 CachegrindView::~CachegrindView() {}
 
-void CachegrindView::setModel(valgrind::Model * m)
+void CachegrindView::setModel(Model * m)
 {
     QTreeView::setModel(m->getQAbstractItemModel());
 }
 
-valgrind::Model * CachegrindView::model(void)
+Model * CachegrindView::model(void)
 {
-    return dynamic_cast<valgrind::Model *>(QTreeView::model());
+    return dynamic_cast<Model *>(QTreeView::model());
 }
 
 void CachegrindView::MousePressEvent(QMouseEvent *event)
@@ -61,7 +61,7 @@ void CachegrindView::MousePressEvent(QMouseEvent *event)
 
 void CachegrindView::openDocument(const QModelIndex & index)
 {
-    if (valgrind::CachegrindItem* frame = dynamic_cast<valgrind::CachegrindItem*>(static_cast<valgrind::CachegrindModel*>(model())->itemForIndex(index)))
+    if (CachegrindItem* frame = dynamic_cast<CachegrindItem*>(static_cast<CachegrindModel*>(model())->itemForIndex(index)))
     {
         QUrl doc = frame->url();
         if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow()))

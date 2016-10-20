@@ -139,6 +139,6 @@ MemcheckConfigPageFactory::~MemcheckConfigPageFactory()
 
 KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget * parent)
 {
-    return new valgrind::MemcheckConfigPage(parent);
+    return new MemcheckConfigPage(parent);
 }
 }

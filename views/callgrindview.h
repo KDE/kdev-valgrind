@@ -43,7 +43,7 @@ class CallgrindView;
 
 class CallgrindModel;
 
-class CallgrindView : public QWidget, public valgrind::IView
+class CallgrindView : public QWidget, public IView
 {
     Q_OBJECT
 
@@ -51,8 +51,8 @@ public:
     CallgrindView(QWidget *parent = 0);
     ~CallgrindView();
 
-    void setModel(valgrind::Model * m);
-    valgrind::Model * model(void);
+    void setModel(Model * m);
+    Model * model(void);
 
     void WidgetContainerResizeEvent(QResizeEvent * event);
 

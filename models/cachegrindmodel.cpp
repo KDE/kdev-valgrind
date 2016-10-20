@@ -46,7 +46,7 @@ CachegrindModel::~CachegrindModel()
         delete m_rootItem;
 }
 
-void CachegrindModel::newItem(valgrind::ModelItem *item)
+void CachegrindModel::newItem(ModelItem *item)
 {
     if (!item)
     {

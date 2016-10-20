@@ -83,6 +83,6 @@ CallgrindConfigPageFactory::~CallgrindConfigPageFactory(void)
 
 KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget *parent)
 {
-    return new valgrind::CallgrindConfigPage(parent);
+    return new CallgrindConfigPage(parent);
 }
 }

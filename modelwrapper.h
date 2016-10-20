@@ -58,20 +58,20 @@ public slots:
      * Compatibility with memcheck module, TO REMOVE
      * Reception of a new item in the model
      */
-    void newElement(valgrind::Model::eElementType);
+    void newElement(Model::eElementType);
 
     /**
      * Compatibility with memcheck module, to remove
      * Reception of a new item in the model
      * Has to be pure
      */
-    void newItem(valgrind::ModelItem *);
+    void newItem(ModelItem *);
 
     /**
      * Reception of data to register to the current item
      * TO REMOVE
      */
-    void newData(valgrind::Model::eElementType, QString name, QString value);
+    void newData(Model::eElementType, QString name, QString value);
 
     /**
      * Resets the model content
@@ -81,12 +81,12 @@ public slots:
     /**
      * Set the associated process
      */
-    void job(valgrind::Job * job);
+    void job(Job * job);
 
     /**
      * Get the associated process
      */
-    valgrind::Job * job(void);
+    Job * job(void);
 
     void jobDestroyed(void);
 
@@ -99,7 +99,7 @@ signals:
     void modelChanged();
 
 private:
-    valgrind::Job *m_job;
+    Job *m_job;
     Model         *m_modelImplementation;
 };
 }

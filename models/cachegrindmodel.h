@@ -32,7 +32,7 @@ namespace valgrind
 class CachegrindItem;
 
 class CachegrindModel : public QAbstractItemModel,
-                        public valgrind::Model
+                        public Model
 
 {
     Q_OBJECT
@@ -56,7 +56,7 @@ public:
     /**
      * Reception of a new item in the model
      */
-    virtual void newItem(valgrind::ModelItem *item);
+    virtual void newItem(ModelItem *item);
     /**
      * Resets the model content
      */
