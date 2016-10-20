@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
- *  Copyright 2002 Harald Fernengel <harry@kdevelop.org>
- *  Copyright 2007 Hamish Rodda <rodda@kde.org>
+   Copyright 2002 Harald Fernengel <harry@kdevelop.org>
+   Copyright 2007 Hamish Rodda <rodda@kde.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -9,26 +10,18 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
+*/
 
- */
-
-#ifndef VALGRINDPLUGIN_H
-#define VALGRINDPLUGIN_H
-
-#include <QVariant>
+#pragma once
 
 #include <interfaces/iplugin.h>
-#include <interfaces/istatus.h>
-
-#include "imodel.h"
-
 
 namespace KDevelop
 {
@@ -38,6 +31,7 @@ class ProblemModel;
 namespace valgrind
 {
 class Marks;
+class Model;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -45,29 +39,30 @@ class Plugin : public KDevelop::IPlugin
     Q_OBJECT
 
 public:
-    Plugin(QObject *parent, const QVariantList & = QVariantList());
+    Plugin(QObject* parent, const QVariantList& = QVariantList());
+    ~Plugin() override;
 
-    virtual ~Plugin();
-
-    virtual void unload();
-
-    void incomingModel(valgrind::Model* model);
+    void incomingModel(Model* model);
 
 signals:
-    void newModel(valgrind::Model* model);
-
-private slots:
-    void loadOutput();
-    void runValgrind();
+    void newModel(Model* model);
 
 private:
-    QString m_lastExec, m_lastParams, m_lastValExec, m_lastValParams,
-            m_lastCtExec, m_lastCtParams, m_lastKcExec;
-    valgrind::WidgetFactory *m_factory;
-    valgrind::Marks         *m_marks;
+    void runValgrind();
+
+    QString m_lastExec;
+    QString m_lastParams;
+    QString m_lastValExec;
+    QString m_lastValParams;
+    QString m_lastCtExec;
+    QString m_lastCtParams;
+    QString m_lastKcExec;
+
+    WidgetFactory* m_factory;
+    Marks* m_marks;
+
     QScopedPointer<KDevelop::ProblemModel> m_model;
 };
+
 }
 
-
-#endif // VALGRINDPLUGIN_H
