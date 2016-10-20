@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -9,8 +10,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -18,12 +19,11 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _IPARSER_H_
-#define _IPARSER_H_
-
-#include <QXmlStreamReader>
+#pragma once
 
 #include "imodel.h"
+
+#include <QXmlStreamReader>
 
 namespace valgrind
 {
@@ -33,21 +33,18 @@ class Parser: public QObject, public QXmlStreamReader
     Q_OBJECT
 
 public:
-
-    Parser(QObject* parent = 0) {
-        Q_UNUSED(parent);
-    };
+    Parser(QObject* parent = nullptr);
 
 signals:
     /**
      * Emission of a new item from the parser
      */
-    void newElement(valgrind::Model::eElementType);
+    void newElement(Model::eElementType);
 
     /**
      * Emission of data to register from the parser
      */
-    void newData(valgrind::Model::eElementType, QString name, QString value);
+    void newData(Model::eElementType, QString name, QString value);
 
     /**
     * Resets the parser content
@@ -57,13 +54,10 @@ signals:
     /**
      * Emission of an item from a parser to a model
      */
-    void newItem(ModelItem *);
+    void newItem(ModelItem*);
 
 public slots:
-
     virtual void parse() = 0;
-
 };
-}
 
-#endif /* _IMODEL_H_ */
+}

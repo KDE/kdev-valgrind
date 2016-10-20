@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
- * Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -8,8 +9,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -17,27 +18,25 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _IVIEW_H_
-#define _IVIEW_H_
-
+#pragma once
 
 namespace valgrind
 {
+
 class Model;
 
 class IView
 {
 public:
-    virtual Model* model(void) = 0;
-    virtual void setModel(valgrind::Model *) = 0;
+    virtual Model* model() = 0;
+    virtual void setModel(Model*) = 0;
     virtual ~IView(void) {}
 
     //get notify that the container size has changed
-    virtual void WidgetContainerResizeEvent( QResizeEvent * event )
+    virtual void WidgetContainerResizeEvent(QResizeEvent * event)
     {
         Q_UNUSED(event);
     }
 };
-}
 
-#endif /* _IVIEW_H_ */
+}
