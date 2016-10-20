@@ -21,6 +21,7 @@
 
 #include "plugin.h"
 
+#include "config.h"
 #include "debug.h"
 #include "launcher.h"
 #include "marks.h"

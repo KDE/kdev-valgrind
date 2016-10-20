@@ -17,11 +17,8 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRIND_DEBUG_H
-#define VALGRIND_DEBUG_H
+#pragma once
 
 #include <QLoggingCategory>
+
 Q_DECLARE_LOGGING_CATEGORY(KDEV_VALGRIND)
-
-#endif
-

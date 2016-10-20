@@ -3,6 +3,7 @@
    Copyright 2009 Andreas Pakulat <apaku@gmx.de>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,42 +21,39 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDLAUNCHER_H_
-#define VALGRINDLAUNCHER_H_
+#pragma once
 
-
-
-#include <interfaces/launchconfigurationpage.h>
 #include <interfaces/ilauncher.h>
-#include <interfaces/ilaunchmode.h>
-#include "config.h"
+
+#include <QMap>
 
 class KJob;
 
 namespace valgrind
 {
+class LaunchMode;
 class Plugin;
 
 class Launcher : public KDevelop::ILauncher
 {
 
 public:
-    Launcher(valgrind::Plugin *inst);
+    Launcher(Plugin* inst);
 
-    virtual QList< KDevelop::LaunchConfigurationPageFactory* > configPages() const;
-    void addMode(valgrind::LaunchMode* mode);
-    virtual QString description() const;
-    virtual QString id();
-    virtual QString name() const;
-    virtual KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg);
-    virtual QStringList supportedModes() const;
+    QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override;
+
+    void addMode(LaunchMode* mode);
+
+    QString description() const override;
+    QString id() override;
+    QString name() const override;
+    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg) override;
+    QStringList supportedModes() const override;
 
 private:
-    QList<KDevelop::LaunchConfigurationPageFactory*> factories;
-    QMap<QString, valgrind::LaunchMode*> modes;
-    valgrind::Plugin * m_plugin;
+    QList<KDevelop::LaunchConfigurationPageFactory*> m_factories;
+    QMap<QString, LaunchMode*> m_modes;
+    Plugin * m_plugin;
 };
 
 }
-
-#endif /* VALGRINDLAUNCHER_H_ */

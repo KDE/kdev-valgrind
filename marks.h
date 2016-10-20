@@ -1,7 +1,8 @@
 /* This file is part of KDevelop
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -10,8 +11,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -19,8 +20,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _MARKS_H_
-#define _MARKS_H_
+#pragma once
 
 #include <QObject>
 
@@ -37,26 +37,21 @@ class Marks : public QObject
     Q_OBJECT
 
 public:
+    Marks(Plugin* plugin);
 
-    Marks(valgrind::Plugin *plugin);
+    ~Marks() override;
 
-    virtual ~Marks();
-
-private slots:
+private:
     /*
      * Sets the new model
      * Clean the previous marks if necessary
      */
-    void newModel(valgrind::Model* model);
+    void newModel(Model* model);
 
     void modelChanged();
-private:
-    valgrind::Plugin  *m_plugin;
-    valgrind::Model   *m_model;
+
+    Plugin* m_plugin;
+    Model* m_model;
 };
 
 }
-
-
-
-#endif /* _MARKS_H_ */

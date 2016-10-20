@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
- *  Copyright 2007-2008 Hamish Rodda <rodda@kde.org>
+   Copyright 2007-2008 Hamish Rodda <rodda@kde.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -8,17 +9,16 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
- */
+*/
 
-#ifndef VALGRINDWIDGET_H
-#define VALGRINDWIDGET_H
+#pragma once
 
 #include <QTabWidget>
 
@@ -34,21 +34,21 @@ class Widget : public QTabWidget
     Q_OBJECT
 
 public:
-    Widget(valgrind::Plugin* plugin, QWidget* parent);
-    valgrind::Plugin* plugin() const;
+    Widget(Plugin* plugin, QWidget* parent);
+
+    Plugin* plugin() const;
 
 protected:
-    virtual void 	resizeEvent ( QResizeEvent * event );
-public slots:
-    void updateTabText(valgrind::Model * model, const QString & text);
+    void resizeEvent(QResizeEvent* event) override;
 
-private Q_SLOTS:
-    void newModel(valgrind::Model* model);
-    void destroyRequestedTab(int tab);
+public slots:
+    void updateTabText(Model* model, const QString& text);
 
 private:
-    valgrind::Plugin* m_plugin;
-};
-}
+    void newModel(Model* model);
+    void destroyRequestedTab(int tab);
 
-#endif // VALGRINDWIDGET_H
+    Plugin* m_plugin;
+};
+
+}

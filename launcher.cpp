@@ -4,6 +4,7 @@
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -12,8 +13,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -21,94 +22,82 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "debug.h"
+#include "launcher.h"
 
+#include "cachegrindconfigpage.h"
+#include "callgrindconfigpage.h"
+#include "config.h"
 #include "debug.h"
-#include <klocalizedstring.h>
-#include <kmessagebox.h>
-#include <kconfiggroup.h>
-#include <kparts/mainwindow.h>
-
-#include <interfaces/icore.h>
-#include <interfaces/iruncontroller.h>
-#include <interfaces/ilaunchconfiguration.h>
-#include <interfaces/iprojectcontroller.h>
-#include <interfaces/iuicontroller.h>
-#include <interfaces/iproject.h>
-#include <project/projectmodel.h>
-#include <project/builderjob.h>
-#include <project/interfaces/iprojectbuilder.h>
-#include <project/interfaces/ibuildsystemmanager.h>
-#include <interfaces/iplugincontroller.h>
-#include <util/executecompositejob.h>
+#include "genericconfigpage.h"
+#include "job.h"
+#include "massifconfigpage.h"
+#include "memcheckconfigpage.h"
 
 #include <execute/iexecuteplugin.h>
-
-#include "genericconfigpage.h"
-#include "memcheckconfigpage.h"
-#include "cachegrindconfigpage.h"
-#include "helgrindconfigpage.h"
-#include "callgrindconfigpage.h"
-#include "massifconfigpage.h"
-#include "launcher.h"
-#include "config.h"
-#include "job.h"
+#include <interfaces/icore.h>
+#include <interfaces/ilaunchconfiguration.h>
+#include <interfaces/iplugincontroller.h>
+#include <klocalizedstring.h>
+#include <util/executecompositejob.h>
 
 namespace valgrind
 {
 
-Launcher::Launcher(valgrind::Plugin *inst) : m_plugin(inst)
+Launcher::Launcher(Plugin *inst)
+    : m_plugin(inst)
 {
     // these are tabs in each menu
-    factories << new valgrind::GenericConfigPageFactory(m_plugin);
-    factories << new valgrind::MemcheckConfigPageFactory();
-    factories << new valgrind::MassifConfigPageFactory();
-    factories << new valgrind::CachegrindConfigPageFactory();
-    factories << new valgrind::CallgrindConfigPageFactory();
+    m_factories << new GenericConfigPageFactory(m_plugin);
+    m_factories << new MemcheckConfigPageFactory();
+    m_factories << new MassifConfigPageFactory();
+    m_factories << new CachegrindConfigPageFactory();
+    m_factories << new CallgrindConfigPageFactory();
 
     /*
     ** Those are unimplemented at the moment: see config/genericconfigpage.cpp
     **  to enable them.
     */
-    // factories << new ValgrindHelgrindConfigPageFactory();
+//     factories << new ValgrindHelgrindConfigPageFactory();
 }
 
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
     if (!cfg)
-        return 0;
-    if (modes.contains(launchMode)) {
+        return nullptr;
+
+    if (m_modes.contains(launchMode)) {
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
         Q_ASSERT(iface);
 
         QList<KJob*> l;
         KJob* depjob = iface->dependencyJob(cfg);
-        if (depjob) {
+        if (depjob)
             l << depjob;
-        }
-        l << valgrind::Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+        l << Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+
         return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), l);
     }
+
     qCWarning(KDEV_VALGRIND) << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
-    return 0;
+
+    return nullptr;
 }
 
-void Launcher::addMode(valgrind::LaunchMode* mode)
+void Launcher::addMode(LaunchMode* mode)
 {
-    if (!modes.contains(mode->id())) {
-        modes.insert(mode->id(), mode);
-    }
+    if (!m_modes.contains(mode->id()))
+        m_modes.insert(mode->id(), mode);
 }
 
 QStringList Launcher::supportedModes() const
 {
-    return modes.keys(); // these are entries in menus
+    return m_modes.keys(); // these are entries in menus
 }
 
-QList< KDevelop::LaunchConfigurationPageFactory* > Launcher::configPages() const
+QList<KDevelop::LaunchConfigurationPageFactory*> Launcher::configPages() const
 {
-    return factories;
+    return m_factories;
 }
 
 QString Launcher::description() const
@@ -125,4 +114,5 @@ QString Launcher::name() const
 {
     return i18n("Valgrind");
 }
+
 }

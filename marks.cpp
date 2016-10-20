@@ -1,7 +1,8 @@
 /* This file is part of KDevelop
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -10,8 +11,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -19,49 +20,49 @@
    Boston, MA 02110-1301, USA.
 */
 
+#include "marks.h"
+
+#include "modelwrapper.h"
+#include "plugin.h"
+
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
 #include <KTextEditor/MarkInterface>
+
 #include <QAbstractItemModel>
-
-#include "marks.h"
-#include "plugin.h"
-#include "modelwrapper.h"
-
 
 namespace valgrind
 {
 
-Marks::Marks(valgrind::Plugin *plugin)
+Marks::Marks(Plugin* plugin)
     : m_plugin(plugin)
     , m_model(0)
 {
-    connect(plugin, SIGNAL(newModel(valgrind::Model*)), this, SLOT(newModel(valgrind::Model*)));
+    connect(plugin, &Plugin::newModel, this, &Marks::newModel);
 }
 
 Marks::~Marks()
 {
 }
 
-
-void Marks::newModel(valgrind::Model* model)
+void Marks::newModel(Model* model)
 {
     m_model = model;
-    connect(m_model->getModelWrapper(), SIGNAL(modelChanged()),
-            this, SLOT(modelChanged()));
+    connect(m_model->getModelWrapper(), &ModelWrapper::modelChanged, this, &Marks::modelChanged);
 }
 
 void Marks::modelChanged()
 {
     // parse model to display errors in the editor
-    KTextEditor::Editor* editor = KTextEditor::Editor::instance();
-    QList<KTextEditor::Document*> docList = editor->documents();
-    for (int i = 0; i < docList.size(); ++i)
-        if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
+    auto documents = KTextEditor::Editor::instance()->documents();
+    foreach (auto document, documents) {
+        auto iface = qobject_cast<KTextEditor::MarkInterface*>(document);
+        if (iface)
             iface->clearMarks();
+    }
 
     QModelIndex parentIndex = QModelIndex();
-    QAbstractItemModel *itemModel = m_model->getQAbstractItemModel();
+    QAbstractItemModel* itemModel = m_model->getQAbstractItemModel();
     if(!itemModel)
         return;
 
@@ -76,19 +77,18 @@ void Marks::modelChanged()
             QModelIndex index2 = itemModel->index(row2, 0, index);
 
             // frames
-            int numRows3 =itemModel->rowCount(index2);
+            int numRows3 = itemModel->rowCount(index2);
             for (int row3 = 0; row3 < numRows3; ++row3) {
                 QModelIndex index3 = itemModel->index(row3, 0, index2);
 
-                QString text = itemModel->data(index3, Qt::UserRole).toString();
-                if (!text.isEmpty()) {
-                    QString delimiterPattern(":");
-                    QStringList fileInfo = text.split(delimiterPattern);
-                    if (fileInfo.size() == 2)
-                        for (int i = 0; i < docList.size(); ++i)
-                            if (docList.at(i)->documentName() == fileInfo[0])
-                                if (KTextEditor::MarkInterface *iface = qobject_cast<KTextEditor::MarkInterface*>(docList.at(i)))
-                                    iface->addMark(fileInfo[1].toInt() - 1, KTextEditor::MarkInterface::markType07);
+                QStringList fileInfo = itemModel->data(index3, Qt::UserRole).toString().split(":");
+                if (fileInfo.size() != 2)
+                    continue;
+
+                foreach (auto document, documents) {
+                    auto iface = qobject_cast<KTextEditor::MarkInterface*>(document);
+                    if (document->documentName() == fileInfo[0] && iface)
+                        iface->addMark(fileInfo[1].toInt() - 1, KTextEditor::MarkInterface::markType07);
                 }
             }
         }
@@ -96,4 +96,3 @@ void Marks::modelChanged()
 }
 
 }
-
