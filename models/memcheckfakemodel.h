@@ -1,4 +1,6 @@
-/* Copyright (C) 2015 Laszlo Kis-Adam <laszlo.kis-adam@kdemail.net>
+/* This file is part of KDevelop
+   Copyright 2015 Laszlo Kis-Adam <laszlo.kis-adam@kdemail.net>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -7,8 +9,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -16,16 +18,17 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MEMCHECKFAKEMODEL_H
-#define MEMCHECKFAKEMODEL_H
-#endif
+#pragma once
 
-#include "../imodel.h"
+#include "imodel.h"
+
 #include <QList>
 
 namespace KDevelop
 {
+
 class ProblemModel;
+
 }
 
 namespace valgrind
@@ -38,7 +41,7 @@ class MemcheckFakeModel : public Model
 {
 public:
     MemcheckFakeModel();
-    ~MemcheckFakeModel();
+    ~MemcheckFakeModel() override;
 
     void newStack();
     void newFrame();
@@ -51,8 +54,8 @@ private:
     // Converts the error to a problem and stores in ProblemModel
     void storeError();
 
-    QList<MemcheckError *> m_errors;
-    KDevelop::ProblemModel *m_model;
+    QList<MemcheckError*> m_errors;
+    KDevelop::ProblemModel* m_model;
 };
 
 }
