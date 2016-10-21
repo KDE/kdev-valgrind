@@ -1,8 +1,9 @@
 /* This file is part of KDevelop
- * Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,17 +21,11 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _MEMCHECKPARSER_H_
-#define _MEMCHECKPARSER_H_
-
-#include <QXmlStreamReader>
-#include <QApplication>
-#include <QStack>
-#include "debug.h"
-#include <kmessagebox.h>
-#include "memcheckitems.h"
+#pragma once
 
 #include "iparser.h"
+
+#include <QStack>
 
 namespace valgrind
 {
@@ -44,28 +39,13 @@ class MemcheckParser : public Parser
     Q_OBJECT
 
 public:
-
-    MemcheckParser(QObject *parent = 0);
-    virtual ~MemcheckParser();
-
-
-signals:
-
-    /**
-     * Emits this signal when a new item is parsed
-     */
-    void newElement(Model::eElementType);
-    void newData(Model::eElementType, const QString& name, const QString& value);
-
-    void reset();
+    MemcheckParser(QObject* parent = nullptr);
+    ~MemcheckParser() override;
 
 public slots:
-
-    void parse();
-
+    void parse() override;
 
 private:
-
     // XML parsing
     bool endElement();
     bool startElement();
@@ -84,9 +64,9 @@ private:
 
     QStack<State> m_stateStack;
     QString m_buffer;
-    QHash<QString, QString> valgrindArgs, programArgs;
+
+    QHash<QString, QString> valgrindArgs;
+    QHash<QString, QString> programArgs;
 };
+
 }
-
-
-#endif /* _MEMCHECKPARSER_H_ */

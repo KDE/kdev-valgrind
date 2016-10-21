@@ -1,8 +1,9 @@
 /* This file is part of KDevelop
- * Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,16 +21,20 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "debug.h"
-#include <klocalizedstring.h>
 #include "memcheckparser.h"
+
+#include "debug.h"
+
+#include <klocalizedstring.h>
+#include <kmessagebox.h>
+
+#include <QApplication>
 
 namespace valgrind
 {
 
-MemcheckParser::MemcheckParser(QObject *parent)
+MemcheckParser::MemcheckParser(QObject*)
 {
-    Q_UNUSED(parent)
 }
 
 MemcheckParser::~MemcheckParser()
@@ -55,25 +60,35 @@ bool MemcheckParser::startElement()
     m_buffer.clear();
     State newState = Unknown;
 
-    if (name() == "valgrindoutput")
+    if (name() == QStringLiteral("valgrindoutput"))
         newState = Session;
-    else if (name() == "status")
+
+    else if (name() == QStringLiteral("status"))
         newState = Status;
-    else if (name() == "preamble")
+
+    else if (name() == QStringLiteral("preamble"))
         newState = Preamble;
-    else if (name() == "error") {
+
+    else if (name() == QStringLiteral("error")) {
         newState = Error;
         emit newElement(Model::startError);
-    } else if (name() == "stack") {
+    }
+
+    else if (name() == QStringLiteral("stack")) {
         newState = Stack;
         emit newElement(Model::startStack);
-    } else if (name() == "frame") {
+    }
+
+    else if (name() == QStringLiteral("frame")) {
         newState = Frame;
         emit newElement(Model::startFrame);
-    } else {
+    }
+
+    else {
         m_stateStack.push(m_stateStack.top());
         return true;
     }
+
     m_stateStack.push(newState);
     return true;
 }
@@ -101,18 +116,23 @@ void MemcheckParser::parse()
 {
     while (!atEnd()) {
         switch (readNext()) {
+
         case StartDocument:
             clear();
             break;
+
         case StartElement:
             startElement();
             break;
+
         case EndElement:
             endElement();
             break;
+
         case Characters:
             m_buffer += text().toString();
             break;
+
         default:
             break;
         }
@@ -120,11 +140,13 @@ void MemcheckParser::parse()
 
     if (hasError()) {
         switch (error()) {
+
         case CustomError:
         case UnexpectedElementError:
         case NotWellFormedError:
             KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
             break;
+
         case NoError:
         case PrematureEndOfDocumentError:
             break;
@@ -133,4 +155,3 @@ void MemcheckParser::parse()
 }
 
 }
-
