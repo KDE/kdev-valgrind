@@ -3,6 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,8 +21,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MEMCHECKJOB_H
-#define MEMCHECKJOB_H
+#pragma once
 
 #include "job.h"
 
@@ -37,12 +37,12 @@ class MemcheckJob : public Job
     Q_OBJECT
 
 public:
-    MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent = 0);
-    virtual ~MemcheckJob();
+    MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
+    ~MemcheckJob() override;
 
 protected:
-    virtual void beforeStart();
-    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
+    void beforeStart() override;
+    void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 
 private slots:
     void newValgrindConnection();
@@ -51,10 +51,6 @@ private slots:
 private:
     QTcpServer* m_server;
     QTcpSocket* m_connection;
-
 };
 
 }
-
-
-#endif //!MEMCHECKJOB_H
