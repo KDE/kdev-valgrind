@@ -1,15 +1,10 @@
 cmake_minimum_required(VERSION 2.8.12)
 cmake_policy(SET CMP0028 NEW)
 
-project(valgrind)
-
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
+project(kdevvalgrind)
 
 find_package(ECM 0.0.9 REQUIRED NO_MODULE)
-
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 include(ECMAddTests)
 include(KDEInstallDirs)
@@ -18,58 +13,56 @@ include(KDECompilerSettings)
 include(FeatureSummary)
 
 find_package(Qt5 REQUIRED Core Widgets)
-find_package(KF5 REQUIRED COMPONENTS IconThemes ItemModels TextEditor ThreadWeaver)
+find_package(KF5 REQUIRED COMPONENTS ItemModels)
 find_package(KDevPlatform 1.90.90 REQUIRED)
 
 include_directories(
-    ${KDEVPLATFORM_INCLUDE_DIR}
-    ${valgrind_BINARY_DIR}
-    ${valgrind_SOURCE_DIR}
-    ${valgrind_SOURCE_DIR}/config
-    ${valgrind_SOURCE_DIR}/models
-    ${valgrind_SOURCE_DIR}/parsers
-    ${valgrind_SOURCE_DIR}/jobs
-    ${valgrind_SOURCE_DIR}/views
+    ${kdevvalgrind_BINARY_DIR}
+    ${kdevvalgrind_SOURCE_DIR}
+    ${kdevvalgrind_SOURCE_DIR}/config
+    ${kdevvalgrind_SOURCE_DIR}/jobs
+    ${kdevvalgrind_SOURCE_DIR}/models
+    ${kdevvalgrind_SOURCE_DIR}/parsers
+    ${kdevvalgrind_SOURCE_DIR}/views
 )
-
 
 ########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
-    launcher.cpp
     config.cpp
     debug.cpp
-    job.cpp
-    marks.cpp
     imodel.cpp
-    modelwrapper.cpp
     iparser.cpp
-    plugin.cpp
-    statjob.cpp
-    widget.cpp
+    job.cpp
+    jobs/cachegrindjob.cpp
+    jobs/callgrindjob.cpp
+    jobs/massifjob.cpp
+    jobs/memcheckjob.cpp
+    launcher.cpp
+    marks.cpp
+    models/cachegrinditem.cpp
+    models/cachegrinditem.cpp
+    models/cachegrindmodel.cpp
+    models/cachegrindmodel.cpp
+    models/callgrinditem.cpp
+    models/callgrindmodel.cpp
+    models/icachegrinditem.cpp
     models/massifitem.cpp
     models/massifmodel.cpp
     models/memcheckfakemodel.cpp
     models/memcheckitemsimpl.cpp
-    models/icachegrinditem.cpp
-    models/cachegrindmodel.cpp
-    models/cachegrinditem.cpp
-    models/callgrindmodel.cpp
-    models/callgrinditem.cpp
-    models/cachegrindmodel.cpp
-    models/cachegrinditem.cpp
+    modelwrapper.cpp
+    parsers/cachegrindparser.cpp
+    parsers/callgrindparser.cpp
     parsers/massifparser.cpp
     parsers/memcheckparser.cpp
-    parsers/callgrindparser.cpp
-    parsers/cachegrindparser.cpp
-    jobs/memcheckjob.cpp
-    jobs/massifjob.cpp
-    jobs/cachegrindjob.cpp
-    jobs/callgrindjob.cpp
-    views/massifview.cpp
+    plugin.cpp
+    statjob.cpp
+    views/cachegrindview.cpp
     views/cachegrindview.cpp
     views/callgrindview.cpp
-    views/cachegrindview.cpp
+    views/massifview.cpp
+    widget.cpp
 )
 
 set(kdevvalgrind_CONFIG_SRCS
@@ -82,39 +75,29 @@ set(kdevvalgrind_CONFIG_SRCS
 )
 
 set(kdevvalgrind_PART_UI
-    config/ui/genericconfig.ui
-    config/ui/memcheckconfig.ui
     config/ui/cachegrindconfig.ui
-    config/ui/massifconfig.ui
-    config/ui/helgrindconfig.ui
     config/ui/callgrindconfig.ui
     config/ui/callgrindview.ui
+    config/ui/genericconfig.ui
+    config/ui/helgrindconfig.ui
+    config/ui/massifconfig.ui
+    config/ui/memcheckconfig.ui
 )
 
-ki18n_wrap_ui(kdevvalgrind_PART_SRCS  ${kdevvalgrind_PART_UI})
+ki18n_wrap_ui(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
 
-kdevplatform_add_plugin(kdevvalgrind JSON kdevvalgrind.json SOURCES ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS})
+kdevplatform_add_plugin(kdevvalgrind
+    JSON kdevvalgrind.json
+    SOURCES ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS}
+)
 
 target_link_libraries(kdevvalgrind
-    KDev::Interfaces
-    KDev::Project
     KDev::Language
-    KDev::OutputView
+    KDev::Project
     KDev::Shell
-    KF5::ConfigCore
-    KF5::IconThemes
-    KF5::KIOCore
-    KF5::WidgetsAddons
-    KF5::TextEditor
-    Qt5::Network
-    )
+    KF5::ItemViews
+)
 
-
-
-install(TARGETS kdevvalgrind DESTINATION ${PLUGIN_INSTALL_DIR} )
-
-########### install files ###############
-
-install( FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind )
+install(FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
