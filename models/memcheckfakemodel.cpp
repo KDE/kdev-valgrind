@@ -38,6 +38,7 @@ MemcheckFakeModel::MemcheckFakeModel()
     Q_ASSERT(m_model);
 
     m_model->clearProblems();
+    m_problems.clear();
 }
 
 MemcheckFakeModel::~MemcheckFakeModel()
@@ -195,7 +196,8 @@ void MemcheckFakeModel::storeError()
         stackProblem->setDescription(error->auxWhat);
     }
 
-    m_model->addProblem(problem);
+    m_problems.append(problem);
+    m_model->setProblems(m_problems);
 }
 
 }

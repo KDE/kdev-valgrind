@@ -22,6 +22,8 @@
 
 #include "imodel.h"
 
+#include <interfaces/iproblem.h>
+
 #include <QList>
 
 namespace KDevelop
@@ -56,6 +58,7 @@ private:
 
     QList<MemcheckError*> m_errors;
     KDevelop::ProblemModel* m_model;
+    QVector<KDevelop::IProblem::Ptr> m_problems;
 };
 
 }
