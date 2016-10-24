@@ -57,7 +57,9 @@ CallgrindJob::~CallgrindJob()
 
 void CallgrindJob::processStarted()
 {
-    QString filename = QString("%1/callgrind.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
+    // FIXME
+//     QString filename = QString("%1/callgrind.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
+    QString filename = QString("%1/callgrind.out.%2").arg(m_workingDir.toLocalFile()).arg(0);
 
     m_file = new QFile(filename);
 }

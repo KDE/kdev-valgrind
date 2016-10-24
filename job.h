@@ -24,10 +24,10 @@
 
 #pragma once
 
+#include <outputview/outputexecutejob.h>
+
 #include <QProcess>
 #include <QUrl>
-
-#include <outputview/outputjob.h>
 
 class KConfigGroup;
 class KProcess;
@@ -37,8 +37,6 @@ namespace KDevelop
 {
 
 class ILaunchConfiguration;
-class ProcessLineMaker;
-class OutputModel;
 
 }
 
@@ -49,31 +47,28 @@ class Model;
 class Plugin;
 class Parser;
 
-class Job : public KDevelop::OutputJob
+class Job : public KDevelop::OutputExecuteJob
 {
     Q_OBJECT
 
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     virtual ~Job();
 
     Plugin* plugin() const;
-    KDevelop::OutputModel* model();
-    virtual void start();
-    virtual bool doKill();
+
+    void start() override;
+    using KDevelop::OutputExecuteJob::doKill;
 
     // Factory
     static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
 
-signals:
-    void updateTabText(Model*, const QString& text);
-
 private slots:
+    void postProcessStdout(const QStringList& lines) override;
+    void postProcessStderr(const QStringList& lines) override;
 
-    void readyReadStandardError();
-    void readyReadStandardOutput();
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void processErrored(QProcess::ProcessError);
+    void childProcessExited(int exitCode, QProcess::ExitStatus exitStatus) override;
+    void childProcessError(QProcess::ProcessError processError) override;
 
 protected:
     using t_valgrind_cfg_argarray = QString[][3];
@@ -92,20 +87,20 @@ protected:
     QStringList buildCommandLine() const;
 
 protected:
-    KProcess* m_process;
     QUrl m_workingDir;
-    int m_pid;
 
     Model* m_model;
     Parser* m_parser;
 
-    KDevelop::ProcessLineMaker* m_applicationOutput;
     KDevelop::ILaunchConfiguration* m_launchcfg;
     Plugin* m_plugin;
 
     // The valgrind output file
     QFile* m_file;
-    bool m_killed;
+
+    QStringList m_standardOutput;
+    QStringList m_errorOutput;
+    QStringList m_xmlOutput;
 };
 
 /**

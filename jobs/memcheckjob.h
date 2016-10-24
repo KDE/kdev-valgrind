@@ -25,10 +25,6 @@
 
 #include "job.h"
 
-#include <QTcpSocket>
-
-class QTcpServer;
-
 namespace valgrind
 {
 
@@ -37,20 +33,11 @@ class MemcheckJob : public Job
     Q_OBJECT
 
 public:
-    MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
+    MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~MemcheckJob() override;
 
 protected:
-    void beforeStart() override;
     void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
-
-private slots:
-    void newValgrindConnection();
-    void socketError(QAbstractSocket::SocketError err);
-
-private:
-    QTcpServer* m_server;
-    QTcpSocket* m_connection;
 };
 
 }

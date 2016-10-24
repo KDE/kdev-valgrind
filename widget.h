@@ -41,9 +41,6 @@ public:
 protected:
     void resizeEvent(QResizeEvent* event) override;
 
-public slots:
-    void updateTabText(Model* model, const QString& text);
-
 private:
     void newModel(Model* model);
     void destroyRequestedTab(int tab);

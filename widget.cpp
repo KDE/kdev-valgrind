@@ -97,7 +97,6 @@ void Widget::newModel(Model* model)
         return;
 
     w->setModel(model);
-    connect(job, &Job::updateTabText, this, &Widget::updateTabText);
     addTab(dynamic_cast<QWidget*>(w), i18n("job scheduled"));
     setCurrentWidget(dynamic_cast<QWidget*>(w));
     setMovable(true);
@@ -117,15 +116,6 @@ void Widget::destroyRequestedTab(int index)
         }
     }
     removeTab(index);
-}
-
-void Widget::updateTabText(Model* model, const QString& text)
-{
-    for (int i = 0; i < count(); ++i) {
-        IView* view = dynamic_cast<IView*>(widget(i));
-        if (view && view->model() == model)
-            setTabText(i, text);
-    }
 }
 
 void Widget::resizeEvent(QResizeEvent* event)

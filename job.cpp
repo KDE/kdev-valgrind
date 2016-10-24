@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>
+#include <QRegularExpression>
 
 #include <kconfiggroup.h>
 #include "debug.h"
@@ -154,29 +155,20 @@ Job* Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObje
     return nullptr;
 }
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent)
-    : KDevelop::OutputJob(parent)
-    , m_process(new KProcess(this))
-    , m_pid(0)
+Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+    : KDevelop::OutputExecuteJob(parent)
     , m_model(nullptr)
     , m_parser(nullptr)
-    , m_applicationOutput(new KDevelop::ProcessLineMaker(this))
     , m_launchcfg(cfg)
-    , m_plugin(inst)
-    , m_killed(false)
+    , m_plugin(plugin)
 {
-    setCapabilities(KJob::Killable);
-    m_process->setOutputChannelMode(KProcess::SeparateChannels);
+    setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
+    setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStderr);
+    setProperties(KDevelop::OutputExecuteJob::JobProperty::PostProcessOutput);
 
-    // FIXME replace with new style
-    connect(m_process,  SIGNAL(readyReadStandardOutput()),
-            SLOT(readyReadStandardOutput()));
-    connect(m_process,  SIGNAL(readyReadStandardError()),
-            SLOT(readyReadStandardError()));
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
-            SLOT(processFinished(int, QProcess::ExitStatus)));
-    connect(m_process, SIGNAL(error(QProcess::ProcessError)),
-            SLOT(processErrored(QProcess::ProcessError)));
+    setCapabilities(KJob::Killable);
+    setStandardToolView(KDevelop::IOutputView::TestView);
+    setBehaviours(KDevelop::IOutputView::AutoScroll);
 
     // create the correct model for each tool
     QString tool = m_launchcfg->config().readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
@@ -185,8 +177,6 @@ Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent)
     factory.make(tool, m_model, m_parser);
     m_model->getModelWrapper()->job(this);
     m_plugin->incomingModel(m_model);
-
-    connect(this, &Job::finished, inst, &Plugin::jobFinished);
 }
 
 Job::~Job()
@@ -195,8 +185,6 @@ Job::~Job()
     if (m_model && m_model->getModelWrapper())
         m_model->getModelWrapper()->job(nullptr);
 
-    delete m_process;
-    delete m_applicationOutput;
     delete m_parser;
 }
 
@@ -240,16 +228,6 @@ void Job::processModeArgs(
     }
 }
 
-void Job::readyReadStandardError()
-{
-    m_applicationOutput->slotReceivedStderr(m_process->readAllStandardError());
-}
-
-void Job::readyReadStandardOutput()
-{
-    m_applicationOutput->slotReceivedStdout(m_process->readAllStandardOutput());
-}
-
 QStringList Job::buildCommandLine() const
 {
     static const t_valgrind_cfg_argarray generic_args = {
@@ -285,7 +263,6 @@ void Job::start()
     if (!err.isEmpty()) {
         setError(-1);
         setErrorText(err);
-        emit updateTabText(m_model, i18n("job failed"));
 
         return;
     }
@@ -302,7 +279,6 @@ void Job::start()
     if (!err.isEmpty()) {
         setError(-1);
         setErrorText(err);
-        emit updateTabText(m_model, i18n("job failed"));
     }
 
     if (error()) {
@@ -311,20 +287,14 @@ void Job::start()
         return;
     }
 
-    setStandardToolView(KDevelop::IOutputView::DebugView);
-    setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
-    setModel(new KDevelop::OutputModel());
-
-    m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
-
-    Q_ASSERT(m_process->state() != QProcess::Running);
-
     m_workingDir = iface->workingDirectory(m_launchcfg);
     if (m_workingDir.isEmpty() || !m_workingDir.isValid())
         m_workingDir = QUrl::fromLocalFile(QFileInfo(executable).absolutePath());
 
-    m_process->setWorkingDirectory(m_workingDir.toLocalFile());
-    m_process->setProperty("executable", executable);
+    // FIXME
+//     setWorkingDirectory(m_workingDir.toLocalFile());
+//     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
+//     Q_ASSERT(m_process->state() != QProcess::Running);
 
     // some tools need to initialize stuff before the process starts
     this->beforeStart();
@@ -339,52 +309,87 @@ void Job::start()
 
     qCDebug(KDEV_VALGRIND) << "executing:" << e << valgrindArgs;
 
-    m_process->setProgram(e,valgrindArgs);
-    m_process->start();
-    m_pid = m_process->pid();
+    *this << e;
+    *this << valgrindArgs;
 
-    setTitle(QString(i18n("job output (pid=%1)", m_pid)));
-    startOutput();
-
-    // FIXME replace with new style
-    connect(m_applicationOutput, SIGNAL(receivedStdoutLines(QStringList)),
-            model(), SLOT(appendLines(QStringList)));
-    connect(m_applicationOutput, SIGNAL(receivedStderrLines(QStringList)),
-            model(), SLOT(appendLines(QStringList)));
-
-    emit updateTabText(m_model, i18n("job running (pid=%1)",  m_pid));
+    KDevelop::OutputExecuteJob::start();
 
     this->processStarted();
 }
 
-bool Job::doKill()
+void Job::postProcessStdout(const QStringList& lines)
 {
-    if (m_process && m_process->pid()) {
-        m_process->kill();
-        m_killed = true;
-        m_process = nullptr;
+    m_standardOutput << lines;
+    KDevelop::OutputExecuteJob::postProcessStdout(lines);
+}
+
+void Job::postProcessStderr(const QStringList& lines)
+{
+    static const auto xmlStartRegex = QRegularExpression("\\s*<");
+
+    for (const QString & line : lines) {
+        if (line.isEmpty())
+            continue;
+
+        if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
+            m_xmlOutput << line;
+            m_parser->addData(line);
+            m_parser->parse();
+        }
+        else
+            m_errorOutput << line;
     }
 
-    return true;
+    KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
-Plugin* Job::plugin() const
+void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    return m_plugin;
+    qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
+
+    if (exitCode) {
+        /*
+        ** Here, check if Valgrind failed (because of bad parameters or whatever).
+        ** Because Valgrind always returns 1 on failure, and the profiled application's return
+        ** on success, we cannot know for sure which process returned != 0.
+        **
+        ** The only way to guess that it is Valgrind which failed is to check stderr and look for
+        ** "valgrind:" at the beginning of each line, even though it can still be the profiled
+        ** process that writes it on stderr. It is, however, unlikely enough to be reliable in
+        ** most cases.
+        */
+        const QString s = m_errorOutput.join(' ');
+
+        if (s.startsWith("valgrind:")) {
+            QString err = s.split("\n")[0];
+            err = err.replace("valgrind:", "");
+            err += "\n\nPlease review your Valgrind launch configuration.";
+
+            KMessageBox::error(qApp->activeWindow(), err, i18n("Valgrind Error"));
+        }
+    }
+
+    processEnded();
+    emitResult();
+
+    m_plugin->jobFinished(this);
 }
 
-void Job::processErrored(QProcess::ProcessError e)
+void Job::childProcessError(QProcess::ProcessError processError)
 {
-    switch (e) {
+    switch (processError) {
 
     case QProcess::FailedToStart:
-        KMessageBox::error(qApp->activeWindow(), i18n("Failed to start valgrind from \"%1\".", m_process->property("executable").toString()), i18n("Failed to start Valgrind"));
+        KMessageBox::error(
+            qApp->activeWindow(),
+            i18n("Failed to start valgrind from \"%1\".", commandLine().first()),
+            i18n("Failed to start Valgrind"));
         break;
 
     case QProcess::Crashed:
         // if the process was killed by the user, the crash was expected
         // don't notify the user
-        if (!m_killed)
+        if (status() != KDevelop::OutputExecuteJob::JobStatus::JobCanceled)
             KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
         break;
 
@@ -406,38 +411,9 @@ void Job::processErrored(QProcess::ProcessError e)
     }
 }
 
-void Job::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
+Plugin* Job::plugin() const
 {
-    qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
-
-    QString tabname = i18n("job finished (pid=%1,exit=%2)", m_pid, exitCode);
-
-    if (exitCode) {
-        /*
-        ** Here, check if Valgrind failed (because of bad parameters or whatever).
-        ** Because Valgrind always returns 1 on failure, and the profiled application's return
-        ** on success, we cannot know for sure which process returned != 0.
-        **
-        ** The only way to guess that it is Valgrind which failed is to check stderr and look for
-        ** "valgrind:" at the beginning of each line, even though it can still be the profiled
-        ** process that writes it on stderr. It is, however, unlikely enough to be reliable in
-        ** most cases.
-        */
-        const QString &s = m_process->readAllStandardError();
-
-        if (s.startsWith("valgrind:")) {
-            QString err = s.split("\n")[0];
-            err = err.replace("valgrind:", "");
-            err += "\n\nPlease review your Valgrind launch configuration.";
-
-            KMessageBox::error(qApp->activeWindow(), err, i18n("Valgrind Error"));
-            tabname = i18n("job failed");
-        }
-    }
-
-    this->processEnded();
-    emit updateTabText(m_model, tabname);
-    emitResult();
+    return m_plugin;
 }
 
 void Job::beforeStart()
@@ -450,11 +426,6 @@ void Job::processStarted()
 
 void Job::processEnded()
 {
-}
-
-KDevelop::OutputModel* Job::model()
-{
-    return dynamic_cast<KDevelop::OutputModel*>(KDevelop::OutputJob::model());
 }
 
 /**

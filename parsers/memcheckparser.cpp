@@ -96,19 +96,25 @@ bool MemcheckParser::startElement()
 bool MemcheckParser::endElement()
 {
     State state = m_stateStack.pop();
+
     switch (state) {
+
     case Error:
         emit newData(Model::error, name().toString(), m_buffer);
         break;
+
     case Stack:
         emit newData(Model::stack, name().toString(), m_buffer);
         break;
+
     case Frame:
         emit newData(Model::frame, name().toString(), m_buffer);
         break;
+
     default:
         break;
     }
+
     return true;
 }
 
