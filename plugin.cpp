@@ -23,6 +23,7 @@
 
 #include "config.h"
 #include "debug.h"
+#include "job.h"
 #include "launcher.h"
 #include "marks.h"
 #include "widget.h"
@@ -125,7 +126,13 @@ Plugin::~Plugin()
 void Plugin::runValgrind()
 {
     core()->runController()->executeDefaultLaunch("valgrind_generic");
-    core()->languageController()->problemModelSet()->showModel(modelName);
+}
+
+void Plugin::jobFinished(KJob* kjob)
+{
+    Job* job = dynamic_cast<Job*>(kjob);
+    if (job && !job->error())
+        core()->languageController()->problemModelSet()->showModel(modelName);
 }
 
 }

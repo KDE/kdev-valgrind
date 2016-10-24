@@ -23,6 +23,8 @@
 
 #include <interfaces/iplugin.h>
 
+class KJob;
+
 namespace KDevelop
 {
 class ProblemModel;
@@ -43,6 +45,8 @@ public:
     ~Plugin() override;
 
     void incomingModel(Model* model);
+
+    void jobFinished(KJob* job);
 
 signals:
     void newModel(Model* model);

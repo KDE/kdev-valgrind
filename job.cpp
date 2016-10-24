@@ -185,6 +185,8 @@ Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent)
     factory.make(tool, m_model, m_parser);
     m_model->getModelWrapper()->job(this);
     m_plugin->incomingModel(m_model);
+
+    connect(this, &Job::finished, inst, &Plugin::jobFinished);
 }
 
 Job::~Job()
