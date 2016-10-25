@@ -79,13 +79,17 @@ protected:
     virtual void addToolArgs(QStringList& args, KConfigGroup& cfg) const = 0;
 
     void processModeArgs(QStringList& out,
-                         const t_valgrind_cfg_argarray mode_args,
-                         int mode_args_count,
-                         KConfigGroup& cfg) const;
+                         const t_valgrind_cfg_argarray modeArgs,
+                         int modeArgsCount,
+                         KConfigGroup& config) const;
 
     QStringList buildCommandLine() const;
 
     QString m_tool;
+    QString m_valgrindExecutable;
+    QString m_analyzedExecutable;
+    QStringList m_analyzedExecutableArguments;
+
     QUrl m_workingDir;
 
     Model* m_model;
@@ -94,12 +98,8 @@ protected:
     KDevelop::ILaunchConfiguration* m_launchcfg;
     Plugin* m_plugin;
 
-    // The valgrind output file
-    QFile* m_file;
-
     QStringList m_standardOutput;
     QStringList m_errorOutput;
-    QStringList m_xmlOutput;
 };
 
 /**

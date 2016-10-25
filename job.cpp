@@ -53,7 +53,6 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>
-#include <QRegularExpression>
 
 namespace valgrind
 {
@@ -62,13 +61,7 @@ namespace valgrind
  * Creates a model and a parser according to the specified name and
  * connects the 2 items
  */
-class ModelParserFactoryPrivate
-{
-public:
-    void make(const QString& type, Model*& m_model, Parser*& m_parser);
-};
-
-void ModelParserFactoryPrivate::make(const QString& tool, Model*& m_model, Parser*& m_parser)
+void createToolModelParser(const QString& tool, Model*& m_model, Parser*& m_parser)
 {
     ModelWrapper* modelWrapper = nullptr;
 
@@ -147,13 +140,54 @@ Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     setStandardToolView(KDevelop::IOutputView::TestView);
     setBehaviours(KDevelop::IOutputView::AutoScroll);
 
-    // create the correct model for each tool
-    m_tool = m_launchcfg->config().readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
-    ModelParserFactoryPrivate factory;
+    KConfigGroup config(m_launchcfg->config());
 
-    factory.make(m_tool, m_model, m_parser);
+    // create the correct model for each tool
+    m_tool = config.readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
+    createToolModelParser(m_tool, m_model, m_parser);
     m_model->getModelWrapper()->job(this);
     m_plugin->incomingModel(m_model);
+
+    IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
+    Q_ASSERT(iface);
+
+    KDevelop::EnvironmentGroupList l(KSharedConfig::openConfig());
+    QString envgrp = iface->environmentGroup(m_launchcfg);
+
+    if (envgrp.isEmpty()) {
+        qCWarning(KDEV_VALGRIND) << i18n("No environment group specified, looks like a broken "
+                           "configuration, please check run configuration '%1'. "
+                           "Using default environment group.", m_launchcfg->name());
+        envgrp = l.defaultGroup();
+    }
+    // FIXME
+//     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
+
+
+    QString errorString;
+
+    m_valgrindExecutable = config.readEntry(QStringLiteral("Valgrind Executable"),
+                                            QStringLiteral("/usr/bin/valgrind"));
+
+    m_analyzedExecutable = iface->executable(m_launchcfg, errorString).toLocalFile();
+    if (!errorString.isEmpty()) {
+        setError(-1);
+        setErrorText(errorString);
+    }
+
+    m_analyzedExecutableArguments = iface->arguments(m_launchcfg, errorString);
+    if (!errorString.isEmpty()) {
+        setError(-1);
+        setErrorText(errorString);
+    }
+
+    m_workingDir = iface->workingDirectory(m_launchcfg);
+    if (m_workingDir.isEmpty() || !m_workingDir.isValid())
+        m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
+
+    // FIXME
+//     setWorkingDirectory(m_workingDir.toLocalFile());
+//     Q_ASSERT(m_process->state() != QProcess::Running);
 }
 
 Job::~Job()
@@ -172,129 +206,81 @@ QString Job::tool()
 
 void Job::processModeArgs(
     QStringList& out,
-    const t_valgrind_cfg_argarray mode_args,
-    int mode_args_count,
-    KConfigGroup& cfg) const
+    const t_valgrind_cfg_argarray modeArgs,
+    int modeArgsCount,
+    KConfigGroup& config) const
 {
     // For each option, set the right string in the arguments list
-    for (int i = 0; i < mode_args_count; ++i) {
+    for (int i = 0; i < modeArgsCount; ++i) {
         QString val;
-        QString argtype = mode_args[i][2];
+        QString argType = modeArgs[i][2];
 
-        if (argtype == QStringLiteral("str"))
-            val = cfg.readEntry(mode_args[i][0]);
+        if (argType == QStringLiteral("str"))
+            val = config.readEntry(modeArgs[i][0]);
 
-        else if (argtype == QStringLiteral("int")) {
-            int n = cfg.readEntry(mode_args[i][0], 0);
+        else if (argType == QStringLiteral("int")) {
+            int n = config.readEntry(modeArgs[i][0], 0);
             if (n)
                 val.sprintf("%d", n);
         }
 
-        else if (argtype == QStringLiteral("bool")) {
-            bool n = cfg.readEntry(mode_args[i][0], false);
+        else if (argType == QStringLiteral("bool")) {
+            bool n = config.readEntry(modeArgs[i][0], false);
             val = n ? QStringLiteral("yes") : QStringLiteral("no");
         }
 
-        else if (argtype == QStringLiteral("float")) {
-            int n = cfg.readEntry(mode_args[i][0], 1);
+        else if (argType == QStringLiteral("float")) {
+            int n = config.readEntry(modeArgs[i][0], 1);
             val.sprintf("%d.0", n);
         }
 
-        else if (argtype == QStringLiteral("float")) {
-            int n = cfg.readEntry(mode_args[i][0], 1);
+        else if (argType == QStringLiteral("float")) {
+            int n = config.readEntry(modeArgs[i][0], 1);
             val.sprintf("%d.0", n);
         }
 
         if (!val.isEmpty())
-            out << QString(mode_args[i][1]) + val;
+            out += QString(modeArgs[i][1]) + val;
     }
 }
 
 QStringList Job::buildCommandLine() const
 {
-    static const t_valgrind_cfg_argarray generic_args = {
+    static const t_valgrind_cfg_argarray genericArgs = {
         {QStringLiteral("Current Tool"), QStringLiteral("--tool="), QStringLiteral("str")},
         {QStringLiteral("Stackframe Depth"), QStringLiteral("--num-callers="), QStringLiteral("int")},
         {QStringLiteral("Maximum Stackframe Size"), QStringLiteral("--max-stackframe="), QStringLiteral("int")},
         {QStringLiteral("Limit Errors"), QStringLiteral("--error-limit="), QStringLiteral("bool")}
     };
+    static const int genericArgsCount = sizeof(genericArgs) / sizeof(*genericArgs);
 
-    static const int generic_args_count = sizeof(generic_args) / sizeof(*generic_args);
+    KConfigGroup config = m_launchcfg->config();
+    QStringList result = KShell::splitArgs(config.readEntry(QStringLiteral("Valgrind Arguments"),
+                                                            QStringLiteral("")));
 
-    KConfigGroup cfg = m_launchcfg->config();
-    QString tool = cfg.readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
+    processModeArgs(result, genericArgs, genericArgsCount, config);
+    addToolArgs(result, config);
 
-    QStringList args = KShell::splitArgs(cfg.readEntry(QStringLiteral("Valgrind Arguments"), QStringLiteral("")));
-    processModeArgs(args, generic_args, generic_args_count, cfg);
-
-    addToolArgs(args, cfg);
-
-    return args;
+    return result;
 }
 
 void Job::start()
 {
-    KConfigGroup grp = m_launchcfg->config();
-    IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-    KDevelop::EnvironmentGroupList l(KSharedConfig::openConfig());
-    QString envgrp = iface->environmentGroup(m_launchcfg);
-    QString err;
-    QString executable = iface->executable(m_launchcfg, err).toLocalFile();
-
-    Q_ASSERT(iface);
-    if (!err.isEmpty()) {
-        setError(-1);
-        setErrorText(err);
-        return;
-    }
-
-    if (envgrp.isEmpty()) {
-        qCWarning(KDEV_VALGRIND) << i18n("No environment group specified, looks like a broken "
-                           "configuration, please check run configuration '%1'. "
-                           "Using default environment group.", m_launchcfg->name());
-        envgrp = l.defaultGroup();
-    }
-
-    QStringList arguments = iface->arguments(m_launchcfg, err);
-
-    if (!err.isEmpty()) {
-        setError(-1);
-        setErrorText(err);
-    }
-
     if (error()) {
         emitResult();
         return;
     }
 
-    m_workingDir = iface->workingDirectory(m_launchcfg);
-    if (m_workingDir.isEmpty() || !m_workingDir.isValid())
-        m_workingDir = QUrl::fromLocalFile(QFileInfo(executable).absolutePath());
+    *this << m_valgrindExecutable;
+    *this << buildCommandLine();
+    *this << m_analyzedExecutable;
+    *this << m_analyzedExecutableArguments;
 
-    // FIXME
-//     setWorkingDirectory(m_workingDir.toLocalFile());
-//     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
-//     Q_ASSERT(m_process->state() != QProcess::Running);
+   qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
 
-    // some tools need to initialize stuff before the process starts
-    this->beforeStart();
-
-    QStringList valgrindArgs;
-
-    valgrindArgs = buildCommandLine();
-    valgrindArgs << executable;
-    valgrindArgs += arguments;
-
-    QString e = grp.readEntry("Valgrind Executable", QString("/usr/bin/valgrind"));
-
-    qCDebug(KDEV_VALGRIND) << "executing:" << e << valgrindArgs;
-
-    *this << e;
-    *this << valgrindArgs;
-
+    beforeStart();
     KDevelop::OutputExecuteJob::start();
-
-    this->processStarted();
+    processStarted();
 }
 
 void Job::postProcessStdout(const QStringList& lines)
@@ -305,21 +291,7 @@ void Job::postProcessStdout(const QStringList& lines)
 
 void Job::postProcessStderr(const QStringList& lines)
 {
-    static const auto xmlStartRegex = QRegularExpression("\\s*<");
-
-    for (const QString & line : lines) {
-        if (line.isEmpty())
-            continue;
-
-        if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
-            m_xmlOutput << line;
-            m_parser->addData(line);
-            m_parser->parse();
-        }
-        else
-            m_errorOutput << line;
-    }
-
+    m_errorOutput << lines;
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
@@ -411,7 +383,7 @@ void Job::processEnded()
  * KProcessOutputToParser implementation
  */
 KProcessOutputToParser::KProcessOutputToParser(Parser* parser)
-    : m_process(nullptr)
+    : m_process(new QProcess)
     , m_device(new QBuffer)
     , m_parser(parser)
 {
@@ -429,33 +401,24 @@ KProcessOutputToParser::~KProcessOutputToParser()
 
 int KProcessOutputToParser::execute(const QString& execPath, const QStringList& args)
 {
-    m_process = new QProcess(this);
-    m_process->setProcessChannelMode(QProcess::ForwardedErrorChannel);
-
-    connect(m_process, &QProcess::readyReadStandardOutput, this, [this]() {
-        m_device->write(m_process->readAllStandardOutput());
-    });
-
-    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, [this](int, QProcess::ExitStatus status) {
-        qCDebug(KDEV_VALGRIND) << status;
-
-        if (status == QProcess::NormalExit) {
-            m_device->close();
-            m_device->open(QIODevice::ReadOnly);
-            m_parser->setDevice(m_device);
-            m_parser->parse();
-        }
-    });
-
     // execute and wait the end of the program
-    return m_process->execute(execPath, args);
+    m_process->start(execPath, args);
+    if (m_process->waitForFinished()) {
+        m_device->write(m_process->readAllStandardOutput());
+        m_device->close();
+        m_device->open(QIODevice::ReadOnly);
+
+        m_parser->setDevice(m_device);
+        m_parser->parse();
+    }
+
+    return m_process->exitCode();
 }
 
 /**
  * QFileProxyRemove Implementation
  */
-QFileProxyRemove::QFileProxyRemove(const QString& programPath, const QStringList& args, QFile *toRemove, QObject *parent)
+QFileProxyRemove::QFileProxyRemove(const QString& programPath, const QStringList& args, QFile* toRemove, QObject* parent)
     : QObject(parent)
     , m_file(toRemove)
     , m_process(new QProcess(this))

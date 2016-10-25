@@ -37,7 +37,12 @@ public:
     ~MemcheckJob() override;
 
 protected:
+    void postProcessStderr(const QStringList& lines) override;
+
     void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
+
+    QStringList m_xmlOutput;
+
 };
 
 }

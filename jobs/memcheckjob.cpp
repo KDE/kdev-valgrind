@@ -28,7 +28,7 @@
 
 #include <KLocalizedString>
 
-#include <QTcpServer>
+#include <QRegularExpression>
 #include <unistd.h>
 
 namespace valgrind
@@ -43,6 +43,26 @@ MemcheckJob::~MemcheckJob()
 {
 }
 
+void MemcheckJob::postProcessStderr(const QStringList& lines)
+{
+    static const auto xmlStartRegex = QRegularExpression("\\s*<");
+
+    for (const QString & line : lines) {
+        if (line.isEmpty())
+            continue;
+
+        if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
+            m_xmlOutput << line;
+            m_parser->addData(line);
+            m_parser->parse();
+        }
+        else
+            m_errorOutput << line;
+    }
+
+    KDevelop::OutputExecuteJob::postProcessStderr(lines);
+}
+
 void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     static const t_valgrind_cfg_argarray memcheck_args = {
@@ -54,8 +74,8 @@ void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
     static const int count = sizeof(memcheck_args) / sizeof(*memcheck_args);
 
-    args << "--xml=yes";
-    args << QString("--xml-fd=%1").arg(STDERR_FILENO);
+    args << QStringLiteral("--xml=yes");
+    args << QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
 
     processModeArgs(args, memcheck_args, count, cfg);
 }
