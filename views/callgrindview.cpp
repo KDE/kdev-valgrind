@@ -82,6 +82,9 @@ void CallgrindView::setModel(Model * m)
     ui->FunctionsTreeView->setSelectionModel(functionListSelectionModel);
     connect(functionListSelectionModel, SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this, SLOT(selectionOnFctListChanged(const QItemSelection &, const QItemSelection &)));
+
+    ui->FunctionsTreeView->header()->setStretchLastSection(false);
+    ui->FunctionsTreeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 }
 
 void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -113,6 +116,7 @@ void CallgrindView::updateInformationTab(CallgrindCallstackItem *item)
         }
     }
     ui->InformationsListView->setModel(informationsModel);
+    ui->InformationsListView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
@@ -131,6 +135,9 @@ void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
         callerModel->setItem(i, 1, new QStandardItem(caller->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
     m_callerProxyModel->setSourceModel(callerModel);
+
+    ui->CallerListView->header()->setStretchLastSection(false);
+    ui->CallerListView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 }
 
 void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
@@ -148,6 +155,9 @@ void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
         calleeModel->setItem(i, 1, new QStandardItem(callee->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
     m_calleeProxyModel->setSourceModel(calleeModel);
+
+    ui->CalleeListView->header()->setStretchLastSection(false);
+    ui->CalleeListView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 }
 
 void CallgrindView::percentInformationClicked(bool enable)
