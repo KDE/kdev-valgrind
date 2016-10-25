@@ -1,8 +1,9 @@
 /* This file is part of KDevelop
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
- * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -21,17 +22,16 @@
 */
 
 #include "callgrindparser.h"
-#include "callgrinditem.h"
 
-//TODO: delete this !
-#include <iostream>
+#include "callgrinditem.h"
+#include "debug.h"
 
 namespace valgrind
 {
 
-CallgrindParser::CallgrindParser(QObject *parent) :
-Parser( parent ),
-m_numCalls(0)
+CallgrindParser::CallgrindParser(QObject* parent)
+    : Parser(parent)
+    , m_numCalls(0)
 {
 }
 
@@ -39,35 +39,31 @@ CallgrindParser::~CallgrindParser()
 {
 }
 
-bool CallgrindParser::parseRootModel(const QString &buffer)
+bool CallgrindParser::parseRootModel(const QString& buffer)
 {
-    int i;
     m_headersList = buffer.split(QChar(' '), QString::SkipEmptyParts);
+    m_programTotalStr = QStringLiteral("");
 
-    m_programTotalStr = "";
-    for (i = 0; i < m_headersList.size(); ++i)
-    {
+    for (int i = 0; i < m_headersList.size(); ++i) {
         iCachegrindItem::Columns key = iCachegrindItem::dataKeyFromName(m_headersList[i]);
         if (key != iCachegrindItem::Unknow)
-        {
             m_programTotalStr += " " + m_headersList[i];
-        }
-        else
-        {
+        else {
             qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
             return false;
         }
     }
+
     m_programTotalStr = m_programTotalStr.trimmed();
     return true;
 }
 
 void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalProgram)
 {
-    CallgrindCallstackItem *csItem;
-    int             iBegin, iEnd;
-    int             i;
-    QList<QString>  dataList;
+    CallgrindCallstackItem* csItem;
+    int iBegin;
+    int iEnd;
+    QStringList dataList;
 
     int numCalls = 0;
 
@@ -76,7 +72,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
     // where 666 is the number of calls
     int idx = buffer.lastIndexOf('(');
     if (idx != -1) {
-        int idx2 = buffer.indexOf("x)", idx); // lastIndexOf somehow returns -1 here
+        int idx2 = buffer.indexOf(QStringLiteral("x)"), idx); // lastIndexOf somehow returns -1 here
         if (idx2 != -1) {
             // Grab the number of calls
             // Example:
@@ -87,37 +83,37 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
     }
 
     iBegin = iEnd = 0;
-    for (i = 0; i < m_headersList.size(); ++i)
-    {
+    for (int i = 0; i < m_headersList.size(); ++i) {
         if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1)
             break;
+
         dataList.append(buffer.mid(iBegin, iEnd - iBegin).replace(',', ""));
         iBegin = iEnd + 1;
     }
-    if (!totalProgram)
-    {
-        if (buffer.at(iBegin) == '*' || buffer.at(iBegin) == '<' || buffer.at(iBegin) == '>')
-        {
+
+    if (!totalProgram) {
+        if (buffer.at(iBegin) == QChar('*') ||
+            buffer.at(iBegin) == QChar('<') ||
+            buffer.at(iBegin) == QChar('>')) {
+
             char symbol = buffer.at(iBegin).toLatin1();
             iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
-            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1)
-            {
+
+            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1) {
                 if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1)
                     iEnd = buffer.length();
             }
             else
                 iEnd += 1;
+
             csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
-            switch (symbol)
-            {
+
+            switch (symbol) {
 
             // The function itself
             case '*':
-            {
-                if (m_caller.size() > 0)
-                {
-                    for (int j = 0; j < m_caller.size(); ++j)
-                    {
+                if (m_caller.size() > 0) {
+                    for (int j = 0; j < m_caller.size(); ++j) {
                         csItem->addParent(m_caller[j]);
                         m_caller[j]->addChild(csItem);
                     }
@@ -131,76 +127,70 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
                 m_lastCall = csItem;
                 emit newItem(csItem);
                 break;
-            }
 
             // a caller
             case '<':
-            {
                 m_caller.append(csItem);
 
                 // Only add the number of calls here,
                 // since the total number of calls, is the sum of calls from callers
                 m_numCalls += numCalls;
                 break;
-            }
 
             // a called function
             case '>':
-            {
                 m_lastCall->addChild(csItem);
                 csItem->addParent(m_lastCall);
                 break;
             }
-            }
 
         }
-        else
-        {
+
+        else {
             if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1)
                 if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1)
                     iEnd = buffer.length();
+
             csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
             emit newItem(csItem);
         }
 
-        for (int j = 0; j < dataList.size(); ++j)
-        {
+        for (int j = 0; j < dataList.size(); ++j) {
             csItem->incommingData(m_headersList[j], dataList[j]);
         }
     }
-    else
-    {
+
+    else {
         //total program count
-        CallgrindCallstackItem *totalCount = getOrCreateNewItem(" :Program_Total_Count");
-        for (int j = 0; j < dataList.size(); ++j)
-        {
+        CallgrindCallstackItem* totalCount = getOrCreateNewItem(QStringLiteral(" :Program_Total_Count"));
+        for (int j = 0; j < dataList.size(); ++j) {
             totalCount->incommingData(m_headersList[j], dataList[j]);
         }
+
         m_totalCountItem = totalCount;
         emit newItem(totalCount);
     }
-
 }
 
-CallgrindCallstackItem  *CallgrindParser::getOrCreateNewItem(const QString& fullDescName)
+CallgrindCallstackItem* CallgrindParser::getOrCreateNewItem(const QString& fullDescName)
 {
-    CallgrindCallstackFunction  *csFct = NULL;
+    CallgrindCallstackFunction* csFct = nullptr;
     //qCDebug(KDEV_VALGRIND) << fullDescName;
-    for (int i = 0; i < m_allFunctions.size(); ++i)
-    {
-        if (m_allFunctions[i]->getCsFunction()->getFullDescName().compare(fullDescName) == 0)
-        {
+
+    for (int i = 0; i < m_allFunctions.size(); ++i) {
+        if (m_allFunctions[i]->getCsFunction()->getFullDescName().compare(fullDescName) == 0) {
             csFct = m_allFunctions[i]->getCsFunction();
             break;
         }
     }
-    if (csFct == NULL)
-    {
+
+    if (csFct == nullptr) {
         csFct = new CallgrindCallstackFunction();
         csFct->setFullDescName(fullDescName);
         csFct->setTotalCountItem(m_totalCountItem);
     }
-    CallgrindCallstackItem *item = new CallgrindCallstackItem(csFct);
+
+    CallgrindCallstackItem* item = new CallgrindCallstackItem(csFct);
     return item;
 }
 
@@ -215,41 +205,33 @@ enum CallgrindParserState
 
 void CallgrindParser::parse()
 {
-    CallgrindParserState  parserState = ParseRootModel;
-    QString               buffer;
+    CallgrindParserState parserState(ParseRootModel);
+    QString buffer;
 
-    while (!device()->atEnd())
-    {
+    while (!device()->atEnd()) {
         //remove useless characters
         buffer = device()->readLine().simplified();
 
-        if (parserState != ParseProgramTotal && parserState != ParseProgram)
-        {
-            if (parserState == ParseRootModel && buffer.startsWith("Events shown:"))
-            {
+        if (parserState != ParseProgramTotal && parserState != ParseProgram) {
+            if (parserState == ParseRootModel && buffer.startsWith("Events shown:")) {
                 //13 is 'Events shown:' size;
-                if (!parseRootModel(buffer.mid(13, buffer.length() - 13)))
-                {
+                if (!parseRootModel(buffer.mid(13, buffer.length() - 13))) {
                     qCDebug(KDEV_VALGRIND) << "Input stream is misformated, cannot build the tree";
                     return ;
                 }
                 parserState = ParseProgramTotalHeader;
             }
+
             else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr)
-            {
                 parserState = ParseProgramTotal;
-            }
+
             else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr))
-            {
                 parserState = ParseProgram;
-            }
         }
-        else
-        {
-            if (buffer.size() > 0 && buffer.at(0).isDigit())
-            {
-                if (parserState == ParseProgramTotal)
-                {
+
+        else {
+            if (buffer.size() > 0 && buffer.at(0).isDigit()) {
+                if (parserState == ParseProgramTotal) {
                     parseNewCallgrindItem(buffer, true);
                     parserState = ParseProgramHeader;
                 }
@@ -258,7 +240,8 @@ void CallgrindParser::parse()
             }
         }
     }
-    emit newItem(NULL);
-}
+
+    emit newItem(nullptr);
 }
 
+}

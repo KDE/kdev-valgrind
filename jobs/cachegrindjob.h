@@ -3,6 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,37 +21,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef CACHEGRINDJOB_H
-# define CACHEGRINDJOB_H
+#pragma once
 
-# include "job.h"
+#include "job.h"
 
 namespace valgrind
 {
-class KProcessOutputToParser;
 
 class CachegrindJob : public Job
 {
     Q_OBJECT
 
 public:
-    CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
-                  Plugin *inst,
-                  QObject* parent = 0);
-    virtual ~CachegrindJob();
+    CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~CachegrindJob() override;
 
 protected:
-
-    virtual void processStarted();
-    virtual void processEnded();
-    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
+    virtual void processEnded() override;
+    virtual void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 
 private:
-    KProcessOutputToParser  *m_postTreatment;
-    QFile                   *m_file;
+    KProcessOutputToParser* m_postTreatment;
+    QString m_outputFile;
 };
 
 }
-
-
-#endif //!CACHEGRINDJOB_H

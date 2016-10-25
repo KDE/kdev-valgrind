@@ -43,7 +43,7 @@ protected:
 
 private:
     KProcessOutputToParser* m_postTreatment;
-    QFile* m_outputFile;
+    QString m_outputFile;
 };
 
 }

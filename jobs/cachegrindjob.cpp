@@ -3,6 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,85 +21,68 @@
    Boston, MA 02110-1301, USA.
 */
 
+
 #include "cachegrindjob.h"
 
-#include "debug.h"
+#include "plugin.h"
 
-#include <KProcess>
+#include <interfaces/ilaunchconfiguration.h>
+#include <kconfiggroup.h>
 
 #include <QFile>
-#include <kconfiggroup.h>
-#include "debug.h"
-#include <klocalizedstring.h>
-#include <kmessagebox.h>
-#include <execute/iexecuteplugin.h>
-#include <interfaces/icore.h>
-#include <interfaces/ilaunchconfiguration.h>
-#include <interfaces/iplugincontroller.h>
 
 namespace valgrind
 {
-CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg,
-                             Plugin *inst,
-                             QObject* parent)
-    : Job(cfg, inst, parent)
-    , m_file(0)
+
+CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+    : Job(cfg, plugin, parent)
+    , m_postTreatment(new KProcessOutputToParser(m_parser))
+    , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {
-    m_postTreatment = 0;
 }
 
 CachegrindJob::~CachegrindJob()
 {
-    if (m_postTreatment != 0)
-        delete m_postTreatment;
-}
-
-void CachegrindJob::processStarted()
-{
-    // FIXME
-//     QString filename = QString("%1/cachegrind.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
-    QString filename = QString("%1/cachegrind.out.%2").arg(m_workingDir.toLocalFile()).arg(0);
-
-    m_file = new QFile(filename);
+    delete m_postTreatment;
 }
 
 void CachegrindJob::processEnded()
 {
-    if (m_file)
-    {
-        KConfigGroup grp = m_launchcfg->config();
-        m_postTreatment = new KProcessOutputToParser(m_parser);
-        QStringList args;
-        args << m_file->fileName();
-        QString caPath = grp.readEntry("CachegrindAnnotateExecutable", "/usr/bin/cg_annotate");
-        m_postTreatment->execute(caPath, args);
+    KConfigGroup config = m_launchcfg->config();
 
-        if (grp.readEntry("Launch KCachegrind", false))
-        {
-            QStringList args;
-            args << m_file->fileName();
-            QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
-            //Proxy used to remove file at the end of KCachegrind
-            new QFileProxyRemove(kcg, args, m_file->fileName(), (QObject *)m_plugin);
-        }
-        else
-        {
-            m_file->remove();
-            delete m_file;
-        }
+    QStringList args(m_outputFile);
+
+    QString caPath = config.readEntry(QStringLiteral("CachegrindAnnotateExecutable"),
+                                      QStringLiteral("/usr/bin/cg_annotate"));
+
+    m_postTreatment->execute(caPath, args);
+
+    if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
+        args.clear();
+        args += m_outputFile;
+
+        QString kcg = config.readEntry(QStringLiteral("KCachegrindExecutable"),
+                                       QStringLiteral("/usr/bin/kcachegrind"));
+
+        //Proxy used to remove file at the end of KCachegrind
+        new QFileProxyRemove(kcg, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
+    else
+        QFile::remove(m_outputFile);
 }
 
-void CachegrindJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
+void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
-    static const t_valgrind_cfg_argarray cg_args =
-    {
-        {"Cachegrind Arguments", "", "str"},
-        {"Cachegrind Cache simulation", "--cache-sim=", "bool"},
-        {"Cachegrind Branch simulation", "--branch-sim=", "bool"}
+    static const t_valgrind_cfg_argarray cgArgs = {
+        {QStringLiteral("Cachegrind Arguments"), QStringLiteral(""), QStringLiteral("str")},
+        {QStringLiteral("Cachegrind Cache simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
+        {QStringLiteral("Cachegrind Branch simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
     };
-    static const int count = sizeof(cg_args) / sizeof(*cg_args);
+    static const int count = sizeof(cgArgs) / sizeof(*cgArgs);
 
-    processModeArgs(args, cg_args, count, cfg);
+    args << QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
+
+    processModeArgs(args, cgArgs, count, cfg);
 }
+
 }

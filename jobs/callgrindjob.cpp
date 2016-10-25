@@ -37,15 +37,13 @@ namespace valgrind
 CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : Job(cfg, plugin, parent)
     , m_postTreatment(new KProcessOutputToParser(m_parser))
-    , m_outputFile(new QFile)
+    , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
 {
-    m_outputFile->setFileName(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()));
 }
 
 CallgrindJob::~CallgrindJob()
 {
     delete m_postTreatment;
-    delete m_outputFile;
 }
 
 void CallgrindJob::processEnded()
@@ -53,7 +51,7 @@ void CallgrindJob::processEnded()
     KConfigGroup config = m_launchcfg->config();
 
     QStringList args;
-    args += m_outputFile->fileName();
+    args += m_outputFile;
     args += QStringLiteral("--tree=both");
 
     QString caPath = config.readEntry(QStringLiteral("CallgrindAnnotateExecutable"),
@@ -63,16 +61,16 @@ void CallgrindJob::processEnded()
 
     if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
         args.clear();
-        args += m_outputFile->fileName();
+        args += m_outputFile;
 
         QString kcg = config.readEntry(QStringLiteral("KCachegrindExecutable"),
                                        QStringLiteral("/usr/bin/kcachegrind"));
 
         // Proxy used to remove file at the end of KCachegrind
-        new QFileProxyRemove(kcg, args, m_outputFile->fileName(), dynamic_cast<QObject*>(m_plugin));
+        new QFileProxyRemove(kcg, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
     else
-        m_outputFile->remove();
+        QFile::remove(m_outputFile);
 }
 
 void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
@@ -84,7 +82,7 @@ void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     };
     static const int count = sizeof(cgArgs) / sizeof(*cgArgs);
 
-    args << QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile->fileName());
+    args << QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
 
     processModeArgs(args, cgArgs, count, cfg);
 }
