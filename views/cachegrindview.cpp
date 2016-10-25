@@ -24,6 +24,7 @@
 #include "cachegrindview.h"
 
 #include <QApplication>
+#include <QHeaderView>
 
 #include "statjob.h"
 
@@ -34,6 +35,8 @@
 #include "cachegrindmodel.h"
 #include "cachegrinditem.h"
 
+#include "modelwrapper.h"
+
 namespace valgrind
 {
 CachegrindView::CachegrindView()
@@ -43,9 +46,17 @@ CachegrindView::CachegrindView()
 
 CachegrindView::~CachegrindView() {}
 
-void CachegrindView::setModel(Model * m)
+void CachegrindView::setModel(Model* m)
 {
     QTreeView::setModel(m->getQAbstractItemModel());
+
+    connect(m->getModelWrapper(), &ModelWrapper::modelChanged,
+            this, [this, m]() {
+        if (m->getQAbstractItemModel()->columnCount()) {
+            header()->setStretchLastSection(false);
+            header()->setSectionResizeMode(0, QHeaderView::Stretch);
+        }
+    });
 }
 
 Model * CachegrindView::model(void)
