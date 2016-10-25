@@ -27,12 +27,14 @@ class KJob;
 
 namespace KDevelop
 {
+
 class ProblemModel;
+
 }
 
 namespace valgrind
 {
-class Marks;
+
 class Model;
 class WidgetFactory;
 
@@ -54,19 +56,8 @@ signals:
 private:
     void runValgrind();
 
-    QString m_lastExec;
-    QString m_lastParams;
-    QString m_lastValExec;
-    QString m_lastValParams;
-    QString m_lastCtExec;
-    QString m_lastCtParams;
-    QString m_lastKcExec;
-
     WidgetFactory* m_factory;
-    Marks* m_marks;
-
     QScopedPointer<KDevelop::ProblemModel> m_model;
 };
 
 }
-

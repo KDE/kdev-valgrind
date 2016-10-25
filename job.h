@@ -30,7 +30,6 @@
 #include <QUrl>
 
 class KConfigGroup;
-class KProcess;
 class QFile;
 
 namespace KDevelop
@@ -55,13 +54,11 @@ public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     virtual ~Job();
 
-    Plugin* plugin() const;
-
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
 
     // Factory
-    static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent = nullptr);
+    static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
 
 private slots:
     void postProcessStdout(const QStringList& lines) override;
@@ -86,7 +83,6 @@ protected:
 
     QStringList buildCommandLine() const;
 
-protected:
     QUrl m_workingDir;
 
     Model* m_model;
@@ -115,13 +111,9 @@ public:
     QFileProxyRemove(const QString& programPath, const QStringList& args, QFile* toRemove, QObject* parent = nullptr);
     virtual ~QFileProxyRemove();
 
-private slots:
-    void prEnded(int exitCode, QProcess::ExitStatus status);
-    void prError(QProcess::ProcessError error);
-
 private:
     QFile* m_file;
-    KProcess* m_process;
+    QProcess* m_process;
     QString m_execPath;
 };
 
@@ -133,16 +125,13 @@ class KProcessOutputToParser : public QObject
 {
 Q_OBJECT
 public:
-    KProcessOutputToParser(Parser* inst);
+    KProcessOutputToParser(Parser* parser);
     ~KProcessOutputToParser();
+
     int execute(const QString& execPath, const QStringList& args);
 
-private slots:
-    void  newDataFromStdOut();
-    void  processEnded(int returnCode, QProcess::ExitStatus status);
-
 private:
-    KProcess* m_process;
+    QProcess* m_process;
     QIODevice* m_device;
     Parser* m_parser;
 };

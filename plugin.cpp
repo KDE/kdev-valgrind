@@ -25,7 +25,6 @@
 #include "debug.h"
 #include "job.h"
 #include "launcher.h"
-#include "marks.h"
 #include "widget.h"
 
 #include <execute/iexecuteplugin.h>
@@ -68,7 +67,7 @@ public:
 
     virtual QString id() const
     {
-        return "org.kdevelop.ValgrindView";
+        return QStringLiteral("org.kdevelop.ValgrindView");
     }
 
 private:
@@ -78,7 +77,6 @@ private:
 Plugin::Plugin(QObject* parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
     , m_factory(new WidgetFactory(this))
-    , m_marks(new Marks(this))
     , m_model(new KDevelop::ProblemModel(this))
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
@@ -92,7 +90,6 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     IExecutePlugin* iface = core()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
-
 
     LaunchMode* mode = new GenericLaunchMode();
     core()->runController()->addLaunchMode(mode);
@@ -125,6 +122,7 @@ Plugin::~Plugin()
 
 void Plugin::runValgrind()
 {
+    m_model->clearProblems();
     core()->runController()->executeDefaultLaunch("valgrind_generic");
 }
 

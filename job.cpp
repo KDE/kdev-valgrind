@@ -26,48 +26,34 @@
 
 #include "job.h"
 
-#include "debug.h"
+#include "cachegrindjob.h"
+#include "cachegrindmodel.h"
+#include "cachegrindparser.h"
+#include "callgrindjob.h"
+#include "callgrindmodel.h"
+#include "callgrindparser.h"
+#include "massifjob.h"
+#include "massifmodel.h"
+#include "massifparser.h"
+#include "memcheckfakemodel.h"
+#include "memcheckjob.h"
+#include "memcheckparser.h"
+#include "modelwrapper.h"
+#include "plugin.h"
+
+#include <execute/iexecuteplugin.h>
+#include <interfaces/icore.h>
+#include <interfaces/ilaunchconfiguration.h>
+#include <interfaces/iplugincontroller.h>
+#include <kconfiggroup.h>
+#include <klocalizedstring.h>
+#include <kshell.h>
+#include <util/environmentgrouplist.h>
 
 #include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>
 #include <QRegularExpression>
-
-#include <kconfiggroup.h>
-#include "debug.h"
-#include <klocalizedstring.h>
-#include <kmessagebox.h>
-#include <KProcess>
-#include <kshell.h>
-
-#include <util/processlinemaker.h>
-#include <outputview/outputmodel.h>
-#include <util/environmentgrouplist.h>
-#include <interfaces/ilaunchconfiguration.h>
-#include <interfaces/icore.h>
-#include <interfaces/iplugincontroller.h>
-
-#include <execute/iexecuteplugin.h>
-#include <assert.h>
-
-#include "memcheckfakemodel.h"
-#include "memcheckparser.h"
-#include "memcheckjob.h"
-
-#include "massifmodel.h"
-#include "massifparser.h"
-#include "massifjob.h"
-
-#include "cachegrindjob.h"
-#include "cachegrindmodel.h"
-#include "cachegrindparser.h"
-
-#include "callgrindmodel.h"
-#include "callgrindparser.h"
-#include "callgrindjob.h"
-
-#include "plugin.h"
-#include "modelwrapper.h"
 
 namespace valgrind
 {
@@ -91,11 +77,8 @@ void ModelParserFactoryPrivate::make(const QString& tool, Model*& m_model, Parse
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new MemcheckParser();
 
-        // FIXME replace with new style
-        QObject::connect(m_parser, SIGNAL(newElement(Model::eElementType)),
-                         modelWrapper, SLOT(newElement(Model::eElementType)));
-        QObject::connect(m_parser, SIGNAL(newData(Model::eElementType, QString, QString)),
-                         modelWrapper, SLOT(newData(Model::eElementType, QString, QString)));
+        QObject::connect(m_parser, &Parser::newElement, modelWrapper, &ModelWrapper::newElement);
+        QObject::connect(m_parser, &Parser::newData, modelWrapper, &ModelWrapper::newData);
     }
 
     else if (tool == QStringLiteral("massif")) {
@@ -103,9 +86,7 @@ void ModelParserFactoryPrivate::make(const QString& tool, Model*& m_model, Parse
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new MassifParser();
 
-        // FIXME replace with new style
-        QObject::connect(m_parser, SIGNAL(newItem(ModelItem*)),
-                         modelWrapper, SLOT(newItem(ModelItem*)));
+        QObject::connect(m_parser, &Parser::newItem, modelWrapper, &ModelWrapper::newItem);
     }
 
     else if (tool == QStringLiteral("callgrind")) {
@@ -113,9 +94,7 @@ void ModelParserFactoryPrivate::make(const QString& tool, Model*& m_model, Parse
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new CallgrindParser();
 
-        // FIXME replace with new style
-        QObject::connect(m_parser, SIGNAL(newItem(ModelItem*)),
-                         modelWrapper, SLOT(newItem(ModelItem*)));
+        QObject::connect(m_parser, &Parser::newItem, modelWrapper, &ModelWrapper::newItem);
     }
 
     else if (tool == QStringLiteral("cachegrind")) {
@@ -123,32 +102,30 @@ void ModelParserFactoryPrivate::make(const QString& tool, Model*& m_model, Parse
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new CachegrindParser();
 
-        // FIXME replace with new style
-        QObject::connect(m_parser, SIGNAL(newItem(ModelItem*)),
-                         modelWrapper, SLOT(newItem(ModelItem*)));
+        QObject::connect(m_parser, &Parser::newItem, modelWrapper, &ModelWrapper::newItem);
     }
 
     m_model->setModelWrapper(modelWrapper);
-    QObject::connect(m_parser, SIGNAL(reset()), modelWrapper, SLOT(reset()));
+    QObject::connect(m_parser, &Parser::reset, modelWrapper, &ModelWrapper::reset);
     m_model->reset();
 }
 
 // The factory for jobs
-Job* Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent)
+Job* Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
 {
     const QString& name = cfg->config().readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
 
     if (name == QStringLiteral("memcheck"))
-        return new MemcheckJob(cfg, inst, parent);
+        return new MemcheckJob(cfg, plugin, parent);
 
     else if (name == QStringLiteral("massif"))
-        return new MassifJob(cfg, inst, parent);
+        return new MassifJob(cfg, plugin, parent);
 
     else if (name == QStringLiteral("cachegrind"))
-        return new CachegrindJob(cfg, inst, parent);
+        return new CachegrindJob(cfg, plugin, parent);
 
     else if (name == QStringLiteral("callgrind"))
-        return new CallgrindJob(cfg, inst, parent);
+        return new CallgrindJob(cfg, plugin, parent);
 
     qCDebug(KDEV_VALGRIND) << "can't create this job, " << name << "unknow job";
 
@@ -263,7 +240,6 @@ void Job::start()
     if (!err.isEmpty()) {
         setError(-1);
         setErrorText(err);
-
         return;
     }
 
@@ -283,7 +259,6 @@ void Job::start()
 
     if (error()) {
         emitResult();
-
         return;
     }
 
@@ -377,43 +352,42 @@ void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 
 void Job::childProcessError(QProcess::ProcessError processError)
 {
+    QString errorMessage;
+
     switch (processError) {
 
     case QProcess::FailedToStart:
-        KMessageBox::error(
-            qApp->activeWindow(),
-            i18n("Failed to start valgrind from \"%1\".", commandLine().first()),
-            i18n("Failed to start Valgrind"));
+        errorMessage = i18n("Failed to start valgrind from \"%1\".", commandLine().first());
         break;
 
     case QProcess::Crashed:
         // if the process was killed by the user, the crash was expected
         // don't notify the user
         if (status() != KDevelop::OutputExecuteJob::JobStatus::JobCanceled)
-            KMessageBox::error(qApp->activeWindow(), i18n("Valgrind crashed."), i18n("Valgrind Error"));
+            errorMessage = i18n("Valgrind crashed.");
         break;
 
     case QProcess::Timedout:
-        KMessageBox::error(qApp->activeWindow(), i18n("Valgrind process timed out."), i18n("Valgrind Error"));
+        errorMessage = i18n("Valgrind process timed out.");
         break;
 
     case QProcess::WriteError:
-        KMessageBox::error(qApp->activeWindow(), i18n("Write to Valgrind process failed."), i18n("Valgrind Error"));
+        errorMessage = i18n("Write to Valgrind process failed.");
         break;
 
     case QProcess::ReadError:
-        KMessageBox::error(qApp->activeWindow(), i18n("Read from Valgrind process failed."), i18n("Valgrind Error"));
+        errorMessage = i18n("Read from Valgrind process failed.");
         break;
 
     case QProcess::UnknownError:
-        KMessageBox::error(qApp->activeWindow(), i18n("Unknown Valgrind process error."), i18n("Valgrind Error"));
+        errorMessage = i18n("Unknown Valgrind process error.");
         break;
     }
-}
 
-Plugin* Job::plugin() const
-{
-    return m_plugin;
+    if (!errorMessage.isEmpty())
+        KMessageBox::error(qApp->activeWindow(), errorMessage, i18n("Valgrind Error"));
+
+    KDevelop::OutputExecuteJob::childProcessError(processError);
 }
 
 void Job::beforeStart()
@@ -432,9 +406,10 @@ void Job::processEnded()
  * KProcessOutputToParser implementation
  */
 KProcessOutputToParser::KProcessOutputToParser(Parser* parser)
+    : m_process(nullptr)
+    , m_device(new QBuffer)
+    , m_parser(parser)
 {
-    m_parser = parser;
-    m_device = new QBuffer();
     m_device->open(QIODevice::WriteOnly);
 }
 
@@ -449,33 +424,27 @@ KProcessOutputToParser::~KProcessOutputToParser()
 
 int KProcessOutputToParser::execute(const QString& execPath, const QStringList& args)
 {
-    m_process = new KProcess();
-    m_process->setOutputChannelMode(KProcess::OnlyStdoutChannel);
-    m_process->setProgram(execPath, args);
+    m_process = new QProcess(this);
+    m_process->setProcessChannelMode(QProcess::ForwardedErrorChannel);
 
-    // FIXME replace with new style
-    QObject::connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(newDataFromStdOut()));
-    QObject::connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processEnded(int, QProcess::ExitStatus)));
+    connect(m_process, &QProcess::readyReadStandardOutput, this, [this]() {
+        m_device->write(m_process->readAllStandardOutput());
+    });
+
+    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this, [this](int, QProcess::ExitStatus status) {
+        qCDebug(KDEV_VALGRIND) << status;
+
+        if (status == QProcess::NormalExit) {
+            m_device->close();
+            m_device->open(QIODevice::ReadOnly);
+            m_parser->setDevice(m_device);
+            m_parser->parse();
+        }
+    });
 
     // execute and wait the end of the program
-    return m_process->execute();
-}
-
-void KProcessOutputToParser::processEnded(int , QProcess::ExitStatus status)
-{
-    qCDebug(KDEV_VALGRIND) << status;
-
-    if (status == QProcess::NormalExit) {
-        m_device->close();
-        m_device->open(QIODevice::ReadOnly);
-        m_parser->setDevice(m_device);
-        m_parser->parse();
-    }
-}
-
-void KProcessOutputToParser::newDataFromStdOut()
-{
-    m_device->write(m_process->readAllStandardOutput());
+    return m_process->execute(execPath, args);
 }
 
 /**
@@ -483,19 +452,27 @@ void KProcessOutputToParser::newDataFromStdOut()
  */
 QFileProxyRemove::QFileProxyRemove(const QString& programPath, const QStringList& args, QFile *toRemove, QObject *parent)
     : QObject(parent)
+    , m_file(toRemove)
+    , m_process(new QProcess(this))
+    , m_execPath(programPath)
 {
-    m_execPath = programPath;
-    m_process = new KProcess();
-    m_file = toRemove;
-    m_process->setProgram(programPath, args);
+    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this, [this](int, QProcess::ExitStatus) {
+        m_file->remove();
+        delete m_file;
+        m_file = nullptr;
+    });
 
-    // FIXME replace with new style
-    QObject::connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
-                     this, SLOT(prEnded(int, QProcess::ExitStatus)));
-    QObject::connect(m_process, SIGNAL(error(QProcess::ProcessError)),
-                     this, SLOT(prError(QProcess::ProcessError)));
+    connect(m_process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+            this, [this](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart)
+            KMessageBox::error(
+                qApp->activeWindow(),
+                i18n("Unable to launch the process %1 (%2)", m_execPath, error),
+                i18n("Valgrind Error"));
+    });
 
-    m_process->start();
+    m_process->start(programPath, args);
 }
 
 QFileProxyRemove::~QFileProxyRemove()
@@ -504,22 +481,6 @@ QFileProxyRemove::~QFileProxyRemove()
         m_file->remove();
 
     delete m_process;
-}
-
-void QFileProxyRemove::prError(QProcess::ProcessError error)
-{
-    if (error == QProcess::FailedToStart)
-        KMessageBox::error(qApp->activeWindow(), i18n("Unable to launch the process %1 (%2)", m_execPath, error), i18n("Valgrind Error"));
-}
-
-void QFileProxyRemove::prEnded(int exitCode, QProcess::ExitStatus status)
-{
-    Q_UNUSED(exitCode)
-    Q_UNUSED(status)
-
-    m_file->remove();
-    delete m_file;
-    m_file = nullptr;
 }
 
 }
