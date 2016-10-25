@@ -45,8 +45,6 @@ void MemcheckParser::clear()
 {
     m_stateStack.clear();
     m_buffer.clear();
-    valgrindArgs.clear();
-    programArgs.clear();
 
     // Send rest signal to model
     //    emit reset();
@@ -150,7 +148,12 @@ void MemcheckParser::parse()
         case CustomError:
         case UnexpectedElementError:
         case NotWellFormedError:
-            KMessageBox::error(qApp->activeWindow(), i18n("Valgrind XML Parsing: error at line %1, column %2: %3", lineNumber(), columnNumber(), errorString()), i18n("Valgrind Error"));
+            KMessageBox::error(qApp->activeWindow(),
+                               i18n("Valgrind XML Parsing: error at line %1, column %2: %3",
+                                    lineNumber(),
+                                    columnNumber(),
+                                    errorString()),
+                               i18n("Valgrind Error"));
             break;
 
         case NoError:

@@ -64,9 +64,6 @@ private:
 
     QStack<State> m_stateStack;
     QString m_buffer;
-
-    QHash<QString, QString> valgrindArgs;
-    QHash<QString, QString> programArgs;
 };
 
 }
