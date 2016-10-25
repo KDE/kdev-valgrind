@@ -129,8 +129,12 @@ void Plugin::runValgrind()
 void Plugin::jobFinished(KJob* kjob)
 {
     Job* job = dynamic_cast<Job*>(kjob);
-    if (job && !job->error())
-        core()->languageController()->problemModelSet()->showModel(modelName);
+    if (job && !job->error()) {
+        if (job->tool() == QStringLiteral("memcheck"))
+            core()->languageController()->problemModelSet()->showModel(modelName);
+        else
+            core()->uiController()->findToolView("Valgrind", m_factory);
+    }
 }
 
 }

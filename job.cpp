@@ -148,10 +148,10 @@ Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     setBehaviours(KDevelop::IOutputView::AutoScroll);
 
     // create the correct model for each tool
-    QString tool = m_launchcfg->config().readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
+    m_tool = m_launchcfg->config().readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
     ModelParserFactoryPrivate factory;
 
-    factory.make(tool, m_model, m_parser);
+    factory.make(m_tool, m_model, m_parser);
     m_model->getModelWrapper()->job(this);
     m_plugin->incomingModel(m_model);
 }
@@ -163,6 +163,11 @@ Job::~Job()
         m_model->getModelWrapper()->job(nullptr);
 
     delete m_parser;
+}
+
+QString Job::tool()
+{
+    return m_tool;
 }
 
 void Job::processModeArgs(

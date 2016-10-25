@@ -57,6 +57,8 @@ public:
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
 
+    QString tool();
+
     // Factory
     static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
 
@@ -83,6 +85,7 @@ protected:
 
     QStringList buildCommandLine() const;
 
+    QString m_tool;
     QUrl m_workingDir;
 
     Model* m_model;
