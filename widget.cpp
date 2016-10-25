@@ -97,7 +97,7 @@ void Widget::newModel(Model* model)
         return;
 
     w->setModel(model);
-    addTab(dynamic_cast<QWidget*>(w), i18n("job scheduled"));
+    addTab(dynamic_cast<QWidget*>(w), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
     setCurrentWidget(dynamic_cast<QWidget*>(w));
     setMovable(true);
 }

@@ -57,7 +57,8 @@ public:
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
 
-    QString tool();
+    QString tool() const;
+    QString target() const;
 
     // Factory
     static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);

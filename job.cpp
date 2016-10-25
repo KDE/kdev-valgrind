@@ -144,12 +144,6 @@ Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
 
     KConfigGroup config(m_launchcfg->config());
 
-    // create the correct model for each tool
-    m_tool = config.readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
-    createToolModelParser(m_tool, m_model, m_parser);
-    m_model->getModelWrapper()->job(this);
-    m_plugin->incomingModel(m_model);
-
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
@@ -186,10 +180,13 @@ Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     m_workingDir = iface->workingDirectory(m_launchcfg);
     if (m_workingDir.isEmpty() || !m_workingDir.isValid())
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
+//     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 
-    // FIXME
-//     setWorkingDirectory(m_workingDir.toLocalFile());
-//     Q_ASSERT(m_process->state() != QProcess::Running);
+    // create the correct model for each tool
+    m_tool = config.readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
+    createToolModelParser(m_tool, m_model, m_parser);
+    m_model->getModelWrapper()->job(this);
+    m_plugin->incomingModel(m_model);
 }
 
 Job::~Job()
@@ -201,9 +198,14 @@ Job::~Job()
     delete m_parser;
 }
 
-QString Job::tool()
+QString Job::tool() const
 {
     return m_tool;
+}
+
+QString Job::target() const
+{
+    return QFileInfo(m_analyzedExecutable).fileName();
 }
 
 void Job::processModeArgs(
