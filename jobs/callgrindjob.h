@@ -4,6 +4,7 @@
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -12,8 +13,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -21,34 +22,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef CALLGRINDJOB_H
-# define CALLGRINDJOB_H
+#pragma once
 
 #include "job.h"
 
 namespace valgrind
 {
+
 class CallgrindJob : public Job
 {
     Q_OBJECT
 
 public:
-    CallgrindJob(KDevelop::ILaunchConfiguration* cfg,
-                 Plugin *inst,
-                 QObject* parent = 0);
-    virtual ~CallgrindJob();
+    CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~CallgrindJob() override;
 
 protected:
-
-    virtual void processStarted();
-    virtual void processEnded();
-    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
+    void processEnded() override;
+    void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 
 private:
-    KProcessOutputToParser  *m_postTreatment;
-    QFile                   *m_file;
+    KProcessOutputToParser* m_postTreatment;
+    QFile* m_outputFile;
 };
 
 }
-
-#endif //!CALLGRINDJOB_H
