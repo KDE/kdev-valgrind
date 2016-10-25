@@ -32,6 +32,7 @@
 #include "callgrindjob.h"
 #include "callgrindmodel.h"
 #include "callgrindparser.h"
+#include "debug.h"
 #include "massifjob.h"
 #include "massifmodel.h"
 #include "massifparser.h"
@@ -47,6 +48,7 @@
 #include <interfaces/iplugincontroller.h>
 #include <kconfiggroup.h>
 #include <klocalizedstring.h>
+#include <kmessagebox.h>
 #include <kshell.h>
 #include <util/environmentgrouplist.h>
 

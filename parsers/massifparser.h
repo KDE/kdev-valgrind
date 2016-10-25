@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
- * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
- * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -9,8 +10,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -18,20 +19,17 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _MASSIFPARSER_H_
-#define _MASSIFPARSER_H_
+#pragma once
 
-#include "debug.h"
-#include <kmessagebox.h>
-#include "imodel.h"
 #include "iparser.h"
-#include "massifitem.h"
 
 namespace valgrind
 {
 
+class MassifItem;
+
 /**
- * A class which parses valgrind's XML output
+ * A class which parses massif's output
  * and emits signals when items are parsed
  */
 class MassifParser : public Parser
@@ -39,30 +37,10 @@ class MassifParser : public Parser
     Q_OBJECT
 
 public:
+    MassifParser(QObject* parent = nullptr);
+    ~MassifParser() override;
 
-    MassifParser(QObject *parent = 0);
-    virtual ~MassifParser();
-
-signals:
-
-    /**
-     * Emits this signal when a new item is parsed
-     */
-    void newItem(ModelItem*);
-
-    void reset();
-
-public slots:
-    void parse();
-
-
-private:
-    QString m_workingDir;
-    QString m_buffer;
-    QStringList m_lst;
-    MassifItem *m_item;
+    void parse() override;
 };
+
 }
-
-
-#endif /* _MASSIFPARSER_H_ */

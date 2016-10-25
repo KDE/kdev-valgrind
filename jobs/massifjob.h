@@ -3,6 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -20,10 +21,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MASSIFJOB_H
-# define MASSIFJOB_H
+#pragma once
 
-# include "job.h"
+#include "job.h"
 
 namespace valgrind
 {
@@ -33,22 +33,15 @@ class MassifJob : public Job
     Q_OBJECT
 
 public:
-    MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin *inst, QObject* parent = 0);
-    virtual ~MassifJob();
+    MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~MassifJob() override;
 
 protected:
-
-    virtual void processStarted();
-    virtual void processEnded();
-    virtual void addToolArgs(QStringList &args, KConfigGroup &cfg) const;
-
+    void processEnded() override;
+    void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 
 private:
-    QFile *m_file;
-
+    QString m_outputFile;
 };
 
 }
-
-
-#endif //!MASSIFJOB_H

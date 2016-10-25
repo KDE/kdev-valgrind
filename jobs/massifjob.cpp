@@ -3,6 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -11,8 +12,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -24,6 +25,7 @@
 
 #include "debug.h"
 #include "iparser.h"
+#include "plugin.h"
 
 #include <QFile>
 #include <QTcpServer>
@@ -40,69 +42,66 @@
 
 namespace valgrind
 {
-MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg,
-                     Plugin *inst,
-                     QObject* parent)
-    : Job(cfg, inst, parent)
-    , m_file(0)
+MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+    : Job(cfg, plugin, parent)
+    , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
 {
 }
 
-MassifJob::~MassifJob() {}
-
-void MassifJob::processStarted()
+MassifJob::~MassifJob()
 {
-    // FIXME
-//     QString filename = QString("%1/massif.out.%2").arg(m_workingDir.toLocalFile()).arg(m_process->pid());
-    QString filename = QString("%1/massif.out.%2").arg(m_workingDir.toLocalFile()).arg(0);
-
-    m_file = new QFile(filename);
 }
 
 void MassifJob::processEnded()
 {
-    if (m_file) {
-        m_file->open(QIODevice::ReadOnly);
-        m_parser->setDevice(m_file);
-        m_parser->parse();
-        m_file->close();
+    KConfigGroup config = m_launchcfg->config();
 
-        KConfigGroup grp = m_launchcfg->config();
-        if (grp.readEntry("launchVisualizer", false)) {
-            QStringList args;
-            args << m_file->fileName();
-            QString kcg = grp.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer");
-            new QFileProxyRemove(kcg, args, m_file->fileName(), (QObject*)m_plugin);
-        } else {
-            m_file->remove();
-            delete m_file;
-        }
-    }
+    QFile massifResults(m_outputFile);
+    massifResults.open(QIODevice::ReadOnly);
+
+    m_parser->setDevice(&massifResults);
+    m_parser->parse();
+    massifResults.close();
+
+    if (config.readEntry("launchVisualizer", false)) {
+        QStringList args;
+        args += massifResults.fileName();
+        QString kcg = config.readEntry(QStringLiteral("visualizerExecutable"),
+                                       QStringLiteral("/usr/bin/massif-visualizer"));
+        new QFileProxyRemove(kcg, args, massifResults.fileName(), dynamic_cast<QObject*>(m_plugin));
+    } else
+        massifResults.remove();
 }
 
-void MassifJob::addToolArgs(QStringList &args, KConfigGroup &cfg) const
+void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
-    static const t_valgrind_cfg_argarray massif_args = {
-        {"Massif Arguments", "", "str"},
-        {"depth", "--depth=", "int"},
-        {"threshold", "--threshold=", "float"},
-        {"peakInaccuracy", "--peak-inaccuracy=", "float"},
-        {"maxSnapshots", "--max-snapshots=", "int"},
-        {"snapshotFreq", "--detailed-freq=", "int"},
-        {"profileHeap", "--heap=", "bool"},
-        {"profileStack", "--stacks=", "bool"}
+    static const t_valgrind_cfg_argarray massifArgs = {
+        {QStringLiteral("Massif Arguments"), QStringLiteral(""), QStringLiteral("str")},
+        {QStringLiteral("depth"), QStringLiteral("--depth="), QStringLiteral("int")},
+        {QStringLiteral("threshold"), QStringLiteral("--threshold="), QStringLiteral("float")},
+        {QStringLiteral("peakInaccuracy"), QStringLiteral("--peak-inaccuracy="), QStringLiteral("float")},
+        {QStringLiteral("maxSnapshots"), QStringLiteral("--max-snapshots="), QStringLiteral("int")},
+        {QStringLiteral("snapshotFreq"), QStringLiteral("--detailed-freq="), QStringLiteral("int")},
+        {QStringLiteral("profileHeap"), QStringLiteral("--heap="), QStringLiteral("bool")},
+        {QStringLiteral("profileStack"), QStringLiteral("--stacks="), QStringLiteral("bool")}
     };
-    static const int count = sizeof(massif_args) / sizeof(*massif_args);
+    static const int count = sizeof(massifArgs) / sizeof(*massifArgs);
 
-    processModeArgs(args, massif_args, count, cfg);
 
-    int tu = cfg.readEntry("timeUnit", 0);
+    int tu = cfg.readEntry(QStringLiteral("timeUnit"), 0);
+
     if (tu == 0)
-        args << QString("--time-unit=i");
+        args += QStringLiteral("--time-unit=i");
+
     else if (tu == 1)
-        args << QString("--time-unit=ms");
+        args += QStringLiteral("--time-unit=ms");
+
     else if (tu == 2)
-        args << QString("--time-unit=B");
+        args += QStringLiteral("--time-unit=B");
+
+    args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
+
+    processModeArgs(args, massifArgs, count, cfg);
 }
 
 }
