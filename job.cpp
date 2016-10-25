@@ -418,26 +418,29 @@ int KProcessOutputToParser::execute(const QString& execPath, const QStringList& 
 /**
  * QFileProxyRemove Implementation
  */
-QFileProxyRemove::QFileProxyRemove(const QString& programPath, const QStringList& args, QFile* toRemove, QObject* parent)
+QFileProxyRemove::QFileProxyRemove(
+    const QString& programPath,
+    const QStringList& args,
+    const QString& fileName,
+    QObject* parent)
+
     : QObject(parent)
-    , m_file(toRemove)
+    , m_file(new QFile(fileName))
     , m_process(new QProcess(this))
     , m_execPath(programPath)
 {
     connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             this, [this](int, QProcess::ExitStatus) {
-        m_file->remove();
-        delete m_file;
-        m_file = nullptr;
+        deleteLater();
     });
 
     connect(m_process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
             this, [this](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
-            KMessageBox::error(
-                qApp->activeWindow(),
-                i18n("Unable to launch the process %1 (%2)", m_execPath, error),
-                i18n("Valgrind Error"));
+            KMessageBox::error(qApp->activeWindow(),
+                               i18n("Unable to launch the process %1 (%2)", m_execPath, error),
+                               i18n("Valgrind Error"));
+        deleteLater();
     });
 
     m_process->start(programPath, args);
@@ -445,8 +448,8 @@ QFileProxyRemove::QFileProxyRemove(const QString& programPath, const QStringList
 
 QFileProxyRemove::~QFileProxyRemove()
 {
-    if (m_file)
-        m_file->remove();
+    m_file->remove();
+    delete m_file;
 
     delete m_process;
 }

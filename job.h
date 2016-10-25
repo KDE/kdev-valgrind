@@ -104,15 +104,16 @@ protected:
 
 /**
  * This class is used for tools : massif, callgrind, cachegrind.
- * It permits to remove the generated output file when the reading process (massif visuazer, kcachegrind) has been killed
+ * It permits to remove the generated output file when the reading process
+ * (massif visualizer, kcachegrind) has been killed
  */
 class QFileProxyRemove : public QObject
 {
     Q_OBJECT
 
 public:
-    QFileProxyRemove(const QString& programPath, const QStringList& args, QFile* toRemove, QObject* parent = nullptr);
-    virtual ~QFileProxyRemove();
+    QFileProxyRemove(const QString& programPath, const QStringList& args, const QString& fileName, QObject* parent = nullptr);
+    ~QFileProxyRemove() override;
 
 private:
     QFile* m_file;

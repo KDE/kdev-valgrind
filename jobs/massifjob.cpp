@@ -72,7 +72,7 @@ void MassifJob::processEnded()
             QStringList args;
             args << m_file->fileName();
             QString kcg = grp.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer");
-            new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
+            new QFileProxyRemove(kcg, args, m_file->fileName(), (QObject*)m_plugin);
         } else {
             m_file->remove();
             delete m_file;

@@ -82,7 +82,7 @@ void CallgrindJob::processEnded()
             args << m_file->fileName();
             QString kcg = grp.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind");
             //Proxy used to remove file at the end of KCachegrind
-            new QFileProxyRemove(kcg, args, m_file, (QObject *)m_plugin);
+            new QFileProxyRemove(kcg, args, m_file->fileName(), (QObject *)m_plugin);
         }
         else
         {
