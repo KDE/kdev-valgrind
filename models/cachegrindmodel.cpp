@@ -148,10 +148,46 @@ QVariant CachegrindModel::data(const QModelIndex & index, int role) const
 QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation)
-    if (role == Qt::DisplayRole)
-    {
-        switch (section)
-        {
+
+    if (role == Qt::DisplayRole) {
+        switch (section) {
+        case CachegrindItem::CallName:
+            return i18n("Call name");
+        case CachegrindItem::FileName:
+            return i18n("File name");
+        case CachegrindItem::InstructionRead:
+            return i18n("I");
+        case CachegrindItem::InstructionL1ReadMiss:
+            return i18n("I1mr");
+        case CachegrindItem::InstructionLLReadMiss:
+            return i18n("ILmr");
+        case CachegrindItem::DataCacheRead:
+            return i18n("Dr");
+        case CachegrindItem::DataCacheD1ReadMiss:
+            return i18n("D1mr");
+        case CachegrindItem::DataCacheLLReadMiss:
+            return i18n("DLmr");
+        case CachegrindItem::DataCacheWrite:
+            return i18n("Dw");
+        case CachegrindItem::DataCacheD1WriteMiss:
+            return i18n("D1mw");
+        case CachegrindItem::DataCacheLLWriteMiss:
+            return i18n("DLmw");
+        case CachegrindItem::ConditionnalBranchExecute:
+            return i18n("Bc");
+        case CachegrindItem::ConditionnalBranchMisprediced:
+            return i18n("Bcm");
+        case CachegrindItem::IndirectBranchExecuted:
+            return i18n("Bi");
+        case CachegrindItem::IndirectBranchMispredicted:
+            return i18n("Bim");
+        case CachegrindItem::Unknow:
+            return i18n("???");
+        }
+    }
+
+    else if (role == Qt::ToolTipRole) {
+        switch (section) {
         case CachegrindItem::CallName:
             return i18n("Call name");
         case CachegrindItem::FileName:
@@ -177,15 +213,16 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, i
         case CachegrindItem::ConditionnalBranchExecute:
             return i18n("Bc (Conditional branches executed)");
         case CachegrindItem::ConditionnalBranchMisprediced:
-            return i18n("Bcm (conditional branches mispredicted)");
+            return i18n("Bcm (Conditional branches mispredicted)");
         case CachegrindItem::IndirectBranchExecuted:
             return i18n("Bi (Indirect branches executed)");
         case CachegrindItem::IndirectBranchMispredicted:
-            return i18n("Bim (indirect branches mispredicted)");
+            return i18n("Bim (Indirect branches mispredicted)");
         case CachegrindItem::Unknow:
             return i18n("???");
         }
     }
+
     return QVariant();
 }
 
