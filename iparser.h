@@ -33,7 +33,7 @@ class Parser: public QObject, public QXmlStreamReader
     Q_OBJECT
 
 public:
-    Parser(QObject* parent = nullptr);
+    explicit Parser(QObject* parent = nullptr);
 
 signals:
     /**

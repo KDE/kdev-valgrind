@@ -86,7 +86,7 @@ private:
 class MemcheckStack : public MemcheckItem
 {
 public:
-    MemcheckStack(MemcheckError *parent);
+    explicit MemcheckStack(MemcheckError* parent);
 
     virtual ~MemcheckStack();
 
@@ -121,7 +121,7 @@ public:
     /**
      * Takes a pointer on the parent stack
      */
-    MemcheckFrame(MemcheckStack* parent);
+    explicit MemcheckFrame(MemcheckStack* parent);
 
     virtual MemcheckStack* parent() const;
 

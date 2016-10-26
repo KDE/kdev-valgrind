@@ -39,7 +39,7 @@ class CallgrindParser : public Parser
     Q_OBJECT
 
 public:
-    CallgrindParser(QObject* parent = nullptr);
+    explicit CallgrindParser(QObject* parent = nullptr);
     ~CallgrindParser() override;
 
     void parse() override;

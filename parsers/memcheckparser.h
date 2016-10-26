@@ -39,7 +39,7 @@ class MemcheckParser : public Parser
     Q_OBJECT
 
 public:
-    MemcheckParser(QObject* parent = nullptr);
+    explicit MemcheckParser(QObject* parent = nullptr);
     ~MemcheckParser() override;
 
 public slots:

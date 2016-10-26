@@ -55,7 +55,7 @@ private:
 class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    GenericConfigPageFactory(Plugin*);
+    explicit GenericConfigPageFactory(Plugin*);
     virtual ~GenericConfigPageFactory();
     virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 

@@ -42,8 +42,7 @@ class MassifModel : public QAbstractItemModel,
     Q_OBJECT
 
 public:
-
-    MassifModel(QObject* parent = 0);
+    explicit MassifModel(QObject* parent = nullptr);
     virtual ~MassifModel();
 
     virtual QAbstractItemModel  *getQAbstractItemModel(int) {return this;}

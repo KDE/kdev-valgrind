@@ -38,8 +38,7 @@ class CachegrindModel : public QAbstractItemModel,
     Q_OBJECT
 
 public:
-
-    CachegrindModel(QObject* parent = 0);
+    explicit CachegrindModel(QObject* parent = nullptr);
     virtual ~CachegrindModel();
 
     virtual QAbstractItemModel  *getQAbstractItemModel(int) {return this;}

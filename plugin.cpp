@@ -50,7 +50,7 @@ static const QString modelName = QStringLiteral("Valgrind");
 class WidgetFactory : public KDevelop::IToolViewFactory
 {
 public:
-    WidgetFactory(Plugin* plugin)
+    explicit WidgetFactory(Plugin* plugin)
         : m_plugin(plugin)
     {
     }

@@ -31,7 +31,7 @@ class ValgrindCachegrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
   Q_OBJECT
 public:
-  ValgrindCachegrindConfigPage( QWidget * parent = 0 );
+  explicit ValgrindCachegrindConfigPage(QWidget* parent = nullptr);
   virtual void			loadFromConfiguration( const KConfigGroup&, KDevelop::IProject * = 0 );
   virtual QIcon			icon( void ) const;
   virtual void			saveToConfiguration( KConfigGroup, KDevelop::IProject * = 0 ) const;

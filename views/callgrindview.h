@@ -48,7 +48,7 @@ class CallgrindView : public QWidget, public IView
     Q_OBJECT
 
 public:
-    CallgrindView(QWidget *parent = 0);
+    explicit CallgrindView(QWidget* parent = nullptr);
     ~CallgrindView();
 
     void setModel(Model * m);

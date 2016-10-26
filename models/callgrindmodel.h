@@ -46,8 +46,7 @@ class CallgrindModel :  public QObject,
     Q_OBJECT
 
 public:
-
-    CallgrindModel(QObject* parent = 0);
+    explicit CallgrindModel(QObject* parent = nullptr);
     virtual ~CallgrindModel();
 
     QAbstractItemModel  *getQAbstractItemModel(int n);
@@ -89,7 +88,7 @@ class CallgrindFunctionsListTModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    CallgrindFunctionsListTModel(CallgrindModel *mdl);
+    explicit CallgrindFunctionsListTModel(CallgrindModel* mdl);
 
     void                      setItemList(const QList<CallgrindCallstackItem *> items);
 

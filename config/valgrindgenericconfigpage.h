@@ -53,7 +53,7 @@ private:
 class ValgrindGenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-  ValgrindGenericConfigPageFactory( ValgrindPlugin* );
+  explicit ValgrindGenericConfigPageFactory(ValgrindPlugin*);
   virtual ~ValgrindGenericConfigPageFactory();
   virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
 

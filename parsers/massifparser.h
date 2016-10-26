@@ -37,7 +37,7 @@ class MassifParser : public Parser
     Q_OBJECT
 
 public:
-    MassifParser(QObject* parent = nullptr);
+    explicit MassifParser(QObject* parent = nullptr);
     ~MassifParser() override;
 
     void parse() override;

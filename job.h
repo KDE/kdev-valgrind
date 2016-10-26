@@ -130,7 +130,7 @@ class KProcessOutputToParser : public QObject
 {
 Q_OBJECT
 public:
-    KProcessOutputToParser(Parser* parser);
+    explicit KProcessOutputToParser(Parser* parser);
     ~KProcessOutputToParser();
 
     int execute(const QString& execPath, const QStringList& args);

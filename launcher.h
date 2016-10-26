@@ -38,7 +38,7 @@ class Launcher : public KDevelop::ILauncher
 {
 
 public:
-    Launcher(Plugin* inst);
+    explicit Launcher(Plugin* inst);
 
     QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override;
 

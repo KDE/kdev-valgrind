@@ -34,8 +34,7 @@ class	ValgrindMemcheckConfigPage : public KDevelop::LaunchConfigurationPage
   Q_OBJECT
 
 public:
-
-  ValgrindMemcheckConfigPage(QWidget * parent = 0);
+  explicit ValgrindMemcheckConfigPage(QWidget* parent = nullptr);
   virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
   virtual QIcon icon() const;
   virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;

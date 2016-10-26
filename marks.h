@@ -37,7 +37,7 @@ class Marks : public QObject
     Q_OBJECT
 
 public:
-    Marks(Plugin* plugin);
+    explicit Marks(Plugin* plugin);
 
     ~Marks() override;
 

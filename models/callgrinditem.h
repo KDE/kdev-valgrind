@@ -42,7 +42,7 @@ class CallgrindCallstackFunction;
 class CallgrindCallstackItem : public ModelItem
 {
 public:
-    CallgrindCallstackItem(CallgrindCallstackFunction *function);
+    explicit CallgrindCallstackItem(CallgrindCallstackFunction* function);
 
     enum numberDisplayMode
     {

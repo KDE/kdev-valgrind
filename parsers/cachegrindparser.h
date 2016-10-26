@@ -38,7 +38,7 @@ class CachegrindParser : public Parser
     Q_OBJECT
 
 public:
-    CachegrindParser(QObject* parent = nullptr);
+    explicit CachegrindParser(QObject* parent = nullptr);
     ~CachegrindParser() override;
 
     void parse() override;

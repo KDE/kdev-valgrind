@@ -36,7 +36,7 @@ class MassifItem : public ModelItem
 public:
 
     MassifItem();
-    MassifItem(bool);
+    explicit MassifItem(bool);
     virtual ~MassifItem();
 
     enum Columns {

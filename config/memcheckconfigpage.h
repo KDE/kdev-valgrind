@@ -36,8 +36,7 @@ class   MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 
 public:
-
-    MemcheckConfigPage(QWidget * parent = 0);
+    explicit MemcheckConfigPage(QWidget* parent = nullptr);
     virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
     virtual QIcon icon() const;
     virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;

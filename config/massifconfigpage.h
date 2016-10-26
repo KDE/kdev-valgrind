@@ -33,7 +33,7 @@ class MassifConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 public:
-    MassifConfigPage(QWidget * parent = 0);
+    explicit MassifConfigPage(QWidget* parent = nullptr);
     virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
     virtual QIcon         icon(void) const;
     virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;

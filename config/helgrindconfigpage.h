@@ -33,7 +33,7 @@ class HelgrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 public:
-    HelgrindConfigPage(QWidget * parent = 0);
+    explicit HelgrindConfigPage(QWidget* parent = nullptr);
     virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
     virtual QIcon         icon(void) const;
     virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;

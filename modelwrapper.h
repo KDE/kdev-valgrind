@@ -46,7 +46,7 @@ class ModelWrapper :  public QObject, public ModelEvents
   Q_OBJECT
 
 public:
-    ModelWrapper(Model* impl);
+    explicit ModelWrapper(Model* impl);
     virtual ~ModelWrapper();
 
 public slots:

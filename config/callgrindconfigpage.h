@@ -33,7 +33,7 @@ class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 public:
-    CallgrindConfigPage(QWidget * parent = 0);
+    explicit CallgrindConfigPage(QWidget* parent = nullptr);
     virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
     virtual QIcon         icon(void) const;
     virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
