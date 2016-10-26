@@ -64,10 +64,12 @@ Model * CachegrindView::model(void)
     return dynamic_cast<Model *>(QTreeView::model());
 }
 
-void CachegrindView::MousePressEvent(QMouseEvent *event)
+void CachegrindView::MousePressEvent(QMouseEvent* event)
 {
-  qCDebug(KDEV_VALGRIND) << "Mouse pressed...";
-  //QWidget::mousePressEvent(event);
+    Q_UNUSED(event)
+
+    qCDebug(KDEV_VALGRIND) << "Mouse pressed...";
+//     QWidget::mousePressEvent(event);
 }
 
 void CachegrindView::openDocument(const QModelIndex & index)
