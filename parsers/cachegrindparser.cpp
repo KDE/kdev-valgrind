@@ -31,6 +31,8 @@ namespace valgrind
 
 CachegrindParser::CachegrindParser(QObject *parent)
     : Parser(parent)
+    , m_lastCall(nullptr)
+    , totalCountItem(nullptr)
 {
 }
 

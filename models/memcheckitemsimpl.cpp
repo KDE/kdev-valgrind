@@ -33,6 +33,11 @@ namespace valgrind
 {
 
 MemcheckError::MemcheckError()
+    : uniqueId(0)
+    , threadId(0)
+    , m_kind(Unknown)
+    , leakedBytes(0)
+    , leakedBlocks(0)
 {
 }
 
@@ -169,7 +174,9 @@ const QList<MemcheckFrame *> &MemcheckStack::getFrames() const
 }
 
 MemcheckFrame::MemcheckFrame(MemcheckStack* parent)
-    : m_parent(parent)
+    : instructionPointer(0)
+    , line(0)
+    , m_parent(parent)
 {
 }
 

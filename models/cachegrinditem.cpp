@@ -26,6 +26,7 @@ namespace valgrind
 {
 
 CachegrindItem::CachegrindItem()
+    : m_parentItem(nullptr)
 {
 }
 

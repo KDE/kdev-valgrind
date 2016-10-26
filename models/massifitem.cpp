@@ -25,13 +25,17 @@ namespace valgrind
 {
 
 MassifItem::MassifItem()
+    : m_child(false)
+    , m_line(0)
+    , m_parentItem(nullptr)
 {
-    m_child = false;
 }
 
 MassifItem::MassifItem(bool child)
+    : m_child(child)
+    , m_line(0)
+    , m_parentItem(nullptr)
 {
-    m_child = child;
 }
 
 MassifItem::~MassifItem()
