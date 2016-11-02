@@ -139,6 +139,8 @@ KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame)
     }
 
     frameProblem->setFinalLocation(range);
+    frameProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
+
     frameProblem->setDescription(frame->fn);
     frameProblem->setSource(KDevelop::IProblem::Plugin);
 
@@ -166,8 +168,10 @@ KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack* stack)
                 break;
         }
 
-        if (!range.document.isEmpty())
+        if (!range.document.isEmpty()) {
             stackProblem->setFinalLocation(range);
+            stackProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
+        }
     }
 
     return stackProblem;
@@ -194,8 +198,10 @@ void MemcheckFakeModel::storeError()
     // Hence why the problem gets it's file/line pair from here
     if (problem->diagnostics().size() >= 1) {
         KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(0);
-        problem->setFinalLocation(stackProblem->finalLocation());
         stackProblem->setDescription(what);
+
+        problem->setFinalLocation(stackProblem->finalLocation());
+        problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
     }
 
     // The second stack is an auxilliary stack, it helps diagnose the problem
