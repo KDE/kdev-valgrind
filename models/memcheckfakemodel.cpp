@@ -30,6 +30,15 @@
 namespace valgrind
 {
 
+class ValgrindProblem : public KDevelop::DetectedProblem
+{
+public:
+    ValgrindProblem() {}
+    ~ValgrindProblem() override {}
+
+    QString sourceString() const override { return QStringLiteral("Valgrind"); };
+};
+
 MemcheckFakeModel::MemcheckFakeModel()
     : m_model(nullptr)
 {
@@ -118,7 +127,7 @@ void MemcheckFakeModel::newData(eElementType e, const QString& name, const QStri
 // Builds a problem from the frame
 KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame)
 {
-    KDevelop::IProblem::Ptr frameProblem(new KDevelop::DetectedProblem);
+    KDevelop::IProblem::Ptr frameProblem(new ValgrindProblem);
 
     KDevelop::DocumentRange range;
     range.setBothLines(frame->line - 1);
@@ -139,7 +148,7 @@ KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame)
 // Builds a problem (with frames as diagnostics) from the stack
 KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack* stack)
 {
-    KDevelop::IProblem::Ptr stackProblem(new KDevelop::DetectedProblem);
+    KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
     stackProblem->setSource(KDevelop::IProblem::Plugin);
 
     foreach (const MemcheckFrame* frame, stack->getFrames()) {
@@ -171,7 +180,7 @@ void MemcheckFakeModel::storeError()
     if (what.isEmpty())
         what = error->text;
 
-    KDevelop::IProblem::Ptr problem(new KDevelop::DetectedProblem());
+    KDevelop::IProblem::Ptr problem(new ValgrindProblem);
     problem->setSource(KDevelop::IProblem::Plugin);
     problem->setDescription(what);
 
