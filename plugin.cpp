@@ -45,7 +45,7 @@ K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin
 namespace valgrind
 {
 
-static const QString modelName = QStringLiteral("Valgrind");
+static const QString modelId = QStringLiteral("Valgrind");
 
 class WidgetFactory : public KDevelop::IToolViewFactory
 {
@@ -104,7 +104,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     type->addLauncher(launcher);
 
     KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
-    pms->addModel(modelName, m_model.data());
+    pms->addModel(modelId, i18n("Valgrind"), m_model.data());
 }
 
 void Plugin::incomingModel(Model* model)
@@ -115,7 +115,7 @@ void Plugin::incomingModel(Model* model)
 Plugin::~Plugin()
 {
     KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
-    pms->removeModel(modelName);
+    pms->removeModel(modelId);
 
     core()->uiController()->removeToolView(m_factory);
 }
@@ -131,7 +131,7 @@ void Plugin::jobFinished(KJob* kjob)
     Job* job = dynamic_cast<Job*>(kjob);
     if (job && !job->error()) {
         if (job->tool() == QStringLiteral("memcheck"))
-            core()->languageController()->problemModelSet()->showModel(modelName);
+            core()->languageController()->problemModelSet()->showModel(modelId);
         else
             core()->uiController()->findToolView("Valgrind", m_factory);
     }
