@@ -14,7 +14,7 @@ include(FeatureSummary)
 
 find_package(Qt5 REQUIRED Core Widgets)
 find_package(KF5 REQUIRED COMPONENTS ItemModels)
-find_package(KDevPlatform 1.90.90 REQUIRED)
+find_package(KDevPlatform 5.0.0 REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 
