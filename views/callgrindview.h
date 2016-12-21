@@ -49,12 +49,12 @@ class CallgrindView : public QWidget, public IView
 
 public:
     explicit CallgrindView(QWidget* parent = nullptr);
-    ~CallgrindView();
+    ~CallgrindView() override;
 
-    void setModel(Model * m);
-    Model * model(void);
+    void setModel(Model * m) override;
+    Model * model(void) override;
 
-    void WidgetContainerResizeEvent(QResizeEvent * event);
+    void WidgetContainerResizeEvent(QResizeEvent * event) override;
 
 public slots:
     void percentInformationClicked(bool enable);

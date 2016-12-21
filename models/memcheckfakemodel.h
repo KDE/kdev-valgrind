@@ -49,8 +49,8 @@ public:
     void newFrame();
     void newStartError();
 
-    virtual void newElement(Model::eElementType) override;
-    virtual void newData(Model::eElementType, const QString &name, const QString &value) override;
+    void newElement(Model::eElementType) override;
+    void newData(Model::eElementType, const QString &name, const QString &value) override;
 
 private:
     // Converts the error to a problem and stores in ProblemModel

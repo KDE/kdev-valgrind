@@ -39,11 +39,11 @@ class   GenericConfigPage : public KDevelop::LaunchConfigurationPage
 public:
 
     GenericConfigPage(Plugin * plugin, QWidget * parent = 0);
-    ~GenericConfigPage();
-    virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
-    virtual QIcon icon() const;
-    virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
-    virtual QString title() const;
+    ~GenericConfigPage() override;
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0) override;
+    QIcon icon() const override;
+    void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const override;
+    QString title() const override;
 
 signals:
     void newCurrentTool(const QString& newTool) const;
@@ -56,8 +56,8 @@ class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
     explicit GenericConfigPageFactory(Plugin*);
-    virtual ~GenericConfigPageFactory();
-    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+    ~GenericConfigPageFactory() override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
 
 private:
     Plugin* m_plugin;

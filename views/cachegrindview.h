@@ -36,13 +36,13 @@ class CachegrindView : public QTreeView, public IView
 
 public:
     CachegrindView();
-    ~CachegrindView();
+    ~CachegrindView() override;
 
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(Model * m);
-    Model * model(void);
+    void setModel(Model * m) override;
+    Model * model(void) override;
 protected:
   void MousePressEvent(QMouseEvent *event);
 private Q_SLOTS:

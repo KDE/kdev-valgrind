@@ -47,9 +47,9 @@ class CallgrindModel :  public QObject,
 
 public:
     explicit CallgrindModel(QObject* parent = nullptr);
-    virtual ~CallgrindModel();
+    ~CallgrindModel() override;
 
-    QAbstractItemModel  *getQAbstractItemModel(int n);
+    QAbstractItemModel  *getQAbstractItemModel(int n) override;
 
     const QList<CallgrindCallstackItem*>& getAllCsItem() const;
 
@@ -67,11 +67,11 @@ public:
     /**
      * Reception of a new item in the model
      */
-    virtual void newItem(ModelItem *item);
+    void newItem(ModelItem *item) override;
     /**
      * Resets the model content
      */
-    void reset();
+    void reset() override;
     ////END SLOTS WRAPER////
 private:
     QList<CallgrindCallstackItem*>  m_callgrindCsItems;
@@ -93,14 +93,14 @@ public:
     void                      setItemList(const QList<CallgrindCallstackItem *> items);
 
     //inherit methods from QAbstractItemModel implementation
-    QModelIndex               index(int, int, const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex               parent(const QModelIndex&) const;
-    int                       rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int                       columnCount(const QModelIndex&) const;
-    QVariant                  data(const QModelIndex &index, int role) const;
-    QVariant                  headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QModelIndex               index(int, int, const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex               parent(const QModelIndex&) const override;
+    int                       rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int                       columnCount(const QModelIndex&) const override;
+    QVariant                  data(const QModelIndex &index, int role) const override;
+    QVariant                  headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     CallgrindCallstackItem   *itemForIndex(const QModelIndex &index) const;
-    void                      sort ( int column, Qt::SortOrder order);
+    void                      sort ( int column, Qt::SortOrder order) override;
 
     //Make the links between list comumn and data model
     iCachegrindItem::Columns  columnToPosInModelList(int col) const;

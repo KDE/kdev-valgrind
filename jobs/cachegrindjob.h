@@ -37,8 +37,8 @@ public:
     ~CachegrindJob() override;
 
 protected:
-    virtual void processEnded() override;
-    virtual void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
+    void processEnded() override;
+    void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 
 private:
     KProcessOutputToParser* m_postTreatment;

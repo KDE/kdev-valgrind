@@ -42,7 +42,7 @@ public:
 
     MemcheckError();
 
-    virtual ~MemcheckError();
+    ~MemcheckError() override;
 
     MemcheckStack *addStack();
 
@@ -50,7 +50,7 @@ public:
 
     const QList<MemcheckStack *> &getStack() const;
 
-    virtual void incomingData(const QString& name, const QString& value);
+    void incomingData(const QString& name, const QString& value) override;
 
     void setKind(const QString& s);
 
@@ -88,11 +88,11 @@ class MemcheckStack : public MemcheckItem
 public:
     explicit MemcheckStack(MemcheckError* parent);
 
-    virtual ~MemcheckStack();
+    ~MemcheckStack() override;
 
-    virtual MemcheckError* parent() const;
+    MemcheckError* parent() const override;
 
-    virtual void incomingData(const QString& name, const QString& value);
+    void incomingData(const QString& name, const QString& value) override;
 
     QString what() const{ return m_what; }
     void setWhat(const QString &what){ m_what = what; }
@@ -123,9 +123,9 @@ public:
      */
     explicit MemcheckFrame(MemcheckStack* parent);
 
-    virtual MemcheckStack* parent() const;
+    MemcheckStack* parent() const override;
 
-    virtual void incomingData(const QString& name, const QString& value);
+    void incomingData(const QString& name, const QString& value) override;
 
     QUrl url() const;
 

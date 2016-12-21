@@ -35,10 +35,10 @@ class CachegrindConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 public:
     explicit CachegrindConfigPage(QWidget* parent = nullptr);
-    virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
-    virtual QIcon         icon(void) const;
-    virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
-    virtual QString       title(void) const;
+    void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0) override;
+    QIcon         icon(void) const override;
+    void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const override;
+    QString       title(void) const override;
 
 private:
     Ui::CachegrindConfig  *ui;
@@ -48,8 +48,8 @@ class CachegrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFact
 {
 public:
     CachegrindConfigPageFactory(void);
-    virtual ~CachegrindConfigPageFactory(void);
-    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+    ~CachegrindConfigPageFactory(void) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
 };
 }
 

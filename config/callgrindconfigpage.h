@@ -34,10 +34,10 @@ class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 public:
     explicit CallgrindConfigPage(QWidget* parent = nullptr);
-    virtual void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0);
-    virtual QIcon         icon(void) const;
-    virtual void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
-    virtual QString       title(void) const;
+    void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0) override;
+    QIcon         icon(void) const override;
+    void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const override;
+    QString       title(void) const override;
 
 private:
     Ui::CallgrindConfig   *ui;
@@ -47,8 +47,8 @@ class CallgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFacto
 {
 public:
     CallgrindConfigPageFactory(void);
-    virtual ~CallgrindConfigPageFactory(void);
-    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+    ~CallgrindConfigPageFactory(void) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
 };
 
 }

@@ -55,17 +55,17 @@ public:
     {
     }
 
-    virtual QWidget* create(QWidget* parent = nullptr)
+    QWidget* create(QWidget* parent = nullptr) override
     {
         return new Widget(m_plugin, parent);
     }
 
-    virtual Qt::DockWidgetArea defaultPosition()
+    Qt::DockWidgetArea defaultPosition() override
     {
         return Qt::BottomDockWidgetArea;
     }
 
-    virtual QString id() const
+    QString id() const override
     {
         return QStringLiteral("org.kdevelop.ValgrindView");
     }

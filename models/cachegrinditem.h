@@ -38,7 +38,7 @@ class CachegrindItem : public ModelItem
 public:
 
     CachegrindItem();
-    virtual ~CachegrindItem();
+    ~CachegrindItem() override;
 
     /**
      * Be carefull ! the order is important

@@ -52,7 +52,7 @@ class Job : public KDevelop::OutputExecuteJob
 
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    virtual ~Job();
+    ~Job() override;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
@@ -131,7 +131,7 @@ class KProcessOutputToParser : public QObject
 Q_OBJECT
 public:
     explicit KProcessOutputToParser(Parser* parser);
-    ~KProcessOutputToParser();
+    ~KProcessOutputToParser() override;
 
     int execute(const QString& execPath, const QStringList& args);
 

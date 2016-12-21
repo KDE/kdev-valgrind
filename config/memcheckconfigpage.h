@@ -37,10 +37,10 @@ class   MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
 
 public:
     explicit MemcheckConfigPage(QWidget* parent = nullptr);
-    virtual void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0);
-    virtual QIcon icon() const;
-    virtual void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const;
-    virtual QString title() const;
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0) override;
+    QIcon icon() const override;
+    void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const override;
+    QString title() const override;
 
 
 private:
@@ -51,8 +51,8 @@ class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactor
 {
 public:
     MemcheckConfigPageFactory();
-    virtual ~MemcheckConfigPageFactory();
-    virtual KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent);
+    ~MemcheckConfigPageFactory() override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
 };
 }
 

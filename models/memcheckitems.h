@@ -34,7 +34,7 @@ class MemcheckItem : public ModelItem
 
 public:
 
-    virtual ~MemcheckItem() {}
+    ~MemcheckItem() override {}
 
     virtual MemcheckItem* parent() const {
         return 0L;

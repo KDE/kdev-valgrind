@@ -34,13 +34,13 @@ class MassifView : public QTreeView, public IView
 
 public:
     MassifView();
-    ~MassifView();
+    ~MassifView() override;
 
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(Model * m);
-    Model * model(void);
+    void setModel(Model * m) override;
+    Model * model(void) override;
 
 private Q_SLOTS:
     void openDocument(const QModelIndex& index);

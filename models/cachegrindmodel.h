@@ -39,27 +39,27 @@ class CachegrindModel : public QAbstractItemModel,
 
 public:
     explicit CachegrindModel(QObject* parent = nullptr);
-    virtual ~CachegrindModel();
+    ~CachegrindModel() override;
 
-    virtual QAbstractItemModel  *getQAbstractItemModel(int) {return this;}
+    QAbstractItemModel  *getQAbstractItemModel(int) override {return this;}
 
-    QModelIndex     index(int, int, const QModelIndex&) const;
-    QModelIndex     parent(const QModelIndex&) const;
-    int             rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int             columnCount(const QModelIndex&) const;
-    QVariant        data(const QModelIndex &index, int role) const;
-    QVariant        headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QModelIndex     index(int, int, const QModelIndex&) const override;
+    QModelIndex     parent(const QModelIndex&) const override;
+    int             rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int             columnCount(const QModelIndex&) const override;
+    QVariant        data(const QModelIndex &index, int role) const override;
+    QVariant        headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     CachegrindItem  *itemForIndex(const QModelIndex &index) const;
 
     /////SLOTS WRAPPER////
     /**
      * Reception of a new item in the model
      */
-    virtual void newItem(ModelItem *item);
+    void newItem(ModelItem *item) override;
     /**
      * Resets the model content
      */
-    void reset();
+    void reset() override;
     ////END SLOTS WRAPER////
 private:
     CachegrindItem *m_rootItem;

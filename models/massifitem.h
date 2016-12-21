@@ -37,7 +37,7 @@ public:
 
     MassifItem();
     explicit MassifItem(bool);
-    virtual ~MassifItem();
+    ~MassifItem() override;
 
     enum Columns {
         Snapshot,

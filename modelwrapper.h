@@ -47,7 +47,7 @@ class ModelWrapper :  public QObject, public ModelEvents
 
 public:
     explicit ModelWrapper(Model* impl);
-    virtual ~ModelWrapper();
+    ~ModelWrapper() override;
 
 public slots:
     /**
@@ -90,7 +90,7 @@ signals:
     /**
      * emit this signal to alert other modules that the model has been updated
      */
-    void modelChanged();
+    void modelChanged() override;
 
 private:
     Job* m_job;

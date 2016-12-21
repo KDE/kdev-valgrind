@@ -42,10 +42,10 @@ class GenericLaunchMode : public LaunchMode
 public:
     GenericLaunchMode();
 
-    virtual QIcon icon() const;
-    virtual QString id() const;
-    virtual QString name() const;
-    virtual QString tool() const;
+    QIcon icon() const override;
+    QString id() const override;
+    QString name() const override;
+    QString tool() const override;
 
 protected:
     QString m_toolname;
