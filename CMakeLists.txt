@@ -17,16 +17,14 @@ find_package(KF5 REQUIRED COMPONENTS ItemModels)
 find_package(KDevPlatform 5.0.0 REQUIRED)
 
 include_directories(
-    ${kdevvalgrind_BINARY_DIR}
-    ${kdevvalgrind_SOURCE_DIR}
-    ${kdevvalgrind_SOURCE_DIR}/config
-    ${kdevvalgrind_SOURCE_DIR}/jobs
-    ${kdevvalgrind_SOURCE_DIR}/models
-    ${kdevvalgrind_SOURCE_DIR}/parsers
-    ${kdevvalgrind_SOURCE_DIR}/views
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/config
+    ${CMAKE_CURRENT_SOURCE_DIR}/jobs
+    ${CMAKE_CURRENT_SOURCE_DIR}/models
+    ${CMAKE_CURRENT_SOURCE_DIR}/parsers
+    ${CMAKE_CURRENT_SOURCE_DIR}/views
 )
-
-########### next target ###############
 
 set(kdevvalgrind_PART_SRCS
     config.cpp
@@ -85,19 +83,16 @@ set(kdevvalgrind_PART_UI
 )
 
 ki18n_wrap_ui(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
-
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
     SOURCES ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS}
 )
-
 target_link_libraries(kdevvalgrind
     KDev::Language
     KDev::Project
     KDev::Shell
     KF5::ItemViews
 )
-
 install(FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
