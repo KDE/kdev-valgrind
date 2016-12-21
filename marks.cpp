@@ -36,7 +36,7 @@ namespace valgrind
 
 Marks::Marks(Plugin* plugin)
     : m_plugin(plugin)
-    , m_model(0)
+    , m_model(nullptr)
 {
     connect(plugin, &Plugin::newModel, this, &Marks::newModel);
 }

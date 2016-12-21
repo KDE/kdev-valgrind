@@ -56,7 +56,7 @@ CallgrindView::CallgrindView(QWidget *parent) : QWidget(parent)
     connect(ui->percentInformationEnabled, SIGNAL(clicked(bool)),
             this, SLOT(percentInformationClicked(bool)));
 
-    m_functionListSelectedItem = NULL;
+    m_functionListSelectedItem = nullptr;
 /*
     QItemSelectionModel *selectionModel = new QItemSelectionModel(m_callerProxyModel);
     ui->CallerListView->setSelectionModel(selectionModel);
@@ -93,7 +93,7 @@ void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, co
     CallgrindCallstackItem  *item = static_cast<CallgrindCallstackItem*>(selected.indexes().first().internalPointer());
     m_functionListSelectedItem = item;
 
-    if (m_functionListSelectedItem == NULL)
+    if (m_functionListSelectedItem == nullptr)
         return ;
 
     updateInformationTab(item);
@@ -103,7 +103,7 @@ void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, co
 
 void CallgrindView::updateInformationTab(CallgrindCallstackItem *item)
 {
-    if (ui->InformationsListView->model()!= NULL)
+    if (ui->InformationsListView->model()!= nullptr)
         delete ui->InformationsListView->model();
     QStandardItemModel *informationsModel = new QStandardItemModel(this);
     int size = ((int) iCachegrindItem::Unknow) - 1;
@@ -122,7 +122,7 @@ void CallgrindView::updateInformationTab(CallgrindCallstackItem *item)
 void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
 {
     //delete old model
-    if (m_callerProxyModel->sourceModel() != NULL)
+    if (m_callerProxyModel->sourceModel() != nullptr)
         delete m_callerProxyModel->sourceModel();
     QStandardItemModel    *callerModel = new QStandardItemModel(this);
     callerModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
@@ -142,7 +142,7 @@ void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
 
 void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
 {
-    if (m_calleeProxyModel->sourceModel() != NULL)
+    if (m_calleeProxyModel->sourceModel() != nullptr)
         delete m_calleeProxyModel->sourceModel();
     QStandardItemModel  *calleeModel = new QStandardItemModel(this);
     calleeModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
@@ -165,7 +165,7 @@ void CallgrindView::percentInformationClicked(bool enable)
     m_informationDisplayMode = CallgrindCallstackItem::E_PERCENT;
     if (!enable)
         m_informationDisplayMode = CallgrindCallstackItem::E_NORMAL;
-    if (m_functionListSelectedItem == NULL)
+    if (m_functionListSelectedItem == nullptr)
         return ;
     updateInformationTab(m_functionListSelectedItem);
 }
@@ -175,7 +175,7 @@ void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const 
     Q_UNUSED(d);
     qCDebug(KDEV_VALGRIND) << "select";
     CallgrindCallstackItem  *item = static_cast<CallgrindCallstackItem*>(s.indexes().first().internalPointer());
-    if (item == NULL)
+    if (item == nullptr)
     {
         qCDebug(KDEV_VALGRIND) << "NULL";
         return;

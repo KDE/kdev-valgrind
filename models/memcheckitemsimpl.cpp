@@ -48,7 +48,7 @@ MemcheckError::~MemcheckError()
 void MemcheckError::incomingData(const QString& name, const QString& value)
 {
     if (name == "unique")
-        this->uniqueId = value.toInt(0L, 16);
+        this->uniqueId = value.toInt(nullptr, 16);
     else if (name == "tid")
         this->threadId = value.toInt();
     else if (name == "kind")
@@ -188,7 +188,7 @@ MemcheckStack* MemcheckFrame::parent() const
 void MemcheckFrame::incomingData(const QString& name, const QString& value)
 {
     if (name == "ip")
-        this->instructionPointer = value.toInt(0L, 16);
+        this->instructionPointer = value.toInt(nullptr, 16);
     else if (name == "obj")
         this->obj = value;
     else if (name == "fn")

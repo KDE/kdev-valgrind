@@ -164,9 +164,9 @@ QVariant CachegrindItem::data(int column) const
     if (key.size() > 0) {
         if (numeric == true)
         {
-          if (this->parent() == 0)
+          if (this->parent() == nullptr)
             return 0;
-          if (this->parent()->parent() == 0)
+          if (this->parent()->parent() == nullptr)
             return 100;
           bool ok;
           float pc = (((float)m_values[key].toInt(&ok)) / ((float) this->parent()->m_values[key].toInt(&ok)));

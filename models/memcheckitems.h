@@ -37,7 +37,7 @@ public:
     ~MemcheckItem() override {}
 
     virtual MemcheckItem* parent() const {
-        return 0L;
+        return nullptr;
     }
 
     /*

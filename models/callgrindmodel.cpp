@@ -42,14 +42,14 @@ CallgrindModel::CallgrindModel(QObject * parent)
 {
     Q_UNUSED(parent);
     m_callgrindFunctionModel = new CallgrindFunctionsListTModel(this);
-    m_totalCountItem = NULL;
+    m_totalCountItem = nullptr;
 }
 
 CallgrindModel::~CallgrindModel()
 {
     for (int i = 0; i < m_callgrindCsItems.size(); ++i)
     {
-        if (m_callgrindCsItems[i] != NULL)
+        if (m_callgrindCsItems[i] != nullptr)
             delete m_callgrindCsItems[i];
     }
     if (m_totalCountItem)
@@ -69,7 +69,7 @@ void CallgrindModel::newItem(ModelItem *item)
     }
     CallgrindCsItem *csItem = dynamic_cast<CallgrindCsItem *>(item);
     Q_ASSERT(csItem);
-    if ( m_totalCountItem == NULL )
+    if ( m_totalCountItem == nullptr )
         m_totalCountItem = csItem;
     else
         m_callgrindCsItems.append(csItem);
@@ -138,7 +138,7 @@ QAbstractItemModel        *CallgrindModel::getQAbstractItemModel(int n)
     case E_FCT_LIST:
         return (m_callgrindFunctionModel);
     default:
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -228,7 +228,7 @@ CallgrindCallstackItem* CallgrindFunctionsListTModel::itemForIndex(const QModelI
 {
     if (index.internalPointer())
         return static_cast<CallgrindCallstackItem*>(index.internalPointer());
-    return 0L;
+    return nullptr;
 }
 
 void CallgrindFunctionsListTModel::quickSortCSItem( int first, int last,

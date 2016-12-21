@@ -35,9 +35,9 @@ class CachegrindConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 public:
     explicit CachegrindConfigPage(QWidget* parent = nullptr);
-    void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = 0) override;
+    void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = nullptr) override;
     QIcon         icon(void) const override;
-    void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const override;
+    void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = nullptr) const override;
     QString       title(void) const override;
 
 private:

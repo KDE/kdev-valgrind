@@ -37,12 +37,12 @@ namespace valgrind
 CachegrindModel::CachegrindModel(QObject * parent)
 {
     Q_UNUSED(parent);
-    m_rootItem = 0;
+    m_rootItem = nullptr;
 }
 
 CachegrindModel::~CachegrindModel()
 {
-    if (m_rootItem != 0)
+    if (m_rootItem != nullptr)
         delete m_rootItem;
 }
 
@@ -53,7 +53,7 @@ void CachegrindModel::newItem(ModelItem *item)
         emit static_cast<ModelEvents *>(m_modelWrapper)->modelChanged();
         return;
     }
-    if (m_rootItem == 0)
+    if (m_rootItem == nullptr)
     {
         m_rootItem = dynamic_cast<CachegrindItem *>(item);
     }
@@ -79,7 +79,7 @@ QModelIndex CachegrindModel::index(int row, int column, const QModelIndex &paren
         parentItem = m_rootItem;
     else
         parentItem = static_cast<CachegrindItem *>(parent.internalPointer());
-    if (parentItem == 0)
+    if (parentItem == nullptr)
         return QModelIndex();
     CachegrindItem *childItem = parentItem->child(row);
     if (childItem)
@@ -107,7 +107,7 @@ int CachegrindModel::rowCount(const QModelIndex &parent) const
         parentItem = m_rootItem;
     else
         parentItem = static_cast<CachegrindItem*>(parent.internalPointer());
-    if (parentItem != 0)
+    if (parentItem != nullptr)
         return parentItem->childCount();
     return 0;
 }
@@ -116,7 +116,7 @@ int CachegrindModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return static_cast<CachegrindItem*>(parent.internalPointer())->columnCount();
-    else if (m_rootItem != 0)
+    else if (m_rootItem != nullptr)
         return m_rootItem->columnCount();
     return 0;
 }
@@ -230,7 +230,7 @@ CachegrindItem* CachegrindModel::itemForIndex(const QModelIndex& index) const
 {
     if (index.internalPointer())
         return static_cast<CachegrindItem*>(index.internalPointer());
-    return 0L;
+    return nullptr;
 }
 }
 

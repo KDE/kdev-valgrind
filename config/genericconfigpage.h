@@ -38,11 +38,11 @@ class   GenericConfigPage : public KDevelop::LaunchConfigurationPage
 
 public:
 
-    GenericConfigPage(Plugin * plugin, QWidget * parent = 0);
+    GenericConfigPage(Plugin * plugin, QWidget * parent = nullptr);
     ~GenericConfigPage() override;
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = 0) override;
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = nullptr) override;
     QIcon icon() const override;
-    void saveToConfiguration(KConfigGroup, KDevelop::IProject * = 0) const override;
+    void saveToConfiguration(KConfigGroup, KDevelop::IProject * = nullptr) const override;
     QString title() const override;
 
 signals:
