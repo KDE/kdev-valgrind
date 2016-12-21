@@ -6,17 +6,15 @@ project(kdevvalgrind)
 find_package(ECM 0.0.9 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
+include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMAddTests)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDECompilerSettings)
 include(FeatureSummary)
 
 find_package(Qt5 REQUIRED Core Widgets)
 find_package(KF5 REQUIRED COMPONENTS ItemModels)
 find_package(KDevPlatform 5.0.0 REQUIRED)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 
 include_directories(
     ${kdevvalgrind_BINARY_DIR}
