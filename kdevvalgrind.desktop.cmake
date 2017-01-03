@@ -33,6 +33,7 @@ Name[bg]=Поддръжка на Valgrind
 Name[bs]=Valgrind podrška
 Name[ca]=Implementació del valgrind
 Name[ca@valencia]=Implementació del valgrind
+Name[cs]=Podpora pro Valgrind
 Name[de]=Unterstützung für Valgrind
 Name[en_GB]=Valgrind Support
 Name[es]=Implementación de Valgrind
