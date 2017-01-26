@@ -77,12 +77,12 @@ public slots:
     /**
      * Set the associated process
      */
-    void job(Job* job);
+    void job(IJob* job);
 
     /**
      * Get the associated process
      */
-    Job* job();
+    IJob* job();
 
     void jobDestroyed();
 
@@ -93,7 +93,7 @@ signals:
     void modelChanged() override;
 
 private:
-    Job* m_job;
+    IJob* m_job;
     Model* m_modelImplementation;
 };
 

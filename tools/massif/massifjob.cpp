@@ -43,7 +43,7 @@
 namespace valgrind
 {
 MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : Job(cfg, plugin, parent)
+    : IJob(cfg, plugin, parent)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
 {
 }

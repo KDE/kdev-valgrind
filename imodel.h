@@ -25,7 +25,7 @@
 namespace valgrind
 {
 
-class Job;
+class IJob;
 class ModelWrapper;
 
 class ModelItem
@@ -59,7 +59,7 @@ public:
 
     void setModelWrapper(ModelWrapper* mdlw);
     ModelWrapper* getModelWrapper() const;
-    Job* job() const;
+    IJob* job() const;
 
 protected:
     ModelWrapper* m_modelWrapper;

@@ -23,12 +23,12 @@
 
 #pragma once
 
-#include "job.h"
+#include "ijob.h"
 
 namespace valgrind
 {
 
-class MemcheckJob : public Job
+class MemcheckJob : public IJob
 {
     Q_OBJECT
 

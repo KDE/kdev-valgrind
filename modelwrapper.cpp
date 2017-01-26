@@ -20,7 +20,7 @@
 
 #include "modelwrapper.h"
 
-#include "job.h"
+#include "ijob.h"
 
 namespace valgrind
 {
@@ -36,7 +36,7 @@ ModelWrapper::~ModelWrapper()
 {
 }
 
-void ModelWrapper::job(Job* job)
+void ModelWrapper::job(IJob* job)
 {
     //TODO: Search an other way to that :
     //QObject::connect(job, SIGNAL(destroyed()),
@@ -44,7 +44,7 @@ void ModelWrapper::job(Job* job)
     m_job = job;
 }
 
-Job* ModelWrapper::job()
+IJob* ModelWrapper::job()
 {
     return m_job;
 }

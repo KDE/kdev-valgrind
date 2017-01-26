@@ -23,7 +23,7 @@
 
 #include "config.h"
 #include "debug.h"
-#include "job.h"
+#include "ijob.h"
 #include "launcher.h"
 #include "widget.h"
 
@@ -128,7 +128,7 @@ void Plugin::runValgrind()
 
 void Plugin::jobFinished(KJob* kjob)
 {
-    Job* job = dynamic_cast<Job*>(kjob);
+    IJob* job = dynamic_cast<IJob*>(kjob);
     if (job && !job->error()) {
         if (job->tool() == QStringLiteral("memcheck"))
             core()->languageController()->problemModelSet()->showModel(modelId);

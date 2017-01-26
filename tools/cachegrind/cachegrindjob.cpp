@@ -35,7 +35,7 @@ namespace valgrind
 {
 
 CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : Job(cfg, plugin, parent)
+    : IJob(cfg, plugin, parent)
     , m_postTreatment(new KProcessOutputToParser(m_parser))
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {

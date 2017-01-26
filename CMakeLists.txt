@@ -26,9 +26,9 @@ include_directories(
 set(kdevvalgrind_SRCS
     config.cpp
     debug.cpp
+    ijob.cpp
     imodel.cpp
     iparser.cpp
-    job.cpp
     launcher.cpp
     modelwrapper.cpp
     plugin.cpp

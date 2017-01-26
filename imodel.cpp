@@ -20,7 +20,7 @@
 
 #include "imodel.h"
 
-#include "job.h"
+#include "ijob.h"
 #include "modelwrapper.h"
 
 namespace valgrind
@@ -46,7 +46,7 @@ ModelWrapper* Model::getModelWrapper() const
     return m_modelWrapper;
 }
 
-Job* Model::job() const
+IJob* Model::job() const
 {
     if (m_modelWrapper)
       return m_modelWrapper->job();

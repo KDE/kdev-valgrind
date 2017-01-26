@@ -35,7 +35,7 @@ namespace valgrind
 {
 
 MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent)
-    : Job(cfg, inst, parent)
+    : IJob(cfg, inst, parent)
 {
 }
 

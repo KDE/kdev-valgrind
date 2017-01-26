@@ -29,7 +29,7 @@
 #include "config.h"
 #include "debug.h"
 #include "genericconfigpage.h"
-#include "job.h"
+#include "ijob.h"
 #include "massif/massifconfigpage.h"
 #include "memcheck/memcheckconfigpage.h"
 
@@ -74,7 +74,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         KJob* depjob = iface->dependencyJob(cfg);
         if (depjob)
             l << depjob;
-        l << Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+        l << IJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
         return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), l);
     }

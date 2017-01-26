@@ -20,7 +20,7 @@
 */
 
 #include "debug.h"
-#include "job.h"
+#include "ijob.h"
 #include "plugin.h"
 #include "widget.h"
 
@@ -86,7 +86,7 @@ Plugin* Widget::plugin() const
 
 void Widget::newModel(Model* model)
 {
-    Job* job;
+    IJob* job;
 
     job = model->job();
     if (!job)

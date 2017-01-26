@@ -46,13 +46,13 @@ class Model;
 class Plugin;
 class Parser;
 
-class Job : public KDevelop::OutputExecuteJob
+class IJob : public KDevelop::OutputExecuteJob
 {
     Q_OBJECT
 
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    ~Job() override;
+    IJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~IJob() override;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
@@ -61,7 +61,7 @@ public:
     QString target() const;
 
     // Factory
-    static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    static IJob* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
 
 private slots:
     void postProcessStdout(const QStringList& lines) override;
