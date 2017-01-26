@@ -25,8 +25,8 @@
 #include "debug.h"
 #include <kmessagebox.h>
 #include <QFontDatabase>
-#include <massifitem.h>
 
+#include "massifitem.h"
 #include "modelwrapper.h"
 
 #include <klocalizedstring.h>

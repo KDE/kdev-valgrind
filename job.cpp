@@ -25,20 +25,20 @@
 */
 
 #include "job.h"
-
-#include "cachegrindjob.h"
-#include "cachegrindmodel.h"
-#include "cachegrindparser.h"
-#include "callgrindjob.h"
-#include "callgrindmodel.h"
-#include "callgrindparser.h"
 #include "debug.h"
-#include "massifjob.h"
-#include "massifmodel.h"
-#include "massifparser.h"
-#include "memcheckfakemodel.h"
-#include "memcheckjob.h"
-#include "memcheckparser.h"
+
+#include "cachegrind/cachegrindjob.h"
+#include "cachegrind/cachegrindmodel.h"
+#include "cachegrind/cachegrindparser.h"
+#include "callgrind/callgrindjob.h"
+#include "callgrind/callgrindmodel.h"
+#include "callgrind/callgrindparser.h"
+#include "massif/massifjob.h"
+#include "massif/massifmodel.h"
+#include "massif/massifparser.h"
+#include "memcheck/memcheckfakemodel.h"
+#include "memcheck/memcheckjob.h"
+#include "memcheck/memcheckparser.h"
 #include "modelwrapper.h"
 #include "plugin.h"
 

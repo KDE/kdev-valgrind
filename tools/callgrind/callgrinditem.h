@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QMap>
 
-#include "icachegrinditem.h"
+#include "cachegrind/icachegrinditem.h" // FIXME move iCachegrindItem to common interfaces ?
 #include "imodel.h"
 
 #define CALLGRIND_MIN_DISPLAY_PERCENT 1

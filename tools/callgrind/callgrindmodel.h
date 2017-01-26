@@ -27,7 +27,7 @@
 
 #include <QList>
 
-#include "icachegrinditem.h"
+#include "cachegrind/icachegrinditem.h" // FIXME move iCachegrindItem to common interfaces ?
 #include "callgrinditem.h"
 
 namespace valgrind

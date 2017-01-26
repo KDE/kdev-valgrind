@@ -19,17 +19,17 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "widget.h"
-
-#include "cachegrindmodel.h"
-#include "cachegrindview.h"
-#include "callgrindmodel.h"
-#include "callgrindview.h"
 #include "debug.h"
 #include "job.h"
-#include "massifmodel.h"
-#include "massifview.h"
 #include "plugin.h"
+#include "widget.h"
+
+#include "cachegrind/cachegrindmodel.h"
+#include "cachegrind/cachegrindview.h"
+#include "callgrind/callgrindmodel.h"
+#include "callgrind/callgrindview.h"
+#include "massif/massifmodel.h"
+#include "massif/massifview.h"
 
 #include <klocalizedstring.h>
 

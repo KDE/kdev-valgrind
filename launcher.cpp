@@ -24,14 +24,14 @@
 
 #include "launcher.h"
 
-#include "cachegrindconfigpage.h"
-#include "callgrindconfigpage.h"
+#include "cachegrind/cachegrindconfigpage.h"
+#include "callgrind/callgrindconfigpage.h"
 #include "config.h"
 #include "debug.h"
 #include "genericconfigpage.h"
 #include "job.h"
-#include "massifconfigpage.h"
-#include "memcheckconfigpage.h"
+#include "massif/massifconfigpage.h"
+#include "memcheck/memcheckconfigpage.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>

@@ -20,79 +20,80 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/config
-    ${CMAKE_CURRENT_SOURCE_DIR}/jobs
-    ${CMAKE_CURRENT_SOURCE_DIR}/models
-    ${CMAKE_CURRENT_SOURCE_DIR}/parsers
-    ${CMAKE_CURRENT_SOURCE_DIR}/views
+    ${CMAKE_CURRENT_SOURCE_DIR}/tools
 )
 
-set(kdevvalgrind_PART_SRCS
+set(kdevvalgrind_SRCS
     config.cpp
     debug.cpp
     imodel.cpp
     iparser.cpp
     job.cpp
-    jobs/cachegrindjob.cpp
-    jobs/callgrindjob.cpp
-    jobs/massifjob.cpp
-    jobs/memcheckjob.cpp
     launcher.cpp
     marks.cpp
-    models/cachegrinditem.cpp
-    models/cachegrinditem.cpp
-    models/cachegrindmodel.cpp
-    models/cachegrindmodel.cpp
-    models/callgrinditem.cpp
-    models/callgrindmodel.cpp
-    models/icachegrinditem.cpp
-    models/massifitem.cpp
-    models/massifmodel.cpp
-    models/memcheckfakemodel.cpp
-    models/memcheckitemsimpl.cpp
     modelwrapper.cpp
-    parsers/cachegrindparser.cpp
-    parsers/callgrindparser.cpp
-    parsers/massifparser.cpp
-    parsers/memcheckparser.cpp
     plugin.cpp
     statjob.cpp
-    views/cachegrindview.cpp
-    views/cachegrindview.cpp
-    views/callgrindview.cpp
-    views/massifview.cpp
     widget.cpp
-)
 
-set(kdevvalgrind_CONFIG_SRCS
-    config/cachegrindconfigpage.cpp
-    config/callgrindconfigpage.cpp
     config/genericconfigpage.cpp
-    config/helgrindconfigpage.cpp
-    config/massifconfigpage.cpp
-    config/memcheckconfigpage.cpp
+
+    tools/cachegrind/cachegrindconfigpage.cpp
+    tools/cachegrind/cachegrinditem.cpp
+    tools/cachegrind/cachegrinditem.cpp
+    tools/cachegrind/cachegrindjob.cpp
+    tools/cachegrind/cachegrindmodel.cpp
+    tools/cachegrind/cachegrindmodel.cpp
+    tools/cachegrind/cachegrindparser.cpp
+    tools/cachegrind/cachegrindview.cpp
+    tools/cachegrind/icachegrinditem.cpp
+
+    tools/callgrind/callgrindconfigpage.cpp
+    tools/callgrind/callgrinditem.cpp
+    tools/callgrind/callgrindjob.cpp
+    tools/callgrind/callgrindmodel.cpp
+    tools/callgrind/callgrindparser.cpp
+    tools/callgrind/callgrindview.cpp
+
+    tools/helgrind/helgrindconfigpage.cpp
+
+    tools/massif/massifconfigpage.cpp
+    tools/massif/massifitem.cpp
+    tools/massif/massifjob.cpp
+    tools/massif/massifmodel.cpp
+    tools/massif/massifparser.cpp
+    tools/massif/massifview.cpp
+
+    tools/memcheck/memcheckconfigpage.cpp
+    tools/memcheck/memcheckfakemodel.cpp
+    tools/memcheck/memcheckitemsimpl.cpp
+    tools/memcheck/memcheckjob.cpp
+    tools/memcheck/memcheckparser.cpp
 )
 
-set(kdevvalgrind_PART_UI
-    config/ui/cachegrindconfig.ui
-    config/ui/callgrindconfig.ui
-    config/ui/callgrindview.ui
+ki18n_wrap_ui(kdevvalgrind_UI_SRCS
     config/ui/genericconfig.ui
-    config/ui/helgrindconfig.ui
-    config/ui/massifconfig.ui
-    config/ui/memcheckconfig.ui
+
+    tools/cachegrind/cachegrindconfig.ui
+    tools/callgrind/callgrindconfig.ui
+    tools/callgrind/callgrindview.ui
+    tools/helgrind/helgrindconfig.ui
+    tools/massif/massifconfig.ui
+    tools/memcheck/memcheckconfig.ui
 )
 
-ki18n_wrap_ui(kdevvalgrind_PART_SRCS ${kdevvalgrind_PART_UI})
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
-    SOURCES ${kdevvalgrind_PART_SRCS} ${kdevvalgrind_CONFIG_SRCS}
+    SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS}
 )
+
 target_link_libraries(kdevvalgrind
     KDev::Language
     KDev::Project
     KDev::Shell
     KF5::ItemViews
 )
+
 install(FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
