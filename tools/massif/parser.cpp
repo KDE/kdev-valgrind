@@ -19,9 +19,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "massifparser.h"
+#include "parser.h"
 
-#include "massifitem.h"
+#include "modelitem.h"
 
 #include <kmessagebox.h>
 

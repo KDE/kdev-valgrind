@@ -18,7 +18,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "massifitem.h"
+#include "modelitem.h"
 #include "debug.h"
 
 namespace valgrind

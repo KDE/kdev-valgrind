@@ -22,7 +22,7 @@
 */
 
 
-#include "cachegrindjob.h"
+#include "job.h"
 
 #include "plugin.h"
 

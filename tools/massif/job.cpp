@@ -21,7 +21,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "massifjob.h"
+#include "job.h"
 
 #include "debug.h"
 #include "interfaces/iparser.h"

@@ -24,11 +24,9 @@
 #define _CALLGRINDMODEL_H_
 
 #include "interfaces/imodel.h"
+#include "modelitem.h"
 
 #include <QList>
-
-#include "cachegrind/icachegrinditem.h" // FIXME move iCachegrindItem to common interfaces ?
-#include "callgrinditem.h"
 
 namespace valgrind
 {

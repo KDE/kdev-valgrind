@@ -21,9 +21,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "callgrindparser.h"
+#include "parser.h"
 
-#include "callgrinditem.h"
+#include "modelitem.h"
 #include "debug.h"
 
 namespace valgrind

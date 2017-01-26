@@ -21,7 +21,7 @@
 
 */
 
-#include "cachegrindview.h"
+#include "view.h"
 
 #include <QApplication>
 #include <QHeaderView>
@@ -32,8 +32,8 @@
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
-#include "cachegrindmodel.h"
-#include "cachegrinditem.h"
+#include "model.h"
+#include "modelitem.h"
 
 #include "modelwrapper.h"
 

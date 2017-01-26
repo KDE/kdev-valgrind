@@ -20,16 +20,15 @@
  Boston, MA 02110-1301, USA.
 */
 
-#include "cachegrindmodel.h"
-
+#include "model.h"
+#include "modelwrapper.h"
 
 #include "debug.h"
+
 #include <kmessagebox.h>
 #include <klocalizedstring.h>
 #include <QFontDatabase>
-#include "cachegrinditem.h"
-
-#include "modelwrapper.h"
+#include "modelitem.h"
 
 namespace valgrind
 {

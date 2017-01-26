@@ -27,13 +27,32 @@
 #include <QUrl>
 #include <QHash>
 #include <QList>
-#include "./memcheckitems.h"
+
+#include "interfaces/imodel.h"
 
 namespace valgrind
 {
+
 class MemcheckError;
 class MemcheckStack;
 class MemcheckFrame;
+
+class MemcheckItem : public ModelItem
+{
+
+public:
+
+    ~MemcheckItem() override {}
+
+    virtual MemcheckItem* parent() const {
+        return nullptr;
+    }
+
+    /*
+     * Called when data related to the error has been parsed
+     */
+    virtual void incomingData(const QString& name, const QString& value) = 0;
+};
 
 class MemcheckError : public MemcheckItem
 {

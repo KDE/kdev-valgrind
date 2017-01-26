@@ -23,7 +23,7 @@
 #define _MASSIFMODEL_H_
 
 #include "interfaces/imodel.h"
-#include "massifitem.h"
+#include "modelitem.h"
 
 #include <QAbstractItemModel>
 

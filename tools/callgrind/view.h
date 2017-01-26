@@ -26,7 +26,7 @@
 #include <QWidget>
 #include <QItemSelection>
 
-#include "callgrinditem.h"
+#include "modelitem.h"
 
 #include "interfaces/iview.h"
 

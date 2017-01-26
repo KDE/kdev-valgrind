@@ -20,14 +20,13 @@
  Boston, MA 02110-1301, USA.
 */
 
-#include "callgrindmodel.h"
-
+#include "model.h"
 
 #include "debug.h"
 #include <kmessagebox.h>
 #include <klocalizedstring.h>
 
-#include "callgrinditem.h"
+#include "modelitem.h"
 
 #include "modelwrapper.h"
 

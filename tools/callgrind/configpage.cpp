@@ -17,9 +17,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "callgrindconfigpage.h"
+#include "configpage.h"
+#include "ui_configpage.h"
 
-#include "ui_callgrindconfig.h"
 #include <KConfigGroup>
 
 namespace valgrind

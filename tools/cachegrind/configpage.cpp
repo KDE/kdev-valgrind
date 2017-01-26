@@ -18,8 +18,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "cachegrindconfigpage.h"
-#include "ui_cachegrindconfig.h"
+#include "configpage.h"
+#include "ui_configpage.h"
 #include <KConfigGroup>
 
 namespace valgrind

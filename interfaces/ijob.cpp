@@ -24,23 +24,26 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "ijob.h"
 #include "debug.h"
-
-#include "cachegrind/cachegrindjob.h"
-#include "cachegrind/cachegrindmodel.h"
-#include "cachegrind/cachegrindparser.h"
-#include "callgrind/callgrindjob.h"
-#include "callgrind/callgrindmodel.h"
-#include "callgrind/callgrindparser.h"
-#include "massif/massifjob.h"
-#include "massif/massifmodel.h"
-#include "massif/massifparser.h"
-#include "memcheck/memcheckfakemodel.h"
-#include "memcheck/memcheckjob.h"
-#include "memcheck/memcheckparser.h"
+#include "ijob.h"
 #include "modelwrapper.h"
 #include "plugin.h"
+
+#include "cachegrind/job.h"
+#include "cachegrind/model.h"
+#include "cachegrind/parser.h"
+
+#include "callgrind/job.h"
+#include "callgrind/model.h"
+#include "callgrind/parser.h"
+
+#include "massif/job.h"
+#include "massif/model.h"
+#include "massif/parser.h"
+
+#include "memcheck/model.h"
+#include "memcheck/job.h"
+#include "memcheck/parser.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>

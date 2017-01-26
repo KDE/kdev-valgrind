@@ -19,14 +19,13 @@
  Boston, MA 02110-1301, USA.
 */
 
-#include "massifmodel.h"
-
+#include "model.h"
 
 #include "debug.h"
 #include <kmessagebox.h>
 #include <QFontDatabase>
 
-#include "massifitem.h"
+#include "modelitem.h"
 #include "modelwrapper.h"
 
 #include <klocalizedstring.h>

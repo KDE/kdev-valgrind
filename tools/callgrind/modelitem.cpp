@@ -19,7 +19,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "callgrinditem.h"
+#include "modelitem.h"
 #include "debug.h"
 
 

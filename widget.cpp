@@ -24,12 +24,14 @@
 #include "plugin.h"
 #include "widget.h"
 
-#include "cachegrind/cachegrindmodel.h"
-#include "cachegrind/cachegrindview.h"
-#include "callgrind/callgrindmodel.h"
-#include "callgrind/callgrindview.h"
-#include "massif/massifmodel.h"
-#include "massif/massifview.h"
+#include "cachegrind/model.h"
+#include "cachegrind/view.h"
+
+#include "callgrind/model.h"
+#include "callgrind/view.h"
+
+#include "massif/model.h"
+#include "massif/view.h"
 
 #include <klocalizedstring.h>
 

@@ -20,8 +20,8 @@
 
 */
 
-#include "callgrindview.h"
-#include "ui_callgrindview.h"
+#include "view.h"
+#include "ui_view.h"
 
 #include <QItemSelectionModel>
 #include <QStandardItemModel>
@@ -32,8 +32,8 @@
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
-#include "callgrindmodel.h"
-#include "callgrinditem.h"
+#include "model.h"
+#include "modelitem.h"
 
 #include <QResizeEvent>
 

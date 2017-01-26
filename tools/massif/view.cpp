@@ -19,7 +19,7 @@
 
  */
 
-#include "massifview.h"
+#include "view.h"
 
 #include <QApplication>
 
@@ -28,7 +28,7 @@
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
-#include "massifitem.h"
+#include "modelitem.h"
 #include "statjob.h"
 
 namespace valgrind

@@ -18,9 +18,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "memcheckfakemodel.h"
+#include "model.h"
 
-#include "memcheckitemsimpl.h"
+#include "modelitem.h"
 
 #include <interfaces/icore.h>
 #include <interfaces/ilanguagecontroller.h>

@@ -20,9 +20,8 @@
 */
 
 
-#include "memcheckconfigpage.h"
-
-#include "ui_memcheckconfig.h"
+#include "configpage.h"
+#include "ui_configpage.h"
 
 #include <KConfigGroup>
 

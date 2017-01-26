@@ -18,9 +18,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "massifconfigpage.h"
-
-#include "ui_massifconfig.h"
+#include "configpage.h"
+#include "ui_configpage.h"
 
 #include <KConfigGroup>
 

@@ -21,7 +21,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "memcheckparser.h"
+#include "parser.h"
 
 #include "debug.h"
 

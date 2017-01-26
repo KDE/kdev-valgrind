@@ -21,9 +21,9 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "cachegrindparser.h"
+#include "parser.h"
 
-#include "cachegrinditem.h"
+#include "modelitem.h"
 #include "debug.h"
 
 namespace valgrind
