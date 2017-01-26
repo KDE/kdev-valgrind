@@ -26,14 +26,16 @@ include_directories(
 set(kdevvalgrind_SRCS
     config.cpp
     debug.cpp
-    ijob.cpp
-    imodel.cpp
-    iparser.cpp
+
     launcher.cpp
     modelwrapper.cpp
     plugin.cpp
     statjob.cpp
     widget.cpp
+
+    interfaces/ijob.cpp
+    interfaces/imodel.cpp
+    interfaces/iparser.cpp
 
     config/genericconfigpage.cpp
 

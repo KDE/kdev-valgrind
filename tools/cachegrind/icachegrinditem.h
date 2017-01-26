@@ -23,7 +23,7 @@
 #ifndef _ICACHEGRINDITEM_H__
 #define _ICACHEGRINDITEM_H__
 
-#include "imodel.h"
+#include "interfaces/imodel.h"
 
 namespace valgrind
 {

@@ -20,7 +20,7 @@
 */
 
 #include "debug.h"
-#include "ijob.h"
+#include "interfaces/ijob.h"
 #include "plugin.h"
 #include "widget.h"
 

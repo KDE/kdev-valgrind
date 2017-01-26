@@ -23,7 +23,7 @@
 #ifndef _CACHEGRINDMODEL_H_
 #define _CACHEGRINDMODEL_H_
 
-#include "imodel.h"
+#include "interfaces/imodel.h"
 
 #include <QAbstractItemModel>
 

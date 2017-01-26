@@ -23,7 +23,7 @@
 #ifndef _CALLGRINDMODEL_H_
 #define _CALLGRINDMODEL_H_
 
-#include "imodel.h"
+#include "interfaces/imodel.h"
 
 #include <QList>
 

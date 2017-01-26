@@ -29,7 +29,7 @@
 #include "config.h"
 #include "debug.h"
 #include "genericconfigpage.h"
-#include "ijob.h"
+#include "interfaces/ijob.h"
 #include "massif/massifconfigpage.h"
 #include "memcheck/memcheckconfigpage.h"
 

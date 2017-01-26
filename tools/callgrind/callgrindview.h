@@ -28,7 +28,7 @@
 
 #include "callgrinditem.h"
 
-#include "iview.h"
+#include "interfaces/iview.h"
 
 
 class QResizeEvent;

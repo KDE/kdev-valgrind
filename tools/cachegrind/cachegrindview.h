@@ -26,7 +26,7 @@
 
 #include <QTreeView>
 
-#include "iview.h"
+#include "interfaces/iview.h"
 
 namespace valgrind
 {

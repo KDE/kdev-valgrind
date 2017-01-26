@@ -24,7 +24,7 @@
 #include "massifjob.h"
 
 #include "debug.h"
-#include "iparser.h"
+#include "interfaces/iparser.h"
 #include "plugin.h"
 
 #include <QFile>

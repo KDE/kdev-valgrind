@@ -23,7 +23,7 @@
 
 #include "config.h"
 #include "debug.h"
-#include "ijob.h"
+#include "interfaces/ijob.h"
 #include "launcher.h"
 #include "widget.h"
 

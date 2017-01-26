@@ -24,7 +24,7 @@
 #include "memcheckjob.h"
 
 #include "debug.h"
-#include "iparser.h"
+#include "interfaces/iparser.h"
 
 #include <KLocalizedString>
 

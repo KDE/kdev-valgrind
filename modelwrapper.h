@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "imodel.h"
+#include "interfaces/imodel.h"
 
 namespace valgrind
 {

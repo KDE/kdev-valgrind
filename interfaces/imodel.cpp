@@ -18,51 +18,40 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
+#include "imodel.h"
 
-#include <QAbstractItemModel>
+#include "interfaces/ijob.h"
+#include "modelwrapper.h"
 
 namespace valgrind
 {
 
-class IJob;
-class ModelWrapper;
-
-class ModelItem
+Model::Model()
 {
-public:
-    ModelItem() {};
-    virtual ~ModelItem() {};
-};
+    m_modelWrapper = nullptr;
+}
 
-class Model
+QAbstractItemModel* Model::getQAbstractItemModel(int)
 {
-public:
-    Model();
-    virtual ~Model() {}
+    return nullptr;
+}
 
-    enum eElementType {
-        startError,
-        error,
-        startFrame,
-        frame,
-        startStack,
-        stack
-    };
+void Model::setModelWrapper(ModelWrapper* mdl)
+{
+    m_modelWrapper = mdl;
+}
 
-    virtual QAbstractItemModel* getQAbstractItemModel(int n = 0);
+ModelWrapper* Model::getModelWrapper() const
+{
+    return m_modelWrapper;
+}
 
-    virtual void newElement(Model::eElementType) {}
-    virtual void newItem(ModelItem*) {}
-    virtual void newData(Model::eElementType, const QString&, const QString&) {}
-    virtual void reset() {};
+IJob* Model::job() const
+{
+    if (m_modelWrapper)
+      return m_modelWrapper->job();
 
-    void setModelWrapper(ModelWrapper* mdlw);
-    ModelWrapper* getModelWrapper() const;
-    IJob* job() const;
-
-protected:
-    ModelWrapper* m_modelWrapper;
-};
+    return nullptr;
+}
 
 }

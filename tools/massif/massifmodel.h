@@ -22,7 +22,7 @@
 #ifndef _MASSIFMODEL_H_
 #define _MASSIFMODEL_H_
 
-#include "imodel.h"
+#include "interfaces/imodel.h"
 #include "massifitem.h"
 
 #include <QAbstractItemModel>

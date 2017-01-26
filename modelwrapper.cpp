@@ -20,7 +20,7 @@
 
 #include "modelwrapper.h"
 
-#include "ijob.h"
+#include "interfaces/ijob.h"
 
 namespace valgrind
 {
