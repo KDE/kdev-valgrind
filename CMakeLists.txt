@@ -30,7 +30,6 @@ set(kdevvalgrind_SRCS
     iparser.cpp
     job.cpp
     launcher.cpp
-    marks.cpp
     modelwrapper.cpp
     plugin.cpp
     statjob.cpp
@@ -55,8 +54,6 @@ set(kdevvalgrind_SRCS
     tools/callgrind/callgrindparser.cpp
     tools/callgrind/callgrindview.cpp
 
-    tools/helgrind/helgrindconfigpage.cpp
-
     tools/massif/massifconfigpage.cpp
     tools/massif/massifitem.cpp
     tools/massif/massifjob.cpp
@@ -77,7 +74,6 @@ ki18n_wrap_ui(kdevvalgrind_UI_SRCS
     tools/cachegrind/cachegrindconfig.ui
     tools/callgrind/callgrindconfig.ui
     tools/callgrind/callgrindview.ui
-    tools/helgrind/helgrindconfig.ui
     tools/massif/massifconfig.ui
     tools/memcheck/memcheckconfig.ui
 )
