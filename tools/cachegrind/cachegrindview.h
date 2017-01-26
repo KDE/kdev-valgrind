@@ -43,9 +43,11 @@ public:
 
     void setModel(Model * m) override;
     Model * model(void) override;
+
 protected:
   void MousePressEvent(QMouseEvent *event);
-private Q_SLOTS:
+
+private:
     void openDocument(const QModelIndex& index);
 };
 }

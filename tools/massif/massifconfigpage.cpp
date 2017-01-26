@@ -32,17 +32,23 @@ MassifConfigPage::MassifConfigPage(QWidget *parent)
 {
     ui = new Ui::MassifConfig();
     ui->setupUi(this);
-    connect(ui->massifParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
-    connect(ui->launchMassifVisualizer,  SIGNAL(toggled(bool)),  SIGNAL(changed()));
-    connect(ui->massifVisualizerExecutable, SIGNAL(textEdited(QString)),  SIGNAL(changed()));
-    connect(ui->depth, SIGNAL(valueChanged(int)), SIGNAL(changed()));
-    connect(ui->threshold, SIGNAL(valueChanged(int)), SIGNAL(changed()));
-    connect(ui->peakInaccuracy, SIGNAL(valueChanged(int)), SIGNAL(changed()));
-    connect(ui->maxSnapshots, SIGNAL(valueChanged(int)), SIGNAL(changed()));
-    connect(ui->snapshotFreq, SIGNAL(valueChanged(int)), SIGNAL(changed()));
-    connect(ui->timeUnit, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()));
-    connect(ui->profileHeap, SIGNAL(toggled(bool)), SIGNAL(changed()));
-    connect(ui->profileStack, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->massifParameters, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
+    connect(ui->launchMassifVisualizer, &QCheckBox::toggled, this, &MassifConfigPage::changed);
+    connect(ui->massifVisualizerExecutable, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
+    connect(ui->depth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MassifConfigPage::changed);
+    connect(ui->threshold, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MassifConfigPage::changed);
+    connect(ui->peakInaccuracy, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MassifConfigPage::changed);
+    connect(ui->maxSnapshots, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MassifConfigPage::changed);
+    connect(ui->snapshotFreq, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MassifConfigPage::changed);
+    connect(ui->timeUnit, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &MassifConfigPage::changed);
+    connect(ui->profileHeap, &QCheckBox::toggled, this, &MassifConfigPage::changed);
+    connect(ui->profileStack, &QCheckBox::toggled, this, &MassifConfigPage::changed);
 }
 
 void    MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)

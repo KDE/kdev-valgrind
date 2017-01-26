@@ -35,12 +35,13 @@ MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     ui = new Ui::MemcheckConfig();
     ui->setupUi(this);
 
-    connect(ui->memcheckParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
-    connect(ui->freeListSize, SIGNAL(valueChanged(int)), SIGNAL(changed()));
+    connect(ui->memcheckParameters, &QLineEdit::textEdited, this, &MemcheckConfigPage::changed);
+    connect(ui->freeListSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MemcheckConfigPage::changed);
 
-    connect(ui->showReachable, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->showReachable, &QCheckBox::toggled, this, &MemcheckConfigPage::changed);
     //    connect( ui->trackOrigins, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    connect(ui->undefValueErrors, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->undefValueErrors, &QCheckBox::toggled, this, &MemcheckConfigPage::changed);
     /*
     connect( ui->showInvalidFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );
     connect( ui->showMismatchedFree, SIGNAL(toggled(bool)), SIGNAL(changed()) );

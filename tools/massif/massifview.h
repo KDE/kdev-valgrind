@@ -42,7 +42,7 @@ public:
     void setModel(Model * m) override;
     Model * model(void) override;
 
-private Q_SLOTS:
+private:
     void openDocument(const QModelIndex& index);
 };
 }

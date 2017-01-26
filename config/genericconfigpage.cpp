@@ -35,12 +35,13 @@ GenericConfigPage::GenericConfigPage(Plugin *plugin, QWidget *parent)
     ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
-    connect(ui->valgrindExecutable, SIGNAL(textChanged(QString)), SIGNAL(changed()));
-    connect(ui->valgrindExecutable, SIGNAL(urlSelected(QUrl)), SIGNAL(changed()));
-    connect(ui->valgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
-    connect(ui->limitErrors, SIGNAL(toggled(bool)), SIGNAL(changed()));
-    connect(ui->maxStackSize, SIGNAL(valueChanged(int)), SIGNAL(changed()));
-    connect(ui->stackDepth, SIGNAL(valueChanged(int)), SIGNAL(changed()));
+    connect(ui->valgrindExecutable, &QLineEdit::textChanged, this, &GenericConfigPage::changed);
+    connect(ui->valgrindParameters, &QLineEdit::textEdited, this, &GenericConfigPage::changed);
+    connect(ui->limitErrors, &QCheckBox::toggled, this, &GenericConfigPage::changed);
+    connect(ui->maxStackSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &GenericConfigPage::changed);
+    connect(ui->stackDepth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &GenericConfigPage::changed);
 
     QStringList tools;
 
@@ -56,7 +57,8 @@ GenericConfigPage::GenericConfigPage(Plugin *plugin, QWidget *parent)
 
     ui->currentTool->addItems(tools);
 
-    connect(ui->currentTool, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()));
+    connect(ui->currentTool, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &GenericConfigPage::changed);
 }
 
 GenericConfigPage::~GenericConfigPage(void)

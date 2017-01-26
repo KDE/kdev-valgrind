@@ -31,12 +31,12 @@ CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
     ui = new Ui::CallgrindConfig();
     ui->setupUi(this);
 
-    connect(ui->callgrindParameters, SIGNAL(textEdited(QString)), SIGNAL(changed()));
-    connect(ui->launchKCachegrind, SIGNAL(toggled(bool)), SIGNAL(changed()));
-    connect(ui->KCachegrindExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
-    connect(ui->CallgrindAnnotateExecutable, SIGNAL(textEdited(QString)), SIGNAL(changed()));
-    connect(ui->cacheSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
-    connect(ui->branchSimulation, SIGNAL(toggled(bool)), SIGNAL(changed()));
+    connect(ui->callgrindParameters, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
+    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
+    connect(ui->KCachegrindExecutable, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
+    connect(ui->CallgrindAnnotateExecutable, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
+    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
+    connect(ui->branchSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
 }
 
 void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)

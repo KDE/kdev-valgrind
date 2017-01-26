@@ -41,7 +41,7 @@ namespace valgrind
 {
 CachegrindView::CachegrindView()
 {
-    connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+    connect(this, &CachegrindView::activated, this, &CachegrindView::openDocument);
 }
 
 CachegrindView::~CachegrindView() {}

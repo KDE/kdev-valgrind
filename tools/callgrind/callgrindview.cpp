@@ -53,8 +53,7 @@ CallgrindView::CallgrindView(QWidget *parent) : QWidget(parent)
 
     m_informationDisplayMode = CallgrindCallstackItem::E_PERCENT;
 
-    connect(ui->percentInformationEnabled, SIGNAL(clicked(bool)),
-            this, SLOT(percentInformationClicked(bool)));
+    connect(ui->percentInformationEnabled, &QCheckBox::clicked, this, &CallgrindView::percentInformationClicked);
 
     m_functionListSelectedItem = nullptr;
 /*
@@ -80,8 +79,8 @@ void CallgrindView::setModel(Model * m)
 
     QItemSelectionModel *functionListSelectionModel = new QItemSelectionModel(fctTreeModel);
     ui->FunctionsTreeView->setSelectionModel(functionListSelectionModel);
-    connect(functionListSelectionModel, SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this, SLOT(selectionOnFctListChanged(const QItemSelection &, const QItemSelection &)));
+    connect(functionListSelectionModel, &QItemSelectionModel::selectionChanged,
+            this, &CallgrindView::selectionOnFctListChanged);
 
     ui->FunctionsTreeView->header()->setStretchLastSection(false);
     ui->FunctionsTreeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);

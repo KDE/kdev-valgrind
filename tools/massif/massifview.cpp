@@ -35,7 +35,7 @@ namespace valgrind
 {
 MassifView::MassifView()
 {
-    connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+    connect(this, &MassifView::activated, this, &MassifView::openDocument);
 }
 
 MassifView::~MassifView(void) {}
