@@ -51,9 +51,17 @@ kconfig_add_kcfg_files(kdevvalgrind_CONFIG_SRCS
     config/globalsettings.kcfgc
 )
 
+add_library(kdevvalgrind_config STATIC
+    ${kdevvalgrind_CONFIG_SRCS}
+)
+
+target_link_libraries(kdevvalgrind_config
+    KDev::Shell
+)
+
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
-    SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS} ${kdevvalgrind_CONFIG_SRCS}
+    SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS}
 )
 
 add_subdirectory(tools/cachegrind)
@@ -66,6 +74,8 @@ target_link_libraries(kdevvalgrind
     KDev::Project
     KDev::Shell
     KF5::ItemViews
+
+    kdevvalgrind_config
 
     cachegrind_tool
     callgrind_tool

@@ -31,6 +31,8 @@
 #include "modelwrapper.h"
 #include "plugin.h"
 
+#include "globalsettings.h"
+
 #include "cachegrind/job.h"
 #include "callgrind/job.h"
 #include "massif/job.h"
@@ -122,8 +124,7 @@ IJob::IJob(
 
     QString errorString;
 
-    m_valgrindExecutable = config.readEntry(QStringLiteral("Valgrind Executable"),
-                                            QStringLiteral("/usr/bin/valgrind"));
+    m_valgrindExecutable = KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
 
     m_analyzedExecutable = iface->executable(m_launchcfg, errorString).toLocalFile();
     if (!errorString.isEmpty()) {

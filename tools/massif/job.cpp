@@ -28,6 +28,7 @@
 #include "debug.h"
 #include "interfaces/iparser.h"
 #include "plugin.h"
+#include "globalsettings.h"
 
 #include <QFile>
 #include <QTcpServer>
@@ -73,9 +74,8 @@ void MassifJob::processEnded()
     if (config.readEntry("launchVisualizer", false)) {
         QStringList args;
         args += massifResults.fileName();
-        QString kcg = config.readEntry(QStringLiteral("visualizerExecutable"),
-                                       QStringLiteral("/usr/bin/massif-visualizer"));
-        new QFileProxyRemove(kcg, args, massifResults.fileName(), dynamic_cast<QObject*>(m_plugin));
+        QString mv = KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
+        new QFileProxyRemove(mv, args, massifResults.fileName(), dynamic_cast<QObject*>(m_plugin));
     } else
         massifResults.remove();
 }

@@ -27,6 +27,7 @@
 #include "parser.h"
 
 #include "plugin.h"
+#include "globalsettings.h"
 
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
@@ -59,17 +60,14 @@ void CachegrindJob::processEnded()
 
     QStringList args(m_outputFile);
 
-    QString caPath = config.readEntry(QStringLiteral("CachegrindAnnotateExecutable"),
-                                      QStringLiteral("/usr/bin/cg_annotate"));
-
+    QString caPath = KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
     m_postTreatment->execute(caPath, args);
 
     if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
         args.clear();
         args += m_outputFile;
 
-        QString kcg = config.readEntry(QStringLiteral("KCachegrindExecutable"),
-                                       QStringLiteral("/usr/bin/kcachegrind"));
+        QString kcg = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 
         //Proxy used to remove file at the end of KCachegrind
         new QFileProxyRemove(kcg, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
