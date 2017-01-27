@@ -30,14 +30,15 @@ set(kdevvalgrind_SRCS
     launcher.cpp
     modelwrapper.cpp
     plugin.cpp
-    statjob.cpp
     widget.cpp
+
+    config/genericconfigpage.cpp
 
     interfaces/ijob.cpp
     interfaces/imodel.cpp
     interfaces/iparser.cpp
 
-    config/genericconfigpage.cpp
+    tools/statjob.cpp
 )
 
 ki18n_wrap_ui(kdevvalgrind_UI_SRCS
