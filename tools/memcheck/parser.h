@@ -34,7 +34,7 @@ namespace valgrind
  * A class which parses valgrind's XML output
  * and emits signals when items are parsed
  */
-class MemcheckParser : public Parser
+class MemcheckParser : public IParser
 {
     Q_OBJECT
 

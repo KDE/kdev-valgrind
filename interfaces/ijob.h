@@ -44,7 +44,7 @@ namespace valgrind
 
 class IModel;
 class Plugin;
-class Parser;
+class IParser;
 
 class IJob : public KDevelop::OutputExecuteJob
 {
@@ -94,7 +94,7 @@ protected:
     QUrl m_workingDir;
 
     IModel* m_model;
-    Parser* m_parser;
+    IParser* m_parser;
 
     KDevelop::ILaunchConfiguration* m_launchcfg;
     Plugin* m_plugin;
@@ -130,7 +130,7 @@ class KProcessOutputToParser : public QObject
 {
 Q_OBJECT
 public:
-    explicit KProcessOutputToParser(Parser* parser);
+    explicit KProcessOutputToParser(IParser* parser);
     ~KProcessOutputToParser() override;
 
     int execute(const QString& execPath, const QStringList& args);
@@ -138,7 +138,7 @@ public:
 private:
     QProcess* m_process;
     QIODevice* m_device;
-    Parser* m_parser;
+    IParser* m_parser;
 };
 
 }

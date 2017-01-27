@@ -33,7 +33,7 @@ class CachegrindItem;
  * A class which parses cachegrind's output
  * and emits signals when items are parsed
  */
-class CachegrindParser : public Parser
+class CachegrindParser : public IParser
 {
     Q_OBJECT
 

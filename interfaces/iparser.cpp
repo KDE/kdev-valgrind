@@ -23,7 +23,7 @@
 
 namespace valgrind
 {
-    Parser::Parser(QObject*)
+    IParser::IParser(QObject*)
     {
     }
 }

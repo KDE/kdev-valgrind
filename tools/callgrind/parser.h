@@ -34,7 +34,7 @@ class CallgrindCallstackItem;
  * A class which parses callgrind's output
  * and emits signals when items are parsed
  */
-class CallgrindParser : public Parser
+class CallgrindParser : public IParser
 {
     Q_OBJECT
 

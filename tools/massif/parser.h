@@ -32,7 +32,7 @@ class MassifItem;
  * A class which parses massif's output
  * and emits signals when items are parsed
  */
-class MassifParser : public Parser
+class MassifParser : public IParser
 {
     Q_OBJECT
 

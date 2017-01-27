@@ -66,7 +66,7 @@ namespace valgrind
  * Creates a model and a parser according to the specified name and
  * connects the 2 items
  */
-void createToolModelParser(const QString& tool, IModel*& m_model, Parser*& m_parser)
+void createToolModelParser(const QString& tool, IModel*& m_model, IParser*& m_parser)
 {
     ModelWrapper* modelWrapper = nullptr;
 
@@ -75,8 +75,8 @@ void createToolModelParser(const QString& tool, IModel*& m_model, Parser*& m_par
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new MemcheckParser();
 
-        QObject::connect(m_parser, &Parser::newElement, modelWrapper, &ModelWrapper::newElement);
-        QObject::connect(m_parser, &Parser::newData, modelWrapper, &ModelWrapper::newData);
+        QObject::connect(m_parser, &IParser::newElement, modelWrapper, &ModelWrapper::newElement);
+        QObject::connect(m_parser, &IParser::newData, modelWrapper, &ModelWrapper::newData);
     }
 
     else if (tool == QStringLiteral("massif")) {
@@ -84,7 +84,7 @@ void createToolModelParser(const QString& tool, IModel*& m_model, Parser*& m_par
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new MassifParser();
 
-        QObject::connect(m_parser, &Parser::newItem, modelWrapper, &ModelWrapper::newItem);
+        QObject::connect(m_parser, &IParser::newItem, modelWrapper, &ModelWrapper::newItem);
     }
 
     else if (tool == QStringLiteral("callgrind")) {
@@ -92,7 +92,7 @@ void createToolModelParser(const QString& tool, IModel*& m_model, Parser*& m_par
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new CallgrindParser();
 
-        QObject::connect(m_parser, &Parser::newItem, modelWrapper, &ModelWrapper::newItem);
+        QObject::connect(m_parser, &IParser::newItem, modelWrapper, &ModelWrapper::newItem);
     }
 
     else if (tool == QStringLiteral("cachegrind")) {
@@ -100,11 +100,11 @@ void createToolModelParser(const QString& tool, IModel*& m_model, Parser*& m_par
         modelWrapper = new ModelWrapper(m_model);
         m_parser = new CachegrindParser();
 
-        QObject::connect(m_parser, &Parser::newItem, modelWrapper, &ModelWrapper::newItem);
+        QObject::connect(m_parser, &IParser::newItem, modelWrapper, &ModelWrapper::newItem);
     }
 
     m_model->setModelWrapper(modelWrapper);
-    QObject::connect(m_parser, &Parser::reset, modelWrapper, &ModelWrapper::reset);
+    QObject::connect(m_parser, &IParser::reset, modelWrapper, &ModelWrapper::reset);
     m_model->reset();
 }
 
@@ -389,7 +389,7 @@ void IJob::processEnded()
 /**
  * KProcessOutputToParser implementation
  */
-KProcessOutputToParser::KProcessOutputToParser(Parser* parser)
+KProcessOutputToParser::KProcessOutputToParser(IParser* parser)
     : m_process(new QProcess)
     , m_device(new QBuffer)
     , m_parser(parser)

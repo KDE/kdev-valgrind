@@ -29,7 +29,7 @@ namespace valgrind
 {
 
 MassifParser::MassifParser(QObject* parent)
-    : Parser(parent)
+    : IParser(parent)
 {
 }
 

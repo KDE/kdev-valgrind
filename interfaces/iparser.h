@@ -28,12 +28,12 @@
 namespace valgrind
 {
 
-class Parser: public QObject, public QXmlStreamReader
+class IParser: public QObject, public QXmlStreamReader
 {
     Q_OBJECT
 
 public:
-    explicit Parser(QObject* parent = nullptr);
+    explicit IParser(QObject* parent = nullptr);
 
 signals:
     /**

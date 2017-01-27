@@ -30,7 +30,7 @@ namespace valgrind
 {
 
 CallgrindParser::CallgrindParser(QObject* parent)
-    : Parser(parent)
+    : IParser(parent)
     , m_lastCall(nullptr)
     , m_numCalls(0)
     , m_totalCountItem(nullptr)
