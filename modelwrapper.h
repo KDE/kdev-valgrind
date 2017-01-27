@@ -46,7 +46,7 @@ class ModelWrapper :  public QObject, public ModelEvents
   Q_OBJECT
 
 public:
-    explicit ModelWrapper(Model* impl);
+    explicit ModelWrapper(IModel* impl);
     ~ModelWrapper() override;
 
 public slots:
@@ -54,7 +54,7 @@ public slots:
      * Compatibility with memcheck module, TO REMOVE
      * Reception of a new item in the model
      */
-    void newElement(Model::eElementType);
+    void newElement(IModel::eElementType);
 
     /**
      * Compatibility with memcheck module, to remove
@@ -67,7 +67,7 @@ public slots:
      * Reception of data to register to the current item
      * TO REMOVE
      */
-    void newData(Model::eElementType, const QString& name, const QString& value);
+    void newData(IModel::eElementType, const QString& name, const QString& value);
 
     /**
      * Resets the model content
@@ -94,7 +94,7 @@ signals:
 
 private:
     IJob* m_job;
-    Model* m_modelImplementation;
+    IModel* m_modelImplementation;
 };
 
 }

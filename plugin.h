@@ -35,7 +35,7 @@ class ProblemModel;
 namespace valgrind
 {
 
-class Model;
+class IModel;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -46,12 +46,12 @@ public:
     Plugin(QObject* parent, const QVariantList& = QVariantList());
     ~Plugin() override;
 
-    void incomingModel(Model* model);
+    void incomingModel(IModel* model);
 
     void jobFinished(KJob* job);
 
 signals:
-    void newModel(Model* model);
+    void newModel(IModel* model);
 
 private:
     void runValgrind();

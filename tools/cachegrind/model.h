@@ -31,9 +31,7 @@ namespace valgrind
 {
 class CachegrindItem;
 
-class CachegrindModel : public QAbstractItemModel,
-                        public Model
-
+class CachegrindModel : public QAbstractItemModel, public IModel
 {
     Q_OBJECT
 

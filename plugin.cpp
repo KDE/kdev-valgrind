@@ -113,7 +113,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     pms->addModel(modelId, i18n("Valgrind"), m_model.data());
 }
 
-void Plugin::incomingModel(Model* model)
+void Plugin::incomingModel(IModel* model)
 {
     emit newModel(model);
 }

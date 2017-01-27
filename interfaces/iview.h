@@ -23,13 +23,13 @@
 namespace valgrind
 {
 
-class Model;
+class IModel;
 
 class IView
 {
 public:
-    virtual Model* model() = 0;
-    virtual void setModel(Model*) = 0;
+    virtual IModel* model() = 0;
+    virtual void setModel(IModel*) = 0;
     virtual ~IView(void) {}
 
     //get notify that the container size has changed

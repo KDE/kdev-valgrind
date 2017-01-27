@@ -39,8 +39,8 @@ public:
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(Model * m) override;
-    Model * model(void) override;
+    void setModel(IModel * m) override;
+    IModel * model(void) override;
 
 private:
     void openDocument(const QModelIndex& index);

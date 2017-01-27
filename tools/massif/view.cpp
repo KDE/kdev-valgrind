@@ -40,14 +40,14 @@ MassifView::MassifView()
 
 MassifView::~MassifView(void) {}
 
-void MassifView::setModel(Model * m)
+void MassifView::setModel(IModel * m)
 {
     QTreeView::setModel(m->getQAbstractItemModel());
 }
 
-Model * MassifView::model(void)
+IModel* MassifView::model(void)
 {
-    return dynamic_cast<Model *>(QTreeView::model());
+    return dynamic_cast<IModel*>(QTreeView::model());
 }
 
 void MassifView::openDocument(const QModelIndex & index)

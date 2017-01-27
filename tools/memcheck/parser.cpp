@@ -69,17 +69,17 @@ bool MemcheckParser::startElement()
 
     else if (name() == QStringLiteral("error")) {
         newState = Error;
-        emit newElement(Model::startError);
+        emit newElement(IModel::startError);
     }
 
     else if (name() == QStringLiteral("stack")) {
         newState = Stack;
-        emit newElement(Model::startStack);
+        emit newElement(IModel::startStack);
     }
 
     else if (name() == QStringLiteral("frame")) {
         newState = Frame;
-        emit newElement(Model::startFrame);
+        emit newElement(IModel::startFrame);
     }
 
     else {
@@ -98,15 +98,15 @@ bool MemcheckParser::endElement()
     switch (state) {
 
     case Error:
-        emit newData(Model::error, name().toString(), m_buffer);
+        emit newData(IModel::error, name().toString(), m_buffer);
         break;
 
     case Stack:
-        emit newData(Model::stack, name().toString(), m_buffer);
+        emit newData(IModel::stack, name().toString(), m_buffer);
         break;
 
     case Frame:
-        emit newData(Model::frame, name().toString(), m_buffer);
+        emit newData(IModel::frame, name().toString(), m_buffer);
         break;
 
     default:

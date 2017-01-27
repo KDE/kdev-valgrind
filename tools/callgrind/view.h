@@ -51,8 +51,8 @@ public:
     explicit CallgrindView(QWidget* parent = nullptr);
     ~CallgrindView() override;
 
-    void setModel(Model * m) override;
-    Model * model(void) override;
+    void setModel(IModel* m) override;
+    IModel* model(void) override;
 
     void WidgetContainerResizeEvent(QResizeEvent * event) override;
 

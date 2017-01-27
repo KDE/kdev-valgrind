@@ -46,7 +46,7 @@ CachegrindView::CachegrindView()
 
 CachegrindView::~CachegrindView() {}
 
-void CachegrindView::setModel(Model* m)
+void CachegrindView::setModel(IModel* m)
 {
     QTreeView::setModel(m->getQAbstractItemModel());
 
@@ -59,9 +59,9 @@ void CachegrindView::setModel(Model* m)
     });
 }
 
-Model * CachegrindView::model(void)
+IModel* CachegrindView::model(void)
 {
-    return dynamic_cast<Model *>(QTreeView::model());
+    return dynamic_cast<IModel*>(QTreeView::model());
 }
 
 void CachegrindView::MousePressEvent(QMouseEvent* event)

@@ -66,7 +66,7 @@ namespace valgrind
  * Creates a model and a parser according to the specified name and
  * connects the 2 items
  */
-void createToolModelParser(const QString& tool, Model*& m_model, Parser*& m_parser)
+void createToolModelParser(const QString& tool, IModel*& m_model, Parser*& m_parser)
 {
     ModelWrapper* modelWrapper = nullptr;
 

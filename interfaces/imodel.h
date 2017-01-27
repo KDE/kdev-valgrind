@@ -35,12 +35,11 @@ public:
     virtual ~ModelItem() {};
 };
 
-// FIXME make this class abstract
-class Model
+class IModel
 {
 public:
-    Model();
-    virtual ~Model() {}
+    IModel();
+    virtual ~IModel() {}
 
     enum eElementType {
         startError,
@@ -51,11 +50,11 @@ public:
         stack
     };
 
-    virtual QAbstractItemModel* getQAbstractItemModel(int n = 0);
+    virtual QAbstractItemModel* getQAbstractItemModel(int n = 0) = 0;
 
-    virtual void newElement(Model::eElementType) {}
+    virtual void newElement(IModel::eElementType) {}
     virtual void newItem(ModelItem*) {}
-    virtual void newData(Model::eElementType, const QString&, const QString&) {}
+    virtual void newData(IModel::eElementType, const QString&, const QString&) {}
     virtual void reset() {};
 
     void setModelWrapper(ModelWrapper* mdlw);

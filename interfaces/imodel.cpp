@@ -26,27 +26,22 @@
 namespace valgrind
 {
 
-Model::Model()
+IModel::IModel()
 {
     m_modelWrapper = nullptr;
 }
 
-QAbstractItemModel* Model::getQAbstractItemModel(int)
-{
-    return nullptr;
-}
-
-void Model::setModelWrapper(ModelWrapper* mdl)
+void IModel::setModelWrapper(ModelWrapper* mdl)
 {
     m_modelWrapper = mdl;
 }
 
-ModelWrapper* Model::getModelWrapper() const
+ModelWrapper* IModel::getModelWrapper() const
 {
     return m_modelWrapper;
 }
 
-IJob* Model::job() const
+IJob* IModel::job() const
 {
     if (m_modelWrapper)
       return m_modelWrapper->job();

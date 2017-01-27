@@ -70,7 +70,7 @@ CallgrindView::~CallgrindView()
 {
 }
 
-void CallgrindView::setModel(Model * m)
+void CallgrindView::setModel(IModel * m)
 {
     m_model = dynamic_cast<CallgrindModel*>(m);
     QAbstractItemModel  *fctTreeModel = m->getQAbstractItemModel(CallgrindModel::E_FCT_LIST);
@@ -190,7 +190,7 @@ void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const 
     }
 }
 
-Model * CallgrindView::model(void)
+IModel* CallgrindView::model()
 {
     return m_model;
 }

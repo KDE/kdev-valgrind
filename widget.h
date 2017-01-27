@@ -26,7 +26,7 @@ class QResizeEvent;
 
 namespace valgrind
 {
-class Model;
+class IModel;
 class Plugin;
 
 class Widget : public QTabWidget
@@ -42,7 +42,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    void newModel(Model* model);
+    void newModel(IModel* model);
     void destroyRequestedTab(int tab);
 
     Plugin* m_plugin;

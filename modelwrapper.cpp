@@ -25,7 +25,7 @@
 namespace valgrind
 {
 
-ModelWrapper::ModelWrapper(Model* impl)
+ModelWrapper::ModelWrapper(IModel* impl)
     : m_job(nullptr)
 {
     Q_ASSERT(impl);
@@ -54,12 +54,12 @@ void ModelWrapper::jobDestroyed()
     m_job = nullptr;
 }
 
-void ModelWrapper::newElement(Model::eElementType type)
+void ModelWrapper::newElement(IModel::eElementType type)
 {
     m_modelImplementation->newElement(type);
 }
 
-void ModelWrapper::newData(Model::eElementType type, const QString& name, const QString& value)
+void ModelWrapper::newData(IModel::eElementType type, const QString& name, const QString& value)
 {
     m_modelImplementation->newData(type, name, value);
 }

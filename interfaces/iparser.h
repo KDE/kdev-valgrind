@@ -39,12 +39,12 @@ signals:
     /**
      * Emission of a new item from the parser
      */
-    void newElement(Model::eElementType);
+    void newElement(IModel::eElementType);
 
     /**
      * Emission of data to register from the parser
      */
-    void newData(Model::eElementType, const QString& name, const QString& value);
+    void newData(IModel::eElementType, const QString& name, const QString& value);
 
     /**
     * Resets the parser content

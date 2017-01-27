@@ -41,10 +41,10 @@ namespace valgrind
 class ViewFactoryPrivate
 {
 public:
-    static IView* make(Model* m);
+    static IView* make(IModel* m);
 };
 
-IView* ViewFactoryPrivate::make(Model* m)
+IView* ViewFactoryPrivate::make(IModel* m)
 {
     if (dynamic_cast<MassifModel*>(m))
         return new MassifView();
@@ -86,7 +86,7 @@ Plugin* Widget::plugin() const
     return m_plugin;
 }
 
-void Widget::newModel(Model* model)
+void Widget::newModel(IModel* model)
 {
     IJob* job;
 
@@ -110,7 +110,7 @@ void Widget::destroyRequestedTab(int index)
 
     // kill the job if it's still running
     if (view) {
-        Model* model = dynamic_cast<IView*>(widget(index))->model();
+        IModel* model = dynamic_cast<IView*>(widget(index))->model();
         if (model) {
             if (model->job())
                 model->job()->doKill();

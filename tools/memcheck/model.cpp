@@ -54,6 +54,11 @@ MemcheckFakeModel::~MemcheckFakeModel()
 {
 }
 
+QAbstractItemModel* MemcheckFakeModel::getQAbstractItemModel(int)
+{
+    return nullptr;
+}
+
 void MemcheckFakeModel::newElement(eElementType e)
 {
     switch (e) {

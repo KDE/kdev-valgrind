@@ -39,18 +39,20 @@ namespace valgrind
 class MemcheckError;
 
 // A fake model, all it does is creates problem instances and sends them to ProblemModel
-class MemcheckFakeModel : public Model
+class MemcheckFakeModel : public IModel
 {
 public:
     MemcheckFakeModel();
     ~MemcheckFakeModel() override;
 
+    QAbstractItemModel* getQAbstractItemModel(int n) override;
+
     void newStack();
     void newFrame();
     void newStartError();
 
-    void newElement(Model::eElementType) override;
-    void newData(Model::eElementType, const QString &name, const QString &value) override;
+    void newElement(IModel::eElementType) override;
+    void newData(IModel::eElementType, const QString &name, const QString &value) override;
 
 private:
     // Converts the error to a problem and stores in ProblemModel

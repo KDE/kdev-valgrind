@@ -42,7 +42,7 @@ class ILaunchConfiguration;
 namespace valgrind
 {
 
-class Model;
+class IModel;
 class Plugin;
 class Parser;
 
@@ -93,7 +93,7 @@ protected:
 
     QUrl m_workingDir;
 
-    Model* m_model;
+    IModel* m_model;
     Parser* m_parser;
 
     KDevelop::ILaunchConfiguration* m_launchcfg;

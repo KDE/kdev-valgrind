@@ -35,9 +35,7 @@ class MassifItem;
 /**
  * A class that represents the item model for massif
  */
-class MassifModel : public QAbstractItemModel,
-                    public Model
-
+class MassifModel : public QAbstractItemModel, public IModel
 {
     Q_OBJECT
 
