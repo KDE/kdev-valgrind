@@ -33,7 +33,6 @@ MassifConfigPage::MassifConfigPage(QWidget *parent)
     ui->setupUi(this);
     connect(ui->massifParameters, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
     connect(ui->launchMassifVisualizer, &QCheckBox::toggled, this, &MassifConfigPage::changed);
-    connect(ui->massifVisualizerExecutable, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
     connect(ui->depth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MassifConfigPage::changed);
     connect(ui->threshold, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
@@ -57,7 +56,6 @@ void    MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelo
 
     ui->massifParameters->setText(cfg.readEntry("Massif Arguments", ""));
     ui->launchMassifVisualizer->setChecked(cfg.readEntry("launchVisualizer", false));
-    ui->massifVisualizerExecutable->setText(cfg.readEntry("visualizerExecutable", "/usr/bin/massif-visualizer"));
     ui->depth->setValue(cfg.readEntry("depth", 30));
     ui->threshold->setValue(cfg.readEntry("threshold", 1));
     ui->peakInaccuracy->setValue(cfg.readEntry("peakInaccuracy", 1));
@@ -79,7 +77,6 @@ void    MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProje
 {
     cfg.writeEntry("Massif Arguments", ui->massifParameters->text());
     cfg.writeEntry("launchVisualizer", ui->launchMassifVisualizer->isChecked());
-    cfg.writeEntry("visualizerExecutable", ui->massifVisualizerExecutable->text());
     cfg.writeEntry("depth", ui->depth->value());
     cfg.writeEntry("threshold", ui->threshold->value());
     cfg.writeEntry("peakInaccuracy", ui->peakInaccuracy->value());

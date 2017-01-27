@@ -33,7 +33,6 @@ GenericConfigPage::GenericConfigPage(QWidget *parent)
     ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
-    connect(ui->valgrindExecutable, &QLineEdit::textChanged, this, &GenericConfigPage::changed);
     connect(ui->valgrindParameters, &QLineEdit::textEdited, this, &GenericConfigPage::changed);
     connect(ui->limitErrors, &QCheckBox::toggled, this, &GenericConfigPage::changed);
     connect(ui->maxStackSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
@@ -72,7 +71,6 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop:
     bool wasBlocked = signalsBlocked();
     blockSignals(true);
 
-    ui->valgrindExecutable->setText( cfg.readEntry("Valgrind Executable", QString("/usr/bin/valgrind")) );
     ui->valgrindParameters->setText(cfg.readEntry("Valgrind Arguments", ""));
     ui->stackDepth->setValue(cfg.readEntry("Stackframe Depth", 12));
     ui->maxStackSize->setValue(cfg.readEntry("Maximum Stackframe Size", 2000000));
@@ -89,7 +87,6 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop:
 
 void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
 {
-    cfg.writeEntry("Valgrind Executable", ui->valgrindExecutable->text());
     cfg.writeEntry("Valgrind Arguments", ui->valgrindParameters->text());
     cfg.writeEntry("Stackframe Depth", ui->stackDepth->value());
     cfg.writeEntry("Maximum Stackframe Size", ui->maxStackSize->value());

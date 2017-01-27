@@ -33,8 +33,6 @@ CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
 
     connect(ui->callgrindParameters, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
     connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
-    connect(ui->KCachegrindExecutable, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
-    connect(ui->CallgrindAnnotateExecutable, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
 }
@@ -46,8 +44,6 @@ void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDev
 
     ui->callgrindParameters->setText(cfg.readEntry("Callgrind Arguments", ""));
     ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
-    ui->KCachegrindExecutable->setText(cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind"));
-    ui->CallgrindAnnotateExecutable->setText(cfg.readEntry("CallgrindAnnotateExecutable", "/usr/bin/callgrind_annotate"));
     ui->cacheSimulation->setChecked(cfg.readEntry("Callgrind Cache simulation", false));
     ui->branchSimulation->setChecked(cfg.readEntry("Callgrind Branch simulation", false));
 
@@ -63,8 +59,6 @@ void    CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IPr
 {
     cfg.writeEntry("Callgrind Arguments", ui->callgrindParameters->text());
     cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
-    cfg.writeEntry("KCachegrindExecutable", ui->KCachegrindExecutable->text());
-    cfg.writeEntry("CallgrindAnnotateExecutable", ui->CallgrindAnnotateExecutable->text());
     cfg.writeEntry("Callgrind Cache simulation", ui->cacheSimulation->isChecked());
     cfg.writeEntry("Callgrind Branch simulation", ui->branchSimulation->isChecked());
 }

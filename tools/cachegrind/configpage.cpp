@@ -33,7 +33,6 @@ CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
 
     connect(ui->cachegrindParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
     connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
-    connect(ui->KCachegrindExecutable, &QLineEdit::textEdited, this, &CachegrindConfigPage::changed);
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
 }
@@ -45,8 +44,6 @@ void    CachegrindConfigPage::loadFromConfiguration(const KConfigGroup&cfg, KDev
 
     ui->cachegrindParameters->setText(cfg.readEntry("Cachegrind Arguments", ""));
     ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
-    ui->KCachegrindExecutable->setText(cfg.readEntry("KCachegrindExecutable", "/usr/bin/kcachegrind"));
-    ui->CachegrindAnnotateExecutable->setText(cfg.readEntry("CachegrindAnnotateExecutable", "/usr/bin/cg_annotate"));
     ui->cacheSimulation->setChecked(cfg.readEntry("Cachegrind Cache simulation", true));
     ui->branchSimulation->setChecked(cfg.readEntry("Cachegrind Branch simulation", false));
 
@@ -57,8 +54,6 @@ void    CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IP
 {
     cfg.writeEntry("Cachegrind Arguments", ui->cachegrindParameters->text());
     cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
-    cfg.writeEntry("KCachegrindExecutable", ui->KCachegrindExecutable->text());
-    cfg.writeEntry("CachegrindAnnotateExecutable", ui->CachegrindAnnotateExecutable->text());
     cfg.writeEntry("Cachegrind Cache simulation", ui->cacheSimulation->isChecked());
     cfg.writeEntry("Cachegrind Branch simulation", ui->branchSimulation->isChecked());
 }
