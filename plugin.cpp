@@ -103,6 +103,12 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     Q_ASSERT(type);
     type->addLauncher(launcher);
 
+    m_model->setFeatures(
+        KDevelop::ProblemModel::ScopeFilter |
+        KDevelop::ProblemModel::SeverityFilter |
+        KDevelop::ProblemModel::Grouping |
+        KDevelop::ProblemModel::CanByPassScopeFilter);
+
     KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
     pms->addModel(modelId, i18n("Valgrind"), m_model.data());
 }
