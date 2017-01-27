@@ -1,4 +1,7 @@
 
-- Migrate configuration from "manual" to KConfig (also for UI items)
+- Fix crash when cachegrind tool called.
 
-- Move executables paths settings from launch configuration to global (KDevelop) config page
+- Move executables paths settings from launch configuration to global (KDevelop) config page and
+  use KConfig for global settings.
+
+- Add global setting for separate (or current as now) valgrind tools in the "Analyze" menu.
