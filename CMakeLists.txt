@@ -33,6 +33,7 @@ set(kdevvalgrind_SRCS
     widget.cpp
 
     config/genericconfigpage.cpp
+    config/globalconfigpage.cpp
 
     interfaces/ijob.cpp
     interfaces/imodel.cpp
@@ -43,11 +44,16 @@ set(kdevvalgrind_SRCS
 
 ki18n_wrap_ui(kdevvalgrind_UI_SRCS
     config/ui/genericconfig.ui
+    config/globalconfigpage.ui
+)
+
+kconfig_add_kcfg_files(kdevvalgrind_CONFIG_SRCS
+    config/globalsettings.kcfgc
 )
 
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
-    SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS}
+    SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS} ${kdevvalgrind_CONFIG_SRCS}
 )
 
 add_subdirectory(tools/cachegrind)

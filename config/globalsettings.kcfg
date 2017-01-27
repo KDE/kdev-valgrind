@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+
+  <group name="Valgrind">
+
+    <entry name="valgrindExecutablePath" key="valgrindExecutablePath" type="Path">
+        <default>/usr/bin/valgrind</default>
+    </entry>
+
+    <entry name="cg_annotateExecutablePath" key="cg_annotateExecutablePath" type="Path">
+        <default>/usr/bin/cg_annotate</default>
+    </entry>
+
+    <entry name="callgrind_annotateExecutablePath" key="callgrind_annotateExecutablePath" type="Path">
+        <default>/usr/bin/callgrind_annotate</default>
+    </entry>
+
+    <entry name="kcachegrindExecutablePath" key="kcachegrindExecutablePath" type="Path">
+        <default>/usr/bin/kcachegrind</default>
+    </entry>
+
+    <entry name="massifVisualizerExecutablePath" key="massifVisualizerExecutablePath" type="Path">
+        <default>/usr/bin/massif-visualizer</default>
+    </entry>
+
+  </group>
+</kcfg>

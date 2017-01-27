@@ -1,7 +1,6 @@
 /* This file is part of KDevelop
-   Copyright 2002 Harald Fernengel <harry@kdevelop.org>
-   Copyright 2007 Hamish Rodda <rodda@kde.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,48 +18,29 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
+#ifndef VALGRIND_GLOBAL_CONFIG_PAGE_H
+#define VALGRIND_GLOBAL_CONFIG_PAGE_H
 
-#include <interfaces/iplugin.h>
-
-class KJob;
-
-namespace KDevelop
-{
-
-class ProblemModel;
-
-}
+#include <interfaces/configpage.h>
 
 namespace valgrind
 {
 
-class IModel;
-class WidgetFactory;
-
-class Plugin : public KDevelop::IPlugin
+class GlobalConfigPage: public KDevelop::ConfigPage
 {
     Q_OBJECT
 
 public:
-    Plugin(QObject* parent, const QVariantList& = QVariantList());
-    ~Plugin() override;
+    GlobalConfigPage(KDevelop::IPlugin* plugin, QWidget* parent);
+    ~GlobalConfigPage() override;
 
-    int configPages() const override { return 1; }
-    KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;
+    KDevelop::ConfigPage::ConfigPageType configPageType() const override;
 
-    void incomingModel(IModel* model);
-
-    void jobFinished(KJob* job);
-
-signals:
-    void newModel(IModel* model);
-
-private:
-    void runValgrind();
-
-    WidgetFactory* m_factory;
-    QScopedPointer<KDevelop::ProblemModel> m_model;
+    QString name() const override;
+    QString fullName() const override;
+    QIcon icon() const override;
 };
 
 }
+
+#endif

@@ -1,0 +1,4 @@
+File=globalsettings.kcfg
+NameSpace=valgrind
+ClassName=GlobalSettings
+Singleton=true

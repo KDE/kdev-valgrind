@@ -21,6 +21,8 @@
 
 #include "plugin.h"
 
+#include "config/globalconfigpage.h"
+
 #include "config.h"
 #include "debug.h"
 #include "interfaces/ijob.h"
@@ -111,6 +113,14 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
     pms->addModel(modelId, i18n("Valgrind"), m_model.data());
+}
+
+KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
+{
+    if (number != 0)
+        return nullptr;
+    else
+        return new GlobalConfigPage(this, parent);
 }
 
 void Plugin::incomingModel(IModel* model)
