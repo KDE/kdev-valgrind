@@ -130,7 +130,7 @@ void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
     for (int i = 0; i < callerSize; ++i)
     {
         CallgrindCallstackItem *caller = item->parent(i);
-        callerModel->setItem(i, 0, new QStandardItem(caller->csFunction()->getFunctionName()));
+        callerModel->setItem(i, 0, new QStandardItem(caller->csFunction()->functionName()));
         callerModel->setItem(i, 1, new QStandardItem(caller->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
     m_callerProxyModel->setSourceModel(callerModel);
@@ -150,7 +150,7 @@ void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
     for (int i = 0; i < calleeSize; ++i)
     {
         CallgrindCallstackItem *callee = item->child(i);
-        calleeModel->setItem(i, 0, new QStandardItem(callee->csFunction()->getFunctionName()));
+        calleeModel->setItem(i, 0, new QStandardItem(callee->csFunction()->functionName()));
         calleeModel->setItem(i, 1, new QStandardItem(callee->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
     m_calleeProxyModel->setSourceModel(calleeModel);

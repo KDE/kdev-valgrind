@@ -70,7 +70,7 @@ CallgrindCallstackFunction  *CallgrindCallstackItem::csFunction() const
 
 CallgrindCallstackItem  *CallgrindCallstackItem::totalCountItem() const
 {
-    return (m_csFunction->getTotalCountItem());
+    return (m_csFunction->totalCountItem());
 }
 
 bool CallgrindCallstackItem::hasKey(int n)
@@ -110,9 +110,9 @@ QVariant  CallgrindCallstackItem::data(iCachegrindItem::Columns key, numberDispl
     switch (key)
     {
     case iCachegrindItem::FileName:
-        return this->m_csFunction->getFilename();
+        return this->m_csFunction->filename();
     case iCachegrindItem::CallName:
-        return this->m_csFunction->getFunctionName();
+        return this->m_csFunction->functionName();
     case iCachegrindItem::NumberOfCalls:
         return m_numCalls;
     default:
@@ -177,7 +177,7 @@ void  CallgrindCallstackFunction::setTotalCountItem(CallgrindCallstackItem *tota
     m_totalCountItem = totalCountItem;
 }
 
-CallgrindCallstackItem  *CallgrindCallstackFunction::getTotalCountItem() const
+CallgrindCallstackItem  *CallgrindCallstackFunction::totalCountItem() const
 {
     return (m_totalCountItem);
 }
@@ -187,7 +187,7 @@ void  CallgrindCallstackFunction::setFilename(const QString& fn)
     m_fileName = fn;
 }
 
-const QString& CallgrindCallstackFunction::getFilename() const
+const QString& CallgrindCallstackFunction::filename() const
 {
     return m_fileName;
 }
@@ -197,7 +197,7 @@ void  CallgrindCallstackFunction::setFunctionName(const QString& fn)
     m_fctName = fn;
 }
 
-const QString& CallgrindCallstackFunction::getFunctionName() const
+const QString& CallgrindCallstackFunction::functionName() const
 {
     return m_fctName;
 }
@@ -219,7 +219,7 @@ void CallgrindCallstackFunction::setFullDescName(const QString& fdn)
 
 }
 
-const QString& CallgrindCallstackFunction::getFullDescName() const
+const QString& CallgrindCallstackFunction::fullDescName() const
 {
     return m_fullDescName;
 }

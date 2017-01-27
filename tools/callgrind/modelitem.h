@@ -98,24 +98,26 @@ class CallgrindCallstackFunction
 {
 public:
     void                      setFilename(const QString& fn);
-    const QString&            getFilename() const;
+    const QString&            filename() const;
+
     void                      setFunctionName(const QString& fn);
-    const QString&            getFunctionName() const;
+    const QString&            functionName() const;
+
     void                      setFullDescName(const QString& fdn);
-    const QString&            getFullDescName() const;
+    const QString&            fullDescName() const;
 
     void                      setTotalCountItem(CallgrindCallstackItem *totalCountItem);
-    CallgrindCallstackItem    *getTotalCountItem() const;
+    CallgrindCallstackItem*   totalCountItem() const;
 
 private:
-    //format : file:function[binary]
+    // format : file:function[binary]
     QString                           m_fullDescName;
     QString                           m_fileName;
     QString                           m_fctName;
 
     CallgrindCallstackItem*           m_totalCountItem;
-
 };
+
 }
 
-#endif /* _CALLGRINDITEM_H_ */
+#endif

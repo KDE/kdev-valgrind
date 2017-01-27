@@ -180,7 +180,7 @@ CallgrindCallstackItem* CallgrindParser::getOrCreateNewItem(const QString& fullD
     //qCDebug(KDEV_VALGRIND) << fullDescName;
 
     for (int i = 0; i < m_allFunctions.size(); ++i) {
-        if (m_allFunctions[i]->csFunction()->getFullDescName().compare(fullDescName) == 0) {
+        if (m_allFunctions[i]->csFunction()->fullDescName().compare(fullDescName) == 0) {
             csFct = m_allFunctions[i]->csFunction();
             break;
         }
