@@ -46,7 +46,7 @@ public:
     explicit CallgrindModel(QObject* parent = nullptr);
     ~CallgrindModel() override;
 
-    QAbstractItemModel  *getQAbstractItemModel(int n) override;
+    QAbstractItemModel  *abstractItemModel(int n) override;
 
     const QList<CallgrindCallstackItem*>& getAllCsItem() const;
 

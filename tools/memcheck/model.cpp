@@ -54,7 +54,7 @@ MemcheckFakeModel::~MemcheckFakeModel()
 {
 }
 
-QAbstractItemModel* MemcheckFakeModel::getQAbstractItemModel(int)
+QAbstractItemModel* MemcheckFakeModel::abstractItemModel(int)
 {
     return nullptr;
 }

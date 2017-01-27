@@ -43,7 +43,7 @@ public:
     explicit MassifModel(QObject* parent = nullptr);
     ~MassifModel() override;
 
-    QAbstractItemModel  *getQAbstractItemModel(int) override {return this;}
+    QAbstractItemModel  *abstractItemModel(int) override {return this;}
 
     QVariant getColumnAtSnapshot(int snap, MassifItem::Columns col);
     QModelIndex index(int, int, const QModelIndex&) const override;

@@ -73,7 +73,7 @@ CallgrindView::~CallgrindView()
 void CallgrindView::setModel(IModel * m)
 {
     m_model = dynamic_cast<CallgrindModel*>(m);
-    QAbstractItemModel  *fctTreeModel = m->getQAbstractItemModel(CallgrindModel::E_FCT_LIST);
+    QAbstractItemModel  *fctTreeModel = m->abstractItemModel(CallgrindModel::E_FCT_LIST);
     ui->FunctionsTreeView->setSortingEnabled(true);
     ui->FunctionsTreeView->setModel( fctTreeModel );
 

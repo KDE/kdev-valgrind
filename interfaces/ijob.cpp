@@ -188,15 +188,15 @@ IJob::IJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     // create the correct model for each tool
     m_tool = config.readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
     createToolModelParser(m_tool, m_model, m_parser);
-    m_model->getModelWrapper()->job(this);
+    m_model->modelWrapper()->job(this);
     m_plugin->incomingModel(m_model);
 }
 
 IJob::~IJob()
 {
     doKill();
-    if (m_model && m_model->getModelWrapper())
-        m_model->getModelWrapper()->job(nullptr);
+    if (m_model && m_model->modelWrapper())
+        m_model->modelWrapper()->job(nullptr);
 
     delete m_parser;
 }

@@ -45,7 +45,7 @@ public:
     MemcheckFakeModel();
     ~MemcheckFakeModel() override;
 
-    QAbstractItemModel* getQAbstractItemModel(int n) override;
+    QAbstractItemModel* abstractItemModel(int n) override;
 
     void newStack();
     void newFrame();

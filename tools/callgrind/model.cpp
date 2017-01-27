@@ -129,7 +129,7 @@ QVariant CallgrindModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-QAbstractItemModel        *CallgrindModel::getQAbstractItemModel(int n)
+QAbstractItemModel        *CallgrindModel::abstractItemModel(int n)
 {
     //this model is able to handle many model, it isn't used yet but it can be
     switch (n)

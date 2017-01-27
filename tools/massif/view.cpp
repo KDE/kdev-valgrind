@@ -42,7 +42,7 @@ MassifView::~MassifView(void) {}
 
 void MassifView::setModel(IModel * m)
 {
-    QTreeView::setModel(m->getQAbstractItemModel());
+    QTreeView::setModel(m->abstractItemModel());
 }
 
 IModel* MassifView::model(void)

@@ -27,16 +27,16 @@ namespace valgrind
 {
 
 IModel::IModel()
+    : m_modelWrapper(nullptr)
 {
-    m_modelWrapper = nullptr;
 }
 
-void IModel::setModelWrapper(ModelWrapper* mdl)
+void IModel::setModelWrapper(ModelWrapper* modelWrapper)
 {
-    m_modelWrapper = mdl;
+    m_modelWrapper = modelWrapper;
 }
 
-ModelWrapper* IModel::getModelWrapper() const
+ModelWrapper* IModel::modelWrapper() const
 {
     return m_modelWrapper;
 }
@@ -44,7 +44,7 @@ ModelWrapper* IModel::getModelWrapper() const
 IJob* IModel::job() const
 {
     if (m_modelWrapper)
-      return m_modelWrapper->job();
+        return m_modelWrapper->job();
 
     return nullptr;
 }

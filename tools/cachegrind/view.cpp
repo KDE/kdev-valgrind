@@ -48,11 +48,10 @@ CachegrindView::~CachegrindView() {}
 
 void CachegrindView::setModel(IModel* m)
 {
-    QTreeView::setModel(m->getQAbstractItemModel());
+    QTreeView::setModel(m->abstractItemModel());
 
-    connect(m->getModelWrapper(), &ModelWrapper::modelChanged,
-            this, [this, m]() {
-        if (m->getQAbstractItemModel()->columnCount()) {
+    connect(m->modelWrapper(), &ModelWrapper::modelChanged, this, [this, m]() {
+        if (m->abstractItemModel()->columnCount()) {
             header()->setStretchLastSection(false);
             header()->setSectionResizeMode(0, QHeaderView::Stretch);
         }

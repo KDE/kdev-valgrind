@@ -39,7 +39,7 @@ public:
     explicit CachegrindModel(QObject* parent = nullptr);
     ~CachegrindModel() override;
 
-    QAbstractItemModel  *getQAbstractItemModel(int) override {return this;}
+    QAbstractItemModel  *abstractItemModel(int) override {return this;}
 
     QModelIndex     index(int, int, const QModelIndex&) const override;
     QModelIndex     parent(const QModelIndex&) const override;

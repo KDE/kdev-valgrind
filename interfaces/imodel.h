@@ -50,15 +50,16 @@ public:
         stack
     };
 
-    virtual QAbstractItemModel* getQAbstractItemModel(int n = 0) = 0;
+    virtual QAbstractItemModel* abstractItemModel(int n = 0) = 0;
 
     virtual void newElement(IModel::eElementType) {}
     virtual void newItem(ModelItem*) {}
     virtual void newData(IModel::eElementType, const QString&, const QString&) {}
     virtual void reset() {};
 
-    void setModelWrapper(ModelWrapper* mdlw);
-    ModelWrapper* getModelWrapper() const;
+    ModelWrapper* modelWrapper() const;
+    void setModelWrapper(ModelWrapper* modelWrapper);
+
     IJob* job() const;
 
 protected:
