@@ -48,7 +48,7 @@ Launcher::Launcher(Plugin *inst)
     : m_plugin(inst)
 {
     // these are tabs in each menu
-    m_factories << new GenericConfigPageFactory(m_plugin);
+    m_factories << new GenericConfigPageFactory();
     m_factories << new MemcheckConfigPageFactory();
     m_factories << new MassifConfigPageFactory();
     m_factories << new CachegrindConfigPageFactory();

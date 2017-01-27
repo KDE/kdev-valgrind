@@ -27,11 +27,9 @@
 namespace valgrind
 {
 
-GenericConfigPage::GenericConfigPage(Plugin *plugin, QWidget *parent)
+GenericConfigPage::GenericConfigPage(QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
-    Q_UNUSED(plugin)
-
     ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
@@ -106,16 +104,17 @@ QString GenericConfigPage::title() const
     return i18n("Global settings");
 }
 
-// The factory
-GenericConfigPageFactory::GenericConfigPageFactory(Plugin * plugin)
-    : m_plugin(plugin)
-{}
+GenericConfigPageFactory::GenericConfigPageFactory()
+{
+}
 
 GenericConfigPageFactory::~GenericConfigPageFactory()
-{}
+{
+}
 
 KDevelop::LaunchConfigurationPage* GenericConfigPageFactory::createWidget(QWidget * parent)
 {
-    return new GenericConfigPage(m_plugin, parent);
+    return new GenericConfigPage(parent);
 }
+
 }

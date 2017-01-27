@@ -32,13 +32,12 @@ namespace Ui
 class GenericConfig;
 }
 
-class   GenericConfigPage : public KDevelop::LaunchConfigurationPage
+class GenericConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
-
-    GenericConfigPage(Plugin * plugin, QWidget * parent = nullptr);
+    GenericConfigPage(QWidget * parent = nullptr);
     ~GenericConfigPage() override;
     void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = nullptr) override;
     QIcon icon() const override;
@@ -55,13 +54,11 @@ private:
 class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    explicit GenericConfigPageFactory(Plugin*);
+    GenericConfigPageFactory();
     ~GenericConfigPageFactory() override;
     KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
-
-private:
-    Plugin* m_plugin;
 };
+
 }
 
-#endif /* VALGRINDGENERICCONFIGPAGE_H_ */
+#endif
