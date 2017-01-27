@@ -47,14 +47,14 @@ signals:
     void newData(IModel::eElementType, const QString& name, const QString& value);
 
     /**
-    * Resets the parser content
-    */
-    void reset();
-
-    /**
      * Emission of an item from a parser to a model
      */
     void newItem(ModelItem*);
+
+    /**
+    * Resets the parser content
+    */
+    void reset();
 
 public slots:
     virtual void parse() = 0;

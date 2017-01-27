@@ -51,30 +51,6 @@ public:
 
 public slots:
     /**
-     * Compatibility with memcheck module, TO REMOVE
-     * Reception of a new item in the model
-     */
-    void newElement(IModel::eElementType);
-
-    /**
-     * Compatibility with memcheck module, to remove
-     * Reception of a new item in the model
-     * Has to be pure
-     */
-    void newItem(ModelItem*);
-
-    /**
-     * Reception of data to register to the current item
-     * TO REMOVE
-     */
-    void newData(IModel::eElementType, const QString& name, const QString& value);
-
-    /**
-     * Resets the model content
-     */
-    void reset();
-
-    /**
      * Set the associated process
      */
     void job(IJob* job);

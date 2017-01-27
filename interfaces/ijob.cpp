@@ -24,26 +24,17 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "debug.h"
 #include "ijob.h"
+
+#include "iparser.h"
+#include "debug.h"
 #include "modelwrapper.h"
 #include "plugin.h"
 
 #include "cachegrind/job.h"
-#include "cachegrind/model.h"
-#include "cachegrind/parser.h"
-
 #include "callgrind/job.h"
-#include "callgrind/model.h"
-#include "callgrind/parser.h"
-
 #include "massif/job.h"
-#include "massif/model.h"
-#include "massif/parser.h"
-
-#include "memcheck/model.h"
 #include "memcheck/job.h"
-#include "memcheck/parser.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -61,52 +52,6 @@
 
 namespace valgrind
 {
-
-/*!
- * Creates a model and a parser according to the specified name and
- * connects the 2 items
- */
-void createToolModelParser(const QString& tool, IModel*& m_model, IParser*& m_parser)
-{
-    ModelWrapper* modelWrapper = nullptr;
-
-    if (tool == QStringLiteral("memcheck")) {
-        m_model = new MemcheckFakeModel();
-        modelWrapper = new ModelWrapper(m_model);
-        m_parser = new MemcheckParser();
-
-        QObject::connect(m_parser, &IParser::newElement, modelWrapper, &ModelWrapper::newElement);
-        QObject::connect(m_parser, &IParser::newData, modelWrapper, &ModelWrapper::newData);
-    }
-
-    else if (tool == QStringLiteral("massif")) {
-        m_model = new MassifModel();
-        modelWrapper = new ModelWrapper(m_model);
-        m_parser = new MassifParser();
-
-        QObject::connect(m_parser, &IParser::newItem, modelWrapper, &ModelWrapper::newItem);
-    }
-
-    else if (tool == QStringLiteral("callgrind")) {
-        m_model = new CallgrindModel();
-        modelWrapper = new ModelWrapper(m_model);
-        m_parser = new CallgrindParser();
-
-        QObject::connect(m_parser, &IParser::newItem, modelWrapper, &ModelWrapper::newItem);
-    }
-
-    else if (tool == QStringLiteral("cachegrind")) {
-        m_model = new CachegrindModel();
-        modelWrapper = new ModelWrapper(m_model);
-        m_parser = new CachegrindParser();
-
-        QObject::connect(m_parser, &IParser::newItem, modelWrapper, &ModelWrapper::newItem);
-    }
-
-    m_model->setModelWrapper(modelWrapper);
-    QObject::connect(m_parser, &IParser::reset, modelWrapper, &ModelWrapper::reset);
-    m_model->reset();
-}
 
 // The factory for jobs
 IJob* IJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
@@ -130,13 +75,26 @@ IJob* IJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, Q
     return nullptr;
 }
 
-IJob::IJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+IJob::IJob(
+    KDevelop::ILaunchConfiguration* cfg,
+    QString tool,
+    IModel* model,
+    IParser* parser,
+    Plugin* plugin,
+    QObject* parent)
+
     : KDevelop::OutputExecuteJob(parent)
-    , m_model(nullptr)
-    , m_parser(nullptr)
     , m_launchcfg(cfg)
+    , m_tool(tool)
+    , m_model(model)
+    , m_parser(parser)
     , m_plugin(plugin)
 {
+    Q_ASSERT(m_launchcfg);
+    Q_ASSERT(m_model);
+    Q_ASSERT(m_parser);
+    Q_ASSERT(m_plugin);
+
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStderr);
     setProperties(KDevelop::OutputExecuteJob::JobProperty::PostProcessOutput);
@@ -162,7 +120,6 @@ IJob::IJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     // FIXME
 //     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
 
-
     QString errorString;
 
     m_valgrindExecutable = config.readEntry(QStringLiteral("Valgrind Executable"),
@@ -185,10 +142,27 @@ IJob::IJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 
-    // create the correct model for each tool
-    m_tool = config.readEntry(QStringLiteral("Current Tool"), QStringLiteral("memcheck"));
-    createToolModelParser(m_tool, m_model, m_parser);
+    connect(m_parser, &IParser::newElement, this, [this](IModel::eElementType t){
+        m_model->newElement(t);
+    });
+
+    connect(m_parser, &IParser::newData, this,
+            [this](IModel::eElementType t, const QString& name, const QString& value){
+        m_model->newData(t, name, value);
+    });
+
+    connect(m_parser, &IParser::newItem, this, [this](ModelItem* item){
+        m_model->newItem(item);
+    });
+
+    connect(m_parser, &IParser::reset, this, [this](){
+        m_model->reset();
+    });
+
+    m_model->setModelWrapper(new ModelWrapper(m_model));
     m_model->modelWrapper()->job(this);
+    m_model->reset();
+
     m_plugin->incomingModel(m_model);
 }
 

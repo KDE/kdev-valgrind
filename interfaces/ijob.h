@@ -51,7 +51,13 @@ class IJob : public KDevelop::OutputExecuteJob
     Q_OBJECT
 
 public:
-    IJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    IJob(KDevelop::ILaunchConfiguration* cfg,
+         QString tool,
+         IModel* model,
+         IParser* parser,
+         Plugin* plugin,
+         QObject* parent);
+
     ~IJob() override;
 
     void start() override;
@@ -86,18 +92,19 @@ protected:
 
     QStringList buildCommandLine() const;
 
+    KDevelop::ILaunchConfiguration* m_launchcfg;
     QString m_tool;
+
+    IModel* m_model;
+    IParser* m_parser;
+
+    Plugin* m_plugin;
+
     QString m_valgrindExecutable;
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;
 
     QUrl m_workingDir;
-
-    IModel* m_model;
-    IParser* m_parser;
-
-    KDevelop::ILaunchConfiguration* m_launchcfg;
-    Plugin* m_plugin;
 
     QStringList m_standardOutput;
     QStringList m_errorOutput;

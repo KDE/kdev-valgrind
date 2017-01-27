@@ -54,24 +54,4 @@ void ModelWrapper::jobDestroyed()
     m_job = nullptr;
 }
 
-void ModelWrapper::newElement(IModel::eElementType type)
-{
-    m_modelImplementation->newElement(type);
-}
-
-void ModelWrapper::newData(IModel::eElementType type, const QString& name, const QString& value)
-{
-    m_modelImplementation->newData(type, name, value);
-}
-
-void ModelWrapper::newItem(ModelItem* item)
-{
-    m_modelImplementation->newItem(item);
-}
-
-void ModelWrapper::reset()
-{
-    m_modelImplementation->reset();
-}
-
 }

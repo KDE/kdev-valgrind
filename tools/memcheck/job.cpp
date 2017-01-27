@@ -22,6 +22,8 @@
 */
 
 #include "job.h"
+#include "model.h"
+#include "parser.h"
 
 #include "debug.h"
 #include "interfaces/iparser.h"
@@ -34,8 +36,13 @@
 namespace valgrind
 {
 
-MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* inst, QObject* parent)
-    : IJob(cfg, inst, parent)
+MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+    : IJob(cfg,
+           QStringLiteral("memcheck"),
+           new MemcheckFakeModel(),
+           new MemcheckParser(),
+           plugin,
+           parent)
 {
 }
 

@@ -22,6 +22,8 @@
 */
 
 #include "job.h"
+#include "model.h"
+#include "parser.h"
 
 #include "debug.h"
 #include "interfaces/iparser.h"
@@ -43,7 +45,12 @@
 namespace valgrind
 {
 MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IJob(cfg, plugin, parent)
+    : IJob(cfg,
+           QStringLiteral("massif"),
+           new MassifModel(),
+           new MassifParser(),
+           plugin,
+           parent)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
 {
 }

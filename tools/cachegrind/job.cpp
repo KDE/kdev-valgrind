@@ -23,6 +23,8 @@
 
 
 #include "job.h"
+#include "model.h"
+#include "parser.h"
 
 #include "plugin.h"
 
@@ -35,7 +37,12 @@ namespace valgrind
 {
 
 CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IJob(cfg, plugin, parent)
+    : IJob(cfg,
+           QStringLiteral("cachegrind"),
+           new CachegrindModel(),
+           new CachegrindParser(),
+           plugin,
+           parent)
     , m_postTreatment(new KProcessOutputToParser(m_parser))
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {
