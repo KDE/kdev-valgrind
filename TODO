@@ -1,0 +1,4 @@
+
+- Migrate configuration from "manual" to KConfig (also for UI items)
+
+- Move executables paths settings from launch configuration to global (KDevelop) config page
