@@ -35,9 +35,9 @@ namespace valgrind
 {
 
 class CallgrindCallstackItem;
-typedef CallgrindCallstackItem CallgrindCsItem;
-
 class CallgrindCallstackFunction;
+
+using CallgrindCsItem = CallgrindCallstackItem;
 
 class CallgrindCallstackItem : public ModelItem
 {
@@ -52,44 +52,46 @@ public:
         E_INCLUDE_PERCENT
     };
 
-    void                      addChild(CallgrindCallstackItem *child);
-    CallgrindCallstackItem    *getChild(int n) const;
-    int                       getChildCount() const;
+    void                      addChild(CallgrindCallstackItem* child);
+    CallgrindCallstackItem*   child(int n) const;
+    int                       childCount() const;
 
-    void                      addParent(CallgrindCallstackItem *parent);
-    CallgrindCallstackItem    *getParent(int n) const;
-    int                       getParentCount() const;
+    void                      addParent(CallgrindCallstackItem* parent);
+    CallgrindCallstackItem*   parent(int n) const;
+    int                       parentCount() const;
 
-    void                      addNumericValue(int n, int val);
-    int                       getNumericValue(int n) const;
-    void                      incommingData(const QString& key, const QString& value);
+    void                      setNumericValue(int n, int val);
+    int                       numericValue(int n) const;
+    unsigned long long        numericValue(iCachegrindItem::Columns col) const;
+
+    void                      setValue(const QString& key, const QString& value);
+
     bool                      hasKey(int n);
-    void                      setTotalCountItem(CallgrindCallstackItem *totalCountItem);
 
-    unsigned long long        getNumericValue(iCachegrindItem::Columns col) const;
-    unsigned long long        getIncludeNumericValue(iCachegrindItem::Columns col) const;
-    double                    getNumericValuePercent(iCachegrindItem::Columns col) const;
-    double                    getIncludeNumericValuePercent(iCachegrindItem::Columns col) const;
+    unsigned long long        includeNumericValue(iCachegrindItem::Columns col) const;
+    double                    includeNumericValuePercent(iCachegrindItem::Columns col) const;
+    double                    numericValuePercent(iCachegrindItem::Columns col) const;
 
-    QVariant                  data(iCachegrindItem::Columns col, numberDisplayMode disp = E_NORMAL) const;
-    CallgrindCallstackFunction *getCsFunction() const;
-    //const QString&            getFullDescName() const { return m_fullDescName; }
-    int                         getNumCalls() const { return m_numCalls; }
+    QVariant                    data(iCachegrindItem::Columns col, numberDisplayMode disp = E_NORMAL) const;
+
+    CallgrindCallstackFunction* csFunction() const;
+
     void                        setNumCalls(int calls) { m_numCalls = calls; }
+    int                         numCalls() const { return m_numCalls; }
 
 private:
     // The number of calls for this function
     int m_numCalls;
     QMap<int, int>             m_numericValue;
 
-    CallgrindCallstackItem    *getTotalCountItem() const;
+    CallgrindCallstackItem*    totalCountItem() const;
 
-    QVariant                   getNumericValue(iCachegrindItem::Columns col, numberDisplayMode disp) const;
+    QVariant                   numericValue(iCachegrindItem::Columns col, numberDisplayMode disp) const;
 
-    CallgrindCallstackFunction *m_csFunction;
+    CallgrindCallstackFunction* m_csFunction;
 
-    QList<CallgrindCallstackItem *>   m_parents;
-    QList<CallgrindCallstackItem *>   m_childs;
+    QList<CallgrindCallstackItem*> m_parents;
+    QList<CallgrindCallstackItem*> m_childs;
 };
 
 class CallgrindCallstackFunction

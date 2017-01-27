@@ -126,11 +126,11 @@ void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
     QStandardItemModel    *callerModel = new QStandardItemModel(this);
     callerModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
     callerModel->setHorizontalHeaderItem(1, new QStandardItem (i18n("Ir")));
-    int callerSize = item->getParentCount();
+    int callerSize = item->parentCount();
     for (int i = 0; i < callerSize; ++i)
     {
-        CallgrindCallstackItem *caller = item->getParent(i);
-        callerModel->setItem(i, 0, new QStandardItem(caller->getCsFunction()->getFunctionName()));
+        CallgrindCallstackItem *caller = item->parent(i);
+        callerModel->setItem(i, 0, new QStandardItem(caller->csFunction()->getFunctionName()));
         callerModel->setItem(i, 1, new QStandardItem(caller->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
     m_callerProxyModel->setSourceModel(callerModel);
@@ -146,11 +146,11 @@ void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
     QStandardItemModel  *calleeModel = new QStandardItemModel(this);
     calleeModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
     calleeModel->setHorizontalHeaderItem(1, new QStandardItem(i18n("Ir")));
-    int calleeSize = item->getChildCount();
+    int calleeSize = item->childCount();
     for (int i = 0; i < calleeSize; ++i)
     {
-        CallgrindCallstackItem *callee = item->getChild(i);
-        calleeModel->setItem(i, 0, new QStandardItem(callee->getCsFunction()->getFunctionName()));
+        CallgrindCallstackItem *callee = item->child(i);
+        calleeModel->setItem(i, 0, new QStandardItem(callee->csFunction()->getFunctionName()));
         calleeModel->setItem(i, 1, new QStandardItem(callee->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
     m_calleeProxyModel->setSourceModel(calleeModel);

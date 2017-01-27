@@ -158,7 +158,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
         }
 
         for (int j = 0; j < dataList.size(); ++j) {
-            csItem->incommingData(m_headersList[j], dataList[j]);
+            csItem->setValue(m_headersList[j], dataList[j]);
         }
     }
 
@@ -166,7 +166,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
         //total program count
         CallgrindCallstackItem* totalCount = getOrCreateNewItem(QStringLiteral(" :Program_Total_Count"));
         for (int j = 0; j < dataList.size(); ++j) {
-            totalCount->incommingData(m_headersList[j], dataList[j]);
+            totalCount->setValue(m_headersList[j], dataList[j]);
         }
 
         m_totalCountItem = totalCount;
@@ -180,8 +180,8 @@ CallgrindCallstackItem* CallgrindParser::getOrCreateNewItem(const QString& fullD
     //qCDebug(KDEV_VALGRIND) << fullDescName;
 
     for (int i = 0; i < m_allFunctions.size(); ++i) {
-        if (m_allFunctions[i]->getCsFunction()->getFullDescName().compare(fullDescName) == 0) {
-            csFct = m_allFunctions[i]->getCsFunction();
+        if (m_allFunctions[i]->csFunction()->getFullDescName().compare(fullDescName) == 0) {
+            csFct = m_allFunctions[i]->csFunction();
             break;
         }
     }

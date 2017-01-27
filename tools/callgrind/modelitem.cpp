@@ -38,12 +38,12 @@ void  CallgrindCallstackItem::addChild(CallgrindCsItem *child)
     m_childs.append(child);
 }
 
-CallgrindCallstackItem  *CallgrindCallstackItem::getChild(int n) const
+CallgrindCallstackItem  *CallgrindCallstackItem::child(int n) const
 {
     return m_childs.at(n);
 }
 
-int CallgrindCallstackItem::getChildCount() const
+int CallgrindCallstackItem::childCount() const
 {
     return m_childs.size();
 }
@@ -53,22 +53,22 @@ void  CallgrindCallstackItem::addParent(CallgrindCsItem *child)
     m_parents.append(child);
 }
 
-CallgrindCallstackItem  *CallgrindCallstackItem::getParent(int n) const
+CallgrindCallstackItem  *CallgrindCallstackItem::parent(int n) const
 {
     return m_parents.at(n);
 }
 
-int CallgrindCallstackItem::getParentCount() const
+int CallgrindCallstackItem::parentCount() const
 {
     return m_parents.size();
 }
 
-CallgrindCallstackFunction  *CallgrindCallstackItem::getCsFunction() const
+CallgrindCallstackFunction  *CallgrindCallstackItem::csFunction() const
 {
     return m_csFunction;
 }
 
-CallgrindCallstackItem  *CallgrindCallstackItem::getTotalCountItem() const
+CallgrindCallstackItem  *CallgrindCallstackItem::totalCountItem() const
 {
     return (m_csFunction->getTotalCountItem());
 }
@@ -80,17 +80,17 @@ bool CallgrindCallstackItem::hasKey(int n)
     return false;
 }
 
-void  CallgrindCallstackItem::addNumericValue(int n, int val)
+void  CallgrindCallstackItem::setNumericValue(int n, int val)
 {
     m_numericValue[n] = val;
 }
 
-int   CallgrindCallstackItem::getNumericValue(int n) const
+int   CallgrindCallstackItem::numericValue(int n) const
 {
     return m_numericValue[n];
 }
 
-void  CallgrindCallstackItem::incommingData(const QString& key, const QString& value)
+void  CallgrindCallstackItem::setValue(const QString& key, const QString& value)
 {
     int iKey = iCachegrindItem::dataKeyFromName(key);
     if (iKey == iCachegrindItem::Unknow)
@@ -116,56 +116,56 @@ QVariant  CallgrindCallstackItem::data(iCachegrindItem::Columns key, numberDispl
     case iCachegrindItem::NumberOfCalls:
         return m_numCalls;
     default:
-        return (this->getNumericValue(key, disp));
+        return (this->numericValue(key, disp));
     }
     return QVariant();
 }
 
-QVariant  CallgrindCallstackItem::getNumericValue(iCachegrindItem::Columns key, numberDisplayMode disp) const
+QVariant  CallgrindCallstackItem::numericValue(iCachegrindItem::Columns key, numberDisplayMode disp) const
 {
     //TODO: REPLACE WITH PTR ON FCT
     switch (disp)
     {
     case E_NORMAL:
-        return this->getNumericValue(key);
+        return this->numericValue(key);
     case E_INCLUDE_NORMAL:
-        return this->getIncludeNumericValue(key);
+        return this->includeNumericValue(key);
     case E_PERCENT:
-        return this->getNumericValuePercent(key);
+        return this->numericValuePercent(key);
     case E_INCLUDE_PERCENT:
-        return this->getIncludeNumericValuePercent(key);
+        return this->includeNumericValuePercent(key);
     }
     return 0;
 }
 
-unsigned long long CallgrindCallstackItem::getNumericValue(iCachegrindItem::Columns col) const
+unsigned long long CallgrindCallstackItem::numericValue(iCachegrindItem::Columns col) const
 {
     return (m_numericValue[col]);
 }
 
-unsigned long long CallgrindCallstackItem::getIncludeNumericValue(iCachegrindItem::Columns col) const
+unsigned long long CallgrindCallstackItem::includeNumericValue(iCachegrindItem::Columns col) const
 {
     unsigned long long includeValue = 0;
     for (int i = 0; i < m_parents.size(); ++i)
     {
-        includeValue += m_parents[i]->getNumericValue(col);
+        includeValue += m_parents[i]->numericValue(col);
     }
     return (includeValue);
 }
 
-double CallgrindCallstackItem::getNumericValuePercent(iCachegrindItem::Columns col) const
+double CallgrindCallstackItem::numericValuePercent(iCachegrindItem::Columns col) const
 {
-    return (double) ((int) (((float) getNumericValue(col)) / ((float) getTotalCountItem()->getNumericValue(col)) * 10000)) / 100;
+    return (double) ((int) (((float) numericValue(col)) / ((float) totalCountItem()->numericValue(col)) * 10000)) / 100;
 }
 
-double CallgrindCallstackItem::getIncludeNumericValuePercent(iCachegrindItem::Columns col) const
+double CallgrindCallstackItem::includeNumericValuePercent(iCachegrindItem::Columns col) const
 {
     unsigned long long includeValue = 0;
     for (int i = 0; i < m_parents.size(); ++i)
     {
-        includeValue += m_parents[i]->getNumericValue(col);
+        includeValue += m_parents[i]->numericValue(col);
     }
-    return (double) ((int) (((float) includeValue) / ((float) getTotalCountItem()->getNumericValue(col)) * 10000)) / 100;
+    return (double) ((int) (((float) includeValue) / ((float) totalCountItem()->numericValue(col)) * 10000)) / 100;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
