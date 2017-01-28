@@ -45,11 +45,11 @@ CachegrindModel::~CachegrindModel()
         delete m_rootItem;
 }
 
-void CachegrindModel::newItem(ModelItem *item)
+void CachegrindModel::newItem(ModelItem* item)
 {
     if (!item)
     {
-        emit static_cast<ModelEvents *>(m_modelWrapper)->modelChanged();
+        emit m_modelWrapper->modelChanged();
         return;
     }
     if (m_rootItem == nullptr)

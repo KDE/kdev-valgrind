@@ -26,22 +26,12 @@ namespace valgrind
 {
 
 /**
- * Allow sending signal from nested classes
- */
-class ModelEvents
-{
-public:
-    virtual ~ModelEvents() {}
-    virtual void modelChanged() = 0;
-};
-
-/**
  * This class is used to wrap signal
  * It has been created because there was problems with multiple QObject inheritence
  * Before Model inherit QAbstractItemModel but there was problem when a tool has many model
  * That why this class exists
  */
-class ModelWrapper :  public QObject, public ModelEvents
+class ModelWrapper :  public QObject
 {
   Q_OBJECT
 
@@ -66,7 +56,7 @@ signals:
     /**
      * emit this signal to alert other modules that the model has been updated
      */
-    void modelChanged() override;
+    void modelChanged();
 
 private:
     IJob* m_job;

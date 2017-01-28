@@ -49,10 +49,10 @@ MassifModel::~ MassifModel()
     delete m_rootItem;
 }
 
-void MassifModel::newItem(ModelItem *i)
+void MassifModel::newItem(ModelItem* i)
 {
     if (!i) {
-        emit static_cast<ModelEvents *>(m_modelWrapper)->modelChanged();
+        emit m_modelWrapper->modelChanged();
         return;
     }
     MassifItem *m = dynamic_cast<MassifItem *>(i);
