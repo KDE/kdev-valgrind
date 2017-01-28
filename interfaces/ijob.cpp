@@ -28,7 +28,6 @@
 
 #include "iparser.h"
 #include "debug.h"
-#include "modelwrapper.h"
 #include "plugin.h"
 
 #include "globalsettings.h"
@@ -160,8 +159,7 @@ IJob::IJob(
         m_model->reset();
     });
 
-    m_model->setModelWrapper(new ModelWrapper);
-    m_model->modelWrapper()->job(this);
+    m_model->setJob(this);
     m_model->reset();
 
     m_plugin->incomingModel(m_model);
@@ -170,10 +168,9 @@ IJob::IJob(
 IJob::~IJob()
 {
     doKill();
-    if (m_model && m_model->modelWrapper())
-        m_model->modelWrapper()->job(nullptr);
+    m_model->setJob(nullptr); // FIXME remove as useless ?
 
-    delete m_parser;
+    delete m_parser; // FIXME remove - should be deleted by Qt (parent-child hierarchy)
 }
 
 QString IJob::tool() const

@@ -28,7 +28,6 @@ set(kdevvalgrind_SRCS
     debug.cpp
 
     launcher.cpp
-    modelwrapper.cpp
     plugin.cpp
     widget.cpp
 

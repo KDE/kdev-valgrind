@@ -26,7 +26,6 @@
 #include <QFontDatabase>
 
 #include "modelitem.h"
-#include "modelwrapper.h"
 
 #include <klocalizedstring.h>
 

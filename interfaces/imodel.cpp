@@ -21,33 +21,23 @@
 #include "imodel.h"
 
 #include "interfaces/ijob.h"
-#include "modelwrapper.h"
 
 namespace valgrind
 {
 
 IModel::IModel(QObject* parent)
     : QObject(parent)
-    , m_modelWrapper(nullptr)
 {
 }
 
-void IModel::setModelWrapper(ModelWrapper* modelWrapper)
+void IModel::setJob(IJob* job)
 {
-    m_modelWrapper = modelWrapper;
-}
-
-ModelWrapper* IModel::modelWrapper() const
-{
-    return m_modelWrapper;
+    m_job = job;
 }
 
 IJob* IModel::job() const
 {
-    if (m_modelWrapper)
-        return m_modelWrapper->job();
-
-    return nullptr;
+    return m_job;
 }
 
 }

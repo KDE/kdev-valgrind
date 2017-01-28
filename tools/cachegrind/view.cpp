@@ -35,10 +35,9 @@
 #include "model.h"
 #include "modelitem.h"
 
-#include "modelwrapper.h"
-
 namespace valgrind
 {
+
 CachegrindView::CachegrindView()
 {
     connect(this, &CachegrindView::activated, this, &CachegrindView::openDocument);

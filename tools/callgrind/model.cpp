@@ -28,8 +28,6 @@
 
 #include "modelitem.h"
 
-#include "modelwrapper.h"
-
 namespace valgrind
 {
 

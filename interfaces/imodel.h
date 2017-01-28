@@ -59,16 +59,14 @@ public:
     virtual void newData(IModel::eElementType, const QString&, const QString&) {}
     virtual void reset() {};
 
-    ModelWrapper* modelWrapper() const;
-    void setModelWrapper(ModelWrapper* modelWrapper);
-
+    void setJob(IJob* job);
     IJob* job() const;
 
 signals:
     void modelChanged();
 
 protected:
-    ModelWrapper* m_modelWrapper;
+    IJob* m_job;
 };
 
 }

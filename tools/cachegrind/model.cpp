@@ -21,7 +21,6 @@
 */
 
 #include "model.h"
-#include "modelwrapper.h"
 
 #include "debug.h"
 
