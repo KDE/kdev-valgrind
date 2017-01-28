@@ -25,11 +25,9 @@
 namespace valgrind
 {
 
-ModelWrapper::ModelWrapper(IModel* impl)
+ModelWrapper::ModelWrapper()
     : m_job(nullptr)
 {
-    Q_ASSERT(impl);
-    m_modelImplementation = impl;
 }
 
 ModelWrapper::~ModelWrapper()

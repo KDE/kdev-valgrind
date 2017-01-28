@@ -160,7 +160,7 @@ IJob::IJob(
         m_model->reset();
     });
 
-    m_model->setModelWrapper(new ModelWrapper(m_model));
+    m_model->setModelWrapper(new ModelWrapper);
     m_model->modelWrapper()->job(this);
     m_model->reset();
 

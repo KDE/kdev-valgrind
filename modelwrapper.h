@@ -36,7 +36,7 @@ class ModelWrapper :  public QObject
   Q_OBJECT
 
 public:
-    explicit ModelWrapper(IModel* impl);
+    ModelWrapper();
     ~ModelWrapper() override;
 
 public slots:
@@ -54,7 +54,6 @@ public slots:
 
 private:
     IJob* m_job;
-    IModel* m_modelImplementation;
 };
 
 }
