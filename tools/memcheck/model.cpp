@@ -39,8 +39,9 @@ public:
     QString sourceString() const override { return QStringLiteral("Valgrind"); };
 };
 
-MemcheckFakeModel::MemcheckFakeModel()
-    : m_model(nullptr)
+MemcheckFakeModel::MemcheckFakeModel(QObject* parent)
+    : IModel(parent)
+    , m_model(nullptr)
 {
     KDevelop::ProblemModelSet *modelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
     m_model = modelSet->findModel(QStringLiteral("Valgrind"));

@@ -33,8 +33,6 @@ class CachegrindItem;
 
 class CachegrindModel : public QAbstractItemModel, public IModel
 {
-    Q_OBJECT
-
 public:
     explicit CachegrindModel(QObject* parent = nullptr);
     ~CachegrindModel() override;

@@ -38,8 +38,8 @@ namespace valgrind
 ///////////////////////////////////////////////////////////////////////////////
 
 CallgrindModel::CallgrindModel(QObject * parent)
+    : IModel(parent)
 {
-    Q_UNUSED(parent);
     m_callgrindFunctionModel = new CallgrindFunctionsListTModel(this);
     m_totalCountItem = nullptr;
 }

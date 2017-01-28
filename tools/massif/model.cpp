@@ -33,9 +33,9 @@
 namespace valgrind
 {
 
-MassifModel::MassifModel(QObject * parent)
+MassifModel::MassifModel(QObject* parent)
+    : IModel(parent)
 {
-    Q_UNUSED(parent)
     m_rootItem = new MassifItem();
     m_rootItem->incomingData("snapshot", "");
     m_rootItem->incomingData("time", "");
@@ -52,7 +52,7 @@ MassifModel::~ MassifModel()
 void MassifModel::newItem(ModelItem* i)
 {
     if (!i) {
-        emit m_modelWrapper->modelChanged();
+        emit modelChanged();
         return;
     }
     MassifItem *m = dynamic_cast<MassifItem *>(i);

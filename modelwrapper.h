@@ -52,12 +52,6 @@ public slots:
 
     void jobDestroyed();
 
-signals:
-    /**
-     * emit this signal to alert other modules that the model has been updated
-     */
-    void modelChanged();
-
 private:
     IJob* m_job;
     IModel* m_modelImplementation;

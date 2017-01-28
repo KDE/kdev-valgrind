@@ -37,8 +37,6 @@ class MassifItem;
  */
 class MassifModel : public QAbstractItemModel, public IModel
 {
-    Q_OBJECT
-
 public:
     explicit MassifModel(QObject* parent = nullptr);
     ~MassifModel() override;

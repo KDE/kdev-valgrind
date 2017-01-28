@@ -38,10 +38,8 @@ typedef bool (CallgrindFunctionsListTModel::*CSItemCompareFct)(const QVariant &,
 /**
  * This class will contains all the callgrind data models for the differents view
  */
-class CallgrindModel :  public QObject, public IModel
+class CallgrindModel : public IModel
 {
-    Q_OBJECT
-
 public:
     explicit CallgrindModel(QObject* parent = nullptr);
     ~CallgrindModel() override;

@@ -35,10 +35,12 @@ public:
     virtual ~ModelItem() {};
 };
 
-class IModel
+class IModel : public QObject
 {
+    Q_OBJECT
+
 public:
-    IModel();
+    IModel(QObject* parent = nullptr);
     virtual ~IModel() {}
 
     enum eElementType {
@@ -61,6 +63,9 @@ public:
     void setModelWrapper(ModelWrapper* modelWrapper);
 
     IJob* job() const;
+
+signals:
+    void modelChanged();
 
 protected:
     ModelWrapper* m_modelWrapper;

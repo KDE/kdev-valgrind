@@ -42,7 +42,7 @@ class MemcheckError;
 class MemcheckFakeModel : public IModel
 {
 public:
-    MemcheckFakeModel();
+    MemcheckFakeModel(QObject* parent = nullptr);
     ~MemcheckFakeModel() override;
 
     QAbstractItemModel* abstractItemModel(int n) override;

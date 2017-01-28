@@ -26,8 +26,9 @@
 namespace valgrind
 {
 
-IModel::IModel()
-    : m_modelWrapper(nullptr)
+IModel::IModel(QObject* parent)
+    : QObject(parent)
+    , m_modelWrapper(nullptr)
 {
 }
 

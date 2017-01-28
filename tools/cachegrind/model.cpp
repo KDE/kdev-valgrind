@@ -33,9 +33,9 @@
 namespace valgrind
 {
 
-CachegrindModel::CachegrindModel(QObject * parent)
+CachegrindModel::CachegrindModel(QObject* parent)
+    : IModel(parent)
 {
-    Q_UNUSED(parent);
     m_rootItem = nullptr;
 }
 
@@ -49,7 +49,7 @@ void CachegrindModel::newItem(ModelItem* item)
 {
     if (!item)
     {
-        emit m_modelWrapper->modelChanged();
+        emit modelChanged();
         return;
     }
     if (m_rootItem == nullptr)
