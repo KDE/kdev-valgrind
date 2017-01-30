@@ -190,11 +190,6 @@ void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const 
     }
 }
 
-IModel* CallgrindView::model()
-{
-    return m_model;
-}
-
 void CallgrindView::WidgetContainerResizeEvent( QResizeEvent *event )
 {
     int heightDelta = event->oldSize().height() - this->height();

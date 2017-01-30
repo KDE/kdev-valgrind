@@ -42,7 +42,6 @@ public:
     using QTreeView::model;
 
     void setModel(IModel* m) override;
-    IModel* model() override;
 
 protected:
   void MousePressEvent(QMouseEvent *event);

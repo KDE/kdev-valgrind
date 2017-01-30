@@ -40,7 +40,6 @@ public:
     using QTreeView::model;
 
     void setModel(IModel * m) override;
-    IModel * model(void) override;
 
 private:
     void openDocument(const QModelIndex& index);

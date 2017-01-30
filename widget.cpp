@@ -32,7 +32,6 @@ namespace valgrind
 
 Widget::Widget(Plugin* plugin, QWidget* parent)
     : QTabWidget(parent)
-    , m_plugin(plugin)
 {
     setWindowIcon(QIcon::fromTheme("fork"));
     setWindowTitle(i18n("Valgrind Output"));
@@ -54,11 +53,6 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
         delete widget(index);
         removeTab(index);
     });
-}
-
-Plugin* Widget::plugin() const
-{
-    return m_plugin;
 }
 
 void Widget::addView(IView* view)

@@ -30,7 +30,6 @@ class IModel;
 class IView
 {
 public:
-    virtual IModel* model() = 0;
     virtual void setModel(IModel*) = 0;
     virtual ~IView(void) {}
 

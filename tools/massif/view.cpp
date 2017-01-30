@@ -45,11 +45,6 @@ void MassifView::setModel(IModel * m)
     QTreeView::setModel(m->abstractItemModel());
 }
 
-IModel* MassifView::model(void)
-{
-    return dynamic_cast<IModel*>(QTreeView::model());
-}
-
 void MassifView::openDocument(const QModelIndex & index)
 {
     if (MassifItem* item = static_cast<MassifItem*>(index.internalPointer())) {

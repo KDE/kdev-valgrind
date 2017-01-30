@@ -52,7 +52,6 @@ public:
     ~CallgrindView() override;
 
     void setModel(IModel* m) override;
-    IModel* model(void) override;
 
     void WidgetContainerResizeEvent(QResizeEvent * event) override;
 

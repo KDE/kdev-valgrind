@@ -35,15 +35,9 @@ class Widget : public QTabWidget
 public:
     Widget(Plugin* plugin, QWidget* parent);
 
-    Plugin* plugin() const; // FIXME remove
-
 protected:
-    void resizeEvent(QResizeEvent* event) override;
-
-private:
     void addView(IView* view);
-
-    Plugin* m_plugin; // FIXME remove
+    void resizeEvent(QResizeEvent* event) override;
 };
 
 }

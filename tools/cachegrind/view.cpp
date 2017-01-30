@@ -57,11 +57,6 @@ void CachegrindView::setModel(IModel* m)
     });
 }
 
-IModel* CachegrindView::model(void)
-{
-    return dynamic_cast<IModel*>(QTreeView::model());
-}
-
 void CachegrindView::MousePressEvent(QMouseEvent* event)
 {
     Q_UNUSED(event)
