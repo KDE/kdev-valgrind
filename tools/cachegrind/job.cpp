@@ -25,6 +25,7 @@
 #include "job.h"
 #include "model.h"
 #include "parser.h"
+#include "view.h"
 
 #include "plugin.h"
 #include "globalsettings.h"
@@ -88,6 +89,11 @@ void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args << QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
 
     processModeArgs(args, cgArgs, count, cfg);
+}
+
+IView* CachegrindJob::createView()
+{
+    return new CachegrindView;
 }
 
 }

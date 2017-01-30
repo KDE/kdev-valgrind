@@ -43,7 +43,7 @@ MassifModel::MassifModel(QObject* parent)
     m_rootItem->incomingData("mem_stacks_B", "");
 }
 
-MassifModel::~ MassifModel()
+MassifModel::~MassifModel()
 {
     delete m_rootItem;
 }

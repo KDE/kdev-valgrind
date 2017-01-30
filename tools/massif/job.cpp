@@ -24,6 +24,7 @@
 #include "job.h"
 #include "model.h"
 #include "parser.h"
+#include "view.h"
 
 #include "debug.h"
 #include "interfaces/iparser.h"
@@ -109,6 +110,11 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
 
     processModeArgs(args, massifArgs, count, cfg);
+}
+
+IView* MassifJob::createView()
+{
+    return new MassifView;
 }
 
 }

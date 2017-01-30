@@ -19,45 +19,16 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "debug.h"
-#include "interfaces/ijob.h"
-#include "plugin.h"
 #include "widget.h"
 
-#include "cachegrind/model.h"
-#include "cachegrind/view.h"
-
-#include "callgrind/model.h"
-#include "callgrind/view.h"
-
-#include "massif/model.h"
-#include "massif/view.h"
+#include "debug.h"
+#include "interfaces/iview.h"
+#include "plugin.h"
 
 #include <klocalizedstring.h>
 
 namespace valgrind
 {
-
-class ViewFactoryPrivate
-{
-public:
-    static IView* make(IModel* m);
-};
-
-IView* ViewFactoryPrivate::make(IModel* m)
-{
-    if (dynamic_cast<MassifModel*>(m))
-        return new MassifView();
-
-    if (dynamic_cast<CachegrindModel*>(m))
-        return new CachegrindView();
-
-    if (dynamic_cast<CallgrindModel*>(m))
-        return new CallgrindView();
-
-    qCDebug(KDEV_VALGRIND) << "view not yet implemented";
-    return nullptr;
-}
 
 Widget::Widget(Plugin* plugin, QWidget* parent)
     : QTabWidget(parent)
@@ -77,8 +48,12 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
                       "some abuses of the POSIX pthread API.</p>"));
 
     setTabsClosable(true);
-    connect(this, &Widget::tabCloseRequested, this, &Widget::destroyRequestedTab);
-    connect(plugin, &Plugin::newModel, this, &Widget::newModel);
+    connect(plugin, &Plugin::addView, this, &Widget::addView);
+
+    connect(this, &Widget::tabCloseRequested, this, [this](int index) {
+        delete widget(index);
+        removeTab(index);
+    });
 }
 
 Plugin* Widget::plugin() const
@@ -86,38 +61,13 @@ Plugin* Widget::plugin() const
     return m_plugin;
 }
 
-void Widget::newModel(IModel* model)
+void Widget::addView(IView* view)
 {
-    IJob* job;
+    Q_ASSERT(view);
 
-    job = model->job();
-    if (!job)
-        return;
-
-    IView* w = ViewFactoryPrivate::make(model);
-    if(!w)
-        return;
-
-    w->setModel(model);
-    addTab(dynamic_cast<QWidget*>(w), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
-    setCurrentWidget(dynamic_cast<QWidget*>(w));
+    addTab(dynamic_cast<QWidget*>(view), QStringLiteral("FIXME"));
+    setCurrentWidget(dynamic_cast<QWidget*>(view));
     setMovable(true);
-}
-
-void Widget::destroyRequestedTab(int index)
-{
-    IView* view = dynamic_cast<IView*>(widget(index));
-
-    // kill the job if it's still running
-    if (view) {
-        IModel* model = dynamic_cast<IView*>(widget(index))->model();
-        if (model) {
-            if (model->job())
-                model->job()->doKill();
-            delete model;
-        }
-    }
-    removeTab(index);
 }
 
 void Widget::resizeEvent(QResizeEvent* event)

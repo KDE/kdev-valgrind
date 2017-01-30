@@ -40,6 +40,7 @@ public:
 protected:
     void processEnded() override;
     void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
+    IView* createView() override;
 
 private:
     KProcessOutputToParser* m_postTreatment;

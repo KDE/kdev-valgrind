@@ -27,6 +27,8 @@
 #include "ijob.h"
 
 #include "iparser.h"
+#include "iview.h"
+
 #include "debug.h"
 #include "plugin.h"
 
@@ -161,8 +163,6 @@ IJob::IJob(
 
     m_model->setJob(this);
     m_model->reset();
-
-    m_plugin->incomingModel(m_model);
 }
 
 IJob::~IJob()
@@ -304,6 +304,12 @@ void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
     emitResult();
 
     m_plugin->jobFinished(this);
+
+    IView* view = createView();
+    if (view) {
+        view->setModel(m_model);
+        emit m_plugin->addView(view);
+    }
 }
 
 void IJob::childProcessError(QProcess::ProcessError processError)

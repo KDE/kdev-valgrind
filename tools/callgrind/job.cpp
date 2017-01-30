@@ -25,6 +25,7 @@
 #include "job.h"
 #include "model.h"
 #include "parser.h"
+#include "view.h"
 
 #include "plugin.h"
 #include "globalsettings.h"
@@ -90,6 +91,11 @@ void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args << QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
 
     processModeArgs(args, cgArgs, count, cfg);
+}
+
+IView* CallgrindJob::createView()
+{
+    return new CallgrindView;
 }
 
 }

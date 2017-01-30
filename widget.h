@@ -22,11 +22,10 @@
 
 #include <QTabWidget>
 
-class QResizeEvent;
-
 namespace valgrind
 {
-class IModel;
+
+class IView;
 class Plugin;
 
 class Widget : public QTabWidget
@@ -36,16 +35,15 @@ class Widget : public QTabWidget
 public:
     Widget(Plugin* plugin, QWidget* parent);
 
-    Plugin* plugin() const;
+    Plugin* plugin() const; // FIXME remove
 
 protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    void newModel(IModel* model);
-    void destroyRequestedTab(int tab);
+    void addView(IView* view);
 
-    Plugin* m_plugin;
+    Plugin* m_plugin; // FIXME remove
 };
 
 }

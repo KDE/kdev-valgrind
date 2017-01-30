@@ -123,11 +123,6 @@ KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
         return new GlobalConfigPage(this, parent);
 }
 
-void Plugin::incomingModel(IModel* model)
-{
-    emit newModel(model);
-}
-
 Plugin::~Plugin()
 {
     KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();

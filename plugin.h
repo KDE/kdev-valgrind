@@ -35,7 +35,7 @@ class ProblemModel;
 namespace valgrind
 {
 
-class IModel;
+class IView;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -49,12 +49,10 @@ public:
     int configPages() const override { return 1; }
     KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;
 
-    void incomingModel(IModel* model);
-
     void jobFinished(KJob* job);
 
 signals:
-    void newModel(IModel* model);
+    void addView(IView* view);
 
 private:
     void runValgrind();

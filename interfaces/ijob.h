@@ -43,8 +43,9 @@ namespace valgrind
 {
 
 class IModel;
-class Plugin;
 class IParser;
+class IView;
+class Plugin;
 
 class IJob : public KDevelop::OutputExecuteJob
 {
@@ -91,6 +92,8 @@ protected:
                          KConfigGroup& config) const;
 
     QStringList buildCommandLine() const;
+
+    virtual IView* createView() = 0;
 
     KDevelop::ILaunchConfiguration* m_launchcfg;
     QString m_tool;

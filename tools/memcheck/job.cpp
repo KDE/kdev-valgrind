@@ -87,4 +87,9 @@ void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     processModeArgs(args, memcheck_args, count, cfg);
 }
 
+IView* MemcheckJob::createView()
+{
+    return nullptr;
+}
+
 }

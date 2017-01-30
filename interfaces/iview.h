@@ -20,6 +20,8 @@
 
 #pragma once
 
+class QResizeEvent;
+
 namespace valgrind
 {
 
