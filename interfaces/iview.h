@@ -39,9 +39,6 @@ public:
 
     virtual void setModel(IModel*) = 0;
 
-    // get notify that the container size has changed
-    virtual void WidgetContainerResizeEvent(QResizeEvent* event);
-
 protected:
     QString m_name;
 };

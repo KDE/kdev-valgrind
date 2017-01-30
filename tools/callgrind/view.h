@@ -53,8 +53,6 @@ public:
 
     void setModel(IModel* m) override;
 
-    void WidgetContainerResizeEvent(QResizeEvent * event) override;
-
 public slots:
     void percentInformationClicked(bool enable);
 

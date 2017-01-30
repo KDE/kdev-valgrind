@@ -34,10 +34,6 @@ class Widget : public QTabWidget
 
 public:
     Widget(Plugin* plugin, QWidget* parent);
-
-protected:
-    void addView(IView* view);
-    void resizeEvent(QResizeEvent* event) override;
 };
 
 }

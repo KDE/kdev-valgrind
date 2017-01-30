@@ -59,14 +59,8 @@ public:
     virtual void newData(IModel::eElementType, const QString&, const QString&) {}
     virtual void reset() {};
 
-    void setJob(IJob* job);
-    IJob* job() const;
-
 signals:
     void modelChanged();
-
-protected:
-    IJob* m_job;
 };
 
 }

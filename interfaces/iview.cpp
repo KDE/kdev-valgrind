@@ -36,10 +36,5 @@ void IView::setName(const QString& target, const QString& tool)
     m_name = QStringLiteral("%1 (%2)").arg(target).arg(tool);
 }
 
-void IView::WidgetContainerResizeEvent(QResizeEvent* event)
-{
-    Q_UNUSED(event);
-}
-
 }
 

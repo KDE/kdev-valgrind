@@ -47,31 +47,20 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
                       "some abuses of the POSIX pthread API.</p>"));
 
     setTabsClosable(true);
-    connect(plugin, &Plugin::addView, this, &Widget::addView);
 
     connect(this, &Widget::tabCloseRequested, this, [this](int index) {
         delete widget(index);
         removeTab(index);
     });
-}
 
-void Widget::addView(IView* view)
-{
-    Q_ASSERT(view);
+    connect(plugin, &Plugin::addView, this, [this](IView* view){
+        Q_ASSERT(view);
 
-    addTab(dynamic_cast<QWidget*>(view), view->name());
-    setCurrentWidget(dynamic_cast<QWidget*>(view));
-    setMovable(true);
-}
+        addTab(dynamic_cast<QWidget*>(view), view->name());
+        setCurrentWidget(dynamic_cast<QWidget*>(view));
+        setMovable(true);
+    });
 
-void Widget::resizeEvent(QResizeEvent* event)
-{
-    for (int i = 0; i < this->count(); ++i) {
-        //notify child size has changed
-        IView* view = dynamic_cast<IView*>(this->widget(i));
-        if (view)
-            view->WidgetContainerResizeEvent(event);
-    }
 }
 
 }

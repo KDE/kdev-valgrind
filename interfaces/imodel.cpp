@@ -30,14 +30,4 @@ IModel::IModel(QObject* parent)
 {
 }
 
-void IModel::setJob(IJob* job)
-{
-    m_job = job;
-}
-
-IJob* IModel::job() const
-{
-    return m_job;
-}
-
 }

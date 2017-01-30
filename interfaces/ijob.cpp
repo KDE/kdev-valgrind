@@ -161,16 +161,12 @@ IJob::IJob(
         m_model->reset();
     });
 
-    m_model->setJob(this);
     m_model->reset();
 }
 
 IJob::~IJob()
 {
-    doKill();
-    m_model->setJob(nullptr); // FIXME remove as useless ?
-
-    delete m_parser; // FIXME remove - should be deleted by Qt (parent-child hierarchy)
+    delete m_parser;
 }
 
 QString IJob::tool() const
@@ -303,14 +299,14 @@ void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
     processEnded();
     emitResult();
 
-    m_plugin->jobFinished(this);
-
     IView* view = createView();
     if (view) {
         view->setModel(m_model);
         view->setName(target(), tool());
         emit m_plugin->addView(view);
     }
+
+    m_plugin->jobFinished(this);
 }
 
 void IJob::childProcessError(QProcess::ProcessError processError)
