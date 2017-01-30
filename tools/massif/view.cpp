@@ -33,6 +33,7 @@
 
 namespace valgrind
 {
+
 MassifView::MassifView()
 {
     connect(this, &MassifView::activated, this, &MassifView::openDocument);

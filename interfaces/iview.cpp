@@ -1,6 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -18,32 +17,29 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
-
-#include <QString>
-
-class QResizeEvent;
+#include "iview.h"
 
 namespace valgrind
 {
 
-class IModel;
-
-class IView
+IView::~IView()
 {
-public:
-    virtual ~IView();
+}
 
-    QString name();
-    void setName(const QString& target, const QString& tool);
+QString IView::name()
+{
+    return m_name;
+}
 
-    virtual void setModel(IModel*) = 0;
+void IView::setName(const QString& target, const QString& tool)
+{
+    m_name = QStringLiteral("%1 (%2)").arg(target).arg(tool);
+}
 
-    // get notify that the container size has changed
-    virtual void WidgetContainerResizeEvent(QResizeEvent* event);
-
-protected:
-    QString m_name;
-};
+void IView::WidgetContainerResizeEvent(QResizeEvent* event)
+{
+    Q_UNUSED(event);
+}
 
 }
+

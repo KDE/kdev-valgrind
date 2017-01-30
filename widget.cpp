@@ -59,7 +59,7 @@ void Widget::addView(IView* view)
 {
     Q_ASSERT(view);
 
-    addTab(dynamic_cast<QWidget*>(view), QStringLiteral("FIXME"));
+    addTab(dynamic_cast<QWidget*>(view), view->name());
     setCurrentWidget(dynamic_cast<QWidget*>(view));
     setMovable(true);
 }

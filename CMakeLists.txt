@@ -37,6 +37,7 @@ set(kdevvalgrind_SRCS
     interfaces/ijob.cpp
     interfaces/imodel.cpp
     interfaces/iparser.cpp
+    interfaces/iview.cpp
 
     tools/statjob.cpp
 )
