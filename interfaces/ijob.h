@@ -91,6 +91,8 @@ protected:
                          int modeArgsCount,
                          KConfigGroup& config) const;
 
+    int executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput);
+
     QStringList buildCommandLine() const;
 
     virtual IView* createView() = 0;
@@ -130,25 +132,6 @@ private:
     QFile* m_file;
     QProcess* m_process;
     QString m_execPath;
-};
-
-/**
- * This class is used for tool : callgrind, cachegrind
- * It permits to call an process to do a post treatment on the valgrind output
- */
-class KProcessOutputToParser : public QObject
-{
-Q_OBJECT
-public:
-    explicit KProcessOutputToParser(IParser* parser);
-    ~KProcessOutputToParser() override;
-
-    int execute(const QString& execPath, const QStringList& args);
-
-private:
-    QProcess* m_process;
-    QIODevice* m_device;
-    IParser* m_parser;
 };
 
 }

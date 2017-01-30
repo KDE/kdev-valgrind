@@ -42,7 +42,6 @@ protected:
     IView* createView() override;
 
 private:
-    KProcessOutputToParser* m_postTreatment;
     QString m_outputFile;
 };
 

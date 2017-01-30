@@ -361,40 +361,14 @@ void IJob::processEnded()
 {
 }
 
-/**
- * KProcessOutputToParser implementation
- */
-KProcessOutputToParser::KProcessOutputToParser(IParser* parser)
-    : m_process(new QProcess)
-    , m_device(new QBuffer)
-    , m_parser(parser)
+int IJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
-    m_device->open(QIODevice::WriteOnly);
-}
+    QProcess process;
+    process.start(executable, args);
+    if (process.waitForFinished())
+        processOutput = process.readAllStandardOutput();
 
-KProcessOutputToParser::~KProcessOutputToParser()
-{
-    if (m_device)
-        delete m_device;
-
-    if (m_process)
-        delete m_process;
-}
-
-int KProcessOutputToParser::execute(const QString& execPath, const QStringList& args)
-{
-    // execute and wait the end of the program
-    m_process->start(execPath, args);
-    if (m_process->waitForFinished()) {
-        m_device->write(m_process->readAllStandardOutput());
-        m_device->close();
-        m_device->open(QIODevice::ReadOnly);
-
-        m_parser->setDevice(m_device);
-        m_parser->parse();
-    }
-
-    return m_process->exitCode();
+    return process.exitCode();
 }
 
 /**

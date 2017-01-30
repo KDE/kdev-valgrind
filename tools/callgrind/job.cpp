@@ -33,6 +33,7 @@
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
 
+#include <QBuffer>
 #include <QFile>
 
 namespace valgrind
@@ -45,26 +46,28 @@ CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, 
            new CallgrindParser(),
            plugin,
            parent)
-    , m_postTreatment(new KProcessOutputToParser(m_parser))
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
 {
 }
 
 CallgrindJob::~CallgrindJob()
 {
-    delete m_postTreatment;
 }
 
 void CallgrindJob::processEnded()
 {
     KConfigGroup config = m_launchcfg->config();
 
+    QString caPath = KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
     QStringList args;
     args += m_outputFile;
     args += QStringLiteral("--tree=both");
 
-    QString caPath = KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
-    m_postTreatment->execute(caPath, args);
+    QBuffer caOutput;
+    executeProcess(caPath, args, caOutput.buffer());
+    caOutput.open(QIODevice::ReadOnly);
+    m_parser->setDevice(&caOutput);
+    m_parser->parse();
 
     if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
         args.clear();

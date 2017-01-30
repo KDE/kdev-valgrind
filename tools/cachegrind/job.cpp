@@ -33,6 +33,7 @@
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
 
+#include <QBuffer>
 #include <QFile>
 
 namespace valgrind
@@ -45,24 +46,26 @@ CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin
            new CachegrindParser(),
            plugin,
            parent)
-    , m_postTreatment(new KProcessOutputToParser(m_parser))
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {
 }
 
 CachegrindJob::~CachegrindJob()
 {
-    delete m_postTreatment;
 }
 
 void CachegrindJob::processEnded()
 {
     KConfigGroup config = m_launchcfg->config();
 
+    QString cgPath = KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
     QStringList args(m_outputFile);
 
-    QString caPath = KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
-    m_postTreatment->execute(caPath, args);
+    QBuffer cgOutput;
+    executeProcess(cgPath, args, cgOutput.buffer());
+    cgOutput.open(QIODevice::ReadOnly);
+    m_parser->setDevice(&cgOutput);
+    m_parser->parse();
 
     if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
         args.clear();
