@@ -27,7 +27,6 @@
 #include "view.h"
 
 #include "debug.h"
-#include "interfaces/iparser.h"
 #include "plugin.h"
 #include "globalsettings.h"
 
@@ -50,7 +49,6 @@ MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObjec
     : IJob(cfg,
            QStringLiteral("massif"),
            new MassifModel(),
-           new MassifParser(),
            plugin,
            parent)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
@@ -65,20 +63,22 @@ void MassifJob::processEnded()
 {
     KConfigGroup config = m_launchcfg->config();
 
-    QFile massifResults(m_outputFile);
-    massifResults.open(QIODevice::ReadOnly);
+    {
+        MassifParser parser;
+        connect(&parser, &MassifParser::newItem, this, [this](ModelItem* item){
+            m_model->newItem(item);
+        });
+        parser.parse(m_outputFile);
+    }
 
-    m_parser->setDevice(&massifResults);
-    m_parser->parse();
-    massifResults.close();
 
     if (config.readEntry("launchVisualizer", false)) {
         QStringList args;
-        args += massifResults.fileName();
+        args += m_outputFile;
         QString mv = KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
-        new QFileProxyRemove(mv, args, massifResults.fileName(), dynamic_cast<QObject*>(m_plugin));
+        new QFileProxyRemove(mv, args, m_outputFile, m_plugin);
     } else
-        massifResults.remove();
+        QFile::remove(m_outputFile);
 }
 
 void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const

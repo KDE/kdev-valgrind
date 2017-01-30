@@ -26,11 +26,13 @@
 #include "modelitem.h"
 #include "debug.h"
 
+#include <QBuffer>
+
 namespace valgrind
 {
 
 CallgrindParser::CallgrindParser(QObject* parent)
-    : IParser(parent)
+    : QObject(parent)
     , m_lastCall(nullptr)
     , m_numCalls(0)
     , m_totalCountItem(nullptr)
@@ -205,14 +207,16 @@ enum CallgrindParserState
     ParseProgram
 };
 
-void CallgrindParser::parse()
+void CallgrindParser::parse(QByteArray& baData)
 {
     CallgrindParserState parserState(ParseRootModel);
+    QBuffer data(&baData);
     QString buffer;
 
-    while (!device()->atEnd()) {
+    data.open(QIODevice::ReadOnly);
+    while (!data.atEnd()) {
         //remove useless characters
-        buffer = device()->readLine().simplified();
+        buffer = data.readLine().simplified();
 
         if (parserState != ParseProgramTotal && parserState != ParseProgram) {
             if (parserState == ParseRootModel && buffer.startsWith("Events shown:")) {

@@ -38,6 +38,7 @@ public:
 
 protected:
     void postProcessStderr(const QStringList& lines) override;
+    void processEnded() override;
 
     void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 

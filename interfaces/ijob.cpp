@@ -26,7 +26,7 @@
 
 #include "ijob.h"
 
-#include "iparser.h"
+#include "imodel.h"
 #include "iview.h"
 
 #include "debug.h"
@@ -82,7 +82,6 @@ IJob::IJob(
     KDevelop::ILaunchConfiguration* cfg,
     QString tool,
     IModel* model,
-    IParser* parser,
     Plugin* plugin,
     QObject* parent)
 
@@ -90,12 +89,10 @@ IJob::IJob(
     , m_launchcfg(cfg)
     , m_tool(tool)
     , m_model(model)
-    , m_parser(parser)
     , m_plugin(plugin)
 {
     Q_ASSERT(m_launchcfg);
     Q_ASSERT(m_model);
-    Q_ASSERT(m_parser);
     Q_ASSERT(m_plugin);
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
@@ -144,29 +141,11 @@ IJob::IJob(
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 
-    connect(m_parser, &IParser::newElement, this, [this](IModel::eElementType t){
-        m_model->newElement(t);
-    });
-
-    connect(m_parser, &IParser::newData, this,
-            [this](IModel::eElementType t, const QString& name, const QString& value){
-        m_model->newData(t, name, value);
-    });
-
-    connect(m_parser, &IParser::newItem, this, [this](ModelItem* item){
-        m_model->newItem(item);
-    });
-
-    connect(m_parser, &IParser::reset, this, [this](){
-        m_model->reset();
-    });
-
     m_model->reset();
 }
 
 IJob::~IJob()
 {
-    delete m_parser;
 }
 
 QString IJob::tool() const

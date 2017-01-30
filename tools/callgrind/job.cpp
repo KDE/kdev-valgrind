@@ -43,7 +43,6 @@ CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, 
     : IJob(cfg,
            QStringLiteral("callgrind"),
            new CallgrindModel(),
-           new CallgrindParser(),
            plugin,
            parent)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
@@ -63,11 +62,16 @@ void CallgrindJob::processEnded()
     args += m_outputFile;
     args += QStringLiteral("--tree=both");
 
-    QBuffer caOutput;
-    executeProcess(caPath, args, caOutput.buffer());
-    caOutput.open(QIODevice::ReadOnly);
-    m_parser->setDevice(&caOutput);
-    m_parser->parse();
+    {
+        CallgrindParser parser;
+        connect(&parser, &CallgrindParser::newItem, this, [this](ModelItem* item){
+            m_model->newItem(item);
+        });
+
+        QByteArray caOutput;
+        executeProcess(caPath, args, caOutput);
+        parser.parse(caOutput);
+    }
 
     if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
         args.clear();

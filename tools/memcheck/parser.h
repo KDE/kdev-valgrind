@@ -23,9 +23,10 @@
 
 #pragma once
 
-#include "interfaces/iparser.h"
+#include "interfaces/imodel.h"
 
 #include <QStack>
+#include <QXmlStreamReader>
 
 namespace valgrind
 {
@@ -34,16 +35,19 @@ namespace valgrind
  * A class which parses valgrind's XML output
  * and emits signals when items are parsed
  */
-class MemcheckParser : public IParser
+class MemcheckParser : public QObject, public QXmlStreamReader
 {
     Q_OBJECT
 
 public:
     explicit MemcheckParser(QObject* parent = nullptr);
-    ~MemcheckParser() override;
+    virtual ~MemcheckParser();
 
-public slots:
-    void parse() override;
+    void parse();
+
+signals:
+    void newElement(IModel::eElementType);
+    void newData(IModel::eElementType, const QString& name, const QString& value);
 
 private:
     // XML parsing

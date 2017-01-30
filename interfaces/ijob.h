@@ -43,7 +43,6 @@ namespace valgrind
 {
 
 class IModel;
-class IParser;
 class IView;
 class Plugin;
 
@@ -55,7 +54,6 @@ public:
     IJob(KDevelop::ILaunchConfiguration* cfg,
          QString tool,
          IModel* model,
-         IParser* parser,
          Plugin* plugin,
          QObject* parent);
 
@@ -101,7 +99,6 @@ protected:
     QString m_tool;
 
     IModel* m_model;
-    IParser* m_parser;
 
     Plugin* m_plugin;
 

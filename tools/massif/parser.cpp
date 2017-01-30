@@ -24,12 +24,13 @@
 #include "modelitem.h"
 
 #include <kmessagebox.h>
+#include <QFile>
 
 namespace valgrind
 {
 
 MassifParser::MassifParser(QObject* parent)
-    : IParser(parent)
+    : QObject(parent)
 {
 }
 
@@ -37,15 +38,17 @@ MassifParser::~MassifParser()
 {
 }
 
-void MassifParser::parse()
+void MassifParser::parse(const QString& fileName)
 {
+    QFile data(fileName);
     QString m_buffer;
     QString m_workingDir;
     QStringList m_lst;
     MassifItem* m_item(nullptr);
 
-    while (!device()->atEnd()) {
-        m_buffer = device()->readLine();
+    data.open(QIODevice::ReadOnly);
+    while (!data.atEnd()) {
+        m_buffer = data.readLine();
 
         if (m_buffer.startsWith(QChar('#')) ||
             m_buffer.startsWith(QStringLiteral("desc")) ||
@@ -70,8 +73,8 @@ void MassifParser::parse()
             if (m_lst[1].startsWith(QStringLiteral("peak")) ||
                 m_lst[1].startsWith(QStringLiteral("detailed")))
 
-                while (!m_buffer.startsWith(QChar('#')) && !device()->atEnd()) {
-                    m_buffer = device()->readLine();
+                while (!m_buffer.startsWith(QChar('#')) && !data.atEnd()) {
+                    m_buffer = data.readLine();
                     if (m_buffer.startsWith(QChar('#')))
                         break;
 

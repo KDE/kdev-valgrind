@@ -26,11 +26,13 @@
 #include "modelitem.h"
 #include "debug.h"
 
+#include <QBuffer>
+
 namespace valgrind
 {
 
-CachegrindParser::CachegrindParser(QObject *parent)
-    : IParser(parent)
+CachegrindParser::CachegrindParser(QObject* parent)
+    : QObject(parent)
     , m_lastCall(nullptr)
     , totalCountItem(nullptr)
 {
@@ -150,15 +152,16 @@ enum CachegrindParserState
     ParseProgram
 };
 
-void CachegrindParser::parse()
+void CachegrindParser::parse(QByteArray& baData)
 {
     CachegrindParserState parserState(ParseRootModel);
+    QBuffer data(&baData);
     QString buffer;
 
-    while (!device()->atEnd())
+    while (!data.atEnd())
     {
         //remove useless characters
-        buffer = device()->readLine().simplified();
+        buffer = data.readLine().simplified();
 
         if (parserState != ParseProgramTotal && parserState != ParseProgram) {
             if (parserState == ParseRootModel && buffer.startsWith("Events shown:")) {

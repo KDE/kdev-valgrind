@@ -26,7 +26,6 @@
 #include "parser.h"
 
 #include "debug.h"
-#include "interfaces/iparser.h"
 
 #include <KLocalizedString>
 
@@ -40,7 +39,6 @@ MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QO
     : IJob(cfg,
            QStringLiteral("memcheck"),
            new MemcheckFakeModel(),
-           new MemcheckParser(),
            plugin,
            parent)
 {
@@ -58,16 +56,30 @@ void MemcheckJob::postProcessStderr(const QStringList& lines)
         if (line.isEmpty())
             continue;
 
-        if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
+        if (line.indexOf(xmlStartRegex) >= 0) // the line contains XML
             m_xmlOutput << line;
-            m_parser->addData(line);
-            m_parser->parse();
-        }
         else
             m_errorOutput << line;
     }
 
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
+}
+
+void MemcheckJob::processEnded()
+{
+    MemcheckParser parser;
+    parser.addData(m_xmlOutput.join(" "));
+
+    connect(&parser, &MemcheckParser::newElement, this, [this](IModel::eElementType type){
+        m_model->newElement(type);
+    });
+
+    connect(&parser, &MemcheckParser::newData,
+            this, [this](IModel::eElementType type, const QString& name, const QString& value){
+        m_model->newData(type, name, value);
+    });
+
+    parser.parse();
 }
 
 void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const

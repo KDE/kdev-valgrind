@@ -22,19 +22,20 @@
 
 #pragma once
 
-#include "interfaces/iparser.h"
+#include <QObject>
 
 namespace valgrind
 {
 
 class CallgrindItem;
 class CallgrindCallstackItem;
+class ModelItem;
 
 /**
  * A class which parses callgrind's output
  * and emits signals when items are parsed
  */
-class CallgrindParser : public IParser
+class CallgrindParser : public QObject
 {
     Q_OBJECT
 
@@ -42,7 +43,10 @@ public:
     explicit CallgrindParser(QObject* parent = nullptr);
     ~CallgrindParser() override;
 
-    void parse() override;
+    void parse(QByteArray& data);
+
+signals:
+    void newItem(ModelItem*);
 
 private:
     /**

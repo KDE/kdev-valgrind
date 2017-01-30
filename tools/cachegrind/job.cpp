@@ -43,7 +43,6 @@ CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin
     : IJob(cfg,
            QStringLiteral("cachegrind"),
            new CachegrindModel(),
-           new CachegrindParser(),
            plugin,
            parent)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
@@ -61,11 +60,16 @@ void CachegrindJob::processEnded()
     QString cgPath = KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
     QStringList args(m_outputFile);
 
-    QBuffer cgOutput;
-    executeProcess(cgPath, args, cgOutput.buffer());
-    cgOutput.open(QIODevice::ReadOnly);
-    m_parser->setDevice(&cgOutput);
-    m_parser->parse();
+    {
+        CachegrindParser parser;
+        connect(&parser, &CachegrindParser::newItem, this, [this](ModelItem* item){
+            m_model->newItem(item);
+        });
+
+        QByteArray cgOutput;
+        executeProcess(cgPath, args, cgOutput);
+        parser.parse(cgOutput);
+    }
 
     if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
         args.clear();

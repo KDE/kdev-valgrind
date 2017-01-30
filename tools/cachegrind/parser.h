@@ -22,18 +22,19 @@
 
 #pragma once
 
-#include "interfaces/iparser.h"
+#include <QObject>
 
 namespace valgrind
 {
 
 class CachegrindItem;
+class ModelItem;
 
 /**
  * A class which parses cachegrind's output
  * and emits signals when items are parsed
  */
-class CachegrindParser : public IParser
+class CachegrindParser : public QObject
 {
     Q_OBJECT
 
@@ -41,7 +42,10 @@ public:
     explicit CachegrindParser(QObject* parent = nullptr);
     ~CachegrindParser() override;
 
-    void parse() override;
+    void parse(QByteArray& data);
+
+signals:
+    void newItem(ModelItem*);
 
 private:
     /**
