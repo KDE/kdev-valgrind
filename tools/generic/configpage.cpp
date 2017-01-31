@@ -21,6 +21,8 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
+#include "config/tools.h"
+
 #include <kconfiggroup.h>
 
 namespace valgrind
@@ -32,7 +34,7 @@ GenericConfigPage::GenericConfigPage(QWidget* parent)
     ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
-    ui->currentTool->addItems({ "memcheck", "massif", "cachegrind", "callgrind"});
+    ui->currentTool->addItems(valgrindTools);
 
     connect(ui->extraParameters, &QLineEdit::textEdited, this, &GenericConfigPage::changed);
     connect(ui->limitErrors, &QCheckBox::toggled, this, &GenericConfigPage::changed);

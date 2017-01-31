@@ -71,8 +71,7 @@ void MassifJob::processEnded()
         parser.parse(m_outputFile);
     }
 
-
-    if (config.readEntry("launchVisualizer", false)) {
+    if (config.readEntry("Massif Launch Visualizer", false)) {
         QStringList args;
         args += m_outputFile;
         QString mv = KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
@@ -84,19 +83,19 @@ void MassifJob::processEnded()
 void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     static const t_valgrind_cfg_argarray massifArgs = {
-        {QStringLiteral("Massif Arguments"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("depth"), QStringLiteral("--depth="), QStringLiteral("int")},
-        {QStringLiteral("threshold"), QStringLiteral("--threshold="), QStringLiteral("float")},
-        {QStringLiteral("peakInaccuracy"), QStringLiteral("--peak-inaccuracy="), QStringLiteral("float")},
-        {QStringLiteral("maxSnapshots"), QStringLiteral("--max-snapshots="), QStringLiteral("int")},
-        {QStringLiteral("snapshotFreq"), QStringLiteral("--detailed-freq="), QStringLiteral("int")},
-        {QStringLiteral("profileHeap"), QStringLiteral("--heap="), QStringLiteral("bool")},
-        {QStringLiteral("profileStack"), QStringLiteral("--stacks="), QStringLiteral("bool")}
+        {QStringLiteral("Massif Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
+        {QStringLiteral("Massif Snapshot Tree Depth"), QStringLiteral("--depth="), QStringLiteral("int")},
+        {QStringLiteral("Massif Threshold"), QStringLiteral("--threshold="), QStringLiteral("float")},
+        {QStringLiteral("Massif Peak Inaccuracy"), QStringLiteral("--peak-inaccuracy="), QStringLiteral("float")},
+        {QStringLiteral("Massif Maximum Snapshots"), QStringLiteral("--max-snapshots="), QStringLiteral("int")},
+        {QStringLiteral("Massif Detailed Snapshots Frequency"), QStringLiteral("--detailed-freq="), QStringLiteral("int")},
+        {QStringLiteral("Massif Profile Heap"), QStringLiteral("--heap="), QStringLiteral("bool")},
+        {QStringLiteral("Massif Profile Stack"), QStringLiteral("--stacks="), QStringLiteral("bool")}
     };
     static const int count = sizeof(massifArgs) / sizeof(*massifArgs);
 
 
-    int tu = cfg.readEntry(QStringLiteral("timeUnit"), 0);
+    int tu = cfg.readEntry(QStringLiteral("Massif Time Unit"), 0);
 
     if (tu == 0)
         args += QStringLiteral("--time-unit=i");

@@ -73,7 +73,7 @@ void CallgrindJob::processEnded()
         parser.parse(caOutput);
     }
 
-    if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
+    if (config.readEntry(QStringLiteral("Callgrind Launch KCachegrind"), false)) {
         args.clear();
         args += m_outputFile;
 
@@ -89,9 +89,9 @@ void CallgrindJob::processEnded()
 void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     static const t_valgrind_cfg_argarray cgArgs = {
-        {QStringLiteral("Callgrind Arguments"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Callgrind Cache simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
-        {QStringLiteral("Callgrind Branch simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
+        {QStringLiteral("Callgrind Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
+        {QStringLiteral("Callgrind Cache Simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
+        {QStringLiteral("Callgrind Branch Simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
     };
     static const int count = sizeof(cgArgs) / sizeof(*cgArgs);
 

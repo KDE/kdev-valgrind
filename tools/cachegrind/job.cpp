@@ -71,13 +71,13 @@ void CachegrindJob::processEnded()
         parser.parse(cgOutput);
     }
 
-    if (config.readEntry(QStringLiteral("Launch KCachegrind"), false)) {
+    if (config.readEntry(QStringLiteral("Cachegrind Launch KCachegrind"), false)) {
         args.clear();
         args += m_outputFile;
 
         QString kcg = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 
-        //Proxy used to remove file at the end of KCachegrind
+        // Proxy used to remove file at the end of KCachegrind
         new QFileProxyRemove(kcg, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
     else
@@ -87,9 +87,9 @@ void CachegrindJob::processEnded()
 void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     static const t_valgrind_cfg_argarray cgArgs = {
-        {QStringLiteral("Cachegrind Arguments"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Cachegrind Cache simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
-        {QStringLiteral("Cachegrind Branch simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
+        {QStringLiteral("Cachegrind Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
+        {QStringLiteral("Cachegrind Cache Simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
+        {QStringLiteral("Cachegrind Branch Simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
     };
     static const int count = sizeof(cgArgs) / sizeof(*cgArgs);
 
