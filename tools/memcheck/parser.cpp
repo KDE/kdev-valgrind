@@ -3,7 +3,8 @@
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2015 Laszlo Kis-Adam <laszlo.kis-adam@kdemail.net>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,6 +25,7 @@
 #include "parser.h"
 
 #include "debug.h"
+#include "modelitem.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
@@ -33,91 +35,90 @@
 namespace valgrind
 {
 
-MemcheckParser::MemcheckParser(QObject*)
+MemcheckParser::MemcheckParser()
+    : m_error(new MemcheckError)
 {
 }
 
 MemcheckParser::~MemcheckParser()
 {
+    delete m_error;
 }
 
 void MemcheckParser::clear()
 {
     m_stateStack.clear();
-    m_buffer.clear();
-
-    // Send rest signal to model
-    //    emit reset();
-    // qDeleteAll(errors);
-    // errors.clear();
-    // reset();
+    m_name.clear();
+    m_value.clear();
 }
 
-bool MemcheckParser::startElement()
+void MemcheckParser::startElement()
 {
-    m_buffer.clear();
     State newState = Unknown;
 
-    if (name() == QStringLiteral("valgrindoutput"))
+    if (m_name == QStringLiteral("valgrindoutput"))
         newState = Session;
 
-    else if (name() == QStringLiteral("status"))
+    else if (m_name == QStringLiteral("status"))
         newState = Status;
 
-    else if (name() == QStringLiteral("preamble"))
+    else if (m_name == QStringLiteral("preamble"))
         newState = Preamble;
 
-    else if (name() == QStringLiteral("error")) {
+    else if (m_name == QStringLiteral("error")) {
         newState = Error;
-        emit newElement(IModel::startError);
+        m_error->clear();
     }
 
-    else if (name() == QStringLiteral("stack")) {
+    else if (m_name == QStringLiteral("stack")) {
         newState = Stack;
-        emit newElement(IModel::startStack);
+        m_error->addStack();
     }
 
-    else if (name() == QStringLiteral("frame")) {
+    else if (m_name == QStringLiteral("frame")) {
         newState = Frame;
-        emit newElement(IModel::startFrame);
+        m_error->lastStack().addFrame();
     }
 
     else {
         m_stateStack.push(m_stateStack.top());
-        return true;
+        return;
     }
 
     m_stateStack.push(newState);
-    return true;
+    return;
 }
 
-bool MemcheckParser::endElement()
+void MemcheckParser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showInstructionPointer)
 {
     State state = m_stateStack.pop();
 
     switch (state) {
 
     case Error:
-        emit newData(IModel::error, name().toString(), m_buffer);
+        m_error->setValue(m_name, m_value);
+
+        if (m_name == QStringLiteral("error"))
+            problems.append(m_error->toIProblem(showInstructionPointer));
         break;
 
     case Stack:
-        emit newData(IModel::stack, name().toString(), m_buffer);
+        m_error->lastStack().setValue(m_name, m_value);
         break;
 
     case Frame:
-        emit newData(IModel::frame, name().toString(), m_buffer);
+        m_error->lastStack().lastFrame().setValue(m_name, m_value);
         break;
 
     default:
         break;
     }
-
-    return true;
 }
 
-void MemcheckParser::parse()
+QVector<KDevelop::IProblem::Ptr> MemcheckParser::parse(bool showInstructionPointer)
 {
+    QVector<KDevelop::IProblem::Ptr> problems;
+
     while (!atEnd()) {
         switch (readNext()) {
 
@@ -126,15 +127,18 @@ void MemcheckParser::parse()
             break;
 
         case StartElement:
+            m_name = name().toString();
+            m_value.clear();
             startElement();
             break;
 
         case EndElement:
-            endElement();
+            m_name = name().toString();
+            endElement(problems, showInstructionPointer);
             break;
 
         case Characters:
-            m_buffer += text().toString();
+            m_value += text();
             break;
 
         default:
@@ -161,6 +165,8 @@ void MemcheckParser::parse()
             break;
         }
     }
+
+    return problems;
 }
 
 }

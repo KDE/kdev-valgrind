@@ -3,7 +3,7 @@
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "interfaces/imodel.h"
+#include <interfaces/iproblem.h>
 
 #include <QStack>
 #include <QXmlStreamReader>
@@ -31,28 +31,20 @@
 namespace valgrind
 {
 
-/**
- * A class which parses valgrind's XML output
- * and emits signals when items are parsed
- */
-class MemcheckParser : public QObject, public QXmlStreamReader
-{
-    Q_OBJECT
+struct MemcheckError;
 
+class MemcheckParser : public QXmlStreamReader
+{
 public:
-    explicit MemcheckParser(QObject* parent = nullptr);
+    MemcheckParser();
     virtual ~MemcheckParser();
 
-    void parse();
-
-signals:
-    void newElement(IModel::eElementType);
-    void newData(IModel::eElementType, const QString& name, const QString& value);
+    QVector<KDevelop::IProblem::Ptr> parse(bool showInstructionPointer);
 
 private:
-    // XML parsing
-    bool endElement();
-    bool startElement();
+    void startElement();
+    void endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showInstructionPointer);
+
     void clear();
 
     enum State {
@@ -67,7 +59,11 @@ private:
     };
 
     QStack<State> m_stateStack;
-    QString m_buffer;
+
+    QString m_name;
+    QString m_value;
+
+    MemcheckError* m_error;
 };
 
 }

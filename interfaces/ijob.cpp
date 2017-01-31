@@ -92,7 +92,6 @@ IJob::IJob(
     , m_plugin(plugin)
 {
     Q_ASSERT(m_launchcfg);
-    Q_ASSERT(m_model);
     Q_ASSERT(m_plugin);
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
@@ -141,7 +140,8 @@ IJob::IJob(
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 
-    m_model->reset();
+    if (m_model)
+        m_model->reset();
 }
 
 IJob::~IJob()

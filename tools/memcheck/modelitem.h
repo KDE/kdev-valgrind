@@ -51,6 +51,8 @@ struct MemcheckFrame
 struct MemcheckStack
 {
     void addFrame();
+    MemcheckFrame& lastFrame();
+
     void setValue(const QString& name, const QString& value);
 
     KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
@@ -60,7 +62,11 @@ struct MemcheckStack
 
 struct MemcheckError
 {
+    void clear();
+
     void addStack();
+    MemcheckStack& lastStack();
+
     void setValue(const QString& name, const QString& value);
 
     KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;

@@ -89,6 +89,12 @@ void MemcheckStack::addFrame()
     frames.append(MemcheckFrame{});
 }
 
+MemcheckFrame& MemcheckStack::lastFrame()
+{
+    Q_ASSERT(frames.count());
+    return frames.last();
+}
+
 void MemcheckStack::setValue(const QString& name, const QString& value)
 {
     Q_UNUSED(value)
@@ -125,9 +131,23 @@ KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) c
     return stackProblem;
 }
 
+void MemcheckError::clear()
+{
+    what.clear();
+    auxWhat.clear();
+    text.clear();
+    stacks.clear();
+}
+
 void MemcheckError::addStack()
 {
     stacks.append(MemcheckStack{});
+}
+
+MemcheckStack& MemcheckError::lastStack()
+{
+    Q_ASSERT(stacks.count());
+    return stacks.last();
 }
 
 void MemcheckError::setValue(const QString& name, const QString& value)
