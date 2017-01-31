@@ -39,7 +39,7 @@ MassifView::MassifView()
     connect(this, &MassifView::activated, this, &MassifView::openDocument);
 }
 
-MassifView::~MassifView(void) {}
+MassifView::~MassifView() {}
 
 void MassifView::setModel(IModel * m)
 {
