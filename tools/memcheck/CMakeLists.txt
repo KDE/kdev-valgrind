@@ -5,7 +5,7 @@ ki18n_wrap_ui(memcheck_UI_SRCS
 add_library(memcheck_tool STATIC
     configpage.cpp
     job.cpp
-    modelitem.cpp
+    error.cpp
     parser.cpp
 
     ${memcheck_UI_SRCS}

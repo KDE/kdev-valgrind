@@ -25,7 +25,7 @@
 #include "parser.h"
 
 #include "debug.h"
-#include "modelitem.h"
+#include "error.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>

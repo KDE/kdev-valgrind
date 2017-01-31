@@ -26,9 +26,9 @@
 
 #include "cachegrind/configpage.h"
 #include "callgrind/configpage.h"
+#include "generic/configpage.h"
 #include "massif/configpage.h"
 #include "memcheck/configpage.h"
-#include "genericconfigpage.h"
 
 #include "config.h"
 #include "debug.h"

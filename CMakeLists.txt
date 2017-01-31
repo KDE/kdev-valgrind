@@ -31,7 +31,6 @@ set(kdevvalgrind_SRCS
     plugin.cpp
     widget.cpp
 
-    config/genericconfigpage.cpp
     config/globalconfigpage.cpp
 
     interfaces/ijob.cpp
@@ -42,7 +41,6 @@ set(kdevvalgrind_SRCS
 )
 
 ki18n_wrap_ui(kdevvalgrind_UI_SRCS
-    config/ui/genericconfig.ui
     config/globalconfigpage.ui
 )
 
@@ -65,6 +63,7 @@ kdevplatform_add_plugin(kdevvalgrind
 
 add_subdirectory(tools/cachegrind)
 add_subdirectory(tools/callgrind)
+add_subdirectory(tools/generic)
 add_subdirectory(tools/massif)
 add_subdirectory(tools/memcheck)
 
@@ -78,6 +77,7 @@ target_link_libraries(kdevvalgrind
 
     cachegrind_tool
     callgrind_tool
+    generic_tool
     massif_tool
     memcheck_tool
 )

@@ -17,12 +17,13 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kconfiggroup.h>
+#include "configpage.h"
+#include "ui_configpage.h"
+
 #include "debug.h"
-#include "genericconfigpage.h"
 #include "plugin.h"
 
-#include "ui_genericconfig.h"
+#include <kconfiggroup.h>
 
 namespace valgrind
 {

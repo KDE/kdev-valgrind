@@ -22,7 +22,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "modelitem.h"
+#include "error.h"
 
 #include "debug.h"
 
