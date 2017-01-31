@@ -32,113 +32,43 @@
 namespace valgrind
 {
 
-class MemcheckError;
-class MemcheckStack;
-class MemcheckFrame;
+struct MemcheckError;
+struct MemcheckStack;
+struct MemcheckFrame;
 
-class MemcheckItem : public ModelItem
+struct MemcheckError
 {
+    void addStack();
+    void setValue(const QString& name, const QString& value);
 
-public:
-    ~MemcheckItem() override {}
-
-    /*
-     * Called when data related to the error has been parsed
-     */
-    virtual void incomingData(const QString& name, const QString& value) = 0;
-};
-
-class MemcheckError : public MemcheckItem
-{
-
-public:
-
-    MemcheckError();
-    ~MemcheckError() override;
-
-    MemcheckStack* addStack();
-    MemcheckStack* lastStack() const;
-
-    const QList<MemcheckStack*> &getStack() const;
-
-    void incomingData(const QString& name, const QString& value) override;
-
-    void setKind(const QString& s);
-
-    int uniqueId; // FIXME remove ?
-    int threadId; // FIXME remove ?
-
-    enum {
-        Unknown,
-        InvalidFree,
-        MismatchedFree,
-        InvalidRead,
-        InvalidWrite,
-        InvalidJump,
-        Overlap,
-        InvalidMemPool,
-        UninitCondition,
-        UninitValue,
-        SyscallParam,
-        ClientCheck,
-        Leak_DefinitelyLost,
-        Leak_IndirectlyLost,
-        Leak_PossiblyLost,
-        Leak_StillReachable
-    } m_kind;  // FIXME remove ?
+    QList<MemcheckStack*> stacks;
 
     QString what;
     QString auxWhat;
     QString text;
-
-    int leakedBytes; // FIXME remove ?
-    int leakedBlocks; // FIXME remove ?
-
-private:
-    QList<MemcheckStack*> m_stack;
 };
 
-class MemcheckStack : public MemcheckItem
+struct MemcheckStack
 {
-public:
-    MemcheckStack();
-    ~MemcheckStack() override;
+    void addFrame();
+    void setValue(const QString& name, const QString& value);
 
-    void incomingData(const QString& name, const QString& value) override;
-
-    QString what() const { return m_what; }
-    void setWhat(const QString& what) { m_what = what; }
-
-    MemcheckFrame* addFrame();
-    MemcheckFrame* lastFrame() const;
-
-    const QList<MemcheckFrame*> &getFrames() const;
-
-private:
-    QList<MemcheckFrame*> m_frames;
-
-    // What is this stack about?
-    QString m_what;
+    QList<MemcheckFrame*> frames;
 };
 
-/**
- * A frame describes the location of a notification
- */
-class MemcheckFrame : public MemcheckItem
+struct MemcheckFrame
 {
-public:
-    MemcheckFrame();
+    void setValue(const QString& name, const QString& value);
+    QString location() const;
 
-    void incomingData(const QString& name, const QString& value) override;
+    int line = 0;
 
-    QUrl url() const;
-
-    int line;
-
+    QString function = QStringLiteral("???");
     QString instructionPointer;
-    QString obj;
-    QString fn;
-    QString dir;
+
+    QString objectFile;
+
+    QString directory;
     QString file;
 };
 

@@ -32,176 +32,62 @@
 namespace valgrind
 {
 
-MemcheckError::MemcheckError()
-    : uniqueId(0)
-    , threadId(0)
-    , m_kind(Unknown)
-    , leakedBytes(0)
-    , leakedBlocks(0)
+void MemcheckError::addStack()
 {
+    stacks.append(new MemcheckStack);
 }
 
-MemcheckError::~MemcheckError()
+void MemcheckError::setValue(const QString& name, const QString& value)
 {
-}
-
-void MemcheckError::incomingData(const QString& name, const QString& value)
-{
-    if (name == "unique")
-        this->uniqueId = value.toInt(nullptr, 16);
-    else if (name == "tid")
-        this->threadId = value.toInt();
-    else if (name == "kind")
-        this->setKind(value);
-    else if (name == "what")
+    if (name == "what")
         this->what = value;
-    else if (name == "leakedbytes")
-        this->leakedBytes = value.toInt();
-    else if (name == "leakedblocks")
-        this->leakedBlocks = value.toInt();
     else if (name == "text")
         this->text = value;
     else if (name == "auxwhat")
         this->auxWhat = value;
 }
 
-void MemcheckError::setKind(const QString& s)
-{
-    if (s == "Unknown")
-        m_kind = Unknown;
-    else if (s == "InvalidFree")
-        m_kind = InvalidFree;
-    else if (s == "MismatchedFree")
-        m_kind = MismatchedFree;
-    else if (s == "InvalidRead")
-        m_kind = InvalidRead;
-    else if (s == "InvalidWrite")
-        m_kind = InvalidWrite;
-    else if (s == "InvalidJump")
-        m_kind = InvalidJump;
-    else if (s == "Overlap")
-        m_kind = Overlap;
-    else if (s == "InvalidMemPool")
-        m_kind = InvalidMemPool;
-    else if (s == "UninitCondition")
-        m_kind = UninitCondition;
-    else if (s == "UninitValue")
-        m_kind = UninitValue;
-    else if (s == "SyscallParam")
-        m_kind = SyscallParam;
-    else if (s == "ClientCheck")
-        m_kind = ClientCheck;
-    else if (s == "Leak_DefinitelyLost")
-        m_kind = Leak_DefinitelyLost;
-    else if (s == "Leak_IndirectlyLost")
-        m_kind = Leak_IndirectlyLost;
-    else if (s == "Leak_PossiblyLost")
-        m_kind = Leak_PossiblyLost;
-    else if (s == "Leak_StillReachable")
-        m_kind = Leak_StillReachable;
-    else
-        m_kind = Unknown;
-}
-
-
-MemcheckStack *MemcheckError::addStack()
-{
-    m_stack << new MemcheckStack;
-    MemcheckStack *stack = m_stack.back();
-
-    if (m_stack.count() == 1) {
-        if (!this->what.isEmpty())
-            stack->setWhat(this->what + " at:");
-        else
-            stack->setWhat(this->text + " at:");
-    } else {
-        stack->setWhat(this->auxWhat + " at:");
-    }
-
-    return stack;
-}
-
-MemcheckStack *MemcheckError::lastStack() const
-{
-    return m_stack.back();
-}
-
-const QList<MemcheckStack *> &MemcheckError::getStack() const
-{
-    return m_stack;
-}
-
-////////////////////////
-
-MemcheckStack::MemcheckStack()
-{
-}
-
-
-MemcheckStack::~MemcheckStack()
-{
-}
-
-void MemcheckStack::incomingData(const QString& name, const QString& value)
+void MemcheckStack::setValue(const QString& name, const QString& value)
 {
     Q_UNUSED(value)
     if (name == "frame") {
-        qCDebug(KDEV_VALGRIND) << "MemcheckStack::incomingData() Imcoming data with frame name error";
+        qCDebug(KDEV_VALGRIND) << "MemcheckStack::incomingData() Incoming data with frame name error";
     }
 }
 
 
-MemcheckFrame *MemcheckStack::addFrame()
+void MemcheckStack::addFrame()
 {
-    m_frames << new MemcheckFrame();
-    return m_frames.back();
+    frames.append(new MemcheckFrame);
 }
 
-MemcheckFrame *MemcheckStack::lastFrame() const
-{
-    return m_frames.back();
-}
-
-const QList<MemcheckFrame *> &MemcheckStack::getFrames() const
-{
-    return m_frames;
-}
-
-MemcheckFrame::MemcheckFrame()
-    : line(0)
-    , fn(QStringLiteral("???"))
-{
-}
-
-void MemcheckFrame::incomingData(const QString& name, const QString& value)
+void MemcheckFrame::setValue(const QString& name, const QString& value)
 {
     if (name == "ip")
         instructionPointer = value;
+
     else if (name == "obj")
-        obj = value;
+        objectFile = value;
+
     else if (name == "fn")
-        fn = value;
+        function = value;
+
     else if (name == "dir")
-        dir = value;
+        directory = value;
+
     else if (name == "file")
         file = value;
+
     else if (name == "line")
         line = value.toInt();
 }
 
-QUrl MemcheckFrame::url() const
+QString MemcheckFrame::location() const
 {
-    if (dir.isEmpty() && file.isEmpty()) {
-        if (obj.isEmpty())
-            return QUrl();
+    if (directory.isEmpty() && file.isEmpty())
+        return objectFile;
 
-        return QUrl::fromLocalFile(obj);
-    }
-
-    QUrl base = QUrl::fromLocalFile(dir);
-    base.setPath(base.path() + '/');
-
-    return base.resolved(file);
+    return directory + "/" + file;
 }
 
 }
