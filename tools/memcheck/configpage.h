@@ -2,6 +2,7 @@
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,32 +20,35 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDMEMCHECKCONFIGPAGE_H_
-#define VALGRINDMEMCHECKCONFIGPAGE_H_
+#pragma once
 
 #include <interfaces/launchconfigurationpage.h>
 
 namespace valgrind
 {
+
 namespace Ui
 {
+
 class MemcheckConfig;
+
 }
 
-class   MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
+class MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
     explicit MemcheckConfigPage(QWidget* parent = nullptr);
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = nullptr) override;
-    QIcon icon() const override;
-    void saveToConfiguration(KConfigGroup, KDevelop::IProject * = nullptr) const override;
-    QString title() const override;
 
+    QString title() const override;
+    QIcon icon() const override;
+
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
+    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::MemcheckConfig *ui;
+    Ui::MemcheckConfig* ui;
 };
 
 class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
@@ -52,9 +56,8 @@ class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactor
 public:
     MemcheckConfigPageFactory();
     ~MemcheckConfigPageFactory() override;
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
+
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
+
 }
-
-#endif /* VALGRINDMEMCHECKCONFIGPAGE_H_ */
-

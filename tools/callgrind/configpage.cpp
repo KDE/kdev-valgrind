@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -25,58 +26,58 @@
 namespace valgrind
 {
 
-CallgrindConfigPage::CallgrindConfigPage(QWidget *parent)
+CallgrindConfigPage::CallgrindConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
     ui = new Ui::CallgrindConfig();
     ui->setupUi(this);
 
-    connect(ui->callgrindParameters, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
-    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
+    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
 }
 
-void    CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
-{
-    bool wasBlocked = signalsBlocked();
-    blockSignals(true);
-
-    ui->callgrindParameters->setText(cfg.readEntry("Callgrind Arguments", ""));
-    ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
-    ui->cacheSimulation->setChecked(cfg.readEntry("Callgrind Cache simulation", false));
-    ui->branchSimulation->setChecked(cfg.readEntry("Callgrind Branch simulation", false));
-
-    blockSignals(wasBlocked);
-}
-
-QIcon   CallgrindConfigPage::icon(void) const
-{
-    return QIcon::fromTheme("fork");
-}
-
-void    CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
-{
-    cfg.writeEntry("Callgrind Arguments", ui->callgrindParameters->text());
-    cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
-    cfg.writeEntry("Callgrind Cache simulation", ui->cacheSimulation->isChecked());
-    cfg.writeEntry("Callgrind Branch simulation", ui->branchSimulation->isChecked());
-}
-
-QString CallgrindConfigPage::title(void) const
+QString CallgrindConfigPage::title() const
 {
     return i18n("Callgrind");
 }
 
-// The factory
-CallgrindConfigPageFactory::CallgrindConfigPageFactory(void)
-{}
+QIcon CallgrindConfigPage::icon() const
+{
+    return QIcon::fromTheme("fork");
+}
 
-CallgrindConfigPageFactory::~CallgrindConfigPageFactory(void)
-{}
+void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+{
+    QSignalBlocker blocker(this);
 
-KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget *parent)
+    ui->extraParameters->setText(cfg.readEntry("Callgrind Extra Parameters", ""));
+    ui->cacheSimulation->setChecked(cfg.readEntry("Callgrind Cache Simulation", false));
+    ui->branchSimulation->setChecked(cfg.readEntry("Callgrind Branch Simulation", false));
+    ui->launchKCachegrind->setChecked(cfg.readEntry("Callgrind Launch KCachegrind", false));
+}
+
+
+void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+{
+    cfg.writeEntry("Callgrind Extra Parameters", ui->extraParameters->text());
+    cfg.writeEntry("Callgrind Cache Simulation", ui->cacheSimulation->isChecked());
+    cfg.writeEntry("Callgrind Branch Simulation", ui->branchSimulation->isChecked());
+    cfg.writeEntry("Callgrind Launch KCachegrind", ui->launchKCachegrind->isChecked());
+}
+
+CallgrindConfigPageFactory::CallgrindConfigPageFactory()
+{
+}
+
+CallgrindConfigPageFactory::~CallgrindConfigPageFactory()
+{
+}
+
+KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget* parent)
 {
     return new CallgrindConfigPage(parent);
 }
+
 }

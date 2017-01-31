@@ -43,7 +43,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="cachegrindParameters"/>
+         <widget class="QLineEdit" name="extraParameters"/>
         </item>
        </layout>
       </item>

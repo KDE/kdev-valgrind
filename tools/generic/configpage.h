@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -18,18 +19,18 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDGENERICCONFIGPAGE_H_
-#define VALGRINDGENERICCONFIGPAGE_H_
+#pragma once
 
 #include <interfaces/launchconfigurationpage.h>
 
 namespace valgrind
 {
-class Plugin;
 
 namespace Ui
 {
+
 class GenericConfig;
+
 }
 
 class GenericConfigPage : public KDevelop::LaunchConfigurationPage
@@ -37,18 +38,17 @@ class GenericConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 
 public:
-    GenericConfigPage(QWidget * parent = nullptr);
+    GenericConfigPage(QWidget* parent = nullptr);
     ~GenericConfigPage() override;
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject * = nullptr) override;
-    QIcon icon() const override;
-    void saveToConfiguration(KConfigGroup, KDevelop::IProject * = nullptr) const override;
-    QString title() const override;
 
-signals:
-    void newCurrentTool(const QString& newTool) const;
+    QString title() const override;
+    QIcon icon() const override;
+
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
+    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::GenericConfig *ui;
+    Ui::GenericConfig* ui;
 };
 
 class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
@@ -56,9 +56,8 @@ class GenericConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 public:
     GenericConfigPageFactory();
     ~GenericConfigPageFactory() override;
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
+
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
 
 }
-
-#endif

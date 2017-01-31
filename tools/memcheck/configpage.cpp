@@ -2,6 +2,7 @@
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -28,7 +29,7 @@
 namespace valgrind
 {
 
-MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
+MemcheckConfigPage::MemcheckConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
     ui = new Ui::MemcheckConfig();
@@ -43,12 +44,17 @@ MemcheckConfigPage::MemcheckConfigPage(QWidget *parent)
     connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &MemcheckConfigPage::changed);
 }
 
+QString MemcheckConfigPage::title() const
+{
+    return i18n("Memcheck");
+}
+
 QIcon MemcheckConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
+void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
 
@@ -60,7 +66,7 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop
     ui->showInstructionPointer->setChecked(cfg.readEntry("Memcheck Show Instruction Pointer", false));
 }
 
-void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
+void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
     cfg.writeEntry("Memcheck Extra Parameters", ui->extraParameters->text());
     cfg.writeEntry("Memcheck Freelist Size", ui->freeListSize->value());
@@ -68,11 +74,6 @@ void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProjec
     cfg.writeEntry("Memcheck Show Reachable", ui->showReachable->isChecked());
     cfg.writeEntry("Memcheck Undef Value Errors", ui->undefValueErrors->isChecked());
     cfg.writeEntry("Memcheck Show Instruction Pointer", ui->showInstructionPointer->isChecked());
-}
-
-QString MemcheckConfigPage::title() const
-{
-    return i18n("Memcheck");
 }
 
 MemcheckConfigPageFactory::MemcheckConfigPageFactory()
@@ -83,7 +84,7 @@ MemcheckConfigPageFactory::~MemcheckConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget * parent)
+KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget* parent)
 {
     return new MemcheckConfigPage(parent);
 }

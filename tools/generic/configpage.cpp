@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,86 +21,61 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
-#include "debug.h"
-#include "plugin.h"
-
 #include <kconfiggroup.h>
 
 namespace valgrind
 {
 
-GenericConfigPage::GenericConfigPage(QWidget *parent)
+GenericConfigPage::GenericConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
     ui = new Ui::GenericConfig();
     ui->setupUi(this);
 
-    connect(ui->valgrindParameters, &QLineEdit::textEdited, this, &GenericConfigPage::changed);
+    ui->currentTool->addItems({ "memcheck", "massif", "cachegrind", "callgrind"});
+
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &GenericConfigPage::changed);
     connect(ui->limitErrors, &QCheckBox::toggled, this, &GenericConfigPage::changed);
     connect(ui->maxStackSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &GenericConfigPage::changed);
     connect(ui->stackDepth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &GenericConfigPage::changed);
-
-    QStringList tools;
-
-    tools << "memcheck";
-    tools << "massif";
-    tools << "cachegrind";
-    tools << "callgrind";
-
-    /*
-    ** Unimplemented tools: See launcher.cpp to activate their configuration tab
-    */
-    // tools << "helgrind";
-
-    ui->currentTool->addItems(tools);
-
     connect(ui->currentTool, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &GenericConfigPage::changed);
 }
 
-GenericConfigPage::~GenericConfigPage(void)
-{}
+GenericConfigPage::~GenericConfigPage()
+{
+}
+
+QString GenericConfigPage::title() const
+{
+    return i18n("Valgrind global settings");
+}
 
 QIcon GenericConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void GenericConfigPage::loadFromConfiguration(const KConfigGroup &cfg, KDevelop::IProject *)
+void GenericConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
-    bool wasBlocked = signalsBlocked();
-    blockSignals(true);
+    QSignalBlocker blocker(this);
 
-    ui->valgrindParameters->setText(cfg.readEntry("Valgrind Arguments", ""));
-    ui->stackDepth->setValue(cfg.readEntry("Stackframe Depth", 12));
-    ui->maxStackSize->setValue(cfg.readEntry("Maximum Stackframe Size", 2000000));
-    ui->limitErrors->setChecked(cfg.readEntry("Limit Errors", true));
-
-    int tool_index;
-    QString toolname;
-    toolname = cfg.readEntry("Current Tool", "memcheck");
-    tool_index = ui->currentTool->findText(toolname);
-    ui->currentTool->setCurrentIndex(tool_index);
-
-    blockSignals(wasBlocked);
+    ui->extraParameters->setText(cfg.readEntry("Valgrind Extra Parameters", ""));
+    ui->stackDepth->setValue(cfg.readEntry("Valgrind Stackframe Depth", 12));
+    ui->maxStackSize->setValue(cfg.readEntry("Valgrind Maximum Stackframe Size", 2000000));
+    ui->limitErrors->setChecked(cfg.readEntry("Valgrind Limit Errors", true));
+    ui->currentTool->setCurrentIndex(cfg.readEntry("Valgrind Current Tool", 0));
 }
 
-void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
+void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    cfg.writeEntry("Valgrind Arguments", ui->valgrindParameters->text());
-    cfg.writeEntry("Stackframe Depth", ui->stackDepth->value());
-    cfg.writeEntry("Maximum Stackframe Size", ui->maxStackSize->value());
-    cfg.writeEntry("Limit Errors", ui->limitErrors->isChecked());
-    cfg.writeEntry("Current Tool", ui->currentTool->currentText());
-    //useless ?
-    emit newCurrentTool(ui->currentTool->currentText());
-}
-
-QString GenericConfigPage::title() const
-{
-    return i18n("Global settings");
+    cfg.writeEntry("Valgrind Extra Parameters", ui->extraParameters->text());
+    cfg.writeEntry("Valgrind Stackframe Depth", ui->stackDepth->value());
+    cfg.writeEntry("Valgrind Maximum Stackframe Size", ui->maxStackSize->value());
+    cfg.writeEntry("Valgrind Limit Errors", ui->limitErrors->isChecked());
+    cfg.writeEntry("Valgrind Current Tool", ui->currentTool->currentIndex());
 }
 
 GenericConfigPageFactory::GenericConfigPageFactory()
@@ -110,7 +86,7 @@ GenericConfigPageFactory::~GenericConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* GenericConfigPageFactory::createWidget(QWidget * parent)
+KDevelop::LaunchConfigurationPage* GenericConfigPageFactory::createWidget(QWidget* parent)
 {
     return new GenericConfigPage(parent);
 }

@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,16 +18,18 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDCALLGRINDCONFIGPAGE_H_
-#define VALGRINDCALLGRINDCONFIGPAGE_H_
+#pragma once
 
 #include <interfaces/launchconfigurationpage.h>
 
 namespace valgrind
 {
+
 namespace Ui
 {
+
 class CallgrindConfig;
+
 }
 
 class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
@@ -34,23 +37,24 @@ class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 public:
     explicit CallgrindConfigPage(QWidget* parent = nullptr);
-    void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = nullptr) override;
-    QIcon         icon(void) const override;
-    void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = nullptr) const override;
-    QString       title(void) const override;
+
+    QString title() const override;
+    QIcon icon() const override;
+
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
+    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::CallgrindConfig   *ui;
+    Ui::CallgrindConfig* ui;
 };
 
 class CallgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    CallgrindConfigPageFactory(void);
-    ~CallgrindConfigPageFactory(void) override;
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
+    CallgrindConfigPageFactory();
+    ~CallgrindConfigPageFactory() override;
+
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
 
 }
-
-#endif /* VALGRINDCALLGRINDCONFIGPAGE_H_ */

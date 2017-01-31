@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
  * Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -26,12 +27,13 @@
 namespace valgrind
 {
 
-MassifConfigPage::MassifConfigPage(QWidget *parent)
+MassifConfigPage::MassifConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
     ui = new Ui::MassifConfig();
     ui->setupUi(this);
-    connect(ui->massifParameters, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
+
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
     connect(ui->launchMassifVisualizer, &QCheckBox::toggled, this, &MassifConfigPage::changed);
     connect(ui->depth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MassifConfigPage::changed);
@@ -49,58 +51,57 @@ MassifConfigPage::MassifConfigPage(QWidget *parent)
     connect(ui->profileStack, &QCheckBox::toggled, this, &MassifConfigPage::changed);
 }
 
-void    MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject *)
-{
-    bool wasBlocked = signalsBlocked();
-    blockSignals(true);
-
-    ui->massifParameters->setText(cfg.readEntry("Massif Arguments", ""));
-    ui->launchMassifVisualizer->setChecked(cfg.readEntry("launchVisualizer", false));
-    ui->depth->setValue(cfg.readEntry("depth", 30));
-    ui->threshold->setValue(cfg.readEntry("threshold", 1));
-    ui->peakInaccuracy->setValue(cfg.readEntry("peakInaccuracy", 1));
-    ui->maxSnapshots->setValue(cfg.readEntry("maxSnapshots", 100));
-    ui->snapshotFreq->setValue(cfg.readEntry("snapshotFreq", 10));
-    ui->timeUnit->setCurrentIndex(cfg.readEntry("timeUnit", 0));
-    ui->profileHeap->setChecked(cfg.readEntry("profileHeap", true));
-    ui->profileStack->setChecked(cfg.readEntry("profileStack", false));
-
-    blockSignals(wasBlocked);
-}
-
-QIcon   MassifConfigPage::icon(void) const
-{
-    return QIcon::fromTheme("fork");
-}
-
-void    MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
-{
-    cfg.writeEntry("Massif Arguments", ui->massifParameters->text());
-    cfg.writeEntry("launchVisualizer", ui->launchMassifVisualizer->isChecked());
-    cfg.writeEntry("depth", ui->depth->value());
-    cfg.writeEntry("threshold", ui->threshold->value());
-    cfg.writeEntry("peakInaccuracy", ui->peakInaccuracy->value());
-    cfg.writeEntry("maxSnapshots", ui->maxSnapshots->value());
-    cfg.writeEntry("snapshotsFreq", ui->snapshotFreq->value());
-    cfg.writeEntry("timeUnit", ui->timeUnit->currentIndex());
-    cfg.writeEntry("profileHeap", ui->profileHeap->isChecked());
-    cfg.writeEntry("profileStack", ui->profileStack->isChecked());
-}
-
-QString MassifConfigPage::title(void) const
+QString MassifConfigPage::title() const
 {
     return i18n("Massif");
 }
 
-// The factory
-MassifConfigPageFactory::MassifConfigPageFactory(void)
-{}
+QIcon MassifConfigPage::icon() const
+{
+    return QIcon::fromTheme("fork");
+}
 
-MassifConfigPageFactory::~MassifConfigPageFactory(void)
-{}
+void MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+{
+    QSignalBlocker blocker(this);
 
-KDevelop::LaunchConfigurationPage* MassifConfigPageFactory::createWidget(QWidget *parent)
+    ui->extraParameters->setText(cfg.readEntry("Massif Extra Parameters", ""));
+    ui->launchMassifVisualizer->setChecked(cfg.readEntry("Massif Launch Visualizer", false));
+    ui->depth->setValue(cfg.readEntry("Massif Snapshot Tree Depth", 30));
+    ui->threshold->setValue(cfg.readEntry("Massif Threshold", 1));
+    ui->peakInaccuracy->setValue(cfg.readEntry("Massif Peak Inaccuracy", 1));
+    ui->maxSnapshots->setValue(cfg.readEntry("Massif Maximum Snapshots", 100));
+    ui->snapshotFreq->setValue(cfg.readEntry("Massif Detailed Snapshots Frequency", 10));
+    ui->timeUnit->setCurrentIndex(cfg.readEntry("Massif Time Unit", 0));
+    ui->profileHeap->setChecked(cfg.readEntry("Massif Profile Heap", true));
+    ui->profileStack->setChecked(cfg.readEntry("Massif Profile Stack", false));
+}
+
+void MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+{
+    cfg.writeEntry("Massif Extra Parameters", ui->extraParameters->text());
+    cfg.writeEntry("Massif Launch Visualizer", ui->launchMassifVisualizer->isChecked());
+    cfg.writeEntry("Massif Snapshot Tree Depth", ui->depth->value());
+    cfg.writeEntry("Massif Threshold", ui->threshold->value());
+    cfg.writeEntry("Massif Peak Inaccuracy", ui->peakInaccuracy->value());
+    cfg.writeEntry("Massif Maximum Snapshots", ui->maxSnapshots->value());
+    cfg.writeEntry("Massif Detailed Snapshots Frequency", ui->snapshotFreq->value());
+    cfg.writeEntry("Massif Time Unit", ui->timeUnit->currentIndex());
+    cfg.writeEntry("Massif Profile Heap", ui->profileHeap->isChecked());
+    cfg.writeEntry("Massif Profile Stack", ui->profileStack->isChecked());
+}
+
+MassifConfigPageFactory::MassifConfigPageFactory()
+{
+}
+
+MassifConfigPageFactory::~MassifConfigPageFactory()
+{
+}
+
+KDevelop::LaunchConfigurationPage* MassifConfigPageFactory::createWidget(QWidget* parent)
 {
     return new MassifConfigPage(parent);
 }
+
 }

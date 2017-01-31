@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,6 +21,7 @@
 
 #include "configpage.h"
 #include "ui_configpage.h"
+
 #include <KConfigGroup>
 
 namespace valgrind
@@ -31,52 +33,51 @@ CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
     ui = new Ui::CachegrindConfig();
     ui->setupUi(this);
 
-    connect(ui->cachegrindParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
-    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
+    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
 }
 
-void    CachegrindConfigPage::loadFromConfiguration(const KConfigGroup&cfg, KDevelop::IProject *)
-{
-    bool  wasBlocked = signalsBlocked();
-    blockSignals(true);
-
-    ui->cachegrindParameters->setText(cfg.readEntry("Cachegrind Arguments", ""));
-    ui->launchKCachegrind->setChecked(cfg.readEntry("Launch KCachegrind", false));
-    ui->cacheSimulation->setChecked(cfg.readEntry("Cachegrind Cache simulation", true));
-    ui->branchSimulation->setChecked(cfg.readEntry("Cachegrind Branch simulation", false));
-
-    blockSignals(wasBlocked);
-}
-
-void    CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject *) const
-{
-    cfg.writeEntry("Cachegrind Arguments", ui->cachegrindParameters->text());
-    cfg.writeEntry("Launch KCachegrind", ui->launchKCachegrind->isChecked());
-    cfg.writeEntry("Cachegrind Cache simulation", ui->cacheSimulation->isChecked());
-    cfg.writeEntry("Cachegrind Branch simulation", ui->branchSimulation->isChecked());
-}
-
-QIcon   CachegrindConfigPage::icon(void) const
-{
-    return QIcon::fromTheme("fork");
-}
-
-QString CachegrindConfigPage::title(void) const
+QString CachegrindConfigPage::title() const
 {
     return i18n("Cachegrind");
 }
 
-// The factory
-CachegrindConfigPageFactory::CachegrindConfigPageFactory(void)
-{}
+QIcon CachegrindConfigPage::icon() const
+{
+    return QIcon::fromTheme("fork");
+}
 
-CachegrindConfigPageFactory::~CachegrindConfigPageFactory(void)
-{}
+void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+{
+    QSignalBlocker blocker(this);
 
-KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget(QWidget *parent)
+    ui->extraParameters->setText(cfg.readEntry("Cachegrind Extra Parameters", ""));
+    ui->cacheSimulation->setChecked(cfg.readEntry("Cachegrind Cache Simulation", false));
+    ui->branchSimulation->setChecked(cfg.readEntry("Cachegrind Branch Simulation", false));
+    ui->launchKCachegrind->setChecked(cfg.readEntry("Cachegrind Launch KCachegrind", false));
+}
+
+void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+{
+    cfg.writeEntry("Cachegrind Extra Parameters", ui->extraParameters->text());
+    cfg.writeEntry("Cachegrind Cache Simulation", ui->cacheSimulation->isChecked());
+    cfg.writeEntry("Cachegrind Branch Simulation", ui->branchSimulation->isChecked());
+    cfg.writeEntry("Cachegrind Launch KCachegrind", ui->launchKCachegrind->isChecked());
+}
+
+CachegrindConfigPageFactory::CachegrindConfigPageFactory()
+{
+}
+
+CachegrindConfigPageFactory::~CachegrindConfigPageFactory()
+{
+}
+
+KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget(QWidget* parent)
 {
     return new CachegrindConfigPage(parent);
 }
+
 }

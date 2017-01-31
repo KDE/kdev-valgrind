@@ -1,5 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,40 +18,44 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRINDMASSIFCONFIGPAGE_H_
-#define VALGRINDMASSIFCONFIGPAGE_H_
+#pragma once
 
 #include <interfaces/launchconfigurationpage.h>
 
 namespace valgrind
 {
+
 namespace Ui
 {
+
 class MassifConfig;
+
 }
 
 class MassifConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
+
 public:
     explicit MassifConfigPage(QWidget* parent = nullptr);
-    void          loadFromConfiguration(const KConfigGroup&, KDevelop::IProject * = nullptr) override;
-    QIcon         icon(void) const override;
-    void          saveToConfiguration(KConfigGroup, KDevelop::IProject * = nullptr) const override;
-    QString       title(void) const override;
+
+    QString title() const override;
+    QIcon icon() const override;
+
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
+    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::MassifConfig  *ui;
+    Ui::MassifConfig* ui;
 };
 
 class MassifConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    MassifConfigPageFactory(void);
-    ~MassifConfigPageFactory(void) override;
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget * parent) override;
+    MassifConfigPageFactory();
+    ~MassifConfigPageFactory() override;
+
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
 
 }
-
-#endif /* VALGRINDMASSIFCONFIGPAGE_H_ */
