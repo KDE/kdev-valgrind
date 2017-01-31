@@ -34,13 +34,7 @@ class IView
 public:
     virtual ~IView();
 
-    QString name();
-    void setName(const QString& target, const QString& tool);
-
     virtual void setModel(IModel*) = 0;
-
-protected:
-    QString m_name;
 };
 
 }

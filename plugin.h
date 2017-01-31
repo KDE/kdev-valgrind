@@ -52,7 +52,7 @@ public:
     void jobFinished(KJob* job);
 
 signals:
-    void addView(IView* view);
+    void addView(IView* view, const QString& name);
 
 private:
     void runValgrind();

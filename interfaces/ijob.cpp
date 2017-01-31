@@ -286,8 +286,7 @@ void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
     IView* view = createView();
     if (view) {
         view->setModel(m_model);
-        view->setName(target(), tool());
-        emit m_plugin->addView(view);
+        emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
     }
 
     m_plugin->jobFinished(this);

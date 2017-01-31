@@ -26,7 +26,6 @@
 namespace valgrind
 {
 
-class MassifItem;
 class ModelItem;
 
 /**

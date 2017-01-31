@@ -26,15 +26,5 @@ IView::~IView()
 {
 }
 
-QString IView::name()
-{
-    return m_name;
-}
-
-void IView::setName(const QString& target, const QString& tool)
-{
-    m_name = QStringLiteral("%1 (%2)").arg(target).arg(tool);
-}
-
 }
 

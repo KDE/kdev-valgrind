@@ -53,10 +53,10 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
         removeTab(index);
     });
 
-    connect(plugin, &Plugin::addView, this, [this](IView* view){
+    connect(plugin, &Plugin::addView, this, [this](IView* view, const QString& name){
         Q_ASSERT(view);
 
-        addTab(dynamic_cast<QWidget*>(view), view->name());
+        addTab(dynamic_cast<QWidget*>(view), name);
         setCurrentWidget(dynamic_cast<QWidget*>(view));
         setMovable(true);
     });
