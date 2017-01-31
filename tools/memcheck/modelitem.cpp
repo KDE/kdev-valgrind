@@ -4,6 +4,7 @@
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
  * Copyright 2011 Sarie Lucas <lucas.sarie@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -25,24 +26,22 @@
 
 #include "debug.h"
 
-
-///////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-
 namespace valgrind
 {
 
 void MemcheckError::addStack()
 {
-    stacks.append(new MemcheckStack);
+    stacks.append(MemcheckStack{});
 }
 
 void MemcheckError::setValue(const QString& name, const QString& value)
 {
     if (name == "what")
         this->what = value;
+
     else if (name == "text")
         this->text = value;
+
     else if (name == "auxwhat")
         this->auxWhat = value;
 }
@@ -50,15 +49,15 @@ void MemcheckError::setValue(const QString& name, const QString& value)
 void MemcheckStack::setValue(const QString& name, const QString& value)
 {
     Q_UNUSED(value)
-    if (name == "frame") {
+
+    if (name == "frame")
         qCDebug(KDEV_VALGRIND) << "MemcheckStack::incomingData() Incoming data with frame name error";
-    }
 }
 
 
 void MemcheckStack::addFrame()
 {
-    frames.append(new MemcheckFrame);
+    frames.append(MemcheckFrame{});
 }
 
 void MemcheckFrame::setValue(const QString& name, const QString& value)

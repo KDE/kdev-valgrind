@@ -73,7 +73,7 @@ void MemcheckFakeModel::newElement(eElementType e)
         break;
 
     case startFrame:
-        m_errors.back()->stacks.last()->addFrame();
+        m_errors.back()->stacks.last().addFrame();
         break;
 
     default:
@@ -101,11 +101,11 @@ void MemcheckFakeModel::newData(eElementType e, const QString& name, const QStri
     }
 
     case frame:
-        m_errors.back()->stacks.last()->frames.last()->setValue(name, value);
+        m_errors.back()->stacks.last().frames.last().setValue(name, value);
         break;
 
     case stack:
-        m_errors.back()->stacks.last()->setValue(name, value);
+        m_errors.back()->stacks.last().setValue(name, value);
         break;
 
     default:
@@ -114,21 +114,21 @@ void MemcheckFakeModel::newData(eElementType e, const QString& name, const QStri
 }
 
 // Builds a problem from the frame
-KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame, bool showInstructionPointer)
+KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame& frame, bool showInstructionPointer)
 {
     KDevelop::IProblem::Ptr frameProblem(new ValgrindProblem);
 
     KDevelop::DocumentRange range;
-    range.setBothLines(frame->line - 1);
-    range.document = KDevelop::IndexedString(frame->location());
+    range.setBothLines(frame.line - 1);
+    range.document = KDevelop::IndexedString(frame.location());
 
     frameProblem->setFinalLocation(range);
     frameProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
     QString description;
     if (showInstructionPointer)
-        description = QStringLiteral("%1: ").arg(frame->instructionPointer);
-    description += frame->function;
+        description = QStringLiteral("%1: ").arg(frame.instructionPointer);
+    description += frame.function;
     frameProblem->setDescription(description);
 
     frameProblem->setSource(KDevelop::IProblem::Plugin);
@@ -137,12 +137,12 @@ KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame, bool showInst
 }
 
 // Builds a problem (with frames as diagnostics) from the stack
-KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack* stack, bool showInstructionPointer)
+KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack& stack, bool showInstructionPointer)
 {
     KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
     stackProblem->setSource(KDevelop::IProblem::Plugin);
 
-    foreach (const MemcheckFrame* frame, stack->frames) {
+    foreach (const MemcheckFrame& frame, stack.frames) {
         stackProblem->addDiagnostic(frameToProblem(frame, showInstructionPointer));
     }
 
@@ -178,7 +178,7 @@ void MemcheckFakeModel::storeError()
     problem->setDescription(what);
 
     // Add the stacks
-    foreach (const MemcheckStack* stack, error->stacks) {
+    foreach (const MemcheckStack& stack, error->stacks) {
         problem->addDiagnostic(stackToProblem(stack, showInstructionPointer));
     }
 

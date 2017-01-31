@@ -4,6 +4,7 @@
 * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
 * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
 * Copyright 2011 Sarie Lucas <lucas.sarie@gmail.com>
+* Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public
@@ -21,40 +22,12 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef _VALGRINDITEMIMPL_H_
-#define _VALGRINDITEMIMPL_H_
+#pragma once
 
-#include <QUrl>
 #include <QList>
-
-#include "interfaces/imodel.h"
 
 namespace valgrind
 {
-
-struct MemcheckError;
-struct MemcheckStack;
-struct MemcheckFrame;
-
-struct MemcheckError
-{
-    void addStack();
-    void setValue(const QString& name, const QString& value);
-
-    QList<MemcheckStack*> stacks;
-
-    QString what;
-    QString auxWhat;
-    QString text;
-};
-
-struct MemcheckStack
-{
-    void addFrame();
-    void setValue(const QString& name, const QString& value);
-
-    QList<MemcheckFrame*> frames;
-};
 
 struct MemcheckFrame
 {
@@ -72,6 +45,24 @@ struct MemcheckFrame
     QString file;
 };
 
-}
+struct MemcheckStack
+{
+    void addFrame();
+    void setValue(const QString& name, const QString& value);
 
-#endif
+    QList<MemcheckFrame> frames;
+};
+
+struct MemcheckError
+{
+    void addStack();
+    void setValue(const QString& name, const QString& value);
+
+    QList<MemcheckStack> stacks;
+
+    QString what;
+    QString auxWhat;
+    QString text;
+};
+
+}
