@@ -30,20 +30,11 @@
 namespace valgrind
 {
 
-class ValgrindProblem : public KDevelop::DetectedProblem
-{
-public:
-    ValgrindProblem() {}
-    ~ValgrindProblem() override {}
-
-    QString sourceString() const override { return QStringLiteral("Valgrind"); };
-};
-
 MemcheckFakeModel::MemcheckFakeModel(QObject* parent)
     : IModel(parent)
     , m_model(nullptr)
 {
-    KDevelop::ProblemModelSet *modelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
+    KDevelop::ProblemModelSet* modelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
     m_model = modelSet->findModel(QStringLiteral("Valgrind"));
     Q_ASSERT(m_model);
 
@@ -113,94 +104,9 @@ void MemcheckFakeModel::newData(eElementType e, const QString& name, const QStri
     }
 }
 
-// Builds a problem from the frame
-KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame& frame, bool showInstructionPointer)
-{
-    KDevelop::IProblem::Ptr frameProblem(new ValgrindProblem);
-
-    KDevelop::DocumentRange range;
-    range.setBothLines(frame.line - 1);
-    range.document = KDevelop::IndexedString(frame.location());
-
-    frameProblem->setFinalLocation(range);
-    frameProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
-
-    QString description;
-    if (showInstructionPointer)
-        description = QStringLiteral("%1: ").arg(frame.instructionPointer);
-    description += frame.function;
-    frameProblem->setDescription(description);
-
-    frameProblem->setSource(KDevelop::IProblem::Plugin);
-
-    return frameProblem;
-}
-
-// Builds a problem (with frames as diagnostics) from the stack
-KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack& stack, bool showInstructionPointer)
-{
-    KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
-    stackProblem->setSource(KDevelop::IProblem::Plugin);
-
-    foreach (const MemcheckFrame& frame, stack.frames) {
-        stackProblem->addDiagnostic(frameToProblem(frame, showInstructionPointer));
-    }
-
-    // Find a file/line pair for the stack
-    // It's tricky because not all frames have such a pair (library calls for example)
-    if (!stackProblem->diagnostics().isEmpty()) {
-        KDevelop::DocumentRange range;
-
-        foreach (const KDevelop::IProblem::Ptr frameProblem, stackProblem->diagnostics()) {
-            range = frameProblem->finalLocation();
-            if (!range.document.isEmpty())
-                break;
-        }
-
-        if (!range.document.isEmpty()) {
-            stackProblem->setFinalLocation(range);
-            stackProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
-        }
-    }
-
-    return stackProblem;
-}
-
 void MemcheckFakeModel::storeError()
 {
-    MemcheckError *error = m_errors.back();
-    QString what = error->what;
-    if (what.isEmpty())
-        what = error->text;
-
-    KDevelop::IProblem::Ptr problem(new ValgrindProblem);
-    problem->setSource(KDevelop::IProblem::Plugin);
-    problem->setDescription(what);
-
-    // Add the stacks
-    foreach (const MemcheckStack& stack, error->stacks) {
-        problem->addDiagnostic(stackToProblem(stack, showInstructionPointer));
-    }
-
-    // First stack gets the 'what' description.
-    // This stack is the one that shows the actual error
-    // Hence why the problem gets it's file/line pair from here
-    if (problem->diagnostics().size() >= 1) {
-        KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(0);
-        stackProblem->setDescription(what);
-
-        problem->setFinalLocation(stackProblem->finalLocation());
-        problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
-    }
-
-    // The second stack is an auxilliary stack, it helps diagnose the problem
-    // For example in case of an invalid read/write it shows where the deletion occured
-    if (problem->diagnostics().size() >= 2) {
-        KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(1);
-        stackProblem->setDescription(error->auxWhat);
-    }
-
-    m_problems.append(problem);
+    m_problems.append(m_errors.last()->toIProblem(showInstructionPointer));
     m_model->setProblems(m_problems);
 }
 

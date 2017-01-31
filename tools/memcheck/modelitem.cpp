@@ -26,39 +26,18 @@
 
 #include "debug.h"
 
+#include <shell/problem.h>
+
 namespace valgrind
 {
 
-void MemcheckError::addStack()
+struct ValgrindProblem : public KDevelop::DetectedProblem
 {
-    stacks.append(MemcheckStack{});
-}
+    ~ValgrindProblem() override {}
 
-void MemcheckError::setValue(const QString& name, const QString& value)
-{
-    if (name == "what")
-        this->what = value;
-
-    else if (name == "text")
-        this->text = value;
-
-    else if (name == "auxwhat")
-        this->auxWhat = value;
-}
-
-void MemcheckStack::setValue(const QString& name, const QString& value)
-{
-    Q_UNUSED(value)
-
-    if (name == "frame")
-        qCDebug(KDEV_VALGRIND) << "MemcheckStack::incomingData() Incoming data with frame name error";
-}
-
-
-void MemcheckStack::addFrame()
-{
-    frames.append(MemcheckFrame{});
-}
+    KDevelop::IProblem::Source source() const override { return KDevelop::IProblem::Plugin; }
+    QString sourceString() const override { return QStringLiteral("Valgrind"); };
+};
 
 void MemcheckFrame::setValue(const QString& name, const QString& value)
 {
@@ -81,12 +60,121 @@ void MemcheckFrame::setValue(const QString& name, const QString& value)
         line = value.toInt();
 }
 
-QString MemcheckFrame::location() const
+KDevelop::IProblem::Ptr MemcheckFrame::toIProblem(bool showInstructionPointer) const
 {
-    if (directory.isEmpty() && file.isEmpty())
-        return objectFile;
+    KDevelop::IProblem::Ptr frameProblem(new ValgrindProblem);
 
-    return directory + "/" + file;
+    KDevelop::DocumentRange range;
+    range.setBothLines(line - 1);
+
+    if (directory.isEmpty() && file.isEmpty())
+        range.document = KDevelop::IndexedString(objectFile);
+    else
+        range.document = KDevelop::IndexedString(directory + "/" + file);
+
+    frameProblem->setFinalLocation(range);
+    frameProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
+
+    QString description;
+    if (showInstructionPointer)
+        description = QStringLiteral("%1: ").arg(instructionPointer);
+    description += function;
+    frameProblem->setDescription(description);
+
+    return frameProblem;
+}
+
+void MemcheckStack::addFrame()
+{
+    frames.append(MemcheckFrame{});
+}
+
+void MemcheckStack::setValue(const QString& name, const QString& value)
+{
+    Q_UNUSED(value)
+
+    if (name == "frame")
+        qCDebug(KDEV_VALGRIND) << "MemcheckStack::setValue() Incoming data with frame name error";
+}
+
+KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) const
+{
+    KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
+
+    foreach (const MemcheckFrame& frame, frames) {
+        stackProblem->addDiagnostic(frame.toIProblem(showInstructionPointer));
+    }
+
+    // Find a file/line pair for the stack
+    // It's tricky because not all frames have such a pair (library calls for example)
+    if (!stackProblem->diagnostics().isEmpty()) {
+        KDevelop::DocumentRange range;
+
+        foreach (const KDevelop::IProblem::Ptr frameProblem, stackProblem->diagnostics()) {
+            range = frameProblem->finalLocation();
+            if (!range.document.isEmpty())
+                break;
+        }
+
+        if (!range.document.isEmpty()) {
+            stackProblem->setFinalLocation(range);
+            stackProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
+        }
+    }
+
+    return stackProblem;
+}
+
+void MemcheckError::addStack()
+{
+    stacks.append(MemcheckStack{});
+}
+
+void MemcheckError::setValue(const QString& name, const QString& value)
+{
+    if (name == "what")
+        this->what = value;
+
+    else if (name == "text")
+        this->text = value;
+
+    else if (name == "auxwhat")
+        this->auxWhat = value;
+}
+
+KDevelop::IProblem::Ptr MemcheckError::toIProblem(bool showInstructionPointer) const
+{
+    KDevelop::IProblem::Ptr problem(new ValgrindProblem);
+
+    if (what.isEmpty())
+        problem->setDescription(text);
+    else
+        problem->setDescription(what);
+
+    // Add the stacks
+    foreach (const MemcheckStack& stack, stacks) {
+        problem->addDiagnostic(stack.toIProblem(showInstructionPointer));
+    }
+
+    // First stack gets the problem's description.
+    // This stack is the one that shows the actual error
+    // Hence why the problem gets it's file/line pair from here
+    if (problem->diagnostics().size() >= 1) {
+        KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(0);
+        stackProblem->setDescription(problem->description());
+
+        problem->setFinalLocation(stackProblem->finalLocation());
+        problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
+    }
+
+    // The second stack is an auxiliary stack, it helps diagnose the problem
+    // For example in case of an invalid read/write it shows where the deletion happens
+    if (problem->diagnostics().size() >= 2) {
+        KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(1);
+        stackProblem->setDescription(auxWhat);
+    }
+
+    return problem;
 }
 
 }

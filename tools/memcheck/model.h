@@ -36,7 +36,7 @@ class ProblemModel;
 namespace valgrind
 {
 
-class MemcheckError;
+struct MemcheckError;
 
 // A fake model, all it does is creates problem instances and sends them to ProblemModel
 class MemcheckFakeModel : public IModel

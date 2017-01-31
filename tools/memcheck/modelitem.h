@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include <interfaces/iproblem.h>
+
 #include <QList>
 
 namespace valgrind
@@ -32,7 +34,8 @@ namespace valgrind
 struct MemcheckFrame
 {
     void setValue(const QString& name, const QString& value);
-    QString location() const;
+
+    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
 
     int line = 0;
 
@@ -50,6 +53,8 @@ struct MemcheckStack
     void addFrame();
     void setValue(const QString& name, const QString& value);
 
+    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
+
     QList<MemcheckFrame> frames;
 };
 
@@ -57,6 +62,8 @@ struct MemcheckError
 {
     void addStack();
     void setValue(const QString& name, const QString& value);
+
+    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
 
     QList<MemcheckStack> stacks;
 
