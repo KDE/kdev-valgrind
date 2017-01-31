@@ -107,26 +107,19 @@ KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) c
 {
     KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
 
+    KDevelop::DocumentRange range(KDevelop::DocumentRange::invalid());
     foreach (const MemcheckFrame& frame, frames) {
-        stackProblem->addDiagnostic(frame.toIProblem(showInstructionPointer));
-    }
+        auto frameProblem = frame.toIProblem(showInstructionPointer);
+        stackProblem->addDiagnostic(frameProblem);
 
-    // Find a file/line pair for the stack
-    // It's tricky because not all frames have such a pair (library calls for example)
-    if (!stackProblem->diagnostics().isEmpty()) {
-        KDevelop::DocumentRange range;
-
-        foreach (const KDevelop::IProblem::Ptr frameProblem, stackProblem->diagnostics()) {
+        if (!range.isValid() && !frame.file.isEmpty()) {
+            qDebug() << frame.file << frame.line << range.isValid() << range;
             range = frameProblem->finalLocation();
-            if (!range.document.isEmpty())
-                break;
-        }
-
-        if (!range.document.isEmpty()) {
-            stackProblem->setFinalLocation(range);
-            stackProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
         }
     }
+
+    stackProblem->setFinalLocation(range);
+    stackProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
     return stackProblem;
 }
