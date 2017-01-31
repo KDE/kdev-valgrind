@@ -65,38 +65,21 @@ void MemcheckFakeModel::newElement(eElementType e)
     switch (e) {
 
     case startError:
-        newStartError();
+        m_errors << new MemcheckError();
         break;
 
     case startStack:
-        newStack();
+        m_errors.back()->addStack();
         break;
 
     case startFrame:
-        newFrame();
+        m_errors.back()->lastStack()->addFrame();
         break;
 
     default:
         break;
     }
 }
-
-void MemcheckFakeModel::newStack()
-{
-    m_errors.back()->addStack();
-}
-
-void MemcheckFakeModel::newStartError()
-{
-    m_errors << new MemcheckError();
-}
-
-
-void MemcheckFakeModel::newFrame()
-{
-    m_errors.back()->lastStack()->addFrame();
-}
-
 
 void MemcheckFakeModel::newData(eElementType e, const QString& name, const QString& value)
 {

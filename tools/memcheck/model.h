@@ -47,10 +47,6 @@ public:
 
     QAbstractItemModel* abstractItemModel(int n) override;
 
-    void newStack();
-    void newFrame();
-    void newStartError();
-
     void newElement(IModel::eElementType) override;
     void newData(IModel::eElementType, const QString &name, const QString &value) override;
 
