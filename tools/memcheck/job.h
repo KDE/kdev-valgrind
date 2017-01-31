@@ -45,7 +45,6 @@ protected:
     IView* createView() override;
 
     QStringList m_xmlOutput;
-
 };
 
 }

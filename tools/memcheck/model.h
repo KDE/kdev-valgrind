@@ -50,6 +50,8 @@ public:
     void newElement(IModel::eElementType) override;
     void newData(IModel::eElementType, const QString &name, const QString &value) override;
 
+    bool showInstructionPointer; // FIXME
+
 private:
     // Converts the error to a problem and stores in ProblemModel
     void storeError();

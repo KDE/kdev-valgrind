@@ -27,6 +27,8 @@
 
 #include "debug.h"
 
+#include <interfaces/ilaunchconfiguration.h>
+#include <kconfiggroup.h>
 #include <KLocalizedString>
 
 #include <QRegularExpression>
@@ -42,6 +44,8 @@ MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QO
            plugin,
            parent)
 {
+    // FIXME
+    dynamic_cast<MemcheckFakeModel*>(m_model)->showInstructionPointer = cfg->config().readEntry("Memcheck Show Instruction Pointer", false);
 }
 
 MemcheckJob::~MemcheckJob()
@@ -85,10 +89,10 @@ void MemcheckJob::processEnded()
 void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     static const t_valgrind_cfg_argarray memcheck_args = {
-        {QStringLiteral("Memcheck Arguments"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Freelist Size"), QStringLiteral("--freelist-vol="), QStringLiteral("int")},
-        {QStringLiteral("Show Reachable"), QStringLiteral("--show-reachable="), QStringLiteral("bool")},
-        {QStringLiteral("Undef Value Errors"), QStringLiteral("--undef-value-errors="), QStringLiteral("bool")}
+        {QStringLiteral("Memcheck Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
+        {QStringLiteral("Memcheck Freelist Size"), QStringLiteral("--freelist-vol="), QStringLiteral("int")},
+        {QStringLiteral("Memcheck Show Reachable"), QStringLiteral("--show-reachable="), QStringLiteral("bool")},
+        {QStringLiteral("Memcheck Undef Value Errors"), QStringLiteral("--undef-value-errors="), QStringLiteral("bool")}
     };
 
     static const int count = sizeof(memcheck_args) / sizeof(*memcheck_args);

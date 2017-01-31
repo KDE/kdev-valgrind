@@ -20,7 +20,7 @@
       <item>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="1">
-         <widget class="QLineEdit" name="memcheckParameters"/>
+         <widget class="QLineEdit" name="extraParameters"/>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
@@ -54,7 +54,7 @@
            <string>E&amp;xtra parameters</string>
           </property>
           <property name="buddy">
-           <cstring>memcheckParameters</cstring>
+           <cstring>extraParameters</cstring>
           </property>
          </widget>
         </item>
@@ -91,10 +91,17 @@ p, li { white-space: pre-wrap; }
          <string>Controls whether Memcheck reports uses of undefined value errors.</string>
         </property>
         <property name="text">
-         <string>Undef Value Errors</string>
+         <string>Undef value errors</string>
         </property>
         <property name="checked">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showInstructionPointer">
+        <property name="text">
+         <string>Show instruction pointer</string>
         </property>
        </widget>
       </item>
@@ -116,6 +123,13 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>extraParameters</tabstop>
+  <tabstop>freeListSize</tabstop>
+  <tabstop>showReachable</tabstop>
+  <tabstop>undefValueErrors</tabstop>
+  <tabstop>showInstructionPointer</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

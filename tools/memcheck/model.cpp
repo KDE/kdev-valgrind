@@ -114,36 +114,37 @@ void MemcheckFakeModel::newData(eElementType e, const QString& name, const QStri
 }
 
 // Builds a problem from the frame
-KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame)
+KDevelop::IProblem::Ptr frameToProblem(const MemcheckFrame* frame, bool showInstructionPointer)
 {
     KDevelop::IProblem::Ptr frameProblem(new ValgrindProblem);
 
     KDevelop::DocumentRange range;
     range.setBothLines(frame->line - 1);
 
-    // Don't set the document if the filename or directory is empty
-    if (!frame->file.isEmpty() && !frame->dir.isEmpty()) {
-        QString file = frame->dir + QStringLiteral("/") + frame->file;
-        range.document = KDevelop::IndexedString(file);
-    }
+    range.document = KDevelop::IndexedString(frame->url());
 
     frameProblem->setFinalLocation(range);
     frameProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
-    frameProblem->setDescription(frame->fn);
+    QString description;
+    if (showInstructionPointer)
+        description = QStringLiteral("%1: ").arg(frame->instructionPointer);
+    description += frame->fn;
+    frameProblem->setDescription(description);
+
     frameProblem->setSource(KDevelop::IProblem::Plugin);
 
     return frameProblem;
 }
 
 // Builds a problem (with frames as diagnostics) from the stack
-KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack* stack)
+KDevelop::IProblem::Ptr stackToProblem(const MemcheckStack* stack, bool showInstructionPointer)
 {
     KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
     stackProblem->setSource(KDevelop::IProblem::Plugin);
 
     foreach (const MemcheckFrame* frame, stack->getFrames()) {
-        stackProblem->addDiagnostic(frameToProblem(frame));
+        stackProblem->addDiagnostic(frameToProblem(frame, showInstructionPointer));
     }
 
     // Find a file/line pair for the stack
@@ -179,7 +180,7 @@ void MemcheckFakeModel::storeError()
 
     // Add the stacks
     foreach (const MemcheckStack *stack, error->getStack()) {
-        problem->addDiagnostic(stackToProblem(stack));
+        problem->addDiagnostic(stackToProblem(stack, showInstructionPointer));
     }
 
     // First stack gets the 'what' description.
