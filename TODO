@@ -3,5 +3,7 @@
 
 - Add global setting for separate (or current as now) valgrind tools in the "Analyze" menu.
 
+- Unimplemented tools: helgrind
+
 + Move executables paths settings from launch configuration to global (KDevelop) config page and
   use KConfig for global settings.
