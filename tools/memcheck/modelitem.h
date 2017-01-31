@@ -25,7 +25,6 @@
 #define _VALGRINDITEMIMPL_H_
 
 #include <QUrl>
-#include <QHash>
 #include <QList>
 
 #include "interfaces/imodel.h"
@@ -41,12 +40,7 @@ class MemcheckItem : public ModelItem
 {
 
 public:
-
     ~MemcheckItem() override {}
-
-    virtual MemcheckItem* parent() const {
-        return nullptr;
-    }
 
     /*
      * Called when data related to the error has been parsed
@@ -60,21 +54,19 @@ class MemcheckError : public MemcheckItem
 public:
 
     MemcheckError();
-
     ~MemcheckError() override;
 
-    MemcheckStack *addStack();
+    MemcheckStack* addStack();
+    MemcheckStack* lastStack() const;
 
-    MemcheckStack *lastStack() const;
-
-    const QList<MemcheckStack *> &getStack() const;
+    const QList<MemcheckStack*> &getStack() const;
 
     void incomingData(const QString& name, const QString& value) override;
 
     void setKind(const QString& s);
 
-    int uniqueId;
-    int threadId;
+    int uniqueId; // FIXME remove ?
+    int threadId; // FIXME remove ?
 
     enum {
         Unknown,
@@ -93,38 +85,37 @@ public:
         Leak_IndirectlyLost,
         Leak_PossiblyLost,
         Leak_StillReachable
-    } m_kind;
+    } m_kind;  // FIXME remove ?
 
-    QString what, auxWhat, text;
-    int leakedBytes, leakedBlocks;
+    QString what;
+    QString auxWhat;
+    QString text;
+
+    int leakedBytes; // FIXME remove ?
+    int leakedBlocks; // FIXME remove ?
 
 private:
-    QList<MemcheckStack *> m_stack;
+    QList<MemcheckStack*> m_stack;
 };
 
 class MemcheckStack : public MemcheckItem
 {
 public:
-    explicit MemcheckStack(MemcheckError* parent);
-
+    MemcheckStack();
     ~MemcheckStack() override;
-
-    MemcheckError* parent() const override;
 
     void incomingData(const QString& name, const QString& value) override;
 
-    QString what() const{ return m_what; }
-    void setWhat(const QString &what){ m_what = what; }
+    QString what() const { return m_what; }
+    void setWhat(const QString& what) { m_what = what; }
 
-    MemcheckFrame *addFrame();
+    MemcheckFrame* addFrame();
+    MemcheckFrame* lastFrame() const;
 
-    MemcheckFrame *lastFrame() const;
-
-    const QList<MemcheckFrame *> &getFrames() const;
+    const QList<MemcheckFrame*> &getFrames() const;
 
 private:
     QList<MemcheckFrame*> m_frames;
-    MemcheckError* m_parent;
 
     // What is this stack about?
     QString m_what;
@@ -136,22 +127,21 @@ private:
 class MemcheckFrame : public MemcheckItem
 {
 public:
-
-    /**
-     * Takes a pointer on the parent stack
-     */
-    explicit MemcheckFrame(MemcheckStack* parent);
-
-    MemcheckStack* parent() const override;
+    MemcheckFrame();
 
     void incomingData(const QString& name, const QString& value) override;
 
     QUrl url() const;
 
-    int instructionPointer, line;
-    QString obj, fn, dir, file;
-    MemcheckStack* m_parent;
+    int line;
+
+    QString instructionPointer;
+    QString obj;
+    QString fn;
+    QString dir;
+    QString file;
 };
+
 }
 
-#endif /* _VALGRINDITEMIMPL_H */
+#endif

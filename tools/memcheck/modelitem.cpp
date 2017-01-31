@@ -106,7 +106,7 @@ void MemcheckError::setKind(const QString& s)
 
 MemcheckStack *MemcheckError::addStack()
 {
-    m_stack << new MemcheckStack(this);
+    m_stack << new MemcheckStack;
     MemcheckStack *stack = m_stack.back();
 
     if (m_stack.count() == 1) {
@@ -133,19 +133,13 @@ const QList<MemcheckStack *> &MemcheckError::getStack() const
 
 ////////////////////////
 
-MemcheckStack::MemcheckStack(MemcheckError *parent)
-    : m_parent(parent)
+MemcheckStack::MemcheckStack()
 {
 }
 
 
 MemcheckStack::~MemcheckStack()
 {
-}
-
-MemcheckError* MemcheckStack::parent() const
-{
-    return m_parent;
 }
 
 void MemcheckStack::incomingData(const QString& name, const QString& value)
@@ -159,7 +153,7 @@ void MemcheckStack::incomingData(const QString& name, const QString& value)
 
 MemcheckFrame *MemcheckStack::addFrame()
 {
-    m_frames << new MemcheckFrame(this);
+    m_frames << new MemcheckFrame();
     return m_frames.back();
 }
 
@@ -173,44 +167,41 @@ const QList<MemcheckFrame *> &MemcheckStack::getFrames() const
     return m_frames;
 }
 
-MemcheckFrame::MemcheckFrame(MemcheckStack* parent)
-    : instructionPointer(0)
-    , line(0)
-    , m_parent(parent)
+MemcheckFrame::MemcheckFrame()
+    : line(0)
+    , fn(QStringLiteral("???"))
 {
-}
-
-MemcheckStack* MemcheckFrame::parent() const
-{
-    return m_parent;
 }
 
 void MemcheckFrame::incomingData(const QString& name, const QString& value)
 {
     if (name == "ip")
-        this->instructionPointer = value.toInt(nullptr, 16);
+        instructionPointer = value;
     else if (name == "obj")
-        this->obj = value;
+        obj = value;
     else if (name == "fn")
-        this->fn = value;
+        fn = value;
     else if (name == "dir")
-        this->dir = value;
+        dir = value;
     else if (name == "file")
-        this->file = value;
+        file = value;
     else if (name == "line")
-        this->line = value.toInt();
+        line = value.toInt();
 }
 
 QUrl MemcheckFrame::url() const
 {
-    if (dir.isEmpty() && file.isEmpty())
-        return QUrl();
+    if (dir.isEmpty() && file.isEmpty()) {
+        if (obj.isEmpty())
+            return QUrl();
+
+        return QUrl::fromLocalFile(obj);
+    }
 
     QUrl base = QUrl::fromLocalFile(dir);
     base.setPath(base.path() + '/');
-    QUrl url = base.resolved(QUrl(file));
 
-    return url;
+    return base.resolved(file);
 }
 
 }
