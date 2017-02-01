@@ -40,7 +40,7 @@ public:
 protected:
     void processEnded() override;
     void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
-    IView* createView() override;
+    QWidget* createView() override;
 
 private:
     QString m_outputFile;

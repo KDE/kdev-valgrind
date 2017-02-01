@@ -35,7 +35,6 @@ class ProblemModel;
 namespace valgrind
 {
 
-class IView;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -52,7 +51,7 @@ public:
     void jobFinished(KJob* job);
 
 signals:
-    void addView(IView* view, const QString& name);
+    void addView(QWidget* view, const QString& name);
 
 private:
     void runValgrind();

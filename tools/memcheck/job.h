@@ -42,7 +42,7 @@ protected:
 
     void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
 
-    IView* createView() override;
+    QWidget* createView() override;
 
     QStringList m_xmlOutput;
     bool m_showInstructionPointer;

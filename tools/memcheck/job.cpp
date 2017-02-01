@@ -96,7 +96,7 @@ void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args += QStringLiteral("--show-reachable=") + argValue(MemcheckSettings::showReachable(cfg));
 }
 
-IView* MemcheckJob::createView()
+QWidget* MemcheckJob::createView()
 {
     return nullptr;
 }

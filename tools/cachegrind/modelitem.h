@@ -19,8 +19,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _CACHEGRINDITEM_H_
-#define _CACHEGRINDITEM_H_
+#pragma once
 
 #include <QString>
 #include <QVariant>
@@ -34,7 +33,6 @@ namespace valgrind
 
 class CachegrindItem : public ModelItem
 {
-
 public:
 
     CachegrindItem();
@@ -95,5 +93,3 @@ private:
 };
 
 }
-
-#endif /* _CACHEGRINDITEM_H_ */

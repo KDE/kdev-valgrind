@@ -27,7 +27,6 @@
 #include "ijob.h"
 
 #include "imodel.h"
-#include "iview.h"
 
 #include "debug.h"
 #include "plugin.h"
@@ -246,11 +245,9 @@ void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
     processEnded();
     emitResult();
 
-    IView* view = createView();
-    if (view) {
-        view->setModel(m_model);
+    QWidget* view = createView();
+    if (view)
         emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
-    }
 
     m_plugin->jobFinished(this);
 }

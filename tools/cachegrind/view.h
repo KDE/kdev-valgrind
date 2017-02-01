@@ -21,19 +21,17 @@
 
  */
 
-#ifndef CACHEGRINDVIEW_H
-#define CACHEGRINDVIEW_H
+#pragma once
 
 #include <QTreeView>
 
-#include "interfaces/iview.h"
-
 namespace valgrind
 {
-class CachegrindView : public QTreeView, public IView
-{
-    Q_OBJECT
 
+class IModel;
+
+class CachegrindView : public QTreeView
+{
 public:
     CachegrindView();
     ~CachegrindView() override;
@@ -41,13 +39,13 @@ public:
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(IModel* m) override;
+    void setModel(IModel* m);
 
 protected:
-  void MousePressEvent(QMouseEvent *event);
+    void MousePressEvent(QMouseEvent* event);
 
 private:
     void openDocument(const QModelIndex& index);
 };
+
 }
-#endif // CACHEGRINDVIEW_H

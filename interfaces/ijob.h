@@ -31,6 +31,7 @@
 
 class KConfigGroup;
 class QFile;
+class QWidget;
 
 namespace KDevelop
 {
@@ -43,7 +44,6 @@ namespace valgrind
 {
 
 class IModel;
-class IView;
 class Plugin;
 
 class IJob : public KDevelop::OutputExecuteJob
@@ -89,7 +89,7 @@ protected:
 
     QStringList buildCommandLine() const;
 
-    virtual IView* createView() = 0;
+    virtual QWidget* createView() = 0;
 
     KDevelop::ILaunchConfiguration* m_launchcfg;
     QString m_tool;

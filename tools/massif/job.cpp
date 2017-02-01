@@ -106,9 +106,11 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args += QStringLiteral("--stacks=") + argValue(MassifSettings::profileStack(cfg));
 }
 
-IView* MassifJob::createView()
+QWidget* MassifJob::createView()
 {
-    return new MassifView;
+    auto view = new MassifView;
+    view->setModel(m_model);
+    return view;
 }
 
 }

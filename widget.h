@@ -25,7 +25,6 @@
 namespace valgrind
 {
 
-class IView;
 class Plugin;
 
 class Widget : public QTabWidget

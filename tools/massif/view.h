@@ -19,19 +19,17 @@
 
  */
 
-#ifndef MASSIFVIEW_H
-#define MASSIFVIEW_H
+#pragma once
 
 #include <QTreeView>
 
-#include "interfaces/iview.h"
-
 namespace valgrind
 {
-class MassifView : public QTreeView, public IView
-{
-    Q_OBJECT
 
+class IModel;
+
+class MassifView : public QTreeView
+{
 public:
     MassifView();
     ~MassifView() override;
@@ -39,10 +37,10 @@ public:
     using QTreeView::setModel;
     using QTreeView::model;
 
-    void setModel(IModel * m) override;
+    void setModel(IModel* m);
 
 private:
     void openDocument(const QModelIndex& index);
 };
+
 }
-#endif // MASSIFVIEW_H

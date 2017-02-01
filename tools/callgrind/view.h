@@ -20,30 +20,30 @@
 
  */
 
-#ifndef CALLGRINDVIEW_H
-#define CALLGRINDVIEW_H
+#pragma once
 
 #include <QWidget>
 #include <QItemSelection>
 
 #include "modelitem.h"
 
-#include "interfaces/iview.h"
-
-
 class QResizeEvent;
 class QSortFilterProxyModel;
 
 namespace valgrind
 {
+
 namespace Ui
 {
+
 class CallgrindView;
+
 }
 
+class IModel;
 class CallgrindModel;
 
-class CallgrindView : public QWidget, public IView
+class CallgrindView : public QWidget
 {
     Q_OBJECT
 
@@ -51,29 +51,28 @@ public:
     explicit CallgrindView(QWidget* parent = nullptr);
     ~CallgrindView() override;
 
-    void setModel(IModel* m) override;
+    void setModel(IModel* m);
 
-public slots:
     void percentInformationClicked(bool enable);
 
-    void selectionOnFctListChanged(const QItemSelection &, const QItemSelection &);
-    void selectionOnCallerListChanged(const QItemSelection &, const QItemSelection &);
+    void selectionOnFctListChanged(const QItemSelection&, const QItemSelection&);
+    void selectionOnCallerListChanged(const QItemSelection&, const QItemSelection&);
 
 private:
-    Ui::CallgrindView                         *ui;
+    Ui::CallgrindView* ui;
 
-    CallgrindModel                            *m_model;
+    CallgrindModel* m_model;
 
-    QSortFilterProxyModel                     *m_callerProxyModel;
-    QSortFilterProxyModel                     *m_calleeProxyModel;
+    QSortFilterProxyModel* m_callerProxyModel;
+    QSortFilterProxyModel* m_calleeProxyModel;
 
-    CallgrindCallstackItem                    *m_functionListSelectedItem;
+    CallgrindCallstackItem* m_functionListSelectedItem;
 
     CallgrindCallstackItem::numberDisplayMode m_informationDisplayMode;
 
-    void  updateInformationTab(CallgrindCallstackItem *item);
-    void  updateCallerTab(CallgrindCallstackItem *item);
-    void  updateCalleeTab(CallgrindCallstackItem *item);
+    void updateInformationTab(CallgrindCallstackItem* item);
+    void updateCallerTab(CallgrindCallstackItem* item);
+    void updateCalleeTab(CallgrindCallstackItem* item);
 };
+
 }
-#endif // CALLGRINDVIEW_H

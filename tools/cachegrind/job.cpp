@@ -96,9 +96,11 @@ void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args += QStringLiteral("--branch-sim=") + argValue(CachegrindSettings::branchSimulation(cfg));
 }
 
-IView* CachegrindJob::createView()
+QWidget* CachegrindJob::createView()
 {
-    return new CachegrindView;
+    auto view = new CachegrindView;
+    view->setModel(m_model);
+    return view;
 }
 
 }
