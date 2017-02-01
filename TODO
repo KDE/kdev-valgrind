@@ -1,5 +1,7 @@
 
-- Fix crash when cachegrind tool called.
+? Fix crash when cachegrind tool called (now works without crash).
+
+? Remove KCachegrind launch from cachegrind tool (as useless)
 
 - Add global setting for separate (or current as now) valgrind tools in the "Analyze" menu.
 
