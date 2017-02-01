@@ -27,25 +27,16 @@
 namespace valgrind
 {
 
-class CallgrindItem;
 class CallgrindCallstackItem;
+class CallgrindModel;
 
-/**
- * A class which parses callgrind's output
- * and emits signals when items are parsed
- */
 class CallgrindParser : public QObject
 {
-    Q_OBJECT
-
 public:
     explicit CallgrindParser(QObject* parent = nullptr);
     ~CallgrindParser() override;
 
-    void parse(QByteArray& data);
-
-signals:
-    void newItem(CallgrindCallstackItem*);
+    void parse(QByteArray& data, CallgrindModel* model);
 
 private:
     /**
@@ -57,6 +48,8 @@ private:
     void parseNewCallgrindItem(const QString& buffer, bool totalProgram = false);
 
     CallgrindCallstackItem* getOrCreateNewItem(const QString& fullDescName);
+
+    CallgrindModel* m_model;
 
     QList<CallgrindCallstackItem*> m_caller;
     CallgrindCallstackItem* m_lastCall;

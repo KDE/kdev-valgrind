@@ -58,30 +58,25 @@ CallgrindJob::~CallgrindJob()
 
 void CallgrindJob::processEnded()
 {
-    KConfigGroup config = m_launchcfg->config();
-
     QString caPath = KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
     QStringList args;
+    QByteArray caOutput;
+
     args += m_outputFile;
     args += QStringLiteral("--tree=both");
+    executeProcess(caPath, args, caOutput);
 
-    {
-        CallgrindParser parser;
-        connect(&parser, &CallgrindParser::newItem, m_model, &CallgrindModel::newItem);
+    CallgrindParser parser;
+    parser.parse(caOutput, m_model);
 
-        QByteArray caOutput;
-        executeProcess(caPath, args, caOutput);
-        parser.parse(caOutput);
-    }
-
-    if (CallgrindSettings::launchKCachegrind(config)) {
+    if (CallgrindSettings::launchKCachegrind(m_launchcfg->config())) {
         args.clear();
         args += m_outputFile;
 
-        QString kcg = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
+        QString kcgPath = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 
         // Proxy used to remove file at the end of KCachegrind
-        new QFileProxyRemove(kcg, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
+        new QFileProxyRemove(kcgPath, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
     else
         QFile::remove(m_outputFile);

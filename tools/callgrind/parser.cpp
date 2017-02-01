@@ -23,8 +23,9 @@
 
 #include "parser.h"
 
-#include "modelitem.h"
 #include "debug.h"
+#include "model.h"
+#include "modelitem.h"
 
 #include <QBuffer>
 
@@ -33,6 +34,7 @@ namespace valgrind
 
 CallgrindParser::CallgrindParser(QObject* parent)
     : QObject(parent)
+    , m_model(nullptr)
     , m_lastCall(nullptr)
     , m_numCalls(0)
     , m_totalCountItem(nullptr)
@@ -129,7 +131,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
                 m_numCalls = 0;
                 m_allFunctions.push_back(csItem);
                 m_lastCall = csItem;
-                emit newItem(csItem);
+                m_model->newItem(csItem);
                 break;
 
             // a caller
@@ -156,7 +158,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
                     iEnd = buffer.length();
 
             csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
-            emit newItem(csItem);
+            m_model->newItem(csItem);
         }
 
         for (int j = 0; j < dataList.size(); ++j) {
@@ -172,7 +174,7 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
         }
 
         m_totalCountItem = totalCount;
-        emit newItem(totalCount);
+        m_model->newItem(totalCount);
     }
 }
 
@@ -207,8 +209,11 @@ enum CallgrindParserState
     ParseProgram
 };
 
-void CallgrindParser::parse(QByteArray& baData)
+void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
 {
+    Q_ASSERT(model);
+    m_model = model;
+
     CallgrindParserState parserState(ParseRootModel);
     QBuffer data(&baData);
     QString buffer;
@@ -247,7 +252,8 @@ void CallgrindParser::parse(QByteArray& baData)
         }
     }
 
-    emit newItem(nullptr);
+    m_model->newItem(nullptr);
+    m_model = nullptr;
 }
 
 }

@@ -45,8 +45,6 @@ class CallgrindModel;
 
 class CallgrindView : public QWidget
 {
-    Q_OBJECT
-
 public:
     explicit CallgrindView(QWidget* parent = nullptr);
     ~CallgrindView() override;
