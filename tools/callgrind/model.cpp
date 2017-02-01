@@ -329,7 +329,7 @@ bool CallgrindFunctionsListTModel::greatherThan(const QVariant &left, const QVar
 iCachegrindItem::Columns   CallgrindFunctionsListTModel::columnToPosInModelList(int col) const
 {
     //qCDebug(KDEV_VALGRIND) << "col " << col;
-    switch(col)
+    switch (col)
     {
     case 0:
         return iCachegrindItem::CallName;
