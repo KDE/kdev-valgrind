@@ -89,6 +89,9 @@ protected:
                          int modeArgsCount,
                          KConfigGroup& config) const;
 
+    QString argValue(bool value) const;
+    QString argValue(int value) const;
+
     int executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput);
 
     QStringList buildCommandLine() const;

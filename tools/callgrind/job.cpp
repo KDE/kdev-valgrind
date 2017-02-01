@@ -90,16 +90,11 @@ void CallgrindJob::processEnded()
 
 void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
-    static const t_valgrind_cfg_argarray cgArgs = {
-        {QStringLiteral("Callgrind Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Callgrind Cache Simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
-        {QStringLiteral("Callgrind Branch Simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
-    };
-    static const int count = sizeof(cgArgs) / sizeof(*cgArgs);
+    args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
 
-    args << QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
-
-    processModeArgs(args, cgArgs, count, cfg);
+    args += CallgrindSettings::extraParameters(cfg);
+    args += QStringLiteral("--cache-sim=") + argValue(CallgrindSettings::cacheSimulation(cfg));
+    args += QStringLiteral("--branch-sim=") + argValue(CallgrindSettings::branchSimulation(cfg));
 }
 
 IView* CallgrindJob::createView()

@@ -190,14 +190,19 @@ void IJob::processModeArgs(
             val.sprintf("%d.0", n);
         }
 
-        else if (argType == QStringLiteral("float")) {
-            int n = config.readEntry(modeArgs[i][0], 1);
-            val.sprintf("%d.0", n);
-        }
-
         if (!val.isEmpty())
             out += QString(modeArgs[i][1]) + val;
     }
+}
+
+QString IJob::argValue(bool value) const
+{
+    return value ? QStringLiteral("yes") : QStringLiteral("no");
+}
+
+QString IJob::argValue(int value) const
+{
+    return QString::number(value);
 }
 
 QStringList IJob::buildCommandLine() const
@@ -219,6 +224,8 @@ QStringList IJob::buildCommandLine() const
 
     processModeArgs(result, genericArgs, genericArgsCount, config);
     addToolArgs(result, config);
+
+    result.removeAll(QStringLiteral(""));
 
     return result;
 }

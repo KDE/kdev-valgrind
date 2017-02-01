@@ -86,19 +86,13 @@ void MemcheckJob::processEnded()
 
 void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
-    static const t_valgrind_cfg_argarray memcheck_args = {
-        {QStringLiteral("Memcheck Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Memcheck Freelist Size"), QStringLiteral("--freelist-vol="), QStringLiteral("int")},
-        {QStringLiteral("Memcheck Show Reachable"), QStringLiteral("--show-reachable="), QStringLiteral("bool")},
-        {QStringLiteral("Memcheck Undef Value Errors"), QStringLiteral("--undef-value-errors="), QStringLiteral("bool")}
-    };
+    args += QStringLiteral("--xml=yes");
+    args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
 
-    static const int count = sizeof(memcheck_args) / sizeof(*memcheck_args);
-
-    args << QStringLiteral("--xml=yes");
-    args << QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
-
-    processModeArgs(args, memcheck_args, count, cfg);
+    args += MemcheckSettings::extraParameters(cfg);
+    args += QStringLiteral("--freelist-vol=") + argValue(MemcheckSettings::freeListSize(cfg));
+    args += QStringLiteral("--undef-value-errors=") + argValue(MemcheckSettings::undefValueErrors(cfg));
+    args += QStringLiteral("--show-reachable=") + argValue(MemcheckSettings::showReachable(cfg));
 }
 
 IView* MemcheckJob::createView()

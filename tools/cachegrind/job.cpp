@@ -88,16 +88,11 @@ void CachegrindJob::processEnded()
 
 void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
-    static const t_valgrind_cfg_argarray cgArgs = {
-        {QStringLiteral("Cachegrind Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Cachegrind Cache Simulation"), QStringLiteral("--cache-sim="), QStringLiteral("bool")},
-        {QStringLiteral("Cachegrind Branch Simulation"), QStringLiteral("--branch-sim="), QStringLiteral("bool")}
-    };
-    static const int count = sizeof(cgArgs) / sizeof(*cgArgs);
+    args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
 
-    args << QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
-
-    processModeArgs(args, cgArgs, count, cfg);
+    args += CachegrindSettings::extraParameters(cfg);
+    args += QStringLiteral("--cache-sim=") + argValue(CachegrindSettings::cacheSimulation(cfg));
+    args += QStringLiteral("--branch-sim=") + argValue(CachegrindSettings::branchSimulation(cfg));
 }
 
 IView* CachegrindJob::createView()

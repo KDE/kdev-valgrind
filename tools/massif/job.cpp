@@ -84,21 +84,7 @@ void MassifJob::processEnded()
 
 void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
-    static const t_valgrind_cfg_argarray massifArgs = {
-        {QStringLiteral("Massif Extra Parameters"), QStringLiteral(""), QStringLiteral("str")},
-        {QStringLiteral("Massif Snapshot Tree Depth"), QStringLiteral("--depth="), QStringLiteral("int")},
-        {QStringLiteral("Massif Threshold"), QStringLiteral("--threshold="), QStringLiteral("float")},
-        {QStringLiteral("Massif Peak Inaccuracy"), QStringLiteral("--peak-inaccuracy="), QStringLiteral("float")},
-        {QStringLiteral("Massif Maximum Snapshots"), QStringLiteral("--max-snapshots="), QStringLiteral("int")},
-        {QStringLiteral("Massif Detailed Snapshots Frequency"), QStringLiteral("--detailed-freq="), QStringLiteral("int")},
-        {QStringLiteral("Massif Profile Heap"), QStringLiteral("--heap="), QStringLiteral("bool")},
-        {QStringLiteral("Massif Profile Stack"), QStringLiteral("--stacks="), QStringLiteral("bool")}
-    };
-    static const int count = sizeof(massifArgs) / sizeof(*massifArgs);
-
-
     int tu = MassifSettings::timeUnit(cfg);
-
     if (tu == 0)
         args += QStringLiteral("--time-unit=i");
 
@@ -110,7 +96,14 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
 
-    processModeArgs(args, massifArgs, count, cfg);
+    args += MassifSettings::extraParameters(cfg);
+    args += QStringLiteral("--depth=") + argValue(MassifSettings::detailedSnapshotsFrequency(cfg));
+    args += QStringLiteral("--threshold=") + argValue(MassifSettings::threshold(cfg));
+    args += QStringLiteral("--peak-inaccuracy=") + argValue(MassifSettings::peakInaccuracy(cfg));
+    args += QStringLiteral("--max-snapshots=") + argValue(MassifSettings::maximumSnapshots(cfg));
+    args += QStringLiteral("--detailed-freq=") + argValue(MassifSettings::detailedSnapshotsFrequency(cfg));
+    args += QStringLiteral("--heap=") + argValue(MassifSettings::profileHeap(cfg));
+    args += QStringLiteral("--stacks=") + argValue(MassifSettings::profileStack(cfg));
 }
 
 IView* MassifJob::createView()
