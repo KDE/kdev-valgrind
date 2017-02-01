@@ -337,4 +337,3 @@ CallgrindCallstackItem::numberDisplayMode CallgrindFunctionsListTModel::columnTo
 }
 
 }
-

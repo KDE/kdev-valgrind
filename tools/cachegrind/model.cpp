@@ -223,5 +223,5 @@ CachegrindItem* CachegrindModel::itemForIndex(const QModelIndex& index) const
         return static_cast<CachegrindItem*>(index.internalPointer());
     return nullptr;
 }
-}
 
+}

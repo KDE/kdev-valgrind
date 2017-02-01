@@ -65,5 +65,5 @@ void CachegrindView::openDocument(const QModelIndex& index)
         }
     }
 }
-}
 
+}

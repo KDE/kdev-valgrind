@@ -157,4 +157,3 @@ QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int r
 }
 
 }
-

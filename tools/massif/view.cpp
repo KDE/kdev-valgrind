@@ -54,4 +54,3 @@ void MassifView::openDocument(const QModelIndex & index)
 }
 
 }
-

@@ -192,4 +192,3 @@ void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const 
 }
 
 }
-
