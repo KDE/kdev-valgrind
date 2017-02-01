@@ -23,8 +23,10 @@
 */
 
 #include "job.h"
+
 #include "model.h"
 #include "parser.h"
+#include "settings.h"
 #include "view.h"
 
 #include "plugin.h"
@@ -73,7 +75,7 @@ void CallgrindJob::processEnded()
         parser.parse(caOutput);
     }
 
-    if (config.readEntry(QStringLiteral("Callgrind Launch KCachegrind"), false)) {
+    if (CallgrindSettings::launchKCachegrind(config)) {
         args.clear();
         args += m_outputFile;
 

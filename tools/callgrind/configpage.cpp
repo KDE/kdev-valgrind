@@ -21,6 +21,8 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
+#include "settings.h"
+
 #include <KConfigGroup>
 
 namespace valgrind
@@ -52,19 +54,19 @@ void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelo
 {
     QSignalBlocker blocker(this);
 
-    ui->extraParameters->setText(cfg.readEntry("Callgrind Extra Parameters", ""));
-    ui->cacheSimulation->setChecked(cfg.readEntry("Callgrind Cache Simulation", false));
-    ui->branchSimulation->setChecked(cfg.readEntry("Callgrind Branch Simulation", false));
-    ui->launchKCachegrind->setChecked(cfg.readEntry("Callgrind Launch KCachegrind", false));
+    ui->extraParameters->setText(CallgrindSettings::extraParameters(cfg));
+    ui->cacheSimulation->setChecked(CallgrindSettings::cacheSimulation(cfg));
+    ui->branchSimulation->setChecked(CallgrindSettings::branchSimulation(cfg));
+    ui->launchKCachegrind->setChecked(CallgrindSettings::launchKCachegrind(cfg));
 }
 
 
 void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    cfg.writeEntry("Callgrind Extra Parameters", ui->extraParameters->text());
-    cfg.writeEntry("Callgrind Cache Simulation", ui->cacheSimulation->isChecked());
-    cfg.writeEntry("Callgrind Branch Simulation", ui->branchSimulation->isChecked());
-    cfg.writeEntry("Callgrind Launch KCachegrind", ui->launchKCachegrind->isChecked());
+    CallgrindSettings::setExtraParameters(cfg, ui->extraParameters->text());
+    CallgrindSettings::setCacheSimulation(cfg, ui->cacheSimulation->isChecked());
+    CallgrindSettings::setBranchSimulation(cfg, ui->branchSimulation->isChecked());
+    CallgrindSettings::setLaunchKCachegrind(cfg, ui->launchKCachegrind->isChecked());
 }
 
 CallgrindConfigPageFactory::CallgrindConfigPageFactory()
