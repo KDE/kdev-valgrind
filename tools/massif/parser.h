@@ -21,29 +21,18 @@
 
 #pragma once
 
-#include <QObject>
+#include <QString>
 
 namespace valgrind
 {
 
-class MassifItem;
+class MassifModel;
 
-/**
- * A class which parses massif's output
- * and emits signals when items are parsed
- */
-class MassifParser : public QObject
+namespace MassifParser
 {
-    Q_OBJECT
 
-public:
-    explicit MassifParser(QObject* parent = nullptr);
-    ~MassifParser() override;
+void parse(const QString& fileName, MassifModel* model);
 
-    void parse(const QString& fileName);
-
-signals:
-    void newItem(MassifItem*);
 };
 
 }

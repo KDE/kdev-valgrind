@@ -29,15 +29,8 @@
 namespace valgrind
 {
 
-class MassifItem;
-
-/**
- * A class that represents the item model for massif
- */
 class MassifModel : public QAbstractItemModel
 {
-    Q_OBJECT
-
 public:
     explicit MassifModel(QObject* parent = nullptr);
     ~MassifModel() override;
@@ -61,9 +54,6 @@ public:
      * Resets the model content
      */
     void reset();
-
-signals:
-    void modelChanged();
 
 private:
     MassifItem* m_rootItem;

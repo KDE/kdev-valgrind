@@ -21,7 +21,7 @@
 
 #include "parser.h"
 
-#include "modelitem.h"
+#include "model.h"
 
 #include <kmessagebox.h>
 #include <QFile>
@@ -29,17 +29,13 @@
 namespace valgrind
 {
 
-MassifParser::MassifParser(QObject* parent)
-    : QObject(parent)
+namespace MassifParser
 {
-}
 
-MassifParser::~MassifParser()
+void parse(const QString& fileName, MassifModel* model)
 {
-}
+    Q_ASSERT(model);
 
-void MassifParser::parse(const QString& fileName)
-{
     QFile data(fileName);
     QString m_buffer;
     QString m_workingDir;
@@ -85,11 +81,13 @@ void MassifParser::parse(const QString& fileName)
                 }
 
             // this is the last info, send the item to the model
-            emit newItem(m_item);
+            model->newItem(m_item);
         }
     }
 
-    emit newItem(nullptr);
+    model->newItem(nullptr);
+}
+
 }
 
 }

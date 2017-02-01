@@ -51,10 +51,8 @@ MassifModel::~MassifModel()
 
 void MassifModel::newItem(MassifItem* i)
 {
-    if (!i) {
-        emit modelChanged();
+    if (!i)
         return;
-    }
 
     i->setParent(m_rootItem);
     m_rootItem->appendChild(i);

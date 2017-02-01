@@ -63,13 +63,9 @@ MassifJob::~MassifJob()
 
 void MassifJob::processEnded()
 {
-    KConfigGroup config = m_launchcfg->config();
+    MassifParser::parse(m_outputFile, m_model);
 
-    MassifParser parser;
-    connect(&parser, &MassifParser::newItem, m_model, &MassifModel::newItem);
-    parser.parse(m_outputFile);
-
-    if (MassifSettings::launchVisualizer(config)) {
+    if (MassifSettings::launchVisualizer(m_launchcfg->config())) {
         QStringList args;
         args += m_outputFile;
         QString mv = KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
