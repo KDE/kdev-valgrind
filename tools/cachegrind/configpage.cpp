@@ -35,10 +35,15 @@ CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
     ui = new Ui::CachegrindConfig();
     ui->setupUi(this);
 
+    ui->messageWidget->setWordWrap(true);
+
     connect(ui->extraParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
+
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
-    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
+
+    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::check);
+    connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::check);
 }
 
 QString CachegrindConfigPage::title() const
@@ -58,7 +63,8 @@ void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevel
     ui->extraParameters->setText(CachegrindSettings::extraParameters(cfg));
     ui->cacheSimulation->setChecked(CachegrindSettings::cacheSimulation(cfg));
     ui->branchSimulation->setChecked(CachegrindSettings::branchSimulation(cfg));
-    ui->launchKCachegrind->setChecked(CachegrindSettings::launchKCachegrind(cfg));
+
+    check();
 }
 
 void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
@@ -66,7 +72,16 @@ void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProj
     CachegrindSettings::setExtraParameters(cfg, ui->extraParameters->text());
     CachegrindSettings::setCacheSimulation(cfg, ui->cacheSimulation->isChecked());
     CachegrindSettings::setBranchSimulation(cfg, ui->branchSimulation->isChecked());
-    CachegrindSettings::setLaunchKCachegrind(cfg, ui->launchKCachegrind->isChecked());
+}
+
+void CachegrindConfigPage::check()
+{
+    if (!ui->cacheSimulation->isChecked() && !ui->branchSimulation->isChecked()) {
+        ui->messageWidget->setVisible(true);
+        return;
+    }
+
+    ui->messageWidget->setVisible(false);
 }
 
 CachegrindConfigPageFactory::CachegrindConfigPageFactory()

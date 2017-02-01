@@ -37,7 +37,7 @@ void setExtraParameters(KConfigGroup& cfg, const QString& parameters)
 
 bool cacheSimulation(const KConfigGroup& cfg)
 {
-    return cfg.readEntry(QStringLiteral("Cachegrind Cache Simulation"), false);
+    return cfg.readEntry(QStringLiteral("Cachegrind Cache Simulation"), true);
 }
 
 void setCacheSimulation(KConfigGroup& cfg, bool value)
@@ -53,16 +53,6 @@ bool branchSimulation(const KConfigGroup& cfg)
 void setBranchSimulation(KConfigGroup& cfg, bool value)
 {
     cfg.writeEntry(QStringLiteral("Cachegrind Branch Simulation"), value);
-}
-
-bool launchKCachegrind(const KConfigGroup& cfg)
-{
-    return cfg.readEntry(QStringLiteral("Cachegrind Launch KCachegrind"), false);
-}
-
-void setLaunchKCachegrind(KConfigGroup& cfg, bool value)
-{
-    cfg.writeEntry(QStringLiteral("Cachegrind Launch KCachegrind"), value);
 }
 
 }

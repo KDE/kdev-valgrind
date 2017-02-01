@@ -75,16 +75,18 @@
        </widget>
       </item>
       <item>
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="launchKCachegrind">
+       <widget class="KMessageWidget" name="messageWidget">
         <property name="text">
-         <string>Launch KCachegrind after finish</string>
+         <string>You cannot disable both cache and branch simulation, as that would leave Cachegrind with no information to collect.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+        <property name="closeButtonVisible">
+         <bool>false</bool>
+        </property>
+        <property name="messageType">
+         <enum>KMessageWidget::Warning</enum>
         </property>
        </widget>
       </item>
@@ -93,6 +95,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -36,9 +36,6 @@ void setCacheSimulation(KConfigGroup& cfg, bool value);
 bool branchSimulation(const KConfigGroup& cfg);
 void setBranchSimulation(KConfigGroup& cfg, bool value);
 
-bool launchKCachegrind(const KConfigGroup& cfg);
-void setLaunchKCachegrind(KConfigGroup& cfg, bool value);
-
 }
 
 }

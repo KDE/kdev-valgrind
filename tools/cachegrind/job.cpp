@@ -67,17 +67,7 @@ void CachegrindJob::processEnded()
     CachegrindParser parser;
     parser.parse(cgOutput, m_model);
 
-    if (CachegrindSettings::launchKCachegrind(m_launchcfg->config())) {
-        args.clear();
-        args += m_outputFile;
-
-        QString kcgPath = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
-
-        // Proxy used to remove file at the end of KCachegrind
-        new QFileProxyRemove(kcgPath, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
-    }
-    else
-        QFile::remove(m_outputFile);
+    QFile::remove(m_outputFile);
 }
 
 void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
