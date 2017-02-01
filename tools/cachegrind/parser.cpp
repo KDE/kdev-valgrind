@@ -158,9 +158,10 @@ void CachegrindParser::parse(QByteArray& baData)
     QBuffer data(&baData);
     QString buffer;
 
+    data.open(QIODevice::ReadOnly);
     while (!data.atEnd())
     {
-        //remove useless characters
+        // remove useless characters
         buffer = data.readLine().simplified();
 
         if (parserState != ParseProgramTotal && parserState != ParseProgram) {
