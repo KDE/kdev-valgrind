@@ -23,14 +23,14 @@
 
 #pragma once
 
-#include "interfaces/ijob.h"
+#include "generic/job.h"
 
 namespace valgrind
 {
 
 class CachegrindModel;
 
-class CachegrindJob : public IJob
+class CachegrindJob : public GenericJob
 {
     Q_OBJECT
 

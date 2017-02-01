@@ -45,17 +45,17 @@ namespace valgrind
 
 class Plugin;
 
-class IJob : public KDevelop::OutputExecuteJob
+class GenericJob : public KDevelop::OutputExecuteJob
 {
     Q_OBJECT
 
 public:
-    IJob(KDevelop::ILaunchConfiguration* cfg,
+    GenericJob(KDevelop::ILaunchConfiguration* cfg,
          QString tool,
          Plugin* plugin,
          QObject* parent);
 
-    ~IJob() override;
+    ~GenericJob() override;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
@@ -64,7 +64,7 @@ public:
     QString target() const;
 
     // Factory
-    static IJob* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    static GenericJob* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
 
 private slots:
     void postProcessStdout(const QStringList& lines) override;

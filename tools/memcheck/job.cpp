@@ -43,10 +43,10 @@ namespace valgrind
 {
 
 MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IJob(cfg,
-           QStringLiteral("memcheck"),
-           plugin,
-           parent)
+    : GenericJob(cfg,
+                 QStringLiteral("memcheck"),
+                 plugin,
+                 parent)
 {
     m_showInstructionPointer = MemcheckSettings::showInstructionPointer(cfg->config());
 }

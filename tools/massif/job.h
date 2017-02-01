@@ -23,14 +23,14 @@
 
 #pragma once
 
-#include "interfaces/ijob.h"
+#include "generic/job.h"
 
 namespace valgrind
 {
 
 class MassifModel;
 
-class MassifJob : public IJob
+class MassifJob : public GenericJob
 {
 public:
     MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);

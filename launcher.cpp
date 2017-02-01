@@ -27,12 +27,12 @@
 #include "cachegrind/configpage.h"
 #include "callgrind/configpage.h"
 #include "generic/configpage.h"
+#include "generic/job.h"
 #include "massif/configpage.h"
 #include "memcheck/configpage.h"
 
 #include "config.h"
 #include "debug.h"
-#include "interfaces/ijob.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -75,7 +75,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         KJob* depjob = iface->dependencyJob(cfg);
         if (depjob)
             l << depjob;
-        l << IJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+        l << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
         return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), l);
     }

@@ -48,10 +48,10 @@
 namespace valgrind
 {
 MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IJob(cfg,
-           QStringLiteral("massif"),
-           plugin,
-           parent)
+    : GenericJob(cfg,
+                 QStringLiteral("massif"),
+                 plugin,
+                 parent)
     , m_model(new MassifModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
 {

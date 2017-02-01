@@ -24,7 +24,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "ijob.h"
+#include "job.h"
 
 #include "debug.h"
 #include "plugin.h"
@@ -54,7 +54,7 @@
 namespace valgrind
 {
 
-IJob* IJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
 {
     const QString& toolName = valgrindTools.at(GenericSettings::currentTool(cfg->config()));
 
@@ -75,7 +75,7 @@ IJob* IJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, Q
     return nullptr;
 }
 
-IJob::IJob(
+GenericJob::GenericJob(
     KDevelop::ILaunchConfiguration* cfg,
     QString tool,
     Plugin* plugin,
@@ -136,31 +136,31 @@ IJob::IJob(
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 }
 
-IJob::~IJob()
+GenericJob::~GenericJob()
 {
 }
 
-QString IJob::tool() const
+QString GenericJob::tool() const
 {
     return m_tool;
 }
 
-QString IJob::target() const
+QString GenericJob::target() const
 {
     return QFileInfo(m_analyzedExecutable).fileName();
 }
 
-QString IJob::argValue(bool value) const
+QString GenericJob::argValue(bool value) const
 {
     return value ? QStringLiteral("yes") : QStringLiteral("no");
 }
 
-QString IJob::argValue(int value) const
+QString GenericJob::argValue(int value) const
 {
     return QString::number(value);
 }
 
-QStringList IJob::buildCommandLine() const
+QStringList GenericJob::buildCommandLine() const
 {
     KConfigGroup config = m_launchcfg->config();
     QStringList args;
@@ -178,7 +178,7 @@ QStringList IJob::buildCommandLine() const
     return args;
 }
 
-void IJob::start()
+void GenericJob::start()
 {
     if (error()) {
         emitResult();
@@ -197,19 +197,19 @@ void IJob::start()
     processStarted();
 }
 
-void IJob::postProcessStdout(const QStringList& lines)
+void GenericJob::postProcessStdout(const QStringList& lines)
 {
     m_standardOutput << lines;
     KDevelop::OutputExecuteJob::postProcessStdout(lines);
 }
 
-void IJob::postProcessStderr(const QStringList& lines)
+void GenericJob::postProcessStderr(const QStringList& lines)
 {
     m_errorOutput << lines;
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
-void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
+void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
     qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
@@ -245,7 +245,7 @@ void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
     m_plugin->jobFinished(this);
 }
 
-void IJob::childProcessError(QProcess::ProcessError processError)
+void GenericJob::childProcessError(QProcess::ProcessError processError)
 {
     QString errorMessage;
 
@@ -285,19 +285,19 @@ void IJob::childProcessError(QProcess::ProcessError processError)
     KDevelop::OutputExecuteJob::childProcessError(processError);
 }
 
-void IJob::beforeStart()
+void GenericJob::beforeStart()
 {
 }
 
-void IJob::processStarted()
+void GenericJob::processStarted()
 {
 }
 
-void IJob::processEnded()
+void GenericJob::processEnded()
 {
 }
 
-int IJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
+int GenericJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
     QProcess process;
     process.start(executable, args);
