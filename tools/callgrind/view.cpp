@@ -94,7 +94,7 @@ void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, co
     m_functionListSelectedItem = item;
 
     if (m_functionListSelectedItem == nullptr)
-        return ;
+        return;
 
     updateInformationTab(item);
     updateCallerTab(item);
@@ -166,7 +166,7 @@ void CallgrindView::percentInformationClicked(bool enable)
     if (!enable)
         m_informationDisplayMode = CallgrindCallstackItem::E_NORMAL;
     if (m_functionListSelectedItem == nullptr)
-        return ;
+        return;
     updateInformationTab(m_functionListSelectedItem);
 }
 

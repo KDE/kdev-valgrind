@@ -175,7 +175,7 @@ void CachegrindParser::parse(QByteArray& baData, CachegrindModel* model)
                 //13 is 'Events shown:' size;
                 if (!parseRootModel(buffer.mid(13, buffer.length() - 13))) {
                     qCDebug(KDEV_VALGRIND) << "Input stream is misformated, cannot build the tree";
-                    return ;
+                    return;
                 }
                 parserState = ParseProgramTotalHeader;
             }
