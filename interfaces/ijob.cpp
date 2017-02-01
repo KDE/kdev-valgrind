@@ -32,12 +32,11 @@
 #include "debug.h"
 #include "plugin.h"
 
-#include "config/tools.h"
-
 #include "globalsettings.h"
 
 #include "cachegrind/job.h"
 #include "callgrind/job.h"
+#include "generic/settings.h"
 #include "massif/job.h"
 #include "memcheck/job.h"
 
@@ -60,8 +59,7 @@ namespace valgrind
 
 IJob* IJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
 {
-    const int toolIndex = cfg->config().readEntry(QStringLiteral("Valgrind Current Tool"), 0);
-    const QString& toolName = valgrindTools.at(toolIndex);
+    const QString& toolName = valgrindTools.at(GenericSettings::currentTool(cfg->config()));
 
     if (toolName == QStringLiteral("memcheck"))
         return new MemcheckJob(cfg, plugin, parent);
@@ -160,41 +158,6 @@ QString IJob::target() const
     return QFileInfo(m_analyzedExecutable).fileName();
 }
 
-void IJob::processModeArgs(
-    QStringList& out,
-    const t_valgrind_cfg_argarray modeArgs,
-    int modeArgsCount,
-    KConfigGroup& config) const
-{
-    // For each option, set the right string in the arguments list
-    for (int i = 0; i < modeArgsCount; ++i) {
-        QString val;
-        QString argType = modeArgs[i][2];
-
-        if (argType == QStringLiteral("str"))
-            val = config.readEntry(modeArgs[i][0]);
-
-        else if (argType == QStringLiteral("int")) {
-            int n = config.readEntry(modeArgs[i][0], 0);
-            if (n)
-                val.sprintf("%d", n);
-        }
-
-        else if (argType == QStringLiteral("bool")) {
-            bool n = config.readEntry(modeArgs[i][0], false);
-            val = n ? QStringLiteral("yes") : QStringLiteral("no");
-        }
-
-        else if (argType == QStringLiteral("float")) {
-            int n = config.readEntry(modeArgs[i][0], 1);
-            val.sprintf("%d.0", n);
-        }
-
-        if (!val.isEmpty())
-            out += QString(modeArgs[i][1]) + val;
-    }
-}
-
 QString IJob::argValue(bool value) const
 {
     return value ? QStringLiteral("yes") : QStringLiteral("no");
@@ -207,27 +170,20 @@ QString IJob::argValue(int value) const
 
 QStringList IJob::buildCommandLine() const
 {
-    static const t_valgrind_cfg_argarray genericArgs = {
-        {QStringLiteral("Valgrind Stackframe Depth"), QStringLiteral("--num-callers="), QStringLiteral("int")},
-        {QStringLiteral("Valgrind Maximum Stackframe Size"), QStringLiteral("--max-stackframe="), QStringLiteral("int")},
-        {QStringLiteral("Valgrind Limit Errors"), QStringLiteral("--error-limit="), QStringLiteral("bool")}
-    };
-    static const int genericArgsCount = sizeof(genericArgs) / sizeof(*genericArgs);
-
-    QStringList result;
     KConfigGroup config = m_launchcfg->config();
+    QStringList args;
 
-    const int toolIndex = config.readEntry(QStringLiteral("Valgrind Current Tool"), 0);
-    result += QStringLiteral("--tool=%1").arg(valgrindTools.at(toolIndex));
+    args += QStringLiteral("--tool=") + m_tool;
+    args += KShell::splitArgs(GenericSettings::extraParameters(config));
 
-    result += KShell::splitArgs(config.readEntry(QStringLiteral("Valgrind Extra Parameters"), QStringLiteral("")));
+    args += QStringLiteral("--num-callers=") + argValue(GenericSettings::stackframeDepth(config));
+    args += QStringLiteral("--max-stackframe=") + argValue(GenericSettings::maximumStackframeSize(config));
+    args += QStringLiteral("--error-limit=") + argValue(GenericSettings::limitErrors(config));
 
-    processModeArgs(result, genericArgs, genericArgsCount, config);
-    addToolArgs(result, config);
+    addToolArgs(args, config);
+    args.removeAll(QStringLiteral(""));
 
-    result.removeAll(QStringLiteral(""));
-
-    return result;
+    return args;
 }
 
 void IJob::start()

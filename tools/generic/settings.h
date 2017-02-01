@@ -12,16 +12,38 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
 #pragma once
 
-#include <QStringList>
+#include <kconfiggroup.h>
 
 namespace valgrind
 {
-    static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "callgrind" };
+
+static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "callgrind" };
+
+namespace GenericSettings
+{
+
+QString extraParameters(const KConfigGroup& cfg);
+void setExtraParameters(KConfigGroup& cfg, const QString& parameters);
+
+int stackframeDepth(const KConfigGroup& cfg);
+void setStackframeDepth(KConfigGroup& cfg, int depth);
+
+int maximumStackframeSize(const KConfigGroup& cfg);
+void setMaximumStackframeSize(KConfigGroup& cfg, int size);
+
+bool limitErrors(const KConfigGroup& cfg);
+void setLimitErrors(KConfigGroup& cfg, bool value);
+
+int currentTool(const KConfigGroup& cfg);
+void setCurrentTool(KConfigGroup& cfg, int tool);
+
+}
+
 }

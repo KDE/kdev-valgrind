@@ -4,6 +4,7 @@ ki18n_wrap_ui(generic_UI_SRCS
 
 add_library(generic_tool STATIC
     configpage.cpp
+    settings.cpp
 
     ${generic_UI_SRCS}
 )

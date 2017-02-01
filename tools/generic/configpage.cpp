@@ -21,7 +21,7 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
-#include "config/tools.h"
+#include "settings.h"
 
 #include <kconfiggroup.h>
 
@@ -64,20 +64,20 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop:
 {
     QSignalBlocker blocker(this);
 
-    ui->extraParameters->setText(cfg.readEntry("Valgrind Extra Parameters", ""));
-    ui->stackDepth->setValue(cfg.readEntry("Valgrind Stackframe Depth", 12));
-    ui->maxStackSize->setValue(cfg.readEntry("Valgrind Maximum Stackframe Size", 2000000));
-    ui->limitErrors->setChecked(cfg.readEntry("Valgrind Limit Errors", true));
-    ui->currentTool->setCurrentIndex(cfg.readEntry("Valgrind Current Tool", 0));
+    ui->extraParameters->setText(GenericSettings::extraParameters(cfg));
+    ui->stackDepth->setValue(GenericSettings::stackframeDepth(cfg));
+    ui->maxStackSize->setValue(GenericSettings::maximumStackframeSize(cfg));
+    ui->limitErrors->setChecked(GenericSettings::limitErrors(cfg));
+    ui->currentTool->setCurrentIndex(GenericSettings::currentTool(cfg));
 }
 
 void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    cfg.writeEntry("Valgrind Extra Parameters", ui->extraParameters->text());
-    cfg.writeEntry("Valgrind Stackframe Depth", ui->stackDepth->value());
-    cfg.writeEntry("Valgrind Maximum Stackframe Size", ui->maxStackSize->value());
-    cfg.writeEntry("Valgrind Limit Errors", ui->limitErrors->isChecked());
-    cfg.writeEntry("Valgrind Current Tool", ui->currentTool->currentIndex());
+    GenericSettings::setExtraParameters(cfg, ui->extraParameters->text());
+    GenericSettings::setStackframeDepth(cfg, ui->stackDepth->value());
+    GenericSettings::setMaximumStackframeSize(cfg, ui->maxStackSize->value());
+    GenericSettings::setLimitErrors(cfg, ui->limitErrors->isChecked());
+    GenericSettings::setCurrentTool(cfg, ui->currentTool->currentIndex());
 }
 
 GenericConfigPageFactory::GenericConfigPageFactory()

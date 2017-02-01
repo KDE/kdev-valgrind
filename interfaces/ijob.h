@@ -76,18 +76,11 @@ private slots:
     void childProcessError(QProcess::ProcessError processError) override;
 
 protected:
-    using t_valgrind_cfg_argarray = QString[][3];
-
     virtual void beforeStart(); // called before launching the process
     virtual void processStarted(); // called after the process has been launched
     virtual void processEnded(); // called when the process ended
 
     virtual void addToolArgs(QStringList& args, KConfigGroup& cfg) const = 0;
-
-    void processModeArgs(QStringList& out,
-                         const t_valgrind_cfg_argarray modeArgs,
-                         int modeArgsCount,
-                         KConfigGroup& config) const;
 
     QString argValue(bool value) const;
     QString argValue(int value) const;
