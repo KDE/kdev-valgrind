@@ -6,7 +6,7 @@
    Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
    Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -25,8 +25,6 @@
 */
 
 #include "ijob.h"
-
-#include "imodel.h"
 
 #include "debug.h"
 #include "plugin.h"
@@ -80,14 +78,12 @@ IJob* IJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, Q
 IJob::IJob(
     KDevelop::ILaunchConfiguration* cfg,
     QString tool,
-    IModel* model,
     Plugin* plugin,
     QObject* parent)
 
     : KDevelop::OutputExecuteJob(parent)
     , m_launchcfg(cfg)
     , m_tool(tool)
-    , m_model(model)
     , m_plugin(plugin)
 {
     Q_ASSERT(m_launchcfg);
@@ -138,9 +134,6 @@ IJob::IJob(
     if (m_workingDir.isEmpty() || !m_workingDir.isValid())
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
-
-    if (m_model)
-        m_model->reset();
 }
 
 IJob::~IJob()

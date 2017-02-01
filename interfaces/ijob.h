@@ -4,7 +4,7 @@
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -43,7 +43,6 @@ class ILaunchConfiguration;
 namespace valgrind
 {
 
-class IModel;
 class Plugin;
 
 class IJob : public KDevelop::OutputExecuteJob
@@ -53,7 +52,6 @@ class IJob : public KDevelop::OutputExecuteJob
 public:
     IJob(KDevelop::ILaunchConfiguration* cfg,
          QString tool,
-         IModel* model,
          Plugin* plugin,
          QObject* parent);
 
@@ -93,8 +91,6 @@ protected:
 
     KDevelop::ILaunchConfiguration* m_launchcfg;
     QString m_tool;
-
-    IModel* m_model;
 
     Plugin* m_plugin;
 

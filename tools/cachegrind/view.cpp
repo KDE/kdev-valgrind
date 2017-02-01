@@ -2,7 +2,7 @@
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
  *  Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
-
+ *  Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public
@@ -18,7 +18,6 @@
  along with this program; see the file COPYING.  If not, write to
  the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  Boston, MA 02110-1301, USA.
-
 */
 
 #include "view.h"
@@ -45,12 +44,12 @@ CachegrindView::CachegrindView()
 
 CachegrindView::~CachegrindView() {}
 
-void CachegrindView::setModel(IModel* m)
+void CachegrindView::setModel(CachegrindModel* m)
 {
-    QTreeView::setModel(m->abstractItemModel());
+    QTreeView::setModel(m);
 
-    connect(m, &IModel::modelChanged, this, [this, m]() {
-        if (m->abstractItemModel()->columnCount()) {
+    connect(m, &CachegrindModel::modelChanged, this, [this, m]() {
+        if (m->columnCount()) {
             header()->setStretchLastSection(false);
             header()->setSectionResizeMode(0, QHeaderView::Stretch);
         }

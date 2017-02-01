@@ -2,6 +2,7 @@
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
  *  Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ *  Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public
@@ -70,9 +71,9 @@ CallgrindView::~CallgrindView()
 {
 }
 
-void CallgrindView::setModel(IModel * m)
+void CallgrindView::setModel(CallgrindModel* m)
 {
-    m_model = dynamic_cast<CallgrindModel*>(m);
+    m_model = m;
     QAbstractItemModel  *fctTreeModel = m->abstractItemModel(CallgrindModel::E_FCT_LIST);
     ui->FunctionsTreeView->setSortingEnabled(true);
     ui->FunctionsTreeView->setModel( fctTreeModel );

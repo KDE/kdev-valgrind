@@ -3,7 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -28,10 +28,10 @@
 namespace valgrind
 {
 
+class MassifModel;
+
 class MassifJob : public IJob
 {
-    Q_OBJECT
-
 public:
     MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~MassifJob() override;
@@ -42,6 +42,7 @@ protected:
     QWidget* createView() override;
 
 private:
+    MassifModel* m_model;
     QString m_outputFile;
 };
 

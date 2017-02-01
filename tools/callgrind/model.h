@@ -3,6 +3,7 @@
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
  * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,16 +21,17 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _CALLGRINDMODEL_H_
-#define _CALLGRINDMODEL_H_
+#pragma once
 
 #include "interfaces/imodel.h"
 #include "modelitem.h"
 
 #include <QList>
+#include <QAbstractItemModel>
 
 namespace valgrind
 {
+
 class CallgrindCallstackItem;
 class CallgrindFunctionsListTModel;
 
@@ -38,13 +40,15 @@ typedef bool (CallgrindFunctionsListTModel::*CSItemCompareFct)(const QVariant &,
 /**
  * This class will contains all the callgrind data models for the differents view
  */
-class CallgrindModel : public IModel
+class CallgrindModel : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit CallgrindModel(QObject* parent = nullptr);
-    ~CallgrindModel() override;
+    ~CallgrindModel();
 
-    QAbstractItemModel  *abstractItemModel(int n) override;
+    QAbstractItemModel* abstractItemModel(int n);
 
     const QList<CallgrindCallstackItem*>& getAllCsItem() const;
 
@@ -58,21 +62,20 @@ public:
         E_CALLEE_LIST
     };
 
-    /////SLOTS WRAPPER////
     /**
      * Reception of a new item in the model
      */
-    void newItem(ModelItem *item) override;
+    void newItem(ModelItem* item);
     /**
      * Resets the model content
      */
-    void reset() override;
-    ////END SLOTS WRAPER////
-private:
-    QList<CallgrindCallstackItem*>  m_callgrindCsItems;
+    void reset();
 
-    CallgrindCallstackItem          *m_totalCountItem;
-    CallgrindFunctionsListTModel    *m_callgrindFunctionModel;
+private:
+    QList<CallgrindCallstackItem*> m_callgrindCsItems;
+
+    CallgrindCallstackItem* m_totalCountItem;
+    CallgrindFunctionsListTModel* m_callgrindFunctionModel;
 };
 
 /**
@@ -116,4 +119,3 @@ private:
 };
 
 }
-#endif /* _CALLGRINDMODEL_H_ */

@@ -2,6 +2,7 @@
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,8 +20,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _MASSIFMODEL_H_
-#define _MASSIFMODEL_H_
+#pragma once
 
 #include "interfaces/imodel.h"
 #include "modelitem.h"
@@ -35,35 +35,39 @@ class MassifItem;
 /**
  * A class that represents the item model for massif
  */
-class MassifModel : public QAbstractItemModel, public IModel
+class MassifModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
 public:
     explicit MassifModel(QObject* parent = nullptr);
     ~MassifModel() override;
 
-    QAbstractItemModel  *abstractItemModel(int) override {return this;}
-
     QVariant getColumnAtSnapshot(int snap, MassifItem::Columns col);
+
     QModelIndex index(int, int, const QModelIndex&) const override;
     QModelIndex parent(const QModelIndex&) const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex&) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
+
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    /////SLOTS WRAPPER////
     /**
      * Reception of a new item in the model
      */
-    void newItem(ModelItem *item) override;
+    void newItem(ModelItem* item);
     /**
      * Resets the model content
      */
-    void reset() override;
-    ////END SLOTS WRAPER////
+    void reset();
+
+signals:
+    void modelChanged();
+
 private:
-    MassifItem *m_rootItem;
+    MassifItem* m_rootItem;
 };
 
 }
-#endif /* _MASSIFMODEL_H_ */

@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
+ *  Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -9,15 +10,14 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
-
- */
+*/
 
 #include "view.h"
 
@@ -39,11 +39,8 @@ MassifView::MassifView()
     connect(this, &MassifView::activated, this, &MassifView::openDocument);
 }
 
-MassifView::~MassifView() {}
-
-void MassifView::setModel(IModel * m)
+MassifView::~MassifView()
 {
-    QTreeView::setModel(m->abstractItemModel());
 }
 
 void MassifView::openDocument(const QModelIndex & index)

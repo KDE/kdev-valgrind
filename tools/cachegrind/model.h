@@ -3,6 +3,7 @@
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
  * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,8 +21,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _CACHEGRINDMODEL_H_
-#define _CACHEGRINDMODEL_H_
+#pragma once
 
 #include "interfaces/imodel.h"
 
@@ -31,35 +31,39 @@ namespace valgrind
 {
 class CachegrindItem;
 
-class CachegrindModel : public QAbstractItemModel, public IModel
+class CachegrindModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
 public:
     explicit CachegrindModel(QObject* parent = nullptr);
     ~CachegrindModel() override;
 
-    QAbstractItemModel  *abstractItemModel(int) override {return this;}
+    QModelIndex index(int, int, const QModelIndex&) const override;
+    QModelIndex parent(const QModelIndex&) const override;
 
-    QModelIndex     index(int, int, const QModelIndex&) const override;
-    QModelIndex     parent(const QModelIndex&) const override;
-    int             rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int             columnCount(const QModelIndex&) const override;
-    QVariant        data(const QModelIndex &index, int role) const override;
-    QVariant        headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    CachegrindItem  *itemForIndex(const QModelIndex &index) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    /////SLOTS WRAPPER////
+    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+    CachegrindItem* itemForIndex(const QModelIndex& index) const;
+
     /**
      * Reception of a new item in the model
      */
-    void newItem(ModelItem *item) override;
+    void newItem(ModelItem* item);
     /**
      * Resets the model content
      */
-    void reset() override;
-    ////END SLOTS WRAPER////
+    void reset();
+
+signals:
+    void modelChanged();
+
 private:
-    CachegrindItem *m_rootItem;
+    CachegrindItem* m_rootItem;
 };
 
 }
-#endif /* _CACHEGRINDMODEL_H_ */

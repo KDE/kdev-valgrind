@@ -3,7 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -28,6 +28,8 @@
 namespace valgrind
 {
 
+class CachegrindModel;
+
 class CachegrindJob : public IJob
 {
     Q_OBJECT
@@ -42,6 +44,7 @@ protected:
     QWidget* createView() override;
 
 private:
+    CachegrindModel* m_model;
     QString m_outputFile;
 };
 

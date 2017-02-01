@@ -2,6 +2,7 @@
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
  *  Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ *  Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -40,7 +41,6 @@ class CallgrindView;
 
 }
 
-class IModel;
 class CallgrindModel;
 
 class CallgrindView : public QWidget
@@ -51,7 +51,7 @@ public:
     explicit CallgrindView(QWidget* parent = nullptr);
     ~CallgrindView() override;
 
-    void setModel(IModel* m);
+    void setModel(CallgrindModel* m);
 
     void percentInformationClicked(bool enable);
 

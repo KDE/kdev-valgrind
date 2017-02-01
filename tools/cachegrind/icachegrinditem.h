@@ -3,6 +3,7 @@
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
  * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public
@@ -20,13 +21,15 @@
  Boston, MA 02110-1301, USA.
 */
 
-#ifndef _ICACHEGRINDITEM_H__
-#define _ICACHEGRINDITEM_H__
+#pragma once
 
 #include "interfaces/imodel.h"
 
+#include <QString>
+
 namespace valgrind
 {
+
 //callgrind and cachegrind are simiral, they share the same item
 class iCachegrindItem : public ModelItem
 {
@@ -61,6 +64,5 @@ public:
     static Columns  dataKeyFromName(const QString& keyName);
     static bool     isNumericValue(int column);
 };
-}
 
-#endif
+}

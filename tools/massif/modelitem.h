@@ -1,6 +1,7 @@
 /* This file is part of KDevelop
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -18,12 +19,12 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _MASSIFITEM_H_
-#define _MASSIFITEM_H_
+#pragma once
 
 #include <QString>
 #include <QMap>
 #include <QUrl>
+#include <QVariant>
 
 #include "interfaces/imodel.h"
 
@@ -79,5 +80,3 @@ private:
 };
 
 }
-
-#endif /* _MASSIFITEM_H_ */

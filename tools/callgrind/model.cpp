@@ -3,6 +3,7 @@
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
  * Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public
@@ -35,8 +36,8 @@ namespace valgrind
 //////////////////////////CallgrindModel implementation////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-CallgrindModel::CallgrindModel(QObject * parent)
-    : IModel(parent)
+CallgrindModel::CallgrindModel(QObject* parent)
+    : QObject(parent)
 {
     m_callgrindFunctionModel = new CallgrindFunctionsListTModel(this);
     m_totalCountItem = nullptr;
@@ -127,7 +128,7 @@ QVariant CallgrindModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-QAbstractItemModel        *CallgrindModel::abstractItemModel(int n)
+QAbstractItemModel* CallgrindModel::abstractItemModel(int n)
 {
     //this model is able to handle many model, it isn't used yet but it can be
     switch (n)

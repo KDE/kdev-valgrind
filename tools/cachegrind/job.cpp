@@ -3,7 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -45,9 +45,9 @@ namespace valgrind
 CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : IJob(cfg,
            QStringLiteral("cachegrind"),
-           new CachegrindModel(),
            plugin,
            parent)
+    , m_model(new CachegrindModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {
 }
@@ -65,9 +65,7 @@ void CachegrindJob::processEnded()
 
     {
         CachegrindParser parser;
-        connect(&parser, &CachegrindParser::newItem, this, [this](ModelItem* item){
-            m_model->newItem(item);
-        });
+        connect(&parser, &CachegrindParser::newItem, m_model, &CachegrindModel::newItem);
 
         QByteArray cgOutput;
         executeProcess(cgPath, args, cgOutput);

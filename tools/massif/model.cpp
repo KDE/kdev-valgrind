@@ -2,6 +2,7 @@
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public
@@ -33,7 +34,7 @@ namespace valgrind
 {
 
 MassifModel::MassifModel(QObject* parent)
-    : IModel(parent)
+    : QAbstractItemModel(parent)
 {
     m_rootItem = new MassifItem();
     m_rootItem->incomingData("snapshot", "");

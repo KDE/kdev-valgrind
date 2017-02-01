@@ -1,6 +1,6 @@
 /* This file is part of KDevelop
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,14 +20,10 @@
 
 #pragma once
 
-#include <QAbstractItemModel>
-
 namespace valgrind
 {
 
-class IJob;
-class ModelWrapper;
-
+// FIXME
 class ModelItem
 {
 public:
@@ -35,32 +31,14 @@ public:
     virtual ~ModelItem() {};
 };
 
-class IModel : public QObject
-{
-    Q_OBJECT
-
-public:
-    IModel(QObject* parent = nullptr);
-    virtual ~IModel() {}
-
-    enum eElementType {
-        startError,
-        error,
-        startFrame,
-        frame,
-        startStack,
-        stack
-    };
-
-    virtual QAbstractItemModel* abstractItemModel(int n = 0) = 0;
-
-    virtual void newElement(IModel::eElementType) {}
-    virtual void newItem(ModelItem*) {}
-    virtual void newData(IModel::eElementType, const QString&, const QString&) {}
-    virtual void reset() {};
-
-signals:
-    void modelChanged();
+// FIXME
+enum eElementType {
+    startError,
+    error,
+    startFrame,
+    frame,
+    startStack,
+    stack
 };
 
 }

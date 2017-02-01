@@ -4,7 +4,7 @@
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -45,9 +45,9 @@ namespace valgrind
 CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : IJob(cfg,
            QStringLiteral("callgrind"),
-           new CallgrindModel(),
            plugin,
            parent)
+    , m_model(new CallgrindModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
 {
 }
@@ -67,9 +67,7 @@ void CallgrindJob::processEnded()
 
     {
         CallgrindParser parser;
-        connect(&parser, &CallgrindParser::newItem, this, [this](ModelItem* item){
-            m_model->newItem(item);
-        });
+        connect(&parser, &CallgrindParser::newItem, m_model, &CallgrindModel::newItem);
 
         QByteArray caOutput;
         executeProcess(caPath, args, caOutput);
