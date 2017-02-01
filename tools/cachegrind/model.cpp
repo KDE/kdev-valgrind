@@ -48,20 +48,13 @@ CachegrindModel::~CachegrindModel()
 void CachegrindModel::newItem(CachegrindItem* item)
 {
     if (!item)
-    {
-        emit modelChanged();
         return;
-    }
 
-    if (m_rootItem == nullptr)
-    {
-        m_rootItem = item;
-    }
-    else
-    {
+    if (m_rootItem) {
         item->setParent(m_rootItem);
         m_rootItem->appendChild(item);
-    }
+    } else
+        m_rootItem = item;
 }
 
 void CachegrindModel::reset()

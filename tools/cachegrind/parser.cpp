@@ -23,8 +23,9 @@
 
 #include "parser.h"
 
-#include "modelitem.h"
 #include "debug.h"
+#include "model.h"
+#include "modelitem.h"
 
 #include <QBuffer>
 
@@ -33,6 +34,7 @@ namespace valgrind
 
 CachegrindParser::CachegrindParser(QObject* parent)
     : QObject(parent)
+    , m_model(nullptr)
     , m_lastCall(nullptr)
     , totalCountItem(nullptr)
 {
@@ -42,7 +44,7 @@ CachegrindParser::~CachegrindParser()
 {
 }
 
-bool CachegrindParser::parseRootModel(const QString &buffer)
+bool CachegrindParser::parseRootModel(const QString& buffer)
 {
     m_headersList = buffer.split(QChar(' '), QString::SkipEmptyParts);
     CachegrindItem* rootItem = new CachegrindItem;
@@ -64,7 +66,8 @@ bool CachegrindParser::parseRootModel(const QString &buffer)
     rootItem->incomingData(CachegrindItem::dataKey(CachegrindItem::CallName), QStringLiteral(""));
     rootItem->incomingData(CachegrindItem::dataKey(CachegrindItem::FileName), QStringLiteral(""));
     m_programTotalStr = m_programTotalStr.trimmed();
-    emit newItem(rootItem);
+    m_model->newItem(rootItem);
+
     return true;
 }
 
@@ -139,7 +142,7 @@ void CachegrindParser::parseNewCachegrindItem(const QString& buffer, bool totalP
         item->incomingData(CachegrindItem::dataKey(CachegrindItem::FileName),
                            QStringLiteral(""));
         totalCountItem = item;
-        emit newItem(item);
+        m_model->newItem(item);
     }
 }
 
@@ -152,8 +155,11 @@ enum CachegrindParserState
     ParseProgram
 };
 
-void CachegrindParser::parse(QByteArray& baData)
+void CachegrindParser::parse(QByteArray& baData, CachegrindModel* model)
 {
+    Q_ASSERT(model);
+    m_model = model;
+
     CachegrindParserState parserState(ParseRootModel);
     QBuffer data(&baData);
     QString buffer;
@@ -193,7 +199,8 @@ void CachegrindParser::parse(QByteArray& baData)
         }
     }
 
-    emit newItem(nullptr);
+    m_model->newItem(nullptr);
+    m_model = nullptr;
 }
 
 }

@@ -32,8 +32,6 @@ class CachegrindItem;
 
 class CachegrindModel : public QAbstractItemModel
 {
-    Q_OBJECT
-
 public:
     explicit CachegrindModel(QObject* parent = nullptr);
     ~CachegrindModel() override;
@@ -57,9 +55,6 @@ public:
      * Resets the model content
      */
     void reset();
-
-signals:
-    void modelChanged();
 
 private:
     CachegrindItem* m_rootItem;

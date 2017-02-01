@@ -28,23 +28,15 @@ namespace valgrind
 {
 
 class CachegrindItem;
+class CachegrindModel;
 
-/**
- * A class which parses cachegrind's output
- * and emits signals when items are parsed
- */
 class CachegrindParser : public QObject
 {
-    Q_OBJECT
-
 public:
     explicit CachegrindParser(QObject* parent = nullptr);
     ~CachegrindParser() override;
 
-    void parse(QByteArray& data);
-
-signals:
-    void newItem(CachegrindItem*);
+    void parse(QByteArray& data, CachegrindModel* model);
 
 private:
     /**
@@ -54,6 +46,8 @@ private:
     bool parseRootModel(const QString& buffer);
 
     void parseNewCachegrindItem(const QString& buffer, bool totalProgram = false);
+
+    CachegrindModel* m_model;
 
     QList<CachegrindItem*> m_caller;
     CachegrindItem* m_lastCall;

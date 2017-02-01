@@ -59,28 +59,22 @@ CachegrindJob::~CachegrindJob()
 
 void CachegrindJob::processEnded()
 {
-    KConfigGroup config = m_launchcfg->config();
-
-    QString cgPath = KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
+    QString cgPath(KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile());
     QStringList args(m_outputFile);
+    QByteArray cgOutput;
+    executeProcess(cgPath, args, cgOutput);
 
-    {
-        CachegrindParser parser;
-        connect(&parser, &CachegrindParser::newItem, m_model, &CachegrindModel::newItem);
+    CachegrindParser parser;
+    parser.parse(cgOutput, m_model);
 
-        QByteArray cgOutput;
-        executeProcess(cgPath, args, cgOutput);
-        parser.parse(cgOutput);
-    }
-
-    if (CachegrindSettings::launchKCachegrind(config)) {
+    if (CachegrindSettings::launchKCachegrind(m_launchcfg->config())) {
         args.clear();
         args += m_outputFile;
 
-        QString kcg = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
+        QString kcgPath = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 
         // Proxy used to remove file at the end of KCachegrind
-        new QFileProxyRemove(kcg, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
+        new QFileProxyRemove(kcgPath, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
     else
         QFile::remove(m_outputFile);

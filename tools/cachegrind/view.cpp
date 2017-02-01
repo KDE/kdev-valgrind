@@ -42,18 +42,8 @@ CachegrindView::CachegrindView()
     connect(this, &CachegrindView::activated, this, &CachegrindView::openDocument);
 }
 
-CachegrindView::~CachegrindView() {}
-
-void CachegrindView::setModel(CachegrindModel* m)
+CachegrindView::~CachegrindView()
 {
-    QTreeView::setModel(m);
-
-    connect(m, &CachegrindModel::modelChanged, this, [this, m]() {
-        if (m->columnCount()) {
-            header()->setStretchLastSection(false);
-            header()->setSectionResizeMode(0, QHeaderView::Stretch);
-        }
-    });
 }
 
 void CachegrindView::MousePressEvent(QMouseEvent* event)
@@ -64,7 +54,7 @@ void CachegrindView::MousePressEvent(QMouseEvent* event)
 //     QWidget::mousePressEvent(event);
 }
 
-void CachegrindView::openDocument(const QModelIndex & index)
+void CachegrindView::openDocument(const QModelIndex& index)
 {
     if (CachegrindItem* frame = dynamic_cast<CachegrindItem*>(static_cast<CachegrindModel*>(model())->itemForIndex(index)))
     {

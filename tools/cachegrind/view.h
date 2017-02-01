@@ -27,18 +27,11 @@
 namespace valgrind
 {
 
-class CachegrindModel;
-
 class CachegrindView : public QTreeView
 {
 public:
     CachegrindView();
     ~CachegrindView() override;
-
-    using QTreeView::model;
-
-    using QTreeView::setModel;
-    void setModel(CachegrindModel* m);
 
 protected:
     void MousePressEvent(QMouseEvent* event);
