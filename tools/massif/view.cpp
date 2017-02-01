@@ -29,7 +29,7 @@
 #include <interfaces/idocumentcontroller.h>
 
 #include "modelitem.h"
-#include "statjob.h"
+#include "generic/utils.h"
 
 namespace valgrind
 {

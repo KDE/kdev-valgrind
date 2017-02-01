@@ -1,6 +1,6 @@
 /* This file is part of KDevelop
    Copyright 2015 Laszlo Kis-Adam <laszlo.kis-adam@kdemail.net>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,10 +20,44 @@
 
 #pragma once
 
+#include <QObject>
+
+class QFile;
+class QProcess;
 class QUrl;
 class QWidget;
 
+namespace valgrind
+{
+
+/**
+ * This class is used for tools : massif, callgrind.
+ * It permits to remove the generated output file when the reading process
+ * (massif visualizer, kcachegrind) has been killed
+ */
+class QFileProxyRemove : public QObject // FIXME rename
+{
+    Q_OBJECT
+
+public:
+    QFileProxyRemove(const QString& programPath,
+                     const QStringList& args,
+                     const QString& fileName,
+                     QObject* parent = nullptr);
+    ~QFileProxyRemove() override;
+
+private:
+    QFile* m_file;
+    QProcess* m_process;
+    QString m_execPath;
+};
+
+// FIXME rename (also move from nested namespace)
 namespace StatJob
 {
-    bool jobExists(const QUrl& url, QWidget* parent);
+
+bool jobExists(const QUrl& url, QWidget* parent);
+
+}
+
 }

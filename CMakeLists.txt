@@ -32,8 +32,6 @@ set(kdevvalgrind_SRCS
     widget.cpp
 
     config/globalconfigpage.cpp
-
-    tools/statjob.cpp
 )
 
 ki18n_wrap_ui(kdevvalgrind_UI_SRCS

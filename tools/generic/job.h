@@ -30,7 +30,6 @@
 #include <QUrl>
 
 class KConfigGroup;
-class QFile;
 class QWidget;
 
 namespace KDevelop
@@ -102,25 +101,6 @@ protected:
 
     QStringList m_standardOutput;
     QStringList m_errorOutput;
-};
-
-/**
- * This class is used for tools : massif, callgrind, cachegrind.
- * It permits to remove the generated output file when the reading process
- * (massif visualizer, kcachegrind) has been killed
- */
-class QFileProxyRemove : public QObject
-{
-    Q_OBJECT
-
-public:
-    QFileProxyRemove(const QString& programPath, const QStringList& args, const QString& fileName, QObject* parent = nullptr);
-    ~QFileProxyRemove() override;
-
-private:
-    QFile* m_file;
-    QProcess* m_process;
-    QString m_execPath;
 };
 
 }

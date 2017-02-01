@@ -30,6 +30,7 @@
 #include "view.h"
 
 #include "plugin.h"
+#include "generic/utils.h"
 #include "globalsettings.h"
 
 #include <interfaces/ilaunchconfiguration.h>

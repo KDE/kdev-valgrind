@@ -29,6 +29,7 @@
 #include "view.h"
 
 #include "debug.h"
+#include "generic/utils.h"
 #include "plugin.h"
 #include "globalsettings.h"
 

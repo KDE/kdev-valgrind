@@ -307,43 +307,4 @@ int GenericJob::executeProcess(const QString& executable, const QStringList& arg
     return process.exitCode();
 }
 
-/**
- * QFileProxyRemove Implementation
- */
-QFileProxyRemove::QFileProxyRemove(
-    const QString& programPath,
-    const QStringList& args,
-    const QString& fileName,
-    QObject* parent)
-
-    : QObject(parent)
-    , m_file(new QFile(fileName))
-    , m_process(new QProcess(this))
-    , m_execPath(programPath)
-{
-    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, [this](int, QProcess::ExitStatus) {
-        deleteLater();
-    });
-
-    connect(m_process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
-            this, [this](QProcess::ProcessError error) {
-        if (error == QProcess::FailedToStart)
-            KMessageBox::error(qApp->activeWindow(),
-                               i18n("Unable to launch the process %1 (%2)", m_execPath, error),
-                               i18n("Valgrind Error"));
-        deleteLater();
-    });
-
-    m_process->start(programPath, args);
-}
-
-QFileProxyRemove::~QFileProxyRemove()
-{
-    m_file->remove();
-    delete m_file;
-
-    delete m_process;
-}
-
 }

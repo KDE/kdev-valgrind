@@ -27,7 +27,7 @@
 #include <QItemSelectionModel>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-#include "statjob.h"
+#include "generic/utils.h"
 
 #include "debug.h"
 #include <interfaces/icore.h>
