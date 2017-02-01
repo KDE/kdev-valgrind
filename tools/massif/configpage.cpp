@@ -22,6 +22,8 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
+#include "settings.h"
+
 #include <KConfigGroup>
 
 namespace valgrind
@@ -65,30 +67,30 @@ void MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::
 {
     QSignalBlocker blocker(this);
 
-    ui->extraParameters->setText(cfg.readEntry("Massif Extra Parameters", ""));
-    ui->launchMassifVisualizer->setChecked(cfg.readEntry("Massif Launch Visualizer", false));
-    ui->depth->setValue(cfg.readEntry("Massif Snapshot Tree Depth", 30));
-    ui->threshold->setValue(cfg.readEntry("Massif Threshold", 1));
-    ui->peakInaccuracy->setValue(cfg.readEntry("Massif Peak Inaccuracy", 1));
-    ui->maxSnapshots->setValue(cfg.readEntry("Massif Maximum Snapshots", 100));
-    ui->snapshotFreq->setValue(cfg.readEntry("Massif Detailed Snapshots Frequency", 10));
-    ui->timeUnit->setCurrentIndex(cfg.readEntry("Massif Time Unit", 0));
-    ui->profileHeap->setChecked(cfg.readEntry("Massif Profile Heap", true));
-    ui->profileStack->setChecked(cfg.readEntry("Massif Profile Stack", false));
+    ui->extraParameters->setText(MassifSettings::extraParameters(cfg));
+    ui->depth->setValue(MassifSettings::snapshotTreeDepth(cfg));
+    ui->threshold->setValue(MassifSettings::threshold(cfg));
+    ui->peakInaccuracy->setValue(MassifSettings::peakInaccuracy(cfg));
+    ui->maxSnapshots->setValue(MassifSettings::maximumSnapshots(cfg));
+    ui->snapshotFreq->setValue(MassifSettings::detailedSnapshotsFrequency(cfg));
+    ui->timeUnit->setCurrentIndex(MassifSettings::timeUnit(cfg));
+    ui->profileHeap->setChecked(MassifSettings::profileHeap(cfg));
+    ui->profileStack->setChecked(MassifSettings::profileStack(cfg));
+    ui->launchMassifVisualizer->setChecked(MassifSettings::launchVisualizer(cfg));
 }
 
 void MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    cfg.writeEntry("Massif Extra Parameters", ui->extraParameters->text());
-    cfg.writeEntry("Massif Launch Visualizer", ui->launchMassifVisualizer->isChecked());
-    cfg.writeEntry("Massif Snapshot Tree Depth", ui->depth->value());
-    cfg.writeEntry("Massif Threshold", ui->threshold->value());
-    cfg.writeEntry("Massif Peak Inaccuracy", ui->peakInaccuracy->value());
-    cfg.writeEntry("Massif Maximum Snapshots", ui->maxSnapshots->value());
-    cfg.writeEntry("Massif Detailed Snapshots Frequency", ui->snapshotFreq->value());
-    cfg.writeEntry("Massif Time Unit", ui->timeUnit->currentIndex());
-    cfg.writeEntry("Massif Profile Heap", ui->profileHeap->isChecked());
-    cfg.writeEntry("Massif Profile Stack", ui->profileStack->isChecked());
+    MassifSettings::setExtraParameters(cfg, ui->extraParameters->text());
+    MassifSettings::setSnapshotTreeDepth(cfg, ui->depth->value());
+    MassifSettings::setThreshold(cfg, ui->threshold->value());
+    MassifSettings::setPeakInaccuracy(cfg, ui->peakInaccuracy->value());
+    MassifSettings::setMaximumSnapshots(cfg, ui->maxSnapshots->value());
+    MassifSettings::setDetailedSnapshotsFrequency(cfg, ui->snapshotFreq->value());
+    MassifSettings::setTimeUnit(cfg, ui->timeUnit->currentIndex());
+    MassifSettings::setProfileHeap(cfg, ui->profileHeap->isChecked());
+    MassifSettings::setProfileStack(cfg, ui->profileStack->isChecked());
+    MassifSettings::setLaunchVisualizer(cfg, ui->launchMassifVisualizer->isChecked());
 }
 
 MassifConfigPageFactory::MassifConfigPageFactory()

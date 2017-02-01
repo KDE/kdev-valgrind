@@ -22,8 +22,10 @@
 */
 
 #include "job.h"
+
 #include "model.h"
 #include "parser.h"
+#include "settings.h"
 #include "view.h"
 
 #include "debug.h"
@@ -71,7 +73,7 @@ void MassifJob::processEnded()
         parser.parse(m_outputFile);
     }
 
-    if (config.readEntry("Massif Launch Visualizer", false)) {
+    if (MassifSettings::launchVisualizer(config)) {
         QStringList args;
         args += m_outputFile;
         QString mv = KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
@@ -95,7 +97,7 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     static const int count = sizeof(massifArgs) / sizeof(*massifArgs);
 
 
-    int tu = cfg.readEntry(QStringLiteral("Massif Time Unit"), 0);
+    int tu = MassifSettings::timeUnit(cfg);
 
     if (tu == 0)
         args += QStringLiteral("--time-unit=i");

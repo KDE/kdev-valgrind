@@ -8,6 +8,7 @@ add_library(massif_tool STATIC
     model.cpp
     modelitem.cpp
     parser.cpp
+    settings.cpp
     view.cpp
 
     ${massif_UI_SRCS}
