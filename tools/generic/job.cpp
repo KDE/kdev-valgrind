@@ -102,14 +102,14 @@ GenericJob::GenericJob(
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
-    KDevelop::EnvironmentGroupList l(KSharedConfig::openConfig());
-    QString envgrp = iface->environmentGroup(m_launchcfg);
+    KDevelop::EnvironmentGroupList envGroupList(KSharedConfig::openConfig());
+    QString envGroup = iface->environmentGroup(m_launchcfg);
 
-    if (envgrp.isEmpty()) {
+    if (envGroup.isEmpty()) {
         qCWarning(KDEV_VALGRIND) << i18n("No environment group specified, looks like a broken "
                            "configuration, please check run configuration '%1'. "
                            "Using default environment group.", m_launchcfg->name());
-        envgrp = l.defaultGroup();
+        envGroup = envGroupList.defaultGroup();
     }
     // FIXME
 //     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));

@@ -71,13 +71,13 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
         Q_ASSERT(iface);
 
-        QList<KJob*> l;
+        QList<KJob*> jobList;
         KJob* depjob = iface->dependencyJob(cfg);
         if (depjob)
-            l << depjob;
-        l << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+            jobList << depjob;
+        jobList << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
-        return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), l);
+        return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
     }
 
     qCWarning(KDEV_VALGRIND) << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
