@@ -25,6 +25,7 @@
 
 #include "debug.h"
 #include "parser.h"
+#include "settings.h"
 
 #include <interfaces/icore.h>
 #include <interfaces/ilanguagecontroller.h>
@@ -47,7 +48,7 @@ MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QO
            plugin,
            parent)
 {
-    m_showInstructionPointer = cfg->config().readEntry("Memcheck Show Instruction Pointer", false);
+    m_showInstructionPointer = MemcheckSettings::showInstructionPointer(cfg->config());
 }
 
 MemcheckJob::~MemcheckJob()

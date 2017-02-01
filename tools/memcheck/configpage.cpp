@@ -24,6 +24,8 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
+#include "settings.h"
+
 #include <KConfigGroup>
 
 namespace valgrind
@@ -58,22 +60,22 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop
 {
     QSignalBlocker blocker(this);
 
-    ui->extraParameters->setText(cfg.readEntry("Memcheck Extra Parameters", ""));
-    ui->freeListSize->setValue(cfg.readEntry("Memcheck Freelist Size", 10000000));
+    ui->extraParameters->setText(MemcheckSettings::extraParameters(cfg));
+    ui->freeListSize->setValue(MemcheckSettings::freeListSize(cfg));
 
-    ui->showReachable->setChecked(cfg.readEntry("Memcheck Show Reachable", true));
-    ui->undefValueErrors->setChecked(cfg.readEntry("Memcheck Undef Value Errors", true));
-    ui->showInstructionPointer->setChecked(cfg.readEntry("Memcheck Show Instruction Pointer", false));
+    ui->showReachable->setChecked(MemcheckSettings::showReachable(cfg));
+    ui->undefValueErrors->setChecked(MemcheckSettings::undefValueErrors(cfg));
+    ui->showInstructionPointer->setChecked(MemcheckSettings::showInstructionPointer(cfg));
 }
 
 void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    cfg.writeEntry("Memcheck Extra Parameters", ui->extraParameters->text());
-    cfg.writeEntry("Memcheck Freelist Size", ui->freeListSize->value());
+    MemcheckSettings::setExtraParameters(cfg, ui->extraParameters->text());
+    MemcheckSettings::setFreeListSize(cfg, ui->freeListSize->value());
 
-    cfg.writeEntry("Memcheck Show Reachable", ui->showReachable->isChecked());
-    cfg.writeEntry("Memcheck Undef Value Errors", ui->undefValueErrors->isChecked());
-    cfg.writeEntry("Memcheck Show Instruction Pointer", ui->showInstructionPointer->isChecked());
+    MemcheckSettings::setShowReachable(cfg, ui->showReachable->isChecked());
+    MemcheckSettings::setUndefValueErrors(cfg, ui->undefValueErrors->isChecked());
+    MemcheckSettings::setShowInstructionPointer(cfg, ui->showInstructionPointer->isChecked());
 }
 
 MemcheckConfigPageFactory::MemcheckConfigPageFactory()

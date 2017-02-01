@@ -7,6 +7,7 @@ add_library(memcheck_tool STATIC
     job.cpp
     error.cpp
     parser.cpp
+    settings.cpp
 
     ${memcheck_UI_SRCS}
 )
