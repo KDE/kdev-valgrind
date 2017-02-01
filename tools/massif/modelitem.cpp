@@ -24,58 +24,47 @@
 namespace valgrind
 {
 
-MassifItem::MassifItem()
-    : m_child(false)
+MassifItem::MassifItem(bool isChild)
+    : m_parent(nullptr)
+    , m_isChild(isChild)
     , m_line(0)
-    , m_parentItem(nullptr)
-{
-}
-
-MassifItem::MassifItem(bool child)
-    : m_child(child)
-    , m_line(0)
-    , m_parentItem(nullptr)
 {
 }
 
 MassifItem::~MassifItem()
 {
-    qDeleteAll(m_childItems);
+    qDeleteAll(m_childs);
 }
 
-void MassifItem::incomingData(const QString &name, const QString &value, const QString &dir)
+void MassifItem::incomingData(const QString& name, const QString& value, const QString& dir)
 {
     m_values[name] = value;
-    if (name == "child")
-    {
+    if (name == QStringLiteral("child")) {
         QStringList lst = value.mid(value.lastIndexOf('(') + 1).remove(')').split(':');
         if (lst.size() != 2) {
             return;
         }
+
+        m_dir = dir;
         m_file = lst[0];
         m_line = lst[1].toInt();
-        m_dir = dir;
     }
 }
 
-void MassifItem::appendChild(MassifItem *item)
+void MassifItem::addChild(MassifItem* item)
 {
-    m_childItems.append(item);
+    m_childs.append(item);
+    item->m_parent = this;
 }
 
-void MassifItem::setParent(MassifItem *parent)
+MassifItem* MassifItem::child(int row)
 {
-    m_parentItem = parent;
-}
-
-MassifItem *MassifItem::child(int row)
-{
-    return m_childItems.value(row);
+    return m_childs.value(row);
 }
 
 int MassifItem::childCount() const
 {
-    return m_childItems.count();
+    return m_childs.count();
 }
 
 int MassifItem::columnCount() const
@@ -85,35 +74,42 @@ int MassifItem::columnCount() const
 
 QVariant MassifItem::data(int column) const
 {
-    if (m_child && column == MemStacksB) {
-        return m_values["child"];
+    if (m_isChild && column == MemStacksB) {
+        return m_values[QStringLiteral("child")];
     }
 
     switch (column)
     {
+
     case Snapshot:
-        return m_values["snapshot"];
+        return m_values[QStringLiteral("snapshot")];
+
     case Time:
-        return m_values["time"];
+        return m_values[QStringLiteral("time")];
+
     case MemHeapB:
-        return m_values["mem_heap_B"];
+        return m_values[QStringLiteral("mem_heap_B")];
+
     case MemHeapExtraB:
-        return m_values["mem_heap_extra_B"];
+        return m_values[QStringLiteral("mem_heap_extra_B")];
+
     case MemStacksB:
-        return m_values["mem_stacks_B"];
+        return m_values[QStringLiteral("mem_stacks_B")];
+
     }
+
     return QVariant();
 }
 
-MassifItem *MassifItem::parent()
+MassifItem* MassifItem::parent()
 {
-    return m_parentItem;
+    return m_parent;
 }
 
 int MassifItem::row() const
 {
-    if (m_parentItem) {
-        return m_parentItem->m_childItems.indexOf(const_cast<MassifItem*>(this));
+    if (m_parent) {
+        return m_parent->m_childs.indexOf(const_cast<MassifItem*>(this));
     }
 
     return 0;
@@ -132,8 +128,9 @@ QUrl MassifItem::url() const
     return url;
 }
 
-int MassifItem::getLine() const
+int MassifItem::line() const
 {
     return m_line;
 }
+
 }

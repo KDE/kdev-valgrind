@@ -22,20 +22,18 @@
 
 #pragma once
 
-#include "modelitem.h"
-
 #include <QAbstractItemModel>
 
 namespace valgrind
 {
+
+class MassifItem;
 
 class MassifModel : public QAbstractItemModel
 {
 public:
     explicit MassifModel(QObject* parent = nullptr);
     ~MassifModel() override;
-
-    QVariant getColumnAtSnapshot(int snap, MassifItem::Columns col);
 
     QModelIndex index(int, int, const QModelIndex&) const override;
     QModelIndex parent(const QModelIndex&) const override;
@@ -46,14 +44,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    /**
-     * Reception of a new item in the model
-     */
-    void newItem(MassifItem* item);
-    /**
-     * Resets the model content
-     */
-    void reset();
+    void addItem(MassifItem* item);
 
 private:
     MassifItem* m_rootItem;

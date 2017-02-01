@@ -10,7 +10,7 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -31,11 +31,8 @@ namespace valgrind
 
 class MassifItem
 {
-
 public:
-
-    MassifItem();
-    explicit MassifItem(bool);
+    explicit MassifItem(bool isChild = false);
     ~MassifItem();
 
     enum Columns {
@@ -46,35 +43,34 @@ public:
         MemStacksB
     };
 
-    /*
-     * Called when data related to the error has been parsed
-     */
-    void incomingData(const QString &name, const QString &value, const QString &dir = "");
-    void incomingAlloc(const QString &value);
+    void incomingData(const QString& name, const QString& value, const QString& dir = QStringLiteral(""));
+    void incomingAlloc(const QString& value);
 
-    // use by the model
-    void appendChild(MassifItem *child);
-    void setParent(MassifItem *parent);
-    MassifItem *child(int row);
+    MassifItem* parent();
+
+    MassifItem* child(int row);
+    void addChild(MassifItem* child);
     int childCount() const;
+
     int columnCount() const;
     QVariant data(int column) const;
-    int row() const;
-    MassifItem *parent();
 
-    QUrl url() const;
-    int getLine() const;
+    int row() const;
+    QUrl url() const; // FIXME return QString
+    int line() const;
 
 private:
+    MassifItem* m_parent;
+    QList<MassifItem*> m_childs;
+
+    bool m_isChild;
+
     QMap<QString, QString> m_values;
-    bool m_child;
 
+    QString m_dir;
+    QString m_file;
     int m_line;
-    QString m_dir, m_file;
 
-    // use by the model
-    QList<MassifItem*> m_childItems;
-    MassifItem *m_parentItem;
 };
 
 }

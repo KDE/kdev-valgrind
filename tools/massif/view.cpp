@@ -43,12 +43,12 @@ MassifView::~MassifView()
 {
 }
 
-void MassifView::openDocument(const QModelIndex & index)
+void MassifView::openDocument(const QModelIndex& index)
 {
     if (MassifItem* item = static_cast<MassifItem*>(index.internalPointer())) {
         QUrl doc = item->url();
         if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
-            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->getLine() - 1), 0));
+            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->line() - 1), 0));
         }
     }
 }

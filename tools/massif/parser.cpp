@@ -22,6 +22,7 @@
 #include "parser.h"
 
 #include "model.h"
+#include "modelitem.h"
 
 #include <kmessagebox.h>
 #include <QFile>
@@ -70,25 +71,22 @@ void parse(const QString& fileName, MassifModel* model)
             if (m_lst[1].startsWith(QStringLiteral("peak")) ||
                 m_lst[1].startsWith(QStringLiteral("detailed"))) {
 
+                // FIXME this code now provides only linear view for all subtrees
                 while (!m_buffer.startsWith(QChar('#')) && !data.atEnd()) {
                     m_buffer = data.readLine();
                     if (m_buffer.startsWith(QChar('#'))) {
                         break;
                     }
 
-                    MassifItem *child = new MassifItem(true);
-                    child->setParent(m_item);
+                    MassifItem* child = new MassifItem(true);
                     child->incomingData(QStringLiteral("child"), m_buffer.trimmed(), m_workingDir);
-                    m_item->appendChild(child);
+                    m_item->addChild(child);
                 }
             }
 
-            // this is the last info, send the item to the model
-            model->newItem(m_item);
+            model->addItem(m_item);
         }
     }
-
-    model->newItem(nullptr);
 }
 
 }

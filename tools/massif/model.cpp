@@ -11,7 +11,7 @@
 
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  General Public License for more details.
 
  You should have received a copy of the GNU General Public License
@@ -49,26 +49,13 @@ MassifModel::~MassifModel()
     delete m_rootItem;
 }
 
-void MassifModel::newItem(MassifItem* i)
+void MassifModel::addItem(MassifItem* item)
 {
-    if (!i) {
-        return;
-    }
-
-    i->setParent(m_rootItem);
-    m_rootItem->appendChild(i);
+    Q_ASSERT(item);
+    m_rootItem->addChild(item);
 }
 
-void MassifModel::reset()
-{
-}
-
-QVariant MassifModel::getColumnAtSnapshot(int snap, MassifItem::Columns col)
-{
-    return m_rootItem->child(snap)->data(col);
-}
-
-QModelIndex MassifModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex MassifModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent)) {
         return QModelIndex();
@@ -89,7 +76,7 @@ QModelIndex MassifModel::index(int row, int column, const QModelIndex &parent) c
     return QModelIndex();
 }
 
-QModelIndex MassifModel::parent(const QModelIndex &index) const
+QModelIndex MassifModel::parent(const QModelIndex& index) const
 {
     if (!index.isValid()) {
         return QModelIndex();
@@ -104,23 +91,20 @@ QModelIndex MassifModel::parent(const QModelIndex &index) const
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
-int MassifModel::rowCount(const QModelIndex &parent) const
+int MassifModel::rowCount(const QModelIndex& parent) const
 {
-    MassifItem* parentItem;
     if (parent.column() > 0) {
         return 0;
     }
 
     if (!parent.isValid()) {
-        parentItem = m_rootItem;
-    } else {
-        parentItem = static_cast<MassifItem*>(parent.internalPointer());
+        return m_rootItem->childCount();
     }
 
-    return parentItem->childCount();
+    return static_cast<MassifItem*>(parent.internalPointer())->childCount();
 }
 
-int MassifModel::columnCount(const QModelIndex &parent) const
+int MassifModel::columnCount(const QModelIndex& parent) const
 {
     if (parent.isValid()) {
         return static_cast<MassifItem*>(parent.internalPointer())->columnCount();
@@ -129,27 +113,26 @@ int MassifModel::columnCount(const QModelIndex &parent) const
     return m_rootItem->columnCount();
 }
 
-QVariant MassifModel::data(const QModelIndex & index, int role) const
+QVariant MassifModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
 
-    switch (role) {
-    case Qt::DisplayRole: {
-        MassifItem *item = static_cast<MassifItem*>(index.internalPointer());
-        return item->data(index.column());
-    }
-    break;
+    MassifItem* item = static_cast<MassifItem*>(index.internalPointer());
 
-    case Qt::FontRole: {
+    switch (role) {
+
+    case Qt::DisplayRole:
+        return item->data(index.column());
+
+    case Qt::FontRole:
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        if ((static_cast<MassifItem*>(index.internalPointer()))->parent() == m_rootItem) {
+        if (item->parent() == m_rootItem) {
             f.setBold(true);
         }
         return f;
-    }
-    break;
+
     }
 
     return QVariant();
@@ -158,20 +141,28 @@ QVariant MassifModel::data(const QModelIndex & index, int role) const
 QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation)
+
     if (role == Qt::DisplayRole) {
         switch (section) {
+
         case MassifItem::Snapshot:
             return i18n("snapshot");
+
         case MassifItem::Time:
             return i18n("time");
+
         case MassifItem::MemHeapB:
             return i18n("mem_heap_B");
+
         case MassifItem::MemHeapExtraB:
             return i18n("mem_heap_extra_B");
+
         case MassifItem::MemStacksB:
             return i18n("mem_stacks_B");
+
         }
     }
+
     return QVariant();
 }
 
