@@ -37,8 +37,8 @@
 #include <QTcpSocket>
 #include <KProcess>
 #include <kconfiggroup.h>
-#include "debug.h"
 #include <klocalizedstring.h>
+#include <kshell.h>
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -96,7 +96,7 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
 
-    args += MassifSettings::extraParameters(cfg);
+    args += KShell::splitArgs(MassifSettings::extraParameters(cfg));
     args += QStringLiteral("--depth=") + argValue(MassifSettings::detailedSnapshotsFrequency(cfg));
     args += QStringLiteral("--threshold=") + argValue(MassifSettings::threshold(cfg));
     args += QStringLiteral("--peak-inaccuracy=") + argValue(MassifSettings::peakInaccuracy(cfg));

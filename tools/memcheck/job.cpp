@@ -31,6 +31,7 @@
 #include <interfaces/ilanguagecontroller.h>
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
+#include <kshell.h>
 #include <shell/problemmodel.h>
 #include <shell/problemmodelset.h>
 #include <KLocalizedString>
@@ -89,7 +90,7 @@ void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
 
-    args += MemcheckSettings::extraParameters(cfg);
+    args += KShell::splitArgs(MemcheckSettings::extraParameters(cfg));
     args += QStringLiteral("--freelist-vol=") + argValue(MemcheckSettings::freeListSize(cfg));
     args += QStringLiteral("--undef-value-errors=") + argValue(MemcheckSettings::undefValueErrors(cfg));
     args += QStringLiteral("--show-reachable=") + argValue(MemcheckSettings::showReachable(cfg));

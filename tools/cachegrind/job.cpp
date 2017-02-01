@@ -34,6 +34,7 @@
 
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
+#include <kshell.h>
 
 #include <QBuffer>
 #include <QFile>
@@ -90,7 +91,7 @@ void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
 
-    args += CachegrindSettings::extraParameters(cfg);
+    args += KShell::splitArgs(CachegrindSettings::extraParameters(cfg));
     args += QStringLiteral("--cache-sim=") + argValue(CachegrindSettings::cacheSimulation(cfg));
     args += QStringLiteral("--branch-sim=") + argValue(CachegrindSettings::branchSimulation(cfg));
 }
