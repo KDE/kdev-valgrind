@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include "interfaces/imodel.h"
 #include "modelitem.h"
 
 #include <QList>
@@ -65,7 +64,7 @@ public:
     /**
      * Reception of a new item in the model
      */
-    void newItem(ModelItem* item);
+    void newItem(CallgrindCsItem* item);
     /**
      * Resets the model content
      */

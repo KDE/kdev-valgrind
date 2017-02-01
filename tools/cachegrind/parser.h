@@ -28,7 +28,6 @@ namespace valgrind
 {
 
 class CachegrindItem;
-class ModelItem;
 
 /**
  * A class which parses cachegrind's output
@@ -45,7 +44,7 @@ public:
     void parse(QByteArray& data);
 
 signals:
-    void newItem(ModelItem*);
+    void newItem(CachegrindItem*);
 
 private:
     /**

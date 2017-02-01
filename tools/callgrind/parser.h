@@ -29,7 +29,6 @@ namespace valgrind
 
 class CallgrindItem;
 class CallgrindCallstackItem;
-class ModelItem;
 
 /**
  * A class which parses callgrind's output
@@ -46,7 +45,7 @@ public:
     void parse(QByteArray& data);
 
 signals:
-    void newItem(ModelItem*);
+    void newItem(CallgrindCallstackItem*);
 
 private:
     /**

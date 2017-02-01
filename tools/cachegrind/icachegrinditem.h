@@ -23,15 +23,13 @@
 
 #pragma once
 
-#include "interfaces/imodel.h"
-
 #include <QString>
 
 namespace valgrind
 {
 
-//callgrind and cachegrind are simiral, they share the same item
-class iCachegrindItem : public ModelItem
+// callgrind and cachegrind are simiral, they share the same item
+class iCachegrindItem
 {
 public:
     /**

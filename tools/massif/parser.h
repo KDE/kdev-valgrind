@@ -26,7 +26,7 @@
 namespace valgrind
 {
 
-class ModelItem;
+class MassifItem;
 
 /**
  * A class which parses massif's output
@@ -43,7 +43,7 @@ public:
     void parse(const QString& fileName);
 
 signals:
-    void newItem(ModelItem*);
+    void newItem(MassifItem*);
 };
 
 }

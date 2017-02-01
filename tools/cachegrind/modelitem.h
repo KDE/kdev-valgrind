@@ -26,17 +26,14 @@
 #include <QMap>
 #include <QUrl>
 
-#include "interfaces/imodel.h"
-
 namespace valgrind
 {
 
-class CachegrindItem : public ModelItem
+class CachegrindItem
 {
 public:
-
     CachegrindItem();
-    ~CachegrindItem() override;
+    ~CachegrindItem();
 
     /**
      * Be carefull ! the order is important

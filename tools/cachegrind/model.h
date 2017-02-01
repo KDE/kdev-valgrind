@@ -23,12 +23,11 @@
 
 #pragma once
 
-#include "interfaces/imodel.h"
-
 #include <QAbstractItemModel>
 
 namespace valgrind
 {
+
 class CachegrindItem;
 
 class CachegrindModel : public QAbstractItemModel
@@ -53,7 +52,7 @@ public:
     /**
      * Reception of a new item in the model
      */
-    void newItem(ModelItem* item);
+    void newItem(CachegrindItem* item);
     /**
      * Resets the model content
      */

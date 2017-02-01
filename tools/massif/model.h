@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include "interfaces/imodel.h"
 #include "modelitem.h"
 
 #include <QAbstractItemModel>
@@ -57,7 +56,7 @@ public:
     /**
      * Reception of a new item in the model
      */
-    void newItem(ModelItem* item);
+    void newItem(MassifItem* item);
     /**
      * Resets the model content
      */

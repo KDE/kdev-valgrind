@@ -55,7 +55,7 @@ CallgrindModel::~CallgrindModel()
     delete m_callgrindFunctionModel;
 }
 
-void CallgrindModel::newItem(ModelItem *item)
+void CallgrindModel::newItem(CallgrindCsItem* item)
 {
     //Null item is send when the parsing has been done
     if (!item)

@@ -26,19 +26,17 @@
 #include <QUrl>
 #include <QVariant>
 
-#include "interfaces/imodel.h"
-
 namespace valgrind
 {
 
-class MassifItem : public ModelItem
+class MassifItem
 {
 
 public:
 
     MassifItem();
     explicit MassifItem(bool);
-    ~MassifItem() override;
+    ~MassifItem();
 
     enum Columns {
         Snapshot,

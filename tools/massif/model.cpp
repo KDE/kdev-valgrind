@@ -49,16 +49,15 @@ MassifModel::~MassifModel()
     delete m_rootItem;
 }
 
-void MassifModel::newItem(ModelItem* i)
+void MassifModel::newItem(MassifItem* i)
 {
     if (!i) {
         emit modelChanged();
         return;
     }
-    MassifItem *m = dynamic_cast<MassifItem *>(i);
-    Q_ASSERT(m);
-    m->setParent(m_rootItem);
-    m_rootItem->appendChild(m);
+
+    i->setParent(m_rootItem);
+    m_rootItem->appendChild(i);
 }
 
 void MassifModel::reset()

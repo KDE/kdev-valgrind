@@ -45,23 +45,22 @@ CachegrindModel::~CachegrindModel()
         delete m_rootItem;
 }
 
-void CachegrindModel::newItem(ModelItem* item)
+void CachegrindModel::newItem(CachegrindItem* item)
 {
     if (!item)
     {
         emit modelChanged();
         return;
     }
+
     if (m_rootItem == nullptr)
     {
-        m_rootItem = dynamic_cast<CachegrindItem *>(item);
+        m_rootItem = item;
     }
     else
     {
-        CachegrindItem *ci = dynamic_cast<CachegrindItem *>(item);
-        Q_ASSERT(ci);
-        ci->setParent(m_rootItem);
-        m_rootItem->appendChild(ci);
+        item->setParent(m_rootItem);
+        m_rootItem->appendChild(item);
     }
 }
 

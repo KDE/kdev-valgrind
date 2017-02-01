@@ -27,7 +27,6 @@
 #include <QMap>
 
 #include "cachegrind/icachegrinditem.h" // FIXME move iCachegrindItem to common interfaces ?
-#include "interfaces/imodel.h"
 
 #define CALLGRIND_MIN_DISPLAY_PERCENT 1
 
@@ -39,7 +38,7 @@ class CallgrindCallstackFunction;
 
 using CallgrindCsItem = CallgrindCallstackItem;
 
-class CallgrindCallstackItem : public ModelItem
+class CallgrindCallstackItem
 {
 public:
     explicit CallgrindCallstackItem(CallgrindCallstackFunction* function);
