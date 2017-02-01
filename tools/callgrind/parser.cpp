@@ -52,9 +52,9 @@ bool CallgrindParser::parseRootModel(const QString& buffer)
 
     for (int i = 0; i < m_headersList.size(); ++i) {
         iCachegrindItem::Columns key = iCachegrindItem::dataKeyFromName(m_headersList[i]);
-        if (key != iCachegrindItem::Unknow)
+        if (key != iCachegrindItem::Unknow) {
             m_programTotalStr += " " + m_headersList[i];
-        else {
+        } else {
             qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
             return false;
         }
@@ -90,8 +90,9 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
 
     iBegin = iEnd = 0;
     for (int i = 0; i < m_headersList.size(); ++i) {
-        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1)
+        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1) {
             break;
+        }
 
         dataList.append(buffer.mid(iBegin, iEnd - iBegin).replace(',', ""));
         iBegin = iEnd + 1;
@@ -106,11 +107,13 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
             iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
 
             if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1) {
-                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1)
+                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1) {
                     iEnd = buffer.length();
+                }
             }
-            else
+            else {
                 iEnd += 1;
+            }
 
             csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
 
@@ -153,9 +156,11 @@ void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalPro
         }
 
         else {
-            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1)
-                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1)
+            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1) {
+                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1) {
                     iEnd = buffer.length();
+                }
+            }
 
             csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
             m_model->newItem(csItem);
@@ -233,11 +238,13 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
                 parserState = ParseProgramTotalHeader;
             }
 
-            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr)
+            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr) {
                 parserState = ParseProgramTotal;
+            }
 
-            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr))
+            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr)) {
                 parserState = ParseProgram;
+            }
         }
 
         else {

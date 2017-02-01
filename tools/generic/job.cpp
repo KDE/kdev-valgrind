@@ -58,17 +58,21 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
 {
     const QString& toolName = valgrindTools.at(GenericSettings::currentTool(cfg->config()));
 
-    if (toolName == QStringLiteral("memcheck"))
+    if (toolName == QStringLiteral("memcheck")) {
         return new MemcheckJob(cfg, plugin, parent);
+    }
 
-    else if (toolName == QStringLiteral("massif"))
+    else if (toolName == QStringLiteral("massif")) {
         return new MassifJob(cfg, plugin, parent);
+    }
 
-    else if (toolName == QStringLiteral("cachegrind"))
+    else if (toolName == QStringLiteral("cachegrind")) {
         return new CachegrindJob(cfg, plugin, parent);
+    }
 
-    else if (toolName == QStringLiteral("callgrind"))
+    else if (toolName == QStringLiteral("callgrind")) {
         return new CallgrindJob(cfg, plugin, parent);
+    }
 
     qCDebug(KDEV_VALGRIND) << "can't create this job, " << toolName << " unknow job";
 
@@ -131,8 +135,9 @@ GenericJob::GenericJob(
     }
 
     m_workingDir = iface->workingDirectory(m_launchcfg);
-    if (m_workingDir.isEmpty() || !m_workingDir.isValid())
+    if (m_workingDir.isEmpty() || !m_workingDir.isValid()) {
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
+    }
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 }
 
@@ -239,8 +244,9 @@ void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatu
     emitResult();
 
     QWidget* view = createView();
-    if (view)
+    if (view) {
         emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
+    }
 
     m_plugin->jobFinished(this);
 }
@@ -258,8 +264,9 @@ void GenericJob::childProcessError(QProcess::ProcessError processError)
     case QProcess::Crashed:
         // if the process was killed by the user, the crash was expected
         // don't notify the user
-        if (status() != KDevelop::OutputExecuteJob::JobStatus::JobCanceled)
+        if (status() != KDevelop::OutputExecuteJob::JobStatus::JobCanceled) {
             errorMessage = i18n("Valgrind crashed.");
+        }
         break;
 
     case QProcess::Timedout:
@@ -279,8 +286,9 @@ void GenericJob::childProcessError(QProcess::ProcessError processError)
         break;
     }
 
-    if (!errorMessage.isEmpty())
+    if (!errorMessage.isEmpty()) {
         KMessageBox::error(qApp->activeWindow(), errorMessage, i18n("Valgrind Error"));
+    }
 
     KDevelop::OutputExecuteJob::childProcessError(processError);
 }
@@ -301,8 +309,9 @@ int GenericJob::executeProcess(const QString& executable, const QStringList& arg
 {
     QProcess process;
     process.start(executable, args);
-    if (process.waitForFinished())
+    if (process.waitForFinished()) {
         processOutput = process.readAllStandardOutput();
+    }
 
     return process.exitCode();
 }

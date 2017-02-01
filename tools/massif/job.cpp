@@ -78,14 +78,17 @@ void MassifJob::processEnded()
 void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 {
     int tu = MassifSettings::timeUnit(cfg);
-    if (tu == 0)
+    if (tu == 0) {
         args += QStringLiteral("--time-unit=i");
+    }
 
-    else if (tu == 1)
+    else if (tu == 1) {
         args += QStringLiteral("--time-unit=ms");
+    }
 
-    else if (tu == 2)
+    else if (tu == 2) {
         args += QStringLiteral("--time-unit=B");
+    }
 
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
 

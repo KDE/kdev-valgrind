@@ -77,40 +77,67 @@ QString CachegrindItem::dataKey(int column)
 
 CachegrindItem::Columns  CachegrindItem::dataKeyFromName(const QString& keyName)
 {
-    if (keyName == "Ir")
+    if (keyName == "Ir") {
         return CachegrindItem::InstructionRead;
-    else if (keyName == "I1mr")
+    }
+
+    else if (keyName == "I1mr") {
         return CachegrindItem::InstructionL1ReadMiss;
-    else if (keyName == "ILmr")
+    }
+
+    else if (keyName == "ILmr") {
         return CachegrindItem::InstructionLLReadMiss;
-    else if (keyName == "Dr")
+    }
+
+    else if (keyName == "Dr") {
         return CachegrindItem::DataCacheRead;
-    else if (keyName == "D1mr")
+    }
+
+    else if (keyName == "D1mr") {
         return CachegrindItem::DataCacheD1ReadMiss;
-    else if (keyName == "DLmr")
+    }
+
+    else if (keyName == "DLmr") {
         return CachegrindItem::DataCacheLLReadMiss;
-    else if (keyName == "Dw")
+    }
+
+    else if (keyName == "Dw") {
         return CachegrindItem::DataCacheWrite;
-    else if (keyName == "D1mw")
+    }
+
+    else if (keyName == "D1mw") {
         return CachegrindItem::DataCacheD1WriteMiss;
-    else if (keyName == "DLmw")
+    }
+
+    else if (keyName == "DLmw") {
         return CachegrindItem::DataCacheLLWriteMiss;
-    else if (keyName == "Bc")
+    }
+
+    else if (keyName == "Bc") {
         return CachegrindItem::ConditionnalBranchExecute;
-    else if (keyName == "Bcm")
+    }
+
+    else if (keyName == "Bcm") {
         return CachegrindItem::ConditionnalBranchMisprediced;
-    else if (keyName == "Bi")
+    }
+
+    else if (keyName == "Bi") {
         return CachegrindItem::IndirectBranchExecuted;
-    else if (keyName == "Bim")
+    }
+
+    else if (keyName == "Bim") {
         return CachegrindItem::IndirectBranchMispredicted;
-    else
-        return CachegrindItem::Unknow;
+    }
+
+    return CachegrindItem::Unknow;
 }
 
 bool CachegrindItem::isNumericValue(int column)
 {
-    if (column == CallName || column == FileName || column == Unknow)
+    if (column == CallName || column == FileName || column == Unknow) {
         return false;
+    }
+
     return true;
 }
 
@@ -147,8 +174,10 @@ int CachegrindItem::columnCount() const
 
 int CachegrindItem::row() const
 {
-    if (m_parentItem)
+    if (m_parentItem) {
         return m_parentItem->m_childItems.indexOf(const_cast<CachegrindItem*>(this));
+    }
+
     return 0;
 }
 
@@ -164,10 +193,14 @@ QVariant CachegrindItem::data(int column) const
     if (key.size() > 0) {
         if (numeric == true)
         {
-          if (this->parent() == nullptr)
+          if (this->parent() == nullptr) {
             return 0;
-          if (this->parent()->parent() == nullptr)
+          }
+
+          if (this->parent()->parent() == nullptr) {
             return 100;
+          }
+
           bool ok;
           float pc = (((float)m_values[key].toInt(&ok)) / ((float) this->parent()->m_values[key].toInt(&ok)));
 
@@ -182,8 +215,9 @@ QUrl CachegrindItem::url() const
 {
     QString dir = m_values[CachegrindItem::dataKey(CachegrindItem::FileName)].toString();
     QString fName = m_values[CachegrindItem::dataKey(CachegrindItem::CallName)].toString();
-    if (dir.isEmpty() && fName.isEmpty())
+    if (dir.isEmpty() && fName.isEmpty()) {
         return QUrl();
+    }
 
     QUrl url = QUrl::fromLocalFile(dir);
 

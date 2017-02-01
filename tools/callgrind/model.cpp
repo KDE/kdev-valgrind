@@ -47,11 +47,15 @@ CallgrindModel::~CallgrindModel()
 {
     for (int i = 0; i < m_callgrindCsItems.size(); ++i)
     {
-        if (m_callgrindCsItems[i] != nullptr)
+        if (m_callgrindCsItems[i] != nullptr) {
             delete m_callgrindCsItems[i];
+        }
     }
-    if (m_totalCountItem)
+
+    if (m_totalCountItem) {
         delete m_totalCountItem;
+    }
+
     delete m_callgrindFunctionModel;
 }
 
@@ -67,10 +71,11 @@ void CallgrindModel::newItem(CallgrindCsItem* item)
     }
     CallgrindCsItem *csItem = dynamic_cast<CallgrindCsItem *>(item);
     Q_ASSERT(csItem);
-    if ( m_totalCountItem == nullptr )
+    if ( m_totalCountItem == nullptr ) {
         m_totalCountItem = csItem;
-    else
+    } else {
         m_callgrindCsItems.append(csItem);
+    }
 }
 
 void CallgrindModel::reset()
@@ -168,8 +173,10 @@ void  CallgrindFunctionsListTModel::setItemList(const QList<CallgrindCallstackIt
 QModelIndex CallgrindFunctionsListTModel::index(int row, int column, const QModelIndex &parent) const
 {
     //Q_UNUSED(parent);
-    if (!hasIndex(row, column, parent))
+    if (!hasIndex(row, column, parent)) {
         return QModelIndex();
+    }
+
     return createIndex(row, column, m_items[row]);
 }
 
@@ -181,32 +188,34 @@ QModelIndex CallgrindFunctionsListTModel::parent(const QModelIndex &index) const
 
 int CallgrindFunctionsListTModel::rowCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
+    if (!parent.isValid()) {
         return m_items.count();
+    }
+
     return 0;
 }
 
 int CallgrindFunctionsListTModel::columnCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
+    if (!parent.isValid()) {
         // Call name, incl., IR, Number of calls
         return 4;
+    }
+
     return 0;
 }
 
 QVariant CallgrindFunctionsListTModel::data(const QModelIndex & index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return QVariant();
-    switch (role)
-    {
-    case Qt::DisplayRole:
-    {
+    }
+
+    if (role == Qt::DisplayRole) {
         CallgrindCallstackItem *item = static_cast<CallgrindCallstackItem *>(index.internalPointer());
         return item->data(columnToPosInModelList(index.column()), columnToDisplayMode(index.column()));
     }
-    break;
-    }
+
     return QVariant();
 }
 
@@ -214,8 +223,10 @@ QVariant CallgrindFunctionsListTModel::headerData(int section, Qt::Orientation o
 {
     if (role == Qt::DisplayRole)
     {
-        if (section == 1)
+        if (section == 1) {
             return "Incl.";
+        }
+
         return m_model->headerData(columnToPosInModelList(section), orientation, role);
     }
     return QVariant();
@@ -224,8 +235,10 @@ QVariant CallgrindFunctionsListTModel::headerData(int section, Qt::Orientation o
 
 CallgrindCallstackItem* CallgrindFunctionsListTModel::itemForIndex(const QModelIndex& index) const
 {
-    if (index.internalPointer())
+    if (index.internalPointer()) {
         return static_cast<CallgrindCallstackItem*>(index.internalPointer());
+    }
+
     return nullptr;
 }
 
@@ -249,8 +262,9 @@ void CallgrindFunctionsListTModel::quickSortCSItem( int first, int last,
             }
             else
             {
-                while ((left != right) && (this->*cmp)( list[pivot]->data(col, dispMode), list[right]->data(col, dispMode) ))
+                while ((left != right) && (this->*cmp)( list[pivot]->data(col, dispMode), list[right]->data(col, dispMode) )) {
                     --right;
+                }
                 list.swap(left, right);
             }
         }
@@ -269,8 +283,9 @@ void  CallgrindFunctionsListTModel::sort(int col, Qt::SortOrder order)
     iCachegrindItem::Columns cachegrindCol = this->columnToPosInModelList(col);
     CallgrindCallstackItem::numberDisplayMode dispModel = columnToDisplayMode(col);
     CSItemCompareFct compareFct = &CallgrindFunctionsListTModel::lessThan;
-    if (order == Qt::AscendingOrder)
+    if (order == Qt::AscendingOrder) {
         compareFct = &CallgrindFunctionsListTModel::greatherThan;
+    }
 
     emit layoutAboutToBeChanged();
     quickSortCSItem(0, size, m_items, cachegrindCol, compareFct, dispModel);
@@ -331,8 +346,10 @@ iCachegrindItem::Columns   CallgrindFunctionsListTModel::columnToPosInModelList(
 
 CallgrindCallstackItem::numberDisplayMode CallgrindFunctionsListTModel::columnToDisplayMode(int col) const
 {
-    if (col == 1)
+    if (col == 1) {
         return CallgrindCallstackItem::E_INCLUDE_PERCENT;
+    }
+
     return CallgrindCallstackItem::E_PERCENT;
 }
 

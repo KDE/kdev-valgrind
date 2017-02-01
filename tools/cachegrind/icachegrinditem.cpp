@@ -65,40 +65,67 @@ QString iCachegrindItem::dataKey(int column)
 
 iCachegrindItem::Columns  iCachegrindItem::dataKeyFromName(const QString& keyName)
 {
-    if (keyName == "Ir")
+    if (keyName == "Ir") {
         return iCachegrindItem::InstructionRead;
-    else if (keyName == "I1mr")
+    }
+
+    else if (keyName == "I1mr") {
         return iCachegrindItem::InstructionL1ReadMiss;
-    else if (keyName == "ILmr")
+    }
+
+    else if (keyName == "ILmr") {
         return iCachegrindItem::InstructionLLReadMiss;
-    else if (keyName == "Dr")
+    }
+
+    else if (keyName == "Dr") {
         return iCachegrindItem::DataCacheRead;
-    else if (keyName == "D1mr")
+    }
+
+    else if (keyName == "D1mr") {
         return iCachegrindItem::DataCacheD1ReadMiss;
-    else if (keyName == "DLmr")
+    }
+
+    else if (keyName == "DLmr") {
         return iCachegrindItem::DataCacheLLReadMiss;
-    else if (keyName == "Dw")
+    }
+
+    else if (keyName == "Dw") {
         return iCachegrindItem::DataCacheWrite;
-    else if (keyName == "D1mw")
+    }
+
+    else if (keyName == "D1mw") {
         return iCachegrindItem::DataCacheD1WriteMiss;
-    else if (keyName == "DLmw")
+    }
+
+    else if (keyName == "DLmw") {
         return iCachegrindItem::DataCacheLLWriteMiss;
-    else if (keyName == "Bc")
+    }
+
+    else if (keyName == "Bc") {
         return iCachegrindItem::ConditionnalBranchExecute;
-    else if (keyName == "Bcm")
+    }
+
+    else if (keyName == "Bcm") {
         return iCachegrindItem::ConditionnalBranchMisprediced;
-    else if (keyName == "Bi")
+    }
+
+    else if (keyName == "Bi") {
         return iCachegrindItem::IndirectBranchExecuted;
-    else if (keyName == "Bim")
+    }
+
+    else if (keyName == "Bim") {
         return iCachegrindItem::IndirectBranchMispredicted;
-    else
-        return iCachegrindItem::Unknow;
+    }
+
+    return iCachegrindItem::Unknow;
 }
 
 bool iCachegrindItem::isNumericValue(int column)
 {
-    if (column == CallName || column == FileName || column == Unknow)
+    if (column == CallName || column == FileName || column == Unknow) {
         return false;
+    }
+
     return true;
 }
 }

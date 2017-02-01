@@ -56,14 +56,17 @@ void MemcheckParser::startElement()
 {
     State newState = Unknown;
 
-    if (m_name == QStringLiteral("valgrindoutput"))
+    if (m_name == QStringLiteral("valgrindoutput")) {
         newState = Session;
+    }
 
-    else if (m_name == QStringLiteral("status"))
+    else if (m_name == QStringLiteral("status")) {
         newState = Status;
+    }
 
-    else if (m_name == QStringLiteral("preamble"))
+    else if (m_name == QStringLiteral("preamble")) {
         newState = Preamble;
+    }
 
     else if (m_name == QStringLiteral("error")) {
         newState = Error;
@@ -98,8 +101,9 @@ void MemcheckParser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool
     case Error:
         m_error->setValue(m_name, m_value);
 
-        if (m_name == QStringLiteral("error"))
+        if (m_name == QStringLiteral("error")) {
             problems.append(m_error->toIProblem(showInstructionPointer));
+        }
         break;
 
     case Stack:

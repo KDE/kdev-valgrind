@@ -49,8 +49,9 @@ void MassifItem::incomingData(const QString &name, const QString &value, const Q
     if (name == "child")
     {
         QStringList lst = value.mid(value.lastIndexOf('(') + 1).remove(')').split(':');
-        if (lst.size() != 2)
+        if (lst.size() != 2) {
             return;
+        }
         m_file = lst[0];
         m_line = lst[1].toInt();
         m_dir = dir;
@@ -84,8 +85,10 @@ int MassifItem::columnCount() const
 
 QVariant MassifItem::data(int column) const
 {
-    if (m_child && column == MemStacksB)
+    if (m_child && column == MemStacksB) {
         return m_values["child"];
+    }
+
     switch (column)
     {
     case Snapshot:
@@ -109,16 +112,18 @@ MassifItem *MassifItem::parent()
 
 int MassifItem::row() const
 {
-    if (m_parentItem)
+    if (m_parentItem) {
         return m_parentItem->m_childItems.indexOf(const_cast<MassifItem*>(this));
+    }
 
     return 0;
 }
 
 QUrl MassifItem::url() const
 {
-    if (m_dir.isEmpty() && m_file.isEmpty())
+    if (m_dir.isEmpty() && m_file.isEmpty()) {
         return QUrl();
+    }
 
     QUrl base = QUrl::fromLocalFile(m_dir);
     base.setPath(base.path() + '/');

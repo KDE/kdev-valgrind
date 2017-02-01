@@ -117,10 +117,11 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
 KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
 {
-    if (number != 0)
+    if (number != 0) {
         return nullptr;
-    else
-        return new GlobalConfigPage(this, parent);
+    }
+
+    return new GlobalConfigPage(this, parent);
 }
 
 Plugin::~Plugin()
@@ -141,10 +142,11 @@ void Plugin::jobFinished(KJob* kjob)
 {
     GenericJob* job = dynamic_cast<GenericJob*>(kjob);
     if (job && !job->error()) {
-        if (job->tool() == QStringLiteral("memcheck"))
+        if (job->tool() == QStringLiteral("memcheck")) {
             core()->languageController()->problemModelSet()->showModel(modelId);
-        else
+        } else {
             core()->uiController()->findToolView("Valgrind", m_factory);
+        }
     }
 }
 

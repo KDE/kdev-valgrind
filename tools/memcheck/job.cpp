@@ -60,13 +60,15 @@ void MemcheckJob::postProcessStderr(const QStringList& lines)
     static const auto xmlStartRegex = QRegularExpression("\\s*<");
 
     for (const QString & line : lines) {
-        if (line.isEmpty())
+        if (line.isEmpty()) {
             continue;
+        }
 
-        if (line.indexOf(xmlStartRegex) >= 0) // the line contains XML
+        if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
             m_xmlOutput << line;
-        else
+        } else {
             m_errorOutput << line;
+        }
     }
 
     KDevelop::OutputExecuteJob::postProcessStderr(lines);

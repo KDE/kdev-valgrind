@@ -64,8 +64,9 @@ Launcher::Launcher(Plugin *inst)
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
-    if (!cfg)
+    if (!cfg) {
         return nullptr;
+    }
 
     if (m_modes.contains(launchMode)) {
         IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
@@ -73,8 +74,9 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
 
         QList<KJob*> jobList;
         KJob* depjob = iface->dependencyJob(cfg);
-        if (depjob)
+        if (depjob) {
             jobList << depjob;
+        }
         jobList << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
         return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
@@ -87,8 +89,9 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
 
 void Launcher::addMode(LaunchMode* mode)
 {
-    if (!m_modes.contains(mode->id()))
+    if (!m_modes.contains(mode->id())) {
         m_modes.insert(mode->id(), mode);
+    }
 }
 
 QStringList Launcher::supportedModes() const

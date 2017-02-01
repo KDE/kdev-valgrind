@@ -75,8 +75,10 @@ CallgrindCallstackItem  *CallgrindCallstackItem::totalCountItem() const
 
 bool CallgrindCallstackItem::hasKey(int n)
 {
-    if (n == 0 || n == 1 || n == 2 || m_numericValue.contains(n))
+    if (n == 0 || n == 1 || n == 2 || m_numericValue.contains(n)) {
         return true;
+    }
+
     return false;
 }
 
@@ -93,10 +95,11 @@ int   CallgrindCallstackItem::numericValue(int n) const
 void  CallgrindCallstackItem::setValue(const QString& key, const QString& value)
 {
     int iKey = iCachegrindItem::dataKeyFromName(key);
-    if (iKey == iCachegrindItem::Unknow)
+    if (iKey == iCachegrindItem::Unknow) {
         return;
-    if (iCachegrindItem::isNumericValue(iKey))
-    {
+    }
+
+    if (iCachegrindItem::isNumericValue(iKey)) {
         m_numericValue[iKey] = value.toInt();
     }
     //else if (iKey == iCachegrindItem::FileName)
@@ -209,8 +212,9 @@ void CallgrindCallstackFunction::setFullDescName(const QString& fdn)
     iBegin = 0;
     m_fullDescName = fdn;
     //file name
-    if ((iEnd = fdn.indexOf(QChar(':'), iBegin)) == -1)
+    if ((iEnd = fdn.indexOf(QChar(':'), iBegin)) == -1) {
         return;
+    }
     this->m_fileName = fdn.mid(iBegin, iEnd - iBegin);
     //function name name
     iBegin = iEnd + 1;

@@ -80,8 +80,9 @@ void CachegrindParser::parseNewCachegrindItem(const QString& buffer, bool totalP
 
     iBegin = iEnd = 0;
     for (int i = 0; i < m_headersList.size(); ++i) {
-        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1)
+        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1) {
             break;
+        }
 
         item->incomingData(CachegrindItem::dataKey(CachegrindItem::dataKeyFromName(m_headersList[i])),
                            buffer.mid(iBegin, iEnd - iBegin).replace(',', ""));
@@ -122,8 +123,9 @@ void CachegrindParser::parseNewCachegrindItem(const QString& buffer, bool totalP
             item->setParent(totalCountItem);
         }
 
-        if ((iEnd = buffer.indexOf(QChar(':'), iBegin)) == -1)
+        if ((iEnd = buffer.indexOf(QChar(':'), iBegin)) == -1) {
             return;
+        }
 
         // file name
         item->incomingData(CachegrindItem::dataKey(CachegrindItem::FileName),
@@ -180,11 +182,13 @@ void CachegrindParser::parse(QByteArray& baData, CachegrindModel* model)
                 parserState = ParseProgramTotalHeader;
             }
 
-            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr)
+            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr) {
                 parserState = ParseProgramTotal;
+            }
 
-            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr))
+            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr)) {
                 parserState = ParseProgram;
+            }
         }
 
         else {

@@ -41,14 +41,16 @@ CachegrindModel::CachegrindModel(QObject* parent)
 
 CachegrindModel::~CachegrindModel()
 {
-    if (m_rootItem != nullptr)
+    if (m_rootItem != nullptr) {
         delete m_rootItem;
+    }
 }
 
 void CachegrindModel::newItem(CachegrindItem* item)
 {
-    if (!item)
+    if (!item) {
         return;
+    }
 
     if (m_rootItem) {
         item->setParent(m_rootItem);
@@ -63,59 +65,83 @@ void CachegrindModel::reset()
 
 QModelIndex CachegrindModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!hasIndex(row, column, parent))
+    if (!hasIndex(row, column, parent)) {
         return QModelIndex();
-    CachegrindItem *parentItem;
-    if (!parent.isValid())
+    }
+
+    CachegrindItem* parentItem;
+    if (!parent.isValid()) {
         parentItem = m_rootItem;
-    else
+    } else {
         parentItem = static_cast<CachegrindItem *>(parent.internalPointer());
-    if (parentItem == nullptr)
+    }
+
+    if (parentItem == nullptr) {
         return QModelIndex();
-    CachegrindItem *childItem = parentItem->child(row);
-    if (childItem)
+    }
+
+    CachegrindItem* childItem = parentItem->child(row);
+    if (childItem) {
         return createIndex(row, column, childItem);
+    }
+
     return QModelIndex();
 }
 
 QModelIndex CachegrindModel::parent(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return QModelIndex();
-    CachegrindItem *childItem = static_cast<CachegrindItem*>(index.internalPointer());
-    CachegrindItem *parentItem = childItem->parent();
-    if (parentItem == m_rootItem)
+    }
+
+    CachegrindItem* childItem = static_cast<CachegrindItem*>(index.internalPointer());
+    CachegrindItem* parentItem = childItem->parent();
+    if (parentItem == m_rootItem) {
         return QModelIndex();
+    }
+
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
 int CachegrindModel::rowCount(const QModelIndex &parent) const
 {
-    CachegrindItem *parentItem;
-    if (parent.column() > 0)
+    CachegrindItem* parentItem;
+    if (parent.column() > 0) {
         return 0;
-    if (!parent.isValid())
+    }
+
+    if (!parent.isValid()) {
         parentItem = m_rootItem;
-    else
+    } else {
         parentItem = static_cast<CachegrindItem*>(parent.internalPointer());
-    if (parentItem != nullptr)
+    }
+
+    if (parentItem != nullptr) {
         return parentItem->childCount();
+    }
+
     return 0;
 }
 
 int CachegrindModel::columnCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
+    if (parent.isValid()) {
         return static_cast<CachegrindItem*>(parent.internalPointer())->columnCount();
-    else if (m_rootItem != nullptr)
+    }
+
+    if (m_rootItem != nullptr) {
         return m_rootItem->columnCount();
+    }
+
     return 0;
 }
 
 QVariant CachegrindModel::data(const QModelIndex & index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return QVariant();
+    }
+
     switch (role)
     {
     case Qt::DisplayRole:
@@ -127,8 +153,9 @@ QVariant CachegrindModel::data(const QModelIndex & index, int role) const
     case Qt::FontRole:
     {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        if ((static_cast<CachegrindItem*>(index.internalPointer()))->childCount() > 0)
+        if ((static_cast<CachegrindItem*>(index.internalPointer()))->childCount() > 0) {
             f.setBold(true);
+        }
         return f;
     }
     break;
@@ -219,8 +246,10 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, i
 
 CachegrindItem* CachegrindModel::itemForIndex(const QModelIndex& index) const
 {
-    if (index.internalPointer())
+    if (index.internalPointer()) {
         return static_cast<CachegrindItem*>(index.internalPointer());
+    }
+
     return nullptr;
 }
 

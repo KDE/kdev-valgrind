@@ -41,23 +41,29 @@ struct ValgrindProblem : public KDevelop::DetectedProblem
 
 void MemcheckFrame::setValue(const QString& name, const QString& value)
 {
-    if (name == "ip")
+    if (name == "ip") {
         instructionPointer = value;
+    }
 
-    else if (name == "obj")
+    else if (name == "obj") {
         objectFile = value;
+    }
 
-    else if (name == "fn")
+    else if (name == "fn") {
         function = value;
+    }
 
-    else if (name == "dir")
+    else if (name == "dir") {
         directory = value;
+    }
 
-    else if (name == "file")
+    else if (name == "file") {
         file = value;
+    }
 
-    else if (name == "line")
+    else if (name == "line") {
         line = value.toInt();
+    }
 }
 
 KDevelop::IProblem::Ptr MemcheckFrame::toIProblem(bool showInstructionPointer) const
@@ -67,17 +73,19 @@ KDevelop::IProblem::Ptr MemcheckFrame::toIProblem(bool showInstructionPointer) c
     KDevelop::DocumentRange range;
     range.setBothLines(line - 1);
 
-    if (directory.isEmpty() && file.isEmpty())
+    if (directory.isEmpty() && file.isEmpty()) {
         range.document = KDevelop::IndexedString(objectFile);
-    else
+    } else {
         range.document = KDevelop::IndexedString(directory + "/" + file);
+    }
 
     frameProblem->setFinalLocation(range);
     frameProblem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
     QString description;
-    if (showInstructionPointer)
+    if (showInstructionPointer) {
         description = QStringLiteral("%1: ").arg(instructionPointer);
+    }
     description += function;
     frameProblem->setDescription(description);
 
@@ -99,8 +107,9 @@ void MemcheckStack::setValue(const QString& name, const QString& value)
 {
     Q_UNUSED(value)
 
-    if (name == "frame")
+    if (name == "frame") {
         qCDebug(KDEV_VALGRIND) << "MemcheckStack::setValue() Incoming data with frame name error";
+    }
 }
 
 KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) const
@@ -145,24 +154,28 @@ MemcheckStack& MemcheckError::lastStack()
 
 void MemcheckError::setValue(const QString& name, const QString& value)
 {
-    if (name == "what")
+    if (name == "what") {
         this->what = value;
+    }
 
-    else if (name == "text")
+    else if (name == "text") {
         this->text = value;
+    }
 
-    else if (name == "auxwhat")
+    else if (name == "auxwhat") {
         this->auxWhat = value;
+    }
 }
 
 KDevelop::IProblem::Ptr MemcheckError::toIProblem(bool showInstructionPointer) const
 {
     KDevelop::IProblem::Ptr problem(new ValgrindProblem);
 
-    if (what.isEmpty())
+    if (what.isEmpty()) {
         problem->setDescription(text);
-    else
+    } else {
         problem->setDescription(what);
+    }
 
     // Add the stacks
     foreach (const MemcheckStack& stack, stacks) {

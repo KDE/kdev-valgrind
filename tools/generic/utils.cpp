@@ -50,10 +50,11 @@ QFileProxyRemove::QFileProxyRemove(
 
     connect(m_process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
             this, [this](QProcess::ProcessError error) {
-        if (error == QProcess::FailedToStart)
+        if (error == QProcess::FailedToStart) {
             KMessageBox::error(qApp->activeWindow(),
                                i18n("Unable to launch the process %1 (%2)", m_execPath, error),
                                i18n("Valgrind Error"));
+        }
         deleteLater();
     });
 

@@ -93,8 +93,9 @@ void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, co
     CallgrindCallstackItem  *item = static_cast<CallgrindCallstackItem*>(selected.indexes().first().internalPointer());
     m_functionListSelectedItem = item;
 
-    if (m_functionListSelectedItem == nullptr)
+    if (m_functionListSelectedItem == nullptr) {
         return;
+    }
 
     updateInformationTab(item);
     updateCallerTab(item);
@@ -103,8 +104,10 @@ void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, co
 
 void CallgrindView::updateInformationTab(CallgrindCallstackItem *item)
 {
-    if (ui->InformationsListView->model()!= nullptr)
+    if (ui->InformationsListView->model()!= nullptr) {
         delete ui->InformationsListView->model();
+    }
+
     QStandardItemModel *informationsModel = new QStandardItemModel(this);
     int size = ((int) iCachegrindItem::Unknow) - 1;
     for (int i = 0; i < size; ++i)
@@ -121,9 +124,11 @@ void CallgrindView::updateInformationTab(CallgrindCallstackItem *item)
 
 void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
 {
-    //delete old model
-    if (m_callerProxyModel->sourceModel() != nullptr)
+    // delete old model
+    if (m_callerProxyModel->sourceModel() != nullptr) {
         delete m_callerProxyModel->sourceModel();
+    }
+
     QStandardItemModel    *callerModel = new QStandardItemModel(this);
     callerModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
     callerModel->setHorizontalHeaderItem(1, new QStandardItem (i18n("Ir")));
@@ -142,8 +147,10 @@ void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
 
 void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
 {
-    if (m_calleeProxyModel->sourceModel() != nullptr)
+    if (m_calleeProxyModel->sourceModel() != nullptr) {
         delete m_calleeProxyModel->sourceModel();
+    }
+
     QStandardItemModel  *calleeModel = new QStandardItemModel(this);
     calleeModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
     calleeModel->setHorizontalHeaderItem(1, new QStandardItem(i18n("Ir")));
@@ -163,10 +170,14 @@ void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
 void CallgrindView::percentInformationClicked(bool enable)
 {
     m_informationDisplayMode = CallgrindCallstackItem::E_PERCENT;
-    if (!enable)
+    if (!enable) {
         m_informationDisplayMode = CallgrindCallstackItem::E_NORMAL;
-    if (m_functionListSelectedItem == nullptr)
+    }
+
+    if (m_functionListSelectedItem == nullptr) {
         return;
+    }
+
     updateInformationTab(m_functionListSelectedItem);
 }
 

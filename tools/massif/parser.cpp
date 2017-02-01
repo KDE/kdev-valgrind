@@ -48,9 +48,10 @@ void parse(const QString& fileName, MassifModel* model)
 
         if (m_buffer.startsWith(QChar('#')) ||
             m_buffer.startsWith(QStringLiteral("desc")) ||
-            m_buffer.startsWith(QStringLiteral("time_unit")))
+            m_buffer.startsWith(QStringLiteral("time_unit"))) {
 
             continue; // skip comment and useless lines
+        }
 
         if (m_buffer.startsWith(QStringLiteral("cmd"))) {
             m_workingDir = m_buffer.split(QChar(' '))[1].split(QStringLiteral("build"))[0];
@@ -67,18 +68,20 @@ void parse(const QString& fileName, MassifModel* model)
         m_item->incomingData(m_lst[0], m_lst[1].trimmed());
         if (m_lst[0] == QStringLiteral("heap_tree")) {
             if (m_lst[1].startsWith(QStringLiteral("peak")) ||
-                m_lst[1].startsWith(QStringLiteral("detailed")))
+                m_lst[1].startsWith(QStringLiteral("detailed"))) {
 
                 while (!m_buffer.startsWith(QChar('#')) && !data.atEnd()) {
                     m_buffer = data.readLine();
-                    if (m_buffer.startsWith(QChar('#')))
+                    if (m_buffer.startsWith(QChar('#'))) {
                         break;
+                    }
 
                     MassifItem *child = new MassifItem(true);
                     child->setParent(m_item);
                     child->incomingData(QStringLiteral("child"), m_buffer.trimmed(), m_workingDir);
                     m_item->appendChild(child);
                 }
+            }
 
             // this is the last info, send the item to the model
             model->newItem(m_item);
