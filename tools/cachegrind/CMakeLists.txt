@@ -8,6 +8,7 @@ add_library(cachegrind_tool STATIC
     model.cpp
     modelitem.cpp
     parser.cpp
+    settings.cpp
     view.cpp
 
     icachegrinditem.cpp
