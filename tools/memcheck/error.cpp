@@ -122,7 +122,6 @@ KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) c
         stackProblem->addDiagnostic(frameProblem);
 
         if (!range.isValid() && !frame.file.isEmpty()) {
-            qDebug() << frame.file << frame.line << range.isValid() << range;
             range = frameProblem->finalLocation();
         }
     }
