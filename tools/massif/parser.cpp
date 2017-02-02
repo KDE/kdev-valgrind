@@ -1,7 +1,7 @@
 /* This file is part of KDevelop
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,7 +24,6 @@
 #include "model.h"
 #include "modelitem.h"
 
-#include <kmessagebox.h>
 #include <QFile>
 
 namespace valgrind
@@ -37,51 +36,52 @@ void parse(const QString& fileName, MassifModel* model)
 {
     Q_ASSERT(model);
 
-    QFile data(fileName);
-    QString m_buffer;
-    QString m_workingDir;
-    QStringList m_lst;
-    MassifItem* m_item(nullptr);
+    MassifItem* massifItem;
+    QString line;
+    QStringList keyValue;
 
-    data.open(QIODevice::ReadOnly);
-    while (!data.atEnd()) {
-        m_buffer = data.readLine();
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
 
-        if (m_buffer.startsWith(QChar('#')) ||
-            m_buffer.startsWith(QStringLiteral("desc")) ||
-            m_buffer.startsWith(QStringLiteral("time_unit"))) {
+    while (!file.atEnd()) {
+        line = file.readLine();
+
+        if (line.startsWith(QChar('#')) ||
+            line.startsWith(QStringLiteral("desc")) ||
+            line.startsWith(QStringLiteral("time_unit")) ||
+            line.startsWith(QStringLiteral("cmd"))) {
 
             continue; // skip comment and useless lines
         }
 
-        if (m_buffer.startsWith(QStringLiteral("cmd"))) {
-            m_workingDir = m_buffer.split(QChar(' '))[1].split(QStringLiteral("build"))[0];
+        keyValue = line.split(QChar('='));
+        const QString& key = keyValue.at(0);
+        const QString& value = keyValue.at(1);
+
+        if (key == QStringLiteral("snapshot")) {
+            massifItem = new MassifItem;
+            massifItem->incomingData(key, value.trimmed());
             continue;
         }
 
-        m_lst = m_buffer.split(QChar('='));
-        if (m_lst[0] == QStringLiteral("snapshot")) { // new snapshot
-            m_item = new MassifItem();
-            m_item->incomingData(m_lst[0], m_lst[1].trimmed());
-            continue;
-        }
+        Q_ASSERT(massifItem);
+        massifItem->incomingData(key, value.trimmed());
 
-        m_item->incomingData(m_lst[0], m_lst[1].trimmed());
-        if (m_lst[0] == QStringLiteral("heap_tree")) {
-            if (m_lst[1].startsWith(QStringLiteral("peak")) ||
-                m_lst[1].startsWith(QStringLiteral("detailed"))) {
+        if (key == QStringLiteral("heap_tree")) {
+            if (value.startsWith(QStringLiteral("peak")) ||
+                value.startsWith(QStringLiteral("detailed"))) {
 
-                while (!data.atEnd()) {
-                    m_buffer = data.readLine();
-                    if (m_buffer.startsWith(QChar('#'))) {
+                while (!file.atEnd()) {
+                    line = file.readLine();
+                    if (line.startsWith(QChar('#'))) {
                         break;
                     }
 
-                    m_item->heapTree.append(m_buffer.remove("\n"));
+                    massifItem->heapTree.append(line.remove("\n"));
                 }
             }
 
-            model->addItem(m_item);
+            model->addItem(massifItem);
         }
     }
 }
