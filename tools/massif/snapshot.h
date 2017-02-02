@@ -21,10 +21,7 @@
 
 #pragma once
 
-#include <QString>
 #include <QMap>
-#include <QUrl>
-#include <QVariant>
 
 namespace valgrind
 {

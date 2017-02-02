@@ -23,28 +23,20 @@
 
 #include "job.h"
 
+#include "debug.h"
+#include "generic/utils.h"
+#include "globalsettings.h"
 #include "model.h"
 #include "parser.h"
+#include "plugin.h"
 #include "settings.h"
 #include "view.h"
 
-#include "debug.h"
-#include "generic/utils.h"
-#include "plugin.h"
-#include "globalsettings.h"
-
-#include <QFile>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <KProcess>
-#include <kconfiggroup.h>
-#include <klocalizedstring.h>
 #include <kshell.h>
 
-#include <execute/iexecuteplugin.h>
-#include <interfaces/icore.h>
 #include <interfaces/ilaunchconfiguration.h>
-#include <interfaces/iplugincontroller.h>
+
+#include <QFile>
 
 namespace valgrind
 {
