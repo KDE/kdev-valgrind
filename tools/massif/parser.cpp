@@ -22,7 +22,7 @@
 #include "parser.h"
 
 #include "model.h"
-#include "modelitem.h"
+#include "snapshot.h"
 
 #include <QFile>
 
@@ -36,7 +36,7 @@ void parse(const QString& fileName, MassifModel* model)
 {
     Q_ASSERT(model);
 
-    MassifItem* massifItem;
+    MassifSnapshot* snapshot;
     QString line;
     QStringList keyValue;
 
@@ -59,13 +59,13 @@ void parse(const QString& fileName, MassifModel* model)
         const QString& value = keyValue.at(1);
 
         if (key == QStringLiteral("snapshot")) {
-            massifItem = new MassifItem;
-            massifItem->incomingData(key, value.trimmed());
+            snapshot = new MassifSnapshot;
+            snapshot->setValue(key, value.trimmed());
             continue;
         }
 
-        Q_ASSERT(massifItem);
-        massifItem->incomingData(key, value.trimmed());
+        Q_ASSERT(snapshot);
+        snapshot->setValue(key, value.trimmed());
 
         if (key == QStringLiteral("heap_tree")) {
             if (value.startsWith(QStringLiteral("peak")) ||
@@ -77,11 +77,11 @@ void parse(const QString& fileName, MassifModel* model)
                         break;
                     }
 
-                    massifItem->heapTree.append(line.remove("\n"));
+                    snapshot->heapTree.append(line.remove("\n"));
                 }
             }
 
-            model->addItem(massifItem);
+            model->addSnapshot(snapshot);
         }
     }
 }

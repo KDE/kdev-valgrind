@@ -1,8 +1,6 @@
 /* This file is part of KDevelop
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
- * Copyright 2011 Lionel Duc <lionel.data@gmail.com>
- * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,33 +18,42 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
+#include "snapshot.h"
 
-#include <QAbstractTableModel>
+#include "debug.h"
 
 namespace valgrind
 {
 
-class MassifSnapshot;
-
-class MassifModel : public QAbstractTableModel
+void MassifSnapshot::setValue(const QString& columnName, const QString& value)
 {
-public:
-    explicit MassifModel(QObject* parent = nullptr);
-    ~MassifModel() override;
+    int column = -1;
+    if (columnName == QStringLiteral("snapshot")) {
+        column = Columns::Snapshot;
+    }
 
-    QModelIndex index(int, int, const QModelIndex& parent = QModelIndex()) const override;
+    else if (columnName == QStringLiteral("time")) {
+        column = Columns::Time;
+    }
 
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+    else if (columnName == QStringLiteral("mem_heap_B")) {
+        column = Columns::Heap;
+    }
 
-    QVariant data(const QModelIndex& index, int role) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    else if (columnName == QStringLiteral("mem_heap_extra_B")) {
+        column = Columns::HeapExtra;
+    }
 
-    void addSnapshot(MassifSnapshot* snapshot);
+    else if (columnName == QStringLiteral("mem_stacks_B")) {
+        column = Columns::Stack;
+    }
 
-private:
-    QList<MassifSnapshot*> m_snapshots;
-};
+    if (column < 0) {
+        qCDebug(KDEV_VALGRIND) << "MassifSnapshot::setValue(); unknown column name:" << columnName;
+        return;
+    }
+
+    values[column] = value;
+}
 
 }

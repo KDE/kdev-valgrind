@@ -7,9 +7,9 @@ add_library(massif_tool STATIC
     configpage.cpp
     job.cpp
     model.cpp
-    modelitem.cpp
     parser.cpp
     settings.cpp
+    snapshot.cpp
     view.cpp
 
     ${massif_UI_SRCS}

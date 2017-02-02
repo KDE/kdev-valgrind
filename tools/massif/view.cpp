@@ -24,7 +24,7 @@
 
 #include "debug.h"
 #include "model.h"
-#include "modelitem.h"
+#include "snapshot.h"
 
 #include <QStringListModel>
 
@@ -48,8 +48,8 @@ MassifView::MassifView(MassifModel* model, QWidget* parent)
 
     connect(ui->snapshotsView->selectionModel(), &QItemSelectionModel::currentChanged, this,
             [treesModel](const QModelIndex& current, const QModelIndex&) {
-        auto item = static_cast<MassifItem*>(current.internalPointer());
-        treesModel->setStringList(item->heapTree);
+        auto snapshot = static_cast<MassifSnapshot*>(current.internalPointer());
+        treesModel->setStringList(snapshot->heapTree);
     });
 }
 

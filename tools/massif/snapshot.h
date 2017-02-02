@@ -29,50 +29,21 @@
 namespace valgrind
 {
 
-class MassifItem
+class MassifSnapshot
 {
 public:
-    explicit MassifItem(bool isChild = false);
-    ~MassifItem();
-
     enum Columns {
         Snapshot,
         Time,
-        MemHeapB,
-        MemHeapExtraB,
-        MemStacksB
+        Heap,
+        HeapExtra,
+        Stack
     };
 
-    void incomingData(const QString& name, const QString& value, const QString& dir = QStringLiteral(""));
-    void incomingAlloc(const QString& value);
+    void setValue(const QString& column, const QString& value);
 
-    MassifItem* parent();
-
-    MassifItem* child(int row);
-    void addChild(MassifItem* child);
-    int childCount() const;
-
-    int columnCount() const;
-    QVariant data(int column) const;
-
-    int row() const;
-    QUrl url() const; // FIXME return QString
-    int line() const;
-
+    QMap<int, QString> values;
     QStringList heapTree;
-
-private:
-    MassifItem* m_parent;
-    QList<MassifItem*> m_childs;
-
-    bool m_isChild;
-
-    QMap<QString, QString> m_values;
-
-    QString m_dir;
-    QString m_file;
-    int m_line;
-
 };
 
 }

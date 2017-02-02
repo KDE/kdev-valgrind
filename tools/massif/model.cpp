@@ -21,9 +21,9 @@
 */
 
 #include "model.h"
-#include "modelitem.h"
 
 #include "debug.h"
+#include "snapshot.h"
 
 #include <klocalizedstring.h>
 
@@ -39,12 +39,13 @@ MassifModel::MassifModel(QObject* parent)
 
 MassifModel::~MassifModel()
 {
+    qDeleteAll(m_snapshots);
 }
 
-void MassifModel::addItem(MassifItem* item)
+void MassifModel::addSnapshot(MassifSnapshot* snapshot)
 {
-    Q_ASSERT(item);
-    m_items.append(item);
+    Q_ASSERT(snapshot);
+    m_snapshots.append(snapshot);
 }
 
 QModelIndex MassifModel::index(int row, int column, const QModelIndex&) const
@@ -53,12 +54,12 @@ QModelIndex MassifModel::index(int row, int column, const QModelIndex&) const
         return QModelIndex();
     }
 
-    return createIndex(row, column, m_items.at(row));
+    return createIndex(row, column, m_snapshots.at(row));
 }
 
 int MassifModel::rowCount(const QModelIndex&) const
 {
-    return m_items.size();
+    return m_snapshots.size();
 }
 
 int MassifModel::columnCount(const QModelIndex&) const
@@ -92,20 +93,20 @@ QVariant MassifModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    auto item = static_cast<MassifItem*>(index.internalPointer());
-    Q_ASSERT(item);
+    auto snapshot = static_cast<MassifSnapshot*>(index.internalPointer());
+    Q_ASSERT(snapshot);
 
     if (role == Qt::DisplayRole) {
-        if (index.column() <= MassifItem::Time) {
-            return item->data(index.column());
+        if (index.column() <= MassifSnapshot::Time) {
+            return snapshot->values[index.column()];
         }
 
-        return humanSize(item->data(index.column()).toInt());
+        return humanSize(snapshot->values[index.column()].toInt());
     }
 
     if (role == Qt::FontRole) {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        if (!item->heapTree.isEmpty()) {
+        if (!snapshot->heapTree.isEmpty()) {
             f.setBold(true);
         }
         return f;
@@ -121,19 +122,19 @@ QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int r
     if (role == Qt::DisplayRole) {
         switch (section) {
 
-        case MassifItem::Snapshot:
+        case MassifSnapshot::Snapshot:
             return i18n("Snapshot");
 
-        case MassifItem::Time:
+        case MassifSnapshot::Time:
             return i18n("Time");
 
-        case MassifItem::MemHeapB:
+        case MassifSnapshot::Heap:
             return i18n("Heap");
 
-        case MassifItem::MemHeapExtraB:
+        case MassifSnapshot::HeapExtra:
             return i18n("Heap (extra)");
 
-        case MassifItem::MemStacksB:
+        case MassifSnapshot::Stack:
             return i18n("Stack");
 
         }
