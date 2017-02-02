@@ -113,26 +113,48 @@ int MassifModel::columnCount(const QModelIndex& parent) const
     return m_rootItem->columnCount();
 }
 
+QString humanSize(int byteSize)
+{
+    static const QStringList units{ "KiB", "MiB", "GiB", "TiB" };
+
+    if (byteSize < 1024) {
+        return QString::number(byteSize);
+    }
+
+    float size = byteSize;
+    QStringListIterator i(units);
+    QString unit;
+
+    while (size >= 1024.0 && i.hasNext()) {
+        unit = i.next();
+        size /= 1024.0;
+    }
+
+    return QStringLiteral("%1 %2").arg(size, 0, 'f', 1).arg(unit);
+}
+
 QVariant MassifModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
 
-    MassifItem* item = static_cast<MassifItem*>(index.internalPointer());
+    auto item = static_cast<MassifItem*>(index.internalPointer());
 
-    switch (role) {
+    if (role == Qt::DisplayRole) {
+        if (index.column() <= MassifItem::Time)
+            return item->data(index.column());
 
-    case Qt::DisplayRole:
-        return item->data(index.column());
+        return humanSize(item->data(index.column()).toInt());
+    }
 
-    case Qt::FontRole:
+    if (role == Qt::FontRole) {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        if (item->parent() == m_rootItem) {
+        // FIXME check for heap trees instead
+        if (item->childCount()) {
             f.setBold(true);
         }
         return f;
-
     }
 
     return QVariant();
@@ -146,19 +168,19 @@ QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int r
         switch (section) {
 
         case MassifItem::Snapshot:
-            return i18n("snapshot");
+            return i18n("Snapshot");
 
         case MassifItem::Time:
-            return i18n("time");
+            return i18n("Time");
 
         case MassifItem::MemHeapB:
-            return i18n("mem_heap_B");
+            return i18n("Heap");
 
         case MassifItem::MemHeapExtraB:
-            return i18n("mem_heap_extra_B");
+            return i18n("Heap (extra)");
 
         case MassifItem::MemStacksB:
-            return i18n("mem_stacks_B");
+            return i18n("Stack");
 
         }
     }
