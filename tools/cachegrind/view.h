@@ -27,10 +27,12 @@
 namespace valgrind
 {
 
+class CachegrindModel;
+
 class CachegrindView : public QTreeView
 {
 public:
-    CachegrindView();
+    CachegrindView(CachegrindModel* model, QWidget* parent = nullptr);
     ~CachegrindView() override;
 
 protected:

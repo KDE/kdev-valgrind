@@ -37,8 +37,13 @@
 namespace valgrind
 {
 
-CachegrindView::CachegrindView()
+CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
+    : QTreeView(parent)
 {
+    Q_ASSERT(model);
+    model->setParent(this);
+    setModel(model);
+
     connect(this, &CachegrindView::activated, this, &CachegrindView::openDocument);
 }
 

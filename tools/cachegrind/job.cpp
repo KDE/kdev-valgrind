@@ -81,9 +81,7 @@ void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
 QWidget* CachegrindJob::createView()
 {
-    auto view = new CachegrindView;
-    view->setModel(m_model);
-    return view;
+    return new CachegrindView(m_model);
 }
 
 }
