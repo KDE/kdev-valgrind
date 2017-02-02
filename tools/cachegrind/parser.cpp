@@ -25,7 +25,8 @@
 
 #include "debug.h"
 #include "model.h"
-#include "modelitem.h"
+
+#include <klocalizedstring.h>
 
 #include <QBuffer>
 
@@ -35,8 +36,6 @@ namespace valgrind
 CachegrindParser::CachegrindParser(QObject* parent)
     : QObject(parent)
     , m_model(nullptr)
-    , m_lastCall(nullptr)
-    , totalCountItem(nullptr)
 {
 }
 
@@ -44,108 +43,36 @@ CachegrindParser::~CachegrindParser()
 {
 }
 
-bool CachegrindParser::parseRootModel(const QString& buffer)
+void CachegrindParser::parseCachegrindItem(const QString& line, bool programTotal)
 {
-    m_headersList = buffer.split(QChar(' '), QString::SkipEmptyParts);
-    CachegrindItem* rootItem = new CachegrindItem;
-    m_programTotalStr = QStringLiteral("");
+    auto item = new CachegrindItem;
 
-    for (int i = 0; i < m_headersList.size(); ++i) {
-        CachegrindItem::Columns key = CachegrindItem::dataKeyFromName(m_headersList[i]);
-        if (key != CachegrindItem::Unknow) {
-            m_programTotalStr += " " + m_headersList[i];
-            rootItem->incomingData(m_headersList[i], "");
-        }
+    QStringList lineEventList = line.split(QChar(' '), QString::SkipEmptyParts);
+    Q_ASSERT(lineEventList.size() >= m_eventsList.size());
 
-        else {
-            qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
-            return false;
-        }
+    foreach(const QString& event, m_eventsList) {
+        item->eventValues[event] = lineEventList.first().remove(",").toInt();
+        lineEventList.removeFirst();
     }
 
-    rootItem->incomingData(CachegrindItem::dataKey(CachegrindItem::CallName), QStringLiteral(""));
-    rootItem->incomingData(CachegrindItem::dataKey(CachegrindItem::FileName), QStringLiteral(""));
-    m_programTotalStr = m_programTotalStr.trimmed();
-    m_model->newItem(rootItem);
-
-    return true;
-}
-
-void CachegrindParser::parseNewCachegrindItem(const QString& buffer, bool totalProgram)
-{
-    CachegrindItem* item(new CachegrindItem);
-    int iBegin;
-    int iEnd;
-    QString appendStr;
-
-    iBegin = iEnd = 0;
-    for (int i = 0; i < m_headersList.size(); ++i) {
-        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1) {
-            break;
-        }
-
-        item->incomingData(CachegrindItem::dataKey(CachegrindItem::dataKeyFromName(m_headersList[i])),
-                           buffer.mid(iBegin, iEnd - iBegin).replace(',', ""));
-        iBegin = iEnd + 1;
-    }
-
-    if (!totalProgram) {
-        if (buffer.at(iBegin) == QChar('*')) { // Call graph
-            if (m_caller.size() > 0) {
-                for (int j = 0; j < m_caller.size(); ++j) {
-                    item->appendChild(m_caller[j]);
-                    m_caller[j]->setParent(item);
-                }
-                m_caller.clear();
-            }
-
-            m_lastCall = item;
-            iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
-            totalCountItem->appendChild(item);
-            item->setParent(totalCountItem);
-        }
-
-        else if (buffer.at(iBegin) == QChar('<')) {
-            appendStr = QStringLiteral("< ");
-            m_caller.append(item);
-            iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
-        }
-
-        else if (buffer.at(iBegin) == QChar('>')) {
-            appendStr = QStringLiteral("> ");
-            m_lastCall->appendChild(item);
-            item->setParent(m_lastCall);
-            iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
-        }
-
-        else {
-            totalCountItem->appendChild(item);
-            item->setParent(totalCountItem);
-        }
-
-        if ((iEnd = buffer.indexOf(QChar(':'), iBegin)) == -1) {
-            return;
-        }
-
-        // file name
-        item->incomingData(CachegrindItem::dataKey(CachegrindItem::FileName),
-                           buffer.mid(iBegin, iEnd - iBegin));
-
-        // call name
-        iBegin = iEnd + 1;
-        iEnd = buffer.length();
-        item->incomingData(CachegrindItem::dataKey(CachegrindItem::CallName),
-                           appendStr + buffer.mid(iBegin, iEnd - iBegin));
+    if (programTotal) {
+        item->isProgramTotal = true;
+        item->callName = i18n("Program Totals");
     }
 
     else {
-        item->incomingData(CachegrindItem::dataKey(CachegrindItem::CallName),
-                           QStringLiteral("Program Total Count"));
-        item->incomingData(CachegrindItem::dataKey(CachegrindItem::FileName),
-                           QStringLiteral(""));
-        totalCountItem = item;
-        m_model->newItem(item);
+        QString fileCall = lineEventList.join(QChar(' '));
+        int colonPosition = fileCall.indexOf(QChar(':'));
+        if (colonPosition >= 0) {
+            // file name
+            item->fileName = fileCall.mid(0, colonPosition);
+
+            // call name
+            item->callName = fileCall.mid(colonPosition + 1);
+        }
     }
+
+    m_model->addItem(item);
 }
 
 enum CachegrindParserState
@@ -162,48 +89,50 @@ void CachegrindParser::parse(QByteArray& baData, CachegrindModel* model)
     Q_ASSERT(model);
     m_model = model;
 
-    CachegrindParserState parserState(ParseRootModel);
-    QBuffer data(&baData);
-    QString buffer;
+    CachegrindParserState parserState = ParseRootModel;
+    QString eventsString;
+    QString line;
 
+    QBuffer data(&baData);
     data.open(QIODevice::ReadOnly);
+
     while (!data.atEnd())
     {
         // remove useless characters
-        buffer = data.readLine().simplified();
+        line = data.readLine().simplified();
 
-        if (parserState != ParseProgramTotal && parserState != ParseProgram) {
-            if (parserState == ParseRootModel && buffer.startsWith("Events shown:")) {
-                //13 is 'Events shown:' size;
-                if (!parseRootModel(buffer.mid(13, buffer.length() - 13))) {
-                    qCDebug(KDEV_VALGRIND) << "Input stream is misformated, cannot build the tree";
-                    return;
-                }
+        if (parserState == ParseRootModel) {
+            if (line.startsWith("Events shown:")) {
+                // 13 is 'Events shown:' length
+                eventsString = line.mid(13).simplified();
+                m_eventsList = eventsString.split(QChar(' '), QString::SkipEmptyParts);
                 parserState = ParseProgramTotalHeader;
             }
+        }
 
-            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr) {
+        else if (parserState == ParseProgramTotalHeader) {
+            if (line == eventsString) {
                 parserState = ParseProgramTotal;
             }
+        }
 
-            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr)) {
+        else if (parserState == ParseProgramHeader) {
+            if (line.startsWith(eventsString)) {
                 parserState = ParseProgram;
             }
         }
 
-        else {
-            if (buffer.size() > 0 && buffer.at(0).isDigit()) {
-                if (parserState == ParseProgramTotal) {
-                    parseNewCachegrindItem(buffer, true);
-                    parserState = ParseProgramHeader;
-                }
-                else
-                    parseNewCachegrindItem(buffer, false);
+        else if (!line.isEmpty() && line.at(0).isDigit()) {
+            if (parserState == ParseProgramTotal) {
+                parseCachegrindItem(line, true);
+                parserState = ParseProgramHeader;
             }
+            else
+                parseCachegrindItem(line, false);
         }
     }
 
-    m_model->newItem(nullptr);
+    model->setEventsList(m_eventsList);
     m_model = nullptr;
 }
 

@@ -23,21 +23,31 @@
 
 #pragma once
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 
 namespace valgrind
 {
 
-class CachegrindItem;
+struct CachegrindItem
+{
+    QMap<QString, QVariant> eventValues;
 
-class CachegrindModel : public QAbstractItemModel
+    QString callName;
+    QString fileName;
+
+    bool isProgramTotal = false;
+};
+
+class CachegrindModel : public QAbstractTableModel
 {
 public:
     explicit CachegrindModel(QObject* parent = nullptr);
     ~CachegrindModel() override;
 
+    void setEventsList(const QStringList& events);
+    void addItem(CachegrindItem* item);
+
     QModelIndex index(int, int, const QModelIndex&) const override;
-    QModelIndex parent(const QModelIndex&) const override;
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -45,19 +55,9 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    CachegrindItem* itemForIndex(const QModelIndex& index) const;
-
-    /**
-     * Reception of a new item in the model
-     */
-    void newItem(CachegrindItem* item);
-    /**
-     * Resets the model content
-     */
-    void reset();
-
 private:
-    CachegrindItem* m_rootItem;
+    QList<CachegrindItem*> m_items;
+    QStringList m_eventList;
 };
 
 }

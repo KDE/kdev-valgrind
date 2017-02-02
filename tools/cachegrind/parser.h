@@ -27,7 +27,7 @@
 namespace valgrind
 {
 
-class CachegrindItem;
+struct CachegrindItem;
 class CachegrindModel;
 
 class CachegrindParser : public QObject
@@ -39,23 +39,11 @@ public:
     void parse(QByteArray& data, CachegrindModel* model);
 
 private:
-    /**
-     * build the root node of the tree
-     * it return false if some error happens
-     */
-    bool parseRootModel(const QString& buffer);
-
-    void parseNewCachegrindItem(const QString& buffer, bool totalProgram = false);
+    void parseCachegrindItem(const QString& line, bool programTotal = false);
 
     CachegrindModel* m_model;
 
-    QList<CachegrindItem*> m_caller;
-    CachegrindItem* m_lastCall;
-
-    QString m_programTotalStr;
-    QStringList m_headersList;
-
-    CachegrindItem* totalCountItem;
+    QStringList m_eventsList;
 };
 
 }

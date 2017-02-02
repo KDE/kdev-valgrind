@@ -35,9 +35,6 @@ public:
     CachegrindView(CachegrindModel* model, QWidget* parent = nullptr);
     ~CachegrindView() override;
 
-protected:
-    void MousePressEvent(QMouseEvent* event);
-
 private:
     void openDocument(const QModelIndex& index);
 };

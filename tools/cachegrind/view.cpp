@@ -22,17 +22,15 @@
 
 #include "view.h"
 
-#include <QApplication>
-#include <QHeaderView>
-
-#include "generic/utils.h"
-
 #include "debug.h"
+#include "generic/utils.h"
+#include "model.h"
+
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
-#include "model.h"
-#include "modelitem.h"
+#include <QApplication>
+#include <QHeaderView>
 
 namespace valgrind
 {
@@ -42,7 +40,11 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
 {
     Q_ASSERT(model);
     model->setParent(this);
+
     setModel(model);
+
+    header()->resizeSections(QHeaderView::ResizeToContents);
+    setRootIsDecorated(false);
 
     connect(this, &CachegrindView::activated, this, &CachegrindView::openDocument);
 }
@@ -51,23 +53,13 @@ CachegrindView::~CachegrindView()
 {
 }
 
-void CachegrindView::MousePressEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event)
-
-    qCDebug(KDEV_VALGRIND) << "Mouse pressed...";
-//     QWidget::mousePressEvent(event);
-}
-
 void CachegrindView::openDocument(const QModelIndex& index)
 {
-    if (CachegrindItem* frame = dynamic_cast<CachegrindItem*>(static_cast<CachegrindModel*>(model())->itemForIndex(index)))
+    auto item = static_cast<CachegrindItem*>(index.internalPointer());
+    QUrl doc = QUrl::fromLocalFile(item->fileName);
+    if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow()))
     {
-        QUrl doc = frame->url();
-        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow()))
-        {
-            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, 0), 0));
-        }
+        KDevelop::ICore::self()->documentController()->openDocument(doc);
     }
 }
 

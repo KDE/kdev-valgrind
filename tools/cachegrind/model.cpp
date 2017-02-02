@@ -25,232 +25,126 @@
 
 #include "debug.h"
 
-#include <kmessagebox.h>
 #include <klocalizedstring.h>
+#include <kmessagebox.h>
+
 #include <QFontDatabase>
-#include "modelitem.h"
 
 namespace valgrind
 {
 
 CachegrindModel::CachegrindModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
-    m_rootItem = nullptr;
 }
 
 CachegrindModel::~CachegrindModel()
 {
-    if (m_rootItem != nullptr) {
-        delete m_rootItem;
-    }
+    qDeleteAll(m_items);
 }
 
-void CachegrindModel::newItem(CachegrindItem* item)
+void CachegrindModel::addItem(CachegrindItem* item)
 {
-    if (!item) {
-        return;
-    }
-
-    if (m_rootItem) {
-        item->setParent(m_rootItem);
-        m_rootItem->appendChild(item);
-    } else
-        m_rootItem = item;
+    Q_ASSERT(item);
+    m_items.append(item);
 }
 
-void CachegrindModel::reset()
+void CachegrindModel::setEventsList(const QStringList& eventsList)
 {
+    m_eventList = eventsList;
 }
 
-QModelIndex CachegrindModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex CachegrindModel::index(int row, int column, const QModelIndex&) const
 {
-    if (!hasIndex(row, column, parent)) {
+    if (row >= rowCount() || column >= columnCount()) {
         return QModelIndex();
     }
 
-    CachegrindItem* parentItem;
-    if (!parent.isValid()) {
-        parentItem = m_rootItem;
-    } else {
-        parentItem = static_cast<CachegrindItem *>(parent.internalPointer());
-    }
-
-    if (parentItem == nullptr) {
-        return QModelIndex();
-    }
-
-    CachegrindItem* childItem = parentItem->child(row);
-    if (childItem) {
-        return createIndex(row, column, childItem);
-    }
-
-    return QModelIndex();
+    return createIndex(row, column, m_items.at(row));
 }
 
-QModelIndex CachegrindModel::parent(const QModelIndex &index) const
+int CachegrindModel::rowCount(const QModelIndex&) const
 {
-    if (!index.isValid()) {
-        return QModelIndex();
-    }
-
-    CachegrindItem* childItem = static_cast<CachegrindItem*>(index.internalPointer());
-    CachegrindItem* parentItem = childItem->parent();
-    if (parentItem == m_rootItem) {
-        return QModelIndex();
-    }
-
-    return createIndex(parentItem->row(), 0, parentItem);
+    return m_items.size();
 }
 
-int CachegrindModel::rowCount(const QModelIndex &parent) const
+int CachegrindModel::columnCount(const QModelIndex&) const
 {
-    CachegrindItem* parentItem;
-    if (parent.column() > 0) {
-        return 0;
-    }
-
-    if (!parent.isValid()) {
-        parentItem = m_rootItem;
-    } else {
-        parentItem = static_cast<CachegrindItem*>(parent.internalPointer());
-    }
-
-    if (parentItem != nullptr) {
-        return parentItem->childCount();
-    }
-
-    return 0;
+    return m_eventList.size() + 2;
 }
 
-int CachegrindModel::columnCount(const QModelIndex &parent) const
+QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 {
-    if (parent.isValid()) {
-        return static_cast<CachegrindItem*>(parent.internalPointer())->columnCount();
+    auto item = static_cast<CachegrindItem*>(index.internalPointer());
+
+    if (role == Qt::DisplayRole) {
+        if (index.column() == 0) {
+            return item->callName;
+        }
+
+        if (index.column() == (columnCount() - 1)) {
+            return item->fileName;
+        }
+
+        QString event = m_eventList[index.column() - 1];
+        return item->eventValues[event];
     }
 
-    if (m_rootItem != nullptr) {
-        return m_rootItem->columnCount();
-    }
-
-    return 0;
-}
-
-QVariant CachegrindModel::data(const QModelIndex & index, int role) const
-{
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    switch (role)
-    {
-    case Qt::DisplayRole:
-    {
-        CachegrindItem *item = static_cast<CachegrindItem *>(index.internalPointer());
-        return item->data(index.column());
-    }
-    break;
-    case Qt::FontRole:
-    {
+    if (role == Qt::FontRole) {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        if ((static_cast<CachegrindItem*>(index.internalPointer()))->childCount() > 0) {
+        if (item->isProgramTotal) {
             f.setBold(true);
         }
         return f;
     }
-    break;
-    }
-    return QVariant();
-}
-
-QVariant CachegrindModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    Q_UNUSED(orientation)
-
-    if (role == Qt::DisplayRole) {
-        switch (section) {
-        case CachegrindItem::CallName:
-            return i18n("Call name");
-        case CachegrindItem::FileName:
-            return i18n("File name");
-        case CachegrindItem::InstructionRead:
-            return i18n("I");
-        case CachegrindItem::InstructionL1ReadMiss:
-            return i18n("I1mr");
-        case CachegrindItem::InstructionLLReadMiss:
-            return i18n("ILmr");
-        case CachegrindItem::DataCacheRead:
-            return i18n("Dr");
-        case CachegrindItem::DataCacheD1ReadMiss:
-            return i18n("D1mr");
-        case CachegrindItem::DataCacheLLReadMiss:
-            return i18n("DLmr");
-        case CachegrindItem::DataCacheWrite:
-            return i18n("Dw");
-        case CachegrindItem::DataCacheD1WriteMiss:
-            return i18n("D1mw");
-        case CachegrindItem::DataCacheLLWriteMiss:
-            return i18n("DLmw");
-        case CachegrindItem::ConditionnalBranchExecute:
-            return i18n("Bc");
-        case CachegrindItem::ConditionnalBranchMisprediced:
-            return i18n("Bcm");
-        case CachegrindItem::IndirectBranchExecuted:
-            return i18n("Bi");
-        case CachegrindItem::IndirectBranchMispredicted:
-            return i18n("Bim");
-        case CachegrindItem::Unknow:
-            return i18n("???");
-        }
-    }
-
-    else if (role == Qt::ToolTipRole) {
-        switch (section) {
-        case CachegrindItem::CallName:
-            return i18n("Call name");
-        case CachegrindItem::FileName:
-            return i18n("File name");
-        case CachegrindItem::InstructionRead:
-            return i18n("Ir (I cache read)");
-        case CachegrindItem::InstructionL1ReadMiss:
-            return i18n("I1mr (L1 cache read miss)");
-        case CachegrindItem::InstructionLLReadMiss:
-            return i18n("ILmr (LL cache read miss)");
-        case CachegrindItem::DataCacheRead:
-            return i18n("Dr (D cache read)");
-        case CachegrindItem::DataCacheD1ReadMiss:
-            return i18n("D1mr (D1 cache read miss)");
-        case CachegrindItem::DataCacheLLReadMiss:
-            return i18n("DLmr (DL cache read miss)");
-        case CachegrindItem::DataCacheWrite:
-            return i18n("Dw (D cache write)");
-        case CachegrindItem::DataCacheD1WriteMiss:
-            return i18n("D1mw (D1 cache write miss)");
-        case CachegrindItem::DataCacheLLWriteMiss:
-            return i18n("DLmw (DL cache write miss)");
-        case CachegrindItem::ConditionnalBranchExecute:
-            return i18n("Bc (Conditional branches executed)");
-        case CachegrindItem::ConditionnalBranchMisprediced:
-            return i18n("Bcm (Conditional branches mispredicted)");
-        case CachegrindItem::IndirectBranchExecuted:
-            return i18n("Bi (Indirect branches executed)");
-        case CachegrindItem::IndirectBranchMispredicted:
-            return i18n("Bim (Indirect branches mispredicted)");
-        case CachegrindItem::Unknow:
-            return i18n("???");
-        }
-    }
 
     return QVariant();
 }
 
-CachegrindItem* CachegrindModel::itemForIndex(const QModelIndex& index) const
+QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) const
 {
-    if (index.internalPointer()) {
-        return static_cast<CachegrindItem*>(index.internalPointer());
+    static QMap<QString, QString> eventToolTips;
+    static bool initDone = false;
+    if (!initDone) {
+        initDone = true;
+        eventToolTips["Ir"  ] = i18n("Ir (I cache read)");
+        eventToolTips["I1mr"] = i18n("I1mr (L1 cache read miss)");
+        eventToolTips["ILmr"] = i18n("ILmr (LL cache read miss)");
+        eventToolTips["Dr"  ] = i18n("Dr (D cache read)");
+        eventToolTips["D1mr"] = i18n("D1mr (D1 cache read miss)");
+        eventToolTips["DLmr"] = i18n("DLmr (DL cache read miss)");
+        eventToolTips["Dw"  ] = i18n("Dw (D cache write)");
+        eventToolTips["D1mw"] = i18n("D1mw (D1 cache write miss)");
+        eventToolTips["DLmw"] = i18n("DLmw (DL cache write miss)");
+        eventToolTips["Bc"  ] = i18n("Bc (Conditional branches executed)");
+        eventToolTips["Bcm" ] = i18n("Bcm (Conditional branches mispredicted)");
+        eventToolTips["Bi"  ] = i18n("Bi (Indirect branches executed)");
+        eventToolTips["Bim" ] = i18n("Bim (Indirect branches mispredicted)");
     }
 
-    return nullptr;
+    if (section == 0) {
+        if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
+            return i18n("Call name");
+        }
+    }
+
+    else if (section == (columnCount() - 1)) {
+        if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
+            return i18n("File name");
+        }
+    }
+
+    else {
+        if (role == Qt::DisplayRole) {
+            return m_eventList[section - 1];
+        }
+
+        if (role == Qt::ToolTipRole) {
+            return eventToolTips[m_eventList[section - 1]];
+        }
+    }
+
+    return QVariant();
 }
 
 }
