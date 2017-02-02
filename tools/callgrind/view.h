@@ -46,10 +46,8 @@ class CallgrindModel;
 class CallgrindView : public QWidget
 {
 public:
-    explicit CallgrindView(QWidget* parent = nullptr);
+    explicit CallgrindView(CallgrindModel* model, QWidget* parent = nullptr);
     ~CallgrindView() override;
-
-    void setModel(CallgrindModel* m);
 
     void percentInformationClicked(bool enable);
 

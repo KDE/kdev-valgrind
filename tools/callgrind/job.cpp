@@ -94,9 +94,7 @@ void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
 QWidget* CallgrindJob::createView()
 {
-    auto view = new CallgrindView;
-    view->setModel(m_model);
-    return view;
+    return new CallgrindView(m_model);
 }
 
 }

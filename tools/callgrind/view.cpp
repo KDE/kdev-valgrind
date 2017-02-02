@@ -40,7 +40,9 @@
 
 namespace valgrind
 {
-CallgrindView::CallgrindView(QWidget *parent) : QWidget(parent)
+CallgrindView::CallgrindView(CallgrindModel* model, QWidget *parent)
+    : QWidget(parent)
+    , m_model(model)
 {
     ui = new Ui::CallgrindView();
     ui->setupUi(this);
@@ -65,26 +67,26 @@ CallgrindView::CallgrindView(QWidget *parent) : QWidget(parent)
             this, SLOT(selectionOnCallerListChanged(const QItemSelection &, const QItemSelection &)));
 */
     //connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
-}
 
-CallgrindView::~CallgrindView()
-{
-}
+    Q_ASSERT(m_model);
+    m_model->setParent(this);
 
-void CallgrindView::setModel(CallgrindModel* m)
-{
-    m_model = m;
-    QAbstractItemModel  *fctTreeModel = m->abstractItemModel(CallgrindModel::E_FCT_LIST);
+    QAbstractItemModel* fctTreeModel = m_model->abstractItemModel(CallgrindModel::E_FCT_LIST);
     ui->FunctionsTreeView->setSortingEnabled(true);
     ui->FunctionsTreeView->setModel( fctTreeModel );
 
-    QItemSelectionModel *functionListSelectionModel = new QItemSelectionModel(fctTreeModel);
+    QItemSelectionModel* functionListSelectionModel = new QItemSelectionModel(fctTreeModel);
     ui->FunctionsTreeView->setSelectionModel(functionListSelectionModel);
     connect(functionListSelectionModel, &QItemSelectionModel::selectionChanged,
             this, &CallgrindView::selectionOnFctListChanged);
 
     ui->FunctionsTreeView->header()->setStretchLastSection(false);
     ui->FunctionsTreeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+}
+
+CallgrindView::~CallgrindView()
+{
+    delete ui;
 }
 
 void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, const QItemSelection &deselected)
