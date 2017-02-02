@@ -21,96 +21,49 @@
 */
 
 #include "model.h"
-
-#include "debug.h"
-#include <kmessagebox.h>
-#include <QFontDatabase>
-
 #include "modelitem.h"
 
+#include "debug.h"
+
 #include <klocalizedstring.h>
+
+#include <QFontDatabase>
 
 namespace valgrind
 {
 
 MassifModel::MassifModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
-    m_rootItem = new MassifItem();
-    m_rootItem->incomingData("snapshot", "");
-    m_rootItem->incomingData("time", "");
-    m_rootItem->incomingData("mem_heap_B", "");
-    m_rootItem->incomingData("mem_heap_extra_B", "");
-    m_rootItem->incomingData("mem_stacks_B", "");
 }
 
 MassifModel::~MassifModel()
 {
-    delete m_rootItem;
 }
 
 void MassifModel::addItem(MassifItem* item)
 {
     Q_ASSERT(item);
-    m_rootItem->addChild(item);
+    m_items.append(item);
 }
 
-QModelIndex MassifModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex MassifModel::index(int row, int column, const QModelIndex&) const
 {
-    if (!hasIndex(row, column, parent)) {
+    if (row >= rowCount() || column >= columnCount()) {
         return QModelIndex();
     }
 
-    MassifItem* parentItem;
-    if (!parent.isValid()) {
-        parentItem = m_rootItem;
-    } else {
-        parentItem = static_cast<MassifItem*>(parent.internalPointer());
-    }
-
-    MassifItem* childItem = parentItem->child(row);
-    if (childItem) {
-        return createIndex(row, column, childItem);
-    }
-
-    return QModelIndex();
+    return createIndex(row, column, m_items.at(row));
 }
 
-QModelIndex MassifModel::parent(const QModelIndex& index) const
+int MassifModel::rowCount(const QModelIndex&) const
 {
-    if (!index.isValid()) {
-        return QModelIndex();
-    }
-
-    MassifItem* childItem = static_cast<MassifItem*>(index.internalPointer());
-    MassifItem* parentItem = childItem->parent();
-    if (parentItem == m_rootItem) {
-        return QModelIndex();
-    }
-
-    return createIndex(parentItem->row(), 0, parentItem);
+    return m_items.size();
 }
 
-int MassifModel::rowCount(const QModelIndex& parent) const
+int MassifModel::columnCount(const QModelIndex&) const
 {
-    if (parent.column() > 0) {
-        return 0;
-    }
-
-    if (!parent.isValid()) {
-        return m_rootItem->childCount();
-    }
-
-    return static_cast<MassifItem*>(parent.internalPointer())->childCount();
-}
-
-int MassifModel::columnCount(const QModelIndex& parent) const
-{
-    if (parent.isValid()) {
-        return static_cast<MassifItem*>(parent.internalPointer())->columnCount();
-    }
-
-    return m_rootItem->columnCount();
+    return 5;
 }
 
 QString humanSize(int byteSize)
@@ -140,10 +93,12 @@ QVariant MassifModel::data(const QModelIndex& index, int role) const
     }
 
     auto item = static_cast<MassifItem*>(index.internalPointer());
+    Q_ASSERT(item);
 
     if (role == Qt::DisplayRole) {
-        if (index.column() <= MassifItem::Time)
+        if (index.column() <= MassifItem::Time) {
             return item->data(index.column());
+        }
 
         return humanSize(item->data(index.column()).toInt());
     }

@@ -22,21 +22,20 @@
 
 #pragma once
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 
 namespace valgrind
 {
 
 class MassifItem;
 
-class MassifModel : public QAbstractItemModel
+class MassifModel : public QAbstractTableModel
 {
 public:
     explicit MassifModel(QObject* parent = nullptr);
     ~MassifModel() override;
 
-    QModelIndex index(int, int, const QModelIndex&) const override;
-    QModelIndex parent(const QModelIndex&) const override;
+    QModelIndex index(int, int, const QModelIndex& parent = QModelIndex()) const override;
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -47,7 +46,7 @@ public:
     void addItem(MassifItem* item);
 
 private:
-    MassifItem* m_rootItem;
+    QList<MassifItem*> m_items;
 };
 
 }
