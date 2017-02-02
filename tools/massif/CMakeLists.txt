@@ -1,5 +1,6 @@
 ki18n_wrap_ui(massif_UI_SRCS
     configpage.ui
+    view.ui
 )
 
 add_library(massif_tool STATIC

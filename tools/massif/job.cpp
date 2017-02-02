@@ -104,9 +104,7 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
 QWidget* MassifJob::createView()
 {
-    auto view = new MassifView;
-    view->setModel(m_model);
-    return view;
+    return new MassifView(m_model);
 }
 
 }

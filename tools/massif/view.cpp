@@ -20,37 +20,42 @@
 */
 
 #include "view.h"
-
-#include <QApplication>
+#include "ui_view.h"
 
 #include "debug.h"
-
-#include <interfaces/icore.h>
-#include <interfaces/idocumentcontroller.h>
-
+#include "model.h"
 #include "modelitem.h"
-#include "generic/utils.h"
+
+#include <QStringListModel>
 
 namespace valgrind
 {
 
-MassifView::MassifView()
+MassifView::MassifView(MassifModel* model, QWidget* parent)
+    : QWidget(parent)
+    , ui(new Ui::MassifView)
 {
-    connect(this, &MassifView::activated, this, &MassifView::openDocument);
+    Q_ASSERT(model);
+    model->setParent(this);
+
+    ui->setupUi(this);
+
+    auto treesModel = new QStringListModel(this);
+    ui->treesView->setModel(treesModel);
+
+    ui->snapshotsView->setModel(model);
+    ui->snapshotsView->header()->resizeSections(QHeaderView::ResizeToContents);
+
+    connect(ui->snapshotsView->selectionModel(), &QItemSelectionModel::currentChanged, this,
+            [treesModel](const QModelIndex& current, const QModelIndex&) {
+        auto item = static_cast<MassifItem*>(current.internalPointer());
+        treesModel->setStringList(item->heapTree);
+    });
 }
 
 MassifView::~MassifView()
 {
-}
-
-void MassifView::openDocument(const QModelIndex& index)
-{
-    if (MassifItem* item = static_cast<MassifItem*>(index.internalPointer())) {
-        QUrl doc = item->url();
-        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
-            KDevelop::ICore::self()->documentController()->openDocument(doc, KTextEditor::Cursor(qMax(0, item->line() - 1), 0));
-        }
-    }
+    delete ui;
 }
 
 }

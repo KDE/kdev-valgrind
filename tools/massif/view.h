@@ -21,21 +21,28 @@
 
 #pragma once
 
-#include <QTreeView>
+#include <QWidget>
 
 namespace valgrind
 {
 
+namespace Ui
+{
+
+class MassifView;
+
+}
+
 class MassifModel;
 
-class MassifView : public QTreeView
+class MassifView : public QWidget
 {
 public:
-    MassifView();
+    explicit MassifView(MassifModel* model, QWidget* parent = nullptr);
     ~MassifView() override;
 
 private:
-    void openDocument(const QModelIndex& index);
+    Ui::MassifView* ui;
 };
 
 }

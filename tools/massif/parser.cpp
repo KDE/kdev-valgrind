@@ -71,16 +71,13 @@ void parse(const QString& fileName, MassifModel* model)
             if (m_lst[1].startsWith(QStringLiteral("peak")) ||
                 m_lst[1].startsWith(QStringLiteral("detailed"))) {
 
-                // FIXME this code now provides only linear view for all subtrees
-                while (!m_buffer.startsWith(QChar('#')) && !data.atEnd()) {
+                while (!data.atEnd()) {
                     m_buffer = data.readLine();
                     if (m_buffer.startsWith(QChar('#'))) {
                         break;
                     }
 
-                    MassifItem* child = new MassifItem(true);
-                    child->incomingData(QStringLiteral("child"), m_buffer.trimmed(), m_workingDir);
-                    m_item->addChild(child);
+                    m_item->heapTree.append(m_buffer.remove("\n"));
                 }
             }
 

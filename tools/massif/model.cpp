@@ -150,8 +150,7 @@ QVariant MassifModel::data(const QModelIndex& index, int role) const
 
     if (role == Qt::FontRole) {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        // FIXME check for heap trees instead
-        if (item->childCount()) {
+        if (!item->heapTree.isEmpty()) {
             f.setBold(true);
         }
         return f;

@@ -59,6 +59,8 @@ public:
     QUrl url() const; // FIXME return QString
     int line() const;
 
+    QStringList heapTree;
+
 private:
     MassifItem* m_parent;
     QList<MassifItem*> m_childs;
