@@ -3,6 +3,8 @@
 
 - Add global setting for separate (or current as now) valgrind tools in the "Analyze" menu.
 
+- Add settings for cg_annotate/callgrind_annotate arguments
+
 - Unimplemented tools: helgrind
 
 + Move executables paths settings from launch configuration to global (KDevelop) config page and
