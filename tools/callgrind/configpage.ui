@@ -35,7 +35,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Extra parameters</string>
+           <string>Extra parameters:</string>
           </property>
           <property name="textFormat">
            <enum>Qt::AutoText</enum>

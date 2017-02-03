@@ -35,7 +35,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="verappLabel">
         <property name="text">
-         <string>&amp;Valgrind</string>
+         <string>&amp;Valgrind:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -58,7 +58,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="verappLabel_3">
         <property name="text">
-         <string>callgrind_&amp;annotate</string>
+         <string>callgrind_&amp;annotate:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -71,7 +71,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="verappLabel_2">
         <property name="text">
-         <string>&amp;cg_annotate</string>
+         <string>&amp;cg_annotate:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -113,7 +113,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="verappLabel_4">
         <property name="text">
-         <string>&amp;KCachegrind</string>
+         <string>&amp;KCachegrind:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -136,7 +136,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="verappLabel_5">
         <property name="text">
-         <string>&amp;Massif Visualizer</string>
+         <string>&amp;Massif Visualizer:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

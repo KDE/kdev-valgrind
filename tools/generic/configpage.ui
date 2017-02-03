@@ -22,7 +22,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>&amp;Extra parameters</string>
+           <string>&amp;Extra parameters:</string>
           </property>
           <property name="buddy">
            <cstring>extraParameters</cstring>
@@ -42,7 +42,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Display stac&amp;k to depth</string>
+           <string>Display stac&amp;k to depth:</string>
           </property>
           <property name="buddy">
            <cstring>stackDepth</cstring>
@@ -68,7 +68,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>&amp;Maximum frame stack size (bytes)</string>
+           <string>&amp;Maximum frame stack size (bytes):</string>
           </property>
           <property name="buddy">
            <cstring>maxStackSize</cstring>
@@ -94,7 +94,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Default valgrind tool</string>
+           <string>Default valgrind tool:</string>
           </property>
          </widget>
         </item>
