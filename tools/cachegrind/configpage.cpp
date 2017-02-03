@@ -35,12 +35,11 @@ CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
     ui = new Ui::CachegrindConfig();
     ui->setupUi(this);
 
-    ui->messageWidget->setWordWrap(true);
-
     connect(ui->extraParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
 
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
+    connect(ui->cgAnnotateParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
 
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::check);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::check);
@@ -64,6 +63,7 @@ void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevel
     ui->extraParameters->setText(settings.extraParameters());
     ui->cacheSimulation->setChecked(settings.cacheSimulation());
     ui->branchSimulation->setChecked(settings.branchSimulation());
+    ui->cgAnnotateParameters->setText(settings.cgAnnotateParameters());
 
     check();
 }
@@ -75,6 +75,7 @@ void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProj
     settings.setExtraParameters(ui->extraParameters->text());
     settings.setCacheSimulation(ui->cacheSimulation->isChecked());
     settings.setBranchSimulation(ui->branchSimulation->isChecked());
+    settings.setCgAnnotateParameters(ui->cgAnnotateParameters->text());
 }
 
 void CachegrindConfigPage::check()

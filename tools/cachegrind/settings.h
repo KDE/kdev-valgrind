@@ -38,7 +38,10 @@ public:
     bool branchSimulation() const;
     void setBranchSimulation(bool value);
 
-    QString cg_annotateExecutablePath() const;
+    QString cgAnnotateExecutablePath() const;
+
+    QString cgAnnotateParameters() const;
+    void setCgAnnotateParameters(const QString& parameters);
 
 private:
     KConfigGroup m_config;

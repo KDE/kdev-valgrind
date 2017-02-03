@@ -56,8 +56,14 @@ CachegrindJob::~CachegrindJob()
 
 void CachegrindJob::processEnded()
 {
+    CachegrindSettings settings(config);
+
+    QStringList cgArgs;
+    cgArgs += argValue(settings.cgAnnotateParameters());
+    cgArgs += m_outputFile;
+
     QByteArray cgOutput;
-    executeProcess(CachegrindSettings(config).cg_annotateExecutablePath(), { m_outputFile }, cgOutput);
+    executeProcess(settings.cgAnnotateExecutablePath(), cgArgs, cgOutput);
 
     CachegrindParser parser;
     parser.parse(cgOutput, m_model);
