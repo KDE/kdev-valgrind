@@ -28,7 +28,6 @@
 
 #include "modelitem.h"
 
-class QResizeEvent;
 class QSortFilterProxyModel;
 
 namespace valgrind
@@ -46,7 +45,7 @@ class CallgrindModel;
 class CallgrindView : public QWidget
 {
 public:
-    explicit CallgrindView(CallgrindModel* model, QWidget* parent = nullptr);
+    CallgrindView(CallgrindModel* model, QWidget* parent = nullptr);
     ~CallgrindView() override;
 
     void percentInformationClicked(bool enable);

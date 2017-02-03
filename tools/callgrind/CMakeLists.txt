@@ -17,6 +17,4 @@ add_library(callgrind_tool STATIC
 
 target_link_libraries(callgrind_tool
     KDev::Language
-
-    cachegrind_tool # FIXME iCachegrindItem
 )

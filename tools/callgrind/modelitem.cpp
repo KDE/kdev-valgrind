@@ -2,6 +2,7 @@
  * Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
  * Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
  * Copyright 2011 Sarie Lucas <lucas.sarie@gmail.com>
+ * Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -20,25 +21,131 @@
 */
 
 #include "modelitem.h"
-#include "debug.h"
 
+#include "debug.h"
 
 namespace valgrind
 {
 
-CallgrindCallstackItem::CallgrindCallstackItem(CallgrindCallstackFunction *function)
+QString CallgrindItem::dataKey(int column)
 {
-    Q_ASSERT(function);
-    m_csFunction = function;
-    m_numCalls = 0;
+    switch (column)
+    {
+    case CallName:
+        return QString("cn");
+    case FileName:
+        return QString("fn");
+    case InstructionRead:
+        return QString("Ir");
+    case InstructionL1ReadMiss:
+        return QString("I1mr");
+    case InstructionLLReadMiss:
+        return QString("ILmr");
+    case DataCacheRead:
+        return QString("Dr");
+    case DataCacheD1ReadMiss:
+        return QString("D1mr");
+    case DataCacheLLReadMiss:
+        return QString("DLmr");
+    case DataCacheWrite:
+        return QString("Dw");
+    case DataCacheD1WriteMiss:
+        return QString("D1mw");
+    case DataCacheLLWriteMiss:
+        return QString("DLmw");
+    case ConditionnalBranchExecute:
+        return QString("Bc");
+    case ConditionnalBranchMisprediced:
+        return QString("Bcm");
+    case IndirectBranchExecuted:
+        return QString("Bi");
+    case IndirectBranchMispredicted:
+        return QString("Bim");
+    case Unknow:
+        return QString("???");
+    }
+    return QString();
 }
 
-void  CallgrindCallstackItem::addChild(CallgrindCsItem *child)
+CallgrindItem::Columns  CallgrindItem::dataKeyFromName(const QString& keyName)
+{
+    if (keyName == "Ir") {
+        return CallgrindItem::InstructionRead;
+    }
+
+    else if (keyName == "I1mr") {
+        return CallgrindItem::InstructionL1ReadMiss;
+    }
+
+    else if (keyName == "ILmr") {
+        return CallgrindItem::InstructionLLReadMiss;
+    }
+
+    else if (keyName == "Dr") {
+        return CallgrindItem::DataCacheRead;
+    }
+
+    else if (keyName == "D1mr") {
+        return CallgrindItem::DataCacheD1ReadMiss;
+    }
+
+    else if (keyName == "DLmr") {
+        return CallgrindItem::DataCacheLLReadMiss;
+    }
+
+    else if (keyName == "Dw") {
+        return CallgrindItem::DataCacheWrite;
+    }
+
+    else if (keyName == "D1mw") {
+        return CallgrindItem::DataCacheD1WriteMiss;
+    }
+
+    else if (keyName == "DLmw") {
+        return CallgrindItem::DataCacheLLWriteMiss;
+    }
+
+    else if (keyName == "Bc") {
+        return CallgrindItem::ConditionnalBranchExecute;
+    }
+
+    else if (keyName == "Bcm") {
+        return CallgrindItem::ConditionnalBranchMisprediced;
+    }
+
+    else if (keyName == "Bi") {
+        return CallgrindItem::IndirectBranchExecuted;
+    }
+
+    else if (keyName == "Bim") {
+        return CallgrindItem::IndirectBranchMispredicted;
+    }
+
+    return CallgrindItem::Unknow;
+}
+
+bool CallgrindItem::isNumericValue(int column)
+{
+    if (column == CallName || column == FileName || column == Unknow) {
+        return false;
+    }
+
+    return true;
+}
+
+CallgrindCallstackItem::CallgrindCallstackItem(CallgrindCallstackFunction* function)
+    : m_numCalls(0)
+    , m_csFunction(function)
+{
+    Q_ASSERT(function);
+}
+
+void CallgrindCallstackItem::addChild(CallgrindCallstackItem* child)
 {
     m_childs.append(child);
 }
 
-CallgrindCallstackItem  *CallgrindCallstackItem::child(int n) const
+CallgrindCallstackItem* CallgrindCallstackItem::child(int n) const
 {
     return m_childs.at(n);
 }
@@ -48,12 +155,12 @@ int CallgrindCallstackItem::childCount() const
     return m_childs.size();
 }
 
-void  CallgrindCallstackItem::addParent(CallgrindCsItem *child)
+void  CallgrindCallstackItem::addParent(CallgrindCallstackItem* child)
 {
     m_parents.append(child);
 }
 
-CallgrindCallstackItem  *CallgrindCallstackItem::parent(int n) const
+CallgrindCallstackItem* CallgrindCallstackItem::parent(int n) const
 {
     return m_parents.at(n);
 }
@@ -63,14 +170,14 @@ int CallgrindCallstackItem::parentCount() const
     return m_parents.size();
 }
 
-CallgrindCallstackFunction  *CallgrindCallstackItem::csFunction() const
+CallgrindCallstackFunction* CallgrindCallstackItem::csFunction() const
 {
     return m_csFunction;
 }
 
-CallgrindCallstackItem  *CallgrindCallstackItem::totalCountItem() const
+CallgrindCallstackItem* CallgrindCallstackItem::totalCountItem() const
 {
-    return (m_csFunction->totalCountItem());
+    return m_csFunction->totalCountItem();
 }
 
 bool CallgrindCallstackItem::hasKey(int n)
@@ -82,110 +189,118 @@ bool CallgrindCallstackItem::hasKey(int n)
     return false;
 }
 
-void  CallgrindCallstackItem::setNumericValue(int n, int val)
+void CallgrindCallstackItem::setNumericValue(int n, int val)
 {
     m_numericValue[n] = val;
 }
 
-int   CallgrindCallstackItem::numericValue(int n) const
+int CallgrindCallstackItem::numericValue(int n) const
 {
     return m_numericValue[n];
 }
 
-void  CallgrindCallstackItem::setValue(const QString& key, const QString& value)
+void CallgrindCallstackItem::setValue(const QString& key, const QString& value)
 {
-    int iKey = iCachegrindItem::dataKeyFromName(key);
-    if (iKey == iCachegrindItem::Unknow) {
+    int iKey = CallgrindItem::dataKeyFromName(key);
+    if (iKey == CallgrindItem::Unknow) {
         return;
     }
 
-    if (iCachegrindItem::isNumericValue(iKey)) {
+    if (CallgrindItem::isNumericValue(iKey)) {
         m_numericValue[iKey] = value.toInt();
     }
-    //else if (iKey == iCachegrindItem::FileName)
+
+    //else if (iKey == CallgrindItem::FileName)
     //    m_fileName = value;
     //else
     //    m_fctName = value;
 }
 
-QVariant  CallgrindCallstackItem::data(iCachegrindItem::Columns key, numberDisplayMode disp) const
+QVariant CallgrindCallstackItem::data(CallgrindItem::Columns key, numberDisplayMode disp) const
 {
-    switch (key)
-    {
-    case iCachegrindItem::FileName:
-        return this->m_csFunction->filename();
-    case iCachegrindItem::CallName:
-        return this->m_csFunction->functionName();
-    case iCachegrindItem::NumberOfCalls:
+    switch (key) {
+
+    case CallgrindItem::FileName:
+        return m_csFunction->filename();
+
+    case CallgrindItem::CallName:
+        return m_csFunction->functionName();
+
+    case CallgrindItem::NumberOfCalls:
         return m_numCalls;
+
     default:
         return (this->numericValue(key, disp));
+
     }
+
     return QVariant();
 }
 
-QVariant  CallgrindCallstackItem::numericValue(iCachegrindItem::Columns key, numberDisplayMode disp) const
+QVariant CallgrindCallstackItem::numericValue(CallgrindItem::Columns key, numberDisplayMode disp) const
 {
-    //TODO: REPLACE WITH PTR ON FCT
-    switch (disp)
-    {
+    // TODO: REPLACE WITH PTR ON FCT
+    switch (disp) {
+
     case E_NORMAL:
-        return this->numericValue(key);
+        return numericValue(key);
+
     case E_INCLUDE_NORMAL:
-        return this->includeNumericValue(key);
+        return includeNumericValue(key);
+
     case E_PERCENT:
-        return this->numericValuePercent(key);
+        return numericValuePercent(key);
+
     case E_INCLUDE_PERCENT:
-        return this->includeNumericValuePercent(key);
+        return includeNumericValuePercent(key);
+
     }
+
     return 0;
 }
 
-unsigned long long CallgrindCallstackItem::numericValue(iCachegrindItem::Columns col) const
+unsigned long long CallgrindCallstackItem::numericValue(CallgrindItem::Columns col) const
 {
     return (m_numericValue[col]);
 }
 
-unsigned long long CallgrindCallstackItem::includeNumericValue(iCachegrindItem::Columns col) const
+unsigned long long CallgrindCallstackItem::includeNumericValue(CallgrindItem::Columns col) const
 {
     unsigned long long includeValue = 0;
     for (int i = 0; i < m_parents.size(); ++i)
     {
         includeValue += m_parents[i]->numericValue(col);
     }
-    return (includeValue);
+
+    return includeValue;
 }
 
-double CallgrindCallstackItem::numericValuePercent(iCachegrindItem::Columns col) const
+double CallgrindCallstackItem::numericValuePercent(CallgrindItem::Columns col) const
 {
     return (double) ((int) (((float) numericValue(col)) / ((float) totalCountItem()->numericValue(col)) * 10000)) / 100;
 }
 
-double CallgrindCallstackItem::includeNumericValuePercent(iCachegrindItem::Columns col) const
+double CallgrindCallstackItem::includeNumericValuePercent(CallgrindItem::Columns col) const
 {
     unsigned long long includeValue = 0;
-    for (int i = 0; i < m_parents.size(); ++i)
-    {
+    for (int i = 0; i < m_parents.size(); ++i) {
         includeValue += m_parents[i]->numericValue(col);
     }
+
     return (double) ((int) (((float) includeValue) / ((float) totalCountItem()->numericValue(col)) * 10000)) / 100;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-//                         CallgrindCallstackFunction                        //
-///////////////////////////////////////////////////////////////////////////////
-
-void  CallgrindCallstackFunction::setTotalCountItem(CallgrindCallstackItem *totalCountItem)
+void CallgrindCallstackFunction::setTotalCountItem(CallgrindCallstackItem* totalCountItem)
 {
     m_totalCountItem = totalCountItem;
 }
 
-CallgrindCallstackItem  *CallgrindCallstackFunction::totalCountItem() const
+CallgrindCallstackItem* CallgrindCallstackFunction::totalCountItem() const
 {
-    return (m_totalCountItem);
+    return m_totalCountItem;
 }
 
-void  CallgrindCallstackFunction::setFilename(const QString& fn)
+void CallgrindCallstackFunction::setFilename(const QString& fn)
 {
     m_fileName = fn;
 }
@@ -195,7 +310,7 @@ const QString& CallgrindCallstackFunction::filename() const
     return m_fileName;
 }
 
-void  CallgrindCallstackFunction::setFunctionName(const QString& fn)
+void CallgrindCallstackFunction::setFunctionName(const QString& fn)
 {
     m_fctName = fn;
 }
@@ -207,24 +322,28 @@ const QString& CallgrindCallstackFunction::functionName() const
 
 void CallgrindCallstackFunction::setFullDescName(const QString& fdn)
 {
-    int iEnd, iBegin;
+    int iBegin;
+    int iEnd;
 
     iBegin = 0;
     m_fullDescName = fdn;
-    //file name
+
+    // file name
     if ((iEnd = fdn.indexOf(QChar(':'), iBegin)) == -1) {
         return;
     }
-    this->m_fileName = fdn.mid(iBegin, iEnd - iBegin);
-    //function name name
+
+    m_fileName = fdn.mid(iBegin, iEnd - iBegin);
+
+    // function name
     iBegin = iEnd + 1;
     iEnd = fdn.length();
-    this->m_fctName = fdn.mid(iBegin, iEnd - iBegin);
-
+    m_fctName = fdn.mid(iBegin, iEnd - iBegin);
 }
 
 const QString& CallgrindCallstackFunction::fullDescName() const
 {
     return m_fullDescName;
 }
+
 }

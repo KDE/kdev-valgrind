@@ -41,15 +41,11 @@ typedef bool (CallgrindFunctionsListTModel::*CSItemCompareFct)(const QVariant &,
  */
 class CallgrindModel : public QObject
 {
-    Q_OBJECT
-
 public:
     explicit CallgrindModel(QObject* parent = nullptr);
     ~CallgrindModel();
 
     QAbstractItemModel* abstractItemModel(int n);
-
-    const QList<CallgrindCallstackItem*>& getAllCsItem() const;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
@@ -61,14 +57,7 @@ public:
         E_CALLEE_LIST
     };
 
-    /**
-     * Reception of a new item in the model
-     */
-    void newItem(CallgrindCsItem* item);
-    /**
-     * Resets the model content
-     */
-    void reset();
+    void newItem(CallgrindCallstackItem* item);
 
 private:
     QList<CallgrindCallstackItem*> m_callgrindCsItems;
@@ -80,41 +69,42 @@ private:
 /**
  * Main view model
  */
+// FIXME replace with QAbstractTableModel ?
 class CallgrindFunctionsListTModel : public QAbstractItemModel
 {
-    Q_OBJECT
-
 public:
-    explicit CallgrindFunctionsListTModel(CallgrindModel* mdl);
+    explicit CallgrindFunctionsListTModel(CallgrindModel* model);
 
-    void                      setItemList(const QList<CallgrindCallstackItem *> items);
+    void setItemList(const QList<CallgrindCallstackItem*> items);
 
-    //inherit methods from QAbstractItemModel implementation
-    QModelIndex               index(int, int, const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex               parent(const QModelIndex&) const override;
-    int                       rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int                       columnCount(const QModelIndex&) const override;
-    QVariant                  data(const QModelIndex &index, int role) const override;
-    QVariant                  headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    CallgrindCallstackItem   *itemForIndex(const QModelIndex &index) const;
-    void                      sort ( int column, Qt::SortOrder order) override;
+    QModelIndex index(int, int, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& parent = QModelIndex()) const override; // FIXME remove ?
 
-    //Make the links between list comumn and data model
-    iCachegrindItem::Columns  columnToPosInModelList(int col) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+    void sort(int column, Qt::SortOrder order) override;
+
+    // Make the links between list comumn and data model
+    CallgrindItem::Columns columnToPosInModelList(int col) const;
     CallgrindCallstackItem::numberDisplayMode columnToDisplayMode(int col) const;
-private:
-    //sort implementation
-    void                      quickSortCSItem( int first, int last,
-                                               QList<CallgrindCallstackItem*>& list,
-                                               iCachegrindItem::Columns col,
-                                               CSItemCompareFct cmp,
-                                               CallgrindCallstackItem::numberDisplayMode dispMode );
-    bool                      lessThan(const QVariant &left, const QVariant &right) const;
-    bool                      greatherThan(const QVariant &left, const QVariant &right) const;
 
-    /** list of all the items */
-    QList<CallgrindCallstackItem *> m_items;
-    CallgrindModel                  *m_model;
+private:
+    // sort implementation
+    void quickSortCSItem( int first, int last,
+                          QList<CallgrindCallstackItem*>& list,
+                          CallgrindItem::Columns col,
+                          CSItemCompareFct cmp,
+                          CallgrindCallstackItem::numberDisplayMode dispMode );
+
+    bool lessThan(const QVariant &left, const QVariant &right) const;
+    bool greatherThan(const QVariant &left, const QVariant &right) const;
+
+    QList<CallgrindCallstackItem*> m_items;
+    CallgrindModel* m_model;
 };
 
 }

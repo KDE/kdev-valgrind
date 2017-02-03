@@ -2,7 +2,7 @@
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 201-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,7 +22,8 @@
 
 #pragma once
 
-#include <QObject>
+#include <QByteArray>
+#include <QList>
 
 namespace valgrind
 {
@@ -30,11 +31,11 @@ namespace valgrind
 class CallgrindCallstackItem;
 class CallgrindModel;
 
-class CallgrindParser : public QObject
+class CallgrindParser
 {
 public:
-    explicit CallgrindParser(QObject* parent = nullptr);
-    ~CallgrindParser() override;
+    CallgrindParser();
+    ~CallgrindParser();
 
     void parse(QByteArray& data, CallgrindModel* model);
 

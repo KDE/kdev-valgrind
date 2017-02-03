@@ -3,7 +3,7 @@
    Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -32,9 +32,8 @@
 namespace valgrind
 {
 
-CallgrindParser::CallgrindParser(QObject* parent)
-    : QObject(parent)
-    , m_model(nullptr)
+CallgrindParser::CallgrindParser()
+    : m_model(nullptr)
     , m_lastCall(nullptr)
     , m_numCalls(0)
     , m_totalCountItem(nullptr)
@@ -51,8 +50,8 @@ bool CallgrindParser::parseRootModel(const QString& buffer)
     m_programTotalStr = QStringLiteral("");
 
     for (int i = 0; i < m_headersList.size(); ++i) {
-        iCachegrindItem::Columns key = iCachegrindItem::dataKeyFromName(m_headersList[i]);
-        if (key != iCachegrindItem::Unknow) {
+        CallgrindItem::Columns key = CallgrindItem::dataKeyFromName(m_headersList[i]);
+        if (key != CallgrindItem::Unknow) {
             m_programTotalStr += " " + m_headersList[i];
         } else {
             qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
@@ -219,11 +218,12 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
     Q_ASSERT(model);
     m_model = model;
 
-    CallgrindParserState parserState(ParseRootModel);
-    QBuffer data(&baData);
+    CallgrindParserState parserState = ParseRootModel;
     QString buffer;
 
+    QBuffer data(&baData);
     data.open(QIODevice::ReadOnly);
+
     while (!data.atEnd()) {
         //remove useless characters
         buffer = data.readLine().simplified();

@@ -24,28 +24,22 @@
 #include "view.h"
 #include "ui_view.h"
 
-#include <QItemSelectionModel>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include "generic/utils.h"
-
 #include "debug.h"
-#include <interfaces/icore.h>
-#include <interfaces/idocumentcontroller.h>
-
 #include "model.h"
-#include "modelitem.h"
 
-#include <QResizeEvent>
+#include <QSortFilterProxyModel>
+#include <QStandardItemModel>
 
 namespace valgrind
 {
-CallgrindView::CallgrindView(CallgrindModel* model, QWidget *parent)
+
+CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
     : QWidget(parent)
     , m_model(model)
 {
     ui = new Ui::CallgrindView();
     ui->setupUi(this);
+
     m_callerProxyModel = new QSortFilterProxyModel(this);
     m_callerProxyModel->setDynamicSortFilter(true);
     ui->CallerListView->setModel(m_callerProxyModel);
@@ -59,23 +53,23 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget *parent)
     connect(ui->percentInformationEnabled, &QCheckBox::clicked, this, &CallgrindView::percentInformationClicked);
 
     m_functionListSelectedItem = nullptr;
-/*
-    QItemSelectionModel *selectionModel = new QItemSelectionModel(m_callerProxyModel);
-    ui->CallerListView->setSelectionModel(selectionModel);
 
-    connect(selectionModel, SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this, SLOT(selectionOnCallerListChanged(const QItemSelection &, const QItemSelection &)));
-*/
-    //connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
+//     QItemSelectionModel *selectionModel = new QItemSelectionModel(m_callerProxyModel);
+//     ui->CallerListView->setSelectionModel(selectionModel);
+//
+//     connect(selectionModel, SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+//             this, SLOT(selectionOnCallerListChanged(const QItemSelection &, const QItemSelection &)));
+//
+//     connect(this, SIGNAL(activated(QModelIndex)), SLOT(openDocument(QModelIndex)));
 
     Q_ASSERT(m_model);
     m_model->setParent(this);
 
-    QAbstractItemModel* fctTreeModel = m_model->abstractItemModel(CallgrindModel::E_FCT_LIST);
+    auto fctTreeModel = m_model->abstractItemModel(CallgrindModel::E_FCT_LIST);
     ui->FunctionsTreeView->setSortingEnabled(true);
-    ui->FunctionsTreeView->setModel( fctTreeModel );
+    ui->FunctionsTreeView->setModel(fctTreeModel);
 
-    QItemSelectionModel* functionListSelectionModel = new QItemSelectionModel(fctTreeModel);
+    auto functionListSelectionModel = new QItemSelectionModel(fctTreeModel);
     ui->FunctionsTreeView->setSelectionModel(functionListSelectionModel);
     connect(functionListSelectionModel, &QItemSelectionModel::selectionChanged,
             this, &CallgrindView::selectionOnFctListChanged);
@@ -89,13 +83,12 @@ CallgrindView::~CallgrindView()
     delete ui;
 }
 
-void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, const QItemSelection &deselected)
+void CallgrindView::selectionOnFctListChanged(const QItemSelection& selected, const QItemSelection&)
 {
-    Q_UNUSED(deselected);
-    CallgrindCallstackItem  *item = static_cast<CallgrindCallstackItem*>(selected.indexes().first().internalPointer());
+    auto item = static_cast<CallgrindCallstackItem*>(selected.indexes().first().internalPointer());
     m_functionListSelectedItem = item;
 
-    if (m_functionListSelectedItem == nullptr) {
+    if (!m_functionListSelectedItem) {
         return;
     }
 
@@ -104,65 +97,62 @@ void CallgrindView::selectionOnFctListChanged(const QItemSelection &selected, co
     updateCalleeTab(item);
 }
 
-void CallgrindView::updateInformationTab(CallgrindCallstackItem *item)
+void CallgrindView::updateInformationTab(CallgrindCallstackItem* item)
 {
-    if (ui->InformationsListView->model()!= nullptr) {
+    if (ui->InformationsListView->model()) {
         delete ui->InformationsListView->model();
     }
 
-    QStandardItemModel *informationsModel = new QStandardItemModel(this);
-    int size = ((int) iCachegrindItem::Unknow) - 1;
-    for (int i = 0; i < size; ++i)
-    {
-        if (item->hasKey(i))
-        {
+    auto informationsModel = new QStandardItemModel(this);
+    for (int i = 0; i < (CallgrindItem::Unknow - 1); ++i) {
+        if (item->hasKey(i)) {
             informationsModel->setItem(i, 0, new QStandardItem(m_model->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString()));
-            informationsModel->setItem(i, 1, new QStandardItem(item->data((iCachegrindItem::Columns) i, m_informationDisplayMode).toString()));
+            informationsModel->setItem(i, 1, new QStandardItem(item->data((CallgrindItem::Columns) i, m_informationDisplayMode).toString()));
         }
     }
+
     ui->InformationsListView->setModel(informationsModel);
     ui->InformationsListView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
-void CallgrindView::updateCallerTab(CallgrindCallstackItem *item)
+void CallgrindView::updateCallerTab(CallgrindCallstackItem* item)
 {
-    // delete old model
-    if (m_callerProxyModel->sourceModel() != nullptr) {
+    if (m_callerProxyModel->sourceModel()) {
         delete m_callerProxyModel->sourceModel();
     }
 
-    QStandardItemModel    *callerModel = new QStandardItemModel(this);
+    auto callerModel = new QStandardItemModel(this);
     callerModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
     callerModel->setHorizontalHeaderItem(1, new QStandardItem (i18n("Ir")));
-    int callerSize = item->parentCount();
-    for (int i = 0; i < callerSize; ++i)
-    {
-        CallgrindCallstackItem *caller = item->parent(i);
+
+    for (int i = 0; i < item->parentCount(); ++i) {
+        auto caller = item->parent(i);
         callerModel->setItem(i, 0, new QStandardItem(caller->csFunction()->functionName()));
-        callerModel->setItem(i, 1, new QStandardItem(caller->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
+        callerModel->setItem(i, 1, new QStandardItem(caller->data(CallgrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
+
     m_callerProxyModel->setSourceModel(callerModel);
 
     ui->CallerListView->header()->setStretchLastSection(false);
     ui->CallerListView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 }
 
-void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
+void CallgrindView::updateCalleeTab(CallgrindCallstackItem* item)
 {
-    if (m_calleeProxyModel->sourceModel() != nullptr) {
+    if (m_calleeProxyModel->sourceModel()) {
         delete m_calleeProxyModel->sourceModel();
     }
 
-    QStandardItemModel  *calleeModel = new QStandardItemModel(this);
+    auto calleeModel = new QStandardItemModel(this);
     calleeModel->setHorizontalHeaderItem(0, new QStandardItem(i18n("Function Name")));
     calleeModel->setHorizontalHeaderItem(1, new QStandardItem(i18n("Ir")));
-    int calleeSize = item->childCount();
-    for (int i = 0; i < calleeSize; ++i)
-    {
-        CallgrindCallstackItem *callee = item->child(i);
+
+    for (int i = 0; i < item->childCount(); ++i) {
+        auto callee = item->child(i);
         calleeModel->setItem(i, 0, new QStandardItem(callee->csFunction()->functionName()));
-        calleeModel->setItem(i, 1, new QStandardItem(callee->data(iCachegrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
+        calleeModel->setItem(i, 1, new QStandardItem(callee->data(CallgrindItem::InstructionRead, CallgrindCallstackItem::E_PERCENT).toString()));
     }
+
     m_calleeProxyModel->setSourceModel(calleeModel);
 
     ui->CalleeListView->header()->setStretchLastSection(false);
@@ -171,35 +161,33 @@ void CallgrindView::updateCalleeTab(CallgrindCallstackItem *item)
 
 void CallgrindView::percentInformationClicked(bool enable)
 {
-    m_informationDisplayMode = CallgrindCallstackItem::E_PERCENT;
-    if (!enable) {
+    if (enable) {
+        m_informationDisplayMode = CallgrindCallstackItem::E_PERCENT;
+    } else {
         m_informationDisplayMode = CallgrindCallstackItem::E_NORMAL;
     }
 
-    if (m_functionListSelectedItem == nullptr) {
+    if (!m_functionListSelectedItem) {
         return;
     }
 
     updateInformationTab(m_functionListSelectedItem);
 }
 
-void CallgrindView::selectionOnCallerListChanged(const QItemSelection &s, const QItemSelection &d)
+void CallgrindView::selectionOnCallerListChanged(const QItemSelection& s, const QItemSelection&)
 {
-    Q_UNUSED(d);
     qCDebug(KDEV_VALGRIND) << "select";
-    CallgrindCallstackItem  *item = static_cast<CallgrindCallstackItem*>(s.indexes().first().internalPointer());
-    if (item == nullptr)
-    {
+
+    auto item = static_cast<CallgrindCallstackItem*>(s.indexes().first().internalPointer());
+    if (!item) {
         qCDebug(KDEV_VALGRIND) << "NULL";
         return;
     }
-    int size = ((int) iCachegrindItem::Unknow) - 1;
-    for (int i = 0; i < size; ++i)
-    {
-        if (item->hasKey(i))
-        {
-            qCDebug(KDEV_VALGRIND) << m_model->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString() <<
-                        item->data((iCachegrindItem::Columns) i).toString();
+
+    for (int i = 0; i < (CallgrindItem::Unknow - 1); ++i) {
+        if (item->hasKey(i)) {
+            qCDebug(KDEV_VALGRIND) << m_model->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString()
+                                   << item->data((CallgrindItem::Columns)i).toString();
         }
     }
 }

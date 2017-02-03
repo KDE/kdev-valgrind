@@ -10,8 +10,6 @@ add_library(cachegrind_tool STATIC
     settings.cpp
     view.cpp
 
-    icachegrinditem.cpp
-
     ${cachegrind_UI_SRCS}
 )
 
