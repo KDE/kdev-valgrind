@@ -59,9 +59,13 @@ bool CallgrindJob::processEnded()
 {
     CallgrindSettings settings(config);
 
+    QStringList caArgs;
+    caArgs += QStringLiteral("--tree=both");
+    caArgs += argValue(settings.callgrindAnnotateParameters());
+    caArgs += m_outputFile;
+
     QByteArray caOutput;
-    if (executeProcess(settings.callgrind_annotateExecutablePath(),
-                       { QStringLiteral("--tree=both"), m_outputFile }, caOutput)) {
+    if (executeProcess(settings.callgrindAnnotateExecutablePath(), caArgs, caOutput)) {
         return false;
     }
 

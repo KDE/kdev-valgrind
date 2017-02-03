@@ -34,10 +34,11 @@ CallgrindConfigPage::CallgrindConfigPage(QWidget* parent)
     ui = new Ui::CallgrindConfig();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &CallgrindConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textChanged, this, &CallgrindConfigPage::changed);
     connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
     connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
+    connect(ui->callgrindAnnotateParameters, &QLineEdit::textChanged, this, &CallgrindConfigPage::changed);
 }
 
 QString CallgrindConfigPage::title() const
@@ -59,6 +60,7 @@ void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelo
     ui->cacheSimulation->setChecked(settings.cacheSimulation());
     ui->branchSimulation->setChecked(settings.branchSimulation());
     ui->launchKCachegrind->setChecked(settings.launchKCachegrind());
+    ui->callgrindAnnotateParameters->setText(settings.callgrindAnnotateParameters());
 }
 
 
@@ -70,6 +72,7 @@ void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProje
     settings.setCacheSimulation(ui->cacheSimulation->isChecked());
     settings.setBranchSimulation(ui->branchSimulation->isChecked());
     settings.setLaunchKCachegrind(ui->launchKCachegrind->isChecked());
+    settings.setCallgrindAnnotateParameters(ui->callgrindAnnotateParameters->text());
 }
 
 CallgrindConfigPageFactory::CallgrindConfigPageFactory()

@@ -41,7 +41,11 @@ public:
     bool launchKCachegrind() const;
     void setLaunchKCachegrind(bool value);
 
-    QString callgrind_annotateExecutablePath() const;
+    QString callgrindAnnotateExecutablePath() const;
+
+    QString callgrindAnnotateParameters() const;
+    void setCallgrindAnnotateParameters(const QString& parameters);
+
     QString kcachegrindExecutablePath() const;
 
 private:
