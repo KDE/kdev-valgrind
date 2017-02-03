@@ -73,7 +73,7 @@ void MemcheckJob::postProcessStderr(const QStringList& lines)
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
-void MemcheckJob::processEnded()
+bool MemcheckJob::processEnded()
 {
     auto problemModelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
     auto problemModel = problemModelSet->findModel(QStringLiteral("Valgrind"));
@@ -83,6 +83,8 @@ void MemcheckJob::processEnded()
 
     problemModel->clearProblems();
     problemModel->setProblems(parser.parse(MemcheckSettings(config).showInstructionPointer()));
+
+    return true;
 }
 
 void MemcheckJob::addToolArgs(QStringList& args) const

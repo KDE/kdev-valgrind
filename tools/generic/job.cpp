@@ -194,9 +194,7 @@ void GenericJob::start()
 
    qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
 
-    beforeStart();
     KDevelop::OutputExecuteJob::start();
-    processStarted();
 }
 
 void GenericJob::postProcessStdout(const QStringList& lines)
@@ -237,14 +235,15 @@ void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatu
         }
     }
 
-    processEnded();
-    emitResult();
+    if (processEnded()) {
+        if (QWidget* view = createView()) {
+            emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
+        }
 
-    if (QWidget* view = createView()) {
-        emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
+        m_plugin->jobFinished(this);
     }
 
-    m_plugin->jobFinished(this);
+    emitResult();
 }
 
 void GenericJob::childProcessError(QProcess::ProcessError processError)
@@ -289,25 +288,29 @@ void GenericJob::childProcessError(QProcess::ProcessError processError)
     KDevelop::OutputExecuteJob::childProcessError(processError);
 }
 
-void GenericJob::beforeStart()
+bool GenericJob::processEnded()
 {
-}
-
-void GenericJob::processStarted()
-{
-}
-
-void GenericJob::processEnded()
-{
+    return true;
 }
 
 int GenericJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
+    QString commandLine("Executing command: ");
+    commandLine += executable + " ";
+    commandLine += args.join(' ');
+    KDevelop::OutputExecuteJob::postProcessStdout({"", commandLine });
+
     QProcess process;
     process.start(executable, args);
-    if (process.waitForFinished()) {
-        processOutput = process.readAllStandardOutput();
+    if (!process.waitForFinished()){
+        return -1;
     }
+
+    processOutput = process.readAllStandardOutput();
+    QString errOutput(process.readAllStandardError());
+
+    KDevelop::OutputExecuteJob::postProcessStdout(QString(processOutput).split('\n'));
+    KDevelop::OutputExecuteJob::postProcessStderr(errOutput.split('\n'));
 
     return process.exitCode();
 }

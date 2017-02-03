@@ -54,7 +54,7 @@ CachegrindJob::~CachegrindJob()
 {
 }
 
-void CachegrindJob::processEnded()
+bool CachegrindJob::processEnded()
 {
     CachegrindSettings settings(config);
 
@@ -63,12 +63,15 @@ void CachegrindJob::processEnded()
     cgArgs += m_outputFile;
 
     QByteArray cgOutput;
-    executeProcess(settings.cgAnnotateExecutablePath(), cgArgs, cgOutput);
+    if (executeProcess(settings.cgAnnotateExecutablePath(), cgArgs, cgOutput) != 0) {
+        return false;
+    }
 
     CachegrindParser parser;
     parser.parse(cgOutput, m_model);
-
     QFile::remove(m_outputFile);
+
+    return true;
 }
 
 void CachegrindJob::addToolArgs(QStringList& args) const

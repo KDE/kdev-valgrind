@@ -55,13 +55,15 @@ CallgrindJob::~CallgrindJob()
 {
 }
 
-void CallgrindJob::processEnded()
+bool CallgrindJob::processEnded()
 {
     CallgrindSettings settings(config);
 
     QByteArray caOutput;
-    executeProcess(settings.callgrind_annotateExecutablePath(),
-                   { m_outputFile, QStringLiteral("--tree=both")}, caOutput);
+    if (executeProcess(settings.callgrind_annotateExecutablePath(),
+                       { QStringLiteral("--tree=both"), m_outputFile }, caOutput)) {
+        return false;
+    }
 
     CallgrindParser parser;
     parser.parse(caOutput, m_model);
@@ -73,6 +75,8 @@ void CallgrindJob::processEnded()
     }
     else
         QFile::remove(m_outputFile);
+
+    return true;
 }
 
 void CallgrindJob::addToolArgs(QStringList& args) const

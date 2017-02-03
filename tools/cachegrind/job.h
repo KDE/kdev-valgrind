@@ -39,7 +39,7 @@ public:
     ~CachegrindJob() override;
 
 protected:
-    void processEnded() override;
+    bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
     QWidget* createView() override;
 

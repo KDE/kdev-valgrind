@@ -73,9 +73,7 @@ private slots:
     void childProcessError(QProcess::ProcessError processError) override;
 
 protected:
-    virtual void beforeStart(); // called before launching the process
-    virtual void processStarted(); // called after the process has been launched
-    virtual void processEnded(); // called when the process ended
+    virtual bool processEnded();
 
     virtual void addToolArgs(QStringList& args) const = 0;
 

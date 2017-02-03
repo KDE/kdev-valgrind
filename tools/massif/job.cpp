@@ -52,7 +52,7 @@ MassifJob::~MassifJob()
 {
 }
 
-void MassifJob::processEnded()
+bool MassifJob::processEnded()
 {
     MassifSettings settings(config);
 
@@ -63,6 +63,8 @@ void MassifJob::processEnded()
     } else {
         QFile::remove(m_outputFile);
     }
+
+    return true;
 }
 
 void MassifJob::addToolArgs(QStringList& args) const
