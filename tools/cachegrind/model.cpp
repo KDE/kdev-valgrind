@@ -46,7 +46,9 @@ CachegrindModel::~CachegrindModel()
 void CachegrindModel::addItem(CachegrindItem* item)
 {
     Q_ASSERT(item);
-    m_items.append(item);
+    if (item) {
+        m_items.append(item);
+    }
 }
 
 void CachegrindModel::setEventsList(const QStringList& eventsList)
@@ -56,11 +58,11 @@ void CachegrindModel::setEventsList(const QStringList& eventsList)
 
 QModelIndex CachegrindModel::index(int row, int column, const QModelIndex&) const
 {
-    if (row >= rowCount() || column >= columnCount()) {
-        return QModelIndex();
+    if (row >= 0 && row < rowCount() && column >= 0 && column < columnCount()) {
+        return createIndex(row, column, m_items.at(row));
     }
 
-    return createIndex(row, column, m_items.at(row));
+    return QModelIndex();
 }
 
 int CachegrindModel::rowCount(const QModelIndex&) const
@@ -76,6 +78,9 @@ int CachegrindModel::columnCount(const QModelIndex&) const
 QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 {
     auto item = static_cast<CachegrindItem*>(index.internalPointer());
+    if (!item) {
+        return QVariant();
+    }
 
     if (role == Qt::DisplayRole) {
         if (index.column() == 0) {
@@ -120,6 +125,10 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) con
         eventToolTips["Bcm" ] = i18n("Bcm (Conditional branches mispredicted)");
         eventToolTips["Bi"  ] = i18n("Bi (Indirect branches executed)");
         eventToolTips["Bim" ] = i18n("Bim (Indirect branches mispredicted)");
+    }
+
+    if (section < 0 || section >= columnCount()) {
+        return QVariant();
     }
 
     if (section == 0) {

@@ -259,7 +259,9 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
         }
     }
 
+    // this signals the model about parsing finish
     m_model->newItem(nullptr);
+
     m_model = nullptr;
 }
 

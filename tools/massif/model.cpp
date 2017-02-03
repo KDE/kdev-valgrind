@@ -45,16 +45,18 @@ MassifModel::~MassifModel()
 void MassifModel::addSnapshot(MassifSnapshot* snapshot)
 {
     Q_ASSERT(snapshot);
-    m_snapshots.append(snapshot);
+    if (snapshot) {
+        m_snapshots.append(snapshot);
+    }
 }
 
 QModelIndex MassifModel::index(int row, int column, const QModelIndex&) const
 {
-    if (row >= rowCount() || column >= columnCount()) {
-        return QModelIndex();
+    if (row >= 0 && row < rowCount() && column >= 0 && column < columnCount()) {
+        return createIndex(row, column, m_snapshots.at(row));
     }
 
-    return createIndex(row, column, m_snapshots.at(row));
+    return QModelIndex();
 }
 
 int MassifModel::rowCount(const QModelIndex&) const
@@ -89,12 +91,10 @@ QString humanSize(int byteSize)
 
 QVariant MassifModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid()) {
+    auto snapshot = static_cast<MassifSnapshot*>(index.internalPointer());
+    if (!snapshot) {
         return QVariant();
     }
-
-    auto snapshot = static_cast<MassifSnapshot*>(index.internalPointer());
-    Q_ASSERT(snapshot);
 
     if (role == Qt::DisplayRole) {
         if (index.column() <= MassifSnapshot::Time) {
