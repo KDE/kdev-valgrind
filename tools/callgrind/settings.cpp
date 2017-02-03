@@ -69,7 +69,7 @@ void CallgrindSettings::setLaunchKCachegrind(bool value)
     m_config.writeEntry(QStringLiteral("Callgrind Launch KCachegrind"), value);
 }
 
-QString CallgrindSettings::callgrindAnnotateExecutablePath() const
+QString CallgrindSettings::callgrindAnnotateExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
 }
@@ -84,7 +84,7 @@ void CallgrindSettings::setCallgrindAnnotateParameters(const QString& parameters
     m_config.writeEntry(QStringLiteral("Callgrind callgrind_annotate Parameters"), parameters);
 }
 
-QString CallgrindSettings::kcachegrindExecutablePath() const
+QString CallgrindSettings::kcachegrindExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 }

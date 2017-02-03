@@ -27,7 +27,7 @@ namespace valgrind
 class MemcheckSettings
 {
 public:
-    MemcheckSettings(const KConfigGroup& config);
+    explicit MemcheckSettings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);

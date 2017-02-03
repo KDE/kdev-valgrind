@@ -129,7 +129,7 @@ void MassifSettings::setLaunchVisualizer(bool value)
     m_config.writeEntry(QStringLiteral("Massif Launch Visualizer"), value);
 }
 
-QString MassifSettings::visualizerExecutablePath() const
+QString MassifSettings::visualizerExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
 }

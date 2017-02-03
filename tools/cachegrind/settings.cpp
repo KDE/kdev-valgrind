@@ -59,7 +59,7 @@ void CachegrindSettings::setBranchSimulation(bool value)
     m_config.writeEntry(QStringLiteral("Cachegrind Branch Simulation"), value);
 }
 
-QString CachegrindSettings::cgAnnotateExecutablePath() const
+QString CachegrindSettings::cgAnnotateExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
 }

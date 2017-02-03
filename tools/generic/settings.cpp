@@ -79,7 +79,7 @@ void GenericSettings::setCurrentTool(int tool)
     m_config.writeEntry(QStringLiteral("Valgrind Current Tool"), tool);
 }
 
-QString GenericSettings::valgrindExecutablePath() const
+QString GenericSettings::valgrindExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
 }

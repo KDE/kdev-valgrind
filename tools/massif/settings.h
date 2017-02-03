@@ -27,7 +27,7 @@ namespace valgrind
 class MassifSettings
 {
 public:
-    MassifSettings(const KConfigGroup& config);
+    explicit MassifSettings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -59,7 +59,7 @@ public:
     bool launchVisualizer() const;
     void setLaunchVisualizer(bool value);
 
-    QString visualizerExecutablePath() const;
+    static QString visualizerExecutablePath();
 
 private:
     KConfigGroup m_config;

@@ -24,10 +24,10 @@
 namespace valgrind
 {
 
-struct CallgrindSettings
+class CallgrindSettings
 {
 public:
-    CallgrindSettings(const KConfigGroup& config);
+    explicit CallgrindSettings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -41,12 +41,11 @@ public:
     bool launchKCachegrind() const;
     void setLaunchKCachegrind(bool value);
 
-    QString callgrindAnnotateExecutablePath() const;
-
     QString callgrindAnnotateParameters() const;
     void setCallgrindAnnotateParameters(const QString& parameters);
 
-    QString kcachegrindExecutablePath() const;
+    static QString callgrindAnnotateExecutablePath();
+    static QString kcachegrindExecutablePath();
 
 private:
     KConfigGroup m_config;

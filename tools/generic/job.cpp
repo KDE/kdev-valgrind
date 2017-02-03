@@ -187,7 +187,7 @@ void GenericJob::start()
         return;
     }
 
-    *this << GenericSettings(config).valgrindExecutablePath();
+    *this << GenericSettings::valgrindExecutablePath();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;

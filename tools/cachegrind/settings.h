@@ -27,7 +27,7 @@ namespace valgrind
 class CachegrindSettings
 {
 public:
-    CachegrindSettings(const KConfigGroup& config);
+    explicit CachegrindSettings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -38,7 +38,7 @@ public:
     bool branchSimulation() const;
     void setBranchSimulation(bool value);
 
-    QString cgAnnotateExecutablePath() const;
+    static QString cgAnnotateExecutablePath();
 
     QString cgAnnotateParameters() const;
     void setCgAnnotateParameters(const QString& parameters);

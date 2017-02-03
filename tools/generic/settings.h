@@ -30,7 +30,7 @@ static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "cal
 class GenericSettings
 {
 public:
-    GenericSettings(const KConfigGroup& config);
+    explicit GenericSettings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -47,7 +47,7 @@ public:
     int currentTool() const;
     void setCurrentTool(int tool);
 
-    QString valgrindExecutablePath() const;
+    static QString valgrindExecutablePath();
 
 private:
     KConfigGroup m_config;

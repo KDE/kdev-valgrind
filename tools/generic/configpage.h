@@ -38,7 +38,7 @@ class GenericConfigPage : public KDevelop::LaunchConfigurationPage
     Q_OBJECT
 
 public:
-    GenericConfigPage(QWidget* parent = nullptr);
+    explicit GenericConfigPage(QWidget* parent = nullptr);
     ~GenericConfigPage() override;
 
     QString title() const override;
