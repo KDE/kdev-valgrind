@@ -19,42 +19,49 @@
 
 #include "settings.h"
 
+#include "globalsettings.h"
+
 namespace valgrind
 {
 
-namespace CachegrindSettings
+CachegrindSettings::CachegrindSettings(const KConfigGroup& config)
+    : m_config(config)
 {
-
-QString extraParameters(const KConfigGroup& cfg)
-{
-    return cfg.readEntry(QStringLiteral("Cachegrind Extra Parameters"), QString{});
 }
 
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters)
+QString CachegrindSettings::extraParameters() const
 {
-    cfg.writeEntry(QStringLiteral("Cachegrind Extra Parameters"), parameters);
+    return m_config.readEntry(QStringLiteral("Cachegrind Extra Parameters"), QString{});
 }
 
-bool cacheSimulation(const KConfigGroup& cfg)
+void CachegrindSettings::setExtraParameters(const QString& parameters)
 {
-    return cfg.readEntry(QStringLiteral("Cachegrind Cache Simulation"), true);
+    m_config.writeEntry(QStringLiteral("Cachegrind Extra Parameters"), parameters);
 }
 
-void setCacheSimulation(KConfigGroup& cfg, bool value)
+bool CachegrindSettings::cacheSimulation() const
 {
-    cfg.writeEntry(QStringLiteral("Cachegrind Cache Simulation"), value);
+    return m_config.readEntry(QStringLiteral("Cachegrind Cache Simulation"), true);
 }
 
-bool branchSimulation(const KConfigGroup& cfg)
+void CachegrindSettings::setCacheSimulation(bool value)
 {
-    return cfg.readEntry(QStringLiteral("Cachegrind Branch Simulation"), false);
+    m_config.writeEntry(QStringLiteral("Cachegrind Cache Simulation"), value);
 }
 
-void setBranchSimulation(KConfigGroup& cfg, bool value)
+bool CachegrindSettings::branchSimulation() const
 {
-    cfg.writeEntry(QStringLiteral("Cachegrind Branch Simulation"), value);
+    return m_config.readEntry(QStringLiteral("Cachegrind Branch Simulation"), false);
 }
 
+void CachegrindSettings::setBranchSimulation(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Cachegrind Branch Simulation"), value);
+}
+
+QString CachegrindSettings::cg_annotateExecutablePath() const
+{
+    return KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
 }
 
 }

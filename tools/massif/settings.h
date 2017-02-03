@@ -24,39 +24,45 @@
 namespace valgrind
 {
 
-namespace MassifSettings
+class MassifSettings
 {
+public:
+    MassifSettings(const KConfigGroup& config);
 
-QString extraParameters(const KConfigGroup& cfg);
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters);
+    QString extraParameters() const;
+    void setExtraParameters(const QString& parameters);
 
-int snapshotTreeDepth(const KConfigGroup& cfg);
-void setSnapshotTreeDepth(KConfigGroup& cfg, int depth);
+    int snapshotTreeDepth() const;
+    void setSnapshotTreeDepth(int depth);
 
-int threshold(const KConfigGroup& cfg);
-void setThreshold(KConfigGroup& cfg, int threshold);
+    int threshold() const;
+    void setThreshold(int threshold);
 
-int peakInaccuracy(const KConfigGroup& cfg);
-void setPeakInaccuracy(KConfigGroup& cfg, int inaccuracy);
+    int peakInaccuracy() const;
+    void setPeakInaccuracy(int inaccuracy);
 
-int maximumSnapshots(const KConfigGroup& cfg);
-void setMaximumSnapshots(KConfigGroup& cfg, int maximum);
+    int maximumSnapshots() const;
+    void setMaximumSnapshots(int maximum);
 
-int detailedSnapshotsFrequency(const KConfigGroup& cfg);
-void setDetailedSnapshotsFrequency(KConfigGroup& cfg, int frequency);
+    int detailedSnapshotsFrequency() const;
+    void setDetailedSnapshotsFrequency(int frequency);
 
-int timeUnit(const KConfigGroup& cfg);
-void setTimeUnit(KConfigGroup& cfg, int unit);
+    int timeUnit() const;
+    void setTimeUnit(int unit);
 
-bool profileHeap(const KConfigGroup& cfg);
-void setProfileHeap(KConfigGroup& cfg, bool value);
+    bool profileHeap() const;
+    void setProfileHeap(bool value);
 
-bool profileStack(const KConfigGroup& cfg);
-void setProfileStack(KConfigGroup& cfg, bool value);
+    bool profileStack() const;
+    void setProfileStack(bool value);
 
-bool launchVisualizer(const KConfigGroup& cfg);
-void setLaunchVisualizer(KConfigGroup& cfg, bool value);
+    bool launchVisualizer() const;
+    void setLaunchVisualizer(bool value);
 
-}
+    QString visualizerExecutablePath() const;
+
+private:
+    KConfigGroup m_config;
+};
 
 }

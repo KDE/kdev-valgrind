@@ -59,23 +59,26 @@ QIcon MemcheckConfigPage::icon() const
 void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
+    MemcheckSettings settings(cfg);
 
-    ui->extraParameters->setText(MemcheckSettings::extraParameters(cfg));
-    ui->freeListSize->setValue(MemcheckSettings::freeListSize(cfg));
+    ui->extraParameters->setText(settings.extraParameters());
+    ui->freeListSize->setValue(settings.freeListSize());
 
-    ui->showReachable->setChecked(MemcheckSettings::showReachable(cfg));
-    ui->undefValueErrors->setChecked(MemcheckSettings::undefValueErrors(cfg));
-    ui->showInstructionPointer->setChecked(MemcheckSettings::showInstructionPointer(cfg));
+    ui->showReachable->setChecked(settings.showReachable());
+    ui->undefValueErrors->setChecked(settings.undefValueErrors());
+    ui->showInstructionPointer->setChecked(settings.showInstructionPointer());
 }
 
 void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    MemcheckSettings::setExtraParameters(cfg, ui->extraParameters->text());
-    MemcheckSettings::setFreeListSize(cfg, ui->freeListSize->value());
+    MemcheckSettings settings(cfg);
 
-    MemcheckSettings::setShowReachable(cfg, ui->showReachable->isChecked());
-    MemcheckSettings::setUndefValueErrors(cfg, ui->undefValueErrors->isChecked());
-    MemcheckSettings::setShowInstructionPointer(cfg, ui->showInstructionPointer->isChecked());
+    settings.setExtraParameters(ui->extraParameters->text());
+    settings.setFreeListSize(ui->freeListSize->value());
+
+    settings.setShowReachable(ui->showReachable->isChecked());
+    settings.setUndefValueErrors(ui->undefValueErrors->isChecked());
+    settings.setShowInstructionPointer(ui->showInstructionPointer->isChecked());
 }
 
 MemcheckConfigPageFactory::MemcheckConfigPageFactory()

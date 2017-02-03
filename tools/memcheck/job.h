@@ -40,12 +40,11 @@ protected:
     void postProcessStderr(const QStringList& lines) override;
     void processEnded() override;
 
-    void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
+    void addToolArgs(QStringList& args) const override;
 
     QWidget* createView() override;
 
     QStringList m_xmlOutput;
-    bool m_showInstructionPointer;
 };
 
 }

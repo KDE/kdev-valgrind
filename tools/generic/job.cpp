@@ -28,12 +28,10 @@
 
 #include "debug.h"
 #include "plugin.h"
-
-#include "globalsettings.h"
+#include "settings.h"
 
 #include "cachegrind/job.h"
 #include "callgrind/job.h"
-#include "generic/settings.h"
 #include "massif/job.h"
 #include "memcheck/job.h"
 
@@ -56,7 +54,7 @@ namespace valgrind
 
 GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
 {
-    const QString& toolName = valgrindTools.at(GenericSettings::currentTool(cfg->config()));
+    const QString& toolName = valgrindTools.at(GenericSettings(cfg->config()).currentTool());
 
     if (toolName == QStringLiteral("memcheck")) {
         return new MemcheckJob(cfg, plugin, parent);
@@ -80,17 +78,17 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
 }
 
 GenericJob::GenericJob(
-    KDevelop::ILaunchConfiguration* cfg,
+    KDevelop::ILaunchConfiguration* launchConfig,
     QString tool,
     Plugin* plugin,
     QObject* parent)
 
     : KDevelop::OutputExecuteJob(parent)
-    , m_launchcfg(cfg)
+    , config(launchConfig->config())
     , m_tool(tool)
     , m_plugin(plugin)
 {
-    Q_ASSERT(m_launchcfg);
+    Q_ASSERT(launchConfig);
     Q_ASSERT(m_plugin);
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
@@ -101,18 +99,16 @@ GenericJob::GenericJob(
     setStandardToolView(KDevelop::IOutputView::TestView);
     setBehaviours(KDevelop::IOutputView::AutoScroll);
 
-    KConfigGroup config(m_launchcfg->config());
-
     IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
     KDevelop::EnvironmentGroupList envGroupList(KSharedConfig::openConfig());
-    QString envGroup = iface->environmentGroup(m_launchcfg);
+    QString envGroup = iface->environmentGroup(launchConfig);
 
     if (envGroup.isEmpty()) {
         qCWarning(KDEV_VALGRIND) << i18n("No environment group specified, looks like a broken "
                            "configuration, please check run configuration '%1'. "
-                           "Using default environment group.", m_launchcfg->name());
+                           "Using default environment group.", launchConfig->name());
         envGroup = envGroupList.defaultGroup();
     }
     // FIXME
@@ -120,21 +116,19 @@ GenericJob::GenericJob(
 
     QString errorString;
 
-    m_valgrindExecutable = KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
-
-    m_analyzedExecutable = iface->executable(m_launchcfg, errorString).toLocalFile();
+    m_analyzedExecutable = iface->executable(launchConfig, errorString).toLocalFile();
     if (!errorString.isEmpty()) {
         setError(-1);
         setErrorText(errorString);
     }
 
-    m_analyzedExecutableArguments = iface->arguments(m_launchcfg, errorString);
+    m_analyzedExecutableArguments = iface->arguments(launchConfig, errorString);
     if (!errorString.isEmpty()) {
         setError(-1);
         setErrorText(errorString);
     }
 
-    m_workingDir = iface->workingDirectory(m_launchcfg);
+    m_workingDir = iface->workingDirectory(launchConfig);
     if (m_workingDir.isEmpty() || !m_workingDir.isValid()) {
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
     }
@@ -155,6 +149,11 @@ QString GenericJob::target() const
     return QFileInfo(m_analyzedExecutable).fileName();
 }
 
+QStringList GenericJob::argValue(const QString& line) const
+{
+    return KShell::splitArgs(line);
+}
+
 QString GenericJob::argValue(bool value) const
 {
     return value ? QStringLiteral("yes") : QStringLiteral("no");
@@ -167,18 +166,16 @@ QString GenericJob::argValue(int value) const
 
 QStringList GenericJob::buildCommandLine() const
 {
-    KConfigGroup config = m_launchcfg->config();
+    GenericSettings settings(config);
     QStringList args;
 
     args += QStringLiteral("--tool=") + m_tool;
-    args += KShell::splitArgs(GenericSettings::extraParameters(config));
+    args += argValue(settings.extraParameters());
+    args += QStringLiteral("--num-callers=") + argValue(settings.stackframeDepth());
+    args += QStringLiteral("--max-stackframe=") + argValue(settings.maximumStackframeSize());
+    args += QStringLiteral("--error-limit=") + argValue(settings.limitErrors());
 
-    args += QStringLiteral("--num-callers=") + argValue(GenericSettings::stackframeDepth(config));
-    args += QStringLiteral("--max-stackframe=") + argValue(GenericSettings::maximumStackframeSize(config));
-    args += QStringLiteral("--error-limit=") + argValue(GenericSettings::limitErrors(config));
-
-    addToolArgs(args, config);
-    args.removeAll(QStringLiteral(""));
+    addToolArgs(args);
 
     return args;
 }
@@ -190,7 +187,7 @@ void GenericJob::start()
         return;
     }
 
-    *this << m_valgrindExecutable;
+    *this << GenericSettings(config).valgrindExecutablePath();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;
@@ -243,8 +240,7 @@ void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatu
     processEnded();
     emitResult();
 
-    QWidget* view = createView();
-    if (view) {
+    if (QWidget* view = createView()) {
         emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
     }
 

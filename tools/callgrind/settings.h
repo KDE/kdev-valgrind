@@ -24,21 +24,28 @@
 namespace valgrind
 {
 
-namespace CallgrindSettings
+struct CallgrindSettings
 {
+public:
+    CallgrindSettings(const KConfigGroup& config);
 
-QString extraParameters(const KConfigGroup& cfg);
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters);
+    QString extraParameters() const;
+    void setExtraParameters(const QString& parameters);
 
-bool cacheSimulation(const KConfigGroup& cfg);
-void setCacheSimulation(KConfigGroup& cfg, bool value);
+    bool cacheSimulation() const;
+    void setCacheSimulation(bool value);
 
-bool branchSimulation(const KConfigGroup& cfg);
-void setBranchSimulation(KConfigGroup& cfg, bool value);
+    bool branchSimulation() const;
+    void setBranchSimulation(bool value);
 
-bool launchKCachegrind(const KConfigGroup& cfg);
-void setLaunchKCachegrind(KConfigGroup& cfg, bool value);
+    bool launchKCachegrind() const;
+    void setLaunchKCachegrind(bool value);
 
-}
+    QString callgrind_annotateExecutablePath() const;
+    QString kcachegrindExecutablePath() const;
+
+private:
+    KConfigGroup m_config;
+};
 
 }

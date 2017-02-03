@@ -59,19 +59,22 @@ QIcon CachegrindConfigPage::icon() const
 void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
+    CachegrindSettings settings(cfg);
 
-    ui->extraParameters->setText(CachegrindSettings::extraParameters(cfg));
-    ui->cacheSimulation->setChecked(CachegrindSettings::cacheSimulation(cfg));
-    ui->branchSimulation->setChecked(CachegrindSettings::branchSimulation(cfg));
+    ui->extraParameters->setText(settings.extraParameters());
+    ui->cacheSimulation->setChecked(settings.cacheSimulation());
+    ui->branchSimulation->setChecked(settings.branchSimulation());
 
     check();
 }
 
 void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    CachegrindSettings::setExtraParameters(cfg, ui->extraParameters->text());
-    CachegrindSettings::setCacheSimulation(cfg, ui->cacheSimulation->isChecked());
-    CachegrindSettings::setBranchSimulation(cfg, ui->branchSimulation->isChecked());
+    CachegrindSettings settings(cfg);
+
+    settings.setExtraParameters(ui->extraParameters->text());
+    settings.setCacheSimulation(ui->cacheSimulation->isChecked());
+    settings.setBranchSimulation(ui->branchSimulation->isChecked());
 }
 
 void CachegrindConfigPage::check()

@@ -53,20 +53,23 @@ QIcon CallgrindConfigPage::icon() const
 void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
+    CallgrindSettings settings(cfg);
 
-    ui->extraParameters->setText(CallgrindSettings::extraParameters(cfg));
-    ui->cacheSimulation->setChecked(CallgrindSettings::cacheSimulation(cfg));
-    ui->branchSimulation->setChecked(CallgrindSettings::branchSimulation(cfg));
-    ui->launchKCachegrind->setChecked(CallgrindSettings::launchKCachegrind(cfg));
+    ui->extraParameters->setText(settings.extraParameters());
+    ui->cacheSimulation->setChecked(settings.cacheSimulation());
+    ui->branchSimulation->setChecked(settings.branchSimulation());
+    ui->launchKCachegrind->setChecked(settings.launchKCachegrind());
 }
 
 
 void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    CallgrindSettings::setExtraParameters(cfg, ui->extraParameters->text());
-    CallgrindSettings::setCacheSimulation(cfg, ui->cacheSimulation->isChecked());
-    CallgrindSettings::setBranchSimulation(cfg, ui->branchSimulation->isChecked());
-    CallgrindSettings::setLaunchKCachegrind(cfg, ui->launchKCachegrind->isChecked());
+    CallgrindSettings settings(cfg);
+
+    settings.setExtraParameters(ui->extraParameters->text());
+    settings.setCacheSimulation(ui->cacheSimulation->isChecked());
+    settings.setBranchSimulation(ui->branchSimulation->isChecked());
+    settings.setLaunchKCachegrind(ui->launchKCachegrind->isChecked());
 }
 
 CallgrindConfigPageFactory::CallgrindConfigPageFactory()

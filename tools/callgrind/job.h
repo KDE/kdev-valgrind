@@ -41,7 +41,7 @@ public:
 
 protected:
     void processEnded() override;
-    void addToolArgs(QStringList& args, KConfigGroup& cfg) const override;
+    void addToolArgs(QStringList& args) const override;
     QWidget* createView() override;
 
 private:

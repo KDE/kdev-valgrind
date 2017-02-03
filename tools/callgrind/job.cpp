@@ -25,13 +25,11 @@
 #include "job.h"
 
 #include "model.h"
+#include "generic/utils.h"
 #include "parser.h"
+#include "plugin.h"
 #include "settings.h"
 #include "view.h"
-
-#include "plugin.h"
-#include "generic/utils.h"
-#include "globalsettings.h"
 
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
@@ -59,37 +57,33 @@ CallgrindJob::~CallgrindJob()
 
 void CallgrindJob::processEnded()
 {
-    QString caPath = KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
-    QStringList args;
-    QByteArray caOutput;
+    CallgrindSettings settings(config);
 
-    args += m_outputFile;
-    args += QStringLiteral("--tree=both");
-    executeProcess(caPath, args, caOutput);
+    QByteArray caOutput;
+    executeProcess(settings.callgrind_annotateExecutablePath(),
+                   { m_outputFile, QStringLiteral("--tree=both")}, caOutput);
 
     CallgrindParser parser;
     parser.parse(caOutput, m_model);
 
-    if (CallgrindSettings::launchKCachegrind(m_launchcfg->config())) {
-        args.clear();
-        args += m_outputFile;
-
-        QString kcgPath = KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
-
+    if (settings.launchKCachegrind()) {
         // Proxy used to remove file at the end of KCachegrind
-        new QFileProxyRemove(kcgPath, args, m_outputFile, dynamic_cast<QObject*>(m_plugin));
+        new QFileProxyRemove(settings.kcachegrindExecutablePath(),
+                             { m_outputFile }, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
     else
         QFile::remove(m_outputFile);
 }
 
-void CallgrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
+void CallgrindJob::addToolArgs(QStringList& args) const
 {
+    CallgrindSettings settings(config);
+
     args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
 
-    args += KShell::splitArgs(CallgrindSettings::extraParameters(cfg));
-    args += QStringLiteral("--cache-sim=") + argValue(CallgrindSettings::cacheSimulation(cfg));
-    args += QStringLiteral("--branch-sim=") + argValue(CallgrindSettings::branchSimulation(cfg));
+    args += argValue(settings.extraParameters());
+    args += QStringLiteral("--cache-sim=") + argValue(settings.cacheSimulation());
+    args += QStringLiteral("--branch-sim=") + argValue(settings.branchSimulation());
 }
 
 QWidget* CallgrindJob::createView()

@@ -24,24 +24,28 @@
 namespace valgrind
 {
 
-namespace MemcheckSettings
+class MemcheckSettings
 {
+public:
+    MemcheckSettings(const KConfigGroup& config);
 
-QString extraParameters(const KConfigGroup& cfg);
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters);
+    QString extraParameters() const;
+    void setExtraParameters(const QString& parameters);
 
-int freeListSize(const KConfigGroup& cfg);
-void setFreeListSize(KConfigGroup& cfg, int size);
+    int freeListSize() const;
+    void setFreeListSize(int size);
 
-bool showReachable(const KConfigGroup& cfg);
-void setShowReachable(KConfigGroup& cfg, bool value);
+    bool showReachable() const;
+    void setShowReachable(bool value);
 
-bool undefValueErrors(const KConfigGroup& cfg);
-void setUndefValueErrors(KConfigGroup& cfg, bool value);
+    bool undefValueErrors() const;
+    void setUndefValueErrors(bool value);
 
-bool showInstructionPointer(const KConfigGroup& cfg);
-void setShowInstructionPointer(KConfigGroup& cfg, bool value);
+    bool showInstructionPointer() const;
+    void setShowInstructionPointer(bool value);
 
-}
+private:
+    KConfigGroup m_config;
+};
 
 }

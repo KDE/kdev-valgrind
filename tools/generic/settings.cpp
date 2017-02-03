@@ -19,62 +19,69 @@
 
 #include "settings.h"
 
+#include "globalsettings.h"
+
 namespace valgrind
 {
 
-namespace GenericSettings
+GenericSettings::GenericSettings(const KConfigGroup& config)
+    : m_config(config)
 {
-
-QString extraParameters(const KConfigGroup& cfg)
-{
-    return cfg.readEntry(QStringLiteral("Valgrind Extra Parameters"), QString{});
 }
 
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters)
+QString GenericSettings::extraParameters() const
 {
-    cfg.writeEntry(QStringLiteral("Valgrind Extra Parameters"), parameters);
+    return m_config.readEntry(QStringLiteral("Valgrind Extra Parameters"), QString{});
 }
 
-int stackframeDepth(const KConfigGroup& cfg)
+void GenericSettings::setExtraParameters(const QString& parameters)
 {
-    return cfg.readEntry(QStringLiteral("Valgrind Stackframe Depth"), 12);
+    m_config.writeEntry(QStringLiteral("Valgrind Extra Parameters"), parameters);
 }
 
-void setStackframeDepth(KConfigGroup& cfg, int depth)
+int GenericSettings::stackframeDepth() const
 {
-    cfg.writeEntry(QStringLiteral("Valgrind Stackframe Depth"), depth);
+    return m_config.readEntry(QStringLiteral("Valgrind Stackframe Depth"), 12);
 }
 
-int maximumStackframeSize(const KConfigGroup& cfg)
+void GenericSettings::setStackframeDepth(int depth)
 {
-    return cfg.readEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), 2000000);
+    m_config.writeEntry(QStringLiteral("Valgrind Stackframe Depth"), depth);
 }
 
-void setMaximumStackframeSize(KConfigGroup& cfg, int size)
+int GenericSettings::maximumStackframeSize() const
 {
-    cfg.writeEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), size);
+    return m_config.readEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), 2000000);
 }
 
-bool limitErrors(const KConfigGroup& cfg)
+void GenericSettings::setMaximumStackframeSize(int size)
 {
-    return cfg.readEntry(QStringLiteral("Valgrind Limit Errors"), true);
+    m_config.writeEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), size);
 }
 
-void setLimitErrors(KConfigGroup& cfg, bool value)
+bool GenericSettings::limitErrors() const
 {
-    cfg.writeEntry(QStringLiteral("Valgrind Limit Errors"), value);
+    return m_config.readEntry(QStringLiteral("Valgrind Limit Errors"), true);
 }
 
-int currentTool(const KConfigGroup& cfg)
+void GenericSettings::setLimitErrors(bool value)
 {
-    return cfg.readEntry(QStringLiteral("Valgrind Current Tool"), 0);
+    m_config.writeEntry(QStringLiteral("Valgrind Limit Errors"), value);
 }
 
-void setCurrentTool(KConfigGroup& cfg, int tool)
+int GenericSettings::currentTool() const
 {
-    cfg.writeEntry(QStringLiteral("Valgrind Current Tool"), tool);
+    return m_config.readEntry(QStringLiteral("Valgrind Current Tool"), 0);
 }
 
+void GenericSettings::setCurrentTool(int tool)
+{
+    m_config.writeEntry(QStringLiteral("Valgrind Current Tool"), tool);
+}
+
+QString GenericSettings::valgrindExecutablePath() const
+{
+    return KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
 }
 
 }

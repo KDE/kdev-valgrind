@@ -19,52 +19,64 @@
 
 #include "settings.h"
 
+#include "globalsettings.h"
+
 namespace valgrind
 {
 
-namespace CallgrindSettings
+CallgrindSettings::CallgrindSettings(const KConfigGroup& config)
+    : m_config(config)
 {
-
-QString extraParameters(const KConfigGroup& cfg)
-{
-    return cfg.readEntry(QStringLiteral("Callgrind Extra Parameters"), QString{});
 }
 
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters)
+QString CallgrindSettings::extraParameters() const
 {
-    cfg.writeEntry(QStringLiteral("Callgrind Extra Parameters"), parameters);
+    return m_config.readEntry(QStringLiteral("Callgrind Extra Parameters"), QString{});
 }
 
-bool cacheSimulation(const KConfigGroup& cfg)
+void CallgrindSettings::setExtraParameters(const QString& parameters)
 {
-    return cfg.readEntry(QStringLiteral("Callgrind Cache Simulation"), false);
+    m_config.writeEntry(QStringLiteral("Callgrind Extra Parameters"), parameters);
 }
 
-void setCacheSimulation(KConfigGroup& cfg, bool value)
+bool CallgrindSettings::cacheSimulation() const
 {
-    cfg.writeEntry(QStringLiteral("Callgrind Cache Simulation"), value);
+    return m_config.readEntry(QStringLiteral("Callgrind Cache Simulation"), false);
 }
 
-bool branchSimulation(const KConfigGroup& cfg)
+void CallgrindSettings::setCacheSimulation(bool value)
 {
-    return cfg.readEntry(QStringLiteral("Callgrind Branch Simulation"), false);
+    m_config.writeEntry(QStringLiteral("Callgrind Cache Simulation"), value);
 }
 
-void setBranchSimulation(KConfigGroup& cfg, bool value)
+bool CallgrindSettings::branchSimulation() const
 {
-    cfg.writeEntry(QStringLiteral("Callgrind Branch Simulation"), value);
+    return m_config.readEntry(QStringLiteral("Callgrind Branch Simulation"), false);
 }
 
-bool launchKCachegrind(const KConfigGroup& cfg)
+void CallgrindSettings::setBranchSimulation(bool value)
 {
-    return cfg.readEntry(QStringLiteral("Callgrind Launch KCachegrind"), false);
+    m_config.writeEntry(QStringLiteral("Callgrind Branch Simulation"), value);
 }
 
-void setLaunchKCachegrind(KConfigGroup& cfg, bool value)
+bool CallgrindSettings::launchKCachegrind() const
 {
-    cfg.writeEntry(QStringLiteral("Callgrind Launch KCachegrind"), value);
+    return m_config.readEntry(QStringLiteral("Callgrind Launch KCachegrind"), false);
 }
 
+void CallgrindSettings::setLaunchKCachegrind(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Callgrind Launch KCachegrind"), value);
+}
+
+QString CallgrindSettings::callgrind_annotateExecutablePath() const
+{
+    return KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
+}
+
+QString CallgrindSettings::kcachegrindExecutablePath() const
+{
+    return KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 }
 
 }

@@ -48,7 +48,6 @@ MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QO
                  plugin,
                  parent)
 {
-    m_showInstructionPointer = MemcheckSettings::showInstructionPointer(cfg->config());
 }
 
 MemcheckJob::~MemcheckJob()
@@ -83,18 +82,20 @@ void MemcheckJob::processEnded()
     parser.addData(m_xmlOutput.join(" "));
 
     problemModel->clearProblems();
-    problemModel->setProblems(parser.parse(m_showInstructionPointer));
+    problemModel->setProblems(parser.parse(MemcheckSettings(config).showInstructionPointer()));
 }
 
-void MemcheckJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
+void MemcheckJob::addToolArgs(QStringList& args) const
 {
+    MemcheckSettings settings(config);
+
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
 
-    args += KShell::splitArgs(MemcheckSettings::extraParameters(cfg));
-    args += QStringLiteral("--freelist-vol=") + argValue(MemcheckSettings::freeListSize(cfg));
-    args += QStringLiteral("--undef-value-errors=") + argValue(MemcheckSettings::undefValueErrors(cfg));
-    args += QStringLiteral("--show-reachable=") + argValue(MemcheckSettings::showReachable(cfg));
+    args += argValue(settings.extraParameters());
+    args += QStringLiteral("--freelist-vol=") + argValue(settings.freeListSize());
+    args += QStringLiteral("--undef-value-errors=") + argValue(settings.undefValueErrors());
+    args += QStringLiteral("--show-reachable=") + argValue(settings.showReachable());
 }
 
 QWidget* MemcheckJob::createView()

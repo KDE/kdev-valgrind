@@ -24,26 +24,33 @@
 namespace valgrind
 {
 
+// FIXME
 static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "callgrind" };
 
-namespace GenericSettings
+class GenericSettings
 {
+public:
+    GenericSettings(const KConfigGroup& config);
 
-QString extraParameters(const KConfigGroup& cfg);
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters);
+    QString extraParameters() const;
+    void setExtraParameters(const QString& parameters);
 
-int stackframeDepth(const KConfigGroup& cfg);
-void setStackframeDepth(KConfigGroup& cfg, int depth);
+    int stackframeDepth() const;
+    void setStackframeDepth(int depth);
 
-int maximumStackframeSize(const KConfigGroup& cfg);
-void setMaximumStackframeSize(KConfigGroup& cfg, int size);
+    int maximumStackframeSize() const;
+    void setMaximumStackframeSize(int size);
 
-bool limitErrors(const KConfigGroup& cfg);
-void setLimitErrors(KConfigGroup& cfg, bool value);
+    bool limitErrors() const;
+    void setLimitErrors(bool value);
 
-int currentTool(const KConfigGroup& cfg);
-void setCurrentTool(KConfigGroup& cfg, int tool);
+    int currentTool() const;
+    void setCurrentTool(int tool);
 
-}
+    QString valgrindExecutablePath() const;
+
+private:
+    KConfigGroup m_config;
+};
 
 }

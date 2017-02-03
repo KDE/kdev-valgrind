@@ -24,12 +24,12 @@
 
 #pragma once
 
+#include <kconfiggroup.h>
 #include <outputview/outputexecutejob.h>
 
 #include <QProcess>
 #include <QUrl>
 
-class KConfigGroup;
 class QWidget;
 
 namespace KDevelop
@@ -77,8 +77,9 @@ protected:
     virtual void processStarted(); // called after the process has been launched
     virtual void processEnded(); // called when the process ended
 
-    virtual void addToolArgs(QStringList& args, KConfigGroup& cfg) const = 0;
+    virtual void addToolArgs(QStringList& args) const = 0;
 
+    QStringList argValue(const QString& line) const;
     QString argValue(bool value) const;
     QString argValue(int value) const;
 
@@ -88,12 +89,11 @@ protected:
 
     virtual QWidget* createView() = 0;
 
-    KDevelop::ILaunchConfiguration* m_launchcfg;
+    KConfigGroup config;
     QString m_tool;
 
     Plugin* m_plugin;
 
-    QString m_valgrindExecutable;
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;
 

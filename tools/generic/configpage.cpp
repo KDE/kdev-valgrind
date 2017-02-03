@@ -63,21 +63,24 @@ QIcon GenericConfigPage::icon() const
 void GenericConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
+    GenericSettings settings(cfg);
 
-    ui->extraParameters->setText(GenericSettings::extraParameters(cfg));
-    ui->stackDepth->setValue(GenericSettings::stackframeDepth(cfg));
-    ui->maxStackSize->setValue(GenericSettings::maximumStackframeSize(cfg));
-    ui->limitErrors->setChecked(GenericSettings::limitErrors(cfg));
-    ui->currentTool->setCurrentIndex(GenericSettings::currentTool(cfg));
+    ui->extraParameters->setText(settings.extraParameters());
+    ui->stackDepth->setValue(settings.stackframeDepth());
+    ui->maxStackSize->setValue(settings.maximumStackframeSize());
+    ui->limitErrors->setChecked(settings.limitErrors());
+    ui->currentTool->setCurrentIndex(settings.currentTool());
 }
 
 void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    GenericSettings::setExtraParameters(cfg, ui->extraParameters->text());
-    GenericSettings::setStackframeDepth(cfg, ui->stackDepth->value());
-    GenericSettings::setMaximumStackframeSize(cfg, ui->maxStackSize->value());
-    GenericSettings::setLimitErrors(cfg, ui->limitErrors->isChecked());
-    GenericSettings::setCurrentTool(cfg, ui->currentTool->currentIndex());
+    GenericSettings settings(cfg);
+
+    settings.setExtraParameters(ui->extraParameters->text());
+    settings.setStackframeDepth(ui->stackDepth->value());
+    settings.setMaximumStackframeSize(ui->maxStackSize->value());
+    settings.setLimitErrors(ui->limitErrors->isChecked());
+    settings.setCurrentTool(ui->currentTool->currentIndex());
 }
 
 GenericConfigPageFactory::GenericConfigPageFactory()

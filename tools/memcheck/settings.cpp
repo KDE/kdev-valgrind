@@ -22,59 +22,59 @@
 namespace valgrind
 {
 
-namespace MemcheckSettings
+MemcheckSettings::MemcheckSettings(const KConfigGroup& config)
+    : m_config(config)
 {
-
-QString extraParameters(const KConfigGroup& cfg)
-{
-    return cfg.readEntry(QStringLiteral("Memcheck Extra Parameters"), QString{});
 }
 
-void setExtraParameters(KConfigGroup& cfg, const QString& parameters)
+QString MemcheckSettings::extraParameters() const
 {
-    cfg.writeEntry(QStringLiteral("Memcheck Extra Parameters"), parameters);
+    return m_config.readEntry(QStringLiteral("Memcheck Extra Parameters"), QString{});
 }
 
-int freeListSize(const KConfigGroup& cfg)
+void MemcheckSettings::setExtraParameters(const QString& parameters)
 {
-    return cfg.readEntry(QStringLiteral("Memcheck Freelist Size"), 10000000);
+    m_config.writeEntry(QStringLiteral("Memcheck Extra Parameters"), parameters);
 }
 
-void setFreeListSize(KConfigGroup& cfg, int size)
+int MemcheckSettings::freeListSize() const
 {
-    cfg.writeEntry(QStringLiteral("Memcheck Freelist Size"), size);
+    return m_config.readEntry(QStringLiteral("Memcheck Freelist Size"), 10000000);
 }
 
-bool showReachable(const KConfigGroup& cfg)
+void MemcheckSettings::setFreeListSize(int size)
 {
-    return cfg.readEntry(QStringLiteral("Memcheck Show Reachable"), true);
+    m_config.writeEntry(QStringLiteral("Memcheck Freelist Size"), size);
 }
 
-void setShowReachable(KConfigGroup& cfg, bool value)
+bool MemcheckSettings::showReachable() const
 {
-    cfg.writeEntry(QStringLiteral("Memcheck Show Reachable"), value);
+    return m_config.readEntry(QStringLiteral("Memcheck Show Reachable"), true);
 }
 
-bool undefValueErrors(const KConfigGroup& cfg)
+void MemcheckSettings::setShowReachable(bool value)
 {
-    return cfg.readEntry(QStringLiteral("Memcheck Undef Value Errors"), true);
+    m_config.writeEntry(QStringLiteral("Memcheck Show Reachable"), value);
 }
 
-void setUndefValueErrors(KConfigGroup& cfg, bool value)
+bool MemcheckSettings::undefValueErrors() const
 {
-    cfg.writeEntry(QStringLiteral("Memcheck Undef Value Errors"), value);
+    return m_config.readEntry(QStringLiteral("Memcheck Undef Value Errors"), true);
 }
 
-bool showInstructionPointer(const KConfigGroup& cfg)
+void MemcheckSettings::setUndefValueErrors(bool value)
 {
-    return cfg.readEntry(QStringLiteral("Memcheck Show Instruction Pointer"), false);
+    m_config.writeEntry(QStringLiteral("Memcheck Undef Value Errors"), value);
 }
 
-void setShowInstructionPointer(KConfigGroup& cfg, bool value)
+bool MemcheckSettings::showInstructionPointer() const
 {
-    cfg.writeEntry(QStringLiteral("Memcheck Show Instruction Pointer"), value);
+    return m_config.readEntry(QStringLiteral("Memcheck Show Instruction Pointer"), false);
 }
 
+void MemcheckSettings::setShowInstructionPointer(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Show Instruction Pointer"), value);
 }
 
 }

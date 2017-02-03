@@ -25,16 +25,14 @@
 
 #include "debug.h"
 #include "generic/utils.h"
-#include "globalsettings.h"
 #include "model.h"
 #include "parser.h"
 #include "plugin.h"
 #include "settings.h"
 #include "view.h"
 
-#include <kshell.h>
-
 #include <interfaces/ilaunchconfiguration.h>
+#include <kshell.h>
 
 #include <QFile>
 
@@ -56,20 +54,22 @@ MassifJob::~MassifJob()
 
 void MassifJob::processEnded()
 {
-    MassifParser::parse(m_outputFile, m_model);
+    MassifSettings settings(config);
 
-    if (MassifSettings::launchVisualizer(m_launchcfg->config())) {
-        QStringList args;
-        args += m_outputFile;
-        QString mv = KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
-        new QFileProxyRemove(mv, args, m_outputFile, m_plugin);
-    } else
+    MassifParser::parse(m_outputFile, m_model);
+    if (settings.launchVisualizer()) {
+        new QFileProxyRemove(settings.visualizerExecutablePath(),
+                             { m_outputFile }, m_outputFile, m_plugin);
+    } else {
         QFile::remove(m_outputFile);
+    }
 }
 
-void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
+void MassifJob::addToolArgs(QStringList& args) const
 {
-    int tu = MassifSettings::timeUnit(cfg);
+    MassifSettings settings(config);
+
+    int tu = settings.timeUnit();
     if (tu == 0) {
         args += QStringLiteral("--time-unit=i");
     }
@@ -84,14 +84,14 @@ void MassifJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
 
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
 
-    args += KShell::splitArgs(MassifSettings::extraParameters(cfg));
-    args += QStringLiteral("--depth=") + argValue(MassifSettings::detailedSnapshotsFrequency(cfg));
-    args += QStringLiteral("--threshold=") + argValue(MassifSettings::threshold(cfg));
-    args += QStringLiteral("--peak-inaccuracy=") + argValue(MassifSettings::peakInaccuracy(cfg));
-    args += QStringLiteral("--max-snapshots=") + argValue(MassifSettings::maximumSnapshots(cfg));
-    args += QStringLiteral("--detailed-freq=") + argValue(MassifSettings::detailedSnapshotsFrequency(cfg));
-    args += QStringLiteral("--heap=") + argValue(MassifSettings::profileHeap(cfg));
-    args += QStringLiteral("--stacks=") + argValue(MassifSettings::profileStack(cfg));
+    args += argValue(settings.extraParameters());
+    args += QStringLiteral("--depth=") + argValue(settings.detailedSnapshotsFrequency());
+    args += QStringLiteral("--threshold=") + argValue(settings.threshold());
+    args += QStringLiteral("--peak-inaccuracy=") + argValue(settings.peakInaccuracy());
+    args += QStringLiteral("--max-snapshots=") + argValue(settings.maximumSnapshots());
+    args += QStringLiteral("--detailed-freq=") + argValue(settings.detailedSnapshotsFrequency());
+    args += QStringLiteral("--heap=") + argValue(settings.profileHeap());
+    args += QStringLiteral("--stacks=") + argValue(settings.profileStack());
 }
 
 QWidget* MassifJob::createView()

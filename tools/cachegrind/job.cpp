@@ -26,11 +26,9 @@
 
 #include "model.h"
 #include "parser.h"
+#include "plugin.h"
 #include "settings.h"
 #include "view.h"
-
-#include "plugin.h"
-#include "globalsettings.h"
 
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
@@ -58,10 +56,8 @@ CachegrindJob::~CachegrindJob()
 
 void CachegrindJob::processEnded()
 {
-    QString cgPath(KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile());
-    QStringList args(m_outputFile);
     QByteArray cgOutput;
-    executeProcess(cgPath, args, cgOutput);
+    executeProcess(CachegrindSettings(config).cg_annotateExecutablePath(), { m_outputFile }, cgOutput);
 
     CachegrindParser parser;
     parser.parse(cgOutput, m_model);
@@ -69,13 +65,15 @@ void CachegrindJob::processEnded()
     QFile::remove(m_outputFile);
 }
 
-void CachegrindJob::addToolArgs(QStringList& args, KConfigGroup& cfg) const
+void CachegrindJob::addToolArgs(QStringList& args) const
 {
+    CachegrindSettings settings(config);
+
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
 
-    args += KShell::splitArgs(CachegrindSettings::extraParameters(cfg));
-    args += QStringLiteral("--cache-sim=") + argValue(CachegrindSettings::cacheSimulation(cfg));
-    args += QStringLiteral("--branch-sim=") + argValue(CachegrindSettings::branchSimulation(cfg));
+    args += argValue(settings.extraParameters());
+    args += QStringLiteral("--cache-sim=") + argValue(settings.cacheSimulation());
+    args += QStringLiteral("--branch-sim=") + argValue(settings.branchSimulation());
 }
 
 QWidget* CachegrindJob::createView()
