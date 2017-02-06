@@ -28,6 +28,7 @@
 #include "modelitem.h"
 
 #include <QBuffer>
+#include <QRegularExpression>
 
 namespace valgrind
 {
@@ -44,164 +45,106 @@ CallgrindParser::~CallgrindParser()
 {
 }
 
-bool CallgrindParser::parseRootModel(const QString& buffer)
+void CallgrindParser::parseNewCallgrindItem(const QString& line, bool programTotal)
 {
-    m_headersList = buffer.split(QChar(' '), QString::SkipEmptyParts);
-    m_programTotalStr = QStringLiteral("");
+    static const QRegularExpression numCallsExpression("\\((\\d+)x\\)");
+    static const QRegularExpression objExpression("\\[(.+)\\]");
 
-    for (int i = 0; i < m_headersList.size(); ++i) {
-        CallgrindItem::Columns key = CallgrindItem::dataKeyFromName(m_headersList[i]);
-        if (key != CallgrindItem::Unknow) {
-            m_programTotalStr += " " + m_headersList[i];
-        } else {
-            qCDebug(KDEV_VALGRIND) << "Error : " << m_headersList[i] << " unknow header";
-            return false;
-        }
+    QStringList lineItems = line.split(QChar(' '), QString::SkipEmptyParts);
+    for (int i = 0; i < m_events.size(); ++i) {
+        lineItems[i].remove(",");
     }
 
-    m_programTotalStr = m_programTotalStr.trimmed();
-    return true;
-}
+    if (programTotal) {
+        m_totalCountItem = getOrCreateNewItem(QStringLiteral(" :Program_Total_Count"));
+        for (int i = 0; i < m_events.size(); ++i) {
+            m_totalCountItem->setValue(m_events[i], lineItems[i]);
+        }
+        m_model->newItem(m_totalCountItem);
 
-void CallgrindParser::parseNewCallgrindItem(const QString& buffer, bool totalProgram)
-{
-    CallgrindCallstackItem* csItem;
-    int iBegin;
-    int iEnd;
-    QStringList dataList;
+        return;
+    }
+
+    const char lineType = lineItems.takeAt(m_events.size()).at(0).toLatin1();
+
+    QString fullDescName;
+    while (lineItems.size() > m_events.size()) {
+        fullDescName += lineItems.takeAt(m_events.size()) + ' ';
+    }
 
     int numCalls = 0;
-
-    // Find if we have the number of calls
-    // sample:  /some/path/somefile:somefunction() (666x)
-    // where 666 is the number of calls
-    int idx = buffer.lastIndexOf('(');
-    if (idx != -1) {
-        int idx2 = buffer.indexOf(QStringLiteral("x)"), idx); // lastIndexOf somehow returns -1 here
-        if (idx2 != -1) {
-            // Grab the number of calls
-            // Example:
-            // (666x) => 666
-            QString sNumCalls = buffer.mid(idx + 1, idx2 - idx - 1);
-            numCalls = sNumCalls.toInt();
-        }
+    auto match = numCallsExpression.match(fullDescName);
+    if (match.hasMatch()) {
+        numCalls = match.captured(1).toInt();
+        fullDescName.remove(match.captured(0));
     }
 
-    iBegin = iEnd = 0;
-    for (int i = 0; i < m_headersList.size(); ++i) {
-        if ((iEnd = buffer.indexOf(QChar(' '), iBegin)) == -1) {
-            break;
-        }
-
-        dataList.append(buffer.mid(iBegin, iEnd - iBegin).replace(',', ""));
-        iBegin = iEnd + 1;
+    match = objExpression.match(fullDescName);
+    if (match.hasMatch()) {
+        fullDescName.remove(match.captured(0));
     }
 
-    if (!totalProgram) {
-        if (buffer.at(iBegin) == QChar('*') ||
-            buffer.at(iBegin) == QChar('<') ||
-            buffer.at(iBegin) == QChar('>')) {
+    auto csItem = getOrCreateNewItem(fullDescName.trimmed());
+    for (int j = 0; j < lineItems.size(); ++j) {
+        csItem->setValue(m_events[j], lineItems[j]);
+    }
 
-            char symbol = buffer.at(iBegin).toLatin1();
-            iBegin = buffer.indexOf(QChar(' '), iBegin) + 1;
-
-            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1) {
-                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1) {
-                    iEnd = buffer.length();
-                }
+    // the function itself
+    if (lineType == '*') {
+        if (m_caller.size() > 0) {
+            foreach (CallgrindCallstackItem* caller, m_caller) {
+                csItem->addParent(caller);
+                caller->addChild(csItem);
             }
-            else {
-                iEnd += 1;
-            }
-
-            csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
-
-            switch (symbol) {
-
-            // The function itself
-            case '*':
-                if (m_caller.size() > 0) {
-                    for (int j = 0; j < m_caller.size(); ++j) {
-                        csItem->addParent(m_caller[j]);
-                        m_caller[j]->addChild(csItem);
-                    }
-                    m_caller.clear();
-                }
-
-                csItem->setNumCalls(m_numCalls);
-
-                m_numCalls = 0;
-                m_allFunctions.push_back(csItem);
-                m_lastCall = csItem;
-                m_model->newItem(csItem);
-                break;
-
-            // a caller
-            case '<':
-                m_caller.append(csItem);
-
-                // Only add the number of calls here,
-                // since the total number of calls, is the sum of calls from callers
-                m_numCalls += numCalls;
-                break;
-
-            // a called function
-            case '>':
-                m_lastCall->addChild(csItem);
-                csItem->addParent(m_lastCall);
-                break;
-            }
-
+            m_caller.clear();
         }
 
-        else {
-            if ((iEnd = buffer.indexOf(QChar(')'), iBegin)) == -1) {
-                if ((iEnd = buffer.indexOf(QChar('['), iBegin)) == -1) {
-                    iEnd = buffer.length();
-                }
-            }
+        csItem->setNumCalls(m_numCalls);
 
-            csItem = getOrCreateNewItem(buffer.mid(iBegin, iEnd - iBegin));
-            m_model->newItem(csItem);
-        }
+        m_numCalls = 0;
+        m_allFunctions.push_back(csItem);
+        m_lastCall = csItem;
+        m_model->newItem(csItem);
+    }
 
-        for (int j = 0; j < dataList.size(); ++j) {
-            csItem->setValue(m_headersList[j], dataList[j]);
-        }
+    // a caller
+    else if (lineType == '<') {
+        m_caller.append(csItem);
+
+        // Only add the number of calls here,
+        // since the total number of calls, is the sum of calls from callers
+        m_numCalls += numCalls;
+    }
+
+    // a called function
+    else if (lineType == '>') {
+        m_lastCall->addChild(csItem);
+        csItem->addParent(m_lastCall);
     }
 
     else {
-        //total program count
-        CallgrindCallstackItem* totalCount = getOrCreateNewItem(QStringLiteral(" :Program_Total_Count"));
-        for (int j = 0; j < dataList.size(); ++j) {
-            totalCount->setValue(m_headersList[j], dataList[j]);
-        }
-
-        m_totalCountItem = totalCount;
-        m_model->newItem(totalCount);
+        qCWarning(KDEV_VALGRIND) << "unknown line type:" << lineType;
     }
 }
 
 CallgrindCallstackItem* CallgrindParser::getOrCreateNewItem(const QString& fullDescName)
 {
     CallgrindCallstackFunction* csFct = nullptr;
-    //qCDebug(KDEV_VALGRIND) << fullDescName;
 
-    for (int i = 0; i < m_allFunctions.size(); ++i) {
-        if (m_allFunctions[i]->csFunction()->fullDescName().compare(fullDescName) == 0) {
-            csFct = m_allFunctions[i]->csFunction();
+    foreach (const CallgrindCallstackItem* item, m_allFunctions) {
+        if (item->csFunction()->fullDescName() == fullDescName) {
+            csFct = item->csFunction();
             break;
         }
     }
 
-    if (csFct == nullptr) {
+    if (!csFct) {
         csFct = new CallgrindCallstackFunction();
         csFct->setFullDescName(fullDescName);
         csFct->setTotalCountItem(m_totalCountItem);
     }
 
-    CallgrindCallstackItem* item = new CallgrindCallstackItem(csFct);
-    return item;
+    return new CallgrindCallstackItem(csFct);
 }
 
 enum CallgrindParserState
@@ -219,47 +162,52 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
     m_model = model;
 
     CallgrindParserState parserState = ParseRootModel;
-    QString buffer;
+    QString eventsString;
+    QString line;
 
     QBuffer data(&baData);
     data.open(QIODevice::ReadOnly);
 
     while (!data.atEnd()) {
-        //remove useless characters
-        buffer = data.readLine().simplified();
+        line = data.readLine().simplified();
 
-        if (parserState != ParseProgramTotal && parserState != ParseProgram) {
-            if (parserState == ParseRootModel && buffer.startsWith("Events shown:")) {
-                //13 is 'Events shown:' size;
-                if (!parseRootModel(buffer.mid(13, buffer.length() - 13))) {
-                    qCDebug(KDEV_VALGRIND) << "Input stream is misformated, cannot build the tree";
-                    return;
-                }
+        if (line.startsWith("--") && line.contains("annotated source:")) {
+                break;
+        }
+
+        if (parserState == ParseRootModel) {
+            if (line.startsWith("Events shown:")) {
+                // 13 is 'Events shown:' size;
+                eventsString = line.mid(13).simplified();
+                m_events = eventsString.split(QChar(' '), QString::SkipEmptyParts);
                 parserState = ParseProgramTotalHeader;
             }
+        }
 
-            else if (parserState == ParseProgramTotalHeader && buffer == m_programTotalStr) {
+        else if (parserState == ParseProgramTotalHeader) {
+            if (line == eventsString) {
                 parserState = ParseProgramTotal;
             }
+        }
 
-            else if (parserState == ParseProgramHeader && buffer.startsWith(m_programTotalStr)) {
+        else if (parserState == ParseProgramHeader) {
+            if (line.startsWith(eventsString)) {
                 parserState = ParseProgram;
             }
         }
 
-        else {
-            if (buffer.size() > 0 && buffer.at(0).isDigit()) {
-                if (parserState == ParseProgramTotal) {
-                    parseNewCallgrindItem(buffer, true);
-                    parserState = ParseProgramHeader;
-                }
-                else
-                    parseNewCallgrindItem(buffer, false);
+        else if (!line.isEmpty() && line.at(0).isDigit()) {
+            if (parserState == ParseProgramTotal) {
+                parseNewCallgrindItem(line, true);
+                parserState = ParseProgramHeader;
+            }
+            else {
+                parseNewCallgrindItem(line, false);
             }
         }
     }
 
-    // this signals the model about parsing finish
+    // Null item is send when the parsing has been done
     m_model->newItem(nullptr);
 
     m_model = nullptr;

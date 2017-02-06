@@ -40,13 +40,7 @@ public:
     void parse(QByteArray& data, CallgrindModel* model);
 
 private:
-    /**
-     * build the root node of the tree
-     * it return false if some error happens
-     */
-    bool parseRootModel(const QString& buffer);
-
-    void parseNewCallgrindItem(const QString& buffer, bool totalProgram = false);
+    void parseNewCallgrindItem(const QString& line, bool programTotal = false);
 
     CallgrindCallstackItem* getOrCreateNewItem(const QString& fullDescName);
 
@@ -55,8 +49,7 @@ private:
     QList<CallgrindCallstackItem*> m_caller;
     CallgrindCallstackItem* m_lastCall;
 
-    QString m_programTotalStr;
-    QStringList m_headersList;
+    QStringList m_events;
 
     // Temporary storage for the number of calls
     // of a function that's being parsed
