@@ -47,7 +47,7 @@ public:
     void setEventsList(const QStringList& events);
     void addItem(CachegrindItem* item);
 
-    QModelIndex index(int, int, const QModelIndex&) const override;
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;

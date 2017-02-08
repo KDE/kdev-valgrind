@@ -24,6 +24,7 @@
 #include "model.h"
 
 #include "debug.h"
+#include "generic/events.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
@@ -108,37 +109,14 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 
 QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) const
 {
-    static QMap<QString, QString> eventToolTips;
-    static bool initDone = false;
-    if (!initDone) {
-        initDone = true;
-        eventToolTips["Ir"  ] = i18n("Ir (I cache read)");
-        eventToolTips["I1mr"] = i18n("I1mr (L1 cache read miss)");
-        eventToolTips["ILmr"] = i18n("ILmr (LL cache read miss)");
-        eventToolTips["Dr"  ] = i18n("Dr (D cache read)");
-        eventToolTips["D1mr"] = i18n("D1mr (D1 cache read miss)");
-        eventToolTips["DLmr"] = i18n("DLmr (DL cache read miss)");
-        eventToolTips["Dw"  ] = i18n("Dw (D cache write)");
-        eventToolTips["D1mw"] = i18n("D1mw (D1 cache write miss)");
-        eventToolTips["DLmw"] = i18n("DLmw (DL cache write miss)");
-        eventToolTips["Bc"  ] = i18n("Bc (Conditional branches executed)");
-        eventToolTips["Bcm" ] = i18n("Bcm (Conditional branches mispredicted)");
-        eventToolTips["Bi"  ] = i18n("Bi (Indirect branches executed)");
-        eventToolTips["Bim" ] = i18n("Bim (Indirect branches mispredicted)");
-    }
-
-    if (section < 0 || section >= columnCount()) {
-        return QVariant();
-    }
-
     if (section == 0) {
-        if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
+        if (role == Qt::DisplayRole) {
             return i18n("Call name");
         }
     }
 
     else if (section == (columnCount() - 1)) {
-        if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
+        if (role == Qt::DisplayRole) {
             return i18n("File name");
         }
     }
@@ -149,7 +127,7 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) con
         }
 
         if (role == Qt::ToolTipRole) {
-            return eventToolTips[m_eventList[section - 1]];
+            return eventFullName(m_eventList[section - 1]);
         }
     }
 
