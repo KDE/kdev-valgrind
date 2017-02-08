@@ -7,7 +7,6 @@ add_library(callgrind_tool STATIC
     configpage.cpp
     job.cpp
     model.cpp
-    modelitem.cpp
     parser.cpp
     settings.cpp
     view.cpp

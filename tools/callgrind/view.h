@@ -24,11 +24,6 @@
 #pragma once
 
 #include <QWidget>
-#include <QItemSelection>
-
-#include "modelitem.h"
-
-class QSortFilterProxyModel;
 
 namespace valgrind
 {
@@ -48,26 +43,8 @@ public:
     CallgrindView(CallgrindModel* model, QWidget* parent = nullptr);
     ~CallgrindView() override;
 
-    void percentInformationClicked(bool enable);
-
-    void selectionOnFctListChanged(const QItemSelection&, const QItemSelection&);
-    void selectionOnCallerListChanged(const QItemSelection&, const QItemSelection&);
-
 private:
     Ui::CallgrindView* ui;
-
-    CallgrindModel* m_model;
-
-    QSortFilterProxyModel* m_callerProxyModel;
-    QSortFilterProxyModel* m_calleeProxyModel;
-
-    CallgrindCallstackItem* m_functionListSelectedItem;
-
-    CallgrindCallstackItem::numberDisplayMode m_informationDisplayMode;
-
-    void updateInformationTab(CallgrindCallstackItem* item);
-    void updateCallerTab(CallgrindCallstackItem* item);
-    void updateCalleeTab(CallgrindCallstackItem* item);
 };
 
 }

@@ -25,7 +25,6 @@
 
 #include "debug.h"
 #include "model.h"
-#include "modelitem.h"
 
 #include <QBuffer>
 #include <QRegularExpression>
@@ -35,9 +34,6 @@ namespace valgrind
 
 CallgrindParser::CallgrindParser()
     : m_model(nullptr)
-    , m_lastCall(nullptr)
-    , m_numCalls(0)
-    , m_totalCountItem(nullptr)
 {
 }
 
@@ -45,106 +41,75 @@ CallgrindParser::~CallgrindParser()
 {
 }
 
-void CallgrindParser::parseNewCallgrindItem(const QString& line, bool programTotal)
+void CallgrindParser::parseCallInformation(const QString& line, bool programTotal)
 {
-    static const QRegularExpression numCallsExpression("\\((\\d+)x\\)");
-    static const QRegularExpression objExpression("\\[(.+)\\]");
+    static const QRegularExpression binaryExpression("^(.*)\\[(.*)\\]$");
+    static const QRegularExpression callCountExpression("^(.*)\\((\\d+)x\\)$");
 
     QStringList lineItems = line.split(QChar(' '), QString::SkipEmptyParts);
-    for (int i = 0; i < m_events.size(); ++i) {
+    for (int i = 0; i < m_eventTypes.size(); ++i) {
         lineItems[i].remove(",");
     }
 
     if (programTotal) {
-        m_totalCountItem = getOrCreateNewItem(QStringLiteral(" :Program_Total_Count"));
-        for (int i = 0; i < m_events.size(); ++i) {
-            m_totalCountItem->setValue(m_events[i], lineItems[i]);
+        while (lineItems.size() > m_eventTypes.size()) {
+            lineItems.removeLast();
         }
-        m_model->newItem(m_totalCountItem);
+        m_model->setEventTotals(lineItems);
 
         return;
     }
 
-    const char lineType = lineItems.takeAt(m_events.size()).at(0).toLatin1();
+    const char lineType = lineItems.takeAt(m_eventTypes.size()).at(0).toLatin1();
 
-    QString fullDescName;
-    while (lineItems.size() > m_events.size()) {
-        fullDescName += lineItems.takeAt(m_events.size()) + ' ';
+    // skip caller lines
+    if (lineType == '<') {
+        return;
     }
 
-    int numCalls = 0;
-    auto match = numCallsExpression.match(fullDescName);
+    QString idString;
+    while (lineItems.size() > m_eventTypes.size()) {
+        idString += lineItems.takeAt(m_eventTypes.size()) + ' ';
+    }
+    idString = idString.trimmed();
+
+    QString binaryFile;
+
+    auto match = binaryExpression.match(idString);
     if (match.hasMatch()) {
-        numCalls = match.captured(1).toInt();
-        fullDescName.remove(match.captured(0));
+        binaryFile = match.captured(2).trimmed();
+        idString = match.captured(1).trimmed();
     }
 
-    match = objExpression.match(fullDescName);
+    int callCount = 0;
+    match = callCountExpression.match(idString);
     if (match.hasMatch()) {
-        fullDescName.remove(match.captured(0));
+        callCount = match.captured(2).toInt();
+        idString = match.captured(1).trimmed();
     }
 
-    auto csItem = getOrCreateNewItem(fullDescName.trimmed());
-    for (int j = 0; j < lineItems.size(); ++j) {
-        csItem->setValue(m_events[j], lineItems[j]);
-    }
+    int colonPos = idString.indexOf(':');
+    Q_ASSERT(colonPos >= 0);
+
+    QString sourceFile = idString.mid(0, colonPos);
+    QString functionName = idString.mid(colonPos + 1);
+
+    auto function = m_model->addFunction(functionName, sourceFile, binaryFile);
 
     // the function itself
     if (lineType == '*') {
-        if (m_caller.size() > 0) {
-            foreach (CallgrindCallstackItem* caller, m_caller) {
-                csItem->addParent(caller);
-                caller->addChild(csItem);
-            }
-            m_caller.clear();
-        }
-
-        csItem->setNumCalls(m_numCalls);
-
-        m_numCalls = 0;
-        m_allFunctions.push_back(csItem);
-        m_lastCall = csItem;
-        m_model->newItem(csItem);
+        m_caller = function;
+        m_caller->setEventValues(lineItems);
     }
 
-    // a caller
-    else if (lineType == '<') {
-        m_caller.append(csItem);
-
-        // Only add the number of calls here,
-        // since the total number of calls, is the sum of calls from callers
-        m_numCalls += numCalls;
-    }
-
-    // a called function
+    // the callee
     else if (lineType == '>') {
-        m_lastCall->addChild(csItem);
-        csItem->addParent(m_lastCall);
+        m_model->addCall(m_caller, function, callCount, lineItems);
     }
 
     else {
         qCWarning(KDEV_VALGRIND) << "unknown line type:" << lineType;
     }
-}
-
-CallgrindCallstackItem* CallgrindParser::getOrCreateNewItem(const QString& fullDescName)
-{
-    CallgrindCallstackFunction* csFct = nullptr;
-
-    foreach (const CallgrindCallstackItem* item, m_allFunctions) {
-        if (item->csFunction()->fullDescName() == fullDescName) {
-            csFct = item->csFunction();
-            break;
-        }
-    }
-
-    if (!csFct) {
-        csFct = new CallgrindCallstackFunction();
-        csFct->setFullDescName(fullDescName);
-        csFct->setTotalCountItem(m_totalCountItem);
-    }
-
-    return new CallgrindCallstackItem(csFct);
 }
 
 enum CallgrindParserState
@@ -179,7 +144,10 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
             if (line.startsWith("Events shown:")) {
                 // 13 is 'Events shown:' size;
                 eventsString = line.mid(13).simplified();
-                m_events = eventsString.split(QChar(' '), QString::SkipEmptyParts);
+
+                m_eventTypes = eventsString.split(QChar(' '), QString::SkipEmptyParts);
+                m_model->setEventTypes(m_eventTypes);
+
                 parserState = ParseProgramTotalHeader;
             }
         }
@@ -198,17 +166,14 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
 
         else if (!line.isEmpty() && line.at(0).isDigit()) {
             if (parserState == ParseProgramTotal) {
-                parseNewCallgrindItem(line, true);
+                parseCallInformation(line, true);
                 parserState = ParseProgramHeader;
             }
             else {
-                parseNewCallgrindItem(line, false);
+                parseCallInformation(line, false);
             }
         }
     }
-
-    // Null item is send when the parsing has been done
-    m_model->newItem(nullptr);
 
     m_model = nullptr;
 }

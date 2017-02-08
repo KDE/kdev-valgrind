@@ -23,62 +23,84 @@
 
 #pragma once
 
-#include "modelitem.h"
+#include <QAbstractTableModel>
 
-#include <QList>
-#include <QAbstractItemModel>
+class QItemSelectionModel;
 
 namespace valgrind
 {
 
-class CallgrindCallstackItem;
-class CallgrindFunctionsListTModel;
+class CallgrindCallFunction;
 
-typedef bool (CallgrindFunctionsListTModel::*CSItemCompareFct)(const QVariant &, const QVariant &) const;
-
-/**
- * This class will contains all the callgrind data models for the differents view
- */
-class CallgrindModel : public QObject
+class CallgrindCallInformation
 {
 public:
-    explicit CallgrindModel(QObject* parent = nullptr);
-    ~CallgrindModel();
+    CallgrindCallInformation(const QStringList& stringValues);
 
-    QAbstractItemModel* abstractItemModel(int n);
+    CallgrindCallFunction* caller = nullptr;
+    CallgrindCallFunction* callee = nullptr;
 
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    int callCount = 0;
 
-    enum qAbstractItemModel
-    {
-        E_FCT_LIST,
-        E_INFO_LIST,
-        E_CALLER_LIST,
-        E_CALLEE_LIST
-    };
-
-    void newItem(CallgrindCallstackItem* item);
+    int eventValue(int type);
 
 private:
-    QList<CallgrindCallstackItem*> m_callgrindCsItems;
-
-    CallgrindCallstackItem* m_totalCountItem;
-    CallgrindFunctionsListTModel* m_callgrindFunctionModel;
+    QVector<int> m_eventValues;
 };
 
-/**
- * Main view model
- */
-// FIXME replace with QAbstractTableModel ?
-class CallgrindFunctionsListTModel : public QAbstractItemModel
+class CallgrindCallFunction
 {
 public:
-    explicit CallgrindFunctionsListTModel(CallgrindModel* model);
+    CallgrindCallFunction(int eventsCount);
 
-    void setItemList(const QList<CallgrindCallstackItem*> items);
+    QString name;
+    QString sourceFile;
+    QString binaryFile;
 
-    QModelIndex index(int, int, const QModelIndex& parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex& parent = QModelIndex()) const override; // FIXME remove ?
+    int callCount();
+
+    int eventValue(int type, bool inclusive);
+    void setEventValues(const QStringList& stringValues);
+
+    QList<CallgrindCallInformation*> callersInformation;
+    QList<CallgrindCallInformation*> calleesInformation;
+
+private:
+    QVector<int> m_eventValues;
+};
+
+class CallgrindModel : public QAbstractTableModel
+{
+public:
+    enum ItemDataRole
+    {
+        SortRole = Qt::UserRole + 1
+    };
+
+    CallgrindModel();
+    ~CallgrindModel() override;
+
+    const QStringList& eventTypes();
+    void setEventTypes(const QStringList& eventTypes);
+
+    int currentEventType();
+    void setCurrentEventType(int type);
+
+    void setEventTotals(const QStringList& stringValues);
+
+    void setPercentageValues(bool value);
+
+    CallgrindCallFunction* addFunction(const QString& name,
+                                       const QString& sourceFile,
+                                       const QString& binaryFile);
+
+
+    void addCall(CallgrindCallFunction* caller,
+                 CallgrindCallFunction* callee,
+                 int callCount,
+                 const QStringList& eventValues);
+
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -86,25 +108,65 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    void sort(int column, Qt::SortOrder order) override;
+    QVariant eventData(int type, int intValue, int role) const;
 
-    // Make the links between list comumn and data model
-    CallgrindItem::Columns columnToPosInModelList(int col) const;
-    CallgrindCallstackItem::numberDisplayMode columnToDisplayMode(int col) const;
+    QString displayValue(int value) const;
+    QString displayValue(double value) const;
+    QString displayValue(int eventIntValue, int eventType) const;
 
 private:
-    // sort implementation
-    void quickSortCSItem( int first, int last,
-                          QList<CallgrindCallstackItem*>& list,
-                          CallgrindItem::Columns col,
-                          CSItemCompareFct cmp,
-                          CallgrindCallstackItem::numberDisplayMode dispMode );
+    QStringList m_eventTypes;
+    int m_currentEventType;
 
-    bool lessThan(const QVariant &left, const QVariant &right) const;
-    bool greatherThan(const QVariant &left, const QVariant &right) const;
+    QVector<int> m_eventTotals;
 
-    QList<CallgrindCallstackItem*> m_items;
-    CallgrindModel* m_model;
+    bool m_percentageValues;
+
+    QList<CallgrindCallFunction*> m_functions;
+    QList<CallgrindCallInformation*> m_information;
+};
+
+class FunctionEventsModel : public QAbstractTableModel
+{
+public:
+    FunctionEventsModel(CallgrindModel* baseModel);
+    ~FunctionEventsModel() override;
+
+    void setFunction(CallgrindCallFunction* function);
+
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+private:
+    CallgrindModel* m_baseModel;
+    CallgrindCallFunction* m_function;
+};
+
+class FunctionCallersCalleesModel : public QAbstractTableModel
+{
+public:
+    FunctionCallersCalleesModel(CallgrindModel* baseModel, bool isCallerModel);
+    ~FunctionCallersCalleesModel() override;
+
+    void setFunction(CallgrindCallFunction* function);
+
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+private:
+    CallgrindModel* m_baseModel;
+    bool m_isCallerModel;
+    CallgrindCallFunction* m_function;
 };
 
 }

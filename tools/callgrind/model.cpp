@@ -22,317 +22,522 @@
 */
 
 #include "model.h"
-#include "modelitem.h"
 
 #include "debug.h"
+#include "generic/events.h"
 
 #include <klocalizedstring.h>
+
+#include <QItemSelectionModel>
 
 namespace valgrind
 {
 
-CallgrindModel::CallgrindModel(QObject* parent)
-    : QObject(parent)
-    , m_totalCountItem(nullptr)
-    , m_callgrindFunctionModel(new CallgrindFunctionsListTModel(this))
+static const int rightAlign = int(Qt::AlignRight | Qt::AlignVCenter);
+
+void convertValues(const QStringList& stringValues, QVector<int>& intValues)
+{
+    for (int i = 0; i < stringValues.size(); ++i) {
+        intValues[i] = stringValues[i].toInt();
+    }
+}
+
+void emitDataChanged(QAbstractTableModel* model)
+{
+    Q_ASSERT(model);
+
+    emit model->dataChanged(model->index(0,0),
+                            model->index(model->rowCount() - 1, model->columnCount() - 1),
+                            { Qt::DisplayRole });
+}
+
+CallgrindCallInformation::CallgrindCallInformation(const QStringList& stringValues)
+{
+    Q_ASSERT(!stringValues.isEmpty());
+
+    m_eventValues.resize(stringValues.size());
+    convertValues(stringValues, m_eventValues);
+}
+
+int CallgrindCallInformation::eventValue(int type)
+{
+    Q_ASSERT(type < m_eventValues.size());
+    return m_eventValues[type];
+}
+
+CallgrindCallFunction::CallgrindCallFunction(int eventsCount)
+{
+    m_eventValues.resize(eventsCount);
+}
+
+int CallgrindCallFunction::callCount()
+{
+    int count = 0;
+    foreach (auto info, callersInformation) {
+        count += info->callCount;
+    }
+    return count;
+}
+
+int CallgrindCallFunction::eventValue(int type, bool inclusive)
+{
+    Q_ASSERT(type < m_eventValues.size());
+
+    int value = m_eventValues[type];
+    if (!inclusive) {
+        return value;
+    }
+
+    if (callersInformation.isEmpty()) {
+        // The function is NOT CALLED by others, therefore we calc
+        // the event inclusive value as sum of self value and all callees.
+        foreach (auto info, calleesInformation) {
+            value += info->eventValue(type);
+        }
+        return value;
+    }
+
+    // The function is CALLED by others, therefore we calc
+    // the event inclusive value as sum of all callers.
+    value = 0;
+    foreach (auto info, callersInformation) {
+        value += info->eventValue(type);
+    }
+
+    return value;
+}
+
+void CallgrindCallFunction::setEventValues(const QStringList& stringValues)
+{
+    Q_ASSERT(stringValues.size() == m_eventValues.size());
+    convertValues(stringValues, m_eventValues);
+}
+
+CallgrindModel::CallgrindModel()
+    : m_currentEventType(0)
+    , m_percentageValues(false)
 {
 }
 
 CallgrindModel::~CallgrindModel()
 {
-    qDeleteAll(m_callgrindCsItems);
-
-    delete m_totalCountItem;
-    delete m_callgrindFunctionModel;
+    qDeleteAll(m_functions);
+    qDeleteAll(m_information);
 }
 
-void CallgrindModel::newItem(CallgrindCallstackItem* item)
+const QStringList & CallgrindModel::eventTypes()
 {
-    // Null item is send when the parsing has been done
-    if (!item) {
-        // set the function list model
-        m_callgrindFunctionModel->setItemList(m_callgrindCsItems);
-        return;
-    }
-
-    if (!m_totalCountItem) {
-        m_totalCountItem = item;
-    } else {
-        m_callgrindCsItems.append(item);
-    }
+    return m_eventTypes;
 }
 
-QVariant CallgrindModel::headerData(int section, Qt::Orientation orientation, int role) const
+void CallgrindModel::setEventTypes(const QStringList& eventTypes)
 {
-    Q_UNUSED(orientation)
+    Q_ASSERT(!eventTypes.isEmpty());
+    m_eventTypes = eventTypes;
+    m_eventTotals.resize(m_eventTypes.size());
+}
 
-    if (role == Qt::DisplayRole) {
-        switch (section) {
+void CallgrindModel::setEventTotals(const QStringList& stringValues)
+{
+    Q_ASSERT(stringValues.size() == m_eventTotals.size());
+    convertValues(stringValues, m_eventTotals);
+    qDebug() << m_eventTotals;
+}
 
-        case CallgrindItem::CallName:
-            return i18n("Call name");
+int CallgrindModel::currentEventType()
+{
+    return m_currentEventType;
+}
 
-        case CallgrindItem::FileName:
-            return i18n("File name");
+void CallgrindModel::setCurrentEventType(int type)
+{
+    Q_ASSERT(type < m_eventTotals.size());
 
-        case CallgrindItem::InstructionRead:
-            return i18n("Ir (I cache read)");
+    m_currentEventType = type;
+    emitDataChanged(this);
+}
 
-        case CallgrindItem::InstructionL1ReadMiss:
-            return i18n("I1mr (L1 cache read miss)");
+void CallgrindModel::setPercentageValues(bool value)
+{
+    m_percentageValues = value;
+    emitDataChanged(this);
+}
 
-        case CallgrindItem::InstructionLLReadMiss:
-            return i18n("ILmr (LL cache read miss)");
+CallgrindCallFunction* CallgrindModel::addFunction(
+    const QString& name,
+    const QString& sourceFile,
+    const QString& binaryFile)
+{
+    Q_ASSERT(!name.isEmpty());
+    Q_ASSERT(!m_eventTypes.isEmpty());
 
-        case CallgrindItem::DataCacheRead:
-            return i18n("Dr (D cache read)");
+    CallgrindCallFunction* function = nullptr;
 
-        case CallgrindItem::DataCacheD1ReadMiss:
-            return i18n("D1mr (D1 cache read miss)");
+    foreach (CallgrindCallFunction* currentFunction, m_functions) {
+        if (currentFunction->name == name &&
+            currentFunction->sourceFile == sourceFile &&
+            currentFunction->binaryFile == binaryFile) {
 
-        case CallgrindItem::DataCacheLLReadMiss:
-            return i18n("DLmr (DL cache read miss)");
-
-        case CallgrindItem::DataCacheWrite:
-            return i18n("Dw (D cache write)");
-
-        case CallgrindItem::DataCacheD1WriteMiss:
-            return i18n("D1mw (D1 cache write miss)");
-
-        case CallgrindItem::DataCacheLLWriteMiss:
-            return i18n("DLmw (DL cache write miss)");
-
-        case CallgrindItem::ConditionnalBranchExecute:
-            return i18n("Bc (Conditional branches executed)");
-
-        case CallgrindItem::ConditionnalBranchMisprediced:
-            return i18n("Bcm (conditional branches mispredicted)");
-
-        case CallgrindItem::IndirectBranchExecuted:
-            return i18n("Bi (Indirect branches executed)");
-
-        case CallgrindItem::IndirectBranchMispredicted:
-            return i18n("Bim (indirect branches mispredicted)");
-
-        case CallgrindItem::NumberOfCalls:
-            return i18n("Number of calls");
-
-        case CallgrindItem::Unknow:
-            return i18n("???");
-
+            function = currentFunction;
+            break;
         }
     }
 
-    return QVariant();
-}
+    if (!function) {
+        function = new CallgrindCallFunction(m_eventTypes.size());
 
-QAbstractItemModel* CallgrindModel::abstractItemModel(int n)
-{
-    // this model is able to handle many model, it isn't used yet but it can be
-    if (n == E_FCT_LIST) {
-        return (m_callgrindFunctionModel);
+        function->name = name;
+        function->sourceFile = sourceFile;
+        function->binaryFile = binaryFile;
+
+        m_functions.append(function);
     }
 
-    return nullptr;
+    return function;
 }
 
-CallgrindFunctionsListTModel::CallgrindFunctionsListTModel(CallgrindModel* model)
+void CallgrindModel::addCall(
+    CallgrindCallFunction* caller,
+    CallgrindCallFunction* callee,
+    int callCount,
+    const QStringList& eventValues)
 {
-    Q_ASSERT(model);
-    m_model = model;
+    Q_ASSERT(caller);
+    Q_ASSERT(callee);
+
+    auto info = new CallgrindCallInformation(eventValues);
+    m_information.append(info);
+
+    info->caller = caller;
+    info->callee = callee;
+    info->callCount = callCount;
+
+    caller->calleesInformation.append(info);
+    callee->callersInformation.append(info);
 }
 
-void CallgrindFunctionsListTModel::setItemList(const QList<CallgrindCallstackItem*> items)
+QModelIndex CallgrindModel::index(int row, int column, const QModelIndex&) const
 {
-    emit layoutAboutToBeChanged();
-
-    for (int i = 0; i < items.size() ; ++i) {
-        // here function list can be filtraded to display only high percents function
-        // if (items.at(i)->getNumericValuePercent(CachegrindItem::InstructionRead) >= CALLGRIND_MIN_DISPLAY_PERCENT)
-        // {
-        m_items.push_back(items.at(i));
-        // }
+    if (hasIndex(row, column)) {
+        return createIndex(row, column, m_functions.at(row));
     }
 
-    // m_items = items;
-
-    emit layoutChanged();
-}
-
-QModelIndex CallgrindFunctionsListTModel::index(int row, int column, const QModelIndex& parent) const
-{
-    if (!hasIndex(row, column, parent)) {
-        return QModelIndex();
-    }
-
-    return createIndex(row, column, m_items[row]);
-}
-
-QModelIndex CallgrindFunctionsListTModel::parent(const QModelIndex&) const
-{
     return QModelIndex();
 }
 
-int CallgrindFunctionsListTModel::rowCount(const QModelIndex &parent) const
+int CallgrindModel::rowCount(const QModelIndex&) const
 {
-    if (!parent.isValid()) {
-        return m_items.count();
-    }
-
-    return 0;
+    return m_functions.size();
 }
 
-int CallgrindFunctionsListTModel::columnCount(const QModelIndex& parent) const
+int CallgrindModel::columnCount(const QModelIndex&) const
 {
-    if (!parent.isValid()) {
-        // Call name, incl., IR, Number of calls
-        return 4;
-    }
-
-    return 0;
+    return 4;
 }
 
-QVariant CallgrindFunctionsListTModel::data(const QModelIndex& index, int role) const
+QString CallgrindModel::displayValue(int value) const
+{
+    QString result = QString::number(value);
+    int length = result.length();
+
+    for (int i = 0; i < (length / 3); ++i) {
+        int pos = result.length() - (4 * i + 3);
+        if (!pos) {
+            break;
+        }
+        result.insert(pos, ' ');
+    }
+
+    return result;
+}
+
+QString CallgrindModel::displayValue(double value) const
+{
+    return QString::number(value, 'f', 2);
+}
+
+QString CallgrindModel::displayValue(int eventIntValue, int eventType) const
+{
+    if (m_percentageValues) {
+        return displayValue(eventIntValue * 100.0 / m_eventTotals[eventType]);
+    }
+
+    return displayValue(eventIntValue);
+}
+
+
+QVariant CallgrindModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
-        auto item = static_cast<CallgrindCallstackItem*>(index.internalPointer());
-        return item->data(columnToPosInModelList(index.column()), columnToDisplayMode(index.column()));
+    auto function = static_cast<CallgrindCallFunction*>(index.internalPointer());
+
+    if (role == Qt::TextAlignmentRole && index.column() < 3) {
+        return rightAlign;
     }
 
-    return QVariant();
-}
+    if (index.column() < 2) {
+        int intValue = function->eventValue(m_currentEventType, (index.column() == 0));
 
-QVariant CallgrindFunctionsListTModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole) {
-        if (section == 1) {
-            return "Incl.";
+        if (role == SortRole) {
+            return intValue;
         }
 
-        return m_model->headerData(columnToPosInModelList(section), orientation, role);
+        if (role == Qt::DisplayRole) {
+            return displayValue(intValue, m_currentEventType);
+        }
+    }
+
+    if (index.column() == 2 && (role == Qt::DisplayRole || role == SortRole)) {
+        return function->callCount();
+    }
+
+    if (index.column() == 3 && (role == Qt::DisplayRole || role == SortRole)) {
+        return function->name;
     }
 
     return QVariant();
-
 }
 
-// FIXME remove and replace with standard sort technique
-void CallgrindFunctionsListTModel::quickSortCSItem(
-    int first,
-    int last,
-    QList<CallgrindCallstackItem*>& list,
-    CallgrindItem::Columns col,
-    CSItemCompareFct cmp,
-    CallgrindCallstackItem::numberDisplayMode dispMode)
+QVariant CallgrindModel::headerData(int section, Qt::Orientation, int role) const
 {
-    if (first < last && first != last) {
-        int left  = first;
-        int right = last;
-        int pivot = left++;
+    if (role == Qt::DisplayRole) {
+        switch (section) {
+            case 0: return i18n("Incl.");
+            case 1: return i18n("Self");
+            case 2: return i18n("Called");
+            case 3: return i18n("Function");
+        }
+    }
 
-        while (left != right) {
-            if ((this->*cmp)( list[left]->data(col, dispMode), list[pivot]->data(col, dispMode) )) {
-                ++left;
-            } else {
-                while ((left != right) && (this->*cmp)( list[pivot]->data(col, dispMode), list[right]->data(col, dispMode) )) {
-                    --right;
-                }
-                list.swap(left, right);
+    return QVariant();
+}
+
+FunctionEventsModel::FunctionEventsModel(CallgrindModel* baseModel)
+    : QAbstractTableModel(baseModel)
+    , m_baseModel(baseModel)
+    , m_function(nullptr)
+{
+    Q_ASSERT(m_baseModel);
+
+    connect(m_baseModel, &CallgrindModel::dataChanged,
+            this, [this](const QModelIndex&, const QModelIndex&, const QVector<int>&) {
+
+        emitDataChanged(this);
+    });
+}
+
+FunctionEventsModel::~FunctionEventsModel()
+{
+}
+
+void FunctionEventsModel::setFunction(valgrind::CallgrindCallFunction* function)
+{
+    m_function = function;
+    emitDataChanged(this);
+}
+
+QModelIndex FunctionEventsModel::index(int row, int column, const QModelIndex&) const
+{
+    if (hasIndex(row, column)) {
+        return createIndex(row, column);
+    }
+
+    return QModelIndex();
+}
+
+int FunctionEventsModel::rowCount(const QModelIndex&) const
+{
+    return m_baseModel->eventTypes().size();
+}
+
+int FunctionEventsModel::columnCount(const QModelIndex&) const
+{
+    return 4;
+}
+
+QVariant FunctionEventsModel::data(const QModelIndex& index, int role) const
+{
+    if (!index.isValid()) {
+        return QVariant();
+    }
+
+    int row = index.row();
+    int column = index.column();
+
+    if (column == 0 && role == Qt::DisplayRole) {
+        return eventFullName(m_baseModel->eventTypes().at(row));
+    }
+
+    if (column == 3 && role == Qt::DisplayRole) {
+        return m_baseModel->eventTypes().at(row);
+    }
+
+    if (m_function && (column == 1 || column == 2)) {
+        if (role == Qt::TextAlignmentRole) {
+            return rightAlign;
+        }
+
+        int intValue = m_function->eventValue(row, (column == 1));
+
+        if (role == CallgrindModel::SortRole) {
+            return intValue;
+        }
+
+        if (role == Qt::DisplayRole) {
+            return m_baseModel->displayValue(intValue, row);
+        }
+    }
+
+    return QVariant();
+}
+
+QVariant FunctionEventsModel::headerData(int section, Qt::Orientation, int role) const
+{
+    if (role == Qt::DisplayRole) {
+        switch (section) {
+            case 0: return i18n("Event");
+            case 1: return i18n("Incl.");
+            case 2: return i18n("Self");
+            case 3: return i18n("Short");
+        }
+    }
+
+    return QVariant();
+}
+
+FunctionCallersCalleesModel::FunctionCallersCalleesModel(CallgrindModel* baseModel, bool isCallerModel)
+    : QAbstractTableModel(baseModel)
+    , m_baseModel(baseModel)
+    , m_isCallerModel(isCallerModel)
+    , m_function(nullptr)
+{
+    Q_ASSERT(m_baseModel);
+
+    connect(m_baseModel, &CallgrindModel::dataChanged,
+            this, [this](const QModelIndex&, const QModelIndex&, const QVector<int>&) {
+
+        emitDataChanged(this);
+        emit headerDataChanged(Qt::Horizontal, 0, 1);
+    });
+}
+
+FunctionCallersCalleesModel::~FunctionCallersCalleesModel()
+{
+}
+
+void FunctionCallersCalleesModel::setFunction(valgrind::CallgrindCallFunction* function)
+{
+    beginResetModel();
+    m_function = function;
+    endResetModel();
+}
+
+QModelIndex FunctionCallersCalleesModel::index(int row, int column, const QModelIndex&) const
+{
+    if (hasIndex(row, column)) {
+        return createIndex(row, column);
+    }
+
+    return QModelIndex();
+}
+
+int FunctionCallersCalleesModel::rowCount(const QModelIndex&) const
+{
+    if (!m_function) {
+        return 0;
+    }
+
+    if (m_isCallerModel) {
+        return m_function->callersInformation.size();
+    }
+
+    return m_function->calleesInformation.size();
+}
+
+int FunctionCallersCalleesModel::columnCount(const QModelIndex&) const
+{
+    return 4;
+}
+
+QVariant FunctionCallersCalleesModel::data(const QModelIndex& index, int role) const
+{
+    if (!index.isValid()) {
+        return QVariant();
+    }
+
+    int row = index.row();
+    int column = index.column();
+
+    if (role == Qt::TextAlignmentRole && column < 3) {
+        return rightAlign;
+    }
+
+    auto info = m_isCallerModel ? m_function->callersInformation.at(row) : m_function->calleesInformation.at(row);
+    int eventType = m_baseModel->currentEventType();
+    int intValue = info->eventValue(eventType);
+    int callCount = info->callCount;
+
+    if (column == 0) {
+        if (role == CallgrindModel::SortRole) {
+            return intValue;
+        }
+
+        if (role == Qt::DisplayRole) {
+            return m_baseModel->displayValue(intValue, eventType);
+        }
+    }
+
+    if (column == 1) {
+        int perCallValue = intValue / callCount;
+
+        if (role == CallgrindModel::SortRole) {
+            return perCallValue;
+        }
+
+        if (role == Qt::DisplayRole) {
+            return m_baseModel->displayValue(perCallValue);
+        }
+    }
+
+    if (column == 2) {
+        if (role == CallgrindModel::SortRole || role == Qt::DisplayRole) {
+            return callCount;
+        }
+    }
+
+    if (column == 3) {
+        if (role == CallgrindModel::SortRole || role == Qt::DisplayRole) {
+            if (m_isCallerModel) {
+                return info->caller->name;
             }
+            return info->callee->name;
         }
-
-        --left;
-        list.swap(pivot, left);
-
-        quickSortCSItem( first, left, list, col, cmp, dispMode );
-        quickSortCSItem( right, last, list, col, cmp, dispMode );
     }
+
+    return QVariant();
 }
 
-void  CallgrindFunctionsListTModel::sort(int col, Qt::SortOrder order)
+QVariant FunctionCallersCalleesModel::headerData(int section, Qt::Orientation, int role) const
 {
-    emit layoutAboutToBeChanged();
+    if (role == Qt::DisplayRole) {
+        const QString& eventType = m_baseModel->eventTypes().at(m_baseModel->currentEventType());
 
-    CSItemCompareFct compareFct = &CallgrindFunctionsListTModel::lessThan;
-    if (order == Qt::AscendingOrder) {
-        compareFct = &CallgrindFunctionsListTModel::greatherThan;
+        switch (section) {
+            case 0: return eventType;
+            case 1: return i18n("%1 per call", eventType);
+            case 2: return i18n("Count");
+            case 3:
+                if (m_isCallerModel) {
+                    return i18n("Caller");
+                }
+                return i18n("Callee");
+        }
     }
 
-    quickSortCSItem(0,
-                    (this->rowCount() - 1),
-                    m_items,
-                    columnToPosInModelList(col),
-                    compareFct,
-                    columnToDisplayMode(col));
-
-    emit layoutChanged();
-}
-
-bool CallgrindFunctionsListTModel::lessThan(const QVariant& left, const QVariant& right) const
-{
-    if (left.type() == QVariant::String) {
-        QString leftStr = left.toString();
-        QString rightStr = right.toString();
-        return QString::localeAwareCompare(leftStr, rightStr) <= 0;
-    }
-
-    else if (left.type() == QVariant::Int  || left.type() == QVariant::LongLong ||
-             left.type() == QVariant::UInt || left.type() == QVariant::ULongLong) {
-        return left.toULongLong() <= right.toULongLong();
-    }
-
-    return true;
-}
-
-bool CallgrindFunctionsListTModel::greatherThan(const QVariant& left, const QVariant& right) const
-{
-    if (left.type() == QVariant::String) {
-        QString leftStr = left.toString();
-        QString rightStr = right.toString();
-        return QString::localeAwareCompare(leftStr, rightStr) >= 0;
-    }
-
-    else if (left.type() == QVariant::Int  || left.type() == QVariant::LongLong ||
-             left.type() == QVariant::UInt || left.type() == QVariant::ULongLong ||
-             left.type() == QVariant::Double) {
-        return left.toULongLong() >= right.toULongLong();
-    }
-
-    return true;
-}
-
-CallgrindItem::Columns CallgrindFunctionsListTModel::columnToPosInModelList(int col) const
-{
-    if (col == 0) {
-        return CallgrindItem::CallName;
-    }
-
-    if (col == 1) {
-        return CallgrindItem::InstructionRead;
-    }
-
-    if (col == 2) {
-        return CallgrindItem::InstructionRead;
-    }
-
-    if (col == 3) {
-        return CallgrindItem::NumberOfCalls;
-    }
-
-    return CallgrindItem::Unknow;
-}
-
-CallgrindCallstackItem::numberDisplayMode CallgrindFunctionsListTModel::columnToDisplayMode(int col) const
-{
-    if (col == 1) {
-        return CallgrindCallstackItem::E_INCLUDE_PERCENT;
-    }
-
-    return CallgrindCallstackItem::E_PERCENT;
+    return QVariant();
 }
 
 }

@@ -60,8 +60,9 @@ bool CallgrindJob::processEnded()
     CallgrindSettings settings(config);
 
     QStringList caArgs;
-    caArgs += QStringLiteral("--tree=both");
     caArgs += argValue(settings.callgrindAnnotateParameters());
+    caArgs += QStringLiteral("--tree=calling");
+    caArgs += QStringLiteral("--threshold=100");
     caArgs += m_outputFile;
 
     QByteArray caOutput;
@@ -77,8 +78,9 @@ bool CallgrindJob::processEnded()
         new QFileProxyRemove(settings.kcachegrindExecutablePath(),
                              { m_outputFile }, m_outputFile, dynamic_cast<QObject*>(m_plugin));
     }
-    else
+    else {
         QFile::remove(m_outputFile);
+    }
 
     return true;
 }

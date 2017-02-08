@@ -1,8 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 201-2017 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -15,37 +12,18 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
 #pragma once
 
-#include <QByteArray>
-#include <QList>
+#include <QString>
 
 namespace valgrind
 {
 
-class CallgrindCallFunction;
-class CallgrindModel;
-
-class CallgrindParser
-{
-public:
-    CallgrindParser();
-    ~CallgrindParser();
-
-    void parse(QByteArray& data, CallgrindModel* model);
-
-private:
-    void parseCallInformation(const QString& line, bool programTotal = false);
-
-    QStringList m_eventTypes;
-
-    CallgrindModel* m_model;
-    CallgrindCallFunction* m_caller;
-};
+QString eventFullName(const QString& eventShortName);
 
 }
