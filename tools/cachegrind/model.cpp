@@ -38,6 +38,7 @@ namespace valgrind
 CachegrindModel::CachegrindModel(QObject* parent)
     : QAbstractTableModel(parent)
     , m_totalItem(nullptr)
+    , m_percentageValues(false)
 {
 }
 
@@ -61,6 +62,12 @@ void CachegrindModel::setEventsList(const QStringList& eventsList)
     m_eventList = eventsList;
 }
 
+void CachegrindModel::setPercentageValues(bool value)
+{
+    m_percentageValues = value;
+    emitDataChanged(this);
+}
+
 QModelIndex CachegrindModel::index(int row, int column, const QModelIndex&) const
 {
     if (row >= 0 && row < rowCount() && column >= 0 && column < columnCount()) {
@@ -82,6 +89,8 @@ int CachegrindModel::columnCount(const QModelIndex&) const
 
 QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 {
+    Q_ASSERT(m_totalItem);
+
     if (!index.isValid()) {
         return QVariant();
     }
@@ -113,7 +122,13 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 
     else {
         if (role == Qt::DisplayRole) {
-            return displayValue(item->eventValues.at(column - 1));
+            int intValue = item->eventValues.at(column - 1);
+
+            if (!m_percentageValues) {
+                return displayValue(intValue);
+            }
+
+            return displayValue(intValue * 100.0 / m_totalItem->eventValues.at(column - 1));
         }
 
         if (role == SortRole) {

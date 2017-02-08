@@ -46,6 +46,10 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
     ui = new Ui::CachegrindView;
     ui->setupUi(this);
 
+    connect(ui->percenageValues, &QCheckBox::stateChanged,
+            model, &CachegrindModel::setPercentageValues);
+    model->setPercentageValues(ui->percenageValues->checkState());
+
     auto callsProxyModel = new QSortFilterProxyModel(this);
     callsProxyModel->setSourceModel(model);
     callsProxyModel->setSortRole(SortRole);

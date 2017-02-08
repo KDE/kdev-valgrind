@@ -41,15 +41,6 @@ void addValues(const QStringList& stringValues, QVector<int>& intValues)
     }
 }
 
-void emitDataChanged(QAbstractTableModel* model)
-{
-    Q_ASSERT(model);
-
-    emit model->dataChanged(model->index(0,0),
-                            model->index(model->rowCount() - 1, model->columnCount() - 1),
-                            { Qt::DisplayRole });
-}
-
 CallgrindCallInformation::CallgrindCallInformation(const QStringList& stringValues)
 {
     Q_ASSERT(!stringValues.isEmpty());

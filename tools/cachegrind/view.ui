@@ -39,6 +39,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="percenageValues">
+       <property name="text">
+        <string>Percenage values</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
