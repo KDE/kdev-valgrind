@@ -6,21 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>722</width>
-    <height>600</height>
+    <width>600</width>
+    <height>393</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="childrenCollapsible">
-      <bool>false</bool>
-     </property>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout">
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="snapshotsLayout">
        <item>
         <widget class="QLabel" name="snapshotsLabel">
          <property name="text">
@@ -37,8 +34,8 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="treesLayout">
        <item>
         <widget class="QLabel" name="treesLabel">
          <property name="text">
