@@ -100,7 +100,7 @@ void CallgrindParser::parseCallInformation(const QString& line, bool programTota
     // the function itself
     if (lineType == '*') {
         m_caller = function;
-        m_caller->setEventValues(lineItems);
+        m_caller->addEventValues(lineItems);
     }
 
     // the callee

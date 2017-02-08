@@ -35,10 +35,10 @@ namespace valgrind
 
 static const int rightAlign = int(Qt::AlignRight | Qt::AlignVCenter);
 
-void convertValues(const QStringList& stringValues, QVector<int>& intValues)
+void addValues(const QStringList& stringValues, QVector<int>& intValues)
 {
     for (int i = 0; i < stringValues.size(); ++i) {
-        intValues[i] = stringValues[i].toInt();
+        intValues[i] += stringValues[i].toInt();
     }
 }
 
@@ -56,7 +56,7 @@ CallgrindCallInformation::CallgrindCallInformation(const QStringList& stringValu
     Q_ASSERT(!stringValues.isEmpty());
 
     m_eventValues.resize(stringValues.size());
-    convertValues(stringValues, m_eventValues);
+    addValues(stringValues, m_eventValues);
 }
 
 int CallgrindCallInformation::eventValue(int type)
@@ -107,10 +107,10 @@ int CallgrindCallFunction::eventValue(int type, bool inclusive)
     return value;
 }
 
-void CallgrindCallFunction::setEventValues(const QStringList& stringValues)
+void CallgrindCallFunction::addEventValues(const QStringList& stringValues)
 {
     Q_ASSERT(stringValues.size() == m_eventValues.size());
-    convertValues(stringValues, m_eventValues);
+    addValues(stringValues, m_eventValues);
 }
 
 CallgrindModel::CallgrindModel()
@@ -140,7 +140,7 @@ void CallgrindModel::setEventTypes(const QStringList& eventTypes)
 void CallgrindModel::setEventTotals(const QStringList& stringValues)
 {
     Q_ASSERT(stringValues.size() == m_eventTotals.size());
-    convertValues(stringValues, m_eventTotals);
+    addValues(stringValues, m_eventTotals);
     qDebug() << m_eventTotals;
 }
 
@@ -174,21 +174,30 @@ CallgrindCallFunction* CallgrindModel::addFunction(
     CallgrindCallFunction* function = nullptr;
 
     foreach (CallgrindCallFunction* currentFunction, m_functions) {
-        if (currentFunction->name == name &&
-            currentFunction->sourceFile == sourceFile &&
-            currentFunction->binaryFile == binaryFile) {
-
+        if (currentFunction->name == name && (currentFunction->binaryFile.isEmpty() ||
+                                              binaryFile.isEmpty() ||
+                                              currentFunction->binaryFile == binaryFile)) {
             function = currentFunction;
             break;
         }
     }
 
-    if (!function) {
+    if (function) {
+        if (function->binaryFile.isEmpty()) {
+            function->binaryFile = binaryFile;
+        }
+
+        function->sourceFiles += sourceFile;
+        function->sourceFiles.removeDuplicates();
+        function->sourceFiles.sort();
+    }
+
+    else {
         function = new CallgrindCallFunction(m_eventTypes.size());
 
         function->name = name;
-        function->sourceFile = sourceFile;
         function->binaryFile = binaryFile;
+        function->sourceFiles += sourceFile;
 
         m_functions.append(function);
     }

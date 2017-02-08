@@ -54,13 +54,13 @@ public:
     explicit CallgrindCallFunction(int eventsCount);
 
     QString name;
-    QString sourceFile;
     QString binaryFile;
+    QStringList sourceFiles;
 
     int callCount();
 
     int eventValue(int type, bool inclusive);
-    void setEventValues(const QStringList& stringValues);
+    void addEventValues(const QStringList& stringValues);
 
     QList<CallgrindCallInformation*> callersInformation;
     QList<CallgrindCallInformation*> calleesInformation;

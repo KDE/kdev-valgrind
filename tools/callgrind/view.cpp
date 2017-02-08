@@ -103,7 +103,7 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
 
         if (function) {
             ui->binaryLabel->setText(function->binaryFile);
-            ui->sourceLabel->setText(function->sourceFile);
+            ui->sourceLabel->setText(function->sourceFiles.join('\n'));
         } else {
             ui->binaryLabel->clear();
             ui->sourceLabel->clear();
