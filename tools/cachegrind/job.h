@@ -38,12 +38,12 @@ public:
     CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~CachegrindJob() override;
 
+    QWidget* createView() override;
+
 protected:
     bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
-    QWidget* createView() override;
 
-private:
     CachegrindModel* m_model;
     QString m_outputFile;
 };

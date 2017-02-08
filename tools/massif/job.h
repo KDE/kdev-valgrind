@@ -36,12 +36,12 @@ public:
     MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~MassifJob() override;
 
+    QWidget* createView() override;
+
 protected:
     bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
-    QWidget* createView() override;
 
-private:
     MassifModel* m_model;
     QString m_outputFile;
 };

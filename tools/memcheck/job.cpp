@@ -25,16 +25,16 @@
 
 #include "debug.h"
 #include "parser.h"
+#include "plugin.h"
 #include "settings.h"
 
 #include <interfaces/icore.h>
 #include <interfaces/ilanguagecontroller.h>
 #include <interfaces/ilaunchconfiguration.h>
 #include <kconfiggroup.h>
+#include <klocalizedstring.h>
 #include <kshell.h>
 #include <shell/problemmodel.h>
-#include <shell/problemmodelset.h>
-#include <KLocalizedString>
 
 #include <QRegularExpression>
 #include <unistd.h>
@@ -43,10 +43,7 @@ namespace valgrind
 {
 
 MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : GenericJob(cfg,
-                 QStringLiteral("memcheck"),
-                 plugin,
-                 parent)
+    : GenericJob(cfg, QStringLiteral("memcheck"), false, plugin, parent)
 {
 }
 
@@ -75,14 +72,15 @@ void MemcheckJob::postProcessStderr(const QStringList& lines)
 
 bool MemcheckJob::processEnded()
 {
-    auto problemModelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
-    auto problemModel = problemModelSet->findModel(QStringLiteral("Valgrind"));
+//     auto problemModelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
+//     auto problemModel = problemModelSet->findModel(QStringLiteral("Valgrind"));
 
     MemcheckParser parser;
     parser.addData(m_xmlOutput.join(" "));
 
-    problemModel->clearProblems();
-    problemModel->setProblems(parser.parse(MemcheckSettings(config).showInstructionPointer()));
+    m_plugin->problemModel()->setProblems(parser.parse(MemcheckSettings(config).showInstructionPointer()));
+//     problemModel->clearProblems();
+//     problemModel->
 
     return true;
 }

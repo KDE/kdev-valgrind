@@ -23,7 +23,6 @@
 
 #include "config/globalconfigpage.h"
 
-#include "config.h"
 #include "debug.h"
 #include "generic/job.h"
 #include "launcher.h"
@@ -79,7 +78,7 @@ private:
 Plugin::Plugin(QObject* parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
     , m_factory(new WidgetFactory(this))
-    , m_model(new KDevelop::ProblemModel(this))
+    , m_problemModel(new KDevelop::ProblemModel(this))
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
@@ -90,29 +89,32 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     connect(act, &QAction::triggered, this, &Plugin::runValgrind);
     actionCollection()->addAction("valgrind_generic", act);
 
+    auto mode = new LaunchMode();
+    core()->runController()->addLaunchMode(mode);
+
+    // Add launcher for native apps
     IExecutePlugin* iface = core()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
-    LaunchMode* mode = new GenericLaunchMode();
-    core()->runController()->addLaunchMode(mode);
-//     core()->runController()->setDefaultLaunch( mode );
-
-    Launcher* launcher = new Launcher(this);
-    launcher->addMode(mode);
-
-    // Add launcher for native apps
-    KDevelop::LaunchConfigurationType* type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
+    auto launcher = new Launcher(this, mode);
+    auto type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
     Q_ASSERT(type);
+
     type->addLauncher(launcher);
 
-    m_model->setFeatures(
+    m_problemModel->setFeatures(
         KDevelop::ProblemModel::ScopeFilter |
         KDevelop::ProblemModel::SeverityFilter |
         KDevelop::ProblemModel::Grouping |
         KDevelop::ProblemModel::CanByPassScopeFilter);
 
     KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
-    pms->addModel(modelId, i18n("Valgrind"), m_model.data());
+    pms->addModel(modelId, i18n("Valgrind"), m_problemModel);
+}
+
+int Plugin::configPages() const
+{
+    return 1;
 }
 
 KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
@@ -134,20 +136,35 @@ Plugin::~Plugin()
 
 void Plugin::runValgrind()
 {
-    m_model->clearProblems();
-    core()->runController()->executeDefaultLaunch("valgrind_generic");
+    core()->runController()->executeDefaultLaunch(launchModeId);
 }
 
-void Plugin::jobFinished(KJob* kjob)
+void Plugin::jobReadyToStart(GenericJob* job)
 {
-    GenericJob* job = dynamic_cast<GenericJob*>(kjob);
-    if (job && !job->error()) {
-        if (job->tool() == QStringLiteral("memcheck")) {
-            core()->languageController()->problemModelSet()->showModel(modelId);
-        } else {
-            core()->uiController()->findToolView("Valgrind", m_factory);
-        }
+    Q_ASSERT(job);
+    if (!job->hasView()) {
+        m_problemModel->clearProblems();
     }
+}
+
+void Plugin::jobFinished(GenericJob* job, bool ok)
+{
+    Q_ASSERT(job);
+    if (!ok) {
+        return;
+    }
+
+    if (job->hasView()) {
+        addView(job->createView(), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
+        core()->uiController()->findToolView("Valgrind", m_factory);
+    } else {
+        core()->languageController()->problemModelSet()->showModel(modelId);
+    }
+}
+
+KDevelop::ProblemModel* Plugin::problemModel() const
+{
+    return m_problemModel;
 }
 
 }

@@ -35,6 +35,7 @@ class ProblemModel;
 namespace valgrind
 {
 
+class GenericJob;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -45,10 +46,13 @@ public:
     Plugin(QObject* parent, const QVariantList& = QVariantList());
     ~Plugin() override;
 
-    int configPages() const override { return 1; }
+    int configPages() const override;
     KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;
 
-    void jobFinished(KJob* job);
+    void jobReadyToStart(GenericJob* job);
+    void jobFinished(GenericJob* job, bool ok);
+
+    KDevelop::ProblemModel* problemModel() const;
 
 signals:
     void addView(QWidget* view, const QString& name);
@@ -57,7 +61,7 @@ private:
     void runValgrind();
 
     WidgetFactory* m_factory;
-    QScopedPointer<KDevelop::ProblemModel> m_model;
+    KDevelop::ProblemModel* m_problemModel;
 };
 
 }

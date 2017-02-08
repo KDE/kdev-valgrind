@@ -36,13 +36,13 @@ public:
     MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~MemcheckJob() override;
 
+    QWidget* createView() override;
+
 protected:
     void postProcessStderr(const QStringList& lines) override;
     bool processEnded() override;
 
     void addToolArgs(QStringList& args) const override;
-
-    QWidget* createView() override;
 
     QStringList m_xmlOutput;
 };

@@ -39,12 +39,12 @@ public:
     CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~CallgrindJob() override;
 
+    QWidget* createView() override;
+
 protected:
     bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
-    QWidget* createView() override;
 
-private:
     CallgrindModel* m_model;
     QString m_outputFile;
 };

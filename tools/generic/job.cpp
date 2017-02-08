@@ -80,12 +80,14 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
 GenericJob::GenericJob(
     KDevelop::ILaunchConfiguration* launchConfig,
     QString tool,
+    bool hasView,
     Plugin* plugin,
     QObject* parent)
 
     : KDevelop::OutputExecuteJob(parent)
     , config(launchConfig->config())
     , m_tool(tool)
+    , m_hasView(hasView)
     , m_plugin(plugin)
 {
     Q_ASSERT(launchConfig);
@@ -149,6 +151,11 @@ QString GenericJob::target() const
     return QFileInfo(m_analyzedExecutable).fileName();
 }
 
+bool GenericJob::hasView()
+{
+    return m_hasView;
+}
+
 QStringList GenericJob::argValue(const QString& line) const
 {
     return KShell::splitArgs(line);
@@ -170,10 +177,10 @@ QStringList GenericJob::buildCommandLine() const
     QStringList args;
 
     args += QStringLiteral("--tool=") + m_tool;
-    args += argValue(settings.extraParameters());
     args += QStringLiteral("--num-callers=") + argValue(settings.stackframeDepth());
     args += QStringLiteral("--max-stackframe=") + argValue(settings.maximumStackframeSize());
     args += QStringLiteral("--error-limit=") + argValue(settings.limitErrors());
+    args += argValue(settings.extraParameters());
 
     addToolArgs(args);
 
@@ -182,25 +189,14 @@ QStringList GenericJob::buildCommandLine() const
 
 void GenericJob::start()
 {
-    if (error()) {
-        emitResult();
-        return;
-    }
-
     *this << GenericSettings::valgrindExecutablePath();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;
 
-   qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
+    qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
 
     KDevelop::OutputExecuteJob::start();
-}
-
-void GenericJob::postProcessStdout(const QStringList& lines)
-{
-    m_standardOutput << lines;
-    KDevelop::OutputExecuteJob::postProcessStdout(lines);
 }
 
 void GenericJob::postProcessStderr(const QStringList& lines)
@@ -211,38 +207,34 @@ void GenericJob::postProcessStderr(const QStringList& lines)
 
 void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    bool ok = !exitCode;
     qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
-    if (exitCode) {
-        /*
-        ** Here, check if Valgrind failed (because of bad parameters or whatever).
-        ** Because Valgrind always returns 1 on failure, and the profiled application's return
-        ** on success, we cannot know for sure which process returned != 0.
-        **
-        ** The only way to guess that it is Valgrind which failed is to check stderr and look for
-        ** "valgrind:" at the beginning of each line, even though it can still be the profiled
-        ** process that writes it on stderr. It is, however, unlikely enough to be reliable in
-        ** most cases.
-        */
-        const QString s = m_errorOutput.join(' ');
+    if (!ok) {
+        // Here, check if Valgrind failed (because of bad parameters or whatever).
+        // Because Valgrind always returns 1 on failure, and the profiled application's return
+        // on success, we cannot know for sure which process returned != 0.
+        //
+        // The only way to guess that it is Valgrind which failed is to check stderr and look for
+        // "valgrind: " at the beginning of the first line, even though it can still be the
+        // profiled process that writes it on stderr. It is, however, unlikely enough to be
+        // reliable in most cases.
 
-        if (s.startsWith("valgrind:")) {
-            QString err = s.split("\n")[0];
-            err = err.replace("valgrind:", "");
-            err += "\n\nPlease review your Valgrind launch configuration.";
+        static const QString valgrindPrefix = QStringLiteral("valgrind: ");
+        if (!m_errorOutput.isEmpty() && m_errorOutput.at(0).startsWith(valgrindPrefix)) {
+            QString message = m_errorOutput.join('\n').remove(valgrindPrefix);
+            message += QStringLiteral("\n\n");
+            message += i18n("Please review your Valgrind launch configuration.");
 
-            KMessageBox::error(qApp->activeWindow(), err, i18n("Valgrind Error"));
+            KMessageBox::error(qApp->activeWindow(), message, i18n("Valgrind Error"));
         }
     }
 
-    if (processEnded()) {
-        if (QWidget* view = createView()) {
-            emit m_plugin->addView(view, QStringLiteral("%1 (%2)").arg(target()).arg(tool()));
-        }
-
-        m_plugin->jobFinished(this);
+    else {
+        ok = processEnded();
     }
 
+    m_plugin->jobFinished(this, ok);
     emitResult();
 }
 
@@ -295,10 +287,8 @@ bool GenericJob::processEnded()
 
 int GenericJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
-    QString commandLine("Executing command: ");
-    commandLine += executable + " ";
-    commandLine += args.join(' ');
-    KDevelop::OutputExecuteJob::postProcessStdout({"", commandLine });
+    QString commandLine = executable + " " + args.join(' ');
+    KDevelop::OutputExecuteJob::postProcessStdout({i18n("Executing command: "), commandLine });
 
     QProcess process;
     process.start(executable, args);
@@ -311,6 +301,16 @@ int GenericJob::executeProcess(const QString& executable, const QStringList& arg
 
     KDevelop::OutputExecuteJob::postProcessStdout(QString(processOutput).split('\n'));
     KDevelop::OutputExecuteJob::postProcessStderr(errOutput.split('\n'));
+
+    if (process.exitCode()) {
+        QString message = i18n("Failed to execute the command:");
+        message += "\n\n";
+        message += commandLine;
+        message += "\n\n";
+        message += i18n("Please review your Valgrind launch configuration.");
+
+        KMessageBox::error(qApp->activeWindow(), message, i18n("Valgrind Error"));
+    }
 
     return process.exitCode();
 }

@@ -42,10 +42,7 @@ namespace valgrind
 {
 
 CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : GenericJob(cfg,
-                 QStringLiteral("callgrind"),
-                 plugin,
-                 parent)
+    : GenericJob(cfg, QStringLiteral("callgrind"), true, plugin, parent)
     , m_model(new CallgrindModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
 {

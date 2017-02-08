@@ -50,9 +50,10 @@ class GenericJob : public KDevelop::OutputExecuteJob
 
 public:
     GenericJob(KDevelop::ILaunchConfiguration* cfg,
-         QString tool,
-         Plugin* plugin,
-         QObject* parent);
+               QString tool,
+               bool hasView,
+               Plugin* plugin,
+               QObject* parent);
 
     ~GenericJob() override;
 
@@ -62,17 +63,18 @@ public:
     QString tool() const;
     QString target() const;
 
+    bool hasView();
+    virtual QWidget* createView() = 0;
+
     // Factory
     static GenericJob* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
 
-private slots:
-    void postProcessStdout(const QStringList& lines) override;
+protected:
     void postProcessStderr(const QStringList& lines) override;
 
     void childProcessExited(int exitCode, QProcess::ExitStatus exitStatus) override;
     void childProcessError(QProcess::ProcessError processError) override;
 
-protected:
     virtual bool processEnded();
 
     virtual void addToolArgs(QStringList& args) const = 0;
@@ -85,10 +87,10 @@ protected:
 
     QStringList buildCommandLine() const;
 
-    virtual QWidget* createView() = 0;
-
     KConfigGroup config;
+
     QString m_tool;
+    bool m_hasView;
 
     Plugin* m_plugin;
 
@@ -97,7 +99,6 @@ protected:
 
     QUrl m_workingDir;
 
-    QStringList m_standardOutput;
     QStringList m_errorOutput;
 };
 

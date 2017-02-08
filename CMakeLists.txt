@@ -24,7 +24,6 @@ include_directories(
 )
 
 set(kdevvalgrind_SRCS
-    config.cpp
     debug.cpp
 
     launcher.cpp

@@ -311,7 +311,7 @@ FunctionEventsModel::~FunctionEventsModel()
 {
 }
 
-void FunctionEventsModel::setFunction(valgrind::CallgrindCallFunction* function)
+void FunctionEventsModel::setFunction(CallgrindCallFunction* function)
 {
     m_function = function;
     emitDataChanged(this);
@@ -406,7 +406,7 @@ FunctionCallersCalleesModel::~FunctionCallersCalleesModel()
 {
 }
 
-void FunctionCallersCalleesModel::setFunction(valgrind::CallgrindCallFunction* function)
+void FunctionCallersCalleesModel::setFunction(CallgrindCallFunction* function)
 {
     beginResetModel();
     m_function = function;

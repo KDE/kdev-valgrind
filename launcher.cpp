@@ -31,7 +31,6 @@
 #include "massif/configpage.h"
 #include "memcheck/configpage.h"
 
-#include "config.h"
 #include "debug.h"
 
 #include <execute/iexecuteplugin.h>
@@ -44,15 +43,33 @@
 namespace valgrind
 {
 
-Launcher::Launcher(Plugin *inst)
-    : m_plugin(inst)
+QIcon LaunchMode::icon() const
 {
-    // these are tabs in each menu
-    m_factories << new GenericConfigPageFactory();
-    m_factories << new MemcheckConfigPageFactory();
-    m_factories << new MassifConfigPageFactory();
-    m_factories << new CachegrindConfigPageFactory();
-    m_factories << new CallgrindConfigPageFactory();
+    return QIcon();
+}
+
+QString LaunchMode::id() const
+{
+    return launchModeId;
+}
+
+QString LaunchMode::name() const
+{
+    return "Valgrind";
+}
+
+Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
+    : m_plugin(plugin)
+    , m_mode(mode)
+{
+    Q_ASSERT(plugin);
+    Q_ASSERT(mode);
+
+    m_factories += new GenericConfigPageFactory;
+    m_factories += new MemcheckConfigPageFactory;
+    m_factories += new MassifConfigPageFactory;
+    m_factories += new CachegrindConfigPageFactory;
+    m_factories += new CallgrindConfigPageFactory;
 
     /*
     ** Those are unimplemented at the moment: see config/genericconfigpage.cpp
@@ -61,42 +78,34 @@ Launcher::Launcher(Plugin *inst)
 //     factories << new ValgrindHelgrindConfigPageFactory();
 }
 
+Launcher::~Launcher()
+{
+    qDeleteAll(m_factories);
+}
+
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
 {
     Q_ASSERT(cfg);
-    if (!cfg) {
+
+    if (m_mode->id() != launchMode) {
         return nullptr;
     }
 
-    if (m_modes.contains(launchMode)) {
-        IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-        Q_ASSERT(iface);
+    IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
+    Q_ASSERT(iface);
 
-        QList<KJob*> jobList;
-        KJob* depjob = iface->dependencyJob(cfg);
-        if (depjob) {
-            jobList << depjob;
-        }
-        jobList << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
-
-        return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
+    QList<KJob*> jobList;
+    if (KJob* depjob = iface->dependencyJob(cfg)) {
+        jobList << depjob;
     }
+    jobList << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
-    qCWarning(KDEV_VALGRIND) << "Unknown launch mode " << launchMode << "for config:" << cfg->name();
-
-    return nullptr;
-}
-
-void Launcher::addMode(LaunchMode* mode)
-{
-    if (!m_modes.contains(mode->id())) {
-        m_modes.insert(mode->id(), mode);
-    }
+    return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
 }
 
 QStringList Launcher::supportedModes() const
 {
-    return m_modes.keys(); // these are entries in menus
+    return { m_mode->id() };
 }
 
 QList<KDevelop::LaunchConfigurationPageFactory*> Launcher::configPages() const
@@ -111,7 +120,7 @@ QString Launcher::description() const
 
 QString Launcher::id()
 {
-    return "valgrind";
+    return "Valgrind";
 }
 
 QString Launcher::name() const
