@@ -31,7 +31,7 @@ namespace valgrind
 struct CachegrindItem
 {
     QString functionName;
-    QString fileName;
+    QStringList fileNames;
 
     QList<int> eventValues;
 };

@@ -47,13 +47,32 @@ CachegrindModel::~CachegrindModel()
     qDeleteAll(m_items);
 }
 
-void CachegrindModel::addItem(CachegrindItem* item, bool isTotal)
+void CachegrindModel::addItem(CachegrindItem* newItem, bool isTotal)
 {
-    Q_ASSERT(item);
-    m_items.append(item);
-
+    Q_ASSERT(newItem);
     if (isTotal) {
-        m_totalItem = item;
+        m_totalItem = newItem;
+    }
+
+    bool exists = false;
+    foreach (auto item, m_items) {
+        if (item->functionName == newItem->functionName) {
+            exists = true;
+
+            item->fileNames += newItem->fileNames;
+            item->fileNames.removeDuplicates();
+            item->fileNames.sort();
+
+            for (int i = 0; i < newItem->eventValues.size(); ++i) {
+                item->eventValues[i] += newItem->eventValues[i];
+            }
+
+            delete newItem;
+        }
+    }
+
+    if (!exists) {
+        m_items.append(newItem);
     }
 }
 

@@ -73,7 +73,7 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
 
         if (item) {
             ui->nameLabel->setText(item->functionName);
-            ui->sourceLabel->setText(item->fileName);
+            ui->sourceLabel->setText(item->fileNames.join("\n\n"));
         } else {
             ui->nameLabel->clear();
             ui->sourceLabel->clear();
@@ -81,14 +81,6 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
     });
     ui->nameLabel->clear();
     ui->sourceLabel->clear();
-
-    connect(ui->functionsView, &QTreeView::activated, this, [this](const QModelIndex& index) {
-        auto item = static_cast<CachegrindItem*>(index.internalPointer());
-        QUrl doc = QUrl::fromLocalFile(item->fileName);
-        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
-            KDevelop::ICore::self()->documentController()->openDocument(doc);
-        }
-    });
 }
 
 CachegrindView::~CachegrindView()

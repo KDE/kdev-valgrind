@@ -63,7 +63,7 @@ void CachegrindParser::parseCachegrindItem(const QString& line, bool programTota
         int colonPosition = fileCall.indexOf(QChar(':'));
         if (colonPosition >= 0) {
             // file name
-            item->fileName = fileCall.mid(0, colonPosition);
+            item->fileNames += fileCall.mid(0, colonPosition);
 
             // call name
             item->functionName = fileCall.mid(colonPosition + 1);
