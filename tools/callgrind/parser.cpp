@@ -34,6 +34,7 @@ namespace valgrind
 
 CallgrindParser::CallgrindParser()
     : m_model(nullptr)
+    , m_caller(nullptr)
 {
 }
 

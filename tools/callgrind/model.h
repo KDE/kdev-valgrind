@@ -35,7 +35,7 @@ class CallgrindCallFunction;
 class CallgrindCallInformation
 {
 public:
-    CallgrindCallInformation(const QStringList& stringValues);
+    explicit CallgrindCallInformation(const QStringList& stringValues);
 
     CallgrindCallFunction* caller = nullptr;
     CallgrindCallFunction* callee = nullptr;
@@ -51,7 +51,7 @@ private:
 class CallgrindCallFunction
 {
 public:
-    CallgrindCallFunction(int eventsCount);
+    explicit CallgrindCallFunction(int eventsCount);
 
     QString name;
     QString sourceFile;
@@ -129,7 +129,7 @@ private:
 class FunctionEventsModel : public QAbstractTableModel
 {
 public:
-    FunctionEventsModel(CallgrindModel* baseModel);
+    explicit FunctionEventsModel(CallgrindModel* baseModel);
     ~FunctionEventsModel() override;
 
     void setFunction(CallgrindCallFunction* function);
