@@ -50,19 +50,39 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
             model, &CachegrindModel::setPercentageValues);
     model->setPercentageValues(ui->percenageValues->checkState());
 
-    auto callsProxyModel = new QSortFilterProxyModel(this);
-    callsProxyModel->setSourceModel(model);
-    callsProxyModel->setSortRole(SortRole);
-    callsProxyModel->setFilterKeyColumn(-1);
-    ui->callsView->setModel(callsProxyModel);
-    ui->callsView->setSortingEnabled(true);
-    ui->callsView->sortByColumn(1);
-    ui->callsView->header()->resizeSections(QHeaderView::ResizeToContents);
+    auto functionsProxyModel = new QSortFilterProxyModel(this);
+    functionsProxyModel->setSourceModel(model);
+    functionsProxyModel->setSortRole(SortRole);
+    functionsProxyModel->setFilterKeyColumn(-1);
+    ui->functionsView->setModel(functionsProxyModel);
+    ui->functionsView->setSortingEnabled(true);
+    ui->functionsView->sortByColumn(1);
+
+    ui->functionsView->header()->resizeSections(QHeaderView::ResizeToContents);
+    ui->functionsView->header()->setStretchLastSection(false);
+    ui->functionsView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     connect(ui->searchEdit, &QLineEdit::textChanged,
-            callsProxyModel, &QSortFilterProxyModel::setFilterWildcard);
+            functionsProxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
-    connect(ui->callsView, &QTreeView::activated, this, [this](const QModelIndex& index) {
+    connect(ui->functionsView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, [=](const QModelIndex& currentProxyIndex, const QModelIndex&) {
+
+        auto sourceIndex = functionsProxyModel->mapToSource(currentProxyIndex);
+        auto item = static_cast<CachegrindItem*>(sourceIndex.internalPointer());
+
+        if (item) {
+            ui->nameLabel->setText(item->functionName);
+            ui->sourceLabel->setText(item->fileName);
+        } else {
+            ui->nameLabel->clear();
+            ui->sourceLabel->clear();
+        }
+    });
+    ui->nameLabel->clear();
+    ui->sourceLabel->clear();
+
+    connect(ui->functionsView, &QTreeView::activated, this, [this](const QModelIndex& index) {
         auto item = static_cast<CachegrindItem*>(index.internalPointer());
         QUrl doc = QUrl::fromLocalFile(item->fileName);
         if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {

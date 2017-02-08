@@ -84,7 +84,7 @@ int CachegrindModel::rowCount(const QModelIndex&) const
 
 int CachegrindModel::columnCount(const QModelIndex&) const
 {
-    return m_eventList.size() + 2;
+    return m_eventList.size() + 1;
 }
 
 QVariant CachegrindModel::data(const QModelIndex& index, int role) const
@@ -98,7 +98,7 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
     auto item = static_cast<CachegrindItem*>(index.internalPointer());
     int column = index.column();
 
-    if (role == Qt::TextAlignmentRole && column != 0 && column != (columnCount() - 1)) {
+    if (role == Qt::TextAlignmentRole && column > 0) {
         return rightAlign;
     }
 
@@ -111,12 +111,6 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
     if (column == 0) {
         if (role == Qt::DisplayRole || role == SortRole) {
             return item->functionName;
-        }
-    }
-
-    else if (column == (columnCount() - 1)) {
-        if (role == Qt::DisplayRole || role == SortRole) {
-            return item->fileName;
         }
     }
 
@@ -144,12 +138,6 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) con
     if (section == 0) {
         if (role == Qt::DisplayRole) {
             return i18n("Function");
-        }
-    }
-
-    else if (section == (columnCount() - 1)) {
-        if (role == Qt::DisplayRole) {
-            return i18n("File");
         }
     }
 
