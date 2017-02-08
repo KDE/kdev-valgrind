@@ -93,22 +93,32 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
         return rightAlign;
     }
 
-    if (role == Qt::DisplayRole) {
-        if (column == 0) {
-            return item->callName;
-        }
-
-        if (column == (columnCount() - 1)) {
-            return item->fileName;
-        }
-
-        return displayValue(item->eventValues.at(column - 1));
-    }
-
     if (role == Qt::FontRole && item == m_totalItem) {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
         f.setBold(true);
         return f;
+    }
+
+    if (column == 0) {
+        if (role == Qt::DisplayRole || role == SortRole) {
+            return item->functionName;
+        }
+    }
+
+    else if (column == (columnCount() - 1)) {
+        if (role == Qt::DisplayRole || role == SortRole) {
+            return item->fileName;
+        }
+    }
+
+    else {
+        if (role == Qt::DisplayRole) {
+            return displayValue(item->eventValues.at(column - 1));
+        }
+
+        if (role == SortRole) {
+            return item->eventValues.at(column - 1);
+        }
     }
 
     return QVariant();
@@ -118,13 +128,13 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) con
 {
     if (section == 0) {
         if (role == Qt::DisplayRole) {
-            return i18n("Call name");
+            return i18n("Function");
         }
     }
 
     else if (section == (columnCount() - 1)) {
         if (role == Qt::DisplayRole) {
-            return i18n("File name");
+            return i18n("File");
         }
     }
 

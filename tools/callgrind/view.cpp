@@ -26,6 +26,7 @@
 
 #include "debug.h"
 #include "generic/events.h"
+#include "generic/model.h"
 #include "model.h"
 
 #include <QSortFilterProxyModel>
@@ -55,7 +56,7 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
 
     auto functionsProxyModel = new QSortFilterProxyModel(this);
     functionsProxyModel->setSourceModel(model);
-    functionsProxyModel->setSortRole(CallgrindModel::SortRole);
+    functionsProxyModel->setSortRole(SortRole);
     functionsProxyModel->setFilterKeyColumn(-1);
     ui->functionsView->setModel(functionsProxyModel);
     ui->functionsView->setSortingEnabled(true);
@@ -70,7 +71,7 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
     auto callersModel = new FunctionCallersCalleesModel(model, true);
     auto callersProxyModel = new QSortFilterProxyModel(this);
     callersProxyModel->setSourceModel(callersModel);
-    callersProxyModel->setSortRole(CallgrindModel::SortRole);
+    callersProxyModel->setSortRole(SortRole);
     ui->callersView->setModel(callersProxyModel);
     ui->callersView->setSortingEnabled(true);
 
@@ -82,7 +83,7 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
     auto calleesModel = new FunctionCallersCalleesModel(model, false);
     auto calleesProxyModel = new QSortFilterProxyModel(this);
     calleesProxyModel->setSourceModel(calleesModel);
-    calleesProxyModel->setSortRole(CallgrindModel::SortRole);
+    calleesProxyModel->setSortRole(SortRole);
     ui->calleesView->setModel(calleesProxyModel);
     ui->calleesView->setSortingEnabled(true);
 

@@ -23,20 +23,28 @@
 #pragma once
 
 #include <QTreeView>
+#include <QWidget>
 
 namespace valgrind
 {
 
+namespace Ui
+{
+
+class CachegrindView;
+
+}
+
 class CachegrindModel;
 
-class CachegrindView : public QTreeView
+class CachegrindView : public QWidget
 {
 public:
     CachegrindView(CachegrindModel* model, QWidget* parent = nullptr);
     ~CachegrindView() override;
 
 private:
-    void openDocument(const QModelIndex& index);
+    Ui::CachegrindView* ui;
 };
 
 }

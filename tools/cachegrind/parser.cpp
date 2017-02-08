@@ -55,7 +55,7 @@ void CachegrindParser::parseCachegrindItem(const QString& line, bool programTota
     }
 
     if (programTotal) {
-        item->callName = i18n("Program Totals");
+        item->functionName = i18n("Program Totals");
     }
 
     else {
@@ -66,7 +66,7 @@ void CachegrindParser::parseCachegrindItem(const QString& line, bool programTota
             item->fileName = fileCall.mid(0, colonPosition);
 
             // call name
-            item->callName = fileCall.mid(colonPosition + 1);
+            item->functionName = fileCall.mid(colonPosition + 1);
         }
     }
 

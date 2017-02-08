@@ -24,6 +24,11 @@
 namespace valgrind
 {
 
+enum ItemDataRole
+{
+    SortRole = Qt::UserRole + 1
+};
+
 static const int rightAlign = int(Qt::AlignRight | Qt::AlignVCenter);
 
 QString displayValue(int value);

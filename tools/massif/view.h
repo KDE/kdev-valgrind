@@ -38,7 +38,7 @@ class MassifModel;
 class MassifView : public QWidget
 {
 public:
-    explicit MassifView(MassifModel* model, QWidget* parent = nullptr);
+    MassifView(MassifModel* model, QWidget* parent = nullptr);
     ~MassifView() override;
 
 private:

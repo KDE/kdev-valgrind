@@ -72,11 +72,6 @@ private:
 class CallgrindModel : public QAbstractTableModel
 {
 public:
-    enum ItemDataRole
-    {
-        SortRole = Qt::UserRole + 1
-    };
-
     CallgrindModel();
     ~CallgrindModel() override;
 

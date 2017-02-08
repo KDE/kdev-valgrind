@@ -21,46 +21,55 @@
 */
 
 #include "view.h"
+#include "ui_view.h"
 
 #include "debug.h"
 #include "generic/utils.h"
+#include "generic/model.h"
 #include "model.h"
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
 #include <QApplication>
-#include <QHeaderView>
+#include <QSortFilterProxyModel>
 
 namespace valgrind
 {
 
 CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
-    : QTreeView(parent)
+    : QWidget(parent)
 {
     Q_ASSERT(model);
     model->setParent(this);
 
-    setModel(model);
+    ui = new Ui::CachegrindView;
+    ui->setupUi(this);
 
-    header()->resizeSections(QHeaderView::ResizeToContents);
-    setRootIsDecorated(false);
+    auto callsProxyModel = new QSortFilterProxyModel(this);
+    callsProxyModel->setSourceModel(model);
+    callsProxyModel->setSortRole(SortRole);
+    callsProxyModel->setFilterKeyColumn(-1);
+    ui->callsView->setModel(callsProxyModel);
+    ui->callsView->setSortingEnabled(true);
+    ui->callsView->sortByColumn(1);
+    ui->callsView->header()->resizeSections(QHeaderView::ResizeToContents);
 
-    connect(this, &CachegrindView::activated, this, &CachegrindView::openDocument);
+    connect(ui->searchEdit, &QLineEdit::textChanged,
+            callsProxyModel, &QSortFilterProxyModel::setFilterWildcard);
+
+    connect(ui->callsView, &QTreeView::activated, this, [this](const QModelIndex& index) {
+        auto item = static_cast<CachegrindItem*>(index.internalPointer());
+        QUrl doc = QUrl::fromLocalFile(item->fileName);
+        if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow())) {
+            KDevelop::ICore::self()->documentController()->openDocument(doc);
+        }
+    });
 }
 
 CachegrindView::~CachegrindView()
 {
-}
-
-void CachegrindView::openDocument(const QModelIndex& index)
-{
-    auto item = static_cast<CachegrindItem*>(index.internalPointer());
-    QUrl doc = QUrl::fromLocalFile(item->fileName);
-    if (doc.isValid() && StatJob::jobExists(doc, qApp->activeWindow()))
-    {
-        KDevelop::ICore::self()->documentController()->openDocument(doc);
-    }
+    delete ui;
 }
 
 }

@@ -1,5 +1,6 @@
 ki18n_wrap_ui(cachegrind_UI_SRCS
     configpage.ui
+    view.ui
 )
 
 add_library(cachegrind_tool STATIC

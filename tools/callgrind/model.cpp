@@ -369,7 +369,7 @@ QVariant FunctionEventsModel::data(const QModelIndex& index, int role) const
 
         int intValue = m_function->eventValue(row, (column == 1));
 
-        if (role == CallgrindModel::SortRole) {
+        if (role == SortRole) {
             return intValue;
         }
 
@@ -468,7 +468,7 @@ QVariant FunctionCallersCalleesModel::data(const QModelIndex& index, int role) c
     int callCount = info->callCount;
 
     if (column == 0) {
-        if (role == CallgrindModel::SortRole) {
+        if (role == SortRole) {
             return intValue;
         }
 
@@ -480,7 +480,7 @@ QVariant FunctionCallersCalleesModel::data(const QModelIndex& index, int role) c
     if (column == 1) {
         int perCallValue = intValue / callCount;
 
-        if (role == CallgrindModel::SortRole) {
+        if (role == SortRole) {
             return perCallValue;
         }
 
@@ -490,13 +490,13 @@ QVariant FunctionCallersCalleesModel::data(const QModelIndex& index, int role) c
     }
 
     if (column == 2) {
-        if (role == CallgrindModel::SortRole || role == Qt::DisplayRole) {
+        if (role == SortRole || role == Qt::DisplayRole) {
             return callCount;
         }
     }
 
     if (column == 3) {
-        if (role == CallgrindModel::SortRole || role == Qt::DisplayRole) {
+        if (role == SortRole || role == Qt::DisplayRole) {
             if (m_isCallerModel) {
                 return info->caller->name;
             }
