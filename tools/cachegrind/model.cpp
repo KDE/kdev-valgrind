@@ -52,6 +52,7 @@ void CachegrindModel::addItem(CachegrindItem* newItem, bool isTotal)
     Q_ASSERT(newItem);
     if (isTotal) {
         m_totalItem = newItem;
+        return;
     }
 
     bool exists = false;
@@ -119,12 +120,6 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 
     if (role == Qt::TextAlignmentRole && column > 0) {
         return rightAlign;
-    }
-
-    if (role == Qt::FontRole && item == m_totalItem) {
-        QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        f.setBold(true);
-        return f;
     }
 
     if (column == 0) {

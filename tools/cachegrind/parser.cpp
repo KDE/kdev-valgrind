@@ -54,20 +54,14 @@ void CachegrindParser::parseCachegrindItem(const QString& line, bool programTota
         item->eventValues += lineEventList.takeFirst().remove(",").toInt();
     }
 
-    if (programTotal) {
-        item->functionName = i18n("Program Totals");
-    }
+    QString fileCall = lineEventList.join(QChar(' '));
+    int colonPosition = fileCall.indexOf(QChar(':'));
+    if (colonPosition >= 0) {
+        // file name
+        item->fileNames += fileCall.mid(0, colonPosition);
 
-    else {
-        QString fileCall = lineEventList.join(QChar(' '));
-        int colonPosition = fileCall.indexOf(QChar(':'));
-        if (colonPosition >= 0) {
-            // file name
-            item->fileNames += fileCall.mid(0, colonPosition);
-
-            // call name
-            item->functionName = fileCall.mid(colonPosition + 1);
-        }
+        // call name
+        item->functionName = fileCall.mid(colonPosition + 1);
     }
 
     m_model->addItem(item, programTotal);

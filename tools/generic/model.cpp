@@ -55,4 +55,3 @@ void emitDataChanged(QAbstractTableModel* model)
 }
 
 }
-
