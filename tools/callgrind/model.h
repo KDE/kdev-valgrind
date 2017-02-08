@@ -110,8 +110,6 @@ public:
 
     QVariant eventData(int type, int intValue, int role) const;
 
-    QString displayValue(int value) const;
-    QString displayValue(double value) const;
     QString displayValue(int eventIntValue, int eventType) const;
 
 private:

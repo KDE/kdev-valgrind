@@ -25,6 +25,7 @@
 
 #include "debug.h"
 #include "generic/events.h"
+#include "generic/model.h"
 
 #include <klocalizedstring.h>
 
@@ -32,8 +33,6 @@
 
 namespace valgrind
 {
-
-static const int rightAlign = int(Qt::AlignRight | Qt::AlignVCenter);
 
 void addValues(const QStringList& stringValues, QVector<int>& intValues)
 {
@@ -244,34 +243,13 @@ int CallgrindModel::columnCount(const QModelIndex&) const
     return 4;
 }
 
-QString CallgrindModel::displayValue(int value) const
-{
-    QString result = QString::number(value);
-    int length = result.length();
-
-    for (int i = 0; i < (length / 3); ++i) {
-        int pos = result.length() - (4 * i + 3);
-        if (!pos) {
-            break;
-        }
-        result.insert(pos, ' ');
-    }
-
-    return result;
-}
-
-QString CallgrindModel::displayValue(double value) const
-{
-    return QString::number(value, 'f', 2);
-}
-
 QString CallgrindModel::displayValue(int eventIntValue, int eventType) const
 {
     if (m_percentageValues) {
-        return displayValue(eventIntValue * 100.0 / m_eventTotals[eventType]);
+        return valgrind::displayValue(eventIntValue * 100.0 / m_eventTotals[eventType]);
     }
 
-    return displayValue(eventIntValue);
+    return valgrind::displayValue(eventIntValue);
 }
 
 
@@ -507,7 +485,7 @@ QVariant FunctionCallersCalleesModel::data(const QModelIndex& index, int role) c
         }
 
         if (role == Qt::DisplayRole) {
-            return m_baseModel->displayValue(perCallValue);
+            return displayValue(perCallValue);
         }
     }
 

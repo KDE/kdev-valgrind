@@ -25,6 +25,7 @@
 
 #include "debug.h"
 #include "generic/events.h"
+#include "generic/model.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
@@ -83,6 +84,13 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    if (role == Qt::TextAlignmentRole &&
+        index.column() != 0 &&
+        index.column() != (columnCount() - 1)) {
+
+        return rightAlign;
+    }
+
     if (role == Qt::DisplayRole) {
         if (index.column() == 0) {
             return item->callName;
@@ -93,7 +101,7 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
         }
 
         QString event = m_eventList[index.column() - 1];
-        return item->eventValues[event];
+        return displayValue(item->eventValues[event].toInt());
     }
 
     if (role == Qt::FontRole) {
