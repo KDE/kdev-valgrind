@@ -100,7 +100,17 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
         eventsModel->setFunction(function);
         callersModel->setFunction(function);
         calleesModel->setFunction(function);
+
+        if (function) {
+            ui->binaryLabel->setText(function->binaryFile);
+            ui->sourceLabel->setText(function->sourceFile);
+        } else {
+            ui->binaryLabel->clear();
+            ui->sourceLabel->clear();
+        }
     });
+    ui->binaryLabel->clear();
+    ui->sourceLabel->clear();
 
     if (functionsProxyModel->rowCount()) {
         ui->functionsView->setCurrentIndex(functionsProxyModel->index(0,0));

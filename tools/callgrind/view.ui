@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>997</width>
-    <height>583</height>
+    <height>573</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -93,50 +93,8 @@
      </widget>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="information">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <attribute name="title">
-        <string>Information</string>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QTreeView" name="informationView">
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="rootIsDecorated">
-             <bool>false</bool>
-            </property>
-            <property name="headerHidden">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="events">
        <attribute name="title">
         <string>Events</string>
@@ -227,6 +185,88 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="location">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <attribute name="title">
+        <string>Location</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="binaryTitle">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Binary file:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="binaryLabel">
+          <property name="text">
+           <string notr="true">lib.so</string>
+          </property>
+          <property name="openExternalLinks">
+           <bool>false</bool>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="emptyLabel">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="sourceTitle">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Source file(s):</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="sourceLabel">
+          <property name="text">
+           <string notr="true">file.c</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>337</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>
@@ -238,7 +278,6 @@
   <tabstop>percenageValues</tabstop>
   <tabstop>functionsView</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>informationView</tabstop>
   <tabstop>eventsView</tabstop>
   <tabstop>callersView</tabstop>
   <tabstop>calleesView</tabstop>
