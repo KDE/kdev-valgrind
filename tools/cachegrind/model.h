@@ -30,12 +30,10 @@ namespace valgrind
 
 struct CachegrindItem
 {
-    QMap<QString, QVariant> eventValues;
-
     QString callName;
     QString fileName;
 
-    bool isProgramTotal = false;
+    QList<int> eventValues;
 };
 
 class CachegrindModel : public QAbstractTableModel
@@ -45,7 +43,7 @@ public:
     ~CachegrindModel() override;
 
     void setEventsList(const QStringList& events);
-    void addItem(CachegrindItem* item);
+    void addItem(CachegrindItem* item, bool isTotal = false);
 
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
@@ -57,6 +55,8 @@ public:
 
 private:
     QList<CachegrindItem*> m_items;
+    CachegrindItem* m_totalItem;
+
     QStringList m_eventList;
 };
 

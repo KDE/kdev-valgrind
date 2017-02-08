@@ -37,6 +37,7 @@ namespace valgrind
 
 CachegrindModel::CachegrindModel(QObject* parent)
     : QAbstractTableModel(parent)
+    , m_totalItem(nullptr)
 {
 }
 
@@ -45,11 +46,13 @@ CachegrindModel::~CachegrindModel()
     qDeleteAll(m_items);
 }
 
-void CachegrindModel::addItem(CachegrindItem* item)
+void CachegrindModel::addItem(CachegrindItem* item, bool isTotal)
 {
     Q_ASSERT(item);
-    if (item) {
-        m_items.append(item);
+    m_items.append(item);
+
+    if (isTotal) {
+        m_totalItem = item;
     }
 }
 
@@ -79,36 +82,32 @@ int CachegrindModel::columnCount(const QModelIndex&) const
 
 QVariant CachegrindModel::data(const QModelIndex& index, int role) const
 {
-    auto item = static_cast<CachegrindItem*>(index.internalPointer());
-    if (!item) {
+    if (!index.isValid()) {
         return QVariant();
     }
 
-    if (role == Qt::TextAlignmentRole &&
-        index.column() != 0 &&
-        index.column() != (columnCount() - 1)) {
+    auto item = static_cast<CachegrindItem*>(index.internalPointer());
+    int column = index.column();
 
+    if (role == Qt::TextAlignmentRole && column != 0 && column != (columnCount() - 1)) {
         return rightAlign;
     }
 
     if (role == Qt::DisplayRole) {
-        if (index.column() == 0) {
+        if (column == 0) {
             return item->callName;
         }
 
-        if (index.column() == (columnCount() - 1)) {
+        if (column == (columnCount() - 1)) {
             return item->fileName;
         }
 
-        QString event = m_eventList[index.column() - 1];
-        return displayValue(item->eventValues[event].toInt());
+        return displayValue(item->eventValues.at(column - 1));
     }
 
-    if (role == Qt::FontRole) {
+    if (role == Qt::FontRole && item == m_totalItem) {
         QFont f = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        if (item->isProgramTotal) {
-            f.setBold(true);
-        }
+        f.setBold(true);
         return f;
     }
 

@@ -50,13 +50,11 @@ void CachegrindParser::parseCachegrindItem(const QString& line, bool programTota
     QStringList lineEventList = line.split(QChar(' '), QString::SkipEmptyParts);
     Q_ASSERT(lineEventList.size() >= m_eventsList.size());
 
-    foreach(const QString& event, m_eventsList) {
-        item->eventValues[event] = lineEventList.first().remove(",").toInt();
-        lineEventList.removeFirst();
+    for (int i = 0; i < m_eventsList.size(); ++i) {
+        item->eventValues += lineEventList.takeFirst().remove(",").toInt();
     }
 
     if (programTotal) {
-        item->isProgramTotal = true;
         item->callName = i18n("Program Totals");
     }
 
@@ -72,7 +70,7 @@ void CachegrindParser::parseCachegrindItem(const QString& line, bool programTota
         }
     }
 
-    m_model->addItem(item);
+    m_model->addItem(item, programTotal);
 }
 
 enum CachegrindParserState
