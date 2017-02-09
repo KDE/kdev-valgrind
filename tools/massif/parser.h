@@ -26,13 +26,18 @@
 namespace valgrind
 {
 
-class MassifModel;
+namespace Massif
+{
+
+class SnapshotsModel;
 
 namespace MassifParser
 {
 
-void parse(const QString& fileName, MassifModel* model);
+void parse(const QString& fileName, SnapshotsModel* model);
 
 };
+
+}
 
 }

@@ -38,20 +38,24 @@
 
 namespace valgrind
 {
-MassifJob::MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+
+namespace Massif
+{
+
+Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : GenericJob(cfg, QStringLiteral("massif"), true, plugin, parent)
-    , m_model(new MassifModel)
+    , m_model(new SnapshotsModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
 {
 }
 
-MassifJob::~MassifJob()
+Job::~Job()
 {
 }
 
-bool MassifJob::processEnded()
+bool Job::processEnded()
 {
-    MassifSettings settings(config);
+    Settings settings(config);
 
     MassifParser::parse(m_outputFile, m_model);
     if (settings.launchVisualizer()) {
@@ -64,9 +68,9 @@ bool MassifJob::processEnded()
     return true;
 }
 
-void MassifJob::addToolArgs(QStringList& args) const
+void Job::addToolArgs(QStringList& args) const
 {
-    MassifSettings settings(config);
+    Settings settings(config);
 
     int tu = settings.timeUnit();
     if (tu == 0) {
@@ -93,9 +97,11 @@ void MassifJob::addToolArgs(QStringList& args) const
     args += QStringLiteral("--stacks=") + argValue(settings.profileStack());
 }
 
-QWidget* MassifJob::createView()
+QWidget* Job::createView()
 {
-    return new MassifView(m_model);
+    return new View(m_model);
+}
+
 }
 
 }

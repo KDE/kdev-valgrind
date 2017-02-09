@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>valgrind::MassifConfig</class>
- <widget class="QWidget" name="valgrind::MassifConfig">
+ <class>valgrind::Massif::ConfigPage</class>
+ <widget class="QWidget" name="valgrind::Massif::ConfigPage">
   <property name="geometry">
    <rect>
     <x>0</x>

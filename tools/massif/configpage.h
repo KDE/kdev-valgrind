@@ -25,19 +25,22 @@
 namespace valgrind
 {
 
+namespace Massif
+{
+
 namespace Ui
 {
 
-class MassifConfig;
+class ConfigPage;
 
 }
 
-class MassifConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
-    explicit MassifConfigPage(QWidget* parent = nullptr);
+    explicit ConfigPage(QWidget* parent = nullptr);
 
     QString title() const override;
     QIcon icon() const override;
@@ -46,16 +49,18 @@ public:
     void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::MassifConfig* ui;
+    Ui::ConfigPage* ui;
 };
 
-class MassifConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    MassifConfigPageFactory();
-    ~MassifConfigPageFactory() override;
+    ConfigPageFactory();
+    ~ConfigPageFactory() override;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
+
+}
 
 }

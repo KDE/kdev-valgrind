@@ -32,17 +32,20 @@
 namespace valgrind
 {
 
-MassifModel::MassifModel(QObject* parent)
+namespace Massif
+{
+
+SnapshotsModel::SnapshotsModel(QObject* parent)
     : QAbstractTableModel(parent)
 {
 }
 
-MassifModel::~MassifModel()
+SnapshotsModel::~SnapshotsModel()
 {
     qDeleteAll(m_snapshots);
 }
 
-void MassifModel::addSnapshot(MassifSnapshot* snapshot)
+void SnapshotsModel::addSnapshot(Snapshot* snapshot)
 {
     Q_ASSERT(snapshot);
     if (snapshot) {
@@ -50,7 +53,7 @@ void MassifModel::addSnapshot(MassifSnapshot* snapshot)
     }
 }
 
-QModelIndex MassifModel::index(int row, int column, const QModelIndex&) const
+QModelIndex SnapshotsModel::index(int row, int column, const QModelIndex&) const
 {
     if (row >= 0 && row < rowCount() && column >= 0 && column < columnCount()) {
         return createIndex(row, column, m_snapshots.at(row));
@@ -59,12 +62,12 @@ QModelIndex MassifModel::index(int row, int column, const QModelIndex&) const
     return QModelIndex();
 }
 
-int MassifModel::rowCount(const QModelIndex&) const
+int SnapshotsModel::rowCount(const QModelIndex&) const
 {
     return m_snapshots.size();
 }
 
-int MassifModel::columnCount(const QModelIndex&) const
+int SnapshotsModel::columnCount(const QModelIndex&) const
 {
     return 5;
 }
@@ -89,15 +92,15 @@ QString humanSize(int byteSize)
     return QStringLiteral("%1 %2").arg(size, 0, 'f', 1).arg(unit);
 }
 
-QVariant MassifModel::data(const QModelIndex& index, int role) const
+QVariant SnapshotsModel::data(const QModelIndex& index, int role) const
 {
-    auto snapshot = static_cast<MassifSnapshot*>(index.internalPointer());
+    auto snapshot = static_cast<Snapshot*>(index.internalPointer());
     if (!snapshot) {
         return QVariant();
     }
 
     if (role == Qt::DisplayRole) {
-        if (index.column() <= MassifSnapshot::Time) {
+        if (index.column() <= Snapshot::Time) {
             return snapshot->values[index.column()];
         }
 
@@ -115,32 +118,34 @@ QVariant MassifModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-QVariant MassifModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant SnapshotsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation)
 
     if (role == Qt::DisplayRole) {
         switch (section) {
 
-        case MassifSnapshot::Snapshot:
+        case Snapshot::SnapshotId:
             return i18n("Snapshot");
 
-        case MassifSnapshot::Time:
+        case Snapshot::Time:
             return i18n("Time");
 
-        case MassifSnapshot::Heap:
+        case Snapshot::Heap:
             return i18n("Heap");
 
-        case MassifSnapshot::HeapExtra:
+        case Snapshot::HeapExtra:
             return i18n("Heap (extra)");
 
-        case MassifSnapshot::Stack:
+        case Snapshot::Stack:
             return i18n("Stack");
 
         }
     }
 
     return QVariant();
+}
+
 }
 
 }

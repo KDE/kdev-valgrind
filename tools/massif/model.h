@@ -27,13 +27,16 @@
 namespace valgrind
 {
 
-class MassifSnapshot;
+namespace Massif
+{
 
-class MassifModel : public QAbstractTableModel
+class Snapshot;
+
+class SnapshotsModel : public QAbstractTableModel
 {
 public:
-    explicit MassifModel(QObject* parent = nullptr);
-    ~MassifModel() override;
+    explicit SnapshotsModel(QObject* parent = nullptr);
+    ~SnapshotsModel() override;
 
     QModelIndex index(int, int, const QModelIndex& parent = QModelIndex()) const override;
 
@@ -43,10 +46,12 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    void addSnapshot(MassifSnapshot* snapshot);
+    void addSnapshot(Snapshot* snapshot);
 
 private:
-    QList<MassifSnapshot*> m_snapshots;
+    QList<Snapshot*> m_snapshots;
 };
+
+}
 
 }

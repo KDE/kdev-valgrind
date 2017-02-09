@@ -29,44 +29,47 @@
 namespace valgrind
 {
 
-MassifConfigPage::MassifConfigPage(QWidget* parent)
+namespace Massif
+{
+
+ConfigPage::ConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::MassifConfig();
+    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &MassifConfigPage::changed);
-    connect(ui->launchMassifVisualizer, &QCheckBox::toggled, this, &MassifConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
+    connect(ui->launchMassifVisualizer, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->depth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &MassifConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->threshold, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &MassifConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->peakInaccuracy, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &MassifConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->maxSnapshots, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &MassifConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->snapshotFreq, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &MassifConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->timeUnit, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &MassifConfigPage::changed);
-    connect(ui->profileHeap, &QCheckBox::toggled, this, &MassifConfigPage::changed);
-    connect(ui->profileStack, &QCheckBox::toggled, this, &MassifConfigPage::changed);
+            this, &ConfigPage::changed);
+    connect(ui->profileHeap, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->profileStack, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
 
-QString MassifConfigPage::title() const
+QString ConfigPage::title() const
 {
     return i18n("Massif");
 }
 
-QIcon MassifConfigPage::icon() const
+QIcon ConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    MassifSettings settings(cfg);
+    Settings settings(cfg);
 
     ui->extraParameters->setText(settings.extraParameters());
     ui->depth->setValue(settings.snapshotTreeDepth());
@@ -80,9 +83,9 @@ void MassifConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::
     ui->launchMassifVisualizer->setChecked(settings.launchVisualizer());
 }
 
-void MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    MassifSettings settings(cfg);
+    Settings settings(cfg);
 
     settings.setExtraParameters(ui->extraParameters->text());
     settings.setSnapshotTreeDepth(ui->depth->value());
@@ -96,17 +99,19 @@ void MassifConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*
     settings.setLaunchVisualizer(ui->launchMassifVisualizer->isChecked());
 }
 
-MassifConfigPageFactory::MassifConfigPageFactory()
+ConfigPageFactory::ConfigPageFactory()
 {
 }
 
-MassifConfigPageFactory::~MassifConfigPageFactory()
+ConfigPageFactory::~ConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* MassifConfigPageFactory::createWidget(QWidget* parent)
+KDevelop::LaunchConfigurationPage* ConfigPageFactory::createWidget(QWidget* parent)
 {
-    return new MassifConfigPage(parent);
+    return new ConfigPage(parent);
+}
+
 }
 
 }

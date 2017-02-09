@@ -24,114 +24,119 @@
 namespace valgrind
 {
 
-MassifSettings::MassifSettings(const KConfigGroup& config)
+namespace Massif
+{
+
+Settings::Settings(const KConfigGroup& config)
     : m_config(config)
 {
 }
 
-QString MassifSettings::extraParameters() const
+QString Settings::extraParameters() const
 {
     return m_config.readEntry(QStringLiteral("Massif Extra Parameters"), QString{});
 }
 
-void MassifSettings::setExtraParameters(const QString& parameters)
+void Settings::setExtraParameters(const QString& parameters)
 {
     m_config.writeEntry(QStringLiteral("Massif Extra Parameters"), parameters);
 }
 
-int MassifSettings::snapshotTreeDepth() const
+int Settings::snapshotTreeDepth() const
 {
     return m_config.readEntry(QStringLiteral("Massif Snapshot Tree Depth"), 30);
 }
 
-void MassifSettings::setSnapshotTreeDepth(int depth)
+void Settings::setSnapshotTreeDepth(int depth)
 {
     m_config.writeEntry(QStringLiteral("Massif Snapshot Tree Depth"), depth);
 }
 
-int MassifSettings::threshold() const
+int Settings::threshold() const
 {
     return m_config.readEntry(QStringLiteral("Massif Threshold"), 1);
 }
 
-void MassifSettings::setThreshold(int threshold)
+void Settings::setThreshold(int threshold)
 {
     m_config.writeEntry(QStringLiteral("Massif Threshold"), threshold);
 }
 
-int MassifSettings::peakInaccuracy() const
+int Settings::peakInaccuracy() const
 {
     return m_config.readEntry(QStringLiteral("Massif Peak Inaccuracy"), 1);
 }
 
-void MassifSettings::setPeakInaccuracy(int inaccuracy)
+void Settings::setPeakInaccuracy(int inaccuracy)
 {
     m_config.writeEntry(QStringLiteral("Massif Peak Inaccuracy"), inaccuracy);
 }
 
-int MassifSettings::maximumSnapshots() const
+int Settings::maximumSnapshots() const
 {
     return m_config.readEntry(QStringLiteral("Massif Maximum Snapshots"), 100);
 }
 
-void MassifSettings::setMaximumSnapshots(int maximum)
+void Settings::setMaximumSnapshots(int maximum)
 {
     m_config.writeEntry(QStringLiteral("Massif Maximum Snapshots"), maximum);
 }
 
-int MassifSettings::detailedSnapshotsFrequency() const
+int Settings::detailedSnapshotsFrequency() const
 {
     return m_config.readEntry(QStringLiteral("Massif Detailed Snapshots Frequency"), 10);
 }
 
-void MassifSettings::setDetailedSnapshotsFrequency(int frequency)
+void Settings::setDetailedSnapshotsFrequency(int frequency)
 {
     m_config.writeEntry(QStringLiteral("Massif Detailed Snapshots Frequency"), frequency);
 }
 
-int MassifSettings::timeUnit() const
+int Settings::timeUnit() const
 {
     return m_config.readEntry(QStringLiteral("Massif Time Unit"), 0);
 }
 
-void MassifSettings::setTimeUnit(int unit)
+void Settings::setTimeUnit(int unit)
 {
     m_config.writeEntry(QStringLiteral("Massif Time Unit"), unit);
 }
 
-bool MassifSettings::profileHeap() const
+bool Settings::profileHeap() const
 {
     return m_config.readEntry(QStringLiteral("Massif Profile Heap"), true);
 }
 
-void MassifSettings::setProfileHeap(bool value)
+void Settings::setProfileHeap(bool value)
 {
     m_config.writeEntry(QStringLiteral("Massif Profile Heap"), value);
 }
 
-bool MassifSettings::profileStack() const
+bool Settings::profileStack() const
 {
     return m_config.readEntry(QStringLiteral("Massif Profile Stack"), false);
 }
 
-void MassifSettings::setProfileStack(bool value)
+void Settings::setProfileStack(bool value)
 {
     m_config.writeEntry(QStringLiteral("Massif Profile Stack"), value);
 }
 
-bool MassifSettings::launchVisualizer() const
+bool Settings::launchVisualizer() const
 {
     return m_config.readEntry(QStringLiteral("Massif Launch Visualizer"), false);
 }
 
-void MassifSettings::setLaunchVisualizer(bool value)
+void Settings::setLaunchVisualizer(bool value)
 {
     m_config.writeEntry(QStringLiteral("Massif Launch Visualizer"), value);
 }
 
-QString MassifSettings::visualizerExecutablePath()
+QString Settings::visualizerExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::massifVisualizerExecutablePath()).toLocalFile();
+}
+
 }
 
 }

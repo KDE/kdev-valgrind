@@ -31,9 +31,12 @@
 namespace valgrind
 {
 
-MassifView::MassifView(MassifModel* model, QWidget* parent)
+namespace Massif
+{
+
+View::View(SnapshotsModel* model, QWidget* parent)
     : QWidget(parent)
-    , ui(new Ui::MassifView)
+    , ui(new Ui::View)
 {
     Q_ASSERT(model);
     model->setParent(this);
@@ -48,14 +51,16 @@ MassifView::MassifView(MassifModel* model, QWidget* parent)
 
     connect(ui->snapshotsView->selectionModel(), &QItemSelectionModel::currentChanged, this,
             [treesModel](const QModelIndex& current, const QModelIndex&) {
-        auto snapshot = static_cast<MassifSnapshot*>(current.internalPointer());
+        auto snapshot = static_cast<Snapshot*>(current.internalPointer());
         treesModel->setStringList(snapshot->heapTree);
     });
 }
 
-MassifView::~MassifView()
+View::~View()
 {
     delete ui;
+}
+
 }
 
 }

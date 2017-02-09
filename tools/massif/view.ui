@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>valgrind::MassifView</class>
- <widget class="QWidget" name="valgrind::MassifView">
+ <class>valgrind::Massif::View</class>
+ <widget class="QWidget" name="valgrind::Massif::View">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,7 +16,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="snapshotsLayout">
        <item>
         <widget class="QLabel" name="snapshotsLabel">
@@ -34,7 +34,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="treesLayout">
        <item>
         <widget class="QLabel" name="treesLabel">

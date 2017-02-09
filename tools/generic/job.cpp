@@ -61,7 +61,7 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
     }
 
     else if (toolName == QStringLiteral("massif")) {
-        return new MassifJob(cfg, plugin, parent);
+        return new Massif::Job(cfg, plugin, parent);
     }
 
     else if (toolName == QStringLiteral("cachegrind")) {

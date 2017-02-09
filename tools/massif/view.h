@@ -26,23 +26,28 @@
 namespace valgrind
 {
 
+namespace Massif
+{
+
 namespace Ui
 {
 
-class MassifView;
+class View;
 
 }
 
-class MassifModel;
+class SnapshotsModel;
 
-class MassifView : public QWidget
+class View : public QWidget
 {
 public:
-    MassifView(MassifModel* model, QWidget* parent = nullptr);
-    ~MassifView() override;
+    View(SnapshotsModel* model, QWidget* parent = nullptr);
+    ~View() override;
 
 private:
-    Ui::MassifView* ui;
+    Ui::View* ui;
 };
+
+}
 
 }

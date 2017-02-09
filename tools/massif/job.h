@@ -28,13 +28,16 @@
 namespace valgrind
 {
 
-class MassifModel;
+namespace Massif
+{
 
-class MassifJob : public GenericJob
+class SnapshotsModel;
+
+class Job : public GenericJob
 {
 public:
-    MassifJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    ~MassifJob() override;
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~Job() override;
 
     QWidget* createView() override;
 
@@ -42,8 +45,10 @@ protected:
     bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
 
-    MassifModel* m_model;
+    SnapshotsModel* m_model;
     QString m_outputFile;
 };
+
+}
 
 }

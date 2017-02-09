@@ -25,35 +25,40 @@
 namespace valgrind
 {
 
-void MassifSnapshot::setValue(const QString& columnName, const QString& value)
+namespace Massif
+{
+
+void Snapshot::setValue(const QString& columnName, const QString& value)
 {
     int column = -1;
     if (columnName == QStringLiteral("snapshot")) {
-        column = Columns::Snapshot;
+        column = SnapshotId;
     }
 
     else if (columnName == QStringLiteral("time")) {
-        column = Columns::Time;
+        column = Time;
     }
 
     else if (columnName == QStringLiteral("mem_heap_B")) {
-        column = Columns::Heap;
+        column = Heap;
     }
 
     else if (columnName == QStringLiteral("mem_heap_extra_B")) {
-        column = Columns::HeapExtra;
+        column = HeapExtra;
     }
 
     else if (columnName == QStringLiteral("mem_stacks_B")) {
-        column = Columns::Stack;
+        column = Stack;
     }
 
     if (column < 0) {
-        qCDebug(KDEV_VALGRIND) << "MassifSnapshot::setValue(); unknown column name:" << columnName;
+        qCDebug(KDEV_VALGRIND) << "Massif::Snapshot::setValue(); unknown column name:" << columnName;
         return;
     }
 
     values[column] = value;
+}
+
 }
 
 }

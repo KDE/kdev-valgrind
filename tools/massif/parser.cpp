@@ -29,14 +29,17 @@
 namespace valgrind
 {
 
+namespace Massif
+{
+
 namespace MassifParser
 {
 
-void parse(const QString& fileName, MassifModel* model)
+void parse(const QString& fileName, SnapshotsModel* model)
 {
     Q_ASSERT(model);
 
-    MassifSnapshot* snapshot;
+    Snapshot* snapshot = nullptr;
     QString line;
     QStringList keyValue;
 
@@ -59,7 +62,7 @@ void parse(const QString& fileName, MassifModel* model)
         const QString& value = keyValue.at(1);
 
         if (key == QStringLiteral("snapshot")) {
-            snapshot = new MassifSnapshot;
+            snapshot = new Snapshot;
             snapshot->setValue(key, value.trimmed());
             continue;
         }
@@ -84,6 +87,8 @@ void parse(const QString& fileName, MassifModel* model)
             model->addSnapshot(snapshot);
         }
     }
+}
+
 }
 
 }

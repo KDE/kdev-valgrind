@@ -26,11 +26,14 @@
 namespace valgrind
 {
 
-class MassifSnapshot
+namespace Massif
+{
+
+class Snapshot
 {
 public:
     enum Columns {
-        Snapshot,
+        SnapshotId,
         Time,
         Heap,
         HeapExtra,
@@ -42,5 +45,7 @@ public:
     QMap<int, QString> values;
     QStringList heapTree;
 };
+
+}
 
 }
