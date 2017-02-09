@@ -51,6 +51,7 @@ ConfigPage::ConfigPage(QWidget* parent)
 
 ConfigPage::~ConfigPage()
 {
+    delete ui;
 }
 
 QString ConfigPage::title() const

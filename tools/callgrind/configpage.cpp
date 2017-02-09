@@ -44,6 +44,11 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->callgrindAnnotateParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
 }
 
+ConfigPage::~ConfigPage()
+{
+    delete ui;
+}
+
 QString ConfigPage::title() const
 {
     return i18n("Callgrind");

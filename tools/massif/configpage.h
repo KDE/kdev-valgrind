@@ -41,6 +41,7 @@ class ConfigPage : public KDevelop::LaunchConfigurationPage
 
 public:
     explicit ConfigPage(QWidget* parent = nullptr);
+    ~ConfigPage() override;
 
     QString title() const override;
     QIcon icon() const override;

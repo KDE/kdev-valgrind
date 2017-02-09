@@ -49,6 +49,11 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
 
+ConfigPage::~ConfigPage()
+{
+    delete ui;
+}
+
 QString ConfigPage::title() const
 {
     return i18n("Memcheck");

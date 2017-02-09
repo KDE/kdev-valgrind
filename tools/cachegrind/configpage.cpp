@@ -48,6 +48,11 @@ ConfigPage::ConfigPage(QWidget *parent)
     connect(ui->branchSimulation, &QCheckBox::toggled, this, &ConfigPage::check);
 }
 
+ConfigPage::~ConfigPage()
+{
+    delete ui;
+}
+
 QString ConfigPage::title() const
 {
     return i18n("Cachegrind");
