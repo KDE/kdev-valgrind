@@ -31,7 +31,10 @@
 namespace valgrind
 {
 
-struct MemcheckFrame
+namespace Memcheck
+{
+
+struct Frame
 {
     void setValue(const QString& name, const QString& value);
 
@@ -48,34 +51,36 @@ struct MemcheckFrame
     QString file;
 };
 
-struct MemcheckStack
+struct Stack
 {
     void addFrame();
-    MemcheckFrame& lastFrame();
+    Frame& lastFrame();
 
     void setValue(const QString& name, const QString& value);
 
     KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
 
-    QList<MemcheckFrame> frames;
+    QList<Frame> frames;
 };
 
-struct MemcheckError
+struct Error
 {
     void clear();
 
     void addStack();
-    MemcheckStack& lastStack();
+    Stack& lastStack();
 
     void setValue(const QString& name, const QString& value);
 
     KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
 
-    QList<MemcheckStack> stacks;
+    QList<Stack> stacks;
 
     QString what;
     QString auxWhat;
     QString text;
 };
+
+}
 
 }

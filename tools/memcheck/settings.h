@@ -24,10 +24,13 @@
 namespace valgrind
 {
 
-class MemcheckSettings
+namespace Memcheck
+{
+
+class Settings
 {
 public:
-    explicit MemcheckSettings(const KConfigGroup& config);
+    explicit Settings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -47,5 +50,7 @@ public:
 private:
     KConfigGroup m_config;
 };
+
+}
 
 }

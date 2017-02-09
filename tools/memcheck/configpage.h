@@ -27,19 +27,22 @@
 namespace valgrind
 {
 
+namespace Memcheck
+{
+
 namespace Ui
 {
 
-class MemcheckConfig;
+class ConfigPage;
 
 }
 
-class MemcheckConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
-    explicit MemcheckConfigPage(QWidget* parent = nullptr);
+    explicit ConfigPage(QWidget* parent = nullptr);
 
     QString title() const override;
     QIcon icon() const override;
@@ -48,16 +51,18 @@ public:
     void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::MemcheckConfig* ui;
+    Ui::ConfigPage* ui;
 };
 
-class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    MemcheckConfigPageFactory();
-    ~MemcheckConfigPageFactory() override;
+    ConfigPageFactory();
+    ~ConfigPageFactory() override;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
+
+}
 
 }

@@ -22,59 +22,64 @@
 namespace valgrind
 {
 
-MemcheckSettings::MemcheckSettings(const KConfigGroup& config)
+namespace Memcheck
+{
+
+Settings::Settings(const KConfigGroup& config)
     : m_config(config)
 {
 }
 
-QString MemcheckSettings::extraParameters() const
+QString Settings::extraParameters() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Extra Parameters"), QString{});
 }
 
-void MemcheckSettings::setExtraParameters(const QString& parameters)
+void Settings::setExtraParameters(const QString& parameters)
 {
     m_config.writeEntry(QStringLiteral("Memcheck Extra Parameters"), parameters);
 }
 
-int MemcheckSettings::freeListSize() const
+int Settings::freeListSize() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Freelist Size"), 10000000);
 }
 
-void MemcheckSettings::setFreeListSize(int size)
+void Settings::setFreeListSize(int size)
 {
     m_config.writeEntry(QStringLiteral("Memcheck Freelist Size"), size);
 }
 
-bool MemcheckSettings::showReachable() const
+bool Settings::showReachable() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Show Reachable"), true);
 }
 
-void MemcheckSettings::setShowReachable(bool value)
+void Settings::setShowReachable(bool value)
 {
     m_config.writeEntry(QStringLiteral("Memcheck Show Reachable"), value);
 }
 
-bool MemcheckSettings::undefValueErrors() const
+bool Settings::undefValueErrors() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Undef Value Errors"), true);
 }
 
-void MemcheckSettings::setUndefValueErrors(bool value)
+void Settings::setUndefValueErrors(bool value)
 {
     m_config.writeEntry(QStringLiteral("Memcheck Undef Value Errors"), value);
 }
 
-bool MemcheckSettings::showInstructionPointer() const
+bool Settings::showInstructionPointer() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Show Instruction Pointer"), false);
 }
 
-void MemcheckSettings::setShowInstructionPointer(bool value)
+void Settings::setShowInstructionPointer(bool value)
 {
     m_config.writeEntry(QStringLiteral("Memcheck Show Instruction Pointer"), value);
+}
+
 }
 
 }

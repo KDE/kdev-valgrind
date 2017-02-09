@@ -31,35 +31,38 @@
 namespace valgrind
 {
 
-MemcheckConfigPage::MemcheckConfigPage(QWidget* parent)
+namespace Memcheck
+{
+
+ConfigPage::ConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::MemcheckConfig();
+    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &MemcheckConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
     connect(ui->freeListSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &MemcheckConfigPage::changed);
+            this, &ConfigPage::changed);
 
-    connect(ui->showReachable, &QCheckBox::toggled, this, &MemcheckConfigPage::changed);
-    connect(ui->undefValueErrors, &QCheckBox::toggled, this, &MemcheckConfigPage::changed);
-    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &MemcheckConfigPage::changed);
+    connect(ui->showReachable, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->undefValueErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
 
-QString MemcheckConfigPage::title() const
+QString ConfigPage::title() const
 {
     return i18n("Memcheck");
 }
 
-QIcon MemcheckConfigPage::icon() const
+QIcon ConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    MemcheckSettings settings(cfg);
+    Settings settings(cfg);
 
     ui->extraParameters->setText(settings.extraParameters());
     ui->freeListSize->setValue(settings.freeListSize());
@@ -69,9 +72,9 @@ void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop
     ui->showInstructionPointer->setChecked(settings.showInstructionPointer());
 }
 
-void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    MemcheckSettings settings(cfg);
+    Settings settings(cfg);
 
     settings.setExtraParameters(ui->extraParameters->text());
     settings.setFreeListSize(ui->freeListSize->value());
@@ -81,17 +84,19 @@ void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProjec
     settings.setShowInstructionPointer(ui->showInstructionPointer->isChecked());
 }
 
-MemcheckConfigPageFactory::MemcheckConfigPageFactory()
+ConfigPageFactory::ConfigPageFactory()
 {
 }
 
-MemcheckConfigPageFactory::~MemcheckConfigPageFactory()
+ConfigPageFactory::~ConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget* parent)
+KDevelop::LaunchConfigurationPage* ConfigPageFactory::createWidget(QWidget* parent)
 {
-    return new MemcheckConfigPage(parent);
+    return new ConfigPage(parent);
+}
+
 }
 
 }

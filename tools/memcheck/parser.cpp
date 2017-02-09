@@ -35,24 +35,27 @@
 namespace valgrind
 {
 
-MemcheckParser::MemcheckParser()
-    : m_error(new MemcheckError)
+namespace Memcheck
+{
+
+Parser::Parser()
+    : m_error(new Memcheck::Error)
 {
 }
 
-MemcheckParser::~MemcheckParser()
+Parser::~Parser()
 {
     delete m_error;
 }
 
-void MemcheckParser::clear()
+void Parser::clear()
 {
     m_stateStack.clear();
     m_name.clear();
     m_value.clear();
 }
 
-void MemcheckParser::startElement()
+void Parser::startElement()
 {
     State newState = Unknown;
 
@@ -92,7 +95,7 @@ void MemcheckParser::startElement()
     return;
 }
 
-void MemcheckParser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showInstructionPointer)
+void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showInstructionPointer)
 {
     State state = m_stateStack.pop();
 
@@ -119,7 +122,7 @@ void MemcheckParser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool
     }
 }
 
-QVector<KDevelop::IProblem::Ptr> MemcheckParser::parse(bool showInstructionPointer)
+QVector<KDevelop::IProblem::Ptr> Parser::parse(bool showInstructionPointer)
 {
     QVector<KDevelop::IProblem::Ptr> problems;
 
@@ -171,6 +174,8 @@ QVector<KDevelop::IProblem::Ptr> MemcheckParser::parse(bool showInstructionPoint
     }
 
     return problems;
+}
+
 }
 
 }

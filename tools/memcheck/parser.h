@@ -31,13 +31,16 @@
 namespace valgrind
 {
 
-struct MemcheckError;
+namespace Memcheck
+{
 
-class MemcheckParser : public QXmlStreamReader
+struct Error;
+
+class Parser : public QXmlStreamReader
 {
 public:
-    MemcheckParser();
-    virtual ~MemcheckParser();
+    Parser();
+    virtual ~Parser();
 
     QVector<KDevelop::IProblem::Ptr> parse(bool showInstructionPointer);
 
@@ -63,7 +66,9 @@ private:
     QString m_name;
     QString m_value;
 
-    MemcheckError* m_error;
+    Memcheck::Error* m_error;
 };
+
+}
 
 }

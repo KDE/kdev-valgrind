@@ -66,7 +66,7 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
     Q_ASSERT(mode);
 
     m_factories += new GenericConfigPageFactory;
-    m_factories += new MemcheckConfigPageFactory;
+    m_factories += new Memcheck::ConfigPageFactory;
     m_factories += new MassifConfigPageFactory;
     m_factories += new CachegrindConfigPageFactory;
     m_factories += new CallgrindConfigPageFactory;

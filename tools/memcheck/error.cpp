@@ -31,15 +31,18 @@
 namespace valgrind
 {
 
-struct ValgrindProblem : public KDevelop::DetectedProblem
+struct Problem : public KDevelop::DetectedProblem
 {
-    ~ValgrindProblem() override {}
+    ~Problem() override {}
 
     KDevelop::IProblem::Source source() const override { return KDevelop::IProblem::Plugin; }
     QString sourceString() const override { return QStringLiteral("Valgrind"); };
 };
 
-void MemcheckFrame::setValue(const QString& name, const QString& value)
+namespace Memcheck
+{
+
+void Frame::setValue(const QString& name, const QString& value)
 {
     if (name == "ip") {
         instructionPointer = value;
@@ -66,9 +69,9 @@ void MemcheckFrame::setValue(const QString& name, const QString& value)
     }
 }
 
-KDevelop::IProblem::Ptr MemcheckFrame::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr Frame::toIProblem(bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr frameProblem(new ValgrindProblem);
+    KDevelop::IProblem::Ptr frameProblem(new Problem);
 
     KDevelop::DocumentRange range;
     range.setBothLines(line - 1);
@@ -92,18 +95,18 @@ KDevelop::IProblem::Ptr MemcheckFrame::toIProblem(bool showInstructionPointer) c
     return frameProblem;
 }
 
-void MemcheckStack::addFrame()
+void Stack::addFrame()
 {
-    frames.append(MemcheckFrame{});
+    frames.append(Frame{});
 }
 
-MemcheckFrame& MemcheckStack::lastFrame()
+Frame& Stack::lastFrame()
 {
     Q_ASSERT(frames.count());
     return frames.last();
 }
 
-void MemcheckStack::setValue(const QString& name, const QString& value)
+void Stack::setValue(const QString& name, const QString& value)
 {
     Q_UNUSED(value)
 
@@ -112,12 +115,12 @@ void MemcheckStack::setValue(const QString& name, const QString& value)
     }
 }
 
-KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr Stack::toIProblem(bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr stackProblem(new ValgrindProblem);
+    KDevelop::IProblem::Ptr stackProblem(new Problem);
 
     KDevelop::DocumentRange range(KDevelop::DocumentRange::invalid());
-    foreach (const MemcheckFrame& frame, frames) {
+    foreach (const Frame& frame, frames) {
         auto frameProblem = frame.toIProblem(showInstructionPointer);
         stackProblem->addDiagnostic(frameProblem);
 
@@ -132,7 +135,7 @@ KDevelop::IProblem::Ptr MemcheckStack::toIProblem(bool showInstructionPointer) c
     return stackProblem;
 }
 
-void MemcheckError::clear()
+void Error::clear()
 {
     what.clear();
     auxWhat.clear();
@@ -140,18 +143,18 @@ void MemcheckError::clear()
     stacks.clear();
 }
 
-void MemcheckError::addStack()
+void Error::addStack()
 {
-    stacks.append(MemcheckStack{});
+    stacks.append(Stack{});
 }
 
-MemcheckStack& MemcheckError::lastStack()
+Stack& Error::lastStack()
 {
     Q_ASSERT(stacks.count());
     return stacks.last();
 }
 
-void MemcheckError::setValue(const QString& name, const QString& value)
+void Error::setValue(const QString& name, const QString& value)
 {
     if (name == "what") {
         this->what = value;
@@ -166,9 +169,9 @@ void MemcheckError::setValue(const QString& name, const QString& value)
     }
 }
 
-KDevelop::IProblem::Ptr MemcheckError::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr problem(new ValgrindProblem);
+    KDevelop::IProblem::Ptr problem(new Problem);
 
     if (what.isEmpty()) {
         problem->setDescription(text);
@@ -177,7 +180,7 @@ KDevelop::IProblem::Ptr MemcheckError::toIProblem(bool showInstructionPointer) c
     }
 
     // Add the stacks
-    foreach (const MemcheckStack& stack, stacks) {
+    foreach (const Stack& stack, stacks) {
         problem->addDiagnostic(stack.toIProblem(showInstructionPointer));
     }
 
@@ -200,6 +203,8 @@ KDevelop::IProblem::Ptr MemcheckError::toIProblem(bool showInstructionPointer) c
     }
 
     return problem;
+}
+
 }
 
 }

@@ -28,13 +28,16 @@
 namespace valgrind
 {
 
-class MemcheckJob : public GenericJob
+namespace Memcheck
+{
+
+class Job : public GenericJob
 {
     Q_OBJECT
 
 public:
-    MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    ~MemcheckJob() override;
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~Job() override;
 
     QWidget* createView() override;
 
@@ -46,5 +49,7 @@ protected:
 
     QStringList m_xmlOutput;
 };
+
+}
 
 }

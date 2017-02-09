@@ -42,16 +42,19 @@
 namespace valgrind
 {
 
-MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+namespace Memcheck
+{
+
+Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : GenericJob(cfg, QStringLiteral("memcheck"), false, plugin, parent)
 {
 }
 
-MemcheckJob::~MemcheckJob()
+Job::~Job()
 {
 }
 
-void MemcheckJob::postProcessStderr(const QStringList& lines)
+void Job::postProcessStderr(const QStringList& lines)
 {
     static const auto xmlStartRegex = QRegularExpression("\\s*<");
 
@@ -70,24 +73,19 @@ void MemcheckJob::postProcessStderr(const QStringList& lines)
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
-bool MemcheckJob::processEnded()
+bool Job::processEnded()
 {
-//     auto problemModelSet = KDevelop::ICore::self()->languageController()->problemModelSet();
-//     auto problemModel = problemModelSet->findModel(QStringLiteral("Valgrind"));
-
-    MemcheckParser parser;
+    Parser parser;
     parser.addData(m_xmlOutput.join(" "));
 
-    m_plugin->problemModel()->setProblems(parser.parse(MemcheckSettings(config).showInstructionPointer()));
-//     problemModel->clearProblems();
-//     problemModel->
+    m_plugin->problemModel()->setProblems(parser.parse(Settings(config).showInstructionPointer()));
 
     return true;
 }
 
-void MemcheckJob::addToolArgs(QStringList& args) const
+void Job::addToolArgs(QStringList& args) const
 {
-    MemcheckSettings settings(config);
+    Settings settings(config);
 
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
@@ -98,9 +96,11 @@ void MemcheckJob::addToolArgs(QStringList& args) const
     args += QStringLiteral("--show-reachable=") + argValue(settings.showReachable());
 }
 
-QWidget* MemcheckJob::createView()
+QWidget* Job::createView()
 {
     return nullptr;
+}
+
 }
 
 }

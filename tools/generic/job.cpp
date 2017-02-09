@@ -57,7 +57,7 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
     const QString& toolName = valgrindTools.at(GenericSettings(cfg->config()).currentTool());
 
     if (toolName == QStringLiteral("memcheck")) {
-        return new MemcheckJob(cfg, plugin, parent);
+        return new Memcheck::Job(cfg, plugin, parent);
     }
 
     else if (toolName == QStringLiteral("massif")) {
