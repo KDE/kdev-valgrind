@@ -59,6 +59,7 @@ kdevplatform_add_plugin(kdevvalgrind
 add_subdirectory(tools/cachegrind)
 add_subdirectory(tools/callgrind)
 add_subdirectory(tools/generic)
+add_subdirectory(tools/helgrind)
 add_subdirectory(tools/massif)
 add_subdirectory(tools/memcheck)
 
@@ -73,6 +74,7 @@ target_link_libraries(kdevvalgrind
     cachegrind_tool
     callgrind_tool
     generic_tool
+    helgrind_tool
     massif_tool
     memcheck_tool
 )

@@ -32,6 +32,7 @@
 
 #include "cachegrind/job.h"
 #include "callgrind/job.h"
+#include "helgrind/job.h"
 #include "massif/job.h"
 #include "memcheck/job.h"
 
@@ -61,6 +62,10 @@ Job* Job::create(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* p
 
     if (toolName == QStringLiteral("memcheck")) {
         return new Memcheck::Job(cfg, plugin, parent);
+    }
+
+    if (toolName == QStringLiteral("helgrind")) {
+        return new Helgrind::Job(cfg, plugin, parent);
     }
 
     else if (toolName == QStringLiteral("massif")) {

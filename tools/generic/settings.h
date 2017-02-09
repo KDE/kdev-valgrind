@@ -27,7 +27,13 @@ namespace Valgrind
 namespace Generic
 {
 
-static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "callgrind" };
+static const QStringList valgrindTools{
+    QStringLiteral("memcheck"),
+    QStringLiteral("helgrind"),
+    QStringLiteral("massif"),
+    QStringLiteral("cachegrind"),
+    QStringLiteral("callgrind")
+};
 
 class Settings
 {
