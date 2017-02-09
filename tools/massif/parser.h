@@ -36,7 +36,7 @@ namespace Parser
 
 void parse(const QString& fileName, SnapshotsModel* model);
 
-};
+}
 
 }
 
