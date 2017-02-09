@@ -24,14 +24,15 @@
 
 #include "launcher.h"
 
+#include "debug.h"
+#include "plugin.h"
+
 #include "cachegrind/configpage.h"
 #include "callgrind/configpage.h"
 #include "generic/configpage.h"
 #include "generic/job.h"
 #include "massif/configpage.h"
 #include "memcheck/configpage.h"
-
-#include "debug.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -77,6 +78,8 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
 Launcher::~Launcher()
 {
     qDeleteAll(m_factories);
+
+    m_plugin->m_launcher = nullptr; // FIXME
 }
 
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)

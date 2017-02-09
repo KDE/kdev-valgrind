@@ -49,9 +49,13 @@ class Plugin : public KDevelop::IPlugin
 {
     Q_OBJECT
 
+    friend class Launcher; // FIXME
+
 public:
     Plugin(QObject* parent, const QVariantList& = QVariantList());
     ~Plugin() override;
+
+    void unload() override;
 
     int configPages() const override;
     KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;

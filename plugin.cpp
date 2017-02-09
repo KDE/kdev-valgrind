@@ -110,12 +110,24 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
 Plugin::~Plugin()
 {
+}
+
+void Plugin::unload()
+{
     core()->languageController()->problemModelSet()->removeModel(modelId);
     core()->uiController()->removeToolView(m_factory);
 
     core()->runController()->removeLaunchMode(m_launchMode);
-    m_launchConfigurationType->removeLauncher(m_launcher);
     delete m_launchMode;
+
+    // FIXME ugly hack - should be fixed in kdevplatform itself ?
+    // Launcher can by already deleted by LaunchConfigurationType class
+    if (m_launcher) {
+        m_launchConfigurationType->removeLauncher(m_launcher);
+        delete m_launcher;
+    } else {
+        qCWarning(KDEV_VALGRIND) << "Launcher was already deleted by LaunchConfigurationType class";
+    }
 }
 
 int Plugin::configPages() const
