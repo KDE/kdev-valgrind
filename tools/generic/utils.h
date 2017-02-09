@@ -24,8 +24,6 @@
 
 class QFile;
 class QProcess;
-class QUrl;
-class QWidget;
 
 namespace Valgrind
 {
@@ -51,13 +49,5 @@ private:
     QProcess* m_process;
     QString m_execPath;
 };
-
-// FIXME rename (also move from nested namespace)
-namespace StatJob
-{
-
-bool jobExists(const QUrl& url, QWidget* parent);
-
-}
 
 }

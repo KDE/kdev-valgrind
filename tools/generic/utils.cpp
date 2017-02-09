@@ -22,8 +22,6 @@
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
-#include <kio/statjob.h>
-#include <KJobWidgets>
 
 #include <QApplication>
 #include <QFile>
@@ -66,18 +64,6 @@ QFileProxyRemove::~QFileProxyRemove()
     m_file->remove();
     delete m_file;
     delete m_process;
-}
-
-namespace StatJob
-{
-
-bool jobExists(const QUrl& url, QWidget* parent)
-{
-    auto job = KIO::stat(url, KIO::StatJob::SourceSide, 0);
-    KJobWidgets::setWindow(job, parent);
-    return job->exec();
-}
-
 }
 
 }
