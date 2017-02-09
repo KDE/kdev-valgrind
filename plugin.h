@@ -68,6 +68,7 @@ private:
 
     WidgetFactory* m_factory;
     KDevelop::ProblemModel* m_problemModel;
+    QAction* m_runAction;
 };
 
 }

@@ -85,9 +85,9 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     core()->uiController()->addToolView("Valgrind", m_factory);
 
-    auto runAction = new QAction(i18n("Valgrind (Current Launch Configuration)"), this);
-    connect(runAction, &QAction::triggered, this, &Plugin::runValgrind);
-    actionCollection()->addAction("valgrind_generic", runAction);
+    m_runAction = new QAction(i18n("Valgrind (Current Launch Configuration)"), this);
+    connect(m_runAction, &QAction::triggered, this, &Plugin::runValgrind);
+    actionCollection()->addAction("valgrind_generic", m_runAction);
 
     auto mode = new LaunchMode();
     core()->runController()->addLaunchMode(mode);
@@ -143,6 +143,8 @@ KDevelop::ProblemModel* Plugin::problemModel() const
 void Plugin::jobReadyToStart(Generic::Job* job)
 {
     Q_ASSERT(job);
+    m_runAction->setEnabled(false);
+
     if (!job->hasView()) {
         m_problemModel->clearProblems();
     }
@@ -151,6 +153,8 @@ void Plugin::jobReadyToStart(Generic::Job* job)
 void Plugin::jobFinished(Generic::Job* job, bool ok)
 {
     Q_ASSERT(job);
+    m_runAction->setEnabled(true);
+
     if (!ok) {
         return;
     }

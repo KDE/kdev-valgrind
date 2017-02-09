@@ -199,6 +199,7 @@ void Job::start()
 
     qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
 
+    m_plugin->jobReadyToStart(this);
     KDevelop::OutputExecuteJob::start();
 }
 
