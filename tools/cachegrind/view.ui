@@ -41,7 +41,7 @@
      <item>
       <widget class="QCheckBox" name="percenageValues">
        <property name="text">
-        <string>Percenage values</string>
+        <string>Percentage values</string>
        </property>
        <property name="checked">
         <bool>true</bool>

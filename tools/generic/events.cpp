@@ -44,7 +44,7 @@ QString eventFullName(const QString& eventShortName)
         fullNames["DLmw"] = i18n("LL Data Write Miss");
 
         // full names are from Cachegrind manual
-        fullNames["Bc"  ] = i18n("Conditional branches executed)");
+        fullNames["Bc"  ] = i18n("Conditional branches executed");
         fullNames["Bcm" ] = i18n("Conditional branches mispredicted");
         fullNames["Bi"  ] = i18n("Indirect branches executed");
         fullNames["Bim" ] = i18n("Indirect branches mispredicted");
