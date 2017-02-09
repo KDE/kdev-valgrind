@@ -34,6 +34,9 @@
 namespace valgrind
 {
 
+namespace Callgrind
+{
+
 void addValues(const QStringList& stringValues, QVector<int>& intValues)
 {
     for (int i = 0; i < stringValues.size(); ++i) {
@@ -41,7 +44,7 @@ void addValues(const QStringList& stringValues, QVector<int>& intValues)
     }
 }
 
-CallgrindCallInformation::CallgrindCallInformation(const QStringList& stringValues)
+CallInformation::CallInformation(const QStringList& stringValues)
 {
     Q_ASSERT(!stringValues.isEmpty());
 
@@ -49,18 +52,18 @@ CallgrindCallInformation::CallgrindCallInformation(const QStringList& stringValu
     addValues(stringValues, m_eventValues);
 }
 
-int CallgrindCallInformation::eventValue(int type)
+int CallInformation::eventValue(int type)
 {
     Q_ASSERT(type < m_eventValues.size());
     return m_eventValues[type];
 }
 
-CallgrindCallFunction::CallgrindCallFunction(int eventsCount)
+Function::Function(int eventsCount)
 {
     m_eventValues.resize(eventsCount);
 }
 
-int CallgrindCallFunction::callCount()
+int Function::callCount()
 {
     int count = 0;
     foreach (auto info, callersInformation) {
@@ -69,7 +72,7 @@ int CallgrindCallFunction::callCount()
     return count;
 }
 
-int CallgrindCallFunction::eventValue(int type, bool inclusive)
+int Function::eventValue(int type, bool inclusive)
 {
     Q_ASSERT(type < m_eventValues.size());
 
@@ -97,49 +100,49 @@ int CallgrindCallFunction::eventValue(int type, bool inclusive)
     return value;
 }
 
-void CallgrindCallFunction::addEventValues(const QStringList& stringValues)
+void Function::addEventValues(const QStringList& stringValues)
 {
     Q_ASSERT(stringValues.size() == m_eventValues.size());
     addValues(stringValues, m_eventValues);
 }
 
-CallgrindModel::CallgrindModel()
+FunctionsModel::FunctionsModel()
     : m_currentEventType(0)
     , m_percentageValues(false)
 {
 }
 
-CallgrindModel::~CallgrindModel()
+FunctionsModel::~FunctionsModel()
 {
     qDeleteAll(m_functions);
     qDeleteAll(m_information);
 }
 
-const QStringList & CallgrindModel::eventTypes()
+const QStringList & FunctionsModel::eventTypes()
 {
     return m_eventTypes;
 }
 
-void CallgrindModel::setEventTypes(const QStringList& eventTypes)
+void FunctionsModel::setEventTypes(const QStringList& eventTypes)
 {
     Q_ASSERT(!eventTypes.isEmpty());
     m_eventTypes = eventTypes;
     m_eventTotals.resize(m_eventTypes.size());
 }
 
-void CallgrindModel::setEventTotals(const QStringList& stringValues)
+void FunctionsModel::setEventTotals(const QStringList& stringValues)
 {
     Q_ASSERT(stringValues.size() == m_eventTotals.size());
     addValues(stringValues, m_eventTotals);
     qDebug() << m_eventTotals;
 }
 
-int CallgrindModel::currentEventType()
+int FunctionsModel::currentEventType()
 {
     return m_currentEventType;
 }
 
-void CallgrindModel::setCurrentEventType(int type)
+void FunctionsModel::setCurrentEventType(int type)
 {
     Q_ASSERT(type < m_eventTotals.size());
 
@@ -147,13 +150,13 @@ void CallgrindModel::setCurrentEventType(int type)
     emitDataChanged(this);
 }
 
-void CallgrindModel::setPercentageValues(bool value)
+void FunctionsModel::setPercentageValues(bool value)
 {
     m_percentageValues = value;
     emitDataChanged(this);
 }
 
-CallgrindCallFunction* CallgrindModel::addFunction(
+Function* FunctionsModel::addFunction(
     const QString& name,
     const QString& sourceFile,
     const QString& binaryFile)
@@ -161,9 +164,9 @@ CallgrindCallFunction* CallgrindModel::addFunction(
     Q_ASSERT(!name.isEmpty());
     Q_ASSERT(!m_eventTypes.isEmpty());
 
-    CallgrindCallFunction* function = nullptr;
+    Function* function = nullptr;
 
-    foreach (CallgrindCallFunction* currentFunction, m_functions) {
+    foreach (Function* currentFunction, m_functions) {
         if (currentFunction->name == name && (currentFunction->binaryFile.isEmpty() ||
                                               binaryFile.isEmpty() ||
                                               currentFunction->binaryFile == binaryFile)) {
@@ -183,7 +186,7 @@ CallgrindCallFunction* CallgrindModel::addFunction(
     }
 
     else {
-        function = new CallgrindCallFunction(m_eventTypes.size());
+        function = new Function(m_eventTypes.size());
 
         function->name = name;
         function->binaryFile = binaryFile;
@@ -195,16 +198,16 @@ CallgrindCallFunction* CallgrindModel::addFunction(
     return function;
 }
 
-void CallgrindModel::addCall(
-    CallgrindCallFunction* caller,
-    CallgrindCallFunction* callee,
+void FunctionsModel::addCall(
+    Function* caller,
+    Function* callee,
     int callCount,
     const QStringList& eventValues)
 {
     Q_ASSERT(caller);
     Q_ASSERT(callee);
 
-    auto info = new CallgrindCallInformation(eventValues);
+    auto info = new CallInformation(eventValues);
     m_information.append(info);
 
     info->caller = caller;
@@ -215,7 +218,7 @@ void CallgrindModel::addCall(
     callee->callersInformation.append(info);
 }
 
-QModelIndex CallgrindModel::index(int row, int column, const QModelIndex&) const
+QModelIndex FunctionsModel::index(int row, int column, const QModelIndex&) const
 {
     if (hasIndex(row, column)) {
         return createIndex(row, column, m_functions.at(row));
@@ -224,17 +227,17 @@ QModelIndex CallgrindModel::index(int row, int column, const QModelIndex&) const
     return QModelIndex();
 }
 
-int CallgrindModel::rowCount(const QModelIndex&) const
+int FunctionsModel::rowCount(const QModelIndex&) const
 {
     return m_functions.size();
 }
 
-int CallgrindModel::columnCount(const QModelIndex&) const
+int FunctionsModel::columnCount(const QModelIndex&) const
 {
     return 4;
 }
 
-QString CallgrindModel::displayValue(int eventIntValue, int eventType) const
+QString FunctionsModel::displayValue(int eventIntValue, int eventType) const
 {
     if (m_percentageValues) {
         return valgrind::displayValue(eventIntValue * 100.0 / m_eventTotals[eventType]);
@@ -244,13 +247,13 @@ QString CallgrindModel::displayValue(int eventIntValue, int eventType) const
 }
 
 
-QVariant CallgrindModel::data(const QModelIndex& index, int role) const
+QVariant FunctionsModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
 
-    auto function = static_cast<CallgrindCallFunction*>(index.internalPointer());
+    auto function = static_cast<Function*>(index.internalPointer());
 
     if (role == Qt::TextAlignmentRole && index.column() < 3) {
         return rightAlign;
@@ -279,7 +282,7 @@ QVariant CallgrindModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-QVariant CallgrindModel::headerData(int section, Qt::Orientation, int role) const
+QVariant FunctionsModel::headerData(int section, Qt::Orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         switch (section) {
@@ -293,14 +296,14 @@ QVariant CallgrindModel::headerData(int section, Qt::Orientation, int role) cons
     return QVariant();
 }
 
-FunctionEventsModel::FunctionEventsModel(CallgrindModel* baseModel)
+FunctionEventsModel::FunctionEventsModel(FunctionsModel* baseModel)
     : QAbstractTableModel(baseModel)
     , m_baseModel(baseModel)
     , m_function(nullptr)
 {
     Q_ASSERT(m_baseModel);
 
-    connect(m_baseModel, &CallgrindModel::dataChanged,
+    connect(m_baseModel, &FunctionsModel::dataChanged,
             this, [this](const QModelIndex&, const QModelIndex&, const QVector<int>&) {
 
         emitDataChanged(this);
@@ -311,7 +314,7 @@ FunctionEventsModel::~FunctionEventsModel()
 {
 }
 
-void FunctionEventsModel::setFunction(CallgrindCallFunction* function)
+void FunctionEventsModel::setFunction(Function* function)
 {
     m_function = function;
     emitDataChanged(this);
@@ -386,7 +389,7 @@ QVariant FunctionEventsModel::headerData(int section, Qt::Orientation, int role)
     return QVariant();
 }
 
-FunctionCallersCalleesModel::FunctionCallersCalleesModel(CallgrindModel* baseModel, bool isCallerModel)
+FunctionCallersCalleesModel::FunctionCallersCalleesModel(FunctionsModel* baseModel, bool isCallerModel)
     : QAbstractTableModel(baseModel)
     , m_baseModel(baseModel)
     , m_isCallerModel(isCallerModel)
@@ -394,7 +397,7 @@ FunctionCallersCalleesModel::FunctionCallersCalleesModel(CallgrindModel* baseMod
 {
     Q_ASSERT(m_baseModel);
 
-    connect(m_baseModel, &CallgrindModel::dataChanged,
+    connect(m_baseModel, &FunctionsModel::dataChanged,
             this, [this](const QModelIndex&, const QModelIndex&, const QVector<int>&) {
 
         emitDataChanged(this);
@@ -406,7 +409,7 @@ FunctionCallersCalleesModel::~FunctionCallersCalleesModel()
 {
 }
 
-void FunctionCallersCalleesModel::setFunction(CallgrindCallFunction* function)
+void FunctionCallersCalleesModel::setFunction(Function* function)
 {
     beginResetModel();
     m_function = function;
@@ -516,6 +519,8 @@ QVariant FunctionCallersCalleesModel::headerData(int section, Qt::Orientation, i
     }
 
     return QVariant();
+}
+
 }
 
 }

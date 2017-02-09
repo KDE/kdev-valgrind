@@ -28,23 +28,28 @@
 namespace valgrind
 {
 
+namespace Callgrind
+{
+
 namespace Ui
 {
 
-class CallgrindView;
+class View;
 
 }
 
-class CallgrindModel;
+class FunctionsModel;
 
-class CallgrindView : public QWidget
+class View : public QWidget
 {
 public:
-    CallgrindView(CallgrindModel* model, QWidget* parent = nullptr);
-    ~CallgrindView() override;
+    View(FunctionsModel* model, QWidget* parent = nullptr);
+    ~View() override;
 
 private:
-    Ui::CallgrindView* ui;
+    Ui::View* ui;
 };
+
+}
 
 }

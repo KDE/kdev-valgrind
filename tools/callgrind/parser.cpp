@@ -32,17 +32,20 @@
 namespace valgrind
 {
 
-CallgrindParser::CallgrindParser()
+namespace Callgrind
+{
+
+Parser::Parser()
     : m_model(nullptr)
     , m_caller(nullptr)
 {
 }
 
-CallgrindParser::~CallgrindParser()
+Parser::~Parser()
 {
 }
 
-void CallgrindParser::parseCallInformation(const QString& line, bool programTotal)
+void Parser::parseCallInformation(const QString& line, bool programTotal)
 {
     static const QRegularExpression binaryExpression("^(.*)\\[(.*)\\]$");
     static const QRegularExpression callCountExpression("^(.*)\\((\\d+)x\\)$");
@@ -113,21 +116,21 @@ void CallgrindParser::parseCallInformation(const QString& line, bool programTota
     }
 }
 
-enum CallgrindParserState
+enum ParserState
 {
-    ParseRootModel,
-    ParseProgramTotalHeader,
-    ParseProgramTotal,
-    ParseProgramHeader,
-    ParseProgram
+    Root,
+    ProgramTotalHeader,
+    ProgramTotal,
+    ProgramHeader,
+    Program
 };
 
-void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
+void Parser::parse(QByteArray& baData, FunctionsModel* model)
 {
     Q_ASSERT(model);
     m_model = model;
 
-    CallgrindParserState parserState = ParseRootModel;
+    ParserState parserState = Root;
     QString eventsString;
     QString line;
 
@@ -141,7 +144,7 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
                 break;
         }
 
-        if (parserState == ParseRootModel) {
+        if (parserState == Root) {
             if (line.startsWith("Events shown:")) {
                 // 13 is 'Events shown:' size;
                 eventsString = line.mid(13).simplified();
@@ -149,26 +152,26 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
                 m_eventTypes = eventsString.split(QChar(' '), QString::SkipEmptyParts);
                 m_model->setEventTypes(m_eventTypes);
 
-                parserState = ParseProgramTotalHeader;
+                parserState = ProgramTotalHeader;
             }
         }
 
-        else if (parserState == ParseProgramTotalHeader) {
+        else if (parserState == ProgramTotalHeader) {
             if (line == eventsString) {
-                parserState = ParseProgramTotal;
+                parserState = ProgramTotal;
             }
         }
 
-        else if (parserState == ParseProgramHeader) {
+        else if (parserState == ProgramHeader) {
             if (line.startsWith(eventsString)) {
-                parserState = ParseProgram;
+                parserState = Program;
             }
         }
 
         else if (!line.isEmpty() && line.at(0).isDigit()) {
-            if (parserState == ParseProgramTotal) {
+            if (parserState == ProgramTotal) {
                 parseCallInformation(line, true);
-                parserState = ParseProgramHeader;
+                parserState = ProgramHeader;
             }
             else {
                 parseCallInformation(line, false);
@@ -177,6 +180,8 @@ void CallgrindParser::parse(QByteArray& baData, CallgrindModel* model)
     }
 
     m_model = nullptr;
+}
+
 }
 
 }

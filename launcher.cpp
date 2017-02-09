@@ -69,7 +69,7 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
     m_factories += new Memcheck::ConfigPageFactory;
     m_factories += new Massif::ConfigPageFactory;
     m_factories += new CachegrindConfigPageFactory;
-    m_factories += new CallgrindConfigPageFactory;
+    m_factories += new Callgrind::ConfigPageFactory;
 
     /*
     ** Those are unimplemented at the moment: see config/genericconfigpage.cpp

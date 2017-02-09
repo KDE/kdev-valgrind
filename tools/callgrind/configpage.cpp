@@ -28,33 +28,36 @@
 namespace valgrind
 {
 
-CallgrindConfigPage::CallgrindConfigPage(QWidget* parent)
+namespace Callgrind
+{
+
+ConfigPage::ConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::CallgrindConfig();
+    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textChanged, this, &CallgrindConfigPage::changed);
-    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
-    connect(ui->branchSimulation, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
-    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &CallgrindConfigPage::changed);
-    connect(ui->callgrindAnnotateParameters, &QLineEdit::textChanged, this, &CallgrindConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
+    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->branchSimulation, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->callgrindAnnotateParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
 }
 
-QString CallgrindConfigPage::title() const
+QString ConfigPage::title() const
 {
     return i18n("Callgrind");
 }
 
-QIcon CallgrindConfigPage::icon() const
+QIcon ConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    CallgrindSettings settings(cfg);
+    Settings settings(cfg);
 
     ui->extraParameters->setText(settings.extraParameters());
     ui->cacheSimulation->setChecked(settings.cacheSimulation());
@@ -64,9 +67,9 @@ void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelo
 }
 
 
-void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    CallgrindSettings settings(cfg);
+    Settings settings(cfg);
 
     settings.setExtraParameters(ui->extraParameters->text());
     settings.setCacheSimulation(ui->cacheSimulation->isChecked());
@@ -75,17 +78,19 @@ void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProje
     settings.setCallgrindAnnotateParameters(ui->callgrindAnnotateParameters->text());
 }
 
-CallgrindConfigPageFactory::CallgrindConfigPageFactory()
+ConfigPageFactory::ConfigPageFactory()
 {
 }
 
-CallgrindConfigPageFactory::~CallgrindConfigPageFactory()
+ConfigPageFactory::~ConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget* parent)
+KDevelop::LaunchConfigurationPage* ConfigPageFactory::createWidget(QWidget* parent)
 {
-    return new CallgrindConfigPage(parent);
+    return new ConfigPage(parent);
+}
+
 }
 
 }

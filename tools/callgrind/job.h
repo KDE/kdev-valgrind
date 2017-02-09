@@ -29,15 +29,18 @@
 namespace valgrind
 {
 
-class CallgrindModel;
+namespace Callgrind
+{
 
-class CallgrindJob : public GenericJob
+class FunctionsModel;
+
+class Job : public GenericJob
 {
     Q_OBJECT
 
 public:
-    CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    ~CallgrindJob() override;
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~Job() override;
 
     QWidget* createView() override;
 
@@ -45,8 +48,10 @@ protected:
     bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
 
-    CallgrindModel* m_model;
+    FunctionsModel* m_model;
     QString m_outputFile;
 };
+
+}
 
 }

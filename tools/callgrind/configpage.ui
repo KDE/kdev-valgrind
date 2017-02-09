@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>valgrind::CallgrindConfig</class>
- <widget class="QWidget" name="valgrind::CallgrindConfig">
+ <class>valgrind::Callgrind::ConfigPage</class>
+ <widget class="QWidget" name="valgrind::Callgrind::ConfigPage">
   <property name="geometry">
    <rect>
     <x>0</x>

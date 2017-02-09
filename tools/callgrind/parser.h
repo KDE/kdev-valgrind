@@ -28,24 +28,29 @@
 namespace valgrind
 {
 
-class CallgrindCallFunction;
-class CallgrindModel;
+namespace Callgrind
+{
 
-class CallgrindParser
+class Function;
+class FunctionsModel;
+
+class Parser
 {
 public:
-    CallgrindParser();
-    ~CallgrindParser();
+    Parser();
+    ~Parser();
 
-    void parse(QByteArray& data, CallgrindModel* model);
+    void parse(QByteArray& data, FunctionsModel* model);
 
 private:
     void parseCallInformation(const QString& line, bool programTotal = false);
 
     QStringList m_eventTypes;
 
-    CallgrindModel* m_model;
-    CallgrindCallFunction* m_caller;
+    FunctionsModel* m_model;
+    Function* m_caller;
 };
+
+}
 
 }

@@ -34,24 +34,27 @@
 namespace valgrind
 {
 
-CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
+namespace Callgrind
+{
+
+View::View(FunctionsModel* model, QWidget* parent)
     : QWidget(parent)
 {
     Q_ASSERT(model);
     model->setParent(this);
 
-    ui = new Ui::CallgrindView();
+    ui = new Ui::View();
     ui->setupUi(this);
 
     foreach (const QString& eventType, model->eventTypes()) {
         ui->eventTypes->addItem(eventFullName(eventType));
     }
     connect(ui->eventTypes, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            model, &CallgrindModel::setCurrentEventType);
+            model, &FunctionsModel::setCurrentEventType);
     model->setCurrentEventType(ui->eventTypes->currentIndex());
 
     connect(ui->percenageValues, &QCheckBox::stateChanged,
-            model, &CallgrindModel::setPercentageValues);
+            model, &FunctionsModel::setPercentageValues);
     model->setPercentageValues(ui->percenageValues->checkState());
 
     auto functionsProxyModel = new QSortFilterProxyModel(this);
@@ -96,7 +99,7 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
             this, [=](const QModelIndex& currentProxyIndex, const QModelIndex&) {
 
         auto sourceIndex = functionsProxyModel->mapToSource(currentProxyIndex);
-        auto function = static_cast<CallgrindCallFunction*>(sourceIndex.internalPointer());
+        auto function = static_cast<Function*>(sourceIndex.internalPointer());
 
         eventsModel->setFunction(function);
         callersModel->setFunction(function);
@@ -118,9 +121,11 @@ CallgrindView::CallgrindView(CallgrindModel* model, QWidget* parent)
     }
 }
 
-CallgrindView::~CallgrindView()
+View::~View()
 {
     delete ui;
+}
+
 }
 
 }

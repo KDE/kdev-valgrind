@@ -69,7 +69,7 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
     }
 
     else if (toolName == QStringLiteral("callgrind")) {
-        return new CallgrindJob(cfg, plugin, parent);
+        return new Callgrind::Job(cfg, plugin, parent);
     }
 
     qCDebug(KDEV_VALGRIND) << "can't create this job, " << toolName << " unknow job";

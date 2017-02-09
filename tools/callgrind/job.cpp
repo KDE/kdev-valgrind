@@ -41,20 +41,23 @@
 namespace valgrind
 {
 
-CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+namespace Callgrind
+{
+
+Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : GenericJob(cfg, QStringLiteral("callgrind"), true, plugin, parent)
-    , m_model(new CallgrindModel)
+    , m_model(new FunctionsModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
 {
 }
 
-CallgrindJob::~CallgrindJob()
+Job::~Job()
 {
 }
 
-bool CallgrindJob::processEnded()
+bool Job::processEnded()
 {
-    CallgrindSettings settings(config);
+    Settings settings(config);
 
     QStringList caArgs;
     caArgs += argValue(settings.callgrindAnnotateParameters());
@@ -67,7 +70,7 @@ bool CallgrindJob::processEnded()
         return false;
     }
 
-    CallgrindParser parser;
+    Parser parser;
     parser.parse(caOutput, m_model);
 
     if (settings.launchKCachegrind()) {
@@ -82,9 +85,9 @@ bool CallgrindJob::processEnded()
     return true;
 }
 
-void CallgrindJob::addToolArgs(QStringList& args) const
+void Job::addToolArgs(QStringList& args) const
 {
-    CallgrindSettings settings(config);
+    Settings settings(config);
 
     args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
 
@@ -93,9 +96,11 @@ void CallgrindJob::addToolArgs(QStringList& args) const
     args += QStringLiteral("--branch-sim=") + argValue(settings.branchSimulation());
 }
 
-QWidget* CallgrindJob::createView()
+QWidget* Job::createView()
 {
-    return new CallgrindView(m_model);
+    return new View(m_model);
+}
+
 }
 
 }

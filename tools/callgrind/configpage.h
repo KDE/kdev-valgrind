@@ -25,18 +25,21 @@
 namespace valgrind
 {
 
+namespace Callgrind
+{
+
 namespace Ui
 {
 
-class CallgrindConfig;
+class ConfigPage;
 
 }
 
-class CallgrindConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 public:
-    explicit CallgrindConfigPage(QWidget* parent = nullptr);
+    explicit ConfigPage(QWidget* parent = nullptr);
 
     QString title() const override;
     QIcon icon() const override;
@@ -45,16 +48,18 @@ public:
     void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::CallgrindConfig* ui;
+    Ui::ConfigPage* ui;
 };
 
-class CallgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    CallgrindConfigPageFactory();
-    ~CallgrindConfigPageFactory() override;
+    ConfigPageFactory();
+    ~ConfigPageFactory() override;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
+
+}
 
 }

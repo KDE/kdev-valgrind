@@ -30,15 +30,18 @@ class QItemSelectionModel;
 namespace valgrind
 {
 
-class CallgrindCallFunction;
+namespace Callgrind
+{
 
-class CallgrindCallInformation
+class Function;
+
+class CallInformation
 {
 public:
-    explicit CallgrindCallInformation(const QStringList& stringValues);
+    explicit CallInformation(const QStringList& stringValues);
 
-    CallgrindCallFunction* caller = nullptr;
-    CallgrindCallFunction* callee = nullptr;
+    Function* caller = nullptr;
+    Function* callee = nullptr;
 
     int callCount = 0;
 
@@ -48,10 +51,10 @@ private:
     QVector<int> m_eventValues;
 };
 
-class CallgrindCallFunction
+class Function
 {
 public:
-    explicit CallgrindCallFunction(int eventsCount);
+    explicit Function(int eventsCount);
 
     QString name;
     QString binaryFile;
@@ -62,18 +65,18 @@ public:
     int eventValue(int type, bool inclusive);
     void addEventValues(const QStringList& stringValues);
 
-    QList<CallgrindCallInformation*> callersInformation;
-    QList<CallgrindCallInformation*> calleesInformation;
+    QList<CallInformation*> callersInformation;
+    QList<CallInformation*> calleesInformation;
 
 private:
     QVector<int> m_eventValues;
 };
 
-class CallgrindModel : public QAbstractTableModel
+class FunctionsModel : public QAbstractTableModel
 {
 public:
-    CallgrindModel();
-    ~CallgrindModel() override;
+    FunctionsModel();
+    ~FunctionsModel() override;
 
     const QStringList& eventTypes();
     void setEventTypes(const QStringList& eventTypes);
@@ -85,13 +88,13 @@ public:
 
     void setPercentageValues(bool value);
 
-    CallgrindCallFunction* addFunction(const QString& name,
+    Function* addFunction(const QString& name,
                                        const QString& sourceFile,
                                        const QString& binaryFile);
 
 
-    void addCall(CallgrindCallFunction* caller,
-                 CallgrindCallFunction* callee,
+    void addCall(Function* caller,
+                 Function* callee,
                  int callCount,
                  const QStringList& eventValues);
 
@@ -115,17 +118,17 @@ private:
 
     bool m_percentageValues;
 
-    QList<CallgrindCallFunction*> m_functions;
-    QList<CallgrindCallInformation*> m_information;
+    QList<Function*> m_functions;
+    QList<CallInformation*> m_information;
 };
 
 class FunctionEventsModel : public QAbstractTableModel
 {
 public:
-    explicit FunctionEventsModel(CallgrindModel* baseModel);
+    explicit FunctionEventsModel(FunctionsModel* baseModel);
     ~FunctionEventsModel() override;
 
-    void setFunction(CallgrindCallFunction* function);
+    void setFunction(Function* function);
 
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
@@ -136,17 +139,17 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 private:
-    CallgrindModel* m_baseModel;
-    CallgrindCallFunction* m_function;
+    FunctionsModel* m_baseModel;
+    Function* m_function;
 };
 
 class FunctionCallersCalleesModel : public QAbstractTableModel
 {
 public:
-    FunctionCallersCalleesModel(CallgrindModel* baseModel, bool isCallerModel);
+    FunctionCallersCalleesModel(FunctionsModel* baseModel, bool isCallerModel);
     ~FunctionCallersCalleesModel() override;
 
-    void setFunction(CallgrindCallFunction* function);
+    void setFunction(Function* function);
 
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
@@ -157,9 +160,11 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 private:
-    CallgrindModel* m_baseModel;
+    FunctionsModel* m_baseModel;
     bool m_isCallerModel;
-    CallgrindCallFunction* m_function;
+    Function* m_function;
 };
+
+}
 
 }
