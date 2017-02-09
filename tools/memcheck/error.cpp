@@ -28,6 +28,8 @@
 
 #include <shell/problem.h>
 
+#include <QRegularExpression>
+
 namespace Valgrind
 {
 
@@ -137,10 +139,8 @@ KDevelop::IProblem::Ptr Stack::toIProblem(bool showInstructionPointer) const
 
 void Error::clear()
 {
-    what.clear();
-    auxWhat.clear();
-    text.clear();
     stacks.clear();
+    messages.clear();
 }
 
 void Error::addStack()
@@ -156,51 +156,54 @@ Stack& Error::lastStack()
 
 void Error::setValue(const QString& name, const QString& value)
 {
-    if (name == "what") {
-        this->what = value;
-    }
+    // Fix for memcheck messages
+    static const QRegularExpression memcheckSuffix(" in loss record \\d+ of \\d+$");
 
-    else if (name == "text") {
-        this->text = value;
-    }
-
-    else if (name == "auxwhat") {
-        this->auxWhat = value;
+    if (!value.isEmpty() && (name == QStringLiteral("text") || name == QStringLiteral("auxwhat"))) {
+        messages += value.trimmed().remove(memcheckSuffix);
     }
 }
 
 KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr problem(new Problem);
+    Q_ASSERT(!messages.isEmpty());
+    Q_ASSERT(!stacks.isEmpty());
+    Q_ASSERT(messages.size() >= stacks.size());
 
-    if (what.isEmpty()) {
-        problem->setDescription(text);
-    } else {
-        problem->setDescription(what);
+    // Simplify view for errors with single stack / message
+    if (stacks.size() == 1 && messages.size() == 1) {
+        auto problem = stacks.first().toIProblem(showInstructionPointer);
+        problem->setDescription(messages.first());
+        return problem;
     }
 
-    // Add the stacks
+    KDevelop::IProblem::Ptr problem(new Problem);
+
+    // Add all stacks
     foreach (const Stack& stack, stacks) {
         problem->addDiagnostic(stack.toIProblem(showInstructionPointer));
     }
 
-    // First stack gets the problem's description.
-    // This stack is the one that shows the actual error
+    // Set descriptions for all stacks. If we have some "extra" messages, then
+    // we add them as "empty" (text-only) problems.
+    for (int i = 0; i < messages.size(); ++i) {
+        if (i < stacks.size()) {
+            problem->diagnostics().at(i)->setDescription(messages.at(i));
+        }
+
+        else {
+            KDevelop::IProblem::Ptr messageOnlyProblem(new Problem);
+            messageOnlyProblem->setDescription(messages.at(i));
+            problem->addDiagnostic(messageOnlyProblem);
+        }
+    }
+
+    problem->setDescription(messages.first());
+
+    // First stack is the one that shows the actual error
     // Hence why the problem gets it's file/line pair from here
-    if (problem->diagnostics().size() >= 1) {
-        KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(0);
-        stackProblem->setDescription(problem->description());
-
-        problem->setFinalLocation(stackProblem->finalLocation());
-        problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
-    }
-
-    // The second stack is an auxiliary stack, it helps diagnose the problem
-    // For example in case of an invalid read/write it shows where the deletion happens
-    if (problem->diagnostics().size() >= 2) {
-        KDevelop::IProblem::Ptr stackProblem = problem->diagnostics().at(1);
-        stackProblem->setDescription(auxWhat);
-    }
+    problem->setFinalLocation(problem->diagnostics().at(0)->finalLocation());
+    problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
     return problem;
 }

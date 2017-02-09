@@ -76,9 +76,7 @@ struct Error
 
     QList<Stack> stacks;
 
-    QString what;
-    QString auxWhat;
-    QString text;
+    QStringList messages;
 };
 
 }
