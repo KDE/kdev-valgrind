@@ -78,29 +78,16 @@ private:
 Plugin::Plugin(QObject* parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
     , m_factory(new WidgetFactory(this))
+    , m_launchMode(new LaunchMode)
+    , m_launcher(new Launcher(this, m_launchMode))
     , m_problemModel(new KDevelop::ProblemModel(this))
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
 
-    core()->uiController()->addToolView("Valgrind", m_factory);
-
     m_runAction = new QAction(i18n("Valgrind (Current Launch Configuration)"), this);
     connect(m_runAction, &QAction::triggered, this, &Plugin::runValgrind);
     actionCollection()->addAction("valgrind_generic", m_runAction);
-
-    auto mode = new LaunchMode();
-    core()->runController()->addLaunchMode(mode);
-
-    // Add launcher for native apps
-    IExecutePlugin* iface = core()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-    Q_ASSERT(iface);
-
-    auto type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
-    Q_ASSERT(type);
-
-    auto launcher = new Launcher(this, mode);
-    type->addLauncher(launcher);
 
     m_problemModel->setFeatures(
         KDevelop::ProblemModel::ScopeFilter |
@@ -108,17 +95,27 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
         KDevelop::ProblemModel::Grouping |
         KDevelop::ProblemModel::CanByPassScopeFilter);
 
-    KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
-    pms->addModel(modelId, i18n("Valgrind"), m_problemModel);
+    auto executePlugin = core()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
+    Q_ASSERT(executePlugin);
+    m_launchConfigurationType = core()->runController()->launchConfigurationTypeForId(executePlugin->nativeAppConfigTypeId());
+    Q_ASSERT(m_launchConfigurationType);
+
+    core()->languageController()->problemModelSet()->addModel(modelId, i18n("Valgrind"), m_problemModel);
+    core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
+
+    core()->runController()->addLaunchMode(m_launchMode);
+    m_launchConfigurationType->addLauncher(m_launcher);
 }
 
 
 Plugin::~Plugin()
 {
-    KDevelop::ProblemModelSet* pms = core()->languageController()->problemModelSet();
-    pms->removeModel(modelId);
-
+    core()->languageController()->problemModelSet()->removeModel(modelId);
     core()->uiController()->removeToolView(m_factory);
+
+    core()->runController()->removeLaunchMode(m_launchMode);
+    m_launchConfigurationType->removeLauncher(m_launcher);
+    delete m_launchMode;
 }
 
 int Plugin::configPages() const

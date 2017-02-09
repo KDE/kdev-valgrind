@@ -23,11 +23,10 @@
 
 #include <interfaces/iplugin.h>
 
-class KJob;
-
 namespace KDevelop
 {
 
+class LaunchConfigurationType;
 class ProblemModel;
 
 }
@@ -42,6 +41,8 @@ class Job;
 
 }
 
+class LaunchMode;
+class Launcher;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -67,7 +68,13 @@ private:
     void runValgrind();
 
     WidgetFactory* m_factory;
+
+    LaunchMode* m_launchMode;
+    Launcher* m_launcher;
+    KDevelop::LaunchConfigurationType* m_launchConfigurationType;
+
     KDevelop::ProblemModel* m_problemModel;
+
     QAction* m_runAction;
 };
 
