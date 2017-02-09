@@ -33,6 +33,7 @@ class Widget : public QTabWidget
 
 public:
     Widget(Plugin* plugin, QWidget* parent);
+    ~Widget() override;
 };
 
 }

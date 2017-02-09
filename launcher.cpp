@@ -35,7 +35,6 @@
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
-#include <interfaces/ilaunchconfiguration.h>
 #include <interfaces/iplugincontroller.h>
 #include <klocalizedstring.h>
 #include <util/executecompositejob.h>
@@ -55,7 +54,7 @@ QString LaunchMode::id() const
 
 QString LaunchMode::name() const
 {
-    return "Valgrind";
+    return i18n("Valgrind");
 }
 
 Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
@@ -71,11 +70,8 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
     m_factories += new Cachegrind::ConfigPageFactory;
     m_factories += new Callgrind::ConfigPageFactory;
 
-    /*
-    ** Those are unimplemented at the moment: see config/genericconfigpage.cpp
-    **  to enable them.
-    */
-//     factories << new ValgrindHelgrindConfigPageFactory();
+    // Those are unimplemented at the moment
+//     factories += new ValgrindHelgrindConfigPageFactory();
 }
 
 Launcher::~Launcher()
@@ -83,9 +79,9 @@ Launcher::~Launcher()
     qDeleteAll(m_factories);
 }
 
-KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg)
+KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)
 {
-    Q_ASSERT(cfg);
+    Q_ASSERT(config);
 
     if (m_mode->id() != launchMode) {
         return nullptr;
@@ -95,10 +91,10 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
     Q_ASSERT(iface);
 
     QList<KJob*> jobList;
-    if (KJob* depjob = iface->dependencyJob(cfg)) {
-        jobList += depjob;
+    if (KJob* depJob = iface->dependencyJob(config)) {
+        jobList += depJob;
     }
-    jobList += Generic::Job::create(cfg, m_plugin, KDevelop::ICore::self()->runController());
+    jobList += Generic::Job::create(config, m_plugin, KDevelop::ICore::self()->runController());
 
     return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
 }
@@ -120,7 +116,7 @@ QString Launcher::description() const
 
 QString Launcher::id()
 {
-    return "Valgrind";
+    return QStringLiteral("Valgrind");
 }
 
 QString Launcher::name() const

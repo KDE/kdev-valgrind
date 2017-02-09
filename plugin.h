@@ -55,10 +55,10 @@ public:
     int configPages() const override;
     KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;
 
+    KDevelop::ProblemModel* problemModel() const;
+
     void jobReadyToStart(Generic::Job* job);
     void jobFinished(Generic::Job* job, bool ok);
-
-    KDevelop::ProblemModel* problemModel() const;
 
 signals:
     void addView(QWidget* view, const QString& name);

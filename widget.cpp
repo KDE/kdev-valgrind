@@ -52,13 +52,17 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
         removeTab(index);
     });
 
-    connect(plugin, &Plugin::addView, this, [this](QWidget* view, const QString& name){
+    connect(plugin, &Plugin::addView, this, [this](QWidget* view, const QString& name) {
         Q_ASSERT(view);
 
         addTab(view, name);
         setCurrentWidget(view);
         setMovable(true);
     });
+}
+
+Widget::~Widget()
+{
 }
 
 }

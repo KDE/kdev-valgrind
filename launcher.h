@@ -45,7 +45,6 @@ public:
 
 class Launcher : public KDevelop::ILauncher
 {
-
 public:
     Launcher(Plugin* plugin, LaunchMode* mode);
     ~Launcher() override;
@@ -58,7 +57,7 @@ public:
 
     QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override;
 
-    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* cfg) override;
+    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override;
 
 private:
     Plugin* m_plugin;

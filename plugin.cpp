@@ -85,9 +85,9 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     core()->uiController()->addToolView("Valgrind", m_factory);
 
-    QAction* act = new QAction(i18n("Valgrind (Current Launch Configuration)"), this);
-    connect(act, &QAction::triggered, this, &Plugin::runValgrind);
-    actionCollection()->addAction("valgrind_generic", act);
+    auto runAction = new QAction(i18n("Valgrind (Current Launch Configuration)"), this);
+    connect(runAction, &QAction::triggered, this, &Plugin::runValgrind);
+    actionCollection()->addAction("valgrind_generic", runAction);
 
     auto mode = new LaunchMode();
     core()->runController()->addLaunchMode(mode);
@@ -96,10 +96,10 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     IExecutePlugin* iface = core()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
-    auto launcher = new Launcher(this, mode);
     auto type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
     Q_ASSERT(type);
 
+    auto launcher = new Launcher(this, mode);
     type->addLauncher(launcher);
 
     m_problemModel->setFeatures(
@@ -112,19 +112,6 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     pms->addModel(modelId, i18n("Valgrind"), m_problemModel);
 }
 
-int Plugin::configPages() const
-{
-    return 1;
-}
-
-KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
-{
-    if (number != 0) {
-        return nullptr;
-    }
-
-    return new GlobalConfigPage(this, parent);
-}
 
 Plugin::~Plugin()
 {
@@ -134,9 +121,23 @@ Plugin::~Plugin()
     core()->uiController()->removeToolView(m_factory);
 }
 
-void Plugin::runValgrind()
+int Plugin::configPages() const
 {
-    core()->runController()->executeDefaultLaunch(launchModeId);
+    return 1;
+}
+
+KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
+{
+    if (number) {
+        return nullptr;
+    }
+
+    return new GlobalConfigPage(this, parent);
+}
+
+KDevelop::ProblemModel* Plugin::problemModel() const
+{
+    return m_problemModel;
 }
 
 void Plugin::jobReadyToStart(Generic::Job* job)
@@ -162,9 +163,9 @@ void Plugin::jobFinished(Generic::Job* job, bool ok)
     }
 }
 
-KDevelop::ProblemModel* Plugin::problemModel() const
+void Plugin::runValgrind()
 {
-    return m_problemModel;
+    core()->runController()->executeDefaultLaunch(launchModeId);
 }
 
 }
