@@ -46,7 +46,7 @@ namespace Memcheck
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : GenericJob(cfg, QStringLiteral("memcheck"), false, plugin, parent)
+    : Generic::Job(cfg, QStringLiteral("memcheck"), false, plugin, parent)
 {
 }
 

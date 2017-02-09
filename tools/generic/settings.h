@@ -24,13 +24,16 @@
 namespace valgrind
 {
 
+namespace Generic
+{
+
 // FIXME
 static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "callgrind" };
 
-class GenericSettings
+class Settings
 {
 public:
-    explicit GenericSettings(const KConfigGroup& config);
+    explicit Settings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -52,5 +55,7 @@ public:
 private:
     KConfigGroup m_config;
 };
+
+}
 
 }

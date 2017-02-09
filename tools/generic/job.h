@@ -44,18 +44,21 @@ namespace valgrind
 
 class Plugin;
 
-class GenericJob : public KDevelop::OutputExecuteJob
+namespace Generic
+{
+
+class Job : public KDevelop::OutputExecuteJob
 {
     Q_OBJECT
 
 public:
-    GenericJob(KDevelop::ILaunchConfiguration* cfg,
-               QString tool,
-               bool hasView,
-               Plugin* plugin,
-               QObject* parent);
+    Job(KDevelop::ILaunchConfiguration* cfg,
+        QString tool,
+        bool hasView,
+        Plugin* plugin,
+        QObject* parent);
 
-    ~GenericJob() override;
+    ~Job() override;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
@@ -67,7 +70,7 @@ public:
     virtual QWidget* createView() = 0;
 
     // Factory
-    static GenericJob* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    static Job* createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
 
 protected:
     void postProcessStderr(const QStringList& lines) override;
@@ -101,5 +104,7 @@ protected:
 
     QStringList m_errorOutput;
 };
+
+}
 
 }

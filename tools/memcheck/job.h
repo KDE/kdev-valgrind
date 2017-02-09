@@ -31,7 +31,7 @@ namespace valgrind
 namespace Memcheck
 {
 
-class Job : public GenericJob
+class Job : public Generic::Job
 {
     Q_OBJECT
 

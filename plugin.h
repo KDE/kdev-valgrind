@@ -35,7 +35,13 @@ class ProblemModel;
 namespace valgrind
 {
 
-class GenericJob;
+namespace Generic
+{
+
+class Job;
+
+}
+
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -49,8 +55,8 @@ public:
     int configPages() const override;
     KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;
 
-    void jobReadyToStart(GenericJob* job);
-    void jobFinished(GenericJob* job, bool ok);
+    void jobReadyToStart(Generic::Job* job);
+    void jobFinished(Generic::Job* job, bool ok);
 
     KDevelop::ProblemModel* problemModel() const;
 

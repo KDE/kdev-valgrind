@@ -52,9 +52,12 @@
 namespace valgrind
 {
 
-GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+namespace Generic
 {
-    const QString& toolName = valgrindTools.at(GenericSettings(cfg->config()).currentTool());
+
+Job* Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+{
+    const QString& toolName = valgrindTools.at(Settings(cfg->config()).currentTool());
 
     if (toolName == QStringLiteral("memcheck")) {
         return new Memcheck::Job(cfg, plugin, parent);
@@ -77,7 +80,7 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
     return nullptr;
 }
 
-GenericJob::GenericJob(
+Job::Job(
     KDevelop::ILaunchConfiguration* launchConfig,
     QString tool,
     bool hasView,
@@ -137,43 +140,43 @@ GenericJob::GenericJob(
 //     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
 }
 
-GenericJob::~GenericJob()
+Job::~Job()
 {
 }
 
-QString GenericJob::tool() const
+QString Job::tool() const
 {
     return m_tool;
 }
 
-QString GenericJob::target() const
+QString Job::target() const
 {
     return QFileInfo(m_analyzedExecutable).fileName();
 }
 
-bool GenericJob::hasView()
+bool Job::hasView()
 {
     return m_hasView;
 }
 
-QStringList GenericJob::argValue(const QString& line) const
+QStringList Job::argValue(const QString& line) const
 {
     return KShell::splitArgs(line);
 }
 
-QString GenericJob::argValue(bool value) const
+QString Job::argValue(bool value) const
 {
     return value ? QStringLiteral("yes") : QStringLiteral("no");
 }
 
-QString GenericJob::argValue(int value) const
+QString Job::argValue(int value) const
 {
     return QString::number(value);
 }
 
-QStringList GenericJob::buildCommandLine() const
+QStringList Job::buildCommandLine() const
 {
-    GenericSettings settings(config);
+    Settings settings(config);
     QStringList args;
 
     args += QStringLiteral("--tool=") + m_tool;
@@ -187,9 +190,9 @@ QStringList GenericJob::buildCommandLine() const
     return args;
 }
 
-void GenericJob::start()
+void Job::start()
 {
-    *this << GenericSettings::valgrindExecutablePath();
+    *this << Settings::valgrindExecutablePath();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;
@@ -199,13 +202,13 @@ void GenericJob::start()
     KDevelop::OutputExecuteJob::start();
 }
 
-void GenericJob::postProcessStderr(const QStringList& lines)
+void Job::postProcessStderr(const QStringList& lines)
 {
     m_errorOutput << lines;
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
-void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
+void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
     bool ok = !exitCode;
     qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
@@ -238,7 +241,7 @@ void GenericJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatu
     emitResult();
 }
 
-void GenericJob::childProcessError(QProcess::ProcessError processError)
+void Job::childProcessError(QProcess::ProcessError processError)
 {
     QString errorMessage;
 
@@ -280,12 +283,12 @@ void GenericJob::childProcessError(QProcess::ProcessError processError)
     KDevelop::OutputExecuteJob::childProcessError(processError);
 }
 
-bool GenericJob::processEnded()
+bool Job::processEnded()
 {
     return true;
 }
 
-int GenericJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
+int Job::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
     QString commandLine = executable + " " + args.join(' ');
     KDevelop::OutputExecuteJob::postProcessStdout({i18n("Executing command: "), commandLine });
@@ -313,6 +316,8 @@ int GenericJob::executeProcess(const QString& executable, const QStringList& arg
     }
 
     return process.exitCode();
+}
+
 }
 
 }

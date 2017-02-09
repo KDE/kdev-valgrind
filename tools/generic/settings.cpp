@@ -24,64 +24,69 @@
 namespace valgrind
 {
 
-GenericSettings::GenericSettings(const KConfigGroup& config)
+namespace Generic
+{
+
+Settings::Settings(const KConfigGroup& config)
     : m_config(config)
 {
 }
 
-QString GenericSettings::extraParameters() const
+QString Settings::extraParameters() const
 {
     return m_config.readEntry(QStringLiteral("Valgrind Extra Parameters"), QString{});
 }
 
-void GenericSettings::setExtraParameters(const QString& parameters)
+void Settings::setExtraParameters(const QString& parameters)
 {
     m_config.writeEntry(QStringLiteral("Valgrind Extra Parameters"), parameters);
 }
 
-int GenericSettings::stackframeDepth() const
+int Settings::stackframeDepth() const
 {
     return m_config.readEntry(QStringLiteral("Valgrind Stackframe Depth"), 12);
 }
 
-void GenericSettings::setStackframeDepth(int depth)
+void Settings::setStackframeDepth(int depth)
 {
     m_config.writeEntry(QStringLiteral("Valgrind Stackframe Depth"), depth);
 }
 
-int GenericSettings::maximumStackframeSize() const
+int Settings::maximumStackframeSize() const
 {
     return m_config.readEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), 2000000);
 }
 
-void GenericSettings::setMaximumStackframeSize(int size)
+void Settings::setMaximumStackframeSize(int size)
 {
     m_config.writeEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), size);
 }
 
-bool GenericSettings::limitErrors() const
+bool Settings::limitErrors() const
 {
     return m_config.readEntry(QStringLiteral("Valgrind Limit Errors"), true);
 }
 
-void GenericSettings::setLimitErrors(bool value)
+void Settings::setLimitErrors(bool value)
 {
     m_config.writeEntry(QStringLiteral("Valgrind Limit Errors"), value);
 }
 
-int GenericSettings::currentTool() const
+int Settings::currentTool() const
 {
     return m_config.readEntry(QStringLiteral("Valgrind Current Tool"), 0);
 }
 
-void GenericSettings::setCurrentTool(int tool)
+void Settings::setCurrentTool(int tool)
 {
     m_config.writeEntry(QStringLiteral("Valgrind Current Tool"), tool);
 }
 
-QString GenericSettings::valgrindExecutablePath()
+QString Settings::valgrindExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
+}
+
 }
 
 }

@@ -33,7 +33,7 @@ namespace Massif
 
 class SnapshotsModel;
 
-class Job : public GenericJob
+class Job : public Generic::Job
 {
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);

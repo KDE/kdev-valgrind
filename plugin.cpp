@@ -139,7 +139,7 @@ void Plugin::runValgrind()
     core()->runController()->executeDefaultLaunch(launchModeId);
 }
 
-void Plugin::jobReadyToStart(GenericJob* job)
+void Plugin::jobReadyToStart(Generic::Job* job)
 {
     Q_ASSERT(job);
     if (!job->hasView()) {
@@ -147,7 +147,7 @@ void Plugin::jobReadyToStart(GenericJob* job)
     }
 }
 
-void Plugin::jobFinished(GenericJob* job, bool ok)
+void Plugin::jobFinished(Generic::Job* job, bool ok)
 {
     Q_ASSERT(job);
     if (!ok) {

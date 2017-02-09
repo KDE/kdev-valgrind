@@ -33,7 +33,7 @@ namespace Cachegrind
 
 class FunctionsModel;
 
-class Job : public GenericJob
+class Job : public Generic::Job
 {
     Q_OBJECT
 

@@ -28,42 +28,45 @@
 namespace valgrind
 {
 
-GenericConfigPage::GenericConfigPage(QWidget* parent)
+namespace Generic
+{
+
+ConfigPage::ConfigPage(QWidget* parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::GenericConfig();
+    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
     ui->currentTool->addItems(valgrindTools);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &GenericConfigPage::changed);
-    connect(ui->limitErrors, &QCheckBox::toggled, this, &GenericConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
+    connect(ui->limitErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->maxStackSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &GenericConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->stackDepth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &GenericConfigPage::changed);
+            this, &ConfigPage::changed);
     connect(ui->currentTool, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &GenericConfigPage::changed);
+            this, &ConfigPage::changed);
 }
 
-GenericConfigPage::~GenericConfigPage()
+ConfigPage::~ConfigPage()
 {
 }
 
-QString GenericConfigPage::title() const
+QString ConfigPage::title() const
 {
     return i18n("Valgrind global settings");
 }
 
-QIcon GenericConfigPage::icon() const
+QIcon ConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void GenericConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    GenericSettings settings(cfg);
+    Settings settings(cfg);
 
     ui->extraParameters->setText(settings.extraParameters());
     ui->stackDepth->setValue(settings.stackframeDepth());
@@ -72,9 +75,9 @@ void GenericConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop:
     ui->currentTool->setCurrentIndex(settings.currentTool());
 }
 
-void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    GenericSettings settings(cfg);
+    Settings settings(cfg);
 
     settings.setExtraParameters(ui->extraParameters->text());
     settings.setStackframeDepth(ui->stackDepth->value());
@@ -83,17 +86,19 @@ void GenericConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject
     settings.setCurrentTool(ui->currentTool->currentIndex());
 }
 
-GenericConfigPageFactory::GenericConfigPageFactory()
+ConfigPageFactory::ConfigPageFactory()
 {
 }
 
-GenericConfigPageFactory::~GenericConfigPageFactory()
+ConfigPageFactory::~ConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* GenericConfigPageFactory::createWidget(QWidget* parent)
+KDevelop::LaunchConfigurationPage* ConfigPageFactory::createWidget(QWidget* parent)
 {
-    return new GenericConfigPage(parent);
+    return new ConfigPage(parent);
+}
+
 }
 
 }

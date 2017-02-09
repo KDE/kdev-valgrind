@@ -44,7 +44,7 @@ namespace Cachegrind
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : GenericJob(cfg, QStringLiteral("cachegrind"), true, plugin, parent)
+    : Generic::Job(cfg, QStringLiteral("cachegrind"), true, plugin, parent)
     , m_model(new FunctionsModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {

@@ -65,7 +65,7 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
     Q_ASSERT(plugin);
     Q_ASSERT(mode);
 
-    m_factories += new GenericConfigPageFactory;
+    m_factories += new Generic::ConfigPageFactory;
     m_factories += new Memcheck::ConfigPageFactory;
     m_factories += new Massif::ConfigPageFactory;
     m_factories += new Cachegrind::ConfigPageFactory;
@@ -98,7 +98,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
     if (KJob* depjob = iface->dependencyJob(cfg)) {
         jobList << depjob;
     }
-    jobList << GenericJob::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+    jobList << Generic::Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
     return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
 }

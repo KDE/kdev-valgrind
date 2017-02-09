@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>valgrind::GenericConfig</class>
- <widget class="QWidget" name="valgrind::GenericConfig">
+ <class>valgrind::Generic::ConfigPage</class>
+ <widget class="QWidget" name="valgrind::Generic::ConfigPage">
   <property name="geometry">
    <rect>
     <x>0</x>
