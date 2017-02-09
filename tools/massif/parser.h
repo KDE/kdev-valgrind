@@ -31,7 +31,7 @@ namespace Massif
 
 class SnapshotsModel;
 
-namespace MassifParser
+namespace Parser
 {
 
 void parse(const QString& fileName, SnapshotsModel* model);

@@ -27,7 +27,6 @@ namespace valgrind
 namespace Generic
 {
 
-// FIXME
 static const QStringList valgrindTools{ "memcheck", "massif", "cachegrind", "callgrind" };
 
 class Settings

@@ -96,9 +96,9 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
 
     QList<KJob*> jobList;
     if (KJob* depjob = iface->dependencyJob(cfg)) {
-        jobList << depjob;
+        jobList += depjob;
     }
-    jobList << Generic::Job::createToolJob(cfg, m_plugin, KDevelop::ICore::self()->runController());
+    jobList += Generic::Job::create(cfg, m_plugin, KDevelop::ICore::self()->runController());
 
     return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
 }

@@ -57,7 +57,7 @@ bool Job::processEnded()
 {
     Settings settings(config);
 
-    MassifParser::parse(m_outputFile, m_model);
+    Parser::parse(m_outputFile, m_model);
     if (settings.launchVisualizer()) {
         new QFileProxyRemove(settings.visualizerExecutablePath(),
                              { m_outputFile }, m_outputFile, m_plugin);

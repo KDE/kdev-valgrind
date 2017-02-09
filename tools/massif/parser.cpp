@@ -32,7 +32,7 @@ namespace valgrind
 namespace Massif
 {
 
-namespace MassifParser
+namespace Parser
 {
 
 void parse(const QString& fileName, SnapshotsModel* model)

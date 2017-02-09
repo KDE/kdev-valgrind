@@ -55,7 +55,7 @@ namespace valgrind
 namespace Generic
 {
 
-Job* Job::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+Job* Job::create(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
 {
     const QString& toolName = valgrindTools.at(Settings(cfg->config()).currentTool());
 
