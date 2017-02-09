@@ -23,7 +23,7 @@
 
 #include <QWidget>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

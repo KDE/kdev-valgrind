@@ -23,7 +23,7 @@
 
 #include <QMap>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

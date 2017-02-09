@@ -25,7 +25,7 @@
 #include <QByteArray>
 #include <QList>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind

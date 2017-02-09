@@ -32,7 +32,7 @@ class ProblemModel;
 
 }
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Generic

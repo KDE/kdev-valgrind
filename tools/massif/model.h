@@ -24,7 +24,7 @@
 
 #include <QAbstractTableModel>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

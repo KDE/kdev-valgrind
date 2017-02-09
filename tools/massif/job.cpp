@@ -36,7 +36,7 @@
 
 #include <QFile>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

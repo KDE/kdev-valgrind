@@ -28,7 +28,7 @@
 
 class KJob;
 
-namespace valgrind
+namespace Valgrind
 {
 
 class Plugin;

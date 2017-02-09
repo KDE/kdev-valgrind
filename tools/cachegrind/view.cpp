@@ -34,7 +34,7 @@
 #include <QApplication>
 #include <QSortFilterProxyModel>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

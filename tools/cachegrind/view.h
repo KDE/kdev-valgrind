@@ -25,7 +25,7 @@
 #include <QTreeView>
 #include <QWidget>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

@@ -23,7 +23,7 @@
 
 #include <QString>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

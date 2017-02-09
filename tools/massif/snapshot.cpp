@@ -22,7 +22,7 @@
 
 #include "debug.h"
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

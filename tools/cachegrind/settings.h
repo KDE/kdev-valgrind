@@ -21,7 +21,7 @@
 
 #include <kconfiggroup.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

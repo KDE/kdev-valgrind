@@ -29,7 +29,7 @@
 
 #include <QFontDatabase>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

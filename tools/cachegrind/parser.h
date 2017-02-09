@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

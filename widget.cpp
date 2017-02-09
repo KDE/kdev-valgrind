@@ -26,7 +26,7 @@
 
 #include <klocalizedstring.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 Widget::Widget(Plugin* plugin, QWidget* parent)

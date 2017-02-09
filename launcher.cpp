@@ -39,7 +39,7 @@
 #include <klocalizedstring.h>
 #include <util/executecompositejob.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 QIcon LaunchMode::icon() const

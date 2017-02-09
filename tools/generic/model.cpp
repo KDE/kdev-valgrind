@@ -21,7 +21,7 @@
 
 #include <QAbstractTableModel>
 
-namespace valgrind
+namespace Valgrind
 {
 
 QString displayValue(int value)

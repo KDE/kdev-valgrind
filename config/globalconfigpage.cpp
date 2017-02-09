@@ -25,7 +25,7 @@
 
 #include <QVBoxLayout>
 
-namespace valgrind
+namespace Valgrind
 {
 
 GlobalConfigPage::GlobalConfigPage(KDevelop::IPlugin* plugin, QWidget* parent)

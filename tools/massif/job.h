@@ -25,7 +25,7 @@
 
 #include "generic/job.h"
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

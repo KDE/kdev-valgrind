@@ -32,7 +32,7 @@
 
 #include <QApplication>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Memcheck

@@ -22,7 +22,7 @@
 
 #include <QTabWidget>
 
-namespace valgrind
+namespace Valgrind
 {
 
 class Plugin;

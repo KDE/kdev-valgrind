@@ -28,7 +28,7 @@
 
 #include <shell/problem.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 struct Problem : public KDevelop::DetectedProblem

@@ -25,7 +25,7 @@
 
 #include <QAbstractTableModel>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

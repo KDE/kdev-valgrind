@@ -38,7 +38,7 @@
 #include <QBuffer>
 #include <QFile>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind

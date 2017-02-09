@@ -25,7 +25,7 @@
 
 #include <QWidget>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind

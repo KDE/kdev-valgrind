@@ -31,7 +31,7 @@
 
 #include <QItemSelectionModel>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind
@@ -240,10 +240,10 @@ int FunctionsModel::columnCount(const QModelIndex&) const
 QString FunctionsModel::displayValue(int eventIntValue, int eventType) const
 {
     if (m_percentageValues) {
-        return valgrind::displayValue(eventIntValue * 100.0 / m_eventTotals[eventType]);
+        return Valgrind::displayValue(eventIntValue * 100.0 / m_eventTotals[eventType]);
     }
 
-    return valgrind::displayValue(eventIntValue);
+    return Valgrind::displayValue(eventIntValue);
 }
 
 

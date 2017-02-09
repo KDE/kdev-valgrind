@@ -28,7 +28,7 @@
 
 #include <QList>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Memcheck

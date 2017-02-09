@@ -21,7 +21,7 @@
 
 #include "globalsettings.h"
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind

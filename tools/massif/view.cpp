@@ -28,7 +28,7 @@
 
 #include <QStringListModel>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Massif

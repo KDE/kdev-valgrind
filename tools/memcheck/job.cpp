@@ -39,7 +39,7 @@
 #include <QRegularExpression>
 #include <unistd.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Memcheck

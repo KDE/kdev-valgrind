@@ -23,7 +23,7 @@
 
 class QAbstractTableModel;
 
-namespace valgrind
+namespace Valgrind
 {
 
 enum ItemDataRole

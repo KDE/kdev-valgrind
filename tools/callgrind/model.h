@@ -27,7 +27,7 @@
 
 class QItemSelectionModel;
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind

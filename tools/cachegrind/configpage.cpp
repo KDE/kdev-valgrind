@@ -26,7 +26,7 @@
 
 #include <KConfigGroup>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

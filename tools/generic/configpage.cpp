@@ -25,7 +25,7 @@
 
 #include <kconfiggroup.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Generic

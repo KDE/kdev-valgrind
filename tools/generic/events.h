@@ -21,7 +21,7 @@
 
 #include <QString>
 
-namespace valgrind
+namespace Valgrind
 {
 
 QString eventFullName(const QString& eventShortName);

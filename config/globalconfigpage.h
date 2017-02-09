@@ -23,7 +23,7 @@
 
 #include <interfaces/configpage.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 class GlobalConfigPage: public KDevelop::ConfigPage

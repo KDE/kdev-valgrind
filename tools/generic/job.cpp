@@ -49,7 +49,7 @@
 #include <QBuffer>
 #include <QFileInfo>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Generic

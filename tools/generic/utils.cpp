@@ -29,7 +29,7 @@
 #include <QFile>
 #include <QProcess>
 
-namespace valgrind
+namespace Valgrind
 {
 
 QFileProxyRemove::QFileProxyRemove(

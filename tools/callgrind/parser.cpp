@@ -29,7 +29,7 @@
 #include <QBuffer>
 #include <QRegularExpression>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Callgrind

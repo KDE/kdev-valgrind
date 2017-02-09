@@ -28,7 +28,7 @@
 #include <QStack>
 #include <QXmlStreamReader>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Memcheck

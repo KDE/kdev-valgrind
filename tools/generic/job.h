@@ -39,7 +39,7 @@ class ILaunchConfiguration;
 
 }
 
-namespace valgrind
+namespace Valgrind
 {
 
 class Plugin;

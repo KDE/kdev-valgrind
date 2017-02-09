@@ -30,7 +30,7 @@
 
 #include <QBuffer>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Cachegrind

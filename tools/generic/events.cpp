@@ -23,7 +23,7 @@
 
 #include <QMap>
 
-namespace valgrind
+namespace Valgrind
 {
 
 QString eventFullName(const QString& eventShortName)

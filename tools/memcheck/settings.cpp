@@ -19,7 +19,7 @@
 
 #include "settings.h"
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Memcheck

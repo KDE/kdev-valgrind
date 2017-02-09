@@ -27,7 +27,7 @@ class QProcess;
 class QUrl;
 class QWidget;
 
-namespace valgrind
+namespace Valgrind
 {
 
 /**

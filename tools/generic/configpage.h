@@ -23,7 +23,7 @@
 
 #include <interfaces/launchconfigurationpage.h>
 
-namespace valgrind
+namespace Valgrind
 {
 
 namespace Generic

@@ -41,9 +41,9 @@
 #include <shell/problemmodel.h>
 #include <shell/problemmodelset.h>
 
-K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin<valgrind::Plugin>();)
+K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin<Valgrind::Plugin>();)
 
-namespace valgrind
+namespace Valgrind
 {
 
 static const QString modelId = QStringLiteral("Valgrind");
