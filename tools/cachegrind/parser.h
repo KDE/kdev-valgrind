@@ -27,23 +27,27 @@
 namespace valgrind
 {
 
-struct CachegrindItem;
-class CachegrindModel;
+namespace Cachegrind
+{
 
-class CachegrindParser : public QObject
+class FunctionsModel;
+
+class Parser : public QObject
 {
 public:
-    explicit CachegrindParser(QObject* parent = nullptr);
-    ~CachegrindParser() override;
+    explicit Parser(QObject* parent = nullptr);
+    ~Parser() override;
 
-    void parse(QByteArray& data, CachegrindModel* model);
+    void parse(QByteArray& data, FunctionsModel* model);
 
 private:
     void parseCachegrindItem(const QString& line, bool programTotal = false);
 
-    CachegrindModel* m_model;
+    FunctionsModel* m_model;
 
     QStringList m_eventsList;
 };
+
+}
 
 }

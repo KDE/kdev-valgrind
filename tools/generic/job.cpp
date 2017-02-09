@@ -65,7 +65,7 @@ GenericJob* GenericJob::createToolJob(KDevelop::ILaunchConfiguration* cfg, Plugi
     }
 
     else if (toolName == QStringLiteral("cachegrind")) {
-        return new CachegrindJob(cfg, plugin, parent);
+        return new Cachegrind::Job(cfg, plugin, parent);
     }
 
     else if (toolName == QStringLiteral("callgrind")) {

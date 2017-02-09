@@ -24,54 +24,59 @@
 namespace valgrind
 {
 
-CachegrindSettings::CachegrindSettings(const KConfigGroup& config)
+namespace Cachegrind
+{
+
+Settings::Settings(const KConfigGroup& config)
     : m_config(config)
 {
 }
 
-QString CachegrindSettings::extraParameters() const
+QString Settings::extraParameters() const
 {
     return m_config.readEntry(QStringLiteral("Cachegrind Extra Parameters"), QString{});
 }
 
-void CachegrindSettings::setExtraParameters(const QString& parameters)
+void Settings::setExtraParameters(const QString& parameters)
 {
     m_config.writeEntry(QStringLiteral("Cachegrind Extra Parameters"), parameters);
 }
 
-bool CachegrindSettings::cacheSimulation() const
+bool Settings::cacheSimulation() const
 {
     return m_config.readEntry(QStringLiteral("Cachegrind Cache Simulation"), true);
 }
 
-void CachegrindSettings::setCacheSimulation(bool value)
+void Settings::setCacheSimulation(bool value)
 {
     m_config.writeEntry(QStringLiteral("Cachegrind Cache Simulation"), value);
 }
 
-bool CachegrindSettings::branchSimulation() const
+bool Settings::branchSimulation() const
 {
     return m_config.readEntry(QStringLiteral("Cachegrind Branch Simulation"), false);
 }
 
-void CachegrindSettings::setBranchSimulation(bool value)
+void Settings::setBranchSimulation(bool value)
 {
     m_config.writeEntry(QStringLiteral("Cachegrind Branch Simulation"), value);
 }
 
-QString CachegrindSettings::cgAnnotateExecutablePath()
+QString Settings::cgAnnotateExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
 }
 
-QString CachegrindSettings::cgAnnotateParameters() const
+QString Settings::cgAnnotateParameters() const
 {
     return m_config.readEntry(QStringLiteral("Cachegrind cg_annotate Parameters"), QString{});
 }
 
-void CachegrindSettings::setCgAnnotateParameters(const QString& parameters)
+void Settings::setCgAnnotateParameters(const QString& parameters)
 {
     m_config.writeEntry(QStringLiteral("Cachegrind cg_annotate Parameters"), parameters);
+}
+
 }
 
 }

@@ -28,15 +28,18 @@
 namespace valgrind
 {
 
-class CachegrindModel;
+namespace Cachegrind
+{
 
-class CachegrindJob : public GenericJob
+class FunctionsModel;
+
+class Job : public GenericJob
 {
     Q_OBJECT
 
 public:
-    CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    ~CachegrindJob() override;
+    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    ~Job() override;
 
     QWidget* createView() override;
 
@@ -44,8 +47,10 @@ protected:
     bool processEnded() override;
     void addToolArgs(QStringList& args) const override;
 
-    CachegrindModel* m_model;
+    FunctionsModel* m_model;
     QString m_outputFile;
 };
+
+}
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>valgrind::CachegrindConfig</class>
- <widget class="QWidget" name="valgrind::CachegrindConfig">
+ <class>valgrind::Cachegrind::ConfigPage</class>
+ <widget class="QWidget" name="valgrind::Cachegrind::ConfigPage">
   <property name="geometry">
    <rect>
     <x>0</x>

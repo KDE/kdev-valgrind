@@ -28,7 +28,10 @@
 namespace valgrind
 {
 
-struct CachegrindItem
+namespace Cachegrind
+{
+
+struct Function
 {
     QString functionName;
     QStringList fileNames;
@@ -36,14 +39,14 @@ struct CachegrindItem
     QList<int> eventValues;
 };
 
-class CachegrindModel : public QAbstractTableModel
+class FunctionsModel : public QAbstractTableModel
 {
 public:
-    explicit CachegrindModel(QObject* parent = nullptr);
-    ~CachegrindModel() override;
+    explicit FunctionsModel(QObject* parent = nullptr);
+    ~FunctionsModel() override;
 
     void setEventsList(const QStringList& events);
-    void addItem(CachegrindItem* item, bool isTotal = false);
+    void addItem(Function* item, bool isTotal = false);
 
     void setPercentageValues(bool value);
 
@@ -56,12 +59,14 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 private:
-    QList<CachegrindItem*> m_items;
-    CachegrindItem* m_totalItem;
+    QList<Function*> m_items;
+    Function* m_totalItem;
 
     bool m_percentageValues;
 
     QStringList m_eventList;
 };
+
+}
 
 }

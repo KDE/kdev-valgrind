@@ -40,20 +40,23 @@
 namespace valgrind
 {
 
-CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
+namespace Cachegrind
+{
+
+Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : GenericJob(cfg, QStringLiteral("cachegrind"), true, plugin, parent)
-    , m_model(new CachegrindModel)
+    , m_model(new FunctionsModel)
     , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
 {
 }
 
-CachegrindJob::~CachegrindJob()
+Job::~Job()
 {
 }
 
-bool CachegrindJob::processEnded()
+bool Job::processEnded()
 {
-    CachegrindSettings settings(config);
+    Settings settings(config);
 
     QStringList cgArgs;
     cgArgs += argValue(settings.cgAnnotateParameters());
@@ -64,16 +67,16 @@ bool CachegrindJob::processEnded()
         return false;
     }
 
-    CachegrindParser parser;
+    Parser parser;
     parser.parse(cgOutput, m_model);
     QFile::remove(m_outputFile);
 
     return true;
 }
 
-void CachegrindJob::addToolArgs(QStringList& args) const
+void Job::addToolArgs(QStringList& args) const
 {
-    CachegrindSettings settings(config);
+    Settings settings(config);
 
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
 
@@ -82,9 +85,11 @@ void CachegrindJob::addToolArgs(QStringList& args) const
     args += QStringLiteral("--branch-sim=") + argValue(settings.branchSimulation());
 }
 
-QWidget* CachegrindJob::createView()
+QWidget* Job::createView()
 {
-    return new CachegrindView(m_model);
+    return new View(m_model);
+}
+
 }
 
 }

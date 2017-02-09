@@ -25,19 +25,22 @@
 namespace valgrind
 {
 
+namespace Cachegrind
+{
+
 namespace Ui
 {
 
-class CachegrindConfig;
+class ConfigPage;
 
 }
 
-class CachegrindConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
-    explicit CachegrindConfigPage(QWidget* parent = nullptr);
+    explicit ConfigPage(QWidget* parent = nullptr);
 
     QString title() const override;
     QIcon icon() const override;
@@ -48,16 +51,18 @@ public:
 private:
     void check();
 
-    Ui::CachegrindConfig* ui;
+    Ui::ConfigPage* ui;
 };
 
-class CachegrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
+class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    CachegrindConfigPageFactory();
-    ~CachegrindConfigPageFactory() override;
+    ConfigPageFactory();
+    ~ConfigPageFactory() override;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };
+
+}
 
 }

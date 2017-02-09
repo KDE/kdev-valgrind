@@ -33,19 +33,22 @@
 namespace valgrind
 {
 
-CachegrindParser::CachegrindParser(QObject* parent)
+namespace Cachegrind
+{
+
+Parser::Parser(QObject* parent)
     : QObject(parent)
     , m_model(nullptr)
 {
 }
 
-CachegrindParser::~CachegrindParser()
+Parser::~Parser()
 {
 }
 
-void CachegrindParser::parseCachegrindItem(const QString& line, bool programTotal)
+void Parser::parseCachegrindItem(const QString& line, bool programTotal)
 {
-    auto item = new CachegrindItem;
+    auto item = new Function;
 
     QStringList lineEventList = line.split(QChar(' '), QString::SkipEmptyParts);
     Q_ASSERT(lineEventList.size() >= m_eventsList.size());
@@ -76,7 +79,7 @@ enum CachegrindParserState
     ParseProgram
 };
 
-void CachegrindParser::parse(QByteArray& baData, CachegrindModel* model)
+void Parser::parse(QByteArray& baData, FunctionsModel* model)
 {
     Q_ASSERT(model);
     m_model = model;
@@ -126,6 +129,8 @@ void CachegrindParser::parse(QByteArray& baData, CachegrindModel* model)
 
     model->setEventsList(m_eventsList);
     m_model = nullptr;
+}
+
 }
 
 }

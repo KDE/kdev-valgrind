@@ -37,17 +37,20 @@
 namespace valgrind
 {
 
-CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
+namespace Cachegrind
+{
+
+View::View(FunctionsModel* model, QWidget* parent)
     : QWidget(parent)
 {
     Q_ASSERT(model);
     model->setParent(this);
 
-    ui = new Ui::CachegrindView;
+    ui = new Ui::View;
     ui->setupUi(this);
 
     connect(ui->percenageValues, &QCheckBox::stateChanged,
-            model, &CachegrindModel::setPercentageValues);
+            model, &FunctionsModel::setPercentageValues);
     model->setPercentageValues(ui->percenageValues->checkState());
 
     auto functionsProxyModel = new QSortFilterProxyModel(this);
@@ -69,7 +72,7 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
             this, [=](const QModelIndex& currentProxyIndex, const QModelIndex&) {
 
         auto sourceIndex = functionsProxyModel->mapToSource(currentProxyIndex);
-        auto item = static_cast<CachegrindItem*>(sourceIndex.internalPointer());
+        auto item = static_cast<Function*>(sourceIndex.internalPointer());
 
         if (item) {
             ui->nameLabel->setText(item->functionName);
@@ -83,9 +86,11 @@ CachegrindView::CachegrindView(CachegrindModel* model, QWidget* parent)
     ui->sourceLabel->clear();
 }
 
-CachegrindView::~CachegrindView()
+View::~View()
 {
     delete ui;
+}
+
 }
 
 }

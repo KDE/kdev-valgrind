@@ -29,36 +29,39 @@
 namespace valgrind
 {
 
-CachegrindConfigPage::CachegrindConfigPage(QWidget *parent)
+namespace Cachegrind
+{
+
+ConfigPage::ConfigPage(QWidget *parent)
     : LaunchConfigurationPage(parent)
 {
-    ui = new Ui::CachegrindConfig();
+    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
 
-    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
-    connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::changed);
-    connect(ui->cgAnnotateParameters, &QLineEdit::textChanged, this, &CachegrindConfigPage::changed);
+    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->branchSimulation, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->cgAnnotateParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
 
-    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::check);
-    connect(ui->branchSimulation, &QCheckBox::toggled, this, &CachegrindConfigPage::check);
+    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &ConfigPage::check);
+    connect(ui->branchSimulation, &QCheckBox::toggled, this, &ConfigPage::check);
 }
 
-QString CachegrindConfigPage::title() const
+QString ConfigPage::title() const
 {
     return i18n("Cachegrind");
 }
 
-QIcon CachegrindConfigPage::icon() const
+QIcon ConfigPage::icon() const
 {
     return QIcon::fromTheme("fork");
 }
 
-void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    CachegrindSettings settings(cfg);
+    Settings settings(cfg);
 
     ui->extraParameters->setText(settings.extraParameters());
     ui->cacheSimulation->setChecked(settings.cacheSimulation());
@@ -68,9 +71,9 @@ void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevel
     check();
 }
 
-void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    CachegrindSettings settings(cfg);
+    Settings settings(cfg);
 
     settings.setExtraParameters(ui->extraParameters->text());
     settings.setCacheSimulation(ui->cacheSimulation->isChecked());
@@ -78,7 +81,7 @@ void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProj
     settings.setCgAnnotateParameters(ui->cgAnnotateParameters->text());
 }
 
-void CachegrindConfigPage::check()
+void ConfigPage::check()
 {
     if (!ui->cacheSimulation->isChecked() && !ui->branchSimulation->isChecked()) {
         ui->messageWidget->setVisible(true);
@@ -88,17 +91,19 @@ void CachegrindConfigPage::check()
     ui->messageWidget->setVisible(false);
 }
 
-CachegrindConfigPageFactory::CachegrindConfigPageFactory()
+ConfigPageFactory::ConfigPageFactory()
 {
 }
 
-CachegrindConfigPageFactory::~CachegrindConfigPageFactory()
+ConfigPageFactory::~ConfigPageFactory()
 {
 }
 
-KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget(QWidget* parent)
+KDevelop::LaunchConfigurationPage* ConfigPageFactory::createWidget(QWidget* parent)
 {
-    return new CachegrindConfigPage(parent);
+    return new ConfigPage(parent);
+}
+
 }
 
 }

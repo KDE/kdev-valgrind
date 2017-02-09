@@ -24,10 +24,13 @@
 namespace valgrind
 {
 
-class CachegrindSettings
+namespace Cachegrind
+{
+
+class Settings
 {
 public:
-    explicit CachegrindSettings(const KConfigGroup& config);
+    explicit Settings(const KConfigGroup& config);
 
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
@@ -46,5 +49,7 @@ public:
 private:
     KConfigGroup m_config;
 };
+
+}
 
 }

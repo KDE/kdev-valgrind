@@ -35,19 +35,22 @@
 namespace valgrind
 {
 
-CachegrindModel::CachegrindModel(QObject* parent)
+namespace Cachegrind
+{
+
+FunctionsModel::FunctionsModel(QObject* parent)
     : QAbstractTableModel(parent)
     , m_totalItem(nullptr)
     , m_percentageValues(false)
 {
 }
 
-CachegrindModel::~CachegrindModel()
+FunctionsModel::~FunctionsModel()
 {
     qDeleteAll(m_items);
 }
 
-void CachegrindModel::addItem(CachegrindItem* newItem, bool isTotal)
+void FunctionsModel::addItem(Function* newItem, bool isTotal)
 {
     Q_ASSERT(newItem);
     if (isTotal) {
@@ -77,18 +80,18 @@ void CachegrindModel::addItem(CachegrindItem* newItem, bool isTotal)
     }
 }
 
-void CachegrindModel::setEventsList(const QStringList& eventsList)
+void FunctionsModel::setEventsList(const QStringList& eventsList)
 {
     m_eventList = eventsList;
 }
 
-void CachegrindModel::setPercentageValues(bool value)
+void FunctionsModel::setPercentageValues(bool value)
 {
     m_percentageValues = value;
     emitDataChanged(this);
 }
 
-QModelIndex CachegrindModel::index(int row, int column, const QModelIndex&) const
+QModelIndex FunctionsModel::index(int row, int column, const QModelIndex&) const
 {
     if (row >= 0 && row < rowCount() && column >= 0 && column < columnCount()) {
         return createIndex(row, column, m_items.at(row));
@@ -97,17 +100,17 @@ QModelIndex CachegrindModel::index(int row, int column, const QModelIndex&) cons
     return QModelIndex();
 }
 
-int CachegrindModel::rowCount(const QModelIndex&) const
+int FunctionsModel::rowCount(const QModelIndex&) const
 {
     return m_items.size();
 }
 
-int CachegrindModel::columnCount(const QModelIndex&) const
+int FunctionsModel::columnCount(const QModelIndex&) const
 {
     return m_eventList.size() + 1;
 }
 
-QVariant CachegrindModel::data(const QModelIndex& index, int role) const
+QVariant FunctionsModel::data(const QModelIndex& index, int role) const
 {
     Q_ASSERT(m_totalItem);
 
@@ -115,7 +118,7 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    auto item = static_cast<CachegrindItem*>(index.internalPointer());
+    auto item = static_cast<Function*>(index.internalPointer());
     int column = index.column();
 
     if (role == Qt::TextAlignmentRole && column > 0) {
@@ -147,7 +150,7 @@ QVariant CachegrindModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) const
+QVariant FunctionsModel::headerData(int section, Qt::Orientation, int role) const
 {
     if (section == 0) {
         if (role == Qt::DisplayRole) {
@@ -166,6 +169,8 @@ QVariant CachegrindModel::headerData(int section, Qt::Orientation, int role) con
     }
 
     return QVariant();
+}
+
 }
 
 }

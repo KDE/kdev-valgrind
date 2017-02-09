@@ -28,23 +28,28 @@
 namespace valgrind
 {
 
+namespace Cachegrind
+{
+
 namespace Ui
 {
 
-class CachegrindView;
+class View;
 
 }
 
-class CachegrindModel;
+class FunctionsModel;
 
-class CachegrindView : public QWidget
+class View : public QWidget
 {
 public:
-    CachegrindView(CachegrindModel* model, QWidget* parent = nullptr);
-    ~CachegrindView() override;
+    View(FunctionsModel* model, QWidget* parent = nullptr);
+    ~View() override;
 
 private:
-    Ui::CachegrindView* ui;
+    Ui::View* ui;
 };
+
+}
 
 }
