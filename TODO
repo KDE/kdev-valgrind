@@ -1,5 +1,5 @@
 
-? Fix crash when cachegrind tool called (now works without crash).
+- Replace QFileProxyRemove class with QTemporaryFile
 
 - Add global setting for separate (or current as now) valgrind tools in the "Analyze" menu.
 
