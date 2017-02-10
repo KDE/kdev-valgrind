@@ -78,8 +78,6 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
 Launcher::~Launcher()
 {
     qDeleteAll(m_factories);
-
-    m_plugin->m_launcher = nullptr; // FIXME
 }
 
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)

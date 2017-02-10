@@ -49,8 +49,6 @@ class Plugin : public KDevelop::IPlugin
 {
     Q_OBJECT
 
-    friend class Launcher; // FIXME
-
 public:
     Plugin(QObject* parent, const QVariantList& = QVariantList());
     ~Plugin() override;
@@ -69,13 +67,13 @@ signals:
     void addView(QWidget* view, const QString& name);
 
 private:
+    void setupExecutePlugin(KDevelop::IPlugin* plugin, bool load);
     void runValgrind();
 
     WidgetFactory* m_factory;
 
     LaunchMode* m_launchMode;
-    Launcher* m_launcher;
-    KDevelop::LaunchConfigurationType* m_launchConfigurationType;
+    QMap<KDevelop::IPlugin*, Launcher*> m_launchers;
 
     KDevelop::ProblemModel* m_problemModel;
 

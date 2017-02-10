@@ -79,7 +79,6 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
     , m_factory(new WidgetFactory(this))
     , m_launchMode(new LaunchMode)
-    , m_launcher(new Launcher(this, m_launchMode))
     , m_problemModel(new KDevelop::ProblemModel(this))
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
@@ -95,18 +94,25 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
         KDevelop::ProblemModel::Grouping |
         KDevelop::ProblemModel::CanByPassScopeFilter);
 
-    auto executePlugin = core()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
-    Q_ASSERT(executePlugin);
-    m_launchConfigurationType = core()->runController()->launchConfigurationTypeForId(executePlugin->nativeAppConfigTypeId());
-    Q_ASSERT(m_launchConfigurationType);
-
     core()->languageController()->problemModelSet()->addModel(modelId, i18n("Valgrind"), m_problemModel);
     core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
 
     core()->runController()->addLaunchMode(m_launchMode);
-    m_launchConfigurationType->addLauncher(m_launcher);
-}
 
+    foreach(auto plugin, core()->pluginController()->allPluginsForExtension("org.kdevelop.IExecutePlugin")) {
+        setupExecutePlugin(plugin, true);
+    }
+
+    connect(core()->pluginController(), &KDevelop::IPluginController::pluginLoaded,
+            this, [this](KDevelop::IPlugin* plugin) {
+        setupExecutePlugin(plugin, true);
+    });
+
+    connect(core()->pluginController(), &KDevelop::IPluginController::unloadingPlugin,
+            this, [this](KDevelop::IPlugin* plugin) {
+        setupExecutePlugin(plugin, false);
+    });
+}
 
 Plugin::~Plugin()
 {
@@ -117,17 +123,40 @@ void Plugin::unload()
     core()->languageController()->problemModelSet()->removeModel(modelId);
     core()->uiController()->removeToolView(m_factory);
 
+    foreach(auto plugin, core()->pluginController()->allPluginsForExtension("org.kdevelop.IExecutePlugin")) {
+        setupExecutePlugin(plugin, false);
+    }
+
     core()->runController()->removeLaunchMode(m_launchMode);
     delete m_launchMode;
+}
 
-    // FIXME ugly hack - should be fixed in kdevplatform itself ?
-    // Launcher can by already deleted by LaunchConfigurationType class
-    if (m_launcher) {
-        m_launchConfigurationType->removeLauncher(m_launcher);
-        delete m_launcher;
-    } else {
-        qCWarning(KDEV_VALGRIND) << "Launcher was already deleted by LaunchConfigurationType class";
+void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
+{
+    if (plugin == this) {
+        return;
     }
+
+    auto iface = plugin->extension<IExecutePlugin>();
+    if (!iface) {
+        return;
+    }
+
+    auto type = core()->runController()->launchConfigurationTypeForId(iface->nativeAppConfigTypeId());
+    Q_ASSERT(type);
+
+    if (load) {
+        auto launcher = new Launcher(this, m_launchMode);
+        m_launchers.insert(plugin, launcher);
+        type->addLauncher(launcher);
+        return;
+    }
+
+    auto launcher = m_launchers.take(plugin);
+    Q_ASSERT(launcher);
+
+    type->removeLauncher(launcher);
+    delete launcher;
 }
 
 int Plugin::configPages() const
