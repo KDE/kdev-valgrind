@@ -99,19 +99,20 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     core()->runController()->addLaunchMode(m_launchMode);
 
-    foreach(auto plugin, core()->pluginController()->allPluginsForExtension("org.kdevelop.IExecutePlugin")) {
+    auto pluginController = core()->pluginController();
+    for(auto plugin : pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
         setupExecutePlugin(plugin, true);
     }
 
-    connect(core()->pluginController(), &KDevelop::IPluginController::pluginLoaded,
+    connect(pluginController, &KDevelop::IPluginController::pluginLoaded,
             this, [this](KDevelop::IPlugin* plugin) {
-        setupExecutePlugin(plugin, true);
-    });
+                setupExecutePlugin(plugin, true);
+            });
 
-    connect(core()->pluginController(), &KDevelop::IPluginController::unloadingPlugin,
+    connect(pluginController, &KDevelop::IPluginController::unloadingPlugin,
             this, [this](KDevelop::IPlugin* plugin) {
-        setupExecutePlugin(plugin, false);
-    });
+                setupExecutePlugin(plugin, false);
+            });
 }
 
 Plugin::~Plugin()
@@ -123,9 +124,10 @@ void Plugin::unload()
     core()->languageController()->problemModelSet()->removeModel(modelId);
     core()->uiController()->removeToolView(m_factory);
 
-    foreach(auto plugin, core()->pluginController()->allPluginsForExtension("org.kdevelop.IExecutePlugin")) {
+    for(auto plugin : core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
         setupExecutePlugin(plugin, false);
     }
+    Q_ASSERT(m_launchers.isEmpty());
 
     core()->runController()->removeLaunchMode(m_launchMode);
     delete m_launchMode;
@@ -149,14 +151,13 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
         auto launcher = new Launcher(this, m_launchMode);
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
-        return;
+    } else {
+        auto launcher = m_launchers.take(plugin);
+        Q_ASSERT(launcher);
+
+        type->removeLauncher(launcher);
+        delete launcher;
     }
-
-    auto launcher = m_launchers.take(plugin);
-    Q_ASSERT(launcher);
-
-    type->removeLauncher(launcher);
-    delete launcher;
 }
 
 int Plugin::configPages() const

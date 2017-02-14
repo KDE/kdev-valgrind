@@ -23,6 +23,8 @@
 
 #include <interfaces/iplugin.h>
 
+#include <QHash>
+
 namespace KDevelop
 {
 
@@ -73,7 +75,7 @@ private:
     WidgetFactory* m_factory;
 
     LaunchMode* m_launchMode;
-    QMap<KDevelop::IPlugin*, Launcher*> m_launchers;
+    QHash<KDevelop::IPlugin*, Launcher*> m_launchers;
 
     KDevelop::ProblemModel* m_problemModel;
 
