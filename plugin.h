@@ -72,6 +72,7 @@ signals:
 
 private:
     void setupExecutePlugin(KDevelop::IPlugin* plugin, bool load);
+    void executeDefaultLaunch(const QString& launcherId);
 
     WidgetFactory* m_factory;
 

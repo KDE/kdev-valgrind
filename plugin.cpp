@@ -102,8 +102,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     core()->languageController()->problemModelSet()->addModel(modelId, i18n("Valgrind"), m_problemModel);
     core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
 
-    auto runController = KDevelop::Core::self()->runControllerInternal();
-    runController->addLaunchMode(m_launchMode);
+    core()->runController()->addLaunchMode(m_launchMode);
 
     auto pluginController = core()->pluginController();
     for(auto plugin : pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
@@ -123,34 +122,19 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     QAction* action = nullptr;
 
     action = m_menu->addAction(i18n("Memcheck"));
-    connect(action, &QAction::triggered, this, [runController]() {
-        runController->defaultLaunch()->setLauncherForMode(launchModeId, Memcheck::launcherId);
-        runController->executeDefaultLaunch(launchModeId);
-    });
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Memcheck::launcherId); });
 
     action = m_menu->addAction(i18n("Massif"));
-    connect(action, &QAction::triggered, this, [runController]() {
-        runController->defaultLaunch()->setLauncherForMode(launchModeId, Massif::launcherId);
-        runController->executeDefaultLaunch(launchModeId);
-    });
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Massif::launcherId); });
 
     action = m_menu->addAction(i18n("Helgrind"));
-    connect(action, &QAction::triggered, this, [runController]() {
-        runController->defaultLaunch()->setLauncherForMode(launchModeId, Helgrind::launcherId);
-        runController->executeDefaultLaunch(launchModeId);
-    });
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Helgrind::launcherId); });
 
     action = m_menu->addAction(i18n("Callgrind"));
-    connect(action, &QAction::triggered, this, [runController]() {
-        runController->defaultLaunch()->setLauncherForMode(launchModeId, Callgrind::launcherId);
-        runController->executeDefaultLaunch(launchModeId);
-    });
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Callgrind::launcherId); });
 
     action = m_menu->addAction(i18n("Cachegrind"));
-    connect(action, &QAction::triggered, this, [runController]() {
-        runController->defaultLaunch()->setLauncherForMode(launchModeId, Cachegrind::launcherId);
-        runController->executeDefaultLaunch(launchModeId);
-    });
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Cachegrind::launcherId); });
 
     actionCollection()->addAction("valgrind_menu", m_menu->menuAction());
 }
@@ -267,6 +251,16 @@ void Plugin::jobFinished(Generic::Job* job, bool ok)
         core()->uiController()->findToolView("Valgrind", m_factory);
     } else {
         core()->languageController()->problemModelSet()->showModel(modelId);
+    }
+}
+
+void Plugin::executeDefaultLaunch(const QString& launcherId)
+{
+    auto runController = KDevelop::Core::self()->runControllerInternal();
+    auto defaultLaunch = runController->defaultLaunch();
+    if (defaultLaunch) {
+        defaultLaunch->setLauncherForMode(launchModeId, launcherId);
+        runController->executeDefaultLaunch(launchModeId);
     }
 }
 
