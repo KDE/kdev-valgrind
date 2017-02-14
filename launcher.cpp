@@ -45,7 +45,7 @@ namespace Valgrind
 
 QIcon LaunchMode::icon() const
 {
-    return QIcon();
+    return QIcon::fromTheme(QStringLiteral("debug-run"));
 }
 
 QString LaunchMode::id() const
