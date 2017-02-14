@@ -37,15 +37,11 @@ ConfigPage::ConfigPage(QWidget* parent)
     ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    ui->currentTool->addItems(valgrindTools);
-
     connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
     connect(ui->limitErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->maxStackSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigPage::changed);
     connect(ui->stackDepth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->currentTool, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &ConfigPage::changed);
 }
 
@@ -73,7 +69,6 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     ui->stackDepth->setValue(settings.stackframeDepth());
     ui->maxStackSize->setValue(settings.maximumStackframeSize());
     ui->limitErrors->setChecked(settings.limitErrors());
-    ui->currentTool->setCurrentIndex(settings.currentTool());
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
@@ -84,7 +79,6 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
     settings.setStackframeDepth(ui->stackDepth->value());
     settings.setMaximumStackframeSize(ui->maxStackSize->value());
     settings.setLimitErrors(ui->limitErrors->isChecked());
-    settings.setCurrentTool(ui->currentTool->currentIndex());
 }
 
 ConfigPageFactory::ConfigPageFactory()

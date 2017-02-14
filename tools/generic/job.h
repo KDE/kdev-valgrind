@@ -69,9 +69,6 @@ public:
     bool hasView();
     virtual QWidget* createView() = 0;
 
-    // Factory
-    static Job* create(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-
 protected:
     void postProcessStderr(const QStringList& lines) override;
 

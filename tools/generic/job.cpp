@@ -56,35 +56,6 @@ namespace Valgrind
 namespace Generic
 {
 
-Job* Job::create(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-{
-    const QString& toolName = valgrindTools.at(Settings(cfg->config()).currentTool());
-
-    if (toolName == QStringLiteral("memcheck")) {
-        return new Memcheck::Job(cfg, plugin, parent);
-    }
-
-    if (toolName == QStringLiteral("helgrind")) {
-        return new Helgrind::Job(cfg, plugin, parent);
-    }
-
-    else if (toolName == QStringLiteral("massif")) {
-        return new Massif::Job(cfg, plugin, parent);
-    }
-
-    else if (toolName == QStringLiteral("cachegrind")) {
-        return new Cachegrind::Job(cfg, plugin, parent);
-    }
-
-    else if (toolName == QStringLiteral("callgrind")) {
-        return new Callgrind::Job(cfg, plugin, parent);
-    }
-
-    qCDebug(KDEV_VALGRIND) << "can't create this job, " << toolName << " unknow job";
-
-    return nullptr;
-}
-
 Job::Job(
     KDevelop::ILaunchConfiguration* launchConfig,
     QString tool,

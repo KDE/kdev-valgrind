@@ -72,16 +72,6 @@ void Settings::setLimitErrors(bool value)
     m_config.writeEntry(QStringLiteral("Valgrind Limit Errors"), value);
 }
 
-int Settings::currentTool() const
-{
-    return m_config.readEntry(QStringLiteral("Valgrind Current Tool"), 0);
-}
-
-void Settings::setCurrentTool(int tool)
-{
-    m_config.writeEntry(QStringLiteral("Valgrind Current Tool"), tool);
-}
-
 QString Settings::valgrindExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();

@@ -91,35 +91,6 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Default valgrind tool:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QComboBox" name="currentTool">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-          <property name="maxVisibleItems">
-           <number>6</number>
-          </property>
-          <property name="minimumContentsLength">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>

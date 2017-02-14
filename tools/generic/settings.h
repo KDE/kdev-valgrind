@@ -27,14 +27,6 @@ namespace Valgrind
 namespace Generic
 {
 
-static const QStringList valgrindTools{
-    QStringLiteral("memcheck"),
-    QStringLiteral("helgrind"),
-    QStringLiteral("massif"),
-    QStringLiteral("cachegrind"),
-    QStringLiteral("callgrind")
-};
-
 class Settings
 {
 public:
@@ -51,9 +43,6 @@ public:
 
     bool limitErrors() const;
     void setLimitErrors(bool value);
-
-    int currentTool() const;
-    void setCurrentTool(int tool);
 
     static QString valgrindExecutablePath();
 
