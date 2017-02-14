@@ -6,6 +6,7 @@ ki18n_wrap_ui(callgrind_UI_SRCS
 add_library(callgrind_tool STATIC
     configpage.cpp
     job.cpp
+    launcher.cpp
     model.cpp
     parser.cpp
     settings.cpp

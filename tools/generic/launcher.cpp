@@ -4,7 +4,7 @@
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -25,58 +25,40 @@
 #include "launcher.h"
 
 #include "debug.h"
-#include "plugin.h"
-
-#include "cachegrind/configpage.h"
-#include "callgrind/configpage.h"
-#include "generic/configpage.h"
-#include "generic/job.h"
-#include "helgrind/configpage.h"
-#include "massif/configpage.h"
-#include "memcheck/configpage.h"
+#include "job.h"
+#include "launchmode.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/iplugincontroller.h>
-#include <klocalizedstring.h>
 #include <util/executecompositejob.h>
 
 namespace Valgrind
 {
 
-QIcon LaunchMode::icon() const
+namespace Generic
 {
-    return QIcon::fromTheme(QStringLiteral("debug-run"));
-}
 
-QString LaunchMode::id() const
-{
-    return launchModeId;
-}
+Launcher::Launcher(
+    Plugin* plugin,
+    LaunchMode* mode,
+    const QString& name,
+    const QString& description,
+    const QString& id)
 
-QString LaunchMode::name() const
-{
-    return i18n("Valgrind");
-}
-
-Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
     : m_plugin(plugin)
     , m_mode(mode)
+    , m_name(name)
+    , m_description(description)
+    , m_id(id)
 {
     Q_ASSERT(plugin);
     Q_ASSERT(mode);
-
-    m_factories += new Generic::ConfigPageFactory;
-    m_factories += new Memcheck::ConfigPageFactory;
-    m_factories += new Helgrind::ConfigPageFactory;
-    m_factories += new Massif::ConfigPageFactory;
-    m_factories += new Cachegrind::ConfigPageFactory;
-    m_factories += new Callgrind::ConfigPageFactory;
 }
 
 Launcher::~Launcher()
 {
-    qDeleteAll(m_factories);
+    qDeleteAll(m_configPageFactories);
 }
 
 KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)
@@ -87,14 +69,14 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         return nullptr;
     }
 
-    IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
+    auto iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
     QList<KJob*> jobList;
     if (KJob* depJob = iface->dependencyJob(config)) {
         jobList += depJob;
     }
-    jobList += Generic::Job::create(config, m_plugin, KDevelop::ICore::self()->runController());
+    jobList += createJob(config, KDevelop::ICore::self()->runController());
 
     return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
 }
@@ -106,22 +88,24 @@ QStringList Launcher::supportedModes() const
 
 QList<KDevelop::LaunchConfigurationPageFactory*> Launcher::configPages() const
 {
-    return m_factories;
-}
-
-QString Launcher::description() const
-{
-    return i18n("Profile application with Valgrind");
-}
-
-QString Launcher::id()
-{
-    return QStringLiteral("Valgrind");
+    return m_configPageFactories;
 }
 
 QString Launcher::name() const
 {
-    return i18n("Valgrind");
+    return m_name;
+}
+
+QString Launcher::description() const
+{
+    return m_description;
+}
+
+QString Launcher::id()
+{
+    return m_id;
+}
+
 }
 
 }

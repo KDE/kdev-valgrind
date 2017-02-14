@@ -24,46 +24,53 @@
 #pragma once
 
 #include <interfaces/ilauncher.h>
-#include <interfaces/ilaunchmode.h>
 
 class KJob;
 
 namespace Valgrind
 {
 
+class LaunchMode;
 class Plugin;
 
-static const QString launchModeId = QStringLiteral("Valgrind");
-
-class LaunchMode : public KDevelop::ILaunchMode
+namespace Generic
 {
-public:
-    QIcon icon() const override;
-    QString id() const override;
-    QString name() const override;
-};
+
+class Job;
 
 class Launcher : public KDevelop::ILauncher
 {
 public:
-    Launcher(Plugin* plugin, LaunchMode* mode);
+    Launcher(Plugin* plugin,
+             LaunchMode* mode,
+             const QString& name,
+             const QString& description,
+             const QString& id);
     ~Launcher() override;
 
-    QString name() const override;
-    QString description() const override;
-    QString id() override;
+    QString name() const override final;
+    QString description() const override final;
+    QString id() override final;
 
-    QStringList supportedModes() const override;
+    QStringList supportedModes() const override final;
 
-    QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override;
+    QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override final;
 
-    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override;
+    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override final;
 
-private:
+protected:
+    virtual Job* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
+
     Plugin* m_plugin;
     LaunchMode* m_mode;
 
-    QList<KDevelop::LaunchConfigurationPageFactory*> m_factories;
+    QString m_name;
+    QString m_description;
+    QString m_id;
+
+    QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;
 };
+
+}
 
 }

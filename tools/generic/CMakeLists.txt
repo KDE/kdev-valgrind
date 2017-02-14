@@ -6,6 +6,7 @@ add_library(generic_tool STATIC
     configpage.cpp
     events.cpp
     job.cpp
+    launcher.cpp
     model.cpp
     settings.cpp
     utils.cpp

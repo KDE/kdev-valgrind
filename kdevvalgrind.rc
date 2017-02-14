@@ -1,10 +1,10 @@
 <!DOCTYPE kpartgui>
-<gui name="kdevvalgrind" version="9">
+<gui name="kdevvalgrind" version="10">
 <MenuBar>
   <Menu name="analyze">
   <text context="@title:menu">Analyze</text>
     <Separator/>
-    <Action name="valgrind_generic" group="run_operations"/>
+    <Action name="valgrind_menu" group="run_operations"/>
     <Separator/>
   </Menu>
 </MenuBar>

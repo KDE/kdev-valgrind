@@ -28,7 +28,7 @@ include_directories(
 set(kdevvalgrind_SRCS
     debug.cpp
 
-    launcher.cpp
+    launchmode.cpp
     plugin.cpp
     widget.cpp
 

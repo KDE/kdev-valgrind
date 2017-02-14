@@ -1,7 +1,7 @@
 /* This file is part of KDevelop
    Copyright 2002 Harald Fernengel <harry@kdevelop.org>
    Copyright 2007 Hamish Rodda <rodda@kde.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -23,13 +23,15 @@
 
 #include <interfaces/iplugin.h>
 
-#include <QHash>
+#include <QMultiHash>
+
+class QMenu;
 
 namespace KDevelop
 {
 
-class LaunchConfigurationType;
 class ProblemModel;
+class ILauncher;
 
 }
 
@@ -70,16 +72,15 @@ signals:
 
 private:
     void setupExecutePlugin(KDevelop::IPlugin* plugin, bool load);
-    void runValgrind();
 
     WidgetFactory* m_factory;
 
     LaunchMode* m_launchMode;
-    QHash<KDevelop::IPlugin*, Launcher*> m_launchers;
+    QMultiHash<KDevelop::IPlugin*, KDevelop::ILauncher*> m_launchers;
 
     KDevelop::ProblemModel* m_problemModel;
 
-    QAction* m_runAction;
+    QMenu* m_menu;
 };
 
 }
