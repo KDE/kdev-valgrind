@@ -25,8 +25,6 @@
 
 #include <QMultiHash>
 
-class QMenu;
-
 namespace KDevelop
 {
 
@@ -46,7 +44,6 @@ class Job;
 }
 
 class LaunchMode;
-class Launcher;
 class WidgetFactory;
 
 class Plugin : public KDevelop::IPlugin
@@ -80,8 +77,6 @@ private:
     QMultiHash<KDevelop::IPlugin*, KDevelop::ILauncher*> m_launchers;
 
     KDevelop::ProblemModel* m_problemModel;
-
-    QMenu* m_menu;
 };
 
 }

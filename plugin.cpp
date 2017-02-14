@@ -47,8 +47,6 @@
 #include <shell/problemmodelset.h>
 #include <shell/runcontroller.h>
 
-#include <QMenu>
-
 K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin<Valgrind::Plugin>();)
 
 namespace Valgrind
@@ -88,7 +86,6 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     , m_factory(new WidgetFactory(this))
     , m_launchMode(new LaunchMode)
     , m_problemModel(new KDevelop::ProblemModel(this))
-    , m_menu(new QMenu(i18n("Valgrind (Current Launch Configuration)")))
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
@@ -105,7 +102,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     core()->runController()->addLaunchMode(m_launchMode);
 
     auto pluginController = core()->pluginController();
-    for(auto plugin : pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
+    for (auto plugin : pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
         setupExecutePlugin(plugin, true);
     }
 
@@ -121,23 +118,25 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     QAction* action = nullptr;
 
-    action = m_menu->addAction(i18n("Memcheck"));
+    action = new QAction(i18n("Memcheck"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Memcheck::launcherId); });
+    actionCollection()->addAction("memcheck_tool", action);
 
-    action = m_menu->addAction(i18n("Massif"));
+    action = new QAction(i18n("Massif"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Massif::launcherId); });
+    actionCollection()->addAction("massif_tool", action);
 
-    action = m_menu->addAction(i18n("Helgrind"));
+    action = new QAction(i18n("Helgrind"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Helgrind::launcherId); });
+    actionCollection()->addAction("helgrind_tool", action);
 
-    action = m_menu->addAction(i18n("Callgrind"));
+    action = new QAction(i18n("Callgrind"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Callgrind::launcherId); });
+    actionCollection()->addAction("callgrind_tool", action);
 
-    action = m_menu->addAction(i18n("Cachegrind"));
+    action = new QAction(i18n("Cachegrind"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Cachegrind::launcherId); });
-
-    actionCollection()->addAction("valgrind_menu", m_menu->menuAction());
-}
+    actionCollection()->addAction("cachegrind_tool", action);}
 
 Plugin::~Plugin()
 {
@@ -148,15 +147,13 @@ void Plugin::unload()
     core()->languageController()->problemModelSet()->removeModel(modelId);
     core()->uiController()->removeToolView(m_factory);
 
-    for(auto plugin : core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
+    for (auto plugin : core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
         setupExecutePlugin(plugin, false);
     }
     Q_ASSERT(m_launchers.isEmpty());
 
     core()->runController()->removeLaunchMode(m_launchMode);
     delete m_launchMode;
-
-    delete m_menu;
 }
 
 void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
@@ -229,9 +226,11 @@ KDevelop::ProblemModel* Plugin::problemModel() const
 
 void Plugin::jobReadyToStart(Generic::Job* job)
 {
-    Q_ASSERT(job);
-    m_menu->setEnabled(false);
+    for (auto action : actionCollection()->actions()) {
+        action->setEnabled(false);
+    }
 
+    Q_ASSERT(job);
     if (!job->hasView()) {
         m_problemModel->clearProblems();
     }
@@ -239,13 +238,15 @@ void Plugin::jobReadyToStart(Generic::Job* job)
 
 void Plugin::jobFinished(Generic::Job* job, bool ok)
 {
-    Q_ASSERT(job);
-    m_menu->setEnabled(true);
+    for (auto action : actionCollection()->actions()) {
+        action->setEnabled(true);
+    }
 
     if (!ok) {
         return;
     }
 
+    Q_ASSERT(job);
     if (job->hasView()) {
         addView(job->createView(), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
         core()->uiController()->findToolView("Valgrind", m_factory);
