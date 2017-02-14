@@ -12,14 +12,14 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
 #pragma once
 
-#include "generic/job.h"
+#include <kconfiggroup.h>
 
 namespace Valgrind
 {
@@ -27,23 +27,31 @@ namespace Valgrind
 namespace Helgrind
 {
 
-class Job : public Generic::Job
+class Settings
 {
-    Q_OBJECT
-
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
-    ~Job() override;
+    explicit Settings(const KConfigGroup& config);
 
-    QWidget* createView() override;
+    QString extraParameters() const;
+    void setExtraParameters(const QString& parameters);
 
-protected:
-    void postProcessStderr(const QStringList& lines) override;
-    bool processEnded() override;
+    int conflictCacheSize() const;
+    void setConflictCacheSize(int size);
 
-    void addToolArgs(QStringList& args) const override;
+    QString historyLevel() const;
+    void setHistoryLevel(const QString& level);
 
-    QStringList m_xmlOutput;
+    bool trackLockOrders() const;
+    void setTrackLockOrders(bool value);
+
+    bool checkStackRefs() const;
+    void setCheckStackRefs(bool value);
+
+    bool ignoreThreadCreation() const;
+    void setIgnoreThreadCreation(bool value);
+
+private:
+    KConfigGroup m_config;
 };
 
 }

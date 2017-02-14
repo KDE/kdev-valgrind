@@ -31,6 +31,7 @@
 #include "callgrind/configpage.h"
 #include "generic/configpage.h"
 #include "generic/job.h"
+#include "helgrind/configpage.h"
 #include "massif/configpage.h"
 #include "memcheck/configpage.h"
 
@@ -67,12 +68,10 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
 
     m_factories += new Generic::ConfigPageFactory;
     m_factories += new Memcheck::ConfigPageFactory;
+    m_factories += new Helgrind::ConfigPageFactory;
     m_factories += new Massif::ConfigPageFactory;
     m_factories += new Cachegrind::ConfigPageFactory;
     m_factories += new Callgrind::ConfigPageFactory;
-
-    // Those are unimplemented at the moment
-//     factories += new ValgrindHelgrindConfigPageFactory();
 }
 
 Launcher::~Launcher()
