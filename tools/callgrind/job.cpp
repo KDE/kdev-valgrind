@@ -57,7 +57,7 @@ Job::~Job()
 
 bool Job::processEnded()
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     QStringList caArgs;
     caArgs += argValue(settings.callgrindAnnotateParameters());
@@ -87,7 +87,7 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
 

@@ -56,7 +56,7 @@ Job::~Job()
 
 bool Job::processEnded()
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     QStringList cgArgs;
     cgArgs += argValue(settings.cgAnnotateParameters());
@@ -76,7 +76,7 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
 

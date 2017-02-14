@@ -78,14 +78,14 @@ bool Job::processEnded()
     Parser parser;
     parser.addData(m_xmlOutput.join(" "));
 
-    m_plugin->problemModel()->setProblems(parser.parse(Settings(config).showInstructionPointer()));
+    m_plugin->problemModel()->setProblems(parser.parse(Settings(m_config).showInstructionPointer()));
 
     return true;
 }
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);

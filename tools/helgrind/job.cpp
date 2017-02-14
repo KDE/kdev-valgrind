@@ -81,7 +81,7 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);

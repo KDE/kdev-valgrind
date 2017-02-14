@@ -55,7 +55,7 @@ Job::~Job()
 
 bool Job::processEnded()
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     Parser::parse(m_outputFile, m_model);
     if (settings.launchVisualizer()) {
@@ -70,7 +70,7 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(config);
+    Settings settings(m_config);
 
     int tu = settings.timeUnit();
     if (tu == 0) {

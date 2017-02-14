@@ -90,7 +90,7 @@ protected:
 
     QStringList buildCommandLine() const;
 
-    KConfigGroup config;
+    KConfigGroup m_config;
 
     QString m_tool;
     bool m_hasView;

@@ -93,7 +93,7 @@ Job::Job(
     QObject* parent)
 
     : KDevelop::OutputExecuteJob(parent)
-    , config(launchConfig->config())
+    , m_config(launchConfig->config())
     , m_tool(tool)
     , m_hasView(hasView)
     , m_plugin(plugin)
@@ -181,7 +181,7 @@ QString Job::argValue(int value) const
 
 QStringList Job::buildCommandLine() const
 {
-    Settings settings(config);
+    Settings settings(m_config);
     QStringList args;
 
     args += QStringLiteral("--tool=") + m_tool;
