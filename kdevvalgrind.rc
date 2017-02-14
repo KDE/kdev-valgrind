@@ -1,8 +1,9 @@
 <!DOCTYPE kpartgui>
-<gui name="kdevvalgrind" version="8">
+<gui name="kdevvalgrind" version="9">
 <MenuBar>
   <Menu name="analyze">
   <text context="@title:menu">Analyze</text>
+    <Separator/>
     <Action name="valgrind_generic" group="run_operations"/>
     <Separator/>
   </Menu>
