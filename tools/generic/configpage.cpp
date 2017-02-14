@@ -56,7 +56,7 @@ ConfigPage::~ConfigPage()
 
 QString ConfigPage::title() const
 {
-    return i18n("Valgrind global settings");
+    return i18n("Valgrind generic settings");
 }
 
 QIcon ConfigPage::icon() const

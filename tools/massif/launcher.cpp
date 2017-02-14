@@ -20,6 +20,7 @@
 #include "launcher.h"
 
 #include "configpage.h"
+#include "generic/configpage.h"
 #include "debug.h"
 #include "job.h"
 
@@ -40,6 +41,7 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
         launcherId)
 {
     m_configPageFactories += new ConfigPageFactory;
+    m_configPageFactories += new Generic::ConfigPageFactory;
 }
 
 Launcher::~Launcher()

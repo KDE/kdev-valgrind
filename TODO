@@ -1,7 +1,7 @@
 
 - Replace QFileProxyRemove class with QTemporaryFile
 
-- Fix missing generic settings page
++ Fix missing generic settings page
 
 + Add separate launchers for all tools ("Analyze" menu)
 
