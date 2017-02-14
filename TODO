@@ -1,7 +1,9 @@
 
 - Replace QFileProxyRemove class with QTemporaryFile
 
-- Add global setting for separate (or current as now) valgrind tools in the "Analyze" menu.
+- Fix missing generic settings page
+
++ Add separate launchers for all tools ("Analyze" menu)
 
 + Unimplemented tools: helgrind
 
