@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>249</height>
+    <width>794</width>
+    <height>732</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -19,37 +19,195 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="extraParameters"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="leakResolutionLabel">
           <property name="text">
-           <string>Freelist si&amp;ze:</string>
-          </property>
-          <property name="buddy">
-           <cstring>freeListSize</cstring>
+           <string>Leak resolution:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="freeListSize">
+        <item row="0" column="1">
+         <widget class="QComboBox" name="leakResolution">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When doing leak checking, determines how willing Memcheck is to consider different backtraces to be the same for the purposes of merging multiple leaks into a single leak report. When set to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;low&lt;/span&gt;, only the first two entries need match. When &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;med&lt;/span&gt;, four entries have to match. When &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;high&lt;/span&gt;, all entries need to match.&lt;/p&gt;&lt;p&gt;For hardcore leak debugging, you probably want to use &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--leak-resolution=high&lt;/span&gt; together with &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--num-callers=40&lt;/span&gt; or some such large number.&lt;/p&gt;&lt;p&gt;Note that the &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--leak-resolution&lt;/span&gt; setting does not affect Memcheck's ability to find leaks. It only changes how the results are presented.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <item>
+           <property name="text">
+            <string notr="true">high</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string notr="true">med</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string notr="true">low</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="showLeakKindsLabel">
+          <property name="text">
+           <string>Show leak kinds:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="showLeakKinds">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Specifies the leak kinds to show.</string>
+          </property>
+          <property name="text">
+           <string notr="true"/>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="leakCheckHeuristicsLabel">
+          <property name="text">
+           <string>Used heuristics:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="leakCheckHeuristics">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specifies the set of leak check heuristics to be used during leak searches. The heuristics control which interior pointers to a block cause it to be considered as reachable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="keepStacktracesLabel">
+          <property name="text">
+           <string>Stacktraces keeping:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="keepStacktraces">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls which stack trace(s) to keep for malloc'd and/or free'd blocks. &lt;/p&gt;&lt;p&gt;With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;alloc-then-free&lt;/span&gt;, a stack trace is recorded at allocation time, and is associated with the block. When the block is freed, a second stack trace is recorded, and this replaces the allocation stack trace. As a result, any &amp;quot;use after free&amp;quot; errors relating to this block can only show a stack trace for where the block was freed. &lt;/p&gt;&lt;p&gt;With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;alloc-and-free&lt;/span&gt;, both allocation and the deallocation stack traces for the block are stored. Hence a &amp;quot;use after free&amp;quot; error will show both, which may make the error easier to diagnose. Compared to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;alloc-then-free&lt;/span&gt;, this setting slightly increases Valgrind's memory use as the block contains two references instead of one. &lt;/p&gt;&lt;p&gt;With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;alloc&lt;/span&gt;, only the allocation stack trace is recorded (and reported). With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;free&lt;/span&gt;, only the deallocation stack trace is recorded (and reported). These values somewhat decrease Valgrind's memory and cpu usage. They can be useful depending on the error types you are searching for and the level of detail you need to analyse them. For example, if you are only interested in memory leak errors, it is sufficient to record the allocation stack traces. &lt;/p&gt;&lt;p&gt;With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;none&lt;/span&gt;, no stack traces are recorded for malloc and free operations. If your program allocates a lot of blocks and/or allocates/frees from many different stack traces, this can significantly decrease cpu and/or memory required. Of course, few details will be reported for errors related to heap blocks. &lt;/p&gt;&lt;p&gt;Note that once a stack trace is recorded, Valgrind keeps the stack trace in memory even if it is not referenced by any block. Some programs (for example, recursive algorithms) can generate a huge number of stack traces. If Valgrind uses too much memory in such circumstances, you can reduce the memory required with the options &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--keep-stacktraces&lt;/span&gt; and/or by using a smaller value for the option &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--num-callers&lt;/span&gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>alloc</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>free</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>alloc-and-free</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>alloc-then-free</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>none</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="freelistVolLabel">
+          <property name="text">
+           <string>Freelist maximum size:</string>
+          </property>
+          <property name="buddy">
+           <cstring>freelistVol</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="freelistVol">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When the client program releases memory using &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;free&lt;/span&gt; (in &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;C&lt;/span&gt;) or &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete&lt;/span&gt; (&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;C++&lt;/span&gt;), that memory is not immediately made available for re-allocation. Instead, it is marked inaccessible and placed in a queue of freed blocks. The purpose is to defer as long as possible the point at which freed-up memory comes back into circulation. This increases the chance that Memcheck will be able to detect invalid accesses to blocks for some significant period of time after they have been freed.&lt;/p&gt;&lt;p&gt;This option specifies the maximum total size, in bytes, of the blocks in the queue. The default value is twenty million bytes. Increasing this increases the total amount of memory used by Memcheck but may detect invalid uses of freed blocks which would otherwise go undetected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="maximum">
            <number>2000000000</number>
           </property>
           <property name="value">
-           <number>10000000</number>
+           <number>20000000</number>
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_3">
+        <item row="5" column="0">
+         <widget class="QLabel" name="freelistBigBlocksLabel">
+          <property name="text">
+           <string>Freelist big-blocks:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="freelistBigBlocks">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When making blocks from the queue of freed blocks available for re-allocation, Memcheck will in priority re-circulate the blocks with a size greater or equal to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--freelist-big-blocks&lt;/span&gt;. This ensures that freeing big blocks (in particular freeing blocks bigger than &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--freelist-vol&lt;/span&gt;) does not immediately lead to a re-circulation of all (or a lot of) the small blocks in the free list. In other words, this option increases the likelihood to discover dangling pointers for the &amp;quot;small&amp;quot; blocks, even when big blocks are freed.&lt;/p&gt;&lt;p&gt;Setting a value of 0 means that all the blocks are re-circulated in a FIFO order.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>100000000</number>
+          </property>
+          <property name="value">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="extraParametersLabel">
           <property name="text">
            <string>E&amp;xtra parameters:</string>
           </property>
@@ -57,6 +215,9 @@
            <cstring>extraParameters</cstring>
           </property>
          </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="extraParameters"/>
         </item>
        </layout>
       </item>
@@ -68,33 +229,65 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="showReachable">
-        <property name="toolTip">
-         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Arial,Geneva,Helvetica,sans-serif'; font-size:medium; color:#202020;&quot;&gt;When disabled, the memory leak detector only shows &amp;quot;definitely lost&amp;quot; and &amp;quot;possibly lost&amp;quot; blocks.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Arial,Geneva,Helvetica,sans-serif'; font-size:medium; color:#202020;&quot;&gt;When enabled, the leak detector also shows &amp;quot;reachable&amp;quot; and &amp;quot;indirectly lost&amp;quot; blocks.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Show reachable</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QCheckBox" name="undefValueErrors">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>Controls whether Memcheck reports uses of undefined value errors.</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls whether Memcheck reports uses of undefined value errors. Set this to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;no&lt;/span&gt; if you don't want to see undefined value errors. It also has the side effect of speeding up Memcheck somewhat.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Undef value errors</string>
+         <string>Show undefined values usage</string>
         </property>
         <property name="checked">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showMismatchedFrees">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, Memcheck checks that heap blocks are deallocated using a function that matches the allocating function. That is, it expects &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;free&lt;/span&gt; to be used to deallocate blocks allocated by &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;malloc&lt;/span&gt;, &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete&lt;/span&gt; for blocks allocated by &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;new&lt;/span&gt;, and &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete[]&lt;/span&gt; for blocks allocated by &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;new[]&lt;/span&gt;. If a mismatch is detected, an error is reported. This is in general important because in some environments, freeing with a non-matching function can cause crashes.&lt;/p&gt;&lt;p&gt;There is however a scenario where such mismatches cannot be avoided. That is when the user provides implementations of &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;new&lt;/span&gt;/&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;new[]&lt;/span&gt; that call &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;malloc&lt;/span&gt; and of &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete&lt;/span&gt;/&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete[]&lt;/span&gt; that call &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;free&lt;/span&gt;, and these functions are asymmetrically inlined. For example, imagine that &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete[]&lt;/span&gt; is inlined but &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;new[]&lt;/span&gt; is not. The result is that Memcheck &amp;quot;sees&amp;quot; all &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;delete[]&lt;/span&gt; calls as direct calls to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;free&lt;/span&gt;, even when the program source contains no mismatched calls.&lt;/p&gt;&lt;p&gt;This causes a lot of confusing and irrelevant error reports. &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--show-mismatched-frees=no&lt;/span&gt; disables these checks. It is not generally advisable to disable them, though, because you may miss real errors as a result.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Show mismatched frees</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="partialLoadsOk">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls how Memcheck handles 32-, 64-, 128- and 256-bit naturally aligned loads from addresses for which some bytes are addressable and others are not. When &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;yes&lt;/span&gt;, such loads do not produce an address error. Instead, loaded bytes originating from illegal addresses are marked as uninitialised, and those corresponding to legal addresses are handled in the normal way.&lt;/p&gt;&lt;p&gt;When &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;no&lt;/span&gt;, loads from partially invalid addresses are treated the same as loads from completely invalid addresses: an illegal-address error is issued, and the resulting bytes are marked as initialised.&lt;/p&gt;&lt;p&gt;Note that code that behaves in this way is in violation of the ISO C/C++ standards, and should be considered broken. If at all possible, such code should be fixed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Allow partial loads</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="trackOrigins">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls whether Memcheck tracks the origin of uninitialised values. By default, it does not, which means that although it can tell you that an uninitialised value is being used in a dangerous way, it cannot tell you where the uninitialised value came from. This often makes it difficult to track down the root problem.&lt;/p&gt;&lt;p&gt;When set to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;yes&lt;/span&gt;, Memcheck keeps track of the origins of all uninitialised values. Then, when an uninitialised value error is reported, Memcheck will try to show the origin of the value. An origin can be one of the following four places: a heap block, a stack allocation, a client request, or miscellaneous other sources (eg, a call to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;brk&lt;/span&gt;).&lt;/p&gt;&lt;p&gt;For uninitialised values originating from a heap block, Memcheck shows where the block was allocated. For uninitialised values originating from a stack allocation, Memcheck can tell you which function allocated the value, but no more than that -- typically it shows you the source location of the opening brace of the function. So you should carefully check that all of the function's local variables are initialised properly. &lt;/p&gt;&lt;p&gt;Performance overhead: origin tracking is expensive. It halves Memcheck's speed and increases memory use by a minimum of 100MB, and possibly more. Nevertheless it can drastically reduce the effort required to identify the root cause of uninitialised value errors, and so is often a programmer productivity win, despite running more slowly. &lt;/p&gt;&lt;p&gt;Accuracy: Memcheck tracks origins quite accurately. To avoid very large space and time overheads, some approximations are made. It is possible, although unlikely, that Memcheck will report an incorrect origin, or not be able to identify any origin. &lt;/p&gt;&lt;p&gt;Note that the combination &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--track-origins=yes&lt;/span&gt; and &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--undef-value-errors=no&lt;/span&gt; is nonsensical. Memcheck checks for and rejects this combination at startup.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Track origins of all uninitialised values</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="expensiveDefinednessChecks">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls whether Memcheck should employ more precise but also more expensive (time consuming) algorithms when checking the definedness of a value. The default setting is not to do that and it is usually sufficient. However, for highly optimised code valgrind may sometimes incorrectly complain. Invoking valgrind with &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--expensive-definedness-checks=yes&lt;/span&gt; helps but comes at a performance cost. Runtime degradation of 25% have been observed but the extra cost depends a lot on the application at hand.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Expensive definedness checks</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -124,10 +317,18 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
+  <tabstop>leakResolution</tabstop>
+  <tabstop>showLeakKinds</tabstop>
+  <tabstop>leakCheckHeuristics</tabstop>
+  <tabstop>keepStacktraces</tabstop>
+  <tabstop>freelistVol</tabstop>
+  <tabstop>freelistBigBlocks</tabstop>
   <tabstop>extraParameters</tabstop>
-  <tabstop>freeListSize</tabstop>
-  <tabstop>showReachable</tabstop>
   <tabstop>undefValueErrors</tabstop>
+  <tabstop>showMismatchedFrees</tabstop>
+  <tabstop>partialLoadsOk</tabstop>
+  <tabstop>trackOrigins</tabstop>
+  <tabstop>expensiveDefinednessChecks</tabstop>
   <tabstop>showInstructionPointer</tabstop>
  </tabstops>
  <resources/>

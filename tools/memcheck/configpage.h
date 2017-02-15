@@ -24,6 +24,8 @@
 
 #include <interfaces/launchconfigurationpage.h>
 
+class QPushButton;
+
 namespace Valgrind
 {
 
@@ -52,6 +54,9 @@ public:
     void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
+    void setupMenuButton(QPushButton* button, const QStringList& items);
+    void updateMenuButton(QPushButton* button, const QString& text);
+
     Ui::ConfigPage* ui;
 };
 

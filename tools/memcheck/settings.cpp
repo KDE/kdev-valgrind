@@ -30,6 +30,66 @@ Settings::Settings(const KConfigGroup& config)
 {
 }
 
+QString Settings::leakResolution() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Leak Resolution"), QStringLiteral("high"));
+}
+
+void Settings::setLeakResolution(const QString& resolution)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Leak Resolution"), resolution);
+}
+
+QString Settings::showLeakKinds() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Show Leak Kinds"), QStringLiteral("definite,possible"));
+}
+
+void Settings::setShowLeakKinds(const QString& kinds)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Show Leak Kinds"), QString(kinds).remove(QChar(' ')));
+}
+
+QString Settings::leakCheckHeuristics() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Leak Check Heuristics"), QStringLiteral("all"));
+}
+
+void Settings::setLeakCheckHeuristics(const QString& heuristics)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Leak Check Heuristics"), QString(heuristics).remove(QChar(' ')));
+}
+
+QString Settings::keepStacktraces() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Keep Stacktraces"), QStringLiteral("alloc-and-free"));
+}
+
+void Settings::setKeepStacktraces(const QString& keep)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Keep Stacktraces"), keep);
+}
+
+int Settings::freelistVol() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Freelist Volume"), 20000000);
+}
+
+void Settings::setFreelistVol(int volume)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Freelist Volume"), volume);
+}
+
+int Settings::freelistBigBlocks() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Freelist Big Blocks"), 1000000);
+}
+
+void Settings::setFreelistBigBlocks(int size)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Freelist Big Blocks"), size);
+}
+
 QString Settings::extraParameters() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Extra Parameters"), QString{});
@@ -40,26 +100,6 @@ void Settings::setExtraParameters(const QString& parameters)
     m_config.writeEntry(QStringLiteral("Memcheck Extra Parameters"), parameters);
 }
 
-int Settings::freeListSize() const
-{
-    return m_config.readEntry(QStringLiteral("Memcheck Freelist Size"), 10000000);
-}
-
-void Settings::setFreeListSize(int size)
-{
-    m_config.writeEntry(QStringLiteral("Memcheck Freelist Size"), size);
-}
-
-bool Settings::showReachable() const
-{
-    return m_config.readEntry(QStringLiteral("Memcheck Show Reachable"), true);
-}
-
-void Settings::setShowReachable(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Memcheck Show Reachable"), value);
-}
-
 bool Settings::undefValueErrors() const
 {
     return m_config.readEntry(QStringLiteral("Memcheck Undef Value Errors"), true);
@@ -68,6 +108,46 @@ bool Settings::undefValueErrors() const
 void Settings::setUndefValueErrors(bool value)
 {
     m_config.writeEntry(QStringLiteral("Memcheck Undef Value Errors"), value);
+}
+
+bool Settings::showMismatchedFrees() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Show Mismatched Frees"), true);
+}
+
+void Settings::setShowMismatchedFrees(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Show Mismatched Frees"), value);
+}
+
+bool Settings::partialLoadsOk() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Partial Loads Ok"), true);
+}
+
+void Settings::setPartialLoadsOk(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Partial Loads Ok"), value);
+}
+
+bool Settings::trackOrigins() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Track Origins"), false);
+}
+
+void Settings::setTrackOrigins(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Track Origins"), value);
+}
+
+bool Settings::expensiveDefinednessChecks() const
+{
+    return m_config.readEntry(QStringLiteral("Memcheck Expensive Definedness Checks"), false);
+}
+
+void Settings::setExpensiveDefinednessChecks(bool value)
+{
+    m_config.writeEntry(QStringLiteral("Memcheck Expensive Definedness Checks"), value);
 }
 
 bool Settings::showInstructionPointer() const

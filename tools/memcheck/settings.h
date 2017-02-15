@@ -32,17 +32,41 @@ class Settings
 public:
     explicit Settings(const KConfigGroup& config);
 
+    QString leakResolution() const;
+    void setLeakResolution(const QString& resolution);
+
+    QString showLeakKinds() const;
+    void setShowLeakKinds(const QString& kinds);
+
+    QString leakCheckHeuristics() const;
+    void setLeakCheckHeuristics(const QString& heuristics);
+
+    QString keepStacktraces() const;
+    void setKeepStacktraces(const QString& keep);
+
+    int freelistVol() const;
+    void setFreelistVol(int volume);
+
+    int freelistBigBlocks() const;
+    void setFreelistBigBlocks(int size);
+
     QString extraParameters() const;
     void setExtraParameters(const QString& parameters);
 
-    int freeListSize() const;
-    void setFreeListSize(int size);
-
-    bool showReachable() const;
-    void setShowReachable(bool value);
-
     bool undefValueErrors() const;
     void setUndefValueErrors(bool value);
+
+    bool showMismatchedFrees() const;
+    void setShowMismatchedFrees(bool value);
+
+    bool partialLoadsOk() const;
+    void setPartialLoadsOk(bool value);
+
+    bool trackOrigins() const;
+    void setTrackOrigins(bool value);
+
+    bool expensiveDefinednessChecks() const;
+    void setExpensiveDefinednessChecks(bool value);
 
     bool showInstructionPointer() const;
     void setShowInstructionPointer(bool value);

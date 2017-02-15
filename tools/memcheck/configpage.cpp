@@ -24,9 +24,12 @@
 #include "configpage.h"
 #include "ui_configpage.h"
 
+#include "debug.h"
 #include "settings.h"
 
-#include <KConfigGroup>
+#include <kconfiggroup.h>
+
+#include <QMenu>
 
 namespace Valgrind
 {
@@ -40,13 +43,37 @@ ConfigPage::ConfigPage(QWidget* parent)
     ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
-    connect(ui->freeListSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(ui->leakResolution, &QComboBox::currentTextChanged, this, &ConfigPage::changed);
+    connect(ui->keepStacktraces, &QComboBox::currentTextChanged, this, &ConfigPage::changed);
+    connect(ui->freelistVol, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigPage::changed);
+    connect(ui->freelistBigBlocks, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &ConfigPage::changed);
+    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
 
-    connect(ui->showReachable, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->undefValueErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->showMismatchedFrees, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->partialLoadsOk, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->trackOrigins, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->expensiveDefinednessChecks, &QCheckBox::toggled, this, &ConfigPage::changed);
+
     connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
+
+    static const QStringList leakKinds = {
+        QStringLiteral("definite"),
+        QStringLiteral("possible"),
+        QStringLiteral("indirect"),
+        QStringLiteral("reachable")
+    };
+    setupMenuButton(ui->showLeakKinds, leakKinds);
+
+    static const QStringList heuristics = {
+        QStringLiteral("stdstring"),
+        QStringLiteral("length64"),
+        QStringLiteral("newarray"),
+        QStringLiteral("multipleinheritance")
+    };
+    setupMenuButton(ui->leakCheckHeuristics, heuristics);
 }
 
 ConfigPage::~ConfigPage()
@@ -61,7 +88,7 @@ QString ConfigPage::title() const
 
 QIcon ConfigPage::icon() const
 {
-    return QIcon::fromTheme("fork");
+    return QIcon::fromTheme(QStringLiteral("fork"));
 }
 
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
@@ -69,11 +96,20 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     QSignalBlocker blocker(this);
     Settings settings(cfg);
 
+    ui->leakResolution->setCurrentText(settings.leakResolution());
+    updateMenuButton(ui->showLeakKinds, settings.showLeakKinds());
+    updateMenuButton(ui->leakCheckHeuristics, settings.leakCheckHeuristics());
+    ui->keepStacktraces->setCurrentText(settings.keepStacktraces());
+    ui->freelistVol->setValue(settings.freelistVol());
+    ui->freelistBigBlocks->setValue(settings.freelistBigBlocks());
     ui->extraParameters->setText(settings.extraParameters());
-    ui->freeListSize->setValue(settings.freeListSize());
 
-    ui->showReachable->setChecked(settings.showReachable());
     ui->undefValueErrors->setChecked(settings.undefValueErrors());
+    ui->showMismatchedFrees->setChecked(settings.showMismatchedFrees());
+    ui->partialLoadsOk->setChecked(settings.partialLoadsOk());
+    ui->trackOrigins->setChecked(settings.trackOrigins());
+    ui->expensiveDefinednessChecks->setChecked(settings.expensiveDefinednessChecks());
+
     ui->showInstructionPointer->setChecked(settings.showInstructionPointer());
 }
 
@@ -81,12 +117,84 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
 {
     Settings settings(cfg);
 
+    settings.setLeakResolution(ui->leakResolution->currentText());
+    settings.setShowLeakKinds(ui->showLeakKinds->text());
+    settings.setLeakCheckHeuristics(ui->leakCheckHeuristics->text());
+    settings.setKeepStacktraces(ui->keepStacktraces->currentText());
+    settings.setFreelistVol(ui->freelistVol->value());
+    settings.setFreelistBigBlocks(ui->freelistBigBlocks->value());
     settings.setExtraParameters(ui->extraParameters->text());
-    settings.setFreeListSize(ui->freeListSize->value());
 
-    settings.setShowReachable(ui->showReachable->isChecked());
     settings.setUndefValueErrors(ui->undefValueErrors->isChecked());
+    settings.setShowMismatchedFrees(ui->showMismatchedFrees->isChecked());
+    settings.setPartialLoadsOk(ui->partialLoadsOk->isChecked());
+    settings.setTrackOrigins(ui->trackOrigins->isChecked());
+    settings.setExpensiveDefinednessChecks(ui->expensiveDefinednessChecks->isChecked());
+
     settings.setShowInstructionPointer(ui->showInstructionPointer->isChecked());
+}
+
+QString selectedItemsText(QMenu* menu)
+{
+    Q_ASSERT(menu);
+
+    QStringList selected;
+    for (auto action : menu->actions()) {
+        if (action->isChecked()) {
+            selected += action->text();
+        }
+    }
+
+    if (selected.isEmpty()) {
+        return QStringLiteral("none");
+    }
+
+    if (selected.size() == menu->actions().size()) {
+        return QStringLiteral("all");
+    }
+
+
+    return selected.join(QStringLiteral(", "));
+}
+
+void ConfigPage::setupMenuButton(QPushButton* button, const QStringList& items)
+{
+    Q_ASSERT(button);
+
+    auto menu = new QMenu(button);
+    button->setMenu(menu);
+    button->setStyleSheet(QStringLiteral("Text-align:left"));
+
+    auto slot = [button, menu]() {
+        button->setText(QChar(' ') + selectedItemsText(menu));
+    };
+
+    for (const QString& text : items) {
+        auto action = new QAction(text, menu);
+        action->setCheckable(true);
+        action->setChecked(false);
+
+        connect(action, &QAction::toggled, this, slot);
+        connect(action, &QAction::toggled, this, &ConfigPage::changed);
+        menu->addAction(action);
+    }
+    slot();
+}
+
+void ConfigPage::updateMenuButton(QPushButton* button, const QString& text)
+{
+    Q_ASSERT(button);
+
+    auto enabled = text.split(QChar(','));
+    for (auto action : button->menu()->actions()) {
+        if (text == QStringLiteral("all")) {
+            action->setChecked(true);
+        } else if (text == QStringLiteral("none")) {
+            action->setChecked(false);
+        } else {
+            action->setChecked(enabled.contains(action->text()));
+        }
+    }
 }
 
 ConfigPageFactory::ConfigPageFactory()
