@@ -27,109 +27,71 @@ namespace Valgrind
 namespace Massif
 {
 
-Settings::Settings(const KConfigGroup& config)
-    : m_config(config)
+Settings::Settings()
+    : extraParameters(
+        this,
+        QStringLiteral("Massif Extra Parameters"),
+        QStringLiteral(""),
+        QStringLiteral(""))
+
+    , snapshotTreeDepth(
+        this,
+        QStringLiteral("Massif Snapshot Tree Depth"),
+        QStringLiteral("depth"),
+        30)
+
+    , threshold(
+        this,
+        QStringLiteral("Massif Threshold"),
+        QStringLiteral("threshold"),
+        1)
+
+    , peakInaccuracy(
+        this,
+        QStringLiteral("Massif Peak Inaccuracy"),
+        QStringLiteral("peak-inaccuracy"),
+        1)
+
+    , maximumSnapshots(
+        this,
+        QStringLiteral("Massif Maximum Snapshots"),
+        QStringLiteral("max-snapshots"),
+        100)
+
+    , detailedSnapshotsFrequency(
+        this,
+        QStringLiteral("Massif Detailed Snapshots Frequency"),
+        QStringLiteral("detailed-freq"),
+        10)
+
+    , timeUnit(
+        this,
+        QStringLiteral("Massif Time Unit"),
+        QStringLiteral(""),
+        0)
+
+    , profileHeap(
+        this,
+        QStringLiteral("Massif Profile Heap"),
+        QStringLiteral("heap"),
+        true)
+
+    , profileStack(
+        this,
+        QStringLiteral("Massif Profile Stack"),
+        QStringLiteral("stacks"),
+        false)
+
+    , launchVisualizer(
+        this,
+        QStringLiteral("Massif Launch Visualizer"),
+        QStringLiteral(""),
+        false)
 {
 }
 
-QString Settings::extraParameters() const
+Settings::~Settings()
 {
-    return m_config.readEntry(QStringLiteral("Massif Extra Parameters"), QString{});
-}
-
-void Settings::setExtraParameters(const QString& parameters)
-{
-    m_config.writeEntry(QStringLiteral("Massif Extra Parameters"), parameters);
-}
-
-int Settings::snapshotTreeDepth() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Snapshot Tree Depth"), 30);
-}
-
-void Settings::setSnapshotTreeDepth(int depth)
-{
-    m_config.writeEntry(QStringLiteral("Massif Snapshot Tree Depth"), depth);
-}
-
-int Settings::threshold() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Threshold"), 1);
-}
-
-void Settings::setThreshold(int threshold)
-{
-    m_config.writeEntry(QStringLiteral("Massif Threshold"), threshold);
-}
-
-int Settings::peakInaccuracy() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Peak Inaccuracy"), 1);
-}
-
-void Settings::setPeakInaccuracy(int inaccuracy)
-{
-    m_config.writeEntry(QStringLiteral("Massif Peak Inaccuracy"), inaccuracy);
-}
-
-int Settings::maximumSnapshots() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Maximum Snapshots"), 100);
-}
-
-void Settings::setMaximumSnapshots(int maximum)
-{
-    m_config.writeEntry(QStringLiteral("Massif Maximum Snapshots"), maximum);
-}
-
-int Settings::detailedSnapshotsFrequency() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Detailed Snapshots Frequency"), 10);
-}
-
-void Settings::setDetailedSnapshotsFrequency(int frequency)
-{
-    m_config.writeEntry(QStringLiteral("Massif Detailed Snapshots Frequency"), frequency);
-}
-
-int Settings::timeUnit() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Time Unit"), 0);
-}
-
-void Settings::setTimeUnit(int unit)
-{
-    m_config.writeEntry(QStringLiteral("Massif Time Unit"), unit);
-}
-
-bool Settings::profileHeap() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Profile Heap"), true);
-}
-
-void Settings::setProfileHeap(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Massif Profile Heap"), value);
-}
-
-bool Settings::profileStack() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Profile Stack"), false);
-}
-
-void Settings::setProfileStack(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Massif Profile Stack"), value);
-}
-
-bool Settings::launchVisualizer() const
-{
-    return m_config.readEntry(QStringLiteral("Massif Launch Visualizer"), false);
-}
-
-void Settings::setLaunchVisualizer(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Massif Launch Visualizer"), value);
 }
 
 QString Settings::visualizerExecutablePath()

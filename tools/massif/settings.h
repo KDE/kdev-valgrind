@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <kconfiggroup.h>
+#include "generic/isettings.h"
 
 namespace Valgrind
 {
@@ -27,45 +27,27 @@ namespace Valgrind
 namespace Massif
 {
 
-class Settings
+class Settings : public ISettings
 {
 public:
-    explicit Settings(const KConfigGroup& config);
+    Settings();
+    ~Settings() override;
 
-    QString extraParameters() const;
-    void setExtraParameters(const QString& parameters);
+    Value<QString> extraParameters;
 
-    int snapshotTreeDepth() const;
-    void setSnapshotTreeDepth(int depth);
+    Value<int> snapshotTreeDepth;
+    Value<int> threshold;
+    Value<int> peakInaccuracy;
+    Value<int> maximumSnapshots;
+    Value<int> detailedSnapshotsFrequency;
+    Value<int> timeUnit;
 
-    int threshold() const;
-    void setThreshold(int threshold);
+    Value<bool> profileHeap;
+    Value<bool> profileStack;
 
-    int peakInaccuracy() const;
-    void setPeakInaccuracy(int inaccuracy);
-
-    int maximumSnapshots() const;
-    void setMaximumSnapshots(int maximum);
-
-    int detailedSnapshotsFrequency() const;
-    void setDetailedSnapshotsFrequency(int frequency);
-
-    int timeUnit() const;
-    void setTimeUnit(int unit);
-
-    bool profileHeap() const;
-    void setProfileHeap(bool value);
-
-    bool profileStack() const;
-    void setProfileStack(bool value);
-
-    bool launchVisualizer() const;
-    void setLaunchVisualizer(bool value);
+    Value<bool> launchVisualizer;
 
     static QString visualizerExecutablePath();
-
-private:
-    KConfigGroup m_config;
 };
 
 }

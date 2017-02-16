@@ -74,34 +74,37 @@ QIcon ConfigPage::icon() const
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    Settings settings(cfg);
+    Settings settings;
+    settings.load(cfg);
 
-    ui->extraParameters->setText(settings.extraParameters());
-    ui->depth->setValue(settings.snapshotTreeDepth());
-    ui->threshold->setValue(settings.threshold());
-    ui->peakInaccuracy->setValue(settings.peakInaccuracy());
-    ui->maxSnapshots->setValue(settings.maximumSnapshots());
-    ui->snapshotFreq->setValue(settings.detailedSnapshotsFrequency());
-    ui->timeUnit->setCurrentIndex(settings.timeUnit());
-    ui->profileHeap->setChecked(settings.profileHeap());
-    ui->profileStack->setChecked(settings.profileStack());
-    ui->launchMassifVisualizer->setChecked(settings.launchVisualizer());
+    ui->extraParameters->setText(settings.extraParameters);
+    ui->depth->setValue(settings.snapshotTreeDepth);
+    ui->threshold->setValue(settings.threshold);
+    ui->peakInaccuracy->setValue(settings.peakInaccuracy);
+    ui->maxSnapshots->setValue(settings.maximumSnapshots);
+    ui->snapshotFreq->setValue(settings.detailedSnapshotsFrequency);
+    ui->timeUnit->setCurrentIndex(settings.timeUnit);
+    ui->profileHeap->setChecked(settings.profileHeap);
+    ui->profileStack->setChecked(settings.profileStack);
+    ui->launchMassifVisualizer->setChecked(settings.launchVisualizer);
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    Settings settings(cfg);
+    Settings settings;
 
-    settings.setExtraParameters(ui->extraParameters->text());
-    settings.setSnapshotTreeDepth(ui->depth->value());
-    settings.setThreshold(ui->threshold->value());
-    settings.setPeakInaccuracy(ui->peakInaccuracy->value());
-    settings.setMaximumSnapshots(ui->maxSnapshots->value());
-    settings.setDetailedSnapshotsFrequency(ui->snapshotFreq->value());
-    settings.setTimeUnit(ui->timeUnit->currentIndex());
-    settings.setProfileHeap(ui->profileHeap->isChecked());
-    settings.setProfileStack(ui->profileStack->isChecked());
-    settings.setLaunchVisualizer(ui->launchMassifVisualizer->isChecked());
+    settings.extraParameters = ui->extraParameters->text();
+    settings.snapshotTreeDepth = ui->depth->value();
+    settings.threshold = ui->threshold->value();
+    settings.peakInaccuracy = ui->peakInaccuracy->value();
+    settings.maximumSnapshots = ui->maxSnapshots->value();
+    settings.detailedSnapshotsFrequency = ui->snapshotFreq->value();
+    settings.timeUnit = ui->timeUnit->currentIndex();
+    settings.profileHeap = ui->profileHeap->isChecked();
+    settings.profileStack = ui->profileStack->isChecked();
+    settings.launchVisualizer = ui->launchMassifVisualizer->isChecked();
+
+    settings.save(cfg);
 }
 
 ConfigPageFactory::ConfigPageFactory()

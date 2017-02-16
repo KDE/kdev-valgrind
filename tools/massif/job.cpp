@@ -55,12 +55,15 @@ Job::~Job()
 
 bool Job::processEnded()
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
     Parser::parse(m_outputFile, m_model);
-    if (settings.launchVisualizer()) {
+    if (settings.launchVisualizer) {
         new QFileProxyRemove(settings.visualizerExecutablePath(),
-                             { m_outputFile }, m_outputFile, m_plugin);
+                             { m_outputFile },
+                             m_outputFile,
+                             m_plugin);
     } else {
         QFile::remove(m_outputFile);
     }
@@ -70,9 +73,10 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
-    int tu = settings.timeUnit();
+    int tu = settings.timeUnit;
     if (tu == 0) {
         args += QStringLiteral("--time-unit=i");
     }
@@ -85,16 +89,10 @@ void Job::addToolArgs(QStringList& args) const
         args += QStringLiteral("--time-unit=B");
     }
 
-    args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
+    args += settings.cmdArgs();
 
-    args += argValue(settings.extraParameters());
-    args += QStringLiteral("--depth=") + argValue(settings.detailedSnapshotsFrequency());
-    args += QStringLiteral("--threshold=") + argValue(settings.threshold());
-    args += QStringLiteral("--peak-inaccuracy=") + argValue(settings.peakInaccuracy());
-    args += QStringLiteral("--max-snapshots=") + argValue(settings.maximumSnapshots());
-    args += QStringLiteral("--detailed-freq=") + argValue(settings.detailedSnapshotsFrequency());
-    args += QStringLiteral("--heap=") + argValue(settings.profileHeap());
-    args += QStringLiteral("--stacks=") + argValue(settings.profileStack());
+    args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
+    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()
