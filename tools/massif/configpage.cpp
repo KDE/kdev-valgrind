@@ -54,6 +54,11 @@ ConfigPage::ConfigPage(QWidget* parent)
             this, &ConfigPage::changed);
     connect(ui->profileHeap, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->profileStack, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->pagesAsHeap, &QCheckBox::toggled, this, &ConfigPage::changed);
+
+    connect(ui->profileStack, &QCheckBox::toggled, this, &ConfigPage::check);
+    connect(ui->pagesAsHeap, &QCheckBox::toggled, this, &ConfigPage::check);
+    check();
 }
 
 ConfigPage::~ConfigPage()
@@ -86,6 +91,7 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     ui->timeUnit->setCurrentIndex(settings.timeUnit);
     ui->profileHeap->setChecked(settings.profileHeap);
     ui->profileStack->setChecked(settings.profileStack);
+    ui->pagesAsHeap->setChecked(settings.pagesAsHeap);
     ui->launchMassifVisualizer->setChecked(settings.launchVisualizer);
 }
 
@@ -102,9 +108,20 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
     settings.timeUnit = ui->timeUnit->currentIndex();
     settings.profileHeap = ui->profileHeap->isChecked();
     settings.profileStack = ui->profileStack->isChecked();
+    settings.pagesAsHeap = ui->pagesAsHeap->isChecked();
     settings.launchVisualizer = ui->launchMassifVisualizer->isChecked();
 
     settings.save(cfg);
+}
+
+void ConfigPage::check()
+{
+    if (ui->profileStack->isChecked() && ui->pagesAsHeap->isChecked()) {
+        ui->messageWidget->setVisible(true);
+        return;
+    }
+
+    ui->messageWidget->setVisible(false);
 }
 
 ConfigPageFactory::ConfigPageFactory()

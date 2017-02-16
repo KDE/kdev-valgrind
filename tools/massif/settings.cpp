@@ -78,6 +78,12 @@ Settings::Settings()
         QStringLiteral("stacks"),
         false)
 
+    , pagesAsHeap(
+        this,
+        QStringLiteral("Pages As Heap"),
+        QStringLiteral("pages-as-heap"),
+        false)
+
     , launchVisualizer(
         this,
         QStringLiteral("Launch Visualizer"),

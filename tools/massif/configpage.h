@@ -50,6 +50,8 @@ public:
     void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
+    void check();
+
     Ui::ConfigPage* ui;
 };
 

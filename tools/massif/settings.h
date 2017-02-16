@@ -42,6 +42,7 @@ public:
 
     Value<bool> profileHeap;
     Value<bool> profileStack;
+    Value<bool> pagesAsHeap;
 
     Value<bool> launchVisualizer;
 
