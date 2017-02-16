@@ -30,13 +30,13 @@ namespace Generic
 Settings::Settings()
     : ISettings(QStringLiteral("Valgrind"))
 
-    , stackframeDepth(
+    , numCallers(
         this,
         QStringLiteral("Stackframe Depth"),
         QStringLiteral("num-callers"),
         12)
 
-    , maximumStackframeSize(
+    , maxStackframe(
         this,
         QStringLiteral("Maximum Stackframe Size"),
         QStringLiteral("max-stackframe"),

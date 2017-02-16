@@ -33,8 +33,8 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<int> stackframeDepth;
-    Value<int> maximumStackframeSize;
+    Value<int> numCallers;
+    Value<int> maxStackframe;
 
     Value<bool> limitErrors;
 

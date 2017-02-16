@@ -39,9 +39,9 @@ ConfigPage::ConfigPage(QWidget* parent)
 
     connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
     connect(ui->limitErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->maxStackSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(ui->maxStackframe, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigPage::changed);
-    connect(ui->stackDepth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(ui->numCallers, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigPage::changed);
 }
 
@@ -67,8 +67,8 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     settings.load(cfg);
 
     ui->extraParameters->setText(settings.extraParameters);
-    ui->stackDepth->setValue(settings.stackframeDepth);
-    ui->maxStackSize->setValue(settings.maximumStackframeSize);
+    ui->numCallers->setValue(settings.numCallers);
+    ui->maxStackframe->setValue(settings.maxStackframe);
     ui->limitErrors->setChecked(settings.limitErrors);
 }
 
@@ -77,8 +77,8 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
     Settings settings;
 
     settings.extraParameters = ui->extraParameters->text();
-    settings.stackframeDepth = ui->stackDepth->value();
-    settings.maximumStackframeSize = ui->maxStackSize->value();
+    settings.numCallers = ui->numCallers->value();
+    settings.maxStackframe = ui->maxStackframe->value();
     settings.limitErrors = ui->limitErrors->isChecked();
 
     settings.save(cfg);
