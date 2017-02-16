@@ -33,11 +33,10 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<QString> extraParameters;
-    Value<QString> callgrindAnnotateParameters;
-
     Value<bool> cacheSimulation;
     Value<bool> branchSimulation;
+
+    Value<QString> callgrindAnnotateParameters;
 
     Value<bool> launchKCachegrind;
 

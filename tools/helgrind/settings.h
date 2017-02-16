@@ -33,7 +33,6 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<QString> extraParameters;
     Value<QString> historyLevel;
 
     Value<int> conflictCacheSize;

@@ -28,27 +28,23 @@ namespace Generic
 {
 
 Settings::Settings()
-    : extraParameters(
-        this,
-        QStringLiteral("Valgrind Extra Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
+    : ISettings(QStringLiteral("Valgrind"))
 
     , stackframeDepth(
         this,
-        QStringLiteral("Valgrind Stackframe Depth"),
+        QStringLiteral("Stackframe Depth"),
         QStringLiteral("num-callers"),
         12)
 
     , maximumStackframeSize(
         this,
-        QStringLiteral("Valgrind Maximum Stackframe Size"),
+        QStringLiteral("Maximum Stackframe Size"),
         QStringLiteral("max-stackframe"),
         2000000)
 
     , limitErrors(
         this,
-        QStringLiteral("Valgrind Limit Errors"),
+        QStringLiteral("Limit Errors"),
         QStringLiteral("error-limit"),
         true)
 {

@@ -19,49 +19,27 @@
 
 #include "isettings.h"
 
+#include <kshell.h>
+
 namespace Valgrind
 {
 
-ISettings::ISettings()
+ISettingsBase::ISettingsBase(const QString& configKeyPrefix)
+    : m_configKeyPrefix(configKeyPrefix)
 {
 }
 
-ISettings::~ISettings()
+ISettingsBase::~ISettingsBase()
 {
 }
 
-void ISettings::load(const KConfigGroup& config)
-{
-    for (auto value : m_values) {
-        value->load(config);
-    }
-}
-
-void ISettings::save(KConfigGroup& config)
-{
-    for (auto value : m_values) {
-        value->save(config);
-    }
-}
-
-QStringList ISettings::cmdArgs()
-{
-    QStringList args;
-    for (auto value : m_values) {
-        args += value->cmdArg();
-    }
-    args.removeAll(QStringLiteral(""));
-
-    return args;
-}
-
-ISettings::IValue::~IValue()
+ISettingsBase::IValue::~IValue()
 {
 }
 
 template<typename T>
-ISettings::Value<T>::Value(
-    ISettings* settings,
+ISettingsBase::Value<T>::Value(
+    ISettingsBase* settings,
     const QString& configKey,
     const QString& cmdKey,
     const T& defaultValue)
@@ -78,33 +56,35 @@ ISettings::Value<T>::Value(
 }
 
 template<typename T>
-ISettings::Value<T>::~Value()
+ISettingsBase::Value<T>::~Value()
 {
 }
 
 template<typename T>
-ISettings::Value<T>::operator const T& () const
+ISettingsBase::Value<T>::operator const T& () const
 {
     return m_value;
 }
 
 template<typename T>
-ISettings::Value<T>& ISettings::Value<T>::operator=(const T& value)
+ISettingsBase::Value<T>& ISettingsBase::Value<T>::operator=(const T& value)
 {
     m_value = value;
     return *this;
 }
 
 template<typename T>
-void ISettings::Value<T>::load(const KConfigGroup& config)
+void ISettingsBase::Value<T>::load(const KConfigGroup& config, const QString& configKeyPrefix)
 {
-    m_value = config.readEntry(m_configKey, m_defaultValue);
+    m_value = config.readEntry(QStringLiteral("%1 %2").arg(configKeyPrefix).arg(m_configKey),
+                               m_defaultValue);
 }
 
 template<typename T>
-void ISettings::Value<T>::save(KConfigGroup& config)
+void ISettingsBase::Value<T>::save(KConfigGroup& config, const QString& configKeyPrefix)
 {
-    config.writeEntry(m_configKey, m_value);
+    config.writeEntry(QStringLiteral("%1 %2").arg(configKeyPrefix).arg(m_configKey),
+                      m_value);
 }
 
 inline QString toCmdArg(int value)
@@ -123,7 +103,7 @@ inline QString toCmdArg(const QString& value)
 }
 
 template<typename T>
-QString ISettings::Value<T>::cmdArg()
+QString ISettingsBase::Value<T>::cmdArg()
 {
     if (m_cmdKey.isEmpty()) {
         return QStringLiteral("");
@@ -132,8 +112,49 @@ QString ISettings::Value<T>::cmdArg()
     }
 }
 
-template class ISettings::Value<int>;
-template class ISettings::Value<bool>;
-template class ISettings::Value<QString>;
+template class ISettingsBase::Value<int>;
+template class ISettingsBase::Value<bool>;
+template class ISettingsBase::Value<QString>;
+
+ISettings::ISettings(const QString& configKeyPrefix)
+    : ISettingsBase(configKeyPrefix)
+
+    , extraParameters(
+        this,
+        QStringLiteral("Extra Parameters"),
+        QStringLiteral(""),
+        QStringLiteral(""))
+{
+}
+
+ISettings::~ISettings()
+{
+}
+
+void ISettings::load(const KConfigGroup& config)
+{
+    for (auto value : m_values) {
+        value->load(config, m_configKeyPrefix);
+    }
+}
+
+void ISettings::save(KConfigGroup& config)
+{
+    for (auto value : m_values) {
+        value->save(config, m_configKeyPrefix);
+    }
+}
+
+QStringList ISettings::cmdArgs()
+{
+    QStringList args;
+    for (auto value : m_values) {
+        args += value->cmdArg();
+    }
+    args += KShell::splitArgs(extraParameters);
+    args.removeAll(QStringLiteral(""));
+
+    return args;
+}
 
 }

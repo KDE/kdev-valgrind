@@ -24,7 +24,7 @@
 namespace Valgrind
 {
 
-class ISettings
+class ISettingsBase
 {
 public:
     class IValue;
@@ -32,19 +32,16 @@ public:
     template<typename T>
     class Value;
 
-    virtual ~ISettings();
-
-    void load(const KConfigGroup& config);
-    void save(KConfigGroup& config);
-    QStringList cmdArgs();
+    virtual ~ISettingsBase();
 
 protected:
-    ISettings();
+    ISettingsBase(const QString& configKeyPrefix);
 
+    QString m_configKeyPrefix;
     QList<IValue*> m_values;
 };
 
-class ISettings::IValue
+class ISettingsBase::IValue
 {
     friend class ISettings;
 
@@ -52,26 +49,26 @@ public:
     virtual ~IValue();
 
 protected:
-    virtual void load(const KConfigGroup& config) = 0;
-    virtual void save(KConfigGroup& config) = 0;
+    virtual void load(const KConfigGroup& config, const QString& configKeyPrefix) = 0;
+    virtual void save(KConfigGroup& config, const QString& configKeyPrefix) = 0;
     virtual QString cmdArg() = 0;
 };
 
 template<typename T>
-class ISettings::Value : public ISettings::IValue
+class ISettingsBase::Value : public ISettingsBase::IValue
 {
     friend class ISettings;
 
 public:
-    Value(ISettings* settings, const QString& configKey, const QString& cmdKey, const T& defaultValue);
+    Value(ISettingsBase* settings, const QString& configKey, const QString& cmdKey, const T& defaultValue);
     ~Value() override;
 
     operator const T& () const;
     Value<T>& operator=(const T& value);
 
 protected:
-    void load(const KConfigGroup& config) override;
-    void save(KConfigGroup& config) override;
+    void load(const KConfigGroup& config, const QString& configKeyPrefix) override;
+    void save(KConfigGroup& config, const QString& configKeyPrefix) override;
 
     QString cmdArg() override;
 
@@ -80,6 +77,21 @@ protected:
 
     T m_value;
     T m_defaultValue;
+};
+
+class ISettings : public ISettingsBase
+{
+public:
+    Value<QString> extraParameters;
+
+    void load(const KConfigGroup& config);
+    void save(KConfigGroup& config);
+
+    QStringList cmdArgs();
+
+protected:
+    ISettings(const QString& configKeyPrefix);
+    ~ISettings() override;
 };
 
 }

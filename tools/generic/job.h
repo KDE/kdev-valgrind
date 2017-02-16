@@ -79,10 +79,6 @@ protected:
 
     virtual void addToolArgs(QStringList& args) const = 0;
 
-    QStringList argValue(const QString& line) const;
-    QString argValue(bool value) const;
-    QString argValue(int value) const;
-
     int executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput);
 
     QStringList buildCommandLine() const;

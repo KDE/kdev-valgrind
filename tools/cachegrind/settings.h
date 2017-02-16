@@ -33,11 +33,10 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<QString> extraParameters;
-    Value<QString> cgAnnotateParameters;
-
     Value<bool> cacheSimulation;
     Value<bool> branchSimulation;
+
+    Value<QString> cgAnnotateParameters;
 
     static QString cgAnnotateExecutablePath();
 

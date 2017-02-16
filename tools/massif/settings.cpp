@@ -28,63 +28,59 @@ namespace Massif
 {
 
 Settings::Settings()
-    : extraParameters(
-        this,
-        QStringLiteral("Massif Extra Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
+    : ISettings(QStringLiteral("Massif"))
 
     , snapshotTreeDepth(
         this,
-        QStringLiteral("Massif Snapshot Tree Depth"),
+        QStringLiteral("Snapshot Tree Depth"),
         QStringLiteral("depth"),
         30)
 
     , threshold(
         this,
-        QStringLiteral("Massif Threshold"),
+        QStringLiteral("Threshold"),
         QStringLiteral("threshold"),
         1)
 
     , peakInaccuracy(
         this,
-        QStringLiteral("Massif Peak Inaccuracy"),
+        QStringLiteral("Peak Inaccuracy"),
         QStringLiteral("peak-inaccuracy"),
         1)
 
     , maximumSnapshots(
         this,
-        QStringLiteral("Massif Maximum Snapshots"),
+        QStringLiteral("Maximum Snapshots"),
         QStringLiteral("max-snapshots"),
         100)
 
     , detailedSnapshotsFrequency(
         this,
-        QStringLiteral("Massif Detailed Snapshots Frequency"),
+        QStringLiteral("Detailed Snapshots Frequency"),
         QStringLiteral("detailed-freq"),
         10)
 
     , timeUnit(
         this,
-        QStringLiteral("Massif Time Unit"),
+        QStringLiteral("Time Unit"),
         QStringLiteral(""),
         0)
 
     , profileHeap(
         this,
-        QStringLiteral("Massif Profile Heap"),
+        QStringLiteral("Profile Heap"),
         QStringLiteral("heap"),
         true)
 
     , profileStack(
         this,
-        QStringLiteral("Massif Profile Stack"),
+        QStringLiteral("Profile Stack"),
         QStringLiteral("stacks"),
         false)
 
     , launchVisualizer(
         this,
-        QStringLiteral("Massif Launch Visualizer"),
+        QStringLiteral("Launch Visualizer"),
         QStringLiteral(""),
         false)
 {

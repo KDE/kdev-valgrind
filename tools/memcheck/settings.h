@@ -41,8 +41,6 @@ public:
     Value<int> freelistVol;
     Value<int> freelistBigBlocks;
 
-    Value<QString> extraParameters;
-
     Value<bool> undefValueErrors;
     Value<bool> showMismatchedFrees;
     Value<bool> partialLoadsOk;

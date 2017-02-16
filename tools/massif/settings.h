@@ -33,8 +33,6 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<QString> extraParameters;
-
     Value<int> snapshotTreeDepth;
     Value<int> threshold;
     Value<int> peakInaccuracy;

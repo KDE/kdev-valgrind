@@ -61,7 +61,7 @@ bool Job::processEnded()
     settings.load(m_config);
 
     QStringList caArgs;
-    caArgs += argValue(settings.callgrindAnnotateParameters);
+    caArgs += KShell::splitArgs(settings.callgrindAnnotateParameters);
     caArgs += QStringLiteral("--tree=calling");
     caArgs += QStringLiteral("--threshold=100");
     caArgs += m_outputFile;
@@ -95,7 +95,6 @@ void Job::addToolArgs(QStringList& args) const
 
     args += settings.cmdArgs();
     args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
-    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

@@ -60,7 +60,7 @@ bool Job::processEnded()
     settings.load(m_config);
 
     QStringList cgArgs;
-    cgArgs += argValue(settings.cgAnnotateParameters);
+    cgArgs += KShell::splitArgs(settings.cgAnnotateParameters);
     cgArgs += m_outputFile;
 
     QByteArray cgOutput;
@@ -82,7 +82,6 @@ void Job::addToolArgs(QStringList& args) const
 
     args += settings.cmdArgs();
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
-    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

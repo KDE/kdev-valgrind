@@ -26,39 +26,35 @@ namespace Helgrind
 {
 
 Settings::Settings()
-    : extraParameters(
-        this,
-        QStringLiteral("Helgrind Extra Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
+    : ISettings(QStringLiteral("Helgrind"))
 
     , historyLevel(
         this,
-        QStringLiteral("Helgrind History Level"),
+        QStringLiteral("History Level"),
         QStringLiteral("history-level"),
         QStringLiteral("full"))
 
     , conflictCacheSize(
         this,
-        QStringLiteral("Helgrind Conflict Cache Size"),
+        QStringLiteral("Conflict Cache Size"),
         QStringLiteral("conflict-cache-size"),
         1000000)
 
     , trackLockorders(
         this,
-        QStringLiteral("Helgrind Track Lock Orders"),
+        QStringLiteral("Track Lock Orders"),
         QStringLiteral("track-lockorders"),
         true)
 
     , checkStackRefs(
         this,
-        QStringLiteral("Helgrind Check Stack Refs"),
+        QStringLiteral("Check Stack Refs"),
         QStringLiteral("check-stack-refs"),
         true)
 
     , ignoreThreadCreation(
         this,
-        QStringLiteral("Helgrind Ignore Thread Creation"),
+        QStringLiteral("Ignore Thread Creation"),
         QStringLiteral("ignore-thread-creation"),
         false)
 {

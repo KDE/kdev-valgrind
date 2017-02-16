@@ -90,9 +90,7 @@ void Job::addToolArgs(QStringList& args) const
     }
 
     args += settings.cmdArgs();
-
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
-    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

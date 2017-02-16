@@ -92,10 +92,7 @@ void Job::addToolArgs(QStringList& args) const
 
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
-
     args += settings.cmdArgs();
-
-    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

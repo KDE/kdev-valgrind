@@ -135,21 +135,6 @@ bool Job::hasView()
     return m_hasView;
 }
 
-QStringList Job::argValue(const QString& line) const
-{
-    return KShell::splitArgs(line);
-}
-
-QString Job::argValue(bool value) const
-{
-    return value ? QStringLiteral("yes") : QStringLiteral("no");
-}
-
-QString Job::argValue(int value) const
-{
-    return QString::number(value);
-}
-
 QStringList Job::buildCommandLine() const
 {
     Settings settings;
@@ -158,7 +143,6 @@ QStringList Job::buildCommandLine() const
     QStringList args;
     args += QStringLiteral("--tool=") + m_tool;
     args += settings.cmdArgs();
-    args += argValue(settings.extraParameters);
 
     addToolArgs(args);
 

@@ -28,29 +28,25 @@ namespace Cachegrind
 {
 
 Settings::Settings()
-    : extraParameters(
-        this,
-        QStringLiteral("Cachegrind Extra Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
-
-    , cgAnnotateParameters(
-        this,
-        QStringLiteral("Cachegrind cg_annotate Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
+    : ISettings(QStringLiteral("Cachegrind"))
 
     , cacheSimulation(
         this,
-        QStringLiteral("Cachegrind Cache Simulation"),
+        QStringLiteral("Cache Simulation"),
         QStringLiteral("cache-sim"),
         true)
 
     , branchSimulation(
         this,
-        QStringLiteral("Cachegrind Branch Simulation"),
+        QStringLiteral("Branch Simulation"),
         QStringLiteral("branch-sim"),
         false)
+
+    , cgAnnotateParameters(
+        this,
+        QStringLiteral("cg_annotate Parameters"),
+        QStringLiteral(""),
+        QStringLiteral(""))
 {
 }
 

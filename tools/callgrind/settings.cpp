@@ -28,33 +28,29 @@ namespace Callgrind
 {
 
 Settings::Settings()
-    : extraParameters(
-        this,
-        QStringLiteral("Callgrind Extra Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
-
-    , callgrindAnnotateParameters(
-        this,
-        QStringLiteral("Callgrind callgrind_annotate Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
+    : ISettings(QStringLiteral("Callgrind"))
 
     , cacheSimulation(
         this,
-        QStringLiteral("Callgrind Cache Simulation"),
+        QStringLiteral("Cache Simulation"),
         QStringLiteral("cache-sim"),
         false)
 
     , branchSimulation(
         this,
-        QStringLiteral("Callgrind Branch Simulation"),
+        QStringLiteral("Branch Simulation"),
         QStringLiteral("branch-sim"),
         false)
 
+    , callgrindAnnotateParameters(
+        this,
+        QStringLiteral("callgrind_annotate Parameters"),
+        QStringLiteral(""),
+        QStringLiteral(""))
+
     , launchKCachegrind(
         this,
-        QStringLiteral("Callgrind Launch KCachegrind"),
+        QStringLiteral("Launch KCachegrind"),
         QStringLiteral(""),
         false)
 {
