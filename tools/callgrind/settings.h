@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <kconfiggroup.h>
+#include "generic/isettings.h"
 
 namespace Valgrind
 {
@@ -27,31 +27,22 @@ namespace Valgrind
 namespace Callgrind
 {
 
-class Settings
+class Settings : public ISettings
 {
 public:
-    explicit Settings(const KConfigGroup& config);
+    Settings();
+    ~Settings() override;
 
-    QString extraParameters() const;
-    void setExtraParameters(const QString& parameters);
+    Value<QString> extraParameters;
+    Value<QString> callgrindAnnotateParameters;
 
-    bool cacheSimulation() const;
-    void setCacheSimulation(bool value);
+    Value<bool> cacheSimulation;
+    Value<bool> branchSimulation;
 
-    bool branchSimulation() const;
-    void setBranchSimulation(bool value);
-
-    bool launchKCachegrind() const;
-    void setLaunchKCachegrind(bool value);
-
-    QString callgrindAnnotateParameters() const;
-    void setCallgrindAnnotateParameters(const QString& parameters);
+    Value<bool> launchKCachegrind;
 
     static QString callgrindAnnotateExecutablePath();
     static QString kcachegrindExecutablePath();
-
-private:
-    KConfigGroup m_config;
 };
 
 }

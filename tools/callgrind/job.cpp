@@ -57,10 +57,11 @@ Job::~Job()
 
 bool Job::processEnded()
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
     QStringList caArgs;
-    caArgs += argValue(settings.callgrindAnnotateParameters());
+    caArgs += argValue(settings.callgrindAnnotateParameters);
     caArgs += QStringLiteral("--tree=calling");
     caArgs += QStringLiteral("--threshold=100");
     caArgs += m_outputFile;
@@ -73,10 +74,12 @@ bool Job::processEnded()
     Parser parser;
     parser.parse(caOutput, m_model);
 
-    if (settings.launchKCachegrind()) {
+    if (settings.launchKCachegrind) {
         // Proxy used to remove file at the end of KCachegrind
         new QFileProxyRemove(settings.kcachegrindExecutablePath(),
-                             { m_outputFile }, m_outputFile, dynamic_cast<QObject*>(m_plugin));
+                             { m_outputFile },
+                             m_outputFile,
+                             dynamic_cast<QObject*>(m_plugin));
     }
     else {
         QFile::remove(m_outputFile);
@@ -87,13 +90,12 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
+    args += settings.cmdArgs();
     args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
-
-    args += argValue(settings.extraParameters());
-    args += QStringLiteral("--cache-sim=") + argValue(settings.cacheSimulation());
-    args += QStringLiteral("--branch-sim=") + argValue(settings.branchSimulation());
+    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

@@ -62,25 +62,28 @@ QIcon ConfigPage::icon() const
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    Settings settings(cfg);
+    Settings settings;
+    settings.load(cfg);
 
-    ui->extraParameters->setText(settings.extraParameters());
-    ui->cacheSimulation->setChecked(settings.cacheSimulation());
-    ui->branchSimulation->setChecked(settings.branchSimulation());
-    ui->launchKCachegrind->setChecked(settings.launchKCachegrind());
-    ui->callgrindAnnotateParameters->setText(settings.callgrindAnnotateParameters());
+    ui->extraParameters->setText(settings.extraParameters);
+    ui->cacheSimulation->setChecked(settings.cacheSimulation);
+    ui->branchSimulation->setChecked(settings.branchSimulation);
+    ui->launchKCachegrind->setChecked(settings.launchKCachegrind);
+    ui->callgrindAnnotateParameters->setText(settings.callgrindAnnotateParameters);
 }
 
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    Settings settings(cfg);
+    Settings settings;
 
-    settings.setExtraParameters(ui->extraParameters->text());
-    settings.setCacheSimulation(ui->cacheSimulation->isChecked());
-    settings.setBranchSimulation(ui->branchSimulation->isChecked());
-    settings.setLaunchKCachegrind(ui->launchKCachegrind->isChecked());
-    settings.setCallgrindAnnotateParameters(ui->callgrindAnnotateParameters->text());
+    settings.extraParameters = ui->extraParameters->text();
+    settings.cacheSimulation = ui->cacheSimulation->isChecked();
+    settings.branchSimulation = ui->branchSimulation->isChecked();
+    settings.launchKCachegrind = ui->launchKCachegrind->isChecked();
+    settings.callgrindAnnotateParameters = ui->callgrindAnnotateParameters->text();
+
+    settings.save(cfg);
 }
 
 ConfigPageFactory::ConfigPageFactory()
