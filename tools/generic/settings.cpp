@@ -27,49 +27,35 @@ namespace Valgrind
 namespace Generic
 {
 
-Settings::Settings(const KConfigGroup& config)
-    : m_config(config)
+Settings::Settings()
+    : extraParameters(
+        this,
+        QStringLiteral("Valgrind Extra Parameters"),
+        QStringLiteral(""),
+        QStringLiteral(""))
+
+    , stackframeDepth(
+        this,
+        QStringLiteral("Valgrind Stackframe Depth"),
+        QStringLiteral("num-callers"),
+        12)
+
+    , maximumStackframeSize(
+        this,
+        QStringLiteral("Valgrind Maximum Stackframe Size"),
+        QStringLiteral("max-stackframe"),
+        2000000)
+
+    , limitErrors(
+        this,
+        QStringLiteral("Valgrind Limit Errors"),
+        QStringLiteral("error-limit"),
+        true)
 {
 }
 
-QString Settings::extraParameters() const
+Settings::~Settings()
 {
-    return m_config.readEntry(QStringLiteral("Valgrind Extra Parameters"), QString{});
-}
-
-void Settings::setExtraParameters(const QString& parameters)
-{
-    m_config.writeEntry(QStringLiteral("Valgrind Extra Parameters"), parameters);
-}
-
-int Settings::stackframeDepth() const
-{
-    return m_config.readEntry(QStringLiteral("Valgrind Stackframe Depth"), 12);
-}
-
-void Settings::setStackframeDepth(int depth)
-{
-    m_config.writeEntry(QStringLiteral("Valgrind Stackframe Depth"), depth);
-}
-
-int Settings::maximumStackframeSize() const
-{
-    return m_config.readEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), 2000000);
-}
-
-void Settings::setMaximumStackframeSize(int size)
-{
-    m_config.writeEntry(QStringLiteral("Valgrind Maximum Stackframe Size"), size);
-}
-
-bool Settings::limitErrors() const
-{
-    return m_config.readEntry(QStringLiteral("Valgrind Limit Errors"), true);
-}
-
-void Settings::setLimitErrors(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Valgrind Limit Errors"), value);
 }
 
 QString Settings::valgrindExecutablePath()

@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <kconfiggroup.h>
+#include "isettings.h"
 
 namespace Valgrind
 {
@@ -27,27 +27,20 @@ namespace Valgrind
 namespace Generic
 {
 
-class Settings
+class Settings : public ISettings
 {
 public:
-    explicit Settings(const KConfigGroup& config);
+    Settings();
+    ~Settings() override;
 
-    QString extraParameters() const;
-    void setExtraParameters(const QString& parameters);
+    Value<QString> extraParameters;
 
-    int stackframeDepth() const;
-    void setStackframeDepth(int depth);
+    Value<int> stackframeDepth;
+    Value<int> maximumStackframeSize;
 
-    int maximumStackframeSize() const;
-    void setMaximumStackframeSize(int size);
-
-    bool limitErrors() const;
-    void setLimitErrors(bool value);
+    Value<bool> limitErrors;
 
     static QString valgrindExecutablePath();
-
-private:
-    KConfigGroup m_config;
 };
 
 }

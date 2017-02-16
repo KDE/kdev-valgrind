@@ -63,22 +63,25 @@ QIcon ConfigPage::icon() const
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    Settings settings(cfg);
+    Settings settings;
+    settings.load(cfg);
 
-    ui->extraParameters->setText(settings.extraParameters());
-    ui->stackDepth->setValue(settings.stackframeDepth());
-    ui->maxStackSize->setValue(settings.maximumStackframeSize());
-    ui->limitErrors->setChecked(settings.limitErrors());
+    ui->extraParameters->setText(settings.extraParameters);
+    ui->stackDepth->setValue(settings.stackframeDepth);
+    ui->maxStackSize->setValue(settings.maximumStackframeSize);
+    ui->limitErrors->setChecked(settings.limitErrors);
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    Settings settings(cfg);
+    Settings settings;
 
-    settings.setExtraParameters(ui->extraParameters->text());
-    settings.setStackframeDepth(ui->stackDepth->value());
-    settings.setMaximumStackframeSize(ui->maxStackSize->value());
-    settings.setLimitErrors(ui->limitErrors->isChecked());
+    settings.extraParameters = ui->extraParameters->text();
+    settings.stackframeDepth = ui->stackDepth->value();
+    settings.maximumStackframeSize = ui->maxStackSize->value();
+    settings.limitErrors = ui->limitErrors->isChecked();
+
+    settings.save(cfg);
 }
 
 ConfigPageFactory::ConfigPageFactory()

@@ -152,14 +152,13 @@ QString Job::argValue(int value) const
 
 QStringList Job::buildCommandLine() const
 {
-    Settings settings(m_config);
-    QStringList args;
+    Settings settings;
+    settings.load(m_config);
 
+    QStringList args;
     args += QStringLiteral("--tool=") + m_tool;
-    args += QStringLiteral("--num-callers=") + argValue(settings.stackframeDepth());
-    args += QStringLiteral("--max-stackframe=") + argValue(settings.maximumStackframeSize());
-    args += QStringLiteral("--error-limit=") + argValue(settings.limitErrors());
-    args += argValue(settings.extraParameters());
+    args += settings.cmdArgs();
+    args += argValue(settings.extraParameters);
 
     addToolArgs(args);
 
