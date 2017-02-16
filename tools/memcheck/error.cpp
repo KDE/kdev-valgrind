@@ -159,7 +159,9 @@ void Error::setValue(const QString& name, const QString& value)
     // Fix for memcheck messages
     static const QRegularExpression memcheckSuffix(" in loss record \\d+ of \\d+$");
 
-    if (!value.isEmpty() && (name == QStringLiteral("text") || name == QStringLiteral("auxwhat"))) {
+    if (!value.isEmpty() && (name == QStringLiteral("text") ||
+                             name == QStringLiteral("auxwhat") ||
+                             name == QStringLiteral("what"))) {
         messages += value.trimmed().remove(memcheckSuffix);
     }
 }
@@ -178,11 +180,17 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
     }
 
     KDevelop::IProblem::Ptr problem(new Problem);
+    problem->setDescription(messages.first());
 
     // Add all stacks
     foreach (const Stack& stack, stacks) {
         problem->addDiagnostic(stack.toIProblem(showInstructionPointer));
     }
+
+    // First stack is the one that shows the actual error
+    // Hence why the problem gets it's file/line pair from here
+    problem->setFinalLocation(problem->diagnostics().first()->finalLocation());
+    problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
     // Set descriptions for all stacks. If we have some "extra" messages, then
     // we add them as "empty" (text-only) problems.
@@ -194,16 +202,11 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
         else {
             KDevelop::IProblem::Ptr messageOnlyProblem(new Problem);
             messageOnlyProblem->setDescription(messages.at(i));
+            messageOnlyProblem->setFinalLocation(problem->finalLocation());
             problem->addDiagnostic(messageOnlyProblem);
+            qDebug() << messageOnlyProblem->finalLocation() << messageOnlyProblem->finalLocation().document;
         }
     }
-
-    problem->setDescription(messages.first());
-
-    // First stack is the one that shows the actual error
-    // Hence why the problem gets it's file/line pair from here
-    problem->setFinalLocation(problem->diagnostics().at(0)->finalLocation());
-    problem->setFinalLocationMode(KDevelop::IProblem::TrimmedLine);
 
     return problem;
 }
