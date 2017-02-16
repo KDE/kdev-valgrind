@@ -46,6 +46,7 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->trackLockorders, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->checkStackRefs, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
 
 ConfigPage::~ConfigPage()
@@ -76,6 +77,7 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     ui->trackLockorders->setChecked(settings.trackLockorders);
     ui->checkStackRefs->setChecked(settings.checkStackRefs);
     ui->ignoreThreadCreation->setChecked(settings.ignoreThreadCreation);
+    ui->freeIsWrite->setChecked(settings.freeIsWrite);
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
@@ -89,6 +91,7 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
     settings.trackLockorders = ui->trackLockorders->isChecked();
     settings.checkStackRefs = ui->checkStackRefs->isChecked();
     settings.ignoreThreadCreation = ui->ignoreThreadCreation->isChecked();
+    settings.freeIsWrite = ui->freeIsWrite->isChecked();
 
     settings.save(cfg);
 }

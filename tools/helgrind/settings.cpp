@@ -57,6 +57,12 @@ Settings::Settings()
         QStringLiteral("Ignore Thread Creation"),
         QStringLiteral("ignore-thread-creation"),
         false)
+
+    , freeIsWrite(
+        this,
+        QStringLiteral("Free Is Write"),
+        QStringLiteral("free-is-write"),
+        false)
 {
 }
 

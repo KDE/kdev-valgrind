@@ -40,6 +40,7 @@ public:
     Value<bool> trackLockorders;
     Value<bool> checkStackRefs;
     Value<bool> ignoreThreadCreation;
+    Value<bool> freeIsWrite;
 };
 
 }
