@@ -20,26 +20,35 @@
       <item>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>E&amp;xtra parameters:</string>
-          </property>
-          <property name="buddy">
-           <cstring>extraParameters</cstring>
+           <string>Time unit:</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="extraParameters">
+         <widget class="QComboBox" name="timeUnit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
+          <item>
+           <property name="text">
+            <string>CPU instructions</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Milliseconds</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Bytes allocated</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item row="1" column="0">
@@ -161,35 +170,26 @@
          </widget>
         </item>
         <item row="6" column="0">
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Time unit:</string>
+           <string>E&amp;xtra parameters:</string>
+          </property>
+          <property name="buddy">
+           <cstring>extraParameters</cstring>
           </property>
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QComboBox" name="timeUnit">
+         <widget class="QLineEdit" name="extraParameters">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <item>
-           <property name="text">
-            <string>CPU instructions</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Milliseconds</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Bytes allocated</string>
-           </property>
-          </item>
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -250,6 +250,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>timeUnit</tabstop>
+  <tabstop>depth</tabstop>
+  <tabstop>threshold</tabstop>
+  <tabstop>peakInaccuracy</tabstop>
+  <tabstop>maxSnapshots</tabstop>
+  <tabstop>snapshotFreq</tabstop>
+  <tabstop>extraParameters</tabstop>
+  <tabstop>profileHeap</tabstop>
+  <tabstop>profileStack</tabstop>
+  <tabstop>launchMassifVisualizer</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

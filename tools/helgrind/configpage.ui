@@ -31,11 +31,39 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="extraParameters">
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
+        <item row="0" column="0">
+         <widget class="QLabel" name="historyLevelLabel">
+          <property name="text">
+           <string>History level:</string>
           </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="historyLevel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--history-level=full (the default) causes Helgrind collects enough information about &amp;quot;old&amp;quot; accesses that it can produce two stack traces in a race report -- both the stack trace for the current access, and the trace for the older, conflicting access. To limit memory usage, &amp;quot;old&amp;quot; accesses stack traces are limited to a maximum of 8 entries, even if --num-callers value is bigger.&lt;/p&gt;&lt;p&gt;Collecting such information is expensive in both speed and memory, particularly for programs that do many inter-thread synchronisation events (locks, unlocks, etc). Without such information, it is more difficult to track down the root causes of races. Nonetheless, you may not need it in situations where you just want to check for the presence or absence of races, for example, when doing regression testing of a previously race-free program.&lt;/p&gt;&lt;p&gt;--history-level=none is the opposite extreme. It causes Helgrind not to collect any information about previous accesses. This can be dramatically faster than --history-level=full.&lt;/p&gt;&lt;p&gt;--history-level=approx provides a compromise between these two extremes. It causes Helgrind to show a full trace for the later access, and approximate information regarding the earlier access. This approximate information consists of two stacks, and the earlier access is guaranteed to have occurred somewhere between program points denoted by the two stacks. This is not as useful as showing the exact stack for the previous access (as --history-level=full does), but it is better than nothing, and it is almost as fast as --history-level=none.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>full</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>approx</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>none</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item row="1" column="0">
@@ -70,7 +98,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="extraParametersLabel">
           <property name="text">
            <string>Extra parameters:</string>
@@ -80,39 +108,11 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="historyLevelLabel">
-          <property name="text">
-           <string>History level:</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="historyLevel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <widget class="QLineEdit" name="extraParameters">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
           </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--history-level=full (the default) causes Helgrind collects enough information about &amp;quot;old&amp;quot; accesses that it can produce two stack traces in a race report -- both the stack trace for the current access, and the trace for the older, conflicting access. To limit memory usage, &amp;quot;old&amp;quot; accesses stack traces are limited to a maximum of 8 entries, even if --num-callers value is bigger.&lt;/p&gt;&lt;p&gt;Collecting such information is expensive in both speed and memory, particularly for programs that do many inter-thread synchronisation events (locks, unlocks, etc). Without such information, it is more difficult to track down the root causes of races. Nonetheless, you may not need it in situations where you just want to check for the presence or absence of races, for example, when doing regression testing of a previously race-free program.&lt;/p&gt;&lt;p&gt;--history-level=none is the opposite extreme. It causes Helgrind not to collect any information about previous accesses. This can be dramatically faster than --history-level=full.&lt;/p&gt;&lt;p&gt;--history-level=approx provides a compromise between these two extremes. It causes Helgrind to show a full trace for the later access, and approximate information regarding the earlier access. This approximate information consists of two stacks, and the earlier access is guaranteed to have occurred somewhere between program points denoted by the two stacks. This is not as useful as showing the exact stack for the previous access (as --history-level=full does), but it is better than nothing, and it is almost as fast as --history-level=none.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>full</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>approx</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>none</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -199,9 +199,9 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
-  <tabstop>extraParameters</tabstop>
-  <tabstop>conflictCacheSize</tabstop>
   <tabstop>historyLevel</tabstop>
+  <tabstop>conflictCacheSize</tabstop>
+  <tabstop>extraParameters</tabstop>
   <tabstop>trackLockorders</tabstop>
   <tabstop>checkStackRefs</tabstop>
   <tabstop>ignoreThreadCreation</tabstop>
