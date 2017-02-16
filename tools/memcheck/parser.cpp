@@ -38,8 +38,18 @@ namespace Valgrind
 namespace Memcheck
 {
 
+static const auto errorXmlName = QStringLiteral("error");
+static const auto stackXmlName = QStringLiteral("stack");
+static const auto frameXmlName = QStringLiteral("frame");
+
+static const auto otherSegmentStartXmlName = QStringLiteral("other_segment_start");
+static const auto otherSegmentEndXmlName = QStringLiteral("other_segment_end");
+
 Parser::Parser()
-    : m_error(new Memcheck::Error)
+    : m_frame(nullptr)
+    , m_stack(nullptr)
+    , m_otherSegment(nullptr)
+    , m_error(new Memcheck::Error)
 {
 }
 
@@ -71,19 +81,40 @@ void Parser::startElement()
         newState = Preamble;
     }
 
-    else if (m_name == QStringLiteral("error")) {
+    else if (m_name == errorXmlName) {
         newState = Error;
         m_error->clear();
     }
 
-    else if (m_name == QStringLiteral("stack")) {
+    else if (m_name == stackXmlName) {
         newState = Stack;
-        m_error->addStack();
+
+        // Useful stacks are inside error or other_segment_begin/end
+        if (m_stateStack.top() == Error) {
+            m_stack = m_error->addStack();
+        } else if (m_stateStack.top() == OtherSegmentStart ||
+                   m_stateStack.top() == OtherSegmentEnd) {
+
+            Q_ASSERT(m_otherSegment);
+            m_stack = m_otherSegment->addStack();
+        }
     }
 
-    else if (m_name == QStringLiteral("frame")) {
+    else if (m_name == frameXmlName) {
         newState = Frame;
-        m_error->lastStack().addFrame();
+        if (m_stack) {
+            m_frame = m_stack->addFrame();
+        }
+    }
+
+    else if (m_name == otherSegmentStartXmlName) {
+        newState = OtherSegmentStart;
+        m_otherSegment = m_error->addOtherSegment(true);
+    }
+
+    else if (m_name == otherSegmentEndXmlName) {
+        newState = OtherSegmentEnd;
+        m_otherSegment = m_error->addOtherSegment(false);
     }
 
     else {
@@ -102,19 +133,43 @@ void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showIns
     switch (state) {
 
     case Error:
-        m_error->setValue(m_name, m_value);
-
-        if (m_name == QStringLiteral("error")) {
+        if (m_name == errorXmlName) {
             problems.append(m_error->toIProblem(showInstructionPointer));
+        } else {
+            m_error->setValue(m_name, m_value);
         }
         break;
 
     case Stack:
-        m_error->lastStack().setValue(m_name, m_value);
+        if (m_stack) {
+            if (m_name == stackXmlName) {
+                m_stack = nullptr;
+            } else {
+                m_stack->setValue(m_name, m_value);
+            }
+        }
         break;
 
     case Frame:
-        m_error->lastStack().lastFrame().setValue(m_name, m_value);
+        if (m_frame) {
+            if (m_name == frameXmlName) {
+                m_frame = nullptr;
+            } else {
+                m_frame->setValue(m_name, m_value);
+            }
+        }
+        break;
+
+    case OtherSegmentStart:
+        if (m_name == otherSegmentStartXmlName) {
+            m_otherSegment = nullptr;
+        }
+        break;
+
+    case OtherSegmentEnd:
+        if (m_name == otherSegmentEndXmlName) {
+            m_otherSegment = nullptr;
+        }
         break;
 
     default:

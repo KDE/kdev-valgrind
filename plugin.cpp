@@ -30,6 +30,7 @@
 
 #include "cachegrind/launcher.h"
 #include "callgrind/launcher.h"
+#include "drd/launcher.h"
 #include "helgrind/launcher.h"
 #include "massif/launcher.h"
 #include "memcheck/launcher.h"
@@ -136,7 +137,12 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     action = new QAction(i18n("Cachegrind"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Cachegrind::launcherId); });
-    actionCollection()->addAction("cachegrind_tool", action);}
+    actionCollection()->addAction("cachegrind_tool", action);
+
+    action = new QAction(i18n("DRD"), this);
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(DRD::launcherId); });
+    actionCollection()->addAction("drd_tool", action);
+}
 
 Plugin::~Plugin()
 {
@@ -190,6 +196,10 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
         type->addLauncher(launcher);
 
         launcher = new Cachegrind::Launcher(this, m_launchMode);
+        m_launchers.insert(plugin, launcher);
+        type->addLauncher(launcher);
+
+        launcher = new DRD::Launcher(this, m_launchMode);
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
     }

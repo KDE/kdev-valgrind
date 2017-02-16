@@ -97,15 +97,10 @@ KDevelop::IProblem::Ptr Frame::toIProblem(bool showInstructionPointer) const
     return frameProblem;
 }
 
-void Stack::addFrame()
+Frame* Stack::addFrame()
 {
     frames.append(Frame{});
-}
-
-Frame& Stack::lastFrame()
-{
-    Q_ASSERT(frames.count());
-    return frames.last();
+    return &frames.last();
 }
 
 void Stack::setValue(const QString& name, const QString& value)
@@ -137,21 +132,52 @@ KDevelop::IProblem::Ptr Stack::toIProblem(bool showInstructionPointer) const
     return stackProblem;
 }
 
+Stack* OtherSegment::addStack()
+{
+    stacks.append(Stack{});
+    return &stacks.last();
+}
+
+KDevelop::IProblem::Ptr OtherSegment::toIProblem(bool showInstructionPointer) const
+{
+    QString description = isStart ? QStringLiteral("Other segment start") : QStringLiteral("Other segment end");
+
+    // Simplify view for segments with single stack
+    if (stacks.size() == 1) {
+        auto segmentProblem = stacks.first().toIProblem(showInstructionPointer);
+        segmentProblem->setDescription(description);
+        return segmentProblem;
+    }
+
+    KDevelop::IProblem::Ptr segmentProblem(new Problem);
+    segmentProblem->setDescription(description);
+
+    for (int i = 0; i < stacks.size(); ++i) {
+        auto stackProblem = stacks.at(i).toIProblem(showInstructionPointer);
+        stackProblem->setDescription(QStringLiteral("Stack_%1").arg(i));
+        segmentProblem->addDiagnostic(stackProblem);
+    }
+
+    return segmentProblem;
+}
+
 void Error::clear()
 {
     stacks.clear();
     messages.clear();
+    otherSegments.clear();
 }
 
-void Error::addStack()
+Stack* Error::addStack()
 {
     stacks.append(Stack{});
+    return &stacks.last();
 }
 
-Stack& Error::lastStack()
+OtherSegment* Error::addOtherSegment(bool isStart)
 {
-    Q_ASSERT(stacks.count());
-    return stacks.last();
+    otherSegments.append({ isStart, {} });
+    return &otherSegments.last();
 }
 
 void Error::setValue(const QString& name, const QString& value)
@@ -170,7 +196,6 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
 {
     Q_ASSERT(!messages.isEmpty());
     Q_ASSERT(!stacks.isEmpty());
-    Q_ASSERT(messages.size() >= stacks.size());
 
     // Simplify view for errors with single stack / message
     if (stacks.size() == 1 && messages.size() == 1) {
@@ -204,7 +229,12 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
             messageOnlyProblem->setDescription(messages.at(i));
             messageOnlyProblem->setFinalLocation(problem->finalLocation());
             problem->addDiagnostic(messageOnlyProblem);
-            qDebug() << messageOnlyProblem->finalLocation() << messageOnlyProblem->finalLocation().document;
+        }
+    }
+
+    for (auto segment : otherSegments) {
+        if (!segment.stacks.isEmpty()) {
+            problem->addDiagnostic(segment.toIProblem(showInstructionPointer));
         }
     }
 

@@ -35,6 +35,9 @@ namespace Memcheck
 {
 
 struct Error;
+struct Frame;
+struct OtherSegment;
+struct Stack;
 
 class Parser : public QXmlStreamReader
 {
@@ -58,7 +61,11 @@ private:
         Preamble,
         Error,
         Stack,
-        Frame
+        Frame,
+
+        // DRD tool
+        OtherSegmentStart,
+        OtherSegmentEnd
     };
 
     QStack<State> m_stateStack;
@@ -66,6 +73,9 @@ private:
     QString m_name;
     QString m_value;
 
+    Memcheck::Frame* m_frame;
+    Memcheck::Stack* m_stack;
+    Memcheck::OtherSegment* m_otherSegment;
     Memcheck::Error* m_error;
 };
 

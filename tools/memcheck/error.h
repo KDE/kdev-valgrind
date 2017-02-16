@@ -53,8 +53,7 @@ struct Frame
 
 struct Stack
 {
-    void addFrame();
-    Frame& lastFrame();
+    Frame* addFrame();
 
     void setValue(const QString& name, const QString& value);
 
@@ -63,18 +62,30 @@ struct Stack
     QList<Frame> frames;
 };
 
+// DRD tool
+struct OtherSegment
+{
+    Stack* addStack();
+
+    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
+
+    bool isStart;
+    QList<Stack> stacks;
+};
+
 struct Error
 {
-    void clear();
-
-    void addStack();
-    Stack& lastStack();
+    Stack* addStack();
+    OtherSegment* addOtherSegment(bool isStart);
 
     void setValue(const QString& name, const QString& value);
 
     KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
 
+    void clear();
+
     QList<Stack> stacks;
+    QList<OtherSegment> otherSegments;
 
     QStringList messages;
 };

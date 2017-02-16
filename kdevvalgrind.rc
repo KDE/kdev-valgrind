@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<gui name="kdevvalgrind" version="11">
+<gui name="kdevvalgrind" version="12">
 <MenuBar>
   <Menu name="analyze">
   <text context="@title:menu">Analyze</text>
@@ -10,6 +10,7 @@
       <Action name="helgrind_tool"/>
       <Action name="callgrind_tool"/>
       <Action name="cachegrind_tool"/>
+      <Action name="drd_tool"/>
     </Menu>
     <Separator/>
   </Menu>
