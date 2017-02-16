@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <kconfiggroup.h>
+#include "generic/isettings.h"
 
 namespace Valgrind
 {
@@ -27,52 +27,29 @@ namespace Valgrind
 namespace Memcheck
 {
 
-class Settings
+class Settings : public ISettings
 {
 public:
-    explicit Settings(const KConfigGroup& config);
+    Settings();
+    ~Settings() override;
 
-    QString leakResolution() const;
-    void setLeakResolution(const QString& resolution);
+    Value<QString> leakResolution;
+    Value<QString> showLeakKinds;
+    Value<QString> leakCheckHeuristics;
+    Value<QString> keepStacktraces;
 
-    QString showLeakKinds() const;
-    void setShowLeakKinds(const QString& kinds);
+    Value<int> freelistVol;
+    Value<int> freelistBigBlocks;
 
-    QString leakCheckHeuristics() const;
-    void setLeakCheckHeuristics(const QString& heuristics);
+    Value<QString> extraParameters;
 
-    QString keepStacktraces() const;
-    void setKeepStacktraces(const QString& keep);
+    Value<bool> undefValueErrors;
+    Value<bool> showMismatchedFrees;
+    Value<bool> partialLoadsOk;
+    Value<bool> trackOrigins;
+    Value<bool> expensiveDefinednessChecks;
 
-    int freelistVol() const;
-    void setFreelistVol(int volume);
-
-    int freelistBigBlocks() const;
-    void setFreelistBigBlocks(int size);
-
-    QString extraParameters() const;
-    void setExtraParameters(const QString& parameters);
-
-    bool undefValueErrors() const;
-    void setUndefValueErrors(bool value);
-
-    bool showMismatchedFrees() const;
-    void setShowMismatchedFrees(bool value);
-
-    bool partialLoadsOk() const;
-    void setPartialLoadsOk(bool value);
-
-    bool trackOrigins() const;
-    void setTrackOrigins(bool value);
-
-    bool expensiveDefinednessChecks() const;
-    void setExpensiveDefinednessChecks(bool value);
-
-    bool showInstructionPointer() const;
-    void setShowInstructionPointer(bool value);
-
-private:
-    KConfigGroup m_config;
+    Value<bool> showInstructionPointer;
 };
 
 }

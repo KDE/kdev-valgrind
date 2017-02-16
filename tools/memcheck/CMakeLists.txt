@@ -14,5 +14,5 @@ add_library(memcheck_tool STATIC
 )
 
 target_link_libraries(memcheck_tool
-    KDev::Language
+    generic_tool
 )

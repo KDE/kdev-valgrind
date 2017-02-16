@@ -78,32 +78,24 @@ bool Job::processEnded()
     Parser parser;
     parser.addData(m_xmlOutput.join(" "));
 
-    m_plugin->problemModel()->setProblems(parser.parse(Settings(m_config).showInstructionPointer()));
+    Settings settings;
+    settings.load(m_config);
+    m_plugin->problemModel()->setProblems(parser.parse(settings.showInstructionPointer));
 
     return true;
 }
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
 
-    args += QStringLiteral("--leak-resolution=") + settings.leakResolution();
-    args += QStringLiteral("--show-leak-kinds=") + settings.showLeakKinds();
-    args += QStringLiteral("--leak-check-heuristics=") + settings.leakCheckHeuristics();
-    args += QStringLiteral("--keep-stacktraces=") + settings.keepStacktraces();
-    args += QStringLiteral("--freelist-vol=") + argValue(settings.freelistVol());
-    args += QStringLiteral("--freelist-big-blocks=") + argValue(settings.freelistBigBlocks());
+    args += settings.cmdArgs();
 
-    args += QStringLiteral("--undef-value-errors=") + argValue(settings.undefValueErrors());
-    args += QStringLiteral("--show-mismatched-frees=") + argValue(settings.showMismatchedFrees());
-    args += QStringLiteral("--partial-loads-ok=") + argValue(settings.partialLoadsOk());
-    args += QStringLiteral("--track-origins=") + argValue(settings.trackOrigins());
-    args += QStringLiteral("--expensive-definedness-checks=") + argValue(settings.expensiveDefinednessChecks());
-
-    args += argValue(settings.extraParameters());
+    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

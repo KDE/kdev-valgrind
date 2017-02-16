@@ -94,44 +94,47 @@ QIcon ConfigPage::icon() const
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    Settings settings(cfg);
+    Settings settings;
+    settings.load(cfg);
 
-    ui->leakResolution->setCurrentText(settings.leakResolution());
-    updateMenuButton(ui->showLeakKinds, settings.showLeakKinds());
-    updateMenuButton(ui->leakCheckHeuristics, settings.leakCheckHeuristics());
-    ui->keepStacktraces->setCurrentText(settings.keepStacktraces());
-    ui->freelistVol->setValue(settings.freelistVol());
-    ui->freelistBigBlocks->setValue(settings.freelistBigBlocks());
-    ui->extraParameters->setText(settings.extraParameters());
+    ui->leakResolution->setCurrentText(settings.leakResolution);
+    updateMenuButton(ui->showLeakKinds, settings.showLeakKinds);
+    updateMenuButton(ui->leakCheckHeuristics, settings.leakCheckHeuristics);
+    ui->keepStacktraces->setCurrentText(settings.keepStacktraces);
+    ui->freelistVol->setValue(settings.freelistVol);
+    ui->freelistBigBlocks->setValue(settings.freelistBigBlocks);
+    ui->extraParameters->setText(settings.extraParameters);
 
-    ui->undefValueErrors->setChecked(settings.undefValueErrors());
-    ui->showMismatchedFrees->setChecked(settings.showMismatchedFrees());
-    ui->partialLoadsOk->setChecked(settings.partialLoadsOk());
-    ui->trackOrigins->setChecked(settings.trackOrigins());
-    ui->expensiveDefinednessChecks->setChecked(settings.expensiveDefinednessChecks());
+    ui->undefValueErrors->setChecked(settings.undefValueErrors);
+    ui->showMismatchedFrees->setChecked(settings.showMismatchedFrees);
+    ui->partialLoadsOk->setChecked(settings.partialLoadsOk);
+    ui->trackOrigins->setChecked(settings.trackOrigins);
+    ui->expensiveDefinednessChecks->setChecked(settings.expensiveDefinednessChecks);
 
-    ui->showInstructionPointer->setChecked(settings.showInstructionPointer());
+    ui->showInstructionPointer->setChecked(settings.showInstructionPointer);
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    Settings settings(cfg);
+    Settings settings;
 
-    settings.setLeakResolution(ui->leakResolution->currentText());
-    settings.setShowLeakKinds(ui->showLeakKinds->text());
-    settings.setLeakCheckHeuristics(ui->leakCheckHeuristics->text());
-    settings.setKeepStacktraces(ui->keepStacktraces->currentText());
-    settings.setFreelistVol(ui->freelistVol->value());
-    settings.setFreelistBigBlocks(ui->freelistBigBlocks->value());
-    settings.setExtraParameters(ui->extraParameters->text());
+    settings.leakResolution = ui->leakResolution->currentText();
+    settings.showLeakKinds = ui->showLeakKinds->text().trimmed().remove(QChar(' '));
+    settings.leakCheckHeuristics = ui->leakCheckHeuristics->text().trimmed().remove(QChar(' '));
+    settings.keepStacktraces = ui->keepStacktraces->currentText();
+    settings.freelistVol = ui->freelistVol->value();
+    settings.freelistBigBlocks = ui->freelistBigBlocks->value();
+    settings.extraParameters = ui->extraParameters->text();
 
-    settings.setUndefValueErrors(ui->undefValueErrors->isChecked());
-    settings.setShowMismatchedFrees(ui->showMismatchedFrees->isChecked());
-    settings.setPartialLoadsOk(ui->partialLoadsOk->isChecked());
-    settings.setTrackOrigins(ui->trackOrigins->isChecked());
-    settings.setExpensiveDefinednessChecks(ui->expensiveDefinednessChecks->isChecked());
+    settings.undefValueErrors = ui->undefValueErrors->isChecked();
+    settings.showMismatchedFrees = ui->showMismatchedFrees->isChecked();
+    settings.partialLoadsOk = ui->partialLoadsOk->isChecked();
+    settings.trackOrigins = ui->trackOrigins->isChecked();
+    settings.expensiveDefinednessChecks = ui->expensiveDefinednessChecks->isChecked();
 
-    settings.setShowInstructionPointer(ui->showInstructionPointer->isChecked());
+    settings.showInstructionPointer = ui->showInstructionPointer->isChecked();
+
+    settings.save(cfg);
 }
 
 QString selectedItemsText(QMenu* menu)
