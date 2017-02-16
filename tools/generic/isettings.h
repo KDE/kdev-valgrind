@@ -35,7 +35,7 @@ public:
     virtual ~ISettingsBase();
 
 protected:
-    ISettingsBase(const QString& configKeyPrefix);
+    explicit ISettingsBase(const QString& configKeyPrefix);
 
     QString m_configKeyPrefix;
     QList<IValue*> m_values;
@@ -90,7 +90,7 @@ public:
     QStringList cmdArgs();
 
 protected:
-    ISettings(const QString& configKeyPrefix);
+    explicit ISettings(const QString& configKeyPrefix);
     ~ISettings() override;
 };
 
