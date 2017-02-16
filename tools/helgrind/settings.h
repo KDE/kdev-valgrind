@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <kconfiggroup.h>
+#include "generic/isettings.h"
 
 namespace Valgrind
 {
@@ -27,31 +27,20 @@ namespace Valgrind
 namespace Helgrind
 {
 
-class Settings
+class Settings : public ISettings
 {
 public:
-    explicit Settings(const KConfigGroup& config);
+    Settings();
+    ~Settings() override;
 
-    QString extraParameters() const;
-    void setExtraParameters(const QString& parameters);
+    Value<QString> extraParameters;
+    Value<QString> historyLevel;
 
-    int conflictCacheSize() const;
-    void setConflictCacheSize(int size);
+    Value<int> conflictCacheSize;
 
-    QString historyLevel() const;
-    void setHistoryLevel(const QString& level);
-
-    bool trackLockOrders() const;
-    void setTrackLockOrders(bool value);
-
-    bool checkStackRefs() const;
-    void setCheckStackRefs(bool value);
-
-    bool ignoreThreadCreation() const;
-    void setIgnoreThreadCreation(bool value);
-
-private:
-    KConfigGroup m_config;
+    Value<bool> trackLockorders;
+    Value<bool> checkStackRefs;
+    Value<bool> ignoreThreadCreation;
 };
 
 }

@@ -81,17 +81,15 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
     args += QStringLiteral("--xml=yes");
     args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
 
-    args += argValue(settings.extraParameters());
-    args += QStringLiteral("--conflict-cache-size=") + argValue(settings.conflictCacheSize());
-    args += QStringLiteral("--history-level=") + settings.historyLevel();
-    args += QStringLiteral("--track-lockorders=") + argValue(settings.trackLockOrders());
-    args += QStringLiteral("--check-stack-refs=") + argValue(settings.checkStackRefs());
-    args += QStringLiteral("--ignore-thread-creation=") + argValue(settings.ignoreThreadCreation());
+    args += settings.cmdArgs();
+
+    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()

@@ -32,7 +32,11 @@
       <item>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="1">
-         <widget class="QLineEdit" name="extraParameters"/>
+         <widget class="QLineEdit" name="extraParameters">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="conflictCacheSizeLabel">
@@ -121,7 +125,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="trackLockOrders">
+       <widget class="QCheckBox" name="trackLockorders">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -198,7 +202,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>extraParameters</tabstop>
   <tabstop>conflictCacheSize</tabstop>
   <tabstop>historyLevel</tabstop>
-  <tabstop>trackLockOrders</tabstop>
+  <tabstop>trackLockorders</tabstop>
   <tabstop>checkStackRefs</tabstop>
   <tabstop>ignoreThreadCreation</tabstop>
   <tabstop>freeIsWrite</tabstop>

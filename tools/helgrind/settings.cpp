@@ -25,69 +25,47 @@ namespace Valgrind
 namespace Helgrind
 {
 
-Settings::Settings(const KConfigGroup& config)
-    : m_config(config)
+Settings::Settings()
+    : extraParameters(
+        this,
+        QStringLiteral("Helgrind Extra Parameters"),
+        QStringLiteral(""),
+        QStringLiteral(""))
+
+    , historyLevel(
+        this,
+        QStringLiteral("Helgrind History Level"),
+        QStringLiteral("history-level"),
+        QStringLiteral("full"))
+
+    , conflictCacheSize(
+        this,
+        QStringLiteral("Helgrind Conflict Cache Size"),
+        QStringLiteral("conflict-cache-size"),
+        1000000)
+
+    , trackLockorders(
+        this,
+        QStringLiteral("Helgrind Track Lock Orders"),
+        QStringLiteral("track-lockorders"),
+        true)
+
+    , checkStackRefs(
+        this,
+        QStringLiteral("Helgrind Check Stack Refs"),
+        QStringLiteral("check-stack-refs"),
+        true)
+
+    , ignoreThreadCreation(
+        this,
+        QStringLiteral("Helgrind Ignore Thread Creation"),
+        QStringLiteral("ignore-thread-creation"),
+        false)
 {
 }
 
-QString Settings::extraParameters() const
+Settings::~Settings()
 {
-    return m_config.readEntry(QStringLiteral("Helgrind Extra Parameters"), QString{});
-}
-
-void Settings::setExtraParameters(const QString& parameters)
-{
-    m_config.writeEntry(QStringLiteral("Helgrind Extra Parameters"), parameters);
-}
-
-int Settings::conflictCacheSize() const
-{
-    return m_config.readEntry(QStringLiteral("Helgrind Conflict Cache Size"), 1000000);
-}
-
-void Settings::setConflictCacheSize(int size)
-{
-    m_config.writeEntry(QStringLiteral("Helgrind Conflict Cache Size"), size);
-}
-
-QString Settings::historyLevel() const
-{
-    return m_config.readEntry(QStringLiteral("Helgrind History Level"), QStringLiteral("full"));
-}
-
-void Settings::setHistoryLevel(const QString& level)
-{
-    m_config.writeEntry(QStringLiteral("Helgrind History Level"), level);
-}
-
-bool Settings::trackLockOrders() const
-{
-    return m_config.readEntry(QStringLiteral("Helgrind Track Lock Orders"), true);
-}
-
-void Settings::setTrackLockOrders(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Helgrind Track Lock Orders"), value);
-}
-
-bool Settings::checkStackRefs() const
-{
-    return m_config.readEntry(QStringLiteral("Helgrind Check Stack Refs"), true);
-}
-
-void Settings::setCheckStackRefs(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Helgrind Check Stack Refs"), value);
-}
-
-bool Settings::ignoreThreadCreation() const
-{
-    return m_config.readEntry(QStringLiteral("Helgrind Ignore Thread Creation"), false);
-}
-
-void Settings::setIgnoreThreadCreation(bool value)
-{
-    m_config.writeEntry(QStringLiteral("Helgrind Ignore Thread Creation"), value);
 }
 
 }

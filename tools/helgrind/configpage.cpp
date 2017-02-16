@@ -43,7 +43,7 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->historyLevel, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
             this, &ConfigPage::changed);
 
-    connect(ui->trackLockOrders, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->trackLockorders, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->checkStackRefs, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
@@ -66,28 +66,31 @@ QIcon ConfigPage::icon() const
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
 {
     QSignalBlocker blocker(this);
-    Settings settings(cfg);
+    Settings settings;
+    settings.load(cfg);
 
-    ui->extraParameters->setText(settings.extraParameters());
-    ui->conflictCacheSize->setValue(settings.conflictCacheSize());
-    ui->historyLevel->setCurrentText(settings.historyLevel());
+    ui->extraParameters->setText(settings.extraParameters);
+    ui->conflictCacheSize->setValue(settings.conflictCacheSize);
+    ui->historyLevel->setCurrentText(settings.historyLevel);
 
-    ui->trackLockOrders->setChecked(settings.trackLockOrders());
-    ui->checkStackRefs->setChecked(settings.checkStackRefs());
-    ui->ignoreThreadCreation->setChecked(settings.ignoreThreadCreation());
+    ui->trackLockorders->setChecked(settings.trackLockorders);
+    ui->checkStackRefs->setChecked(settings.checkStackRefs);
+    ui->ignoreThreadCreation->setChecked(settings.ignoreThreadCreation);
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
-    Settings settings(cfg);
+    Settings settings;
 
-    settings.setExtraParameters(ui->extraParameters->text());
-    settings.setConflictCacheSize(ui->conflictCacheSize->value());
-    settings.setHistoryLevel(ui->historyLevel->currentText());
+    settings.extraParameters = ui->extraParameters->text();
+    settings.conflictCacheSize = ui->conflictCacheSize->value();
+    settings.historyLevel = ui->historyLevel->currentText();
 
-    settings.setTrackLockOrders(ui->trackLockOrders->isChecked());
-    settings.setCheckStackRefs(ui->checkStackRefs->isChecked());
-    settings.setIgnoreThreadCreation(ui->ignoreThreadCreation->isChecked());
+    settings.trackLockorders = ui->trackLockorders->isChecked();
+    settings.checkStackRefs = ui->checkStackRefs->isChecked();
+    settings.ignoreThreadCreation = ui->ignoreThreadCreation->isChecked();
+
+    settings.save(cfg);
 }
 
 ConfigPageFactory::ConfigPageFactory()
