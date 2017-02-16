@@ -56,10 +56,11 @@ Job::~Job()
 
 bool Job::processEnded()
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
     QStringList cgArgs;
-    cgArgs += argValue(settings.cgAnnotateParameters());
+    cgArgs += argValue(settings.cgAnnotateParameters);
     cgArgs += m_outputFile;
 
     QByteArray cgOutput;
@@ -76,13 +77,12 @@ bool Job::processEnded()
 
 void Job::addToolArgs(QStringList& args) const
 {
-    Settings settings(m_config);
+    Settings settings;
+    settings.load(m_config);
 
+    args += settings.cmdArgs();
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
-
-    args += argValue(settings.extraParameters());
-    args += QStringLiteral("--cache-sim=") + argValue(settings.cacheSimulation());
-    args += QStringLiteral("--branch-sim=") + argValue(settings.branchSimulation());
+    args += argValue(settings.extraParameters);
 }
 
 QWidget* Job::createView()
