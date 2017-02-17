@@ -25,6 +25,8 @@
 
 #include <QMultiHash>
 
+class KJob;
+
 namespace KDevelop
 {
 
@@ -62,7 +64,8 @@ public:
     KDevelop::ProblemModel* problemModel() const;
 
     void jobReadyToStart(Generic::Job* job);
-    void jobFinished(Generic::Job* job, bool ok);
+    void jobReadyToFinish(Generic::Job* job, bool ok);
+    void jobFinished(KJob* job);
 
 signals:
     void addView(QWidget* view, const QString& name);

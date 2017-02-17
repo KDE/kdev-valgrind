@@ -103,6 +103,8 @@ Job::Job(
         workDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
     }
     setWorkingDirectory(workDir);
+
+    connect(this, &Job::finished, m_plugin, &Plugin::jobFinished);
 }
 
 Job::~Job()
@@ -186,8 +188,9 @@ void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
         ok = processEnded();
     }
 
-    m_plugin->jobFinished(this, ok);
-    emitResult();
+    m_plugin->jobReadyToFinish(this, ok);
+
+    KDevelop::OutputExecuteJob::childProcessExited(exitCode, exitStatus);
 }
 
 void Job::childProcessError(QProcess::ProcessError processError)

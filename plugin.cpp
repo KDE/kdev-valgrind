@@ -246,12 +246,8 @@ void Plugin::jobReadyToStart(Generic::Job* job)
     }
 }
 
-void Plugin::jobFinished(Generic::Job* job, bool ok)
+void Plugin::jobReadyToFinish(Generic::Job* job, bool ok)
 {
-    for (auto action : actionCollection()->actions()) {
-        action->setEnabled(true);
-    }
-
     if (!ok) {
         return;
     }
@@ -262,6 +258,14 @@ void Plugin::jobFinished(Generic::Job* job, bool ok)
         core()->uiController()->findToolView("Valgrind", m_factory);
     } else {
         core()->languageController()->problemModelSet()->showModel(modelId);
+    }
+}
+
+void Plugin::jobFinished(KJob* job)
+{
+    Q_UNUSED(job);
+    for (auto action : actionCollection()->actions()) {
+        action->setEnabled(true);
     }
 }
 
