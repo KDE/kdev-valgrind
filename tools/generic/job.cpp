@@ -74,20 +74,15 @@ Job::Job(
     setStandardToolView(KDevelop::IOutputView::TestView);
     setBehaviours(KDevelop::IOutputView::AutoScroll);
 
-    IExecutePlugin* iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
+    auto pluginController = KDevelop::ICore::self()->pluginController();
+    auto iface = pluginController->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
-    KDevelop::EnvironmentGroupList envGroupList(KSharedConfig::openConfig());
     QString envGroup = iface->environmentGroup(launchConfig);
-
     if (envGroup.isEmpty()) {
-        qCWarning(KDEV_VALGRIND) << i18n("No environment group specified, looks like a broken "
-                           "configuration, please check run configuration '%1'. "
-                           "Using default environment group.", launchConfig->name());
-        envGroup = envGroupList.defaultGroup();
+        envGroup = KDevelop::EnvironmentGroupList(KSharedConfig::openConfig()).defaultGroup();
     }
-    // FIXME
-//     m_process->setEnvironment(l.createEnvironment(envgrp, m_process->systemEnvironment()));
+    setEnvironmentProfile(envGroup);
 
     QString errorString;
 
