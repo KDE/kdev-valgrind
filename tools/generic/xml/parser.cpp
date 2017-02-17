@@ -22,10 +22,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "xmlparser.h"
+#include "parser.h"
 
 #include "debug.h"
-#include "xmlerror.h"
+#include "error.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>

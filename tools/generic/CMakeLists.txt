@@ -11,11 +11,11 @@ add_library(generic_tool STATIC
     model.cpp
     settings.cpp
     utils.cpp
-    xmlerror.cpp
-    xmlparser.cpp
 
     xml/ijob.cpp
     xml/isettings.cpp
+    xml/error.cpp
+    xml/parser.cpp
 
     ${generic_UI_SRCS}
 )

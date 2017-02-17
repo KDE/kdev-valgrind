@@ -24,7 +24,7 @@
 #include "ijob.h"
 
 #include "debug.h"
-#include "xmlparser.h"
+#include "parser.h"
 #include "plugin.h"
 #include "isettings.h"
 
