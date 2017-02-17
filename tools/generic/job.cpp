@@ -98,11 +98,11 @@ Job::Job(
         setErrorText(errorString);
     }
 
-    m_workingDir = iface->workingDirectory(launchConfig);
-    if (m_workingDir.isEmpty() || !m_workingDir.isValid()) {
-        m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
+    QUrl workDir = iface->workingDirectory(launchConfig);
+    if (workDir.isEmpty() || !workDir.isValid()) {
+        workDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
     }
-    setWorkingDirectory(m_workingDir);
+    setWorkingDirectory(workDir);
 }
 
 Job::~Job()

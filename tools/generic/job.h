@@ -93,8 +93,6 @@ protected:
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;
 
-    QUrl m_workingDir;
-
     QStringList m_errorOutput;
 };
 
