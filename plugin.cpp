@@ -119,29 +119,29 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 
     QAction* action = nullptr;
 
-    action = new QAction(i18n("Memcheck"), this);
+    action = new QAction(i18n("Memcheck: a memory error detector"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Memcheck::launcherId); });
     actionCollection()->addAction("memcheck_tool", action);
 
-    action = new QAction(i18n("Massif"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Massif::launcherId); });
-    actionCollection()->addAction("massif_tool", action);
-
-    action = new QAction(i18n("Helgrind"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Helgrind::launcherId); });
-    actionCollection()->addAction("helgrind_tool", action);
-
-    action = new QAction(i18n("Callgrind"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Callgrind::launcherId); });
-    actionCollection()->addAction("callgrind_tool", action);
-
-    action = new QAction(i18n("Cachegrind"), this);
+    action = new QAction(i18n("Cachegrind: a cache and branch-prediction profiler"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Cachegrind::launcherId); });
     actionCollection()->addAction("cachegrind_tool", action);
 
-    action = new QAction(i18n("DRD"), this);
+    action = new QAction(i18n("Callgrind: a call-graph generating cache and branch prediction profiler"), this);
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Callgrind::launcherId); });
+    actionCollection()->addAction("callgrind_tool", action);
+
+    action = new QAction(i18n("Helgrind: a thread error detector"), this);
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Helgrind::launcherId); });
+    actionCollection()->addAction("helgrind_tool", action);
+
+    action = new QAction(i18n("DRD: a thread error detector"), this);
     connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(DRD::launcherId); });
     actionCollection()->addAction("drd_tool", action);
+
+    action = new QAction(i18n("Massif: a heap profiler"), this);
+    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Massif::launcherId); });
+    actionCollection()->addAction("massif_tool", action);
 }
 
 Plugin::~Plugin()
@@ -183,11 +183,7 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new Massif::Launcher(this, m_launchMode);
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
-
-        launcher = new Helgrind::Launcher(this, m_launchMode);
+        launcher = new Cachegrind::Launcher(this, m_launchMode);
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
@@ -195,11 +191,15 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new Cachegrind::Launcher(this, m_launchMode);
+        launcher = new Helgrind::Launcher(this, m_launchMode);
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
         launcher = new DRD::Launcher(this, m_launchMode);
+        m_launchers.insert(plugin, launcher);
+        type->addLauncher(launcher);
+
+        launcher = new Massif::Launcher(this, m_launchMode);
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
     }

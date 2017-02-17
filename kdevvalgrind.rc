@@ -1,16 +1,16 @@
 <!DOCTYPE kpartgui>
-<gui name="kdevvalgrind" version="12">
+<gui name="kdevvalgrind" version="13">
 <MenuBar>
   <Menu name="analyze">
   <text context="@title:menu">Analyze</text>
     <Separator/>
     <Menu><text>Valgrind (Current Launch Configuration)</text>
       <Action name="memcheck_tool"/>
-      <Action name="massif_tool"/>
-      <Action name="helgrind_tool"/>
-      <Action name="callgrind_tool"/>
       <Action name="cachegrind_tool"/>
+      <Action name="callgrind_tool"/>
+      <Action name="helgrind_tool"/>
       <Action name="drd_tool"/>
+      <Action name="massif_tool"/>
     </Menu>
     <Separator/>
   </Menu>
