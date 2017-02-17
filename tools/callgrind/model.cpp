@@ -134,7 +134,6 @@ void FunctionsModel::setEventTotals(const QStringList& stringValues)
 {
     Q_ASSERT(stringValues.size() == m_eventTotals.size());
     addValues(stringValues, m_eventTotals);
-    qDebug() << m_eventTotals;
 }
 
 int FunctionsModel::currentEventType()

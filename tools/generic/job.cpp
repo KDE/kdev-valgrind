@@ -30,12 +30,6 @@
 #include "plugin.h"
 #include "settings.h"
 
-#include "cachegrind/job.h"
-#include "callgrind/job.h"
-#include "helgrind/job.h"
-#include "massif/job.h"
-#include "memcheck/job.h"
-
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/ilaunchconfiguration.h>

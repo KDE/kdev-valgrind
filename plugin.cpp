@@ -268,6 +268,8 @@ void Plugin::jobFinished(Generic::Job* job, bool ok)
 void Plugin::executeDefaultLaunch(const QString& launcherId)
 {
     auto runController = KDevelop::Core::self()->runControllerInternal();
+    Q_ASSERT(runController);
+
     auto defaultLaunch = runController->defaultLaunch();
     if (defaultLaunch) {
         defaultLaunch->setLauncherForMode(launchModeId, launcherId);
