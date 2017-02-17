@@ -37,6 +37,7 @@
 
 #include <QBuffer>
 #include <QFile>
+#include <QTemporaryFile>
 
 namespace Valgrind
 {
@@ -47,8 +48,9 @@ namespace Callgrind
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : Generic::Job(cfg, QStringLiteral("callgrind"), true, plugin, parent)
     , m_model(new FunctionsModel)
-    , m_outputFile(QStringLiteral("%1/kdevvalgrind_callgrind.out").arg(m_workingDir.toLocalFile()))
+    , m_outputFile(new QTemporaryFile(this))
 {
+    m_outputFile->open();
 }
 
 Job::~Job()
@@ -64,7 +66,7 @@ bool Job::processEnded()
     caArgs += KShell::splitArgs(settings.callgrindAnnotateParameters);
     caArgs += QStringLiteral("--tree=calling");
     caArgs += QStringLiteral("--threshold=100");
-    caArgs += m_outputFile;
+    caArgs += m_outputFile->fileName();
 
     QByteArray caOutput;
     if (executeProcess(settings.callgrindAnnotateExecutablePath(), caArgs, caOutput)) {
@@ -73,17 +75,6 @@ bool Job::processEnded()
 
     Parser parser;
     parser.parse(caOutput, m_model);
-
-    if (settings.launchKCachegrind) {
-        // Proxy used to remove file at the end of KCachegrind
-        new QFileProxyRemove(settings.kcachegrindExecutablePath(),
-                             { m_outputFile },
-                             m_outputFile,
-                             dynamic_cast<QObject*>(m_plugin));
-    }
-    else {
-        QFile::remove(m_outputFile);
-    }
 
     return true;
 }
@@ -94,12 +85,12 @@ void Job::addToolArgs(QStringList& args) const
     settings.load(m_config);
 
     args += settings.cmdArgs();
-    args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile);
+    args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile->fileName());
 }
 
 QWidget* Job::createView()
 {
-    return new View(m_model);
+    return new View(m_config, m_outputFile, m_model);
 }
 
 }

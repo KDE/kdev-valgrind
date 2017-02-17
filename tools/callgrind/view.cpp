@@ -28,8 +28,11 @@
 #include "generic/events.h"
 #include "generic/model.h"
 #include "model.h"
+#include "settings.h"
 
 #include <QSortFilterProxyModel>
+#include <QProcess>
+#include <QTemporaryFile>
 
 namespace Valgrind
 {
@@ -37,11 +40,15 @@ namespace Valgrind
 namespace Callgrind
 {
 
-View::View(FunctionsModel* model, QWidget* parent)
+View::View(KConfigGroup config, QTemporaryFile* outputFile, FunctionsModel* model, QWidget* parent)
     : QWidget(parent)
+    , m_kcachegrindProcess(new QProcess)
 {
     Q_ASSERT(model);
     model->setParent(this);
+
+    Q_ASSERT(outputFile);
+    outputFile->setParent(this);
 
     ui = new Ui::View();
     ui->setupUi(this);
@@ -119,11 +126,34 @@ View::View(FunctionsModel* model, QWidget* parent)
     if (functionsProxyModel->rowCount()) {
         ui->functionsView->setCurrentIndex(functionsProxyModel->index(0,0));
     }
+
+    connect(ui->launchKCachegrindButton, &QPushButton::clicked,
+            this, [this, outputFile]() {
+                launchKCachegrind(outputFile->fileName());
+            });
+
+    connect(m_kcachegrindProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this, [this]() {
+                ui->launchKCachegrindButton->setEnabled(true);
+            });
+
+    Settings settings;
+    settings.load(config);
+    if (settings.launchKCachegrind) {
+        launchKCachegrind(outputFile->fileName());
+    }
 }
 
 View::~View()
 {
+    delete m_kcachegrindProcess;
     delete ui;
+}
+
+void View::launchKCachegrind(const QString& outputFile)
+{
+    m_kcachegrindProcess->start(Settings::kcachegrindExecutablePath(), { outputFile });
+    ui->launchKCachegrindButton->setEnabled(false);
 }
 
 }

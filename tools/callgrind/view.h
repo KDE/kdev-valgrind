@@ -24,6 +24,10 @@
 #pragma once
 
 #include <QWidget>
+#include <kconfiggroup.h>
+
+class QProcess;
+class QTemporaryFile;
 
 namespace Valgrind
 {
@@ -43,11 +47,14 @@ class FunctionsModel;
 class View : public QWidget
 {
 public:
-    View(FunctionsModel* model, QWidget* parent = nullptr);
+    View(KConfigGroup config, QTemporaryFile* outputFile, FunctionsModel* model, QWidget* parent = nullptr);
     ~View() override;
 
 private:
+    void launchKCachegrind(const QString& outputFile);
+
     Ui::View* ui;
+    QProcess* m_kcachegrindProcess;
 };
 
 }

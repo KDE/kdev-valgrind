@@ -61,17 +61,11 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+      <widget class="QPushButton" name="launchKCachegrindButton">
+       <property name="text">
+        <string>Launch KCachegrind</string>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
     </layout>
    </item>
@@ -276,11 +270,12 @@
   <tabstop>searchEdit</tabstop>
   <tabstop>eventTypes</tabstop>
   <tabstop>percenageValues</tabstop>
+  <tabstop>launchKCachegrindButton</tabstop>
   <tabstop>functionsView</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>eventsView</tabstop>
   <tabstop>callersView</tabstop>
   <tabstop>calleesView</tabstop>
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>
