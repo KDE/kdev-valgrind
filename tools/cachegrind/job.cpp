@@ -36,6 +36,7 @@
 
 #include <QBuffer>
 #include <QFile>
+#include <QTemporaryFile>
 
 namespace Valgrind
 {
@@ -46,8 +47,9 @@ namespace Cachegrind
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : Generic::Job(cfg, QStringLiteral("cachegrind"), true, plugin, parent)
     , m_model(new FunctionsModel)
-    , m_outputFile(QStringLiteral("%1/kdevvalgrind_cachegrind.out").arg(m_workingDir.toLocalFile()))
+    , m_outputFile(new QTemporaryFile(this))
 {
+    m_outputFile->open();
 }
 
 Job::~Job()
@@ -61,7 +63,7 @@ bool Job::processEnded()
 
     QStringList cgArgs;
     cgArgs += KShell::splitArgs(settings.cgAnnotateParameters);
-    cgArgs += m_outputFile;
+    cgArgs += m_outputFile->fileName();
 
     QByteArray cgOutput;
     if (executeProcess(settings.cgAnnotateExecutablePath(), cgArgs, cgOutput) != 0) {
@@ -70,7 +72,6 @@ bool Job::processEnded()
 
     Parser parser;
     parser.parse(cgOutput, m_model);
-    QFile::remove(m_outputFile);
 
     return true;
 }
@@ -81,7 +82,7 @@ void Job::addToolArgs(QStringList& args) const
     settings.load(m_config);
 
     args += settings.cmdArgs();
-    args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile);
+    args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile->fileName());
 }
 
 QWidget* Job::createView()
