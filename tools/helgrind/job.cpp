@@ -20,20 +20,7 @@
 #include "job.h"
 
 #include "debug.h"
-#include "generic/xmlparser.h"
-#include "plugin.h"
 #include "settings.h"
-
-#include <interfaces/icore.h>
-#include <interfaces/ilanguagecontroller.h>
-#include <interfaces/ilaunchconfiguration.h>
-#include <kconfiggroup.h>
-#include <klocalizedstring.h>
-#include <kshell.h>
-#include <shell/problemmodel.h>
-
-#include <QRegularExpression>
-#include <unistd.h>
 
 namespace Valgrind
 {
@@ -42,52 +29,12 @@ namespace Helgrind
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : Generic::Job(cfg, QStringLiteral("helgrind"), false, plugin, parent)
+    : IXmlJob(cfg, QStringLiteral("helgrind"), new Settings, plugin, parent)
 {
 }
 
 Job::~Job()
 {
-}
-
-void Job::postProcessStderr(const QStringList& lines)
-{
-    static const auto xmlStartRegex = QRegularExpression("\\s*<");
-
-    for (const QString & line : lines) {
-        if (line.isEmpty()) {
-            continue;
-        }
-
-        if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
-            m_xmlOutput << line;
-        } else {
-            m_errorOutput << line;
-        }
-    }
-
-    KDevelop::OutputExecuteJob::postProcessStderr(lines);
-}
-
-bool Job::processEnded()
-{
-    m_plugin->problemModel()->setProblems(XmlParser::parse(m_xmlOutput.join(" "), true)); // FIXME true
-    return true;
-}
-
-void Job::addToolArgs(QStringList& args) const
-{
-    Settings settings;
-    settings.load(m_config);
-
-    args += QStringLiteral("--xml=yes");
-    args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
-    args += settings.cmdArgs();
-}
-
-QWidget* Job::createView()
-{
-    return nullptr;
 }
 
 }

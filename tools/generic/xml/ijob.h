@@ -21,26 +21,39 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "job.h"
+#pragma once
 
-#include "debug.h"
-#include "settings.h"
+#include "generic/job.h"
 
 namespace Valgrind
 {
 
-namespace Memcheck
-{
+class IXmlSettings;
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IXmlJob(cfg, QStringLiteral("memcheck"), new Settings, plugin, parent)
+class IXmlJob : public Generic::Job
 {
-}
+    Q_OBJECT
 
-Job::~Job()
-{
-}
+public:
+    ~IXmlJob() override;
 
-}
+protected:
+    IXmlJob(KDevelop::ILaunchConfiguration* cfg,
+           const QString& toolName,
+           IXmlSettings* settings,
+           Plugin* plugin,
+           QObject* parent = nullptr);
+
+
+    QWidget* createView() override final;
+
+    void postProcessStderr(const QStringList& lines) override final;
+    bool processEnded() override final;
+
+    void addToolArgs(QStringList& args) const override final;
+
+    IXmlSettings* m_settings;
+    QStringList m_xmlOutput;
+};
 
 }

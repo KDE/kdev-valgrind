@@ -1,9 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -23,7 +19,7 @@
 
 #pragma once
 
-#include "generic/job.h"
+#include "generic/xml/ijob.h"
 
 namespace Valgrind
 {
@@ -31,23 +27,13 @@ namespace Valgrind
 namespace Memcheck
 {
 
-class Job : public Generic::Job
+class Job : public IXmlJob
 {
     Q_OBJECT
 
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~Job() override;
-
-    QWidget* createView() override;
-
-protected:
-    void postProcessStderr(const QStringList& lines) override;
-    bool processEnded() override;
-
-    void addToolArgs(QStringList& args) const override;
-
-    QStringList m_xmlOutput;
 };
 
 }

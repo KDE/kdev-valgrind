@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/job.h"
+#include "generic/xml/ijob.h"
 
 namespace Valgrind
 {
@@ -27,23 +27,13 @@ namespace Valgrind
 namespace DRD
 {
 
-class Job : public Generic::Job
+class Job : public IXmlJob
 {
     Q_OBJECT
 
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~Job() override;
-
-    QWidget* createView() override;
-
-protected:
-    void postProcessStderr(const QStringList& lines) override;
-    bool processEnded() override;
-
-    void addToolArgs(QStringList& args) const override;
-
-    QStringList m_xmlOutput;
 };
 
 }
