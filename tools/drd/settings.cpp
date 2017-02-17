@@ -26,7 +26,7 @@ namespace DRD
 {
 
 Settings::Settings()
-    : ISettings(QStringLiteral("DRD"))
+    : IXmlSettings(QStringLiteral("DRD"))
 
     , checkStackVar(
         this,

@@ -17,43 +17,24 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
-
-#include "generic/xml/isettings.h"
+#include "isettings.h"
 
 namespace Valgrind
 {
 
-namespace DRD
+IXmlSettings::IXmlSettings(const QString& configKeyPrefix)
+    : Valgrind::ISettings(configKeyPrefix)
+
+    , showInstructionPointer(
+        this,
+        QStringLiteral("Show Instruction Pointer"),
+        QStringLiteral(""),
+        false)
 {
+}
 
-class Settings : public IXmlSettings
+IXmlSettings::~IXmlSettings()
 {
-public:
-    Settings();
-    ~Settings() override;
-
-    Value<bool> checkStackVar;
-    Value<bool> firstRaceOnly;
-    Value<bool> freeIsWrite;
-    Value<bool> reportSignalUnlocked;
-    Value<bool> segmentMerging;
-    Value<bool> showConflSeg;
-    Value<bool> showStackUsage;
-    Value<bool> ignoreThreadCreation;
-    Value<bool> traceAlloc;
-    Value<bool> traceBarrier;
-    Value<bool> traceCond;
-    Value<bool> traceForkJoin;
-    Value<bool> traceHb;
-    Value<bool> traceMutex;
-    Value<bool> traceRwlock;
-    Value<bool> traceSemaphore;
-
-    Value<int> joinListVol;
-    Value<int> segmentMergingInterval;
-};
-
 }
 
 }

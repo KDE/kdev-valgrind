@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/isettings.h"
+#include "generic/xml/isettings.h"
 
 namespace Valgrind
 {
@@ -27,7 +27,7 @@ namespace Valgrind
 namespace Helgrind
 {
 
-class Settings : public ISettings
+class Settings : public IXmlSettings
 {
 public:
     Settings();

@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/isettings.h"
+#include "generic/xml/isettings.h"
 
 namespace Valgrind
 {
@@ -27,7 +27,7 @@ namespace Valgrind
 namespace Memcheck
 {
 
-class Settings : public ISettings
+class Settings : public IXmlSettings
 {
 public:
     Settings();
@@ -46,8 +46,6 @@ public:
     Value<bool> partialLoadsOk;
     Value<bool> trackOrigins;
     Value<bool> expensiveDefinednessChecks;
-
-    Value<bool> showInstructionPointer;
 };
 
 }

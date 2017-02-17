@@ -26,7 +26,7 @@ namespace Helgrind
 {
 
 Settings::Settings()
-    : ISettings(QStringLiteral("Helgrind"))
+    : IXmlSettings(QStringLiteral("Helgrind"))
 
     , historyLevel(
         this,

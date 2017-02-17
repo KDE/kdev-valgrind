@@ -26,7 +26,7 @@ namespace Memcheck
 {
 
 Settings::Settings()
-    : ISettings(QStringLiteral("Memcheck"))
+    : IXmlSettings(QStringLiteral("Memcheck"))
 
     , leakResolution(
         this,
@@ -92,12 +92,6 @@ Settings::Settings()
         this,
         QStringLiteral("Expensive Definedness Checks"),
         QStringLiteral("expensive-definedness-checks"),
-        false)
-
-    , showInstructionPointer(
-        this,
-        QStringLiteral("Show Instruction Pointer"),
-        QStringLiteral(""),
         false)
 {
 }

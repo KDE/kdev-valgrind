@@ -19,41 +19,20 @@
 
 #pragma once
 
-#include "generic/xml/isettings.h"
+#include "generic/isettings.h"
 
 namespace Valgrind
 {
 
-namespace DRD
-{
-
-class Settings : public IXmlSettings
+class IXmlSettings : public ISettings
 {
 public:
-    Settings();
-    ~Settings() override;
+    ~IXmlSettings() override;
 
-    Value<bool> checkStackVar;
-    Value<bool> firstRaceOnly;
-    Value<bool> freeIsWrite;
-    Value<bool> reportSignalUnlocked;
-    Value<bool> segmentMerging;
-    Value<bool> showConflSeg;
-    Value<bool> showStackUsage;
-    Value<bool> ignoreThreadCreation;
-    Value<bool> traceAlloc;
-    Value<bool> traceBarrier;
-    Value<bool> traceCond;
-    Value<bool> traceForkJoin;
-    Value<bool> traceHb;
-    Value<bool> traceMutex;
-    Value<bool> traceRwlock;
-    Value<bool> traceSemaphore;
+    Value<bool> showInstructionPointer;
 
-    Value<int> joinListVol;
-    Value<int> segmentMergingInterval;
+protected:
+    explicit IXmlSettings(const QString& configKeyPrefix);
 };
-
-}
 
 }
