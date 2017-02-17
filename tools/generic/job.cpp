@@ -102,7 +102,7 @@ Job::Job(
     if (m_workingDir.isEmpty() || !m_workingDir.isValid()) {
         m_workingDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
     }
-//     setWorkingDirectory(m_workingDir.toLocalFile()); // FIXME
+    setWorkingDirectory(m_workingDir);
 }
 
 Job::~Job()
