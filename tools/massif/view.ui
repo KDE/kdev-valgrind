@@ -10,7 +10,19 @@
     <height>393</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
@@ -34,21 +46,32 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="treesLayout">
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="treesLabel">
-         <property name="text">
-          <string>Heap trees</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QListView" name="treesView">
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="treesLayout">
+         <item>
+          <widget class="QLabel" name="treesLabel">
+           <property name="text">
+            <string>Heap trees</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListView" name="treesView">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="launchVisualizerButton">
+           <property name="text">
+            <string>Launch visualizer</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -56,6 +79,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>snapshotsView</tabstop>
+  <tabstop>treesView</tabstop>
+  <tabstop>launchVisualizerButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

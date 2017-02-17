@@ -24,9 +24,12 @@
 
 #include "debug.h"
 #include "model.h"
+#include "settings.h"
 #include "snapshot.h"
 
 #include <QStringListModel>
+#include <QProcess>
+#include <QTemporaryFile>
 
 namespace Valgrind
 {
@@ -34,12 +37,16 @@ namespace Valgrind
 namespace Massif
 {
 
-View::View(SnapshotsModel* model, QWidget* parent)
+View::View(KConfigGroup config, QTemporaryFile* outputFile, SnapshotsModel* model, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::View)
+    , m_visualizerProcess(new QProcess)
 {
     Q_ASSERT(model);
     model->setParent(this);
+
+    Q_ASSERT(outputFile);
+    outputFile->setParent(this);
 
     ui->setupUi(this);
 
@@ -54,11 +61,34 @@ View::View(SnapshotsModel* model, QWidget* parent)
         auto snapshot = static_cast<Snapshot*>(current.internalPointer());
         treesModel->setStringList(snapshot->heapTree);
     });
+
+    connect(ui->launchVisualizerButton, &QPushButton::clicked,
+            this, [this, outputFile]() {
+                launchVisualizer(outputFile->fileName());
+            });
+
+    connect(m_visualizerProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this, [this]() {
+                ui->launchVisualizerButton->setEnabled(true);
+            });
+
+    Settings settings;
+    settings.load(config);
+    if (settings.launchVisualizer) {
+        launchVisualizer(outputFile->fileName());
+    }
 }
 
 View::~View()
 {
+    delete m_visualizerProcess;
     delete ui;
+}
+
+void View::launchVisualizer(const QString& outputFile)
+{
+    m_visualizerProcess->start(Settings::visualizerExecutablePath(), { outputFile });
+    ui->launchVisualizerButton->setEnabled(false);
 }
 
 }

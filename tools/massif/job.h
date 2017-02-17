@@ -25,6 +25,8 @@
 
 #include "generic/job.h"
 
+class QTemporaryFile;
+
 namespace Valgrind
 {
 
@@ -46,7 +48,7 @@ protected:
     void addToolArgs(QStringList& args) const override;
 
     SnapshotsModel* m_model;
-    QString m_outputFile;
+    QTemporaryFile* m_outputFile;
 };
 
 }

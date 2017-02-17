@@ -22,6 +22,10 @@
 #pragma once
 
 #include <QWidget>
+#include <kconfiggroup.h>
+
+class QProcess;
+class QTemporaryFile;
 
 namespace Valgrind
 {
@@ -41,11 +45,14 @@ class SnapshotsModel;
 class View : public QWidget
 {
 public:
-    View(SnapshotsModel* model, QWidget* parent = nullptr);
+    View(KConfigGroup config, QTemporaryFile* outputFile, SnapshotsModel* model, QWidget* parent = nullptr);
     ~View() override;
 
 private:
+    void launchVisualizer(const QString& outputFile);
+
     Ui::View* ui;
+    QProcess* m_visualizerProcess;
 };
 
 }

@@ -35,6 +35,7 @@
 #include <kshell.h>
 
 #include <QFile>
+#include <QTemporaryFile>
 
 namespace Valgrind
 {
@@ -45,8 +46,9 @@ namespace Massif
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
     : Generic::Job(cfg, QStringLiteral("massif"), true, plugin, parent)
     , m_model(new SnapshotsModel)
-    , m_outputFile(QStringLiteral("%1/kdevvalgrind_massif.out").arg(m_workingDir.toLocalFile()))
+    , m_outputFile(new QTemporaryFile(this))
 {
+    m_outputFile->open();
 }
 
 Job::~Job()
@@ -58,15 +60,7 @@ bool Job::processEnded()
     Settings settings;
     settings.load(m_config);
 
-    Parser::parse(m_outputFile, m_model);
-    if (settings.launchVisualizer) {
-        new QFileProxyRemove(settings.visualizerExecutablePath(),
-                             { m_outputFile },
-                             m_outputFile,
-                             m_plugin);
-    } else {
-        QFile::remove(m_outputFile);
-    }
+    Parser::parse(m_outputFile->fileName(), m_model);
 
     return true;
 }
@@ -90,12 +84,12 @@ void Job::addToolArgs(QStringList& args) const
     }
 
     args += settings.cmdArgs();
-    args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile);
+    args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile->fileName());
 }
 
 QWidget* Job::createView()
 {
-    return new View(m_model);
+    return new View(m_config, m_outputFile, m_model);
 }
 
 }
