@@ -42,7 +42,6 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->segmentMergingInterval, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigPage::changed);
 
-    ;
     connect(ui->checkStackVar, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->firstRaceOnly, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);

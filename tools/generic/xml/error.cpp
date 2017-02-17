@@ -103,15 +103,6 @@ Frame* Stack::addFrame()
     return &frames.last();
 }
 
-void Stack::setValue(const QString& name, const QString& value)
-{
-    Q_UNUSED(value)
-
-    if (name == "frame") {
-        qCDebug(KDEV_VALGRIND) << "MemcheckStack::setValue() Incoming data with frame name error";
-    }
-}
-
 KDevelop::IProblem::Ptr Stack::toIProblem(bool showInstructionPointer) const
 {
     KDevelop::IProblem::Ptr stackProblem(new Problem);

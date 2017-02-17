@@ -55,8 +55,6 @@ struct Stack
 {
     Frame* addFrame();
 
-    void setValue(const QString& name, const QString& value);
-
     KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
 
     QList<Frame> frames;

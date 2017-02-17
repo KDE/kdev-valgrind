@@ -182,12 +182,8 @@ void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showIns
         break;
 
     case Stack:
-        if (m_stack) {
-            if (m_name == stackXmlName) {
-                m_stack = nullptr;
-            } else {
-                m_stack->setValue(m_name, m_value);
-            }
+        if (m_stack && m_name == stackXmlName) {
+            m_stack = nullptr;
         }
         break;
 
