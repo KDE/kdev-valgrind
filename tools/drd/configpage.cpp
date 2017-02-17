@@ -37,16 +37,30 @@ ConfigPage::ConfigPage(QWidget* parent)
     ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-//     connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
-//     connect(ui->conflictCacheSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-//             this, &ConfigPage::changed);
-//     connect(ui->historyLevel, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
-//             this, &ConfigPage::changed);
-//
-//     connect(ui->trackLockorders, &QCheckBox::toggled, this, &ConfigPage::changed);
-//     connect(ui->checkStackRefs, &QCheckBox::toggled, this, &ConfigPage::changed);
-//     connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
-//     connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->joinListVol, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &ConfigPage::changed);
+    connect(ui->segmentMergingInterval, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &ConfigPage::changed);
+
+    ;
+    connect(ui->checkStackVar, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->firstRaceOnly, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->reportSignalUnlocked, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->segmentMerging, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->showConflSeg, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->showStackUsage, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
+
+    connect(ui->traceAlloc, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceBarrier, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceCond, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceForkJoin, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceHb, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceMutex, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceRwlock, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->traceSemaphore, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
 
 ConfigPage::~ConfigPage()
@@ -81,6 +95,7 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     ui->showConflSeg->setChecked(settings.showConflSeg);
     ui->showStackUsage->setChecked(settings.showStackUsage);
     ui->ignoreThreadCreation->setChecked(settings.ignoreThreadCreation);
+    ui->showInstructionPointer->setChecked(settings.showInstructionPointer);
 
     ui->traceAlloc->setChecked(settings.traceAlloc);
     ui->traceBarrier->setChecked(settings.traceBarrier);
@@ -107,6 +122,7 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
     settings.showConflSeg = ui->showConflSeg->isChecked();
     settings.showStackUsage = ui->showStackUsage->isChecked();
     settings.ignoreThreadCreation = ui->ignoreThreadCreation->isChecked();
+    settings.showInstructionPointer = ui->showInstructionPointer->isChecked();
 
     settings.traceAlloc = ui->traceAlloc->isChecked();
     settings.traceBarrier = ui->traceBarrier->isChecked();

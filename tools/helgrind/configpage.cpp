@@ -47,6 +47,7 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->checkStackRefs, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
 }
 
 ConfigPage::~ConfigPage()
@@ -78,6 +79,7 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     ui->checkStackRefs->setChecked(settings.checkStackRefs);
     ui->ignoreThreadCreation->setChecked(settings.ignoreThreadCreation);
     ui->freeIsWrite->setChecked(settings.freeIsWrite);
+    ui->showInstructionPointer->setChecked(settings.showInstructionPointer);
 }
 
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
@@ -92,6 +94,7 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
     settings.checkStackRefs = ui->checkStackRefs->isChecked();
     settings.ignoreThreadCreation = ui->ignoreThreadCreation->isChecked();
     settings.freeIsWrite = ui->freeIsWrite->isChecked();
+    settings.showInstructionPointer = ui->showInstructionPointer->isChecked();
 
     settings.save(cfg);
 }

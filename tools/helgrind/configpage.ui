@@ -180,6 +180,20 @@ p, li { white-space: pre-wrap; }
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showInstructionPointer">
+        <property name="text">
+         <string>Show instruction pointer</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

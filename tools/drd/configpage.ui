@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>512</height>
+    <width>676</width>
+    <height>558</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -201,6 +201,20 @@
         </widget>
        </item>
        <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showInstructionPointer">
+         <property name="text">
+          <string>Show instruction pointer</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -345,6 +359,7 @@
   <tabstop>showConflSeg</tabstop>
   <tabstop>showStackUsage</tabstop>
   <tabstop>ignoreThreadCreation</tabstop>
+  <tabstop>showInstructionPointer</tabstop>
   <tabstop>traceAlloc</tabstop>
   <tabstop>traceBarrier</tabstop>
   <tabstop>traceCond</tabstop>
