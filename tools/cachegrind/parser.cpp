@@ -29,6 +29,7 @@
 #include <klocalizedstring.h>
 
 #include <QBuffer>
+#include <QUrl>
 
 namespace Valgrind
 {
@@ -61,7 +62,8 @@ void Parser::parseCachegrindItem(const QString& line, bool programTotal)
     int colonPosition = fileCall.indexOf(QChar(':'));
     if (colonPosition >= 0) {
         // file name
-        item->fileNames += fileCall.mid(0, colonPosition);
+        auto fileUrl = QUrl::fromLocalFile(fileCall.mid(0, colonPosition)).adjusted(QUrl::NormalizePathSegments);
+        item->fileNames += fileUrl.toLocalFile();
 
         // call name
         item->functionName = fileCall.mid(colonPosition + 1);

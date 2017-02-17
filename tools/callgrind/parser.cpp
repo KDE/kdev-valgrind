@@ -28,6 +28,7 @@
 
 #include <QBuffer>
 #include <QRegularExpression>
+#include <QUrl>
 
 namespace Valgrind
 {
@@ -95,7 +96,8 @@ void Parser::parseCallInformation(const QString& line, bool programTotal)
     int colonPos = idString.indexOf(':');
     Q_ASSERT(colonPos >= 0);
 
-    QString sourceFile = idString.mid(0, colonPos);
+    auto sourceUrl = QUrl::fromLocalFile(idString.mid(0, colonPos)).adjusted(QUrl::NormalizePathSegments);
+    QString sourceFile = sourceUrl.toLocalFile();
     QString functionName = idString.mid(colonPos + 1);
 
     auto function = m_model->addFunction(functionName, sourceFile, binaryFile);
