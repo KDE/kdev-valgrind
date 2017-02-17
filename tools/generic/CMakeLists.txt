@@ -10,7 +10,6 @@ add_library(generic_tool STATIC
     launcher.cpp
     model.cpp
     settings.cpp
-    utils.cpp
 
     xml/ijob.cpp
     xml/isettings.cpp

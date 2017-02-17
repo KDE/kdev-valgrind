@@ -24,7 +24,6 @@
 #include "ui_view.h"
 
 #include "debug.h"
-#include "generic/utils.h"
 #include "generic/model.h"
 #include "model.h"
 

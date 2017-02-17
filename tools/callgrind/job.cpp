@@ -25,7 +25,6 @@
 #include "job.h"
 
 #include "model.h"
-#include "generic/utils.h"
 #include "parser.h"
 #include "plugin.h"
 #include "settings.h"

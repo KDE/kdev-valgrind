@@ -1,5 +1,5 @@
 
-- Replace QFileProxyRemove class with QTemporaryFile
++ Replace QFileProxyRemove class with QTemporaryFile
 
 + Fix missing generic settings page
 
