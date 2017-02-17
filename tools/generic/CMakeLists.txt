@@ -11,6 +11,8 @@ add_library(generic_tool STATIC
     model.cpp
     settings.cpp
     utils.cpp
+    xmlerror.cpp
+    xmlparser.cpp
 
     ${generic_UI_SRCS}
 )

@@ -31,7 +31,7 @@
 namespace Valgrind
 {
 
-namespace Memcheck
+namespace XmlParser
 {
 
 struct Frame

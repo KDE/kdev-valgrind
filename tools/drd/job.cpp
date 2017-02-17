@@ -20,7 +20,7 @@
 #include "job.h"
 
 #include "debug.h"
-#include "memcheck/parser.h" // FIXME
+#include "generic/xmlparser.h"
 #include "plugin.h"
 #include "settings.h"
 
@@ -65,11 +65,7 @@ void Job::postProcessStderr(const QStringList& lines)
 
 bool Job::processEnded()
 {
-    Memcheck::Parser parser;
-    parser.addData(m_xmlOutput.join(" "));
-
-    m_plugin->problemModel()->setProblems(parser.parse(true)); // FIXME
-
+    m_plugin->problemModel()->setProblems(XmlParser::parse(m_xmlOutput.join(" "), true)); // FIXME true
     return true;
 }
 

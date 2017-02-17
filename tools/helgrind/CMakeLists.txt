@@ -12,5 +12,5 @@ add_library(helgrind_tool STATIC
 )
 
 target_link_libraries(helgrind_tool
-    KDev::Language
+    generic_tool
 )

@@ -22,21 +22,62 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "parser.h"
+#include "xmlparser.h"
 
 #include "debug.h"
-#include "error.h"
+#include "xmlerror.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 
 #include <QApplication>
+#include <QStack>
+#include <QXmlStreamReader>
 
 namespace Valgrind
 {
 
-namespace Memcheck
+namespace XmlParser
 {
+
+class Parser : public QXmlStreamReader
+{
+public:
+    Parser();
+    virtual ~Parser();
+
+    QVector<KDevelop::IProblem::Ptr> parse(bool showInstructionPointer);
+
+private:
+    void startElement();
+    void endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showInstructionPointer);
+
+    void clear();
+
+    enum State {
+        Unknown,
+        Session,
+        Status,
+        Preamble,
+        Error,
+        Stack,
+        Frame,
+
+        // DRD tool
+        OtherSegmentStart,
+        OtherSegmentEnd
+    };
+
+    QStack<State> m_stateStack;
+
+    QString m_name;
+    QString m_value;
+
+    XmlParser::Frame* m_frame;
+    XmlParser::Stack* m_stack;
+    XmlParser::OtherSegment* m_otherSegment;
+    XmlParser::Error* m_error;
+};
 
 static const auto errorXmlName = QStringLiteral("error");
 static const auto stackXmlName = QStringLiteral("stack");
@@ -49,7 +90,7 @@ Parser::Parser()
     : m_frame(nullptr)
     , m_stack(nullptr)
     , m_otherSegment(nullptr)
-    , m_error(new Memcheck::Error)
+    , m_error(new XmlParser::Error)
 {
 }
 
@@ -229,6 +270,13 @@ QVector<KDevelop::IProblem::Ptr> Parser::parse(bool showInstructionPointer)
     }
 
     return problems;
+}
+
+QVector<KDevelop::IProblem::Ptr> parse(const QString& xmlData, bool showInstructionPointer)
+{
+    Parser parser;
+    parser.addData(xmlData);
+    return parser.parse(showInstructionPointer);
 }
 
 }

@@ -25,59 +25,13 @@
 
 #include <interfaces/iproblem.h>
 
-#include <QStack>
-#include <QXmlStreamReader>
-
 namespace Valgrind
 {
 
-namespace Memcheck
+namespace XmlParser
 {
 
-struct Error;
-struct Frame;
-struct OtherSegment;
-struct Stack;
-
-class Parser : public QXmlStreamReader
-{
-public:
-    Parser();
-    virtual ~Parser();
-
-    QVector<KDevelop::IProblem::Ptr> parse(bool showInstructionPointer);
-
-private:
-    void startElement();
-    void endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showInstructionPointer);
-
-    void clear();
-
-    enum State {
-        Unknown,
-        Root,
-        Session,
-        Status,
-        Preamble,
-        Error,
-        Stack,
-        Frame,
-
-        // DRD tool
-        OtherSegmentStart,
-        OtherSegmentEnd
-    };
-
-    QStack<State> m_stateStack;
-
-    QString m_name;
-    QString m_value;
-
-    Memcheck::Frame* m_frame;
-    Memcheck::Stack* m_stack;
-    Memcheck::OtherSegment* m_otherSegment;
-    Memcheck::Error* m_error;
-};
+QVector<KDevelop::IProblem::Ptr> parse(const QString& xmlData, bool showInstructionPointer);
 
 }
 

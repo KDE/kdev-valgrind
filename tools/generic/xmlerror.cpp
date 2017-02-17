@@ -22,7 +22,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "error.h"
+#include "xmlerror.h"
 
 #include "debug.h"
 
@@ -33,6 +33,9 @@
 namespace Valgrind
 {
 
+namespace XmlParser
+{
+
 struct Problem : public KDevelop::DetectedProblem
 {
     ~Problem() override {}
@@ -40,9 +43,6 @@ struct Problem : public KDevelop::DetectedProblem
     KDevelop::IProblem::Source source() const override { return KDevelop::IProblem::Plugin; }
     QString sourceString() const override { return QStringLiteral("Valgrind"); };
 };
-
-namespace Memcheck
-{
 
 void Frame::setValue(const QString& name, const QString& value)
 {
@@ -232,6 +232,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
         }
     }
 
+    // Add other segments ad diagnostics (DRD tool)
     for (auto segment : otherSegments) {
         if (!segment.stacks.isEmpty()) {
             problem->addDiagnostic(segment.toIProblem(showInstructionPointer));

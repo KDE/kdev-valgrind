@@ -24,7 +24,7 @@
 #include "job.h"
 
 #include "debug.h"
-#include "parser.h"
+#include "generic/xmlparser.h"
 #include "plugin.h"
 #include "settings.h"
 
@@ -75,12 +75,11 @@ void Job::postProcessStderr(const QStringList& lines)
 
 bool Job::processEnded()
 {
-    Parser parser;
-    parser.addData(m_xmlOutput.join(" "));
-
     Settings settings;
     settings.load(m_config);
-    m_plugin->problemModel()->setProblems(parser.parse(settings.showInstructionPointer));
+
+    m_plugin->problemModel()->setProblems(XmlParser::parse(m_xmlOutput.join(" "),
+                                                           settings.showInstructionPointer));
 
     return true;
 }
