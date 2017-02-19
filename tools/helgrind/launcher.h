@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/launcher.h"
+#include "generic/ilauncher.h"
 
 namespace Valgrind
 {
@@ -29,7 +29,7 @@ namespace Helgrind
 
 static const QString launcherId = QStringLiteral("Helgrind");
 
-class Launcher : public Generic::Launcher
+class Launcher : public ILauncher
 {
 public:
     Launcher(Plugin* plugin, LaunchMode* mode);

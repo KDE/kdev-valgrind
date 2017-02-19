@@ -38,15 +38,17 @@ namespace Generic
 
 class Job;
 
-class Launcher : public KDevelop::ILauncher
+}
+
+class ILauncher : public KDevelop::ILauncher
 {
 public:
-    Launcher(Plugin* plugin,
+    ILauncher(Plugin* plugin,
              LaunchMode* mode,
              const QString& name,
              const QString& description,
              const QString& id);
-    ~Launcher() override;
+    ~ILauncher() override;
 
     QString name() const override final;
     QString description() const override final;
@@ -59,7 +61,7 @@ public:
     KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override final;
 
 protected:
-    virtual Job* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
+    virtual Generic::Job* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
 
     Plugin* m_plugin;
     LaunchMode* m_mode;
@@ -70,7 +72,5 @@ protected:
 
     QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;
 };
-
-}
 
 }

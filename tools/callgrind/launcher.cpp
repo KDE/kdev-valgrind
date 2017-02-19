@@ -33,7 +33,7 @@ namespace Callgrind
 {
 
 Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
-    : Generic::Launcher(
+    : ILauncher(
         plugin,
         mode,
         i18n("Callgrind"),

@@ -22,7 +22,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "launcher.h"
+#include "ilauncher.h"
 
 #include "debug.h"
 #include "job.h"
@@ -36,10 +36,7 @@
 namespace Valgrind
 {
 
-namespace Generic
-{
-
-Launcher::Launcher(
+ILauncher::ILauncher(
     Plugin* plugin,
     LaunchMode* mode,
     const QString& name,
@@ -56,12 +53,12 @@ Launcher::Launcher(
     Q_ASSERT(mode);
 }
 
-Launcher::~Launcher()
+ILauncher::~ILauncher()
 {
     qDeleteAll(m_configPageFactories);
 }
 
-KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)
+KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)
 {
     Q_ASSERT(config);
 
@@ -81,31 +78,29 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
     return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
 }
 
-QStringList Launcher::supportedModes() const
+QStringList ILauncher::supportedModes() const
 {
     return { m_mode->id() };
 }
 
-QList<KDevelop::LaunchConfigurationPageFactory*> Launcher::configPages() const
+QList<KDevelop::LaunchConfigurationPageFactory*> ILauncher::configPages() const
 {
     return m_configPageFactories;
 }
 
-QString Launcher::name() const
+QString ILauncher::name() const
 {
     return m_name;
 }
 
-QString Launcher::description() const
+QString ILauncher::description() const
 {
     return m_description;
 }
 
-QString Launcher::id()
+QString ILauncher::id()
 {
     return m_id;
-}
-
 }
 
 }
