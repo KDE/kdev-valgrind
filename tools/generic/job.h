@@ -27,9 +27,6 @@
 #include <kconfiggroup.h>
 #include <outputview/outputexecutejob.h>
 
-#include <QProcess>
-#include <QUrl>
-
 class QWidget;
 
 namespace KDevelop
@@ -71,6 +68,7 @@ public:
 
 protected:
     void postProcessStderr(const QStringList& lines) override;
+    virtual void processValgrindOutput(const QStringList& lines);
 
     void childProcessExited(int exitCode, QProcess::ExitStatus exitStatus) override;
     void childProcessError(QProcess::ProcessError processError) override;
@@ -93,7 +91,9 @@ protected:
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;
 
-    QStringList m_errorOutput;
+    QStringList m_valgrindOutput;
+
+    quint16 m_tcpServerPort;
 };
 
 }

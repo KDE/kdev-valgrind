@@ -44,11 +44,17 @@
 #include <QBuffer>
 #include <QFileInfo>
 
+#include <QTcpServer>
+#include <QTcpSocket>
+
+
 namespace Valgrind
 {
 
 namespace Generic
 {
+
+static const QString valgrindErrorsPrefix = QStringLiteral("valgrind: ");
 
 Job::Job(
     KDevelop::ILaunchConfiguration* launchConfig,
@@ -62,6 +68,7 @@ Job::Job(
     , m_tool(tool)
     , m_hasView(hasView)
     , m_plugin(plugin)
+    , m_tcpServerPort(0)
 {
     Q_ASSERT(launchConfig);
     Q_ASSERT(m_plugin);
@@ -105,6 +112,22 @@ Job::Job(
     setWorkingDirectory(workDir);
 
     connect(this, &Job::finished, m_plugin, &Plugin::jobFinished);
+
+    auto tcpServer = new QTcpServer(this);
+    tcpServer->listen(QHostAddress::LocalHost);
+    m_tcpServerPort = tcpServer->serverPort();
+
+    connect(tcpServer, &QTcpServer::newConnection, this, [this, tcpServer]() {
+        auto tcpSocket = tcpServer->nextPendingConnection();
+
+        connect(tcpSocket, &QTcpSocket::readyRead, this, [this, tcpSocket]() {
+            QStringList lines;
+            while (!tcpSocket->atEnd()) {
+                lines += tcpSocket->readLine().trimmed();
+            }
+            processValgrindOutput(lines);
+        });
+    });
 }
 
 Job::~Job()
@@ -155,41 +178,30 @@ void Job::start()
 
 void Job::postProcessStderr(const QStringList& lines)
 {
-    m_errorOutput << lines;
+    for (const QString& line : lines) {
+        if (line.startsWith(valgrindErrorsPrefix)) {
+            m_valgrindOutput += line;
+        }
+    }
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
+}
+
+void Job::processValgrindOutput(const QStringList& lines)
+{
+    m_valgrindOutput += lines;
+    KDevelop::OutputExecuteJob::postProcessStderr(lines); // FIXME add checks for skip this line
 }
 
 void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    bool ok = !exitCode;
     qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
-    if (!ok) {
-        // Here, check if Valgrind failed (because of bad parameters or whatever).
-        // Because Valgrind always returns 1 on failure, and the profiled application's return
-        // on success, we cannot know for sure which process returned != 0.
-        //
-        // The only way to guess that it is Valgrind which failed is to check stderr and look for
-        // "valgrind: " at the beginning of the first line, even though it can still be the
-        // profiled process that writes it on stderr. It is, however, unlikely enough to be
-        // reliable in most cases.
-
-        static const QString valgrindPrefix = QStringLiteral("valgrind: ");
-        if (!m_errorOutput.isEmpty() && m_errorOutput.at(0).startsWith(valgrindPrefix)) {
-            QString message = m_errorOutput.join('\n').remove(valgrindPrefix);
-            message += QStringLiteral("\n\n");
-            message += i18n("Please review your Valgrind launch configuration.");
-
-            KMessageBox::error(qApp->activeWindow(), message, i18n("Valgrind Error"));
-        }
-    }
-
-    else {
+    bool ok = !exitCode;
+    if (ok) {
         ok = processEnded();
     }
 
     m_plugin->jobReadyToFinish(this, ok);
-
     KDevelop::OutputExecuteJob::childProcessExited(exitCode, exitStatus);
 }
 
@@ -224,7 +236,24 @@ void Job::childProcessError(QProcess::ProcessError processError)
         break;
 
     case QProcess::UnknownError:
-        errorMessage = i18n("Unknown Valgrind process error.");
+        // Here, check if Valgrind failed (because of bad parameters or whatever).
+        // Because Valgrind always returns 1 on failure, and the profiled application's return
+        // on success, we cannot know for sure which process returned != 0.
+        //
+        // The only way to guess that it is Valgrind which failed is to check stderr and look for
+        // "valgrind: " at the beginning of the first line, even though it can still be the
+        // profiled process that writes it on stderr. It is, however, unlikely enough to be
+        // reliable in most cases.
+
+        if (!m_valgrindOutput.isEmpty() &&
+             m_valgrindOutput.at(0).startsWith(valgrindErrorsPrefix)) {
+
+            errorMessage  = m_valgrindOutput.join('\n').remove(valgrindErrorsPrefix);
+            errorMessage += QStringLiteral("\n\n");
+            errorMessage += i18n("Please review your Valgrind launch configuration.");
+        } else {
+            errorMessage = i18n("Unknown Valgrind process error.");
+        }
         break;
     }
 

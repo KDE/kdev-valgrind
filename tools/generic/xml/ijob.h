@@ -47,7 +47,8 @@ protected:
 
     QWidget* createView() override final;
 
-    void postProcessStderr(const QStringList& lines) override final;
+    void processValgrindOutput(const QStringList& lines) override final;
+
     bool processEnded() override final;
 
     void addToolArgs(QStringList& args) const override final;

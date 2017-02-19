@@ -54,7 +54,7 @@ IXmlJob::~IXmlJob()
     delete m_settings;
 }
 
-void IXmlJob::postProcessStderr(const QStringList& lines)
+void IXmlJob::processValgrindOutput(const QStringList& lines)
 {
     static const auto xmlStartRegex = QRegularExpression("\\s*<");
 
@@ -65,12 +65,10 @@ void IXmlJob::postProcessStderr(const QStringList& lines)
 
         if (line.indexOf(xmlStartRegex) >= 0) { // the line contains XML
             m_xmlOutput << line;
-        } else {
-            m_errorOutput << line;
         }
     }
 
-    KDevelop::OutputExecuteJob::postProcessStderr(lines);
+    Generic::Job::processValgrindOutput(lines);
 }
 
 bool IXmlJob::processEnded()
@@ -88,7 +86,7 @@ void IXmlJob::addToolArgs(QStringList& args) const
     m_settings->load(m_config);
 
     args += QStringLiteral("--xml=yes");
-    args += QStringLiteral("--xml-fd=%1").arg(STDERR_FILENO);
+    args += QStringLiteral("--xml-socket=127.0.0.1:%1").arg(m_tcpServerPort);
     args += m_settings->cmdArgs();
 }
 
