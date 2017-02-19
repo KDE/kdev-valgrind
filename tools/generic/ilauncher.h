@@ -44,10 +44,11 @@ class ILauncher : public KDevelop::ILauncher
 {
 public:
     ILauncher(Plugin* plugin,
-             LaunchMode* mode,
-             const QString& name,
-             const QString& description,
-             const QString& id);
+              LaunchMode* mode,
+              const QString& name,
+              const QString& description,
+              const QString& id,
+              KDevelop::LaunchConfigurationPageFactory* configPageFactory);
     ~ILauncher() override;
 
     QString name() const override final;

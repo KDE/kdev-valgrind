@@ -24,6 +24,7 @@
 
 #include "ilauncher.h"
 
+#include "configpage.h"
 #include "debug.h"
 #include "job.h"
 #include "launchmode.h"
@@ -41,7 +42,8 @@ ILauncher::ILauncher(
     LaunchMode* mode,
     const QString& name,
     const QString& description,
-    const QString& id)
+    const QString& id,
+    KDevelop::LaunchConfigurationPageFactory* configPageFactory)
 
     : m_plugin(plugin)
     , m_mode(mode)
@@ -51,6 +53,10 @@ ILauncher::ILauncher(
 {
     Q_ASSERT(plugin);
     Q_ASSERT(mode);
+    Q_ASSERT(configPageFactory);
+
+    m_configPageFactories += configPageFactory;
+    m_configPageFactories += new Generic::ConfigPageFactory;
 }
 
 ILauncher::~ILauncher()

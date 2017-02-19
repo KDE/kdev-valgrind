@@ -20,7 +20,6 @@
 #include "launcher.h"
 
 #include "configpage.h"
-#include "generic/configpage.h"
 #include "debug.h"
 #include "job.h"
 
@@ -37,11 +36,10 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
         plugin,
         mode,
         i18n("Callgrind"),
-        i18n("Analyze application with Callgrind"),
-        launcherId)
+        i18n("Callgrind: a call-graph generating cache and branch prediction profiler"),
+        launcherId,
+        new ConfigPageFactory)
 {
-    m_configPageFactories += new ConfigPageFactory;
-    m_configPageFactories += new Generic::ConfigPageFactory;
 }
 
 Launcher::~Launcher()

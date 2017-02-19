@@ -20,7 +20,6 @@
 #include "launcher.h"
 
 #include "configpage.h"
-#include "generic/configpage.h"
 #include "debug.h"
 #include "job.h"
 
@@ -37,11 +36,10 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
         plugin,
         mode,
         i18n("Memcheck"),
-        i18n("Analyze application with Memcheck"),
-        launcherId)
+        i18n("Memcheck: a memory error detector"),
+        launcherId,
+        new ConfigPageFactory)
 {
-    m_configPageFactories += new ConfigPageFactory;
-    m_configPageFactories += new Generic::ConfigPageFactory;
 }
 
 Launcher::~Launcher()

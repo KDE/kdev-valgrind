@@ -20,7 +20,6 @@
 #include "launcher.h"
 
 #include "configpage.h"
-#include "generic/configpage.h"
 #include "debug.h"
 #include "job.h"
 
@@ -37,11 +36,10 @@ Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
         plugin,
         mode,
         i18n("Massif"),
-        i18n("Analyze application with Massif"),
-        launcherId)
+        i18n("Massif: a heap profiler"),
+        launcherId,
+        new ConfigPageFactory)
 {
-    m_configPageFactories += new ConfigPageFactory;
-    m_configPageFactories += new Generic::ConfigPageFactory;
 }
 
 Launcher::~Launcher()
