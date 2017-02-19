@@ -283,7 +283,10 @@ bool Job::processEnded()
 int Job::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
     QString commandLine = executable + " " + args.join(' ');
-    KDevelop::OutputExecuteJob::postProcessStdout({i18n("Executing command: "), commandLine });
+
+    if (GlobalSettings::showValgrindOutput()) {
+        KDevelop::OutputExecuteJob::postProcessStdout({i18n("Executing command: ") + commandLine });
+    }
 
     QProcess process;
     process.start(executable, args);
@@ -294,7 +297,9 @@ int Job::executeProcess(const QString& executable, const QStringList& args, QByt
     processOutput = process.readAllStandardOutput();
     QString errOutput(process.readAllStandardError());
 
-    KDevelop::OutputExecuteJob::postProcessStdout(QString(processOutput).split('\n'));
+    if (GlobalSettings::showValgrindOutput()) {
+        KDevelop::OutputExecuteJob::postProcessStdout(QString(processOutput).split('\n'));
+    }
     KDevelop::OutputExecuteJob::postProcessStderr(errOutput.split('\n'));
 
     if (process.exitCode()) {
