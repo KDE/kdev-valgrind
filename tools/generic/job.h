@@ -75,6 +75,7 @@ protected:
 
     virtual bool processEnded();
 
+    virtual void addLoggingArgs(QStringList& args) const;
     virtual void addToolArgs(QStringList& args) const = 0;
 
     int executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput);

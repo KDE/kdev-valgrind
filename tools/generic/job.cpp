@@ -150,15 +150,22 @@ bool Job::hasView()
     return m_hasView;
 }
 
+void Job::addLoggingArgs(QStringList& args) const
+{
+    args += QStringLiteral("--log-socket=127.0.0.1:%1").arg(m_tcpServerPort);
+}
+
 QStringList Job::buildCommandLine() const
 {
     Settings settings;
     settings.load(m_config);
 
     QStringList args;
-    args += QStringLiteral("--tool=") + m_tool;
-    args += settings.cmdArgs();
 
+    args += QStringLiteral("--tool=") + m_tool;
+    addLoggingArgs(args);
+
+    args += settings.cmdArgs();
     addToolArgs(args);
 
     return args;

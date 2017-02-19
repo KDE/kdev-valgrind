@@ -81,12 +81,15 @@ bool IXmlJob::processEnded()
     return true;
 }
 
+void IXmlJob::addLoggingArgs(QStringList& args) const
+{
+    args += QStringLiteral("--xml=yes");
+    args += QStringLiteral("--xml-socket=127.0.0.1:%1").arg(m_tcpServerPort);
+}
+
 void IXmlJob::addToolArgs(QStringList& args) const
 {
     m_settings->load(m_config);
-
-    args += QStringLiteral("--xml=yes");
-    args += QStringLiteral("--xml-socket=127.0.0.1:%1").arg(m_tcpServerPort);
     args += m_settings->cmdArgs();
 }
 

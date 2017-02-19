@@ -51,6 +51,7 @@ protected:
 
     bool processEnded() override final;
 
+    void addLoggingArgs(QStringList& args) const override final;
     void addToolArgs(QStringList& args) const override final;
 
     IXmlSettings* m_settings;
