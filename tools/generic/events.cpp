@@ -32,7 +32,9 @@ QString eventFullName(const QString& eventShortName)
     static bool initDone = false;
     if (!initDone) {
         initDone = true;
+
         // full names are from KCachegrind
+
         fullNames["Ir"  ] = i18n("Instruction Fetch");
         fullNames["Dr"  ] = i18n("Data Read Access");
         fullNames["Dw"  ] = i18n("Data Write Access");
@@ -43,11 +45,10 @@ QString eventFullName(const QString& eventShortName)
         fullNames["DLmr"] = i18n("LL Data Read Miss");
         fullNames["DLmw"] = i18n("LL Data Write Miss");
 
-        // full names are from Cachegrind manual
-        fullNames["Bc"  ] = i18n("Conditional branches executed");
-        fullNames["Bcm" ] = i18n("Conditional branches mispredicted");
-        fullNames["Bi"  ] = i18n("Indirect branches executed");
-        fullNames["Bim" ] = i18n("Indirect branches mispredicted");
+        fullNames["Bc"  ] = i18n("Conditional Branch");
+        fullNames["Bcm" ] = i18n("Mispredicted Cond. Branch");
+        fullNames["Bi"  ] = i18n("Indirect Branch");
+        fullNames["Bim" ] = i18n("Mispredicted Ind. Branch");
     }
 
     return fullNames.value(eventShortName, eventShortName);
