@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/xml/isettings.h"
+#include "ixmlsettings.h"
 
 namespace Valgrind
 {

@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "generic/job.h"
+#include "ijob.h"
 
 namespace Valgrind
 {
@@ -32,8 +32,6 @@ class IXmlSettings;
 
 class IXmlJob : public Generic::Job
 {
-    Q_OBJECT
-
 public:
     ~IXmlJob() override;
 

@@ -17,25 +17,24 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
-
-#include <QString>
-
-class QAbstractTableModel;
+#include "ixmlsettings.h"
 
 namespace Valgrind
 {
 
-enum ItemDataRole
+IXmlSettings::IXmlSettings(const QString& configKeyPrefix)
+    : Valgrind::ISettings(configKeyPrefix)
+
+    , showInstructionPointer(
+        this,
+        QStringLiteral("Show Instruction Pointer"),
+        QStringLiteral(""),
+        false)
 {
-    SortRole = Qt::UserRole + 1
-};
+}
 
-static const int rightAlign = int(Qt::AlignRight | Qt::AlignVCenter);
-
-QString displayValue(int value);
-QString displayValue(double value);
-
-void emitDataChanged(QAbstractTableModel* model);
+IXmlSettings::~IXmlSettings()
+{
+}
 
 }

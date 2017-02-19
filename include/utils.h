@@ -21,9 +21,23 @@
 
 #include <QString>
 
+class QAbstractTableModel;
+
 namespace Valgrind
 {
 
 QString eventFullName(const QString& eventShortName);
+
+enum ItemDataRole
+{
+    SortRole = Qt::UserRole + 1
+};
+
+static const int rightAlign = int(Qt::AlignRight | Qt::AlignVCenter);
+
+QString displayValue(int value);
+QString displayValue(double value);
+
+void emitDataChanged(QAbstractTableModel* model);
 
 }

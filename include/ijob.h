@@ -46,8 +46,6 @@ namespace Generic
 
 class Job : public KDevelop::OutputExecuteJob
 {
-    Q_OBJECT
-
 public:
     Job(KDevelop::ILaunchConfiguration* cfg,
         QString tool,

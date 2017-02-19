@@ -24,8 +24,8 @@
 #include "ui_view.h"
 
 #include "debug.h"
-#include "generic/model.h"
 #include "model.h"
+#include "utils.h"
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>

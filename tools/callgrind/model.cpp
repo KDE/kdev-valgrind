@@ -24,8 +24,7 @@
 #include "model.h"
 
 #include "debug.h"
-#include "generic/events.h"
-#include "generic/model.h"
+#include "utils.h"
 
 #include <klocalizedstring.h>
 

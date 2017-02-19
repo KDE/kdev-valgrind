@@ -29,8 +29,6 @@ class Plugin;
 
 class Widget : public QTabWidget
 {
-    Q_OBJECT
-
 public:
     Widget(Plugin* plugin, QWidget* parent);
     ~Widget() override;

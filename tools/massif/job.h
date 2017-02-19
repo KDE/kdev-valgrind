@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "generic/job.h"
+#include "ijob.h"
 
 class QTemporaryFile;
 

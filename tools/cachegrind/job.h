@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "generic/job.h"
+#include "ijob.h"
 
 class QTemporaryFile;
 
@@ -37,8 +37,6 @@ class FunctionsModel;
 
 class Job : public Generic::Job
 {
-    Q_OBJECT
-
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~Job() override;

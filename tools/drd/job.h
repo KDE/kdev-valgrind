@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/xml/ijob.h"
+#include "ixmljob.h"
 
 namespace Valgrind
 {
@@ -29,8 +29,6 @@ namespace DRD
 
 class Job : public IXmlJob
 {
-    Q_OBJECT
-
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
     ~Job() override;

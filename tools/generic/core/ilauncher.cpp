@@ -26,7 +26,7 @@
 
 #include "configpage.h"
 #include "debug.h"
-#include "job.h"
+#include "ijob.h"
 #include "launchmode.h"
 
 #include <execute/iexecuteplugin.h>

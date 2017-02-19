@@ -25,10 +25,9 @@
 #include "ui_view.h"
 
 #include "debug.h"
-#include "generic/events.h"
-#include "generic/model.h"
 #include "model.h"
 #include "settings.h"
+#include "utils.h"
 
 #include <QSortFilterProxyModel>
 #include <QProcess>

@@ -37,8 +37,6 @@ class ConfigPage;
 
 class ConfigPage : public KDevelop::LaunchConfigurationPage
 {
-    Q_OBJECT
-
 public:
     explicit ConfigPage(QWidget* parent = nullptr);
     ~ConfigPage() override;

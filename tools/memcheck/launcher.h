@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "generic/ilauncher.h"
+#include "ilauncher.h"
 
 namespace Valgrind
 {

@@ -21,12 +21,12 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "ijob.h"
+#include "ixmljob.h"
+#include "ixmlsettings.h"
 
 #include "debug.h"
 #include "parser.h"
 #include "plugin.h"
-#include "isettings.h"
 
 #include <shell/problemmodel.h>
 

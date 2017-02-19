@@ -18,8 +18,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef VALGRIND_GLOBAL_CONFIG_PAGE_H
-#define VALGRIND_GLOBAL_CONFIG_PAGE_H
+#pragma once
 
 #include <interfaces/configpage.h>
 
@@ -42,5 +41,3 @@ public:
 };
 
 }
-
-#endif

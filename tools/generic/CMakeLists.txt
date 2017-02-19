@@ -3,18 +3,18 @@ ki18n_wrap_ui(generic_UI_SRCS
 )
 
 add_library(generic_tool STATIC
-    configpage.cpp
-    events.cpp
-    ilauncher.cpp
-    isettings.cpp
-    job.cpp
-    model.cpp
-    settings.cpp
+    core/ijob.cpp
+    core/ilauncher.cpp
+    core/isettings.cpp
+    core/utils.cpp
 
-    xml/ijob.cpp
-    xml/isettings.cpp
-    xml/error.cpp
-    xml/parser.cpp
+    core/xml/ixmljob.cpp
+    core/xml/ixmlsettings.cpp
+    core/xml/error.cpp
+    core/xml/parser.cpp
+
+    configpage.cpp
+    settings.cpp
 
     ${generic_UI_SRCS}
 )

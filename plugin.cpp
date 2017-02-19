@@ -24,7 +24,7 @@
 #include "config/globalconfigpage.h"
 
 #include "debug.h"
-#include "generic/job.h"
+#include "ijob.h"
 #include "launchmode.h"
 #include "widget.h"
 

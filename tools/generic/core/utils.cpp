@@ -17,10 +17,11 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "events.h"
+#include "utils.h"
 
 #include <klocalizedstring.h>
 
+#include <QAbstractTableModel>
 #include <QMap>
 
 namespace Valgrind
@@ -52,6 +53,36 @@ QString eventFullName(const QString& eventShortName)
     }
 
     return fullNames.value(eventShortName, eventShortName);
+}
+
+QString displayValue(int value)
+{
+    QString result = QString::number(value);
+    int length = result.length();
+
+    for (int i = 0; i < (length / 3); ++i) {
+        int pos = result.length() - (4 * i + 3);
+        if (!pos) {
+            break;
+        }
+        result.insert(pos, ' ');
+    }
+
+    return result;
+}
+
+QString displayValue(double value)
+{
+    return QString::number(value, 'f', 2);
+}
+
+void emitDataChanged(QAbstractTableModel* model)
+{
+    Q_ASSERT(model);
+
+    emit model->dataChanged(model->index(0,0),
+                            model->index(model->rowCount() - 1, model->columnCount() - 1),
+                            { Qt::DisplayRole });
 }
 
 }
