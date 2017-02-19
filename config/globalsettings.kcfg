@@ -28,5 +28,9 @@
         <default>/usr/bin/massif-visualizer</default>
     </entry>
 
+    <entry name="showValgrindOutput" key="showValgrindOutput" type="Bool">
+        <default>false</default>
+    </entry>
+
   </group>
 </kcfg>

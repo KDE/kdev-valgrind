@@ -27,6 +27,7 @@
 #include "job.h"
 
 #include "debug.h"
+#include "globalsettings.h"
 #include "plugin.h"
 #include "settings.h"
 
@@ -189,7 +190,10 @@ void Job::postProcessStderr(const QStringList& lines)
 void Job::processValgrindOutput(const QStringList& lines)
 {
     m_valgrindOutput += lines;
-    KDevelop::OutputExecuteJob::postProcessStderr(lines); // FIXME add checks for skip this line
+
+    if (GlobalSettings::showValgrindOutput()) {
+        KDevelop::OutputExecuteJob::postProcessStderr(lines);
+    }
 }
 
 void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
