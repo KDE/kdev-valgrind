@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "include/isettings.h" // FIXME
+#include "isettings.h"
 
 namespace Valgrind
 {
