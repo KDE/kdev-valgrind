@@ -171,7 +171,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Valgrind messages will be &amp;quot;mixed&amp;quot; with analyzed executable messages.&lt;/p&gt;&lt;p&gt;Useful for plugin debugging.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Show Valgrind output during anlayze</string>
+         <string>Show Valgrind output during analyze</string>
         </property>
        </widget>
       </item>
