@@ -36,7 +36,7 @@ namespace Callgrind
 
 class FunctionsModel;
 
-class Job : public Generic::Job
+class Job : public IJob
 {
 public:
     Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);

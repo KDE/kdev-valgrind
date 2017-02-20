@@ -52,12 +52,9 @@
 namespace Valgrind
 {
 
-namespace Generic
-{
-
 static const QString valgrindErrorsPrefix = QStringLiteral("valgrind: ");
 
-Job::Job(
+IJob::IJob(
     KDevelop::ILaunchConfiguration* launchConfig,
     QString tool,
     bool hasView,
@@ -112,7 +109,7 @@ Job::Job(
     }
     setWorkingDirectory(workDir);
 
-    connect(this, &Job::finished, m_plugin, &Plugin::jobFinished);
+    connect(this, &IJob::finished, m_plugin, &Plugin::jobFinished);
 
     auto tcpServer = new QTcpServer(this);
     tcpServer->listen(QHostAddress::LocalHost);
@@ -131,33 +128,33 @@ Job::Job(
     });
 }
 
-Job::~Job()
+IJob::~IJob()
 {
 }
 
-QString Job::tool() const
+QString IJob::tool() const
 {
     return m_tool;
 }
 
-QString Job::target() const
+QString IJob::target() const
 {
     return QFileInfo(m_analyzedExecutable).fileName();
 }
 
-bool Job::hasView()
+bool IJob::hasView()
 {
     return m_hasView;
 }
 
-void Job::addLoggingArgs(QStringList& args) const
+void IJob::addLoggingArgs(QStringList& args) const
 {
     args += QStringLiteral("--log-socket=127.0.0.1:%1").arg(m_tcpServerPort);
 }
 
-QStringList Job::buildCommandLine() const
+QStringList IJob::buildCommandLine() const
 {
-    Settings settings;
+    Generic::Settings settings;
     settings.load(m_config);
 
     QStringList args;
@@ -171,9 +168,9 @@ QStringList Job::buildCommandLine() const
     return args;
 }
 
-void Job::start()
+void IJob::start()
 {
-    *this << Settings::valgrindExecutablePath();
+    *this << Generic::Settings::valgrindExecutablePath();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;
@@ -184,7 +181,7 @@ void Job::start()
     KDevelop::OutputExecuteJob::start();
 }
 
-void Job::postProcessStderr(const QStringList& lines)
+void IJob::postProcessStderr(const QStringList& lines)
 {
     for (const QString& line : lines) {
         if (line.startsWith(valgrindErrorsPrefix)) {
@@ -194,7 +191,7 @@ void Job::postProcessStderr(const QStringList& lines)
     KDevelop::OutputExecuteJob::postProcessStderr(lines);
 }
 
-void Job::processValgrindOutput(const QStringList& lines)
+void IJob::processValgrindOutput(const QStringList& lines)
 {
     m_valgrindOutput += lines;
 
@@ -203,7 +200,7 @@ void Job::processValgrindOutput(const QStringList& lines)
     }
 }
 
-void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
+void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
     qCDebug(KDEV_VALGRIND) << "Process Finished, exitCode" << exitCode << "process exit status" << exitStatus;
 
@@ -216,7 +213,7 @@ void Job::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
     KDevelop::OutputExecuteJob::childProcessExited(exitCode, exitStatus);
 }
 
-void Job::childProcessError(QProcess::ProcessError processError)
+void IJob::childProcessError(QProcess::ProcessError processError)
 {
     QString errorMessage;
 
@@ -275,12 +272,12 @@ void Job::childProcessError(QProcess::ProcessError processError)
     KDevelop::OutputExecuteJob::childProcessError(processError);
 }
 
-bool Job::processEnded()
+bool IJob::processEnded()
 {
     return true;
 }
 
-int Job::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
+int IJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
     QString commandLine = executable + " " + args.join(' ');
 
@@ -313,8 +310,6 @@ int Job::executeProcess(const QString& executable, const QStringList& args, QByt
     }
 
     return process.exitCode();
-}
-
 }
 
 }

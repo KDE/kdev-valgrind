@@ -41,19 +41,16 @@ namespace Valgrind
 
 class Plugin;
 
-namespace Generic
-{
-
-class Job : public KDevelop::OutputExecuteJob
+class IJob : public KDevelop::OutputExecuteJob
 {
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg,
-        QString tool,
-        bool hasView,
-        Plugin* plugin,
-        QObject* parent);
+    IJob(KDevelop::ILaunchConfiguration* cfg,
+         QString tool,
+         bool hasView,
+         Plugin* plugin,
+         QObject* parent);
 
-    ~Job() override;
+    ~IJob() override;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
@@ -94,7 +91,5 @@ protected:
 
     quint16 m_tcpServerPort;
 };
-
-}
 
 }

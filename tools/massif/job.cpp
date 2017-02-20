@@ -43,7 +43,7 @@ namespace Massif
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : Generic::Job(cfg, QStringLiteral("massif"), true, plugin, parent)
+    : IJob(cfg, QStringLiteral("massif"), true, plugin, parent)
     , m_model(new SnapshotsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

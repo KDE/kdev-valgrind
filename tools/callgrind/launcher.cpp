@@ -46,7 +46,7 @@ Launcher::~Launcher()
 {
 }
 
-Generic::Job* Launcher::createJob(KDevelop::ILaunchConfiguration* config, QObject* parent)
+IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config, QObject* parent)
 {
     return new Job(config, m_plugin, parent);
 }

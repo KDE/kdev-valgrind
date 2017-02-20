@@ -36,7 +36,7 @@ public:
     ~Launcher() override;
 
 protected:
-    Generic::Job* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) override;
+    IJob* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) override;
 };
 
 }

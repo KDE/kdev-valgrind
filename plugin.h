@@ -38,13 +38,7 @@ class ILauncher;
 namespace Valgrind
 {
 
-namespace Generic
-{
-
-class Job;
-
-}
-
+class IJob;
 class LaunchMode;
 class WidgetFactory;
 
@@ -63,8 +57,8 @@ public:
 
     KDevelop::ProblemModel* problemModel() const;
 
-    void jobReadyToStart(Generic::Job* job);
-    void jobReadyToFinish(Generic::Job* job, bool ok);
+    void jobReadyToStart(IJob* job);
+    void jobReadyToFinish(IJob* job, bool ok);
     void jobFinished(KJob* job);
 
 signals:

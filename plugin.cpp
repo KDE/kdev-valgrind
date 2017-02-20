@@ -234,7 +234,7 @@ KDevelop::ProblemModel* Plugin::problemModel() const
     return m_problemModel;
 }
 
-void Plugin::jobReadyToStart(Generic::Job* job)
+void Plugin::jobReadyToStart(IJob* job)
 {
     for (auto action : actionCollection()->actions()) {
         action->setEnabled(false);
@@ -246,7 +246,7 @@ void Plugin::jobReadyToStart(Generic::Job* job)
     }
 }
 
-void Plugin::jobReadyToFinish(Generic::Job* job, bool ok)
+void Plugin::jobReadyToFinish(IJob* job, bool ok)
 {
     if (!ok) {
         return;

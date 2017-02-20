@@ -43,7 +43,7 @@ IXmlJob::IXmlJob(
     Plugin* plugin,
     QObject* parent)
 
-    : Generic::Job(cfg, toolName, false, plugin, parent)
+    : IJob(cfg, toolName, false, plugin, parent)
     , m_settings(settings)
 {
     Q_ASSERT(m_settings);
@@ -68,7 +68,7 @@ void IXmlJob::processValgrindOutput(const QStringList& lines)
         }
     }
 
-    Generic::Job::processValgrindOutput(lines);
+    IJob::processValgrindOutput(lines);
 }
 
 bool IXmlJob::processEnded()

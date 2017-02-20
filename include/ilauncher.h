@@ -30,15 +30,9 @@ class KJob;
 namespace Valgrind
 {
 
+class IJob;
 class LaunchMode;
 class Plugin;
-
-namespace Generic
-{
-
-class Job;
-
-}
 
 class ILauncher : public KDevelop::ILauncher
 {
@@ -62,7 +56,7 @@ public:
     KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override final;
 
 protected:
-    virtual Generic::Job* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
+    virtual IJob* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
 
     Plugin* m_plugin;
     LaunchMode* m_mode;

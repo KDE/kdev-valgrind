@@ -30,7 +30,7 @@ namespace Valgrind
 
 class IXmlSettings;
 
-class IXmlJob : public Generic::Job
+class IXmlJob : public IJob
 {
 public:
     ~IXmlJob() override;
