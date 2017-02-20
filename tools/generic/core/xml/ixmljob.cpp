@@ -58,7 +58,7 @@ void IXmlJob::processValgrindOutput(const QStringList& lines)
 {
     static const auto xmlStartRegex = QRegularExpression("\\s*<");
 
-    for (const QString & line : lines) {
+    for (const QString& line : lines) {
         if (line.isEmpty()) {
             continue;
         }

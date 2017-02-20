@@ -108,7 +108,7 @@ KDevelop::IProblem::Ptr Stack::toIProblem(bool showInstructionPointer) const
     KDevelop::IProblem::Ptr stackProblem(new Problem);
 
     KDevelop::DocumentRange range(KDevelop::DocumentRange::invalid());
-    foreach (const Frame& frame, frames) {
+    for (const Frame& frame : frames) {
         auto frameProblem = frame.toIProblem(showInstructionPointer);
         stackProblem->addDiagnostic(frameProblem);
 
@@ -199,7 +199,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
     problem->setDescription(messages.first());
 
     // Add all stacks
-    foreach (const Stack& stack, stacks) {
+    for (const Stack& stack : stacks) {
         problem->addDiagnostic(stack.toIProblem(showInstructionPointer));
     }
 

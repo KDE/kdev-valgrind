@@ -65,7 +65,7 @@ Function::Function(int eventsCount)
 int Function::callCount()
 {
     int count = 0;
-    foreach (auto info, callersInformation) {
+    for (auto info : callersInformation) {
         count += info->callCount;
     }
     return count;
@@ -83,7 +83,7 @@ int Function::eventValue(int type, bool inclusive)
     if (callersInformation.isEmpty()) {
         // The function is NOT CALLED by others, therefore we calc
         // the event inclusive value as sum of self value and all callees.
-        foreach (auto info, calleesInformation) {
+        for (auto info : calleesInformation) {
             value += info->eventValue(type);
         }
         return value;
@@ -92,7 +92,7 @@ int Function::eventValue(int type, bool inclusive)
     // The function is CALLED by others, therefore we calc
     // the event inclusive value as sum of all callers.
     value = 0;
-    foreach (auto info, callersInformation) {
+    for (auto info : callersInformation) {
         value += info->eventValue(type);
     }
 
@@ -164,7 +164,7 @@ Function* FunctionsModel::addFunction(
 
     Function* function = nullptr;
 
-    foreach (Function* currentFunction, m_functions) {
+    for (auto currentFunction : m_functions) {
         if (currentFunction->name == name && (currentFunction->binaryFile.isEmpty() ||
                                               binaryFile.isEmpty() ||
                                               currentFunction->binaryFile == binaryFile)) {

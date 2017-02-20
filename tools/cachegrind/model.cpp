@@ -58,7 +58,7 @@ void FunctionsModel::addItem(Function* newItem, bool isTotal)
     }
 
     bool exists = false;
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->functionName == newItem->functionName) {
             exists = true;
 

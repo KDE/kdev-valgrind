@@ -52,7 +52,7 @@ View::View(KConfigGroup config, QTemporaryFile* outputFile, FunctionsModel* mode
     ui = new Ui::View();
     ui->setupUi(this);
 
-    foreach (const QString& eventType, model->eventTypes()) {
+    for (const QString& eventType : model->eventTypes()) {
         ui->eventTypes->addItem(eventFullName(eventType));
     }
     connect(ui->eventTypes, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
