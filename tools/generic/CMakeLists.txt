@@ -20,5 +20,5 @@ add_library(generic_tool STATIC
 )
 
 target_link_libraries(generic_tool
-    KDev::Shell
+    kdevvalgrind_config
 )

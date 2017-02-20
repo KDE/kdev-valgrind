@@ -52,34 +52,20 @@ target_link_libraries(kdevvalgrind_config
     KDev::Shell
 )
 
+add_subdirectory(tools)
+
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
     SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS}
 )
 
-add_subdirectory(tools/cachegrind)
-add_subdirectory(tools/callgrind)
-add_subdirectory(tools/drd)
-add_subdirectory(tools/generic)
-add_subdirectory(tools/helgrind)
-add_subdirectory(tools/massif)
-add_subdirectory(tools/memcheck)
-
 target_link_libraries(kdevvalgrind
+    kdevvalgrind_tools
+
     KDev::Language
     KDev::Project
     KDev::Shell
     KF5::ItemViews
-
-    kdevvalgrind_config
-
-    cachegrind_tool
-    callgrind_tool
-    drd_tool
-    generic_tool
-    helgrind_tool
-    massif_tool
-    memcheck_tool
 )
 
 install(FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind)
