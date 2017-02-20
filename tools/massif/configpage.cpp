@@ -73,7 +73,7 @@ QString ConfigPage::title() const
 
 QIcon ConfigPage::icon() const
 {
-    return QIcon::fromTheme("fork");
+    return QIcon();
 }
 
 void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
