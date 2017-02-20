@@ -75,7 +75,7 @@ bool IXmlJob::processEnded()
 {
     m_settings->load(m_config);
 
-    auto problems = XmlParser::parse(m_xmlOutput.join(" "), m_settings->showInstructionPointer);
+    auto problems = parseXml(m_xmlOutput.join(" "), m_settings->showInstructionPointer);
     m_plugin->problemModel()->setProblems(problems);
 
     return true;

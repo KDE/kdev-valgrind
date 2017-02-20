@@ -70,8 +70,7 @@ bool Job::processEnded()
         return false;
     }
 
-    Parser parser;
-    parser.parse(cgOutput, m_model);
+    parse(cgOutput, m_model);
 
     return true;
 }

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QObject>
+#include <QByteArray>
 
 namespace Valgrind
 {
@@ -32,21 +32,7 @@ namespace Cachegrind
 
 class FunctionsModel;
 
-class Parser : public QObject
-{
-public:
-    explicit Parser(QObject* parent = nullptr);
-    ~Parser() override;
-
-    void parse(QByteArray& data, FunctionsModel* model);
-
-private:
-    void parseCachegrindItem(const QString& line, bool programTotal = false);
-
-    FunctionsModel* m_model;
-
-    QStringList m_eventsList;
-};
+void parse(QByteArray& data, FunctionsModel* model);
 
 }
 

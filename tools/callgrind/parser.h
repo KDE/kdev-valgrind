@@ -23,7 +23,6 @@
 #pragma once
 
 #include <QByteArray>
-#include <QList>
 
 namespace Valgrind
 {
@@ -31,25 +30,9 @@ namespace Valgrind
 namespace Callgrind
 {
 
-class Function;
 class FunctionsModel;
 
-class Parser
-{
-public:
-    Parser();
-    ~Parser();
-
-    void parse(QByteArray& data, FunctionsModel* model);
-
-private:
-    void parseCallInformation(const QString& line, bool programTotal = false);
-
-    QStringList m_eventTypes;
-
-    FunctionsModel* m_model;
-    Function* m_caller;
-};
+void parse(QByteArray& data, FunctionsModel* model);
 
 }
 

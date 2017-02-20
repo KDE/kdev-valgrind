@@ -72,8 +72,7 @@ bool Job::processEnded()
         return false;
     }
 
-    Parser parser;
-    parser.parse(caOutput, m_model);
+    parse(caOutput, m_model);
 
     return true;
 }

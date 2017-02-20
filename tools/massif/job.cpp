@@ -59,7 +59,7 @@ bool Job::processEnded()
     Settings settings;
     settings.load(m_config);
 
-    Parser::parse(m_outputFile->fileName(), m_model);
+    parse(m_outputFile->fileName(), m_model);
 
     return true;
 }

@@ -268,13 +268,13 @@ QVector<KDevelop::IProblem::Ptr> Parser::parse(bool showInstructionPointer)
     return problems;
 }
 
-QVector<KDevelop::IProblem::Ptr> parse(const QString& xmlData, bool showInstructionPointer)
-{
-    Parser parser;
-    parser.addData(xmlData);
-    return parser.parse(showInstructionPointer);
 }
 
+QVector<KDevelop::IProblem::Ptr> parseXml(const QString& xmlData, bool showInstructionPointer)
+{
+    XmlParser::Parser parser;
+    parser.addData(xmlData);
+    return parser.parse(showInstructionPointer);
 }
 
 }

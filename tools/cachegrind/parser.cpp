@@ -26,8 +26,6 @@
 #include "debug.h"
 #include "model.h"
 
-#include <klocalizedstring.h>
-
 #include <QBuffer>
 #include <QUrl>
 
@@ -37,24 +35,14 @@ namespace Valgrind
 namespace Cachegrind
 {
 
-Parser::Parser(QObject* parent)
-    : QObject(parent)
-    , m_model(nullptr)
-{
-}
-
-Parser::~Parser()
-{
-}
-
-void Parser::parseCachegrindItem(const QString& line, bool programTotal)
+Function* parseCachegrindItem(const QString& line, QStringList& eventsList)
 {
     auto item = new Function;
 
     QStringList lineEventList = line.split(QChar(' '), QString::SkipEmptyParts);
-    Q_ASSERT(lineEventList.size() >= m_eventsList.size());
+    Q_ASSERT(lineEventList.size() >= eventsList.size());
 
-    for (int i = 0; i < m_eventsList.size(); ++i) {
+    for (int i = 0; i < eventsList.size(); ++i) {
         item->eventValues += lineEventList.takeFirst().remove(",").toInt();
     }
 
@@ -69,24 +57,24 @@ void Parser::parseCachegrindItem(const QString& line, bool programTotal)
         item->functionName = fileCall.mid(colonPosition + 1);
     }
 
-    m_model->addItem(item, programTotal);
+    return item;
 }
 
-enum CachegrindParserState
+enum ParserState
 {
-    ParseRootModel,
+    ParseRoot,
     ParseProgramTotalHeader,
     ParseProgramTotal,
     ParseProgramHeader,
     ParseProgram
 };
 
-void Parser::parse(QByteArray& baData, FunctionsModel* model)
+void parse(QByteArray& baData, FunctionsModel* model)
 {
     Q_ASSERT(model);
-    m_model = model;
 
-    CachegrindParserState parserState = ParseRootModel;
+    ParserState parserState = ParseRoot;
+    QStringList eventsList;
     QString eventsString;
     QString line;
 
@@ -98,11 +86,11 @@ void Parser::parse(QByteArray& baData, FunctionsModel* model)
         // remove useless characters
         line = data.readLine().simplified();
 
-        if (parserState == ParseRootModel) {
+        if (parserState == ParseRoot) {
             if (line.startsWith("Events shown:")) {
                 // 13 is 'Events shown:' length
                 eventsString = line.mid(13).simplified();
-                m_eventsList = eventsString.split(QChar(' '), QString::SkipEmptyParts);
+                eventsList = eventsString.split(QChar(' '), QString::SkipEmptyParts);
                 parserState = ParseProgramTotalHeader;
             }
         }
@@ -120,17 +108,15 @@ void Parser::parse(QByteArray& baData, FunctionsModel* model)
         }
 
         else if (!line.isEmpty() && line.at(0).isDigit()) {
-            if (parserState == ParseProgramTotal) {
-                parseCachegrindItem(line, true);
+            bool isTotal = (parserState == ParseProgramTotal);
+            model->addItem(parseCachegrindItem(line, eventsList), isTotal);
+            if (isTotal) {
                 parserState = ParseProgramHeader;
             }
-            else
-                parseCachegrindItem(line, false);
         }
     }
 
-    model->setEventsList(m_eventsList);
-    m_model = nullptr;
+    model->setEventsList(eventsList);
 }
 
 }

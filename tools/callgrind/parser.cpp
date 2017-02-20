@@ -36,36 +36,31 @@ namespace Valgrind
 namespace Callgrind
 {
 
-Parser::Parser()
-    : m_model(nullptr)
-    , m_caller(nullptr)
-{
-}
-
-Parser::~Parser()
-{
-}
-
-void Parser::parseCallInformation(const QString& line, bool programTotal)
+void parseCallInformation(
+    const QString& line,
+    bool programTotal,
+    const QStringList& eventTypes,
+    Function*& caller,
+    FunctionsModel* model)
 {
     static const QRegularExpression binaryExpression("^(.*)\\[(.*)\\]$");
     static const QRegularExpression callCountExpression("^(.*)\\((\\d+)x\\)$");
 
     QStringList lineItems = line.split(QChar(' '), QString::SkipEmptyParts);
-    for (int i = 0; i < m_eventTypes.size(); ++i) {
+    for (int i = 0; i < eventTypes.size(); ++i) {
         lineItems[i].remove(",");
     }
 
     if (programTotal) {
-        while (lineItems.size() > m_eventTypes.size()) {
+        while (lineItems.size() > eventTypes.size()) {
             lineItems.removeLast();
         }
-        m_model->setEventTotals(lineItems);
+        model->setEventTotals(lineItems);
 
         return;
     }
 
-    const char lineType = lineItems.takeAt(m_eventTypes.size()).at(0).toLatin1();
+    const char lineType = lineItems.takeAt(eventTypes.size()).at(0).toLatin1();
 
     // skip caller lines
     if (lineType == '<') {
@@ -73,8 +68,8 @@ void Parser::parseCallInformation(const QString& line, bool programTotal)
     }
 
     QString idString;
-    while (lineItems.size() > m_eventTypes.size()) {
-        idString += lineItems.takeAt(m_eventTypes.size()) + ' ';
+    while (lineItems.size() > eventTypes.size()) {
+        idString += lineItems.takeAt(eventTypes.size()) + ' ';
     }
     idString = idString.trimmed();
 
@@ -100,17 +95,17 @@ void Parser::parseCallInformation(const QString& line, bool programTotal)
     QString sourceFile = sourceUrl.toLocalFile();
     QString functionName = idString.mid(colonPos + 1);
 
-    auto function = m_model->addFunction(functionName, sourceFile, binaryFile);
+    auto function = model->addFunction(functionName, sourceFile, binaryFile);
 
     // the function itself
     if (lineType == '*') {
-        m_caller = function;
-        m_caller->addEventValues(lineItems);
+        caller = function;
+        caller->addEventValues(lineItems);
     }
 
     // the callee
     else if (lineType == '>') {
-        m_model->addCall(m_caller, function, callCount, lineItems);
+        model->addCall(caller, function, callCount, lineItems);
     }
 
     else {
@@ -120,21 +115,23 @@ void Parser::parseCallInformation(const QString& line, bool programTotal)
 
 enum ParserState
 {
-    Root,
-    ProgramTotalHeader,
-    ProgramTotal,
-    ProgramHeader,
-    Program
+    ParseRoot,
+    ParseProgramTotalHeader,
+    ParseProgramTotal,
+    ParseProgramHeader,
+    ParseProgram
 };
 
-void Parser::parse(QByteArray& baData, FunctionsModel* model)
+void parse(QByteArray& baData, FunctionsModel* model)
 {
     Q_ASSERT(model);
-    m_model = model;
 
-    ParserState parserState = Root;
+    ParserState parserState = ParseRoot;
+    QStringList eventTypes;
     QString eventsString;
     QString line;
+
+    Function* caller = nullptr;
 
     QBuffer data(&baData);
     data.open(QIODevice::ReadOnly);
@@ -146,42 +143,40 @@ void Parser::parse(QByteArray& baData, FunctionsModel* model)
                 break;
         }
 
-        if (parserState == Root) {
+        if (parserState == ParseRoot) {
             if (line.startsWith("Events shown:")) {
                 // 13 is 'Events shown:' size;
                 eventsString = line.mid(13).simplified();
 
-                m_eventTypes = eventsString.split(QChar(' '), QString::SkipEmptyParts);
-                m_model->setEventTypes(m_eventTypes);
+                eventTypes = eventsString.split(QChar(' '), QString::SkipEmptyParts);
+                model->setEventTypes(eventTypes);
 
-                parserState = ProgramTotalHeader;
+                parserState = ParseProgramTotalHeader;
             }
         }
 
-        else if (parserState == ProgramTotalHeader) {
+        else if (parserState == ParseProgramTotalHeader) {
             if (line == eventsString) {
-                parserState = ProgramTotal;
+                parserState = ParseProgramTotal;
             }
         }
 
-        else if (parserState == ProgramHeader) {
+        else if (parserState == ParseProgramHeader) {
             if (line.startsWith(eventsString)) {
-                parserState = Program;
+                parserState = ParseProgram;
             }
         }
 
         else if (!line.isEmpty() && line.at(0).isDigit()) {
-            if (parserState == ProgramTotal) {
-                parseCallInformation(line, true);
-                parserState = ProgramHeader;
+            if (parserState == ParseProgramTotal) {
+                parseCallInformation(line, true, eventTypes, caller, model);
+                parserState = ParseProgramHeader;
             }
             else {
-                parseCallInformation(line, false);
+                parseCallInformation(line, false, eventTypes, caller, model);
             }
         }
     }
-
-    m_model = nullptr;
 }
 
 }

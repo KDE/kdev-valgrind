@@ -32,9 +32,6 @@ namespace Valgrind
 namespace Massif
 {
 
-namespace Parser
-{
-
 void parse(const QString& fileName, SnapshotsModel* model)
 {
     Q_ASSERT(model);
@@ -87,8 +84,6 @@ void parse(const QString& fileName, SnapshotsModel* model)
             model->addSnapshot(snapshot);
         }
     }
-}
-
 }
 
 }
