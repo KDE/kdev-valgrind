@@ -16,5 +16,5 @@ add_library(cachegrind_tool STATIC
 )
 
 target_link_libraries(cachegrind_tool
-    KDev::Language
+    generic_tool
 )

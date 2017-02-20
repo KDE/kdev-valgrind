@@ -64,7 +64,6 @@ target_link_libraries(kdevvalgrind
 
     KDev::Language
     KDev::Project
-    KDev::Shell
     KF5::ItemViews
 )
 

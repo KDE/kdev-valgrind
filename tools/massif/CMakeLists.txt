@@ -17,5 +17,5 @@ add_library(massif_tool STATIC
 )
 
 target_link_libraries(massif_tool
-    KDev::Language
+    generic_tool
 )
