@@ -27,8 +27,7 @@
 #include "debug.h"
 #include "parser.h"
 #include "plugin.h"
-
-#include <shell/problemmodel.h>
+#include "problemmodel.h"
 
 #include <QRegularExpression>
 #include <unistd.h>

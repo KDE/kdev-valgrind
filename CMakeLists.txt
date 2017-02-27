@@ -31,6 +31,7 @@ set(kdevvalgrind_SRCS
 
     launchmode.cpp
     plugin.cpp
+    problemmodel.cpp
     widget.cpp
 
     config/globalconfigpage.cpp

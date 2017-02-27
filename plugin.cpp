@@ -26,6 +26,7 @@
 #include "debug.h"
 #include "ijob.h"
 #include "launchmode.h"
+#include "problemmodel.h"
 #include "widget.h"
 
 #include "cachegrind/launcher.h"
@@ -36,7 +37,6 @@
 #include "memcheck/launcher.h"
 
 #include <execute/iexecuteplugin.h>
-#include <interfaces/ilanguagecontroller.h>
 #include <interfaces/iplugincontroller.h>
 #include <interfaces/iuicontroller.h>
 #include <interfaces/launchconfigurationtype.h>
@@ -44,16 +44,12 @@
 #include <kpluginfactory.h>
 #include <shell/core.h>
 #include <shell/launchconfiguration.h>
-#include <shell/problemmodel.h>
-#include <shell/problemmodelset.h>
 #include <shell/runcontroller.h>
 
 K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin<Valgrind::Plugin>();)
 
 namespace Valgrind
 {
-
-static const QString modelId = QStringLiteral("Valgrind");
 
 class WidgetFactory : public KDevelop::IToolViewFactory
 {
@@ -86,20 +82,12 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
     , m_factory(new WidgetFactory(this))
     , m_launchMode(new LaunchMode)
-    , m_problemModel(new KDevelop::ProblemModel(this))
+    , m_problemModel(new ProblemModel(this))
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
 
-    m_problemModel->setFeatures(
-        KDevelop::ProblemModel::ScopeFilter |
-        KDevelop::ProblemModel::SeverityFilter |
-        KDevelop::ProblemModel::Grouping |
-        KDevelop::ProblemModel::CanByPassScopeFilter);
-
-    core()->languageController()->problemModelSet()->addModel(modelId, i18n("Valgrind"), m_problemModel);
     core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
-
     core()->runController()->addLaunchMode(m_launchMode);
 
     auto pluginController = core()->pluginController();
@@ -150,7 +138,6 @@ Plugin::~Plugin()
 
 void Plugin::unload()
 {
-    core()->languageController()->problemModelSet()->removeModel(modelId);
     core()->uiController()->removeToolView(m_factory);
 
     for (auto plugin : core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
@@ -229,7 +216,7 @@ KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
     return new GlobalConfigPage(this, parent);
 }
 
-KDevelop::ProblemModel* Plugin::problemModel() const
+ProblemModel* Plugin::problemModel() const
 {
     return m_problemModel;
 }
@@ -242,7 +229,16 @@ void Plugin::jobReadyToStart(IJob* job)
 
     Q_ASSERT(job);
     if (!job->hasView()) {
-        m_problemModel->clearProblems();
+        // FIXME ugly temporary code; replace with ITool in the future
+        if (job->tool() == "memcheck") {
+            m_problemModel->reset("Memcheck");
+        }
+        else if (job->tool() == "helgrind") {
+            m_problemModel->reset("Helgrind");
+        }
+        else if (job->tool() == "drd") {
+            m_problemModel->reset("DRD");
+        }
     }
 }
 
@@ -257,7 +253,7 @@ void Plugin::jobReadyToFinish(IJob* job, bool ok)
         addView(job->createView(), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
         core()->uiController()->findToolView("Valgrind", m_factory);
     } else {
-        core()->languageController()->problemModelSet()->showModel(modelId);
+        m_problemModel->show();
     }
 }
 
