@@ -39,7 +39,7 @@
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 #include <kshell.h>
-#include <util/environmentgrouplist.h>
+#include <util/environmentprofilelist.h>
 
 #include <QApplication>
 #include <QBuffer>
@@ -83,11 +83,11 @@ IJob::IJob(
     auto iface = pluginController->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
-    QString envGroup = iface->environmentGroup(launchConfig);
-    if (envGroup.isEmpty()) {
-        envGroup = KDevelop::EnvironmentGroupList(KSharedConfig::openConfig()).defaultGroup();
+    QString envProfile = iface->environmentProfileName(launchConfig);
+    if (envProfile.isEmpty()) {
+        envProfile = KDevelop::EnvironmentProfileList(KSharedConfig::openConfig()).defaultProfileName();
     }
-    setEnvironmentProfile(envGroup);
+    setEnvironmentProfile(envProfile);
 
     QString errorString;
 
