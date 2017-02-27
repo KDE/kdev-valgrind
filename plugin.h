@@ -64,6 +64,8 @@ public:
     void jobReadyToFinish(IJob* job, bool ok);
     void jobFinished(KJob* job);
 
+    bool isRunning();
+
 signals:
     void addView(QWidget* view, const QString& name);
 
@@ -76,6 +78,7 @@ private:
     QMultiHash<KDevelop::IPlugin*, KDevelop::ILauncher*> m_launchers;
 
     ProblemModel* m_problemModel;
+    bool m_isRunning;
 };
 
 }

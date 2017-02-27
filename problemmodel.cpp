@@ -74,7 +74,7 @@ void ProblemModel::show()
 
 void ProblemModel::forceFullUpdate()
 {
-    if (!m_launcherId.isEmpty()) {
+    if (!m_launcherId.isEmpty() && !m_plugin->isRunning()) {
         m_plugin->executeDefaultLaunch(m_launcherId);
     }
 }

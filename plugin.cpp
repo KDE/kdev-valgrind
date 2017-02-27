@@ -83,6 +83,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     , m_factory(new WidgetFactory(this))
     , m_launchMode(new LaunchMode)
     , m_problemModel(new ProblemModel(this))
+    , m_isRunning(false)
 {
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
@@ -223,6 +224,7 @@ ProblemModel* Plugin::problemModel() const
 
 void Plugin::jobReadyToStart(IJob* job)
 {
+    m_isRunning = true;
     for (auto action : actionCollection()->actions()) {
         action->setEnabled(false);
     }
@@ -263,6 +265,12 @@ void Plugin::jobFinished(KJob* job)
     for (auto action : actionCollection()->actions()) {
         action->setEnabled(true);
     }
+    m_isRunning = false;
+}
+
+bool Plugin::isRunning()
+{
+    return m_isRunning;
 }
 
 void Plugin::executeDefaultLaunch(const QString& launcherId)
