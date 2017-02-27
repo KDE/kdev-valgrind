@@ -32,6 +32,7 @@
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/iplugincontroller.h>
+#include <klocalizedstring.h>
 #include <util/executecompositejob.h>
 
 namespace Valgrind
@@ -75,13 +76,19 @@ KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration
     auto iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
+    auto runController = KDevelop::ICore::self()->runController();
+    auto valgrindJob = createJob(config, runController);
+
     QList<KJob*> jobList;
     if (KJob* depJob = iface->dependencyJob(config)) {
         jobList += depJob;
     }
-    jobList += createJob(config, KDevelop::ICore::self()->runController());
+    jobList += valgrindJob;
 
-    return new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
+    auto ecJob = new KDevelop::ExecuteCompositeJob(runController, jobList);
+    ecJob->setObjectName(i18n("%1 Analysis (%2)", valgrindJob->tool(), valgrindJob->target()));
+
+    return ecJob;
 }
 
 QStringList ILauncher::supportedModes() const
