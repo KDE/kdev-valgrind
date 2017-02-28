@@ -205,7 +205,7 @@ void Plugin::jobReadyToFinish(IJob* job, bool ok)
         addView(job->createView(),
                 QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()->name()));
 
-        core()->uiController()->findToolView("Valgrind", m_toolViewFactory);
+        core()->uiController()->findToolView(i18n("Valgrind"), m_toolViewFactory);
     } else {
         m_problemModel->show();
     }
@@ -232,8 +232,8 @@ void Plugin::executeDefaultLaunch(const QString& launcherId)
 
     auto defaultLaunch = runController->defaultLaunch();
     if (defaultLaunch) {
-        defaultLaunch->setLauncherForMode(launchModeId, launcherId);
-        runController->executeDefaultLaunch(launchModeId);
+        defaultLaunch->setLauncherForMode(m_launchMode->id(), launcherId);
+        runController->executeDefaultLaunch(m_launchMode->id());
     }
 }
 

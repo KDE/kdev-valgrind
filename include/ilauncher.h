@@ -47,10 +47,10 @@ public:
 
     QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override final;
 
-    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override final;
+    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* launchConfig) override final;
 
 protected:
-    virtual IJob* createJob(KDevelop::ILaunchConfiguration* config) = 0;
+    virtual IJob* createJob(KDevelop::ILaunchConfiguration* launchConfig) = 0;
 
     const ITool* m_tool;
 

@@ -38,7 +38,7 @@ QIcon LaunchMode::icon() const
 
 QString LaunchMode::id() const
 {
-    return launchModeId;
+    return QStringLiteral("Valgrind");
 }
 
 QString LaunchMode::name() const

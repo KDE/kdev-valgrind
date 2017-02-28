@@ -43,8 +43,8 @@ namespace Valgrind
 namespace Massif
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg)
-    : IJob(Tool::self(), cfg)
+Job::Job(KDevelop::ILaunchConfiguration* launchConfig)
+    : IJob(Tool::self(), launchConfig)
     , m_model(new SnapshotsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

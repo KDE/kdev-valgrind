@@ -29,8 +29,8 @@ namespace Valgrind
 namespace Helgrind
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg)
-    : IXmlJob(Tool::self(), cfg, new Settings)
+Job::Job(KDevelop::ILaunchConfiguration* launchConfig)
+    : IXmlJob(Tool::self(), launchConfig, new Settings)
 {
 }
 

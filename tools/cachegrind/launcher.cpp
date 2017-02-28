@@ -38,9 +38,9 @@ Launcher::~Launcher()
 {
 }
 
-IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config)
+IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* launchConfig)
 {
-    return new Job(config);
+    return new Job(launchConfig);
 }
 
 }

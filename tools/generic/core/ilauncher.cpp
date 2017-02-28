@@ -55,9 +55,9 @@ ILauncher::~ILauncher()
     qDeleteAll(m_configPageFactories);
 }
 
-KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* config)
+KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration* launchConfig)
 {
-    Q_ASSERT(config);
+    Q_ASSERT(launchConfig);
 
     if (Plugin::self()->launchMode()->id() != launchMode) {
         return nullptr;
@@ -67,11 +67,11 @@ KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration
     Q_ASSERT(iface);
 
     QList<KJob*> jobList;
-    if (KJob* depJob = iface->dependencyJob(config)) {
+    if (KJob* depJob = iface->dependencyJob(launchConfig)) {
         jobList += depJob;
     }
 
-    auto valgrindJob = createJob(config);
+    auto valgrindJob = createJob(launchConfig);
     jobList += valgrindJob;
 
     auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);

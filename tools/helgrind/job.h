@@ -30,7 +30,7 @@ namespace Helgrind
 class Job : public IXmlJob
 {
 public:
-    explicit Job(KDevelop::ILaunchConfiguration* cfg);
+    explicit Job(KDevelop::ILaunchConfiguration* launchConfig);
     ~Job() override;
 };
 

@@ -27,8 +27,6 @@ namespace Valgrind
 namespace Memcheck
 {
 
-static const QString launcherId = QStringLiteral("Memcheck");
-
 class Launcher : public ILauncher
 {
 public:
@@ -36,7 +34,7 @@ public:
     ~Launcher() override;
 
 protected:
-    IJob* createJob(KDevelop::ILaunchConfiguration* config) override;
+    IJob* createJob(KDevelop::ILaunchConfiguration* launchConfig) override;
 };
 
 }

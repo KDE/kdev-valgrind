@@ -36,7 +36,7 @@ public:
     ~IXmlJob() override;
 
 protected:
-    IXmlJob(const ITool* tool, KDevelop::ILaunchConfiguration* cfg, IXmlSettings* settings);
+    IXmlJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig, IXmlSettings* settings);
 
     QWidget* createView() override final;
 

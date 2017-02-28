@@ -30,8 +30,6 @@
 namespace Valgrind
 {
 
-static const QString launchModeId = QStringLiteral("Valgrind");
-
 class LaunchMode : public KDevelop::ILaunchMode
 {
 public:

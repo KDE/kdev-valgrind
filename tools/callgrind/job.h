@@ -39,7 +39,7 @@ class FunctionsModel;
 class Job : public IJob
 {
 public:
-    explicit Job(KDevelop::ILaunchConfiguration* cfg);
+    explicit Job(KDevelop::ILaunchConfiguration* launchConfig);
     ~Job() override;
 
     QWidget* createView() override;
