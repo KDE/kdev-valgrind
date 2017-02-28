@@ -19,6 +19,8 @@
 
 #include "itool.h"
 
+#include "launcher.h"
+
 namespace Valgrind
 {
 
@@ -71,6 +73,11 @@ QString ITool::menuActionName() const
 bool ITool::hasView() const
 {
     return m_hasView;
+}
+
+KDevelop::ILauncher* ITool::createLauncher() const
+{
+    return new Launcher(this);
 }
 
 }

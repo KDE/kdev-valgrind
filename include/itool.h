@@ -25,11 +25,15 @@ namespace KDevelop
 {
 
 class ILauncher;
+class ILaunchConfiguration;
+class LaunchConfigurationPageFactory;
 
 }
 
 namespace Valgrind
 {
+
+class IJob;
 
 class ITool
 {
@@ -59,7 +63,11 @@ public:
     /// True if tool has view
     bool hasView() const;
 
-    virtual KDevelop::ILauncher* createLauncher() = 0;
+    KDevelop::ILauncher* createLauncher() const;
+
+    virtual IJob* createJob(KDevelop::ILaunchConfiguration* launchConfig) const = 0;
+
+    virtual KDevelop::LaunchConfigurationPageFactory* createConfigPageFactory() const = 0;
 
 protected:
     ITool(

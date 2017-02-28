@@ -6,7 +6,6 @@ ki18n_wrap_ui(cachegrind_UI_SRCS
 add_library(cachegrind_tool STATIC
     configpage.cpp
     job.cpp
-    launcher.cpp
     model.cpp
     parser.cpp
     settings.cpp

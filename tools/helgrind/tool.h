@@ -34,7 +34,8 @@ public:
 
     static Tool* self();
 
-    KDevelop::ILauncher* createLauncher() override;
+    IJob* createJob(KDevelop::ILaunchConfiguration* launchConfig) const override;
+    KDevelop::LaunchConfigurationPageFactory* createConfigPageFactory() const override;
 
 protected:
     Tool();

@@ -5,7 +5,6 @@ ki18n_wrap_ui(helgrind_UI_SRCS
 add_library(helgrind_tool STATIC
     configpage.cpp
     job.cpp
-    launcher.cpp
     settings.cpp
     tool.cpp
 

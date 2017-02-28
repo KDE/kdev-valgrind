@@ -30,14 +30,13 @@ class KJob;
 namespace Valgrind
 {
 
-class IJob;
 class ITool;
 
-class ILauncher : public KDevelop::ILauncher
+class Launcher : public KDevelop::ILauncher
 {
 public:
-    ILauncher(const ITool* tool, KDevelop::LaunchConfigurationPageFactory* configPageFactory);
-    ~ILauncher() override;
+    explicit Launcher(const ITool* tool);
+    ~Launcher() override;
 
     QString name() const override final;
     QString description() const override final;
@@ -50,8 +49,6 @@ public:
     KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* launchConfig) override final;
 
 protected:
-    virtual IJob* createJob(KDevelop::ILaunchConfiguration* launchConfig) = 0;
-
     const ITool* m_tool;
 
     QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;

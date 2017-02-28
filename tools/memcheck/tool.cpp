@@ -19,7 +19,8 @@
 
 #include "tool.h"
 
-#include "launcher.h"
+#include "configpage.h"
+#include "job.h"
 
 #include <klocalizedstring.h>
 
@@ -53,9 +54,14 @@ Tool* Tool::self()
     return m_self ? m_self : new Tool;
 }
 
-KDevelop::ILauncher* Tool::createLauncher()
+IJob* Tool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
 {
-    return new Launcher;
+    return new Job(launchConfig);
+}
+
+KDevelop::LaunchConfigurationPageFactory* Tool::createConfigPageFactory() const
+{
+    return new ConfigPageFactory;
 }
 
 }

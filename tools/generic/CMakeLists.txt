@@ -4,9 +4,9 @@ ki18n_wrap_ui(generic_UI_SRCS
 
 add_library(generic_tool STATIC
     core/ijob.cpp
-    core/ilauncher.cpp
     core/isettings.cpp
     core/itool.cpp
+    core/launcher.cpp
     core/utils.cpp
 
     core/xml/ixmljob.cpp
