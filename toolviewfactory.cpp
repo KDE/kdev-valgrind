@@ -34,7 +34,7 @@ namespace Valgrind
 class ToolView : public QTabWidget
 {
 public:
-    ToolView(QWidget* parent);
+    explicit ToolView(QWidget* parent);
     ~ToolView() override {}
 };
 

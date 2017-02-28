@@ -43,7 +43,7 @@ namespace XmlParser
 class Parser : public QXmlStreamReader
 {
 public:
-    Parser(const QString& toolName);
+    explicit Parser(const QString& toolName);
     virtual ~Parser();
 
     QVector<KDevelop::IProblem::Ptr> parse(bool showInstructionPointer);
