@@ -20,6 +20,7 @@
 
 #include "problemmodel.h"
 
+#include "itool.h"
 #include "plugin.h"
 #include "utils.h"
 
@@ -48,7 +49,7 @@ ProblemModel::ProblemModel()
                 Grouping |
                 CanByPassScopeFilter);
 
-    reset(QString());
+    reset(nullptr);
     problemModelSet()->addModel(problemModelId, i18n("Valgrind"), this);
 }
 
@@ -57,13 +58,13 @@ ProblemModel::~ProblemModel()
     problemModelSet()->removeModel(problemModelId);
 }
 
-void ProblemModel::reset(const QString& launcherId)
+void ProblemModel::reset(const ITool* tool)
 {
+    m_tool = tool;
     clearProblems();
 
-    m_launcherId = launcherId;
-    QString toolName = launcherId.isEmpty() ? QStringLiteral("Valgrind") : launcherId;
-    setFullUpdateTooltip(i18nc("@info:tooltip", "Re-run %1 Analyze for Current Launch Configuration", toolName));
+    QString toolName = tool ? tool->name() : QStringLiteral("Valgrind");
+    setFullUpdateTooltip(i18nc("@info:tooltip", "Re-run %1 Analysis for Current Launch Configuration", toolName));
 }
 
 void ProblemModel::show()
@@ -73,8 +74,8 @@ void ProblemModel::show()
 
 void ProblemModel::forceFullUpdate()
 {
-    if (!m_launcherId.isEmpty() && !Plugin::self()->isRunning()) {
-        Plugin::self()->executeDefaultLaunch(m_launcherId);
+    if (m_tool && !Plugin::self()->isRunning()) {
+        Plugin::self()->executeDefaultLaunch(m_tool->id());
     }
 }
 

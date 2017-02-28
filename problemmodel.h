@@ -25,18 +25,20 @@
 namespace Valgrind
 {
 
+class ITool;
+
 class ProblemModel : public KDevelop::ProblemModel
 {
 public:
     ProblemModel();
     ~ProblemModel() override;
 
-    void reset(const QString& launcherId);
+    void reset(const ITool* tool);
     void show();
     void forceFullUpdate() override;
 
 private:
-    QString m_launcherId;
+    const ITool* m_tool;
 };
 
 }

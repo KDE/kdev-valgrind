@@ -190,7 +190,7 @@ void Plugin::jobReadyToStart(IJob* job)
 
     Q_ASSERT(job);
     if (!job->tool()->hasView()) {
-        m_problemModel->reset(job->tool()->id());
+        m_problemModel->reset(job->tool());
     }
 }
 
