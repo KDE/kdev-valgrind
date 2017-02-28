@@ -33,19 +33,19 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<QString> leakResolution;
-    Value<QString> showLeakKinds;
-    Value<QString> leakCheckHeuristics;
-    Value<QString> keepStacktraces;
+    StringValue leakResolution;
+    StringValue showLeakKinds;
+    StringValue leakCheckHeuristics;
+    StringValue keepStacktraces;
 
-    Value<int> freelistVol;
-    Value<int> freelistBigBlocks;
+    IntValue freelistVol;
+    IntValue freelistBigBlocks;
 
-    Value<bool> undefValueErrors;
-    Value<bool> showMismatchedFrees;
-    Value<bool> partialLoadsOk;
-    Value<bool> trackOrigins;
-    Value<bool> expensiveDefinednessChecks;
+    BoolValue undefValueErrors;
+    BoolValue showMismatchedFrees;
+    BoolValue partialLoadsOk;
+    BoolValue trackOrigins;
+    BoolValue expensiveDefinednessChecks;
 };
 
 }

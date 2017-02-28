@@ -33,18 +33,18 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<int> snapshotTreeDepth;
-    Value<int> threshold;
-    Value<int> peakInaccuracy;
-    Value<int> maximumSnapshots;
-    Value<int> detailedSnapshotsFrequency;
-    Value<int> timeUnit;
+    IntValue snapshotTreeDepth;
+    IntValue threshold;
+    IntValue peakInaccuracy;
+    IntValue maximumSnapshots;
+    IntValue detailedSnapshotsFrequency;
+    IntValue timeUnit;
 
-    Value<bool> profileHeap;
-    Value<bool> profileStack;
-    Value<bool> pagesAsHeap;
+    BoolValue profileHeap;
+    BoolValue profileStack;
+    BoolValue pagesAsHeap;
 
-    Value<bool> launchVisualizer;
+    BoolValue launchVisualizer;
 
     static QString visualizerExecutablePath();
 };

@@ -33,25 +33,25 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<bool> checkStackVar;
-    Value<bool> firstRaceOnly;
-    Value<bool> freeIsWrite;
-    Value<bool> reportSignalUnlocked;
-    Value<bool> segmentMerging;
-    Value<bool> showConflSeg;
-    Value<bool> showStackUsage;
-    Value<bool> ignoreThreadCreation;
-    Value<bool> traceAlloc;
-    Value<bool> traceBarrier;
-    Value<bool> traceCond;
-    Value<bool> traceForkJoin;
-    Value<bool> traceHb;
-    Value<bool> traceMutex;
-    Value<bool> traceRwlock;
-    Value<bool> traceSemaphore;
+    BoolValue checkStackVar;
+    BoolValue firstRaceOnly;
+    BoolValue freeIsWrite;
+    BoolValue reportSignalUnlocked;
+    BoolValue segmentMerging;
+    BoolValue showConflSeg;
+    BoolValue showStackUsage;
+    BoolValue ignoreThreadCreation;
+    BoolValue traceAlloc;
+    BoolValue traceBarrier;
+    BoolValue traceCond;
+    BoolValue traceForkJoin;
+    BoolValue traceHb;
+    BoolValue traceMutex;
+    BoolValue traceRwlock;
+    BoolValue traceSemaphore;
 
-    Value<int> joinListVol;
-    Value<int> segmentMergingInterval;
+    IntValue joinListVol;
+    IntValue segmentMergingInterval;
 };
 
 }

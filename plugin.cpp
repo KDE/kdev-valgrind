@@ -198,7 +198,7 @@ KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
     return new GlobalConfigPage(this, parent);
 }
 
-Valgrind::LaunchMode * Plugin::launchMode() const
+Valgrind::LaunchMode* Plugin::launchMode() const
 {
     return m_launchMode;
 }

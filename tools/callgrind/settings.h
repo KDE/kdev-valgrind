@@ -33,12 +33,12 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<bool> cacheSimulation;
-    Value<bool> branchSimulation;
+    BoolValue cacheSimulation;
+    BoolValue branchSimulation;
 
-    Value<QString> callgrindAnnotateParameters;
+    StringValue callgrindAnnotateParameters;
 
-    Value<bool> launchKCachegrind;
+    BoolValue launchKCachegrind;
 
     static QString callgrindAnnotateExecutablePath();
     static QString kcachegrindExecutablePath();

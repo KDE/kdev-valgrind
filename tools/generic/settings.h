@@ -33,10 +33,10 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<int> numCallers;
-    Value<int> maxStackframe;
+    IntValue numCallers;
+    IntValue maxStackframe;
 
-    Value<bool> limitErrors;
+    BoolValue limitErrors;
 
     static QString valgrindExecutablePath();
 };

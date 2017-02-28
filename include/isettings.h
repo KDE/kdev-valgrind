@@ -27,15 +27,19 @@ namespace Valgrind
 class ISettingsBase
 {
 public:
+    virtual ~ISettingsBase();
+
+protected:
+    explicit ISettingsBase(const QString& configKeyPrefix);
+
     class IValue;
 
     template<typename T>
     class Value;
 
-    virtual ~ISettingsBase();
-
-protected:
-    explicit ISettingsBase(const QString& configKeyPrefix);
+    using IntValue = Value<int>;
+    using BoolValue = Value<bool>;
+    using StringValue = Value<QString>;
 
     QString m_configKeyPrefix;
     QList<IValue*> m_values;
@@ -82,7 +86,7 @@ protected:
 class ISettings : public ISettingsBase
 {
 public:
-    Value<QString> extraParameters;
+    StringValue extraParameters;
 
     void load(const KConfigGroup& config);
     void save(KConfigGroup& config);

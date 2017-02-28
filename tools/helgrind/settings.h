@@ -33,14 +33,14 @@ public:
     Settings();
     ~Settings() override;
 
-    Value<QString> historyLevel;
+    StringValue historyLevel;
 
-    Value<int> conflictCacheSize;
+    IntValue conflictCacheSize;
 
-    Value<bool> trackLockorders;
-    Value<bool> checkStackRefs;
-    Value<bool> ignoreThreadCreation;
-    Value<bool> freeIsWrite;
+    BoolValue trackLockorders;
+    BoolValue checkStackRefs;
+    BoolValue ignoreThreadCreation;
+    BoolValue freeIsWrite;
 };
 
 }

@@ -29,7 +29,7 @@ class IXmlSettings : public ISettings
 public:
     ~IXmlSettings() override;
 
-    Value<bool> showInstructionPointer;
+    BoolValue showInstructionPointer;
 
 protected:
     explicit IXmlSettings(const QString& configKeyPrefix);
