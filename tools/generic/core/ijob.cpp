@@ -35,6 +35,7 @@
 #include <interfaces/icore.h>
 #include <interfaces/ilaunchconfiguration.h>
 #include <interfaces/iplugincontroller.h>
+#include <interfaces/iruncontroller.h>
 #include <kconfiggroup.h>
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
@@ -54,13 +55,8 @@ namespace Valgrind
 
 static const QString valgrindErrorsPrefix = QStringLiteral("valgrind: ");
 
-IJob::IJob(
-    KDevelop::ILaunchConfiguration* launchConfig,
-    QString tool,
-    bool hasView,
-    QObject* parent)
-
-    : KDevelop::OutputExecuteJob(parent)
+IJob::IJob(KDevelop::ILaunchConfiguration* launchConfig, QString tool, bool hasView)
+    : KDevelop::OutputExecuteJob(KDevelop::ICore::self()->runController())
     , m_config(launchConfig->config())
     , m_tool(tool)
     , m_hasView(hasView)

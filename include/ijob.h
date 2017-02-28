@@ -42,10 +42,7 @@ namespace Valgrind
 class IJob : public KDevelop::OutputExecuteJob
 {
 public:
-    IJob(KDevelop::ILaunchConfiguration* cfg,
-         QString tool,
-         bool hasView,
-         QObject* parent);
+    IJob(KDevelop::ILaunchConfiguration* cfg, QString tool, bool hasView);
 
     ~IJob() override;
 

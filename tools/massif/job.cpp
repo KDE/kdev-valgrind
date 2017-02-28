@@ -42,8 +42,8 @@ namespace Valgrind
 namespace Massif
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent)
-    : IJob(cfg, QStringLiteral("massif"), true, parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg)
+    : IJob(cfg, QStringLiteral("massif"), true)
     , m_model(new SnapshotsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

@@ -44,9 +44,9 @@ Launcher::~Launcher()
 {
 }
 
-IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config, QObject* parent)
+IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config)
 {
-    return new Job(config, parent);
+    return new Job(config);
 }
 
 }

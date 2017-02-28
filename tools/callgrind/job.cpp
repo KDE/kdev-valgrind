@@ -44,8 +44,8 @@ namespace Valgrind
 namespace Callgrind
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent)
-    : IJob(cfg, QStringLiteral("callgrind"), true, parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg)
+    : IJob(cfg, QStringLiteral("callgrind"), true)
     , m_model(new FunctionsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

@@ -30,7 +30,7 @@ namespace Memcheck
 class Job : public IXmlJob
 {
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent = nullptr);
+    explicit Job(KDevelop::ILaunchConfiguration* cfg);
     ~Job() override;
 };
 

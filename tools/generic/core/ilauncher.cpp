@@ -71,16 +71,15 @@ KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration
     auto iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
-    auto runController = KDevelop::ICore::self()->runController();
-    auto valgrindJob = createJob(config, runController);
-
     QList<KJob*> jobList;
     if (KJob* depJob = iface->dependencyJob(config)) {
         jobList += depJob;
     }
+
+    auto valgrindJob = createJob(config);
     jobList += valgrindJob;
 
-    auto ecJob = new KDevelop::ExecuteCompositeJob(runController, jobList);
+    auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
     ecJob->setObjectName(i18n("%1 Analysis (%2)", valgrindJob->tool(), valgrindJob->target()));
 
     return ecJob;

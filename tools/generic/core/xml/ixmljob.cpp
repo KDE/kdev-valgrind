@@ -35,13 +35,8 @@
 namespace Valgrind
 {
 
-IXmlJob::IXmlJob(
-    KDevelop::ILaunchConfiguration* cfg,
-    const QString& toolName,
-    IXmlSettings* settings,
-    QObject* parent)
-
-    : IJob(cfg, toolName, false, parent)
+IXmlJob::IXmlJob(KDevelop::ILaunchConfiguration* cfg, const QString& toolName, IXmlSettings* settings)
+    : IJob(cfg, toolName, false)
     , m_settings(settings)
 {
     Q_ASSERT(m_settings);

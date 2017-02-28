@@ -28,8 +28,8 @@ namespace Valgrind
 namespace Helgrind
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent)
-    : IXmlJob(cfg, QStringLiteral("helgrind"), new Settings, parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg)
+    : IXmlJob(cfg, QStringLiteral("helgrind"), new Settings)
 {
 }
 

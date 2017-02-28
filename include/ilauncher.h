@@ -52,7 +52,7 @@ public:
     KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* config) override final;
 
 protected:
-    virtual IJob* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
+    virtual IJob* createJob(KDevelop::ILaunchConfiguration* config) = 0;
 
     QString m_name;
     QString m_description;
