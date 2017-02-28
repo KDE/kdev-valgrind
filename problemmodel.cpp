@@ -65,7 +65,7 @@ void ProblemModel::reset(const ITool* tool)
     clearProblems();
 
     QString toolName = tool ? tool->name() : QStringLiteral("Valgrind");
-    setFullUpdateTooltip(i18nc("@info:tooltip", "Re-run %1 Analysis for Current Launch Configuration", toolName));
+    setFullUpdateTooltip(i18nc("@info:tooltip", "Re-Run %1 Analysis for Current Launch Configuration", toolName));
 }
 
 void ProblemModel::show()
