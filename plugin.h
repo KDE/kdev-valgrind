@@ -39,6 +39,7 @@ namespace Valgrind
 {
 
 class IJob;
+class ITool;
 class LaunchMode;
 class ProblemModel;
 class ToolViewFactory;
@@ -82,6 +83,8 @@ private:
 
     ProblemModel* m_problemModel;
     bool m_isRunning;
+
+    QList<ITool*> m_tools;
 
     static Plugin* m_self;
 };

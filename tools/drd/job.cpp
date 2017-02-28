@@ -21,6 +21,7 @@
 
 #include "debug.h"
 #include "settings.h"
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -29,7 +30,7 @@ namespace DRD
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg)
-    : IXmlJob(cfg, QStringLiteral("drd"), new Settings)
+    : IXmlJob(Tool::self(), cfg, new Settings)
 {
 }
 

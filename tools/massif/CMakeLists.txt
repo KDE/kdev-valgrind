@@ -11,6 +11,7 @@ add_library(massif_tool STATIC
     parser.cpp
     settings.cpp
     snapshot.cpp
+    tool.cpp
     view.cpp
 
     ${massif_UI_SRCS}

@@ -22,8 +22,7 @@
 #include "configpage.h"
 #include "debug.h"
 #include "job.h"
-
-#include <klocalizedstring.h>
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -32,12 +31,7 @@ namespace Callgrind
 {
 
 Launcher::Launcher()
-    : ILauncher(
-        i18n("Callgrind"),
-        i18n("Callgrind: a call-graph generating cache and branch prediction profiler"),
-        launcherId,
-        new ConfigPageFactory)
-{
+    : ILauncher(Tool::self(), new ConfigPageFactory){
 }
 
 Launcher::~Launcher()

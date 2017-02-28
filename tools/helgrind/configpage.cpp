@@ -22,6 +22,7 @@
 #include "ui_configpage.h"
 
 #include "settings.h"
+#include "tool.h"
 
 #include <KConfigGroup>
 
@@ -57,7 +58,7 @@ ConfigPage::~ConfigPage()
 
 QString ConfigPage::title() const
 {
-    return i18n("Helgrind");
+    return Tool::self()->name();
 }
 
 QIcon ConfigPage::icon() const

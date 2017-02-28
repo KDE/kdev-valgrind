@@ -7,6 +7,7 @@ add_library(memcheck_tool STATIC
     job.cpp
     launcher.cpp
     settings.cpp
+    tool.cpp
 
     ${memcheck_UI_SRCS}
 )

@@ -28,6 +28,7 @@
 #include "parser.h"
 #include "plugin.h"
 #include "settings.h"
+#include "tool.h"
 #include "view.h"
 
 #include <interfaces/ilaunchconfiguration.h>
@@ -43,7 +44,7 @@ namespace Massif
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg)
-    : IJob(cfg, QStringLiteral("massif"), true)
+    : IJob(Tool::self(), cfg)
     , m_model(new SnapshotsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

@@ -12,17 +12,16 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
+#include "tool.h"
+
 #include "launcher.h"
 
-#include "configpage.h"
-#include "debug.h"
-#include "job.h"
-#include "tool.h"
+#include <klocalizedstring.h>
 
 namespace Valgrind
 {
@@ -30,18 +29,33 @@ namespace Valgrind
 namespace DRD
 {
 
-Launcher::Launcher()
-    : ILauncher(Tool::self(), new ConfigPageFactory)
+Tool* Tool::m_self = nullptr;
+
+Tool::Tool()
+    : ITool(
+        QStringLiteral("DRD"),
+        i18n("DRD"),
+        i18n("DRD: a thread error detector"),
+        QStringLiteral("drd"),
+        QStringLiteral("drd_tool"),
+        false)
 {
+    m_self = this;
 }
 
-Launcher::~Launcher()
+Tool::~Tool()
 {
+    m_self = nullptr;
 }
 
-IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config)
+Tool* Tool::self()
 {
-    return new Job(config);
+    return m_self ? m_self : new Tool;
+}
+
+KDevelop::ILauncher* Tool::createLauncher()
+{
+    return new Launcher;
 }
 
 }

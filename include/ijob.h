@@ -39,20 +39,21 @@ class ILaunchConfiguration;
 namespace Valgrind
 {
 
+class ITool;
+
 class IJob : public KDevelop::OutputExecuteJob
 {
 public:
-    IJob(KDevelop::ILaunchConfiguration* cfg, QString tool, bool hasView);
+    IJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig);
 
     ~IJob() override;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;
 
-    QString tool() const;
+    const ITool* tool() const;
     QString target() const;
 
-    bool hasView();
     virtual QWidget* createView() = 0;
 
 protected:
@@ -71,10 +72,9 @@ protected:
 
     QStringList buildCommandLine() const;
 
-    KConfigGroup m_config;
+    const ITool* m_tool;
 
-    QString m_tool;
-    bool m_hasView;
+    KConfigGroup m_config;
 
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;

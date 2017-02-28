@@ -27,6 +27,7 @@
 #include "configpage.h"
 #include "debug.h"
 #include "ijob.h"
+#include "itool.h"
 #include "launchmode.h"
 #include "plugin.h"
 
@@ -39,16 +40,10 @@
 namespace Valgrind
 {
 
-ILauncher::ILauncher(
-    const QString& name,
-    const QString& description,
-    const QString& id,
-    KDevelop::LaunchConfigurationPageFactory* configPageFactory)
-
-    : m_name(name)
-    , m_description(description)
-    , m_id(id)
+ILauncher::ILauncher(const ITool* tool, KDevelop::LaunchConfigurationPageFactory* configPageFactory)
+    : m_tool(tool)
 {
+    Q_ASSERT(tool);
     Q_ASSERT(configPageFactory);
 
     m_configPageFactories += configPageFactory;
@@ -80,7 +75,7 @@ KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration
     jobList += valgrindJob;
 
     auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
-    ecJob->setObjectName(i18n("%1 Analysis (%2)", valgrindJob->tool(), valgrindJob->target()));
+    ecJob->setObjectName(i18n("%1 Analysis (%2)", valgrindJob->tool()->name(), valgrindJob->target()));
 
     return ecJob;
 }
@@ -97,17 +92,17 @@ QList<KDevelop::LaunchConfigurationPageFactory*> ILauncher::configPages() const
 
 QString ILauncher::name() const
 {
-    return m_name;
+    return m_tool->name();
 }
 
 QString ILauncher::description() const
 {
-    return m_description;
+    return m_tool->fullName();
 }
 
 QString ILauncher::id()
 {
-    return m_id;
+    return m_tool->id();
 }
 
 }

@@ -22,8 +22,7 @@
 #include "configpage.h"
 #include "debug.h"
 #include "job.h"
-
-#include <klocalizedstring.h>
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -32,11 +31,7 @@ namespace Memcheck
 {
 
 Launcher::Launcher()
-    : ILauncher(
-        i18n("Memcheck"),
-        i18n("Memcheck: a memory error detector"),
-        launcherId,
-        new ConfigPageFactory)
+    : ILauncher(Tool::self(), new ConfigPageFactory)
 {
 }
 

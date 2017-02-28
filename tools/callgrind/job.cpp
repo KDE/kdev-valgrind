@@ -28,6 +28,7 @@
 #include "parser.h"
 #include "plugin.h"
 #include "settings.h"
+#include "tool.h"
 #include "view.h"
 
 #include <interfaces/ilaunchconfiguration.h>
@@ -45,7 +46,7 @@ namespace Callgrind
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg)
-    : IJob(cfg, QStringLiteral("callgrind"), true)
+    : IJob(Tool::self(), cfg)
     , m_model(new FunctionsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

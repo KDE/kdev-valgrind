@@ -12,38 +12,65 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
-#include "launcher.h"
-
-#include "configpage.h"
-#include "debug.h"
-#include "job.h"
-#include "tool.h"
+#include "itool.h"
 
 namespace Valgrind
 {
 
-namespace DRD
-{
+ITool::ITool(
+    const QString& id,
+    const QString& name,
+    const QString& fullName,
+    const QString& valgrindToolName,
+    const QString& menuActionName,
+    bool hasView)
 
-Launcher::Launcher()
-    : ILauncher(Tool::self(), new ConfigPageFactory)
+    : m_id(id)
+    , m_name(name)
+    , m_fullName(fullName)
+    , m_valgrindToolName(valgrindToolName)
+    , m_menuActionName(menuActionName)
+    , m_hasView(hasView)
 {
 }
 
-Launcher::~Launcher()
+ITool::~ITool()
 {
 }
 
-IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config)
+QString ITool::name() const
 {
-    return new Job(config);
+    return m_name;
 }
 
+QString ITool::fullName() const
+{
+    return m_fullName;
+}
+
+QString ITool::valgrindToolName() const
+{
+    return m_valgrindToolName;
+}
+
+QString ITool::id() const
+{
+    return m_id;
+}
+
+QString ITool::menuActionName() const
+{
+    return m_menuActionName;
+}
+
+bool ITool::hasView() const
+{
+    return m_hasView;
 }
 
 }

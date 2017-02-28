@@ -29,14 +29,15 @@
 #include "problemmodel.h"
 #include "toolviewfactory.h"
 
-#include "cachegrind/launcher.h"
-#include "callgrind/launcher.h"
-#include "drd/launcher.h"
-#include "helgrind/launcher.h"
-#include "massif/launcher.h"
-#include "memcheck/launcher.h"
+#include "cachegrind/tool.h"
+#include "callgrind/tool.h"
+#include "drd/tool.h"
+#include "helgrind/tool.h"
+#include "massif/tool.h"
+#include "memcheck/tool.h"
 
 #include <execute/iexecuteplugin.h>
+#include <interfaces/ilauncher.h>
 #include <interfaces/iplugincontroller.h>
 #include <interfaces/launchconfigurationtype.h>
 #include <kactioncollection.h>
@@ -67,6 +68,21 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     core()->uiController()->addToolView(i18n("Valgrind"), m_toolViewFactory);
     core()->runController()->addLaunchMode(m_launchMode);
 
+    m_tools += Memcheck::Tool::self();
+    m_tools += Cachegrind::Tool::self();
+    m_tools += Callgrind::Tool::self();
+    m_tools += Helgrind::Tool::self();
+    m_tools += DRD::Tool::self();
+    m_tools += Massif::Tool::self();
+
+    for (auto tool : m_tools) {
+        auto action = new QAction(tool->fullName(), this);
+        connect(action, &QAction::triggered, this, [this, tool]() {
+                executeDefaultLaunch(tool->id());
+        });
+        actionCollection()->addAction(tool->menuActionName(), action);
+    }
+
     auto pluginController = core()->pluginController();
     for (auto plugin : pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
         setupExecutePlugin(plugin, true);
@@ -81,36 +97,11 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
             this, [this](KDevelop::IPlugin* plugin) {
                 setupExecutePlugin(plugin, false);
             });
-
-    QAction* action = nullptr;
-
-    action = new QAction(i18n("Memcheck: a memory error detector"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Memcheck::launcherId); });
-    actionCollection()->addAction("memcheck_tool", action);
-
-    action = new QAction(i18n("Cachegrind: a cache and branch-prediction profiler"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Cachegrind::launcherId); });
-    actionCollection()->addAction("cachegrind_tool", action);
-
-    action = new QAction(i18n("Callgrind: a call-graph generating cache and branch prediction profiler"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Callgrind::launcherId); });
-    actionCollection()->addAction("callgrind_tool", action);
-
-    action = new QAction(i18n("Helgrind: a thread error detector"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Helgrind::launcherId); });
-    actionCollection()->addAction("helgrind_tool", action);
-
-    action = new QAction(i18n("DRD: a thread error detector"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(DRD::launcherId); });
-    actionCollection()->addAction("drd_tool", action);
-
-    action = new QAction(i18n("Massif: a heap profiler"), this);
-    connect(action, &QAction::triggered, this, [this]() { executeDefaultLaunch(Massif::launcherId); });
-    actionCollection()->addAction("massif_tool", action);
 }
 
 Plugin::~Plugin()
 {
+    m_self = nullptr;
 }
 
 Plugin* Plugin::self()
@@ -129,6 +120,8 @@ void Plugin::unload()
 
     core()->runController()->removeLaunchMode(m_launchMode);
     delete m_launchMode;
+
+    qDeleteAll(m_tools);
 }
 
 void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
@@ -146,31 +139,11 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     Q_ASSERT(type);
 
     if (load) {
-        KDevelop::ILauncher* launcher;
-
-        launcher = new Memcheck::Launcher;
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
-
-        launcher = new Cachegrind::Launcher;
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
-
-        launcher = new Callgrind::Launcher;
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
-
-        launcher = new Helgrind::Launcher;
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
-
-        launcher = new DRD::Launcher;
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
-
-        launcher = new Massif::Launcher;
-        m_launchers.insert(plugin, launcher);
-        type->addLauncher(launcher);
+        for (auto tool : m_tools) {
+            auto launcher = tool->createLauncher();
+            m_launchers.insert(plugin, launcher);
+            type->addLauncher(launcher);
+        }
     }
 
     else {
@@ -216,17 +189,8 @@ void Plugin::jobReadyToStart(IJob* job)
     }
 
     Q_ASSERT(job);
-    if (!job->hasView()) {
-        // FIXME ugly temporary code; replace with ITool in the future
-        if (job->tool() == "memcheck") {
-            m_problemModel->reset("Memcheck");
-        }
-        else if (job->tool() == "helgrind") {
-            m_problemModel->reset("Helgrind");
-        }
-        else if (job->tool() == "drd") {
-            m_problemModel->reset("DRD");
-        }
+    if (!job->tool()->hasView()) {
+        m_problemModel->reset(job->tool()->id());
     }
 }
 
@@ -237,8 +201,10 @@ void Plugin::jobReadyToFinish(IJob* job, bool ok)
     }
 
     Q_ASSERT(job);
-    if (job->hasView()) {
-        addView(job->createView(), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
+    if (job->tool()->hasView()) {
+        addView(job->createView(),
+                QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()->name()));
+
         core()->uiController()->findToolView("Valgrind", m_toolViewFactory);
     } else {
         m_problemModel->show();

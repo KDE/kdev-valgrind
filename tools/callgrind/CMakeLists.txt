@@ -10,6 +10,7 @@ add_library(callgrind_tool STATIC
     model.cpp
     parser.cpp
     settings.cpp
+    tool.cpp
     view.cpp
 
     ${callgrind_UI_SRCS}

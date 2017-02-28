@@ -25,6 +25,7 @@
 
 #include "debug.h"
 #include "settings.h"
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -33,7 +34,7 @@ namespace Memcheck
 {
 
 Job::Job(KDevelop::ILaunchConfiguration* cfg)
-    : IXmlJob(cfg, QStringLiteral("memcheck"), new Settings)
+    : IXmlJob(Tool::self(), cfg, new Settings)
 {
 }
 

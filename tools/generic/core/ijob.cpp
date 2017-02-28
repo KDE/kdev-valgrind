@@ -28,6 +28,7 @@
 
 #include "debug.h"
 #include "globalsettings.h"
+#include "itool.h"
 #include "plugin.h"
 #include "settings.h"
 
@@ -55,13 +56,13 @@ namespace Valgrind
 
 static const QString valgrindErrorsPrefix = QStringLiteral("valgrind: ");
 
-IJob::IJob(KDevelop::ILaunchConfiguration* launchConfig, QString tool, bool hasView)
+IJob::IJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     : KDevelop::OutputExecuteJob(KDevelop::ICore::self()->runController())
-    , m_config(launchConfig->config())
     , m_tool(tool)
-    , m_hasView(hasView)
+    , m_config(launchConfig->config())
     , m_tcpServerPort(0)
 {
+    Q_ASSERT(tool);
     Q_ASSERT(launchConfig);
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
@@ -125,7 +126,7 @@ IJob::~IJob()
 {
 }
 
-QString IJob::tool() const
+const ITool* IJob::tool() const
 {
     return m_tool;
 }
@@ -133,11 +134,6 @@ QString IJob::tool() const
 QString IJob::target() const
 {
     return QFileInfo(m_analyzedExecutable).fileName();
-}
-
-bool IJob::hasView()
-{
-    return m_hasView;
 }
 
 void IJob::addLoggingArgs(QStringList& args) const
@@ -152,7 +148,7 @@ QStringList IJob::buildCommandLine() const
 
     QStringList args;
 
-    args += QStringLiteral("--tool=") + m_tool;
+    args += QStringLiteral("--tool=") + m_tool->valgrindToolName();
     addLoggingArgs(args);
 
     args += settings.cmdArgs();

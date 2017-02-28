@@ -22,8 +22,7 @@
 #include "configpage.h"
 #include "debug.h"
 #include "job.h"
-
-#include <klocalizedstring.h>
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -32,11 +31,7 @@ namespace Massif
 {
 
 Launcher::Launcher()
-    : ILauncher(
-        i18n("Massif"),
-        i18n("Massif: a heap profiler"),
-        launcherId,
-        new ConfigPageFactory)
+    : ILauncher(Tool::self(), new ConfigPageFactory)
 {
 }
 

@@ -7,6 +7,7 @@ add_library(helgrind_tool STATIC
     job.cpp
     launcher.cpp
     settings.cpp
+    tool.cpp
 
     ${helgrind_UI_SRCS}
 )

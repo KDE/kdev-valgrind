@@ -7,6 +7,7 @@ add_library(drd_tool STATIC
     job.cpp
     launcher.cpp
     settings.cpp
+    tool.cpp
 
     ${drd_UI_SRCS}
 )

@@ -26,8 +26,7 @@
 
 #include "debug.h"
 #include "settings.h"
-
-#include <kconfiggroup.h>
+#include "tool.h"
 
 #include <QMenu>
 
@@ -83,7 +82,7 @@ ConfigPage::~ConfigPage()
 
 QString ConfigPage::title() const
 {
-    return i18n("Memcheck");
+    return Tool::self()->name();
 }
 
 QIcon ConfigPage::icon() const

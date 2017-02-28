@@ -10,6 +10,7 @@ add_library(cachegrind_tool STATIC
     model.cpp
     parser.cpp
     settings.cpp
+    tool.cpp
     view.cpp
 
     ${cachegrind_UI_SRCS}

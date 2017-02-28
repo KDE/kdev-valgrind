@@ -31,14 +31,12 @@ namespace Valgrind
 {
 
 class IJob;
+class ITool;
 
 class ILauncher : public KDevelop::ILauncher
 {
 public:
-    ILauncher(const QString& name,
-              const QString& description,
-              const QString& id,
-              KDevelop::LaunchConfigurationPageFactory* configPageFactory);
+    ILauncher(const ITool* tool, KDevelop::LaunchConfigurationPageFactory* configPageFactory);
     ~ILauncher() override;
 
     QString name() const override final;
@@ -54,9 +52,7 @@ public:
 protected:
     virtual IJob* createJob(KDevelop::ILaunchConfiguration* config) = 0;
 
-    QString m_name;
-    QString m_description;
-    QString m_id;
+    const ITool* m_tool;
 
     QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;
 };
