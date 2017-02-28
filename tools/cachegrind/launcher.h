@@ -32,7 +32,7 @@ static const QString launcherId = QStringLiteral("Cachegrind");
 class Launcher : public ILauncher
 {
 public:
-    Launcher(Plugin* plugin, LaunchMode* mode);
+    Launcher();
     ~Launcher() override;
 
 protected:

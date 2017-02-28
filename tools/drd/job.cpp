@@ -28,8 +28,8 @@ namespace Valgrind
 namespace DRD
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IXmlJob(cfg, QStringLiteral("drd"), new Settings, plugin, parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent)
+    : IXmlJob(cfg, QStringLiteral("drd"), new Settings, parent)
 {
 }
 

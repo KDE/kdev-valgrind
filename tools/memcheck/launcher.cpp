@@ -31,10 +31,8 @@ namespace Valgrind
 namespace Memcheck
 {
 
-Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
+Launcher::Launcher()
     : ILauncher(
-        plugin,
-        mode,
         i18n("Memcheck"),
         i18n("Memcheck: a memory error detector"),
         launcherId,
@@ -48,7 +46,7 @@ Launcher::~Launcher()
 
 IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config, QObject* parent)
 {
-    return new Job(config, m_plugin, parent);
+    return new Job(config, parent);
 }
 
 }

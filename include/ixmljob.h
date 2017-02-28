@@ -39,7 +39,6 @@ protected:
     IXmlJob(KDevelop::ILaunchConfiguration* cfg,
            const QString& toolName,
            IXmlSettings* settings,
-           Plugin* plugin,
            QObject* parent = nullptr);
 
 

@@ -32,8 +32,8 @@ namespace Valgrind
 namespace Memcheck
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IXmlJob(cfg, QStringLiteral("memcheck"), new Settings, plugin, parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent)
+    : IXmlJob(cfg, QStringLiteral("memcheck"), new Settings, parent)
 {
 }
 

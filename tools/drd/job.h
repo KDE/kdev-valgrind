@@ -30,7 +30,7 @@ namespace DRD
 class Job : public IXmlJob
 {
 public:
-    Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent = nullptr);
+    Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent = nullptr);
     ~Job() override;
 };
 

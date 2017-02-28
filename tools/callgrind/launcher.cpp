@@ -31,10 +31,8 @@ namespace Valgrind
 namespace Callgrind
 {
 
-Launcher::Launcher(Plugin* plugin, LaunchMode* mode)
+Launcher::Launcher()
     : ILauncher(
-        plugin,
-        mode,
         i18n("Callgrind"),
         i18n("Callgrind: a call-graph generating cache and branch prediction profiler"),
         launcherId,
@@ -48,7 +46,7 @@ Launcher::~Launcher()
 
 IJob* Launcher::createJob(KDevelop::ILaunchConfiguration* config, QObject* parent)
 {
-    return new Job(config, m_plugin, parent);
+    return new Job(config, parent);
 }
 
 }

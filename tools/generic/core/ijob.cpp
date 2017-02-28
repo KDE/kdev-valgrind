@@ -58,18 +58,15 @@ IJob::IJob(
     KDevelop::ILaunchConfiguration* launchConfig,
     QString tool,
     bool hasView,
-    Plugin* plugin,
     QObject* parent)
 
     : KDevelop::OutputExecuteJob(parent)
     , m_config(launchConfig->config())
     , m_tool(tool)
     , m_hasView(hasView)
-    , m_plugin(plugin)
     , m_tcpServerPort(0)
 {
     Q_ASSERT(launchConfig);
-    Q_ASSERT(m_plugin);
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStderr);
@@ -109,7 +106,7 @@ IJob::IJob(
     }
     setWorkingDirectory(workDir);
 
-    connect(this, &IJob::finished, m_plugin, &Plugin::jobFinished);
+    connect(this, &IJob::finished, Plugin::self(), &Plugin::jobFinished);
 
     auto tcpServer = new QTcpServer(this);
     tcpServer->listen(QHostAddress::LocalHost);
@@ -177,7 +174,7 @@ void IJob::start()
 
     qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
 
-    m_plugin->jobReadyToStart(this);
+    Plugin::self()->jobReadyToStart(this);
     KDevelop::OutputExecuteJob::start();
 }
 
@@ -209,7 +206,7 @@ void IJob::childProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
         ok = processEnded();
     }
 
-    m_plugin->jobReadyToFinish(this, ok);
+    Plugin::self()->jobReadyToFinish(this, ok);
     KDevelop::OutputExecuteJob::childProcessExited(exitCode, exitStatus);
 }
 

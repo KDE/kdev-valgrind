@@ -20,18 +20,17 @@
 
 #pragma once
 
-#include <QTabWidget>
+#include <interfaces/iuicontroller.h>
 
 namespace Valgrind
 {
 
-class Plugin;
-
-class Widget : public QTabWidget
+class ToolViewFactory : public KDevelop::IToolViewFactory
 {
 public:
-    Widget(Plugin* plugin, QWidget* parent);
-    ~Widget() override;
+    QWidget* create(QWidget* parent = nullptr) override;
+    Qt::DockWidgetArea defaultPosition() override;
+    QString id() const override;
 };
 
 }

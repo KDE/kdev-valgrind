@@ -27,7 +27,7 @@
 #include "ijob.h"
 #include "launchmode.h"
 #include "problemmodel.h"
-#include "widget.h"
+#include "toolviewfactory.h"
 
 #include "cachegrind/launcher.h"
 #include "callgrind/launcher.h"
@@ -38,7 +38,6 @@
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/iplugincontroller.h>
-#include <interfaces/iuicontroller.h>
 #include <interfaces/launchconfigurationtype.h>
 #include <kactioncollection.h>
 #include <kpluginfactory.h>
@@ -51,44 +50,21 @@ K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin
 namespace Valgrind
 {
 
-class WidgetFactory : public KDevelop::IToolViewFactory
-{
-public:
-    explicit WidgetFactory(Plugin* plugin)
-        : m_plugin(plugin)
-    {
-    }
-
-    QWidget* create(QWidget* parent = nullptr) override
-    {
-        return new Widget(m_plugin, parent);
-    }
-
-    Qt::DockWidgetArea defaultPosition() override
-    {
-        return Qt::BottomDockWidgetArea;
-    }
-
-    QString id() const override
-    {
-        return QStringLiteral("org.kdevelop.ValgrindView");
-    }
-
-private:
-    Plugin* m_plugin;
-};
+Plugin* Plugin::m_self = nullptr;
 
 Plugin::Plugin(QObject* parent, const QVariantList&)
     : IPlugin("kdevvalgrind", parent)
-    , m_factory(new WidgetFactory(this))
+    , m_toolViewFactory(new ToolViewFactory)
     , m_launchMode(new LaunchMode)
-    , m_problemModel(new ProblemModel(this))
+    , m_problemModel(new ProblemModel)
     , m_isRunning(false)
 {
+    m_self = this;
+
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
 
-    core()->uiController()->addToolView(i18n("Valgrind"), m_factory);
+    core()->uiController()->addToolView(i18n("Valgrind"), m_toolViewFactory);
     core()->runController()->addLaunchMode(m_launchMode);
 
     auto pluginController = core()->pluginController();
@@ -137,9 +113,14 @@ Plugin::~Plugin()
 {
 }
 
+Plugin* Plugin::self()
+{
+    return m_self;
+}
+
 void Plugin::unload()
 {
-    core()->uiController()->removeToolView(m_factory);
+    core()->uiController()->removeToolView(m_toolViewFactory);
 
     for (auto plugin : core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
         setupExecutePlugin(plugin, false);
@@ -167,27 +148,27 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     if (load) {
         KDevelop::ILauncher* launcher;
 
-        launcher = new Memcheck::Launcher(this, m_launchMode);
+        launcher = new Memcheck::Launcher;
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new Cachegrind::Launcher(this, m_launchMode);
+        launcher = new Cachegrind::Launcher;
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new Callgrind::Launcher(this, m_launchMode);
+        launcher = new Callgrind::Launcher;
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new Helgrind::Launcher(this, m_launchMode);
+        launcher = new Helgrind::Launcher;
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new DRD::Launcher(this, m_launchMode);
+        launcher = new DRD::Launcher;
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
 
-        launcher = new Massif::Launcher(this, m_launchMode);
+        launcher = new Massif::Launcher;
         m_launchers.insert(plugin, launcher);
         type->addLauncher(launcher);
     }
@@ -215,6 +196,11 @@ KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
     }
 
     return new GlobalConfigPage(this, parent);
+}
+
+Valgrind::LaunchMode * Plugin::launchMode() const
+{
+    return m_launchMode;
 }
 
 ProblemModel* Plugin::problemModel() const
@@ -253,7 +239,7 @@ void Plugin::jobReadyToFinish(IJob* job, bool ok)
     Q_ASSERT(job);
     if (job->hasView()) {
         addView(job->createView(), QStringLiteral("%1 (%2)").arg(job->target()).arg(job->tool()));
-        core()->uiController()->findToolView("Valgrind", m_factory);
+        core()->uiController()->findToolView("Valgrind", m_toolViewFactory);
     } else {
         m_problemModel->show();
     }

@@ -28,6 +28,7 @@
 #include "debug.h"
 #include "ijob.h"
 #include "launchmode.h"
+#include "plugin.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -39,21 +40,15 @@ namespace Valgrind
 {
 
 ILauncher::ILauncher(
-    Plugin* plugin,
-    LaunchMode* mode,
     const QString& name,
     const QString& description,
     const QString& id,
     KDevelop::LaunchConfigurationPageFactory* configPageFactory)
 
-    : m_plugin(plugin)
-    , m_mode(mode)
-    , m_name(name)
+    : m_name(name)
     , m_description(description)
     , m_id(id)
 {
-    Q_ASSERT(plugin);
-    Q_ASSERT(mode);
     Q_ASSERT(configPageFactory);
 
     m_configPageFactories += configPageFactory;
@@ -69,7 +64,7 @@ KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration
 {
     Q_ASSERT(config);
 
-    if (m_mode->id() != launchMode) {
+    if (Plugin::self()->launchMode()->id() != launchMode) {
         return nullptr;
     }
 
@@ -93,7 +88,7 @@ KJob* ILauncher::start(const QString& launchMode, KDevelop::ILaunchConfiguration
 
 QStringList ILauncher::supportedModes() const
 {
-    return { m_mode->id() };
+    return { Plugin::self()->launchMode()->id() };
 }
 
 QList<KDevelop::LaunchConfigurationPageFactory*> ILauncher::configPages() const

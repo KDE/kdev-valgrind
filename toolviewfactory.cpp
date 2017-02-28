@@ -19,17 +19,26 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "widget.h"
+#include "toolviewfactory.h"
 
 #include "debug.h"
 #include "plugin.h"
 
 #include <klocalizedstring.h>
 
+#include <QTabWidget>
+
 namespace Valgrind
 {
 
-Widget::Widget(Plugin* plugin, QWidget* parent)
+class ToolView : public QTabWidget
+{
+public:
+    ToolView(QWidget* parent);
+    ~ToolView() override {}
+};
+
+ToolView::ToolView(QWidget* parent)
     : QTabWidget(parent)
 {
     setWindowIcon(QIcon::fromTheme("fork"));
@@ -47,12 +56,12 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
 
     setTabsClosable(true);
 
-    connect(this, &Widget::tabCloseRequested, this, [this](int index) {
+    connect(this, &ToolView::tabCloseRequested, this, [this](int index) {
         delete widget(index);
         removeTab(index);
     });
 
-    connect(plugin, &Plugin::addView, this, [this](QWidget* view, const QString& name) {
+    connect(Plugin::self(), &Plugin::addView, this, [this](QWidget* view, const QString& name) {
         Q_ASSERT(view);
 
         addTab(view, name);
@@ -61,8 +70,19 @@ Widget::Widget(Plugin* plugin, QWidget* parent)
     });
 }
 
-Widget::~Widget()
+QWidget* ToolViewFactory::create(QWidget* parent)
 {
+    return new ToolView(parent);
+}
+
+Qt::DockWidgetArea ToolViewFactory::defaultPosition()
+{
+    return Qt::BottomDockWidgetArea;
+}
+
+QString ToolViewFactory::id() const
+{
+    return QStringLiteral("org.kdevelop.ValgrindView");
 }
 
 }

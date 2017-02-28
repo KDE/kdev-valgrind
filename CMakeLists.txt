@@ -32,7 +32,7 @@ set(kdevvalgrind_SRCS
     launchmode.cpp
     plugin.cpp
     problemmodel.cpp
-    widget.cpp
+    toolviewfactory.cpp
 
     config/globalconfigpage.cpp
 )

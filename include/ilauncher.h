@@ -31,15 +31,11 @@ namespace Valgrind
 {
 
 class IJob;
-class LaunchMode;
-class Plugin;
 
 class ILauncher : public KDevelop::ILauncher
 {
 public:
-    ILauncher(Plugin* plugin,
-              LaunchMode* mode,
-              const QString& name,
+    ILauncher(const QString& name,
               const QString& description,
               const QString& id,
               KDevelop::LaunchConfigurationPageFactory* configPageFactory);
@@ -57,9 +53,6 @@ public:
 
 protected:
     virtual IJob* createJob(KDevelop::ILaunchConfiguration* config, QObject* parent) = 0;
-
-    Plugin* m_plugin;
-    LaunchMode* m_mode;
 
     QString m_name;
     QString m_description;

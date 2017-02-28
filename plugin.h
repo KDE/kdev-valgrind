@@ -41,7 +41,7 @@ namespace Valgrind
 class IJob;
 class LaunchMode;
 class ProblemModel;
-class WidgetFactory;
+class ToolViewFactory;
 
 class Plugin : public KDevelop::IPlugin
 {
@@ -51,11 +51,14 @@ public:
     Plugin(QObject* parent, const QVariantList& = QVariantList());
     ~Plugin() override;
 
+    static Plugin* self();
+
     void unload() override;
 
     int configPages() const override;
     KDevelop::ConfigPage* configPage(int number, QWidget* parent) override;
 
+    LaunchMode* launchMode() const;
     ProblemModel* problemModel() const;
 
     void executeDefaultLaunch(const QString& launcherId);
@@ -72,13 +75,15 @@ signals:
 private:
     void setupExecutePlugin(KDevelop::IPlugin* plugin, bool load);
 
-    WidgetFactory* m_factory;
+    ToolViewFactory* m_toolViewFactory;
 
     LaunchMode* m_launchMode;
     QMultiHash<KDevelop::IPlugin*, KDevelop::ILauncher*> m_launchers;
 
     ProblemModel* m_problemModel;
     bool m_isRunning;
+
+    static Plugin* m_self;
 };
 
 }

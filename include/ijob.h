@@ -39,15 +39,12 @@ class ILaunchConfiguration;
 namespace Valgrind
 {
 
-class Plugin;
-
 class IJob : public KDevelop::OutputExecuteJob
 {
 public:
     IJob(KDevelop::ILaunchConfiguration* cfg,
          QString tool,
          bool hasView,
-         Plugin* plugin,
          QObject* parent);
 
     ~IJob() override;
@@ -81,8 +78,6 @@ protected:
 
     QString m_tool;
     bool m_hasView;
-
-    Plugin* m_plugin;
 
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;

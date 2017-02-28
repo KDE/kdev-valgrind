@@ -25,12 +25,10 @@
 namespace Valgrind
 {
 
-class Plugin;
-
 class ProblemModel : public KDevelop::ProblemModel
 {
 public:
-    explicit ProblemModel(Plugin* plugin);
+    ProblemModel();
     ~ProblemModel() override;
 
     void reset(const QString& launcherId);
@@ -38,7 +36,6 @@ public:
     void forceFullUpdate() override;
 
 private:
-    Plugin* m_plugin;
     QString m_launcherId;
 };
 

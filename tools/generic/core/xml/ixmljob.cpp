@@ -39,10 +39,9 @@ IXmlJob::IXmlJob(
     KDevelop::ILaunchConfiguration* cfg,
     const QString& toolName,
     IXmlSettings* settings,
-    Plugin* plugin,
     QObject* parent)
 
-    : IJob(cfg, toolName, false, plugin, parent)
+    : IJob(cfg, toolName, false, parent)
     , m_settings(settings)
 {
     Q_ASSERT(m_settings);
@@ -75,7 +74,7 @@ bool IXmlJob::processEnded()
     m_settings->load(m_config);
 
     auto problems = parseXml(m_xmlOutput.join(" "), m_settings->showInstructionPointer);
-    m_plugin->problemModel()->setProblems(problems);
+    Plugin::self()->problemModel()->setProblems(problems);
 
     return true;
 }

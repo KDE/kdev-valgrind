@@ -44,8 +44,8 @@ namespace Valgrind
 namespace Cachegrind
 {
 
-Job::Job(KDevelop::ILaunchConfiguration* cfg, Plugin* plugin, QObject* parent)
-    : IJob(cfg, QStringLiteral("cachegrind"), true, plugin, parent)
+Job::Job(KDevelop::ILaunchConfiguration* cfg, QObject* parent)
+    : IJob(cfg, QStringLiteral("cachegrind"), true, parent)
     , m_model(new FunctionsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

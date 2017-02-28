@@ -39,9 +39,8 @@ inline KDevelop::ProblemModelSet* problemModelSet()
 
 static const QString problemModelId = QStringLiteral("Valgrind");
 
-ProblemModel::ProblemModel(Plugin* plugin)
-    : KDevelop::ProblemModel(plugin)
-    , m_plugin(plugin)
+ProblemModel::ProblemModel()
+    : KDevelop::ProblemModel(Plugin::self())
 {
     setFeatures(CanDoFullUpdate |
                 ScopeFilter |
@@ -74,8 +73,8 @@ void ProblemModel::show()
 
 void ProblemModel::forceFullUpdate()
 {
-    if (!m_launcherId.isEmpty() && !m_plugin->isRunning()) {
-        m_plugin->executeDefaultLaunch(m_launcherId);
+    if (!m_launcherId.isEmpty() && !Plugin::self()->isRunning()) {
+        Plugin::self()->executeDefaultLaunch(m_launcherId);
     }
 }
 
