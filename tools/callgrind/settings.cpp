@@ -20,6 +20,7 @@
 #include "settings.h"
 
 #include "globalsettings.h"
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -28,7 +29,7 @@ namespace Callgrind
 {
 
 Settings::Settings()
-    : ISettings(QStringLiteral("Callgrind"))
+    : ISettings(Tool::self()->id())
 
     , cacheSimulation(
         this,

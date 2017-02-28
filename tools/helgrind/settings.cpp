@@ -19,6 +19,8 @@
 
 #include "settings.h"
 
+#include "tool.h"
+
 namespace Valgrind
 {
 
@@ -26,7 +28,7 @@ namespace Helgrind
 {
 
 Settings::Settings()
-    : IXmlSettings(QStringLiteral("Helgrind"))
+    : IXmlSettings(Tool::self()->id())
 
     , historyLevel(
         this,

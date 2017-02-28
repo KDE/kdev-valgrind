@@ -20,6 +20,7 @@
 #include "settings.h"
 
 #include "globalsettings.h"
+#include "tool.h"
 
 namespace Valgrind
 {
@@ -28,7 +29,7 @@ namespace Massif
 {
 
 Settings::Settings()
-    : ISettings(QStringLiteral("Massif"))
+    : ISettings(Tool::self()->id())
 
     , snapshotTreeDepth(
         this,

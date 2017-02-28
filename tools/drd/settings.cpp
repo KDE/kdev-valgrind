@@ -19,6 +19,8 @@
 
 #include "settings.h"
 
+#include "tool.h"
+
 namespace Valgrind
 {
 
@@ -26,7 +28,7 @@ namespace DRD
 {
 
 Settings::Settings()
-    : IXmlSettings(QStringLiteral("DRD"))
+    : IXmlSettings(Tool::self()->id())
 
     , checkStackVar(
         this,

@@ -19,6 +19,8 @@
 
 #include "settings.h"
 
+#include "tool.h"
+
 namespace Valgrind
 {
 
@@ -26,7 +28,7 @@ namespace Memcheck
 {
 
 Settings::Settings()
-    : IXmlSettings(QStringLiteral("Memcheck"))
+    : IXmlSettings(Tool::self()->id())
 
     , leakResolution(
         this,
