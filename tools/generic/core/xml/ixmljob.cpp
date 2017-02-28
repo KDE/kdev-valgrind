@@ -25,6 +25,7 @@
 #include "ixmlsettings.h"
 
 #include "debug.h"
+#include "itool.h"
 #include "parser.h"
 #include "plugin.h"
 #include "problemmodel.h"
@@ -68,7 +69,7 @@ bool IXmlJob::processEnded()
 {
     m_settings->load(m_config);
 
-    auto problems = parseXml(m_xmlOutput.join(" "), m_settings->showInstructionPointer);
+    auto problems = parseXml(m_tool->name(), m_xmlOutput.join(" "), m_settings->showInstructionPointer);
     Plugin::self()->problemModel()->setProblems(problems);
 
     return true;

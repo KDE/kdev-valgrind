@@ -43,7 +43,7 @@ namespace XmlParser
 class Parser : public QXmlStreamReader
 {
 public:
-    Parser();
+    Parser(const QString& toolName);
     virtual ~Parser();
 
     QVector<KDevelop::IProblem::Ptr> parse(bool showInstructionPointer);
@@ -68,6 +68,8 @@ private:
         OtherSegmentEnd
     };
 
+    QString m_toolName;
+
     QStack<State> m_stateStack;
 
     QString m_name;
@@ -86,8 +88,9 @@ static const auto frameXmlName = QStringLiteral("frame");
 static const auto otherSegmentStartXmlName = QStringLiteral("other_segment_start");
 static const auto otherSegmentEndXmlName = QStringLiteral("other_segment_end");
 
-Parser::Parser()
-    : m_frame(nullptr)
+Parser::Parser(const QString& toolName)
+    : m_toolName(toolName)
+    , m_frame(nullptr)
     , m_stack(nullptr)
     , m_otherSegment(nullptr)
     , m_error(new XmlParser::Error)
@@ -175,7 +178,7 @@ void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showIns
 
     case Error:
         if (m_name == errorXmlName) {
-            problems.append(m_error->toIProblem(showInstructionPointer));
+            problems.append(m_error->toIProblem(m_toolName, showInstructionPointer));
         } else {
             m_error->setValue(m_name, m_value);
         }
@@ -270,10 +273,11 @@ QVector<KDevelop::IProblem::Ptr> Parser::parse(bool showInstructionPointer)
 
 }
 
-QVector<KDevelop::IProblem::Ptr> parseXml(const QString& xmlData, bool showInstructionPointer)
+QVector<KDevelop::IProblem::Ptr> parseXml(const QString& toolName, const QString& xmlData, bool showInstructionPointer)
 {
-    XmlParser::Parser parser;
+    XmlParser::Parser parser(toolName);
     parser.addData(xmlData);
+
     return parser.parse(showInstructionPointer);
 }
 

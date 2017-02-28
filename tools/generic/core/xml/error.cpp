@@ -36,12 +36,30 @@ namespace Valgrind
 namespace XmlParser
 {
 
-struct Problem : public KDevelop::DetectedProblem
+class Problem : public KDevelop::DetectedProblem
 {
-    ~Problem() override {}
+public:
+    explicit Problem(const QString& toolName)
+        : m_toolName(toolName)
+    {
+    }
 
-    KDevelop::IProblem::Source source() const override { return KDevelop::IProblem::Plugin; }
-    QString sourceString() const override { return QStringLiteral("Valgrind"); };
+    ~Problem() override
+    {
+    }
+
+    KDevelop::IProblem::Source source() const override
+    {
+        return Plugin;
+    }
+
+    QString sourceString() const override
+    {
+        return m_toolName;
+    }
+
+protected:
+    QString m_toolName;
 };
 
 void Frame::setValue(const QString& name, const QString& value)
@@ -71,9 +89,9 @@ void Frame::setValue(const QString& name, const QString& value)
     }
 }
 
-KDevelop::IProblem::Ptr Frame::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr Frame::toIProblem(const QString& toolName, bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr frameProblem(new Problem);
+    KDevelop::IProblem::Ptr frameProblem(new Problem(toolName));
 
     KDevelop::DocumentRange range;
     range.setBothLines(line - 1);
@@ -103,13 +121,13 @@ Frame* Stack::addFrame()
     return &frames.last();
 }
 
-KDevelop::IProblem::Ptr Stack::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr Stack::toIProblem(const QString& toolName, bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr stackProblem(new Problem);
+    KDevelop::IProblem::Ptr stackProblem(new Problem(toolName));
 
     KDevelop::DocumentRange range(KDevelop::DocumentRange::invalid());
     for (const Frame& frame : frames) {
-        auto frameProblem = frame.toIProblem(showInstructionPointer);
+        auto frameProblem = frame.toIProblem(toolName, showInstructionPointer);
         stackProblem->addDiagnostic(frameProblem);
 
         if (!range.isValid() && !frame.file.isEmpty()) {
@@ -129,22 +147,22 @@ Stack* OtherSegment::addStack()
     return &stacks.last();
 }
 
-KDevelop::IProblem::Ptr OtherSegment::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr OtherSegment::toIProblem(const QString& toolName, bool showInstructionPointer) const
 {
     QString description = isStart ? QStringLiteral("Other segment start") : QStringLiteral("Other segment end");
 
     // Simplify view for segments with single stack
     if (stacks.size() == 1) {
-        auto segmentProblem = stacks.first().toIProblem(showInstructionPointer);
+        auto segmentProblem = stacks.first().toIProblem(toolName, showInstructionPointer);
         segmentProblem->setDescription(description);
         return segmentProblem;
     }
 
-    KDevelop::IProblem::Ptr segmentProblem(new Problem);
+    KDevelop::IProblem::Ptr segmentProblem(new Problem(toolName));
     segmentProblem->setDescription(description);
 
     for (int i = 0; i < stacks.size(); ++i) {
-        auto stackProblem = stacks.at(i).toIProblem(showInstructionPointer);
+        auto stackProblem = stacks.at(i).toIProblem(toolName, showInstructionPointer);
         stackProblem->setDescription(QStringLiteral("Stack_%1").arg(i));
         segmentProblem->addDiagnostic(stackProblem);
     }
@@ -183,24 +201,24 @@ void Error::setValue(const QString& name, const QString& value)
     }
 }
 
-KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
+KDevelop::IProblem::Ptr Error::toIProblem(const QString& toolName, bool showInstructionPointer) const
 {
     Q_ASSERT(!messages.isEmpty());
     Q_ASSERT(!stacks.isEmpty());
 
     // Simplify view for errors with single stack / message
     if (stacks.size() == 1 && messages.size() == 1) {
-        auto problem = stacks.first().toIProblem(showInstructionPointer);
+        auto problem = stacks.first().toIProblem(toolName, showInstructionPointer);
         problem->setDescription(messages.first());
         return problem;
     }
 
-    KDevelop::IProblem::Ptr problem(new Problem);
+    KDevelop::IProblem::Ptr problem(new Problem(toolName));
     problem->setDescription(messages.first());
 
     // Add all stacks
     for (const Stack& stack : stacks) {
-        problem->addDiagnostic(stack.toIProblem(showInstructionPointer));
+        problem->addDiagnostic(stack.toIProblem(toolName, showInstructionPointer));
     }
 
     // First stack is the one that shows the actual error
@@ -216,7 +234,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
         }
 
         else {
-            KDevelop::IProblem::Ptr messageOnlyProblem(new Problem);
+            KDevelop::IProblem::Ptr messageOnlyProblem(new Problem(toolName));
             messageOnlyProblem->setDescription(messages.at(i));
             messageOnlyProblem->setFinalLocation(problem->finalLocation());
             problem->addDiagnostic(messageOnlyProblem);
@@ -226,7 +244,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(bool showInstructionPointer) const
     // Add other segments ad diagnostics (DRD tool)
     for (auto segment : otherSegments) {
         if (!segment.stacks.isEmpty()) {
-            problem->addDiagnostic(segment.toIProblem(showInstructionPointer));
+            problem->addDiagnostic(segment.toIProblem(toolName, showInstructionPointer));
         }
     }
 

@@ -47,7 +47,8 @@ ProblemModel::ProblemModel()
                 ScopeFilter |
                 SeverityFilter |
                 Grouping |
-                CanByPassScopeFilter);
+                CanByPassScopeFilter |
+                ShowSource);
 
     reset(nullptr);
     problemModelSet()->addModel(problemModelId, i18n("Valgrind"), this);

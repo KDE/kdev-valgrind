@@ -38,7 +38,7 @@ struct Frame
 {
     void setValue(const QString& name, const QString& value);
 
-    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
+    KDevelop::IProblem::Ptr toIProblem(const QString& toolName, bool showInstructionPointer) const;
 
     int line = 0;
 
@@ -55,7 +55,7 @@ struct Stack
 {
     Frame* addFrame();
 
-    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
+    KDevelop::IProblem::Ptr toIProblem(const QString& toolName, bool showInstructionPointer) const;
 
     QList<Frame> frames;
 };
@@ -65,7 +65,7 @@ struct OtherSegment
 {
     Stack* addStack();
 
-    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
+    KDevelop::IProblem::Ptr toIProblem(const QString& toolName, bool showInstructionPointer) const;
 
     bool isStart;
     QList<Stack> stacks;
@@ -78,7 +78,7 @@ struct Error
 
     void setValue(const QString& name, const QString& value);
 
-    KDevelop::IProblem::Ptr toIProblem(bool showInstructionPointer) const;
+    KDevelop::IProblem::Ptr toIProblem(const QString& toolName, bool showInstructionPointer) const;
 
     void clear();
 

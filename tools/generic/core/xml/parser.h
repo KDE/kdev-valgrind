@@ -28,6 +28,6 @@
 namespace Valgrind
 {
 
-QVector<KDevelop::IProblem::Ptr> parseXml(const QString& xmlData, bool showInstructionPointer);
+QVector<KDevelop::IProblem::Ptr> parseXml(const QString& toolName, const QString& xmlData, bool showInstructionPointer);
 
 }
