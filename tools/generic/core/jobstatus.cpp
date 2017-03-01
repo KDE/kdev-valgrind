@@ -31,11 +31,11 @@ JobStatus::JobStatus(const IJob* job, const QString& jobName)
     Q_ASSERT(job);
 
     connect(job, &IJob::started, this, [this]() {
-        showProgress(this, 0, 0, 0);
+        emit showProgress(this, 0, 0, 0);
     });
 
     connect(job, &IJob::finished, this, [this]() {
-        hideProgress(this);
+        emit hideProgress(this);
     });
 }
 
