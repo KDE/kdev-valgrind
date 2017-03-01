@@ -278,7 +278,7 @@
       <item>
        <widget class="QCheckBox" name="launchMassifVisualizer">
         <property name="text">
-         <string>Launch Massif Visualizer after finish</string>
+         <string>Launch Massif Visualizer after analysis finish</string>
         </property>
        </widget>
       </item>

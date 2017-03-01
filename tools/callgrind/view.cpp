@@ -126,33 +126,24 @@ View::View(KConfigGroup config, QTemporaryFile* outputFile, FunctionsModel* mode
         ui->functionsView->setCurrentIndex(functionsProxyModel->index(0,0));
     }
 
-    connect(ui->launchKCachegrindButton, &QPushButton::clicked,
-            this, [this, outputFile]() {
-                launchKCachegrind(outputFile->fileName());
-            });
-
-    connect(m_kcachegrindProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, [this]() {
-                ui->launchKCachegrindButton->setEnabled(true);
-            });
+    auto startVisualizer = [this, outputFile]() {
+        m_kcachegrindProcess->start(Settings::kcachegrindExecutablePath(),
+                                    { outputFile->fileName() });
+    };
 
     Settings settings;
     settings.load(config);
-    if (settings.launchKCachegrind) {
-        launchKCachegrind(outputFile->fileName());
-    }
+
+    setupVisualizerProcess(m_kcachegrindProcess,
+                           ui->launchKCachegrindButton,
+                           startVisualizer, settings.launchKCachegrind);
 }
 
 View::~View()
 {
+    m_kcachegrindProcess->disconnect();
     delete m_kcachegrindProcess;
     delete ui;
-}
-
-void View::launchKCachegrind(const QString& outputFile)
-{
-    m_kcachegrindProcess->start(Settings::kcachegrindExecutablePath(), { outputFile });
-    ui->launchKCachegrindButton->setEnabled(false);
 }
 
 }

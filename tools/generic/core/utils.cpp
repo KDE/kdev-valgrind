@@ -20,9 +20,12 @@
 #include "utils.h"
 
 #include <klocalizedstring.h>
+#include <kmessagebox.h>
 
 #include <QAbstractTableModel>
 #include <QMap>
+#include <QProcess>
+#include <QPushButton>
 
 namespace Valgrind
 {
@@ -83,6 +86,50 @@ void emitDataChanged(QAbstractTableModel* model)
     emit model->dataChanged(model->index(0,0),
                             model->index(model->rowCount() - 1, model->columnCount() - 1),
                             { Qt::DisplayRole });
+}
+
+void setupVisualizerProcess(
+    QProcess* visualizerProcess,
+    QPushButton* startButton,
+    std::function<void()> startFunction,
+    bool startImmediately)
+{
+    Q_ASSERT(visualizerProcess);
+    Q_ASSERT(startButton);
+
+    QObject::connect(startButton, &QPushButton::clicked,
+                     startButton, [startFunction]() {
+                         startFunction();
+                    });
+
+    QObject::connect(visualizerProcess, &QProcess::started, startButton, [startButton]() {
+        startButton->setEnabled(false);
+    });
+
+    QObject::connect(visualizerProcess, &QProcess::errorOccurred, startButton, [visualizerProcess, startButton]() {
+        QString errorMessage;
+        if (visualizerProcess->error() == QProcess::FailedToStart) {
+            errorMessage += i18n("Failed to start visualizer from \"%1\".", visualizerProcess->program());
+            errorMessage += QStringLiteral("\n\n");
+            errorMessage += i18n("Check your settings and install the visualizer if necessary.");
+        } else {
+            errorMessage += i18n("Error during visualizer execution:");
+            errorMessage += QStringLiteral("\n\n");
+            errorMessage = visualizerProcess->errorString();
+        }
+        KMessageBox::error(startButton, errorMessage, i18n("Valgrind Error"));
+
+        startButton->setEnabled(true);
+    });
+
+    QObject::connect(visualizerProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                     startButton, [startButton]() {
+                         startButton->setEnabled(true);
+                    });
+
+    if (startImmediately) {
+        startFunction();
+    }
 }
 
 }

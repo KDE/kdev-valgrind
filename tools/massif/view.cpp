@@ -26,6 +26,7 @@
 #include "model.h"
 #include "settings.h"
 #include "snapshot.h"
+#include "utils.h"
 
 #include <QStringListModel>
 #include <QProcess>
@@ -62,33 +63,24 @@ View::View(KConfigGroup config, QTemporaryFile* outputFile, SnapshotsModel* mode
         treesModel->setStringList(snapshot->heapTree);
     });
 
-    connect(ui->launchVisualizerButton, &QPushButton::clicked,
-            this, [this, outputFile]() {
-                launchVisualizer(outputFile->fileName());
-            });
-
-    connect(m_visualizerProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, [this]() {
-                ui->launchVisualizerButton->setEnabled(true);
-            });
+    auto startVisualizer = [this, outputFile]() {
+        m_visualizerProcess->start(Settings::visualizerExecutablePath(),
+                                   { outputFile->fileName() });
+    };
 
     Settings settings;
     settings.load(config);
-    if (settings.launchVisualizer) {
-        launchVisualizer(outputFile->fileName());
-    }
+
+    setupVisualizerProcess(m_visualizerProcess,
+                           ui->launchVisualizerButton,
+                           startVisualizer, settings.launchVisualizer);
 }
 
 View::~View()
 {
+    m_visualizerProcess->disconnect();
     delete m_visualizerProcess;
     delete ui;
-}
-
-void View::launchVisualizer(const QString& outputFile)
-{
-    m_visualizerProcess->start(Settings::visualizerExecutablePath(), { outputFile });
-    ui->launchVisualizerButton->setEnabled(false);
 }
 
 }

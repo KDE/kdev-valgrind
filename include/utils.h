@@ -21,7 +21,11 @@
 
 #include <QString>
 
+#include <functional>
+
 class QAbstractTableModel;
+class QProcess;
+class QPushButton;
 
 namespace Valgrind
 {
@@ -39,5 +43,10 @@ QString displayValue(int value);
 QString displayValue(double value);
 
 void emitDataChanged(QAbstractTableModel* model);
+
+void setupVisualizerProcess(QProcess* visualizerProcess,
+                            QPushButton* startButton,
+                            std::function<void()> startFunction,
+                            bool startImmediately);
 
 }

@@ -49,8 +49,6 @@ public:
     ~View() override;
 
 private:
-    void launchVisualizer(const QString& outputFile);
-
     Ui::View* ui;
     QProcess* m_visualizerProcess;
 };

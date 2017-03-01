@@ -112,7 +112,7 @@
       <item>
        <widget class="QCheckBox" name="launchKCachegrind">
         <property name="text">
-         <string>Launch KCachegrind after finish</string>
+         <string>Launch KCachegrind after analysis finish</string>
         </property>
        </widget>
       </item>

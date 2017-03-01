@@ -51,8 +51,6 @@ public:
     ~View() override;
 
 private:
-    void launchKCachegrind(const QString& outputFile);
-
     Ui::View* ui;
     QProcess* m_kcachegrindProcess;
 };
