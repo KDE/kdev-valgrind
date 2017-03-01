@@ -46,13 +46,15 @@ void parseCallInformation(
     static const QRegularExpression binaryExpression("^(.*)\\[(.*)\\]$");
     static const QRegularExpression callCountExpression("^(.*)\\((\\d+)x\\)$");
 
+    const int eventsCount = eventTypes.size();
+
     QStringList lineItems = line.split(QChar(' '), QString::SkipEmptyParts);
-    for (int i = 0; i < eventTypes.size(); ++i) {
+    for (int i = 0; i < eventsCount; ++i) {
         lineItems[i].remove(",");
     }
 
     if (programTotal) {
-        while (lineItems.size() > eventTypes.size()) {
+        while (lineItems.size() > eventsCount) {
             lineItems.removeLast();
         }
         model->setEventTotals(lineItems);
@@ -60,7 +62,7 @@ void parseCallInformation(
         return;
     }
 
-    const char lineType = lineItems.takeAt(eventTypes.size()).at(0).toLatin1();
+    const char lineType = lineItems.takeAt(eventsCount).at(0).toLatin1();
 
     // skip caller lines
     if (lineType == '<') {
@@ -68,8 +70,9 @@ void parseCallInformation(
     }
 
     QString idString;
-    while (lineItems.size() > eventTypes.size()) {
-        idString += lineItems.takeAt(eventTypes.size()) + ' ';
+    while (lineItems.size() > eventsCount) {
+        idString += QStringLiteral("%1 ").arg(lineItems.at(eventsCount));
+        lineItems.removeAt(eventsCount);
     }
     idString = idString.trimmed();
 
