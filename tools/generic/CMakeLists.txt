@@ -7,6 +7,7 @@ add_library(generic_tool STATIC
     core/isettings.cpp
     core/itool.cpp
     core/launcher.cpp
+    core/jobstatus.cpp
     core/utils.cpp
 
     core/xml/ixmljob.cpp

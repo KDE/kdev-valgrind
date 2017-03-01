@@ -168,6 +168,8 @@ void IJob::start()
 
     Plugin::self()->jobReadyToStart(this);
     KDevelop::OutputExecuteJob::start();
+
+    emit started();
 }
 
 void IJob::postProcessStderr(const QStringList& lines)
