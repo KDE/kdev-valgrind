@@ -74,6 +74,8 @@ private:
 
 class FunctionsModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     FunctionsModel();
     ~FunctionsModel() override;
@@ -124,6 +126,8 @@ private:
 
 class FunctionEventsModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     explicit FunctionEventsModel(FunctionsModel* baseModel);
     ~FunctionEventsModel() override;
@@ -145,6 +149,8 @@ private:
 
 class FunctionCallersCalleesModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     FunctionCallersCalleesModel(FunctionsModel* baseModel, bool isCallerModel);
     ~FunctionCallersCalleesModel() override;

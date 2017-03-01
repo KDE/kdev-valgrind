@@ -38,6 +38,8 @@ class FunctionsModel;
 
 class Job : public IJob
 {
+    Q_OBJECT
+
 public:
     explicit Job(KDevelop::ILaunchConfiguration* launchConfig);
     ~Job() override;

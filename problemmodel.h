@@ -29,6 +29,8 @@ class ITool;
 
 class ProblemModel : public KDevelop::ProblemModel
 {
+    Q_OBJECT
+
 public:
     ProblemModel();
     ~ProblemModel() override;

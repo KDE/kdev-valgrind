@@ -29,6 +29,8 @@ namespace DRD
 
 class Job : public IXmlJob
 {
+    Q_OBJECT
+
 public:
     explicit Job(KDevelop::ILaunchConfiguration* launchConfig);
     ~Job() override;

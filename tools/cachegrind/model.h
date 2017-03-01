@@ -41,6 +41,8 @@ struct Function
 
 class FunctionsModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     explicit FunctionsModel(QObject* parent = nullptr);
     ~FunctionsModel() override;

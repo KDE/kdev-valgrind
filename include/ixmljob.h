@@ -1,9 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -23,32 +19,4 @@
 
 #pragma once
 
-#include "ijob.h"
-
-namespace Valgrind
-{
-
-class IXmlSettings;
-
-class IXmlJob : public IJob
-{
-public:
-    ~IXmlJob() override;
-
-protected:
-    IXmlJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig, IXmlSettings* settings);
-
-    QWidget* createView() override final;
-
-    void processValgrindOutput(const QStringList& lines) override final;
-
-    bool processEnded() override final;
-
-    void addLoggingArgs(QStringList& args) const override final;
-    void addToolArgs(QStringList& args) const override final;
-
-    IXmlSettings* m_settings;
-    QStringList m_xmlOutput;
-};
-
-}
+#include "tools/generic/core/xml/ixmljob.h"

@@ -34,6 +34,8 @@ class Snapshot;
 
 class SnapshotsModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     explicit SnapshotsModel(QObject* parent = nullptr);
     ~SnapshotsModel() override;

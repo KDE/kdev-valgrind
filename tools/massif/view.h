@@ -44,6 +44,8 @@ class SnapshotsModel;
 
 class View : public QWidget
 {
+    Q_OBJECT
+
 public:
     View(KConfigGroup config, QTemporaryFile* outputFile, SnapshotsModel* model, QWidget* parent = nullptr);
     ~View() override;

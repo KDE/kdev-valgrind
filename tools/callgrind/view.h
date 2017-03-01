@@ -46,6 +46,8 @@ class FunctionsModel;
 
 class View : public QWidget
 {
+    Q_OBJECT
+
 public:
     View(KConfigGroup config, QTemporaryFile* outputFile, FunctionsModel* model, QWidget* parent = nullptr);
     ~View() override;

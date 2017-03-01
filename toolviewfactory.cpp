@@ -33,6 +33,8 @@ namespace Valgrind
 
 class ToolView : public QTabWidget
 {
+    Q_OBJECT
+
 public:
     explicit ToolView(QWidget* parent);
     ~ToolView() override {}
@@ -86,3 +88,5 @@ QString ToolViewFactory::id() const
 }
 
 }
+
+#include "toolviewfactory.moc"
