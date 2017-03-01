@@ -1,10 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2002 Harald Fernengel <harry@kdevelop.org>
-   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2016-2017 Anton Anikin <anton.anikin@htower.ru>
+   Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,64 +19,4 @@
 
 #pragma once
 
-#include <kconfiggroup.h>
-#include <outputview/outputexecutejob.h>
-
-class QWidget;
-
-namespace KDevelop
-{
-
-class ILaunchConfiguration;
-
-}
-
-namespace Valgrind
-{
-
-class ITool;
-
-class IJob : public KDevelop::OutputExecuteJob
-{
-public:
-    IJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig);
-
-    ~IJob() override;
-
-    void start() override;
-    using KDevelop::OutputExecuteJob::doKill;
-
-    const ITool* tool() const;
-    QString target() const;
-
-    virtual QWidget* createView() = 0;
-
-protected:
-    void postProcessStderr(const QStringList& lines) override;
-    virtual void processValgrindOutput(const QStringList& lines);
-
-    void childProcessExited(int exitCode, QProcess::ExitStatus exitStatus) override;
-    void childProcessError(QProcess::ProcessError processError) override;
-
-    virtual bool processEnded();
-
-    virtual void addLoggingArgs(QStringList& args) const;
-    virtual void addToolArgs(QStringList& args) const = 0;
-
-    int executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput);
-
-    QStringList buildCommandLine() const;
-
-    const ITool* m_tool;
-
-    KConfigGroup m_config;
-
-    QString m_analyzedExecutable;
-    QStringList m_analyzedExecutableArguments;
-
-    QStringList m_valgrindOutput;
-
-    quint16 m_tcpServerPort;
-};
-
-}
+#include "tools/generic/core/ijob.h"
