@@ -298,7 +298,7 @@
       <item>
        <widget class="QCheckBox" name="showInstructionPointer">
         <property name="text">
-         <string>Show instruction pointer</string>
+         <string>Show stack frame instruction pointer value</string>
         </property>
        </widget>
       </item>
