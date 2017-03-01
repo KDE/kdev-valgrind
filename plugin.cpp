@@ -147,7 +147,8 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     }
 
     else {
-        for (auto launcher : m_launchers.values(plugin)) {
+        auto pluginLaunchers = m_launchers.values(plugin);
+        for (auto launcher : pluginLaunchers) {
             Q_ASSERT(launcher);
 
             m_launchers.remove(plugin, launcher);
