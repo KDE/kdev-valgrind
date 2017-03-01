@@ -38,7 +38,7 @@ inline KDevelop::ProblemModelSet* problemModelSet()
     return KDevelop::ICore::self()->languageController()->problemModelSet();
 }
 
-static const QString problemModelId = QStringLiteral("Valgrind");
+inline QString problemModelId() { return QStringLiteral("Valgrind"); }
 
 ProblemModel::ProblemModel()
     : KDevelop::ProblemModel(Plugin::self())
@@ -51,12 +51,12 @@ ProblemModel::ProblemModel()
                 ShowSource);
 
     reset(nullptr);
-    problemModelSet()->addModel(problemModelId, i18n("Valgrind"), this);
+    problemModelSet()->addModel(problemModelId(), i18n("Valgrind"), this);
 }
 
 ProblemModel::~ProblemModel()
 {
-    problemModelSet()->removeModel(problemModelId);
+    problemModelSet()->removeModel(problemModelId());
 }
 
 void ProblemModel::reset(const ITool* tool)
@@ -70,7 +70,7 @@ void ProblemModel::reset(const ITool* tool)
 
 void ProblemModel::show()
 {
-    problemModelSet()->showModel(problemModelId);
+    problemModelSet()->showModel(problemModelId());
 }
 
 void ProblemModel::forceFullUpdate()

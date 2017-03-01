@@ -81,12 +81,12 @@ private:
     XmlParser::Error* m_error;
 };
 
-static const auto errorXmlName = QStringLiteral("error");
-static const auto stackXmlName = QStringLiteral("stack");
-static const auto frameXmlName = QStringLiteral("frame");
+inline QString errorXmlName() { return QStringLiteral("error"); }
+inline QString stackXmlName() { return QStringLiteral("stack"); }
+inline QString frameXmlName() { return QStringLiteral("frame"); }
 
-static const auto otherSegmentStartXmlName = QStringLiteral("other_segment_start");
-static const auto otherSegmentEndXmlName = QStringLiteral("other_segment_end");
+inline QString otherSegmentStartXmlName() { return QStringLiteral("other_segment_start"); }
+inline QString otherSegmentEndXmlName()   { return QStringLiteral("other_segment_end"); }
 
 Parser::Parser(const QString& toolName)
     : m_toolName(toolName)
@@ -125,12 +125,12 @@ void Parser::startElement()
         newState = Preamble;
     }
 
-    else if (m_name == errorXmlName) {
+    else if (m_name == errorXmlName()) {
         newState = Error;
         m_error->clear();
     }
 
-    else if (m_name == stackXmlName) {
+    else if (m_name == stackXmlName()) {
         newState = Stack;
 
         // Useful stacks are inside error or other_segment_begin/end
@@ -144,19 +144,19 @@ void Parser::startElement()
         }
     }
 
-    else if (m_name == frameXmlName) {
+    else if (m_name == frameXmlName()) {
         newState = Frame;
         if (m_stack) {
             m_frame = m_stack->addFrame();
         }
     }
 
-    else if (m_name == otherSegmentStartXmlName) {
+    else if (m_name == otherSegmentStartXmlName()) {
         newState = OtherSegmentStart;
         m_otherSegment = m_error->addOtherSegment(true);
     }
 
-    else if (m_name == otherSegmentEndXmlName) {
+    else if (m_name == otherSegmentEndXmlName()) {
         newState = OtherSegmentEnd;
         m_otherSegment = m_error->addOtherSegment(false);
     }
@@ -177,7 +177,7 @@ void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showIns
     switch (state) {
 
     case Error:
-        if (m_name == errorXmlName) {
+        if (m_name == errorXmlName()) {
             problems.append(m_error->toIProblem(m_toolName, showInstructionPointer));
         } else {
             m_error->setValue(m_name, m_value);
@@ -185,14 +185,14 @@ void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showIns
         break;
 
     case Stack:
-        if (m_stack && m_name == stackXmlName) {
+        if (m_stack && m_name == stackXmlName()) {
             m_stack = nullptr;
         }
         break;
 
     case Frame:
         if (m_frame) {
-            if (m_name == frameXmlName) {
+            if (m_name == frameXmlName()) {
                 m_frame = nullptr;
             } else {
                 m_frame->setValue(m_name, m_value);
@@ -201,13 +201,13 @@ void Parser::endElement(QVector<KDevelop::IProblem::Ptr>& problems, bool showIns
         break;
 
     case OtherSegmentStart:
-        if (m_name == otherSegmentStartXmlName) {
+        if (m_name == otherSegmentStartXmlName()) {
             m_otherSegment = nullptr;
         }
         break;
 
     case OtherSegmentEnd:
-        if (m_name == otherSegmentEndXmlName) {
+        if (m_name == otherSegmentEndXmlName()) {
             m_otherSegment = nullptr;
         }
         break;

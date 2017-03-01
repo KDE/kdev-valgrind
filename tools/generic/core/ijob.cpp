@@ -54,7 +54,7 @@
 namespace Valgrind
 {
 
-static const QString valgrindErrorsPrefix = QStringLiteral("valgrind: ");
+inline QString valgrindErrorsPrefix() { return QStringLiteral("valgrind: "); }
 
 IJob::IJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     : KDevelop::OutputExecuteJob(KDevelop::ICore::self()->runController())
@@ -175,7 +175,7 @@ void IJob::start()
 void IJob::postProcessStderr(const QStringList& lines)
 {
     for (const QString& line : lines) {
-        if (line.startsWith(valgrindErrorsPrefix)) {
+        if (line.startsWith(valgrindErrorsPrefix())) {
             m_valgrindOutput += line;
         }
     }
@@ -245,9 +245,9 @@ void IJob::childProcessError(QProcess::ProcessError processError)
         // reliable in most cases.
 
         if (!m_valgrindOutput.isEmpty() &&
-             m_valgrindOutput.at(0).startsWith(valgrindErrorsPrefix)) {
+             m_valgrindOutput.at(0).startsWith(valgrindErrorsPrefix())) {
 
-            errorMessage  = m_valgrindOutput.join('\n').remove(valgrindErrorsPrefix);
+            errorMessage  = m_valgrindOutput.join('\n').remove(valgrindErrorsPrefix());
             errorMessage += QStringLiteral("\n\n");
             errorMessage += i18n("Please review your Valgrind launch configuration.");
         } else {
