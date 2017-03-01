@@ -242,7 +242,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(const QString& toolName, bool showInst
     }
 
     // Add other segments ad diagnostics (DRD tool)
-    for (auto segment : otherSegments) {
+    for (const auto& segment : otherSegments) {
         if (!segment.stacks.isEmpty()) {
             problem->addDiagnostic(segment.toIProblem(toolName, showInstructionPointer));
         }
