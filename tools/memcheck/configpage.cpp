@@ -73,6 +73,13 @@ ConfigPage::ConfigPage(QWidget* parent)
         QStringLiteral("multipleinheritance")
     };
     setupMenuButton(ui->leakCheckHeuristics, heuristics);
+
+    ui->leakResolutionLabel->setToolTip(ui->leakResolution->toolTip());
+    ui->showLeakKindsLabel->setToolTip(ui->showLeakKinds->toolTip());
+    ui->leakCheckHeuristicsLabel->setToolTip(ui->leakCheckHeuristics->toolTip());
+    ui->keepStacktracesLabel->setToolTip(ui->keepStacktraces->toolTip());
+    ui->freelistVolLabel->setToolTip(ui->freelistVol->toolTip());
+    ui->freelistBigBlocksLabel->setToolTip(ui->freelistBigBlocks->toolTip());
 }
 
 ConfigPage::~ConfigPage()

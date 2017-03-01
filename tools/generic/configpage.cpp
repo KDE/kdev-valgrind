@@ -43,6 +43,9 @@ ConfigPage::ConfigPage(QWidget* parent)
             this, &ConfigPage::changed);
     connect(ui->numCallers, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigPage::changed);
+
+    ui->numCallersLabel->setToolTip(ui->numCallers->toolTip());
+    ui->maxStackframeLabel->setToolTip(ui->maxStackframe->toolTip());
 }
 
 ConfigPage::~ConfigPage()

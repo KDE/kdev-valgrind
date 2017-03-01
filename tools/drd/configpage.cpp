@@ -61,6 +61,9 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->traceMutex, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->traceRwlock, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->traceSemaphore, &QCheckBox::toggled, this, &ConfigPage::changed);
+
+    ui->joinListVolLabel->setToolTip(ui->joinListVol->toolTip());
+    ui->segmentMergingIntervalLabel->setToolTip(ui->segmentMergingInterval->toolTip());
 }
 
 ConfigPage::~ConfigPage()

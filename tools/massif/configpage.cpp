@@ -60,6 +60,13 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->profileStack, &QCheckBox::toggled, this, &ConfigPage::check);
     connect(ui->pagesAsHeap, &QCheckBox::toggled, this, &ConfigPage::check);
     check();
+
+    ui->timeUnitLabel->setToolTip(ui->timeUnit->toolTip());
+    ui->depthLabel->setToolTip(ui->depth->toolTip());
+    ui->thresholdLabel->setToolTip(ui->threshold->toolTip());
+    ui->peakInaccuracyLabel->setToolTip(ui->peakInaccuracy->toolTip());
+    ui->maxSnapshotsLabel->setToolTip(ui->maxSnapshots->toolTip());
+    ui->snapshotFreqLabel->setToolTip(ui->snapshotFreq->toolTip());
 }
 
 ConfigPage::~ConfigPage()

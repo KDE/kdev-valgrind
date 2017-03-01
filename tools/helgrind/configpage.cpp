@@ -49,6 +49,9 @@ ConfigPage::ConfigPage(QWidget* parent)
     connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
     connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
+
+    ui->historyLevelLabel->setToolTip(ui->historyLevel->toolTip());
+    ui->conflictCacheSizeLabel->setToolTip(ui->conflictCacheSize->toolTip());
 }
 
 ConfigPage::~ConfigPage()
