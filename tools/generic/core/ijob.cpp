@@ -211,7 +211,7 @@ void IJob::childProcessError(QProcess::ProcessError processError)
     switch (processError) {
 
     case QProcess::FailedToStart:
-        errorMessage = i18n("Failed to start valgrind from \"%1\".", commandLine().first());
+        errorMessage = i18n("Failed to start valgrind from \"%1\".", commandLine().at(0));
         break;
 
     case QProcess::Crashed:
