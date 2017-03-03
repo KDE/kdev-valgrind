@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include <interfaces/istatus.h>
 #include <kconfiggroup.h>
 #include <outputview/outputexecutejob.h>
 
@@ -41,9 +42,10 @@ namespace Valgrind
 
 class ITool;
 
-class IJob : public KDevelop::OutputExecuteJob
+class IJob : public KDevelop::OutputExecuteJob, public KDevelop::IStatus
 {
     Q_OBJECT
+    Q_INTERFACES(KDevelop::IStatus)
 
 public:
     IJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig);
@@ -54,12 +56,16 @@ public:
     using KDevelop::OutputExecuteJob::doKill;
 
     const ITool* tool() const;
-    QString target() const;
-
     virtual QWidget* createView() = 0;
 
+    QString statusName() const override;
+
 signals:
-    void started();
+    void clearMessage(KDevelop::IStatus*) override;
+    void hideProgress(KDevelop::IStatus*) override;
+    void showErrorMessage(const QString& message, int timeout = 0) override;
+    void showMessage(KDevelop::IStatus*, const QString& message, int timeout = 0) override;
+    void showProgress(KDevelop::IStatus*, int minimum, int maximum, int value) override;
 
 protected:
     void postProcessStderr(const QStringList& lines) override;

@@ -28,7 +28,6 @@
 #include "debug.h"
 #include "ijob.h"
 #include "itool.h"
-#include "jobstatus.h"
 #include "launchmode.h"
 #include "plugin.h"
 
@@ -75,14 +74,8 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
     auto valgrindJob = m_tool->createJob(launchConfig);
     jobList += valgrindJob;
 
-    QString jobName = i18n("%1 Analysis (%2)", m_tool->name(), valgrindJob->target());
-
     auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
-    ecJob->setObjectName(jobName);
-
-    auto uiController = KDevelop::ICore::self()->uiController();
-    auto jobStatus = new JobStatus(valgrindJob, jobName);
-    uiController->registerStatus(jobStatus);
+    ecJob->setObjectName(valgrindJob->statusName());
 
     return ecJob;
 }

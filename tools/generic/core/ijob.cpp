@@ -38,6 +38,7 @@
 #include <interfaces/ilaunchconfiguration.h>
 #include <interfaces/iplugincontroller.h>
 #include <interfaces/iruncontroller.h>
+#include <interfaces/iuicontroller.h>
 #include <kconfiggroup.h>
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
@@ -119,6 +120,11 @@ IJob::IJob(const ITool* tool, KDevelop::ILaunchConfiguration* launchConfig)
             processValgrindOutput(lines);
         });
     });
+
+    connect(this, &IJob::finished, this, [this]() {
+        emit hideProgress(this);
+    });
+    KDevelop::ICore::self()->uiController()->registerStatus(this);
 }
 
 IJob::~IJob()
@@ -130,9 +136,9 @@ const ITool* IJob::tool() const
     return m_tool;
 }
 
-QString IJob::target() const
+QString IJob::statusName() const
 {
-    return QFileInfo(m_analyzedExecutable).fileName();
+    return i18n("%1 Analysis (%2)", m_tool->name(), QFileInfo(m_analyzedExecutable).fileName());
 }
 
 void IJob::addLoggingArgs(QStringList& args) const
@@ -166,9 +172,9 @@ void IJob::start()
     qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
 
     Plugin::self()->jobReadyToStart(this);
-    KDevelop::OutputExecuteJob::start();
 
-    emit started();
+    emit showProgress(this, 0, 0, 0);
+    KDevelop::OutputExecuteJob::start();
 }
 
 void IJob::postProcessStderr(const QStringList& lines)

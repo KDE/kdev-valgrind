@@ -203,7 +203,7 @@ void Plugin::jobReadyToFinish(IJob* job, bool ok)
 
     Q_ASSERT(job);
     if (job->tool()->hasView()) {
-        emit addView(job->createView(), QStringLiteral("%1 (%2)").arg(job->target(), job->tool()->name()));
+        emit addView(job->createView(), job->statusName());
 
         core()->uiController()->findToolView(i18n("Valgrind"), m_toolViewFactory);
     } else {
