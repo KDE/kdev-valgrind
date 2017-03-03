@@ -115,7 +115,7 @@ void setupVisualizerProcess(
         } else {
             errorMessage += i18n("Error during visualizer execution:");
             errorMessage += QStringLiteral("\n\n");
-            errorMessage = visualizerProcess->errorString();
+            errorMessage += visualizerProcess->errorString();
         }
         KMessageBox::error(startButton, errorMessage, i18n("Valgrind Error"));
 
