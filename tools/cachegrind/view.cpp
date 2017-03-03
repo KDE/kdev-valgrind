@@ -30,7 +30,6 @@
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
 
-#include <QApplication>
 #include <QSortFilterProxyModel>
 
 namespace Valgrind

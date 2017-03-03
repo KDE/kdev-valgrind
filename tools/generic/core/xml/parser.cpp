@@ -26,11 +26,11 @@
 
 #include "debug.h"
 #include "error.h"
+#include "utils.h"
 
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 
-#include <QApplication>
 #include <QStack>
 #include <QXmlStreamReader>
 
@@ -254,7 +254,7 @@ QVector<KDevelop::IProblem::Ptr> Parser::parse(bool showInstructionPointer)
         case CustomError:
         case UnexpectedElementError:
         case NotWellFormedError:
-            KMessageBox::error(qApp->activeWindow(),
+            KMessageBox::error(activeMainWindow(),
                                i18n("Valgrind XML Parsing: error at line %1, column %2: %3",
                                     lineNumber(),
                                     columnNumber(),

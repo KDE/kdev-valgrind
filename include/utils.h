@@ -26,6 +26,7 @@
 class QAbstractTableModel;
 class QProcess;
 class QPushButton;
+class QWidget;
 
 namespace Valgrind
 {
@@ -48,5 +49,7 @@ void setupVisualizerProcess(QProcess* visualizerProcess,
                             QPushButton* startButton,
                             std::function<void()> startFunction,
                             bool startImmediately);
+
+QWidget* activeMainWindow();
 
 }

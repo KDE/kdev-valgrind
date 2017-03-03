@@ -31,6 +31,7 @@
 #include "itool.h"
 #include "plugin.h"
 #include "settings.h"
+#include "utils.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -43,13 +44,11 @@
 #include <kshell.h>
 #include <util/environmentprofilelist.h>
 
-#include <QApplication>
 #include <QBuffer>
 #include <QFileInfo>
 
 #include <QTcpServer>
 #include <QTcpSocket>
-
 
 namespace Valgrind
 {
@@ -257,7 +256,7 @@ void IJob::childProcessError(QProcess::ProcessError processError)
     }
 
     if (!errorMessage.isEmpty()) {
-        KMessageBox::error(qApp->activeWindow(), errorMessage, i18n("Valgrind Error"));
+        KMessageBox::error(activeMainWindow(), errorMessage, i18n("Valgrind Error"));
     }
 
     KDevelop::OutputExecuteJob::childProcessError(processError);
@@ -297,7 +296,7 @@ int IJob::executeProcess(const QString& executable, const QStringList& args, QBy
         message += "\n\n";
         message += i18n("Please review your Valgrind launch configuration.");
 
-        KMessageBox::error(qApp->activeWindow(), message, i18n("Valgrind Error"));
+        KMessageBox::error(activeMainWindow(), message, i18n("Valgrind Error"));
     }
 
     return process.exitCode();

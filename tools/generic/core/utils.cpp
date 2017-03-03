@@ -19,6 +19,9 @@
 
 #include "utils.h"
 
+#include <KParts/MainWindow>
+#include <interfaces/icore.h>
+#include <interfaces/iuicontroller.h>
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 
@@ -117,7 +120,7 @@ void setupVisualizerProcess(
             errorMessage += QStringLiteral("\n\n");
             errorMessage += visualizerProcess->errorString();
         }
-        KMessageBox::error(startButton, errorMessage, i18n("Valgrind Error"));
+        KMessageBox::error(activeMainWindow(), errorMessage, i18n("Valgrind Error"));
 
         startButton->setEnabled(true);
     });
@@ -130,6 +133,11 @@ void setupVisualizerProcess(
     if (startImmediately) {
         startFunction();
     }
+}
+
+QWidget* activeMainWindow()
+{
+    return KDevelop::ICore::self()->uiController()->activeMainWindow();
 }
 
 }
