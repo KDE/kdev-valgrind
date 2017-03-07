@@ -52,4 +52,6 @@ void setupVisualizerProcess(QProcess* visualizerProcess,
 
 QWidget* activeMainWindow();
 
+QString findExecutable(const QString &executableName);
+
 }

@@ -5,27 +5,28 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
 
   <include>util/path.h</include>
+  <include>utils.h</include>
 
   <group name="Valgrind">
 
     <entry name="valgrindExecutablePath" key="valgrindExecutablePath" type="Path">
-        <default>/usr/bin/valgrind</default>
+        <default code="true">findExecutable(QStringLiteral("valgrind"))</default>
     </entry>
 
     <entry name="cg_annotateExecutablePath" key="cg_annotateExecutablePath" type="Path">
-        <default>/usr/bin/cg_annotate</default>
+        <default code="true">findExecutable(QStringLiteral("cg_annotate"))</default>
     </entry>
 
     <entry name="callgrind_annotateExecutablePath" key="callgrind_annotateExecutablePath" type="Path">
-        <default>/usr/bin/callgrind_annotate</default>
+        <default code="true">findExecutable(QStringLiteral("callgrind_annotate"))</default>
     </entry>
 
     <entry name="kcachegrindExecutablePath" key="kcachegrindExecutablePath" type="Path">
-        <default>/usr/bin/kcachegrind</default>
+        <default code="true">findExecutable(QStringLiteral("kcachegrind"))</default>
     </entry>
 
     <entry name="massifVisualizerExecutablePath" key="massifVisualizerExecutablePath" type="Path">
-        <default>/usr/bin/massif-visualizer</default>
+        <default code="true">findExecutable(QStringLiteral("massif-visualizer"))</default>
     </entry>
 
     <entry name="showValgrindOutput" key="showValgrindOutput" type="Bool">

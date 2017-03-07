@@ -29,6 +29,7 @@
 #include <QMap>
 #include <QProcess>
 #include <QPushButton>
+#include <QStandardPaths>
 
 namespace Valgrind
 {
@@ -138,6 +139,12 @@ void setupVisualizerProcess(
 QWidget* activeMainWindow()
 {
     return KDevelop::ICore::self()->uiController()->activeMainWindow();
+}
+
+QString findExecutable(const QString &executableName)
+{
+    QString executablePath = QStandardPaths::findExecutable(executableName);
+    return executablePath.isEmpty() ? executableName : executablePath;
 }
 
 }
