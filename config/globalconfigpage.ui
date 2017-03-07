@@ -107,7 +107,7 @@
    <item>
     <widget class="QGroupBox" name="outputGroupBox">
      <property name="title">
-      <string>Helpers executables</string>
+      <string>Visualizers executables</string>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
@@ -168,10 +168,10 @@
       <item>
        <widget class="QCheckBox" name="kcfg_showValgrindOutput">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Valgrind messages will be &amp;quot;mixed&amp;quot; with analyzed executable messages.&lt;/p&gt;&lt;p&gt;Useful for plugin debugging.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Valgrind messages will be displayed in the output view during analysis.&lt;/p&gt;&lt;p&gt;Useful for plugin debugging.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Show Valgrind output during analyze</string>
+         <string>Show valgrind output during analysis</string>
         </property>
        </widget>
       </item>
