@@ -36,7 +36,7 @@ Tool::Tool()
     : ITool(
         QStringLiteral("Massif"),
         i18n("Massif"),
-        i18n("Massif: a heap profiler"),
+        i18n("Massif (Heap Profiler)"),
         QStringLiteral("massif"),
         QStringLiteral("massif_tool"),
         true)

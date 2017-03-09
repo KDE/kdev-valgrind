@@ -36,7 +36,7 @@ Tool::Tool()
     : ITool(
         QStringLiteral("DRD"),
         i18n("DRD"),
-        i18n("DRD: a thread error detector"),
+        i18n("DRD (Thread Error Detector)"),
         QStringLiteral("drd"),
         QStringLiteral("drd_tool"),
         false)

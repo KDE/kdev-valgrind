@@ -36,7 +36,7 @@ Tool::Tool()
     : ITool(
         QStringLiteral("Helgrind"),
         i18n("Helgrind"),
-        i18n("Helgrind: a thread error detector"),
+        i18n("Helgrind (Thread Error Detector)"),
         QStringLiteral("helgrind"),
         QStringLiteral("helgrind_tool"),
         false)

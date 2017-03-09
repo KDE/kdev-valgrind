@@ -36,7 +36,7 @@ Tool::Tool()
     : ITool(
         QStringLiteral("Cachegrind"),
         i18n("Cachegrind"),
-        i18n("Cachegrind: a cache and branch-prediction profiler"),
+        i18n("Cachegrind (Cache and Branch-Prediction Profiler)"),
         QStringLiteral("cachegrind"),
         QStringLiteral("cachegrind_tool"),
         true)

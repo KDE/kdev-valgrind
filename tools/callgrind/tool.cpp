@@ -36,7 +36,7 @@ Tool::Tool()
     : ITool(
         QStringLiteral("Callgrind"),
         i18n("Callgrind"),
-        i18n("Callgrind: a call-graph generating cache and branch prediction profiler"),
+        i18n("Callgrind (Call-Graph Generating Cache and Branch Prediction Profiler)"),
         QStringLiteral("callgrind"),
         QStringLiteral("callgrind_tool"),
         true)

@@ -3,7 +3,7 @@
 <MenuBar>
   <Menu name="run">
     <Menu name="valgrind" group="run_operations">
-      <text>Valgrind Tools</text>
+      <text>Run Valgrind Analysis</text>
       <Action name="memcheck_tool"/>
       <Action name="cachegrind_tool"/>
       <Action name="callgrind_tool"/>

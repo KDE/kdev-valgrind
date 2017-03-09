@@ -36,7 +36,7 @@ Tool::Tool()
     : ITool(
         QStringLiteral("Memcheck"),
         i18n("Memcheck"),
-        i18n("Memcheck: a memory error detector"),
+        i18n("Memcheck (Memory Error Detector)"),
         QStringLiteral("memcheck"),
         QStringLiteral("memcheck_tool"),
         false)

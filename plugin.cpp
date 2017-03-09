@@ -62,6 +62,8 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 {
     m_self = this;
 
+    setComponentName(QStringLiteral("kdevvalgrind"), i18n("Valgrind Analyzer"));
+
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
 
@@ -76,7 +78,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     m_tools += Massif::Tool::self();
 
     for (auto tool : m_tools) {
-        auto action = new QAction(tool->fullName(), this);
+        auto action = new QAction(i18n("Run %1", tool->fullName()), this);
         connect(action, &QAction::triggered, this, [this, tool]() {
                 executeDefaultLaunch(tool->id());
         });
