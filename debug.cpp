@@ -20,4 +20,4 @@
 
 #include "debug.h"
 
-Q_LOGGING_CATEGORY(KDEV_VALGRIND, "kdevelop.plugins.valgrind")
+Q_LOGGING_CATEGORY(KDEV_VALGRIND, "kdevelop.analyzers.valgrind")
