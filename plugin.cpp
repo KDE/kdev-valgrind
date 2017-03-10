@@ -62,10 +62,9 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
 {
     m_self = this;
 
-    setComponentName(QStringLiteral("kdevvalgrind"), i18n("Valgrind Analyzer"));
-
     qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
+    actionCollection()->setComponentDisplayName(i18n("Valgrind Analyzer"));
 
     core()->uiController()->addToolView(i18n("Valgrind"), m_toolViewFactory);
     core()->runController()->addLaunchMode(m_launchMode);
