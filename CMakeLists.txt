@@ -37,8 +37,12 @@ set(kdevvalgrind_SRCS
     config/globalconfigpage.cpp
 )
 
-ki18n_wrap_ui(kdevvalgrind_UI_SRCS
+ki18n_wrap_ui(kdevvalgrind_SRCS
     config/globalconfigpage.ui
+)
+
+qt5_add_resources(kdevvalgrind_SRCS
+    kdevvalgrind.qrc
 )
 
 kconfig_add_kcfg_files(kdevvalgrind_CONFIG_SRCS
@@ -57,7 +61,7 @@ add_subdirectory(tools)
 
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
-    SOURCES ${kdevvalgrind_SRCS} ${kdevvalgrind_UI_SRCS}
+    SOURCES ${kdevvalgrind_SRCS}
 )
 
 target_link_libraries(kdevvalgrind
@@ -67,7 +71,5 @@ target_link_libraries(kdevvalgrind
     KDev::Project
     KF5::ItemViews
 )
-
-install(FILES kdevvalgrind.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdevvalgrind)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
