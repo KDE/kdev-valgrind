@@ -36,32 +36,6 @@ namespace Valgrind
 namespace XmlParser
 {
 
-class Problem : public KDevelop::DetectedProblem
-{
-public:
-    explicit Problem(const QString& toolName)
-        : m_toolName(toolName)
-    {
-    }
-
-    ~Problem() override
-    {
-    }
-
-    KDevelop::IProblem::Source source() const override
-    {
-        return Plugin;
-    }
-
-    QString sourceString() const override
-    {
-        return m_toolName;
-    }
-
-protected:
-    QString m_toolName;
-};
-
 void Frame::setValue(const QString& name, const QString& value)
 {
     if (name == "ip") {
@@ -91,7 +65,7 @@ void Frame::setValue(const QString& name, const QString& value)
 
 KDevelop::IProblem::Ptr Frame::toIProblem(const QString& toolName, bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr frameProblem(new Problem(toolName));
+    KDevelop::IProblem::Ptr frameProblem(new KDevelop::DetectedProblem(toolName));
 
     KDevelop::DocumentRange range;
     range.setBothLines(line - 1);
@@ -123,7 +97,7 @@ Frame* Stack::addFrame()
 
 KDevelop::IProblem::Ptr Stack::toIProblem(const QString& toolName, bool showInstructionPointer) const
 {
-    KDevelop::IProblem::Ptr stackProblem(new Problem(toolName));
+    KDevelop::IProblem::Ptr stackProblem(new KDevelop::DetectedProblem(toolName));
 
     KDevelop::DocumentRange range(KDevelop::DocumentRange::invalid());
     for (const Frame& frame : frames) {
@@ -158,7 +132,7 @@ KDevelop::IProblem::Ptr OtherSegment::toIProblem(const QString& toolName, bool s
         return segmentProblem;
     }
 
-    KDevelop::IProblem::Ptr segmentProblem(new Problem(toolName));
+    KDevelop::IProblem::Ptr segmentProblem(new KDevelop::DetectedProblem(toolName));
     segmentProblem->setDescription(description);
 
     for (int i = 0; i < stacks.size(); ++i) {
@@ -213,7 +187,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(const QString& toolName, bool showInst
         return problem;
     }
 
-    KDevelop::IProblem::Ptr problem(new Problem(toolName));
+    KDevelop::IProblem::Ptr problem(new KDevelop::DetectedProblem(toolName));
     problem->setDescription(messages.first());
 
     // Add all stacks
@@ -234,7 +208,7 @@ KDevelop::IProblem::Ptr Error::toIProblem(const QString& toolName, bool showInst
         }
 
         else {
-            KDevelop::IProblem::Ptr messageOnlyProblem(new Problem(toolName));
+            KDevelop::IProblem::Ptr messageOnlyProblem(new KDevelop::DetectedProblem(toolName));
             messageOnlyProblem->setDescription(messages.at(i));
             messageOnlyProblem->setFinalLocation(problem->finalLocation());
             problem->addDiagnostic(messageOnlyProblem);
