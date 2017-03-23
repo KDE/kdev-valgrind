@@ -34,6 +34,7 @@
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/iplugincontroller.h>
+#include <interfaces/iruncontroller.h>
 #include <interfaces/iuicontroller.h>
 #include <klocalizedstring.h>
 #include <util/executecompositejob.h>

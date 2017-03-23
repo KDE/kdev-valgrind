@@ -27,6 +27,7 @@
 #include "debug.h"
 
 #include <shell/problem.h>
+#include <language/editor/documentrange.h>
 
 #include <QRegularExpression>
 
