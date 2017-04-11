@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui>
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
 <gui name="kdevvalgrind" version="16">
 <MenuBar>
   <Menu name="run">
