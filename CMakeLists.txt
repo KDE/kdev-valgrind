@@ -77,4 +77,7 @@ target_link_libraries(kdevvalgrind
     KF5::ItemViews
 )
 
+# kdebugsettings file
+install(FILES kdevvalgrind.categories DESTINATION ${KDE_INSTALL_CONFDIR})
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
