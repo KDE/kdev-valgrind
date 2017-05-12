@@ -3,11 +3,12 @@ cmake_policy(SET CMP0028 NEW)
 
 project(kdevvalgrind)
 
-find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+find_package(ECM "5.14.0" REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMAddTests)
+include(ECMQtDeclareLoggingCategory)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(FeatureSummary)
@@ -27,14 +28,18 @@ include_directories(
 )
 
 set(kdevvalgrind_SRCS
-    debug.cpp
-
     launchmode.cpp
     plugin.cpp
     problemmodel.cpp
     toolviewfactory.cpp
 
     config/globalconfigpage.cpp
+)
+
+ecm_qt_declare_logging_category(kdevvalgrind_SRCS
+    HEADER debug.h
+    IDENTIFIER KDEV_VALGRIND
+    CATEGORY_NAME "kdevelop.analyzers.valgrind"
 )
 
 ki18n_wrap_ui(kdevvalgrind_SRCS
