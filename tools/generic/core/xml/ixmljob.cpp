@@ -31,7 +31,6 @@
 #include "problemmodel.h"
 
 #include <QRegularExpression>
-#include <unistd.h>
 
 namespace Valgrind
 {
