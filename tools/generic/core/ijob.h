@@ -60,7 +60,7 @@ public:
 
     QString statusName() const override;
 
-signals:
+Q_SIGNALS:
     void clearMessage(KDevelop::IStatus*) override;
     void hideProgress(KDevelop::IStatus*) override;
     void showErrorMessage(const QString& message, int timeout = 0) override;

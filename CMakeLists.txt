@@ -25,6 +25,15 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/tools
 )
 
+add_definitions(
+    -DQT_DEPRECATED_WARNINGS
+    -DQT_DISABLE_DEPRECATED_BEFORE=0x050500
+    -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+    -DQT_NO_URL_CAST_FROM_STRING
+    -DQT_STRICT_ITERATORS
+    -DQT_USE_QSTRINGBUILDER
+)
+
 add_definitions(-DTRANSLATION_DOMAIN=\"kdevvalgrind\")
 
 set(kdevvalgrind_SRCS

@@ -70,7 +70,7 @@ public:
 
     bool isRunning();
 
-signals:
+Q_SIGNALS:
     void addView(QWidget* view, const QString& name);
 
 private:
