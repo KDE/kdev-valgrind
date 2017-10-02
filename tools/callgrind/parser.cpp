@@ -50,7 +50,7 @@ void parseCallInformation(
 
     QStringList lineItems = line.split(QChar(' '), QString::SkipEmptyParts);
     for (int i = 0; i < eventsCount; ++i) {
-        lineItems[i].remove(",");
+        lineItems[i].remove(QLatin1Char(','));
     }
 
     if (programTotal) {

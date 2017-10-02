@@ -77,7 +77,7 @@ void parse(const QString& fileName, SnapshotsModel* model)
                         break;
                     }
 
-                    snapshot->heapTree.append(line.remove("\n"));
+                    snapshot->heapTree.append(line.remove(QLatin1Char('\n')));
                 }
             }
 

@@ -275,7 +275,7 @@ bool IJob::processEnded()
 
 int IJob::executeProcess(const QString& executable, const QStringList& args, QByteArray& processOutput)
 {
-    QString commandLine = executable + " " + args.join(' ');
+    QString commandLine = executable + QLatin1Char(' ') + args.join(QLatin1Char(' '));
 
     if (GlobalSettings::showValgrindOutput()) {
         KDevelop::OutputExecuteJob::postProcessStdout({i18n("Executing command: ") + commandLine });

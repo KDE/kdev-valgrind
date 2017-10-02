@@ -43,7 +43,7 @@ Function* parseCachegrindItem(const QString& line, QStringList& eventsList)
     Q_ASSERT(lineEventList.size() >= eventsList.size());
 
     for (int i = 0; i < eventsList.size(); ++i) {
-        item->eventValues += lineEventList.takeFirst().remove(",").toInt();
+        item->eventValues += lineEventList.takeFirst().remove(QLatin1Char(',')).toInt();
     }
 
     QString fileCall = lineEventList.join(QChar(' '));

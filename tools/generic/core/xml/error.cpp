@@ -74,7 +74,7 @@ KDevelop::IProblem::Ptr Frame::toIProblem(const QString& toolName, bool showInst
     if (directory.isEmpty() && file.isEmpty()) {
         range.document = KDevelop::IndexedString(objectFile);
     } else {
-        range.document = KDevelop::IndexedString(directory + "/" + file);
+        range.document = KDevelop::IndexedString(directory + QLatin1Char('/') + file);
     }
 
     frameProblem->setFinalLocation(range);
