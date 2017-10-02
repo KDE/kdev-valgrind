@@ -17,7 +17,10 @@ set(QT_MIN_VERSION "5.5.0")
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets)
 set(KF5_DEP_VERSION "5.15.0")
 find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS ItemModels)
-find_package(KDevPlatform 5.0.0 REQUIRED)
+find_package(KDevPlatform 5.1 CONFIG)
+set_package_properties(KDevPlatform PROPERTIES
+    TYPE REQUIRED
+)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/config
