@@ -45,7 +45,7 @@ class View : public QWidget
     Q_OBJECT
 
 public:
-    View(FunctionsModel* model, QWidget* parent = nullptr);
+    explicit View(FunctionsModel* model, QWidget* parent = nullptr);
     ~View() override;
 
 private:
