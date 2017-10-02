@@ -1,5 +1,5 @@
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="kdevvalgrind" version="16">
+<gui name="kdevvalgrind" version="16" translationDomain="kdevvalgrind">
 <MenuBar>
   <Menu name="run">
     <Menu name="valgrind" group="run_operations">

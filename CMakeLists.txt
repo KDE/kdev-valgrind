@@ -25,6 +25,8 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/tools
 )
 
+add_definitions(-DTRANSLATION_DOMAIN=\"kdevvalgrind\")
+
 set(kdevvalgrind_SRCS
     launchmode.cpp
     plugin.cpp
