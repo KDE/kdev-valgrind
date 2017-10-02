@@ -87,7 +87,7 @@ void parse(QByteArray& baData, FunctionsModel* model)
         line = data.readLine().simplified();
 
         if (parserState == ParseRoot) {
-            if (line.startsWith("Events shown:")) {
+            if (line.startsWith(QLatin1String("Events shown:"))) {
                 // 13 is 'Events shown:' length
                 eventsString = line.mid(13).simplified();
                 eventsList = eventsString.split(QChar(' '), QString::SkipEmptyParts);

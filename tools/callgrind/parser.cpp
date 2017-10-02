@@ -142,12 +142,12 @@ void parse(QByteArray& baData, FunctionsModel* model)
     while (!data.atEnd()) {
         line = data.readLine().simplified();
 
-        if (line.startsWith("--") && line.contains("annotated source:")) {
+        if (line.startsWith(QLatin1String("--")) && line.contains(QLatin1String("annotated source:"))) {
                 break;
         }
 
         if (parserState == ParseRoot) {
-            if (line.startsWith("Events shown:")) {
+            if (line.startsWith(QLatin1String("Events shown:"))) {
                 // 13 is 'Events shown:' size;
                 eventsString = line.mid(13).simplified();
 
