@@ -10,9 +10,6 @@
     <height>439</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Cppcheck Settings</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
     <number>0</number>
@@ -37,9 +34,6 @@
         <property name="text">
          <string>Valgrind:</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
         <property name="buddy">
          <cstring>kcfg_valgrindExecutablePath</cstring>
         </property>
@@ -60,9 +54,6 @@
         <property name="text">
          <string>callgrind_annotate:</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
         <property name="buddy">
          <cstring>kcfg_valgrindExecutablePath</cstring>
         </property>
@@ -82,9 +73,6 @@
        <widget class="QLabel" name="kcfg_cg_annotateExecutablePathLabel">
         <property name="text">
          <string>cg_annotate:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
          <cstring>kcfg_valgrindExecutablePath</cstring>
@@ -115,9 +103,6 @@
         <property name="text">
          <string>KCachegrind:</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
         <property name="buddy">
          <cstring>kcfg_valgrindExecutablePath</cstring>
         </property>
@@ -137,9 +122,6 @@
        <widget class="QLabel" name="kcfg_massifVisualizerExecutablePathLabel">
         <property name="text">
          <string>Massif Visualizer:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
          <cstring>kcfg_valgrindExecutablePath</cstring>

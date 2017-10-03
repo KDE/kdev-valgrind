@@ -11,18 +11,6 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -36,16 +24,13 @@
           <property name="text">
            <string>History level:</string>
           </property>
+          <property name="buddy">
+           <cstring>historyLevel</cstring>
+          </property>
          </widget>
         </item>
         <item row="0" column="1">
          <widget class="QComboBox" name="historyLevel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt; (the default) causes Helgrind collects enough information about &amp;quot;old&amp;quot; accesses that it can produce two stack traces in a race report -- both the stack trace for the current access, and the trace for the older, conflicting access. To limit memory usage, &amp;quot;old&amp;quot; accesses stack traces are limited to a maximum of 8 entries, even if &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--num-callers&lt;/span&gt; value is bigger.&lt;/p&gt;&lt;p&gt;Collecting such information is expensive in both speed and memory, particularly for programs that do many inter-thread synchronization events (locks, unlocks, etc). Without such information, it is more difficult to track down the root causes of races. Nonetheless, you may not need it in situations where you just want to check for the presence or absence of races, for example, when doing regression testing of a previously race-free program.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=none&lt;/span&gt; is the opposite extreme. It causes Helgrind not to collect any information about previous accesses. This can be dramatically faster than &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=approx&lt;/span&gt; provides a compromise between these two extremes. It causes Helgrind to show a full trace for the later access, and approximate information regarding the earlier access. This approximate information consists of two stacks, and the earlier access is guaranteed to have occurred somewhere between program points denoted by the two stacks. This is not as useful as showing the exact stack for the previous access (as &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt; does), but it is better than nothing, and it is almost as fast as &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=none&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -78,12 +63,6 @@
         </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="conflictCacheSize">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This flag only has any effect at &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;Information about &amp;quot;old&amp;quot; conflicting accesses is stored in a cache of limited size, with LRU-style management. This is necessary because it isn't practical to store a stack trace for every single memory access made by the program. Historical information on not recently accessed locations is periodically discarded, to free up space in the cache.&lt;/p&gt;&lt;p&gt;This option controls the size of the cache, in terms of the number of different memory addresses for which conflicting access information is stored. If you find that Helgrind is showing race errors with only one stack instead of the expected two stacks, try increasing this value.&lt;/p&gt;&lt;p&gt;The minimum value is 10,000 and the maximum is 30,000,000 (thirty times the default value). Increasing the value by 1 increases Helgrind's memory requirement by very roughly 100 bytes, so the maximum value will easily eat up three extra gigabytes or so of memory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>

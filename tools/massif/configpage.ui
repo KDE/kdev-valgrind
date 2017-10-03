@@ -24,16 +24,13 @@
           <property name="text">
            <string>Time unit:</string>
           </property>
+          <property name="buddy">
+           <cstring>timeUnit</cstring>
+          </property>
          </widget>
         </item>
         <item row="0" column="1">
          <widget class="QComboBox" name="timeUnit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The time unit used for the profiling. There are three possibilities: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;instructions&lt;/span&gt; executed (i), which is good for most cases; &lt;/p&gt;&lt;p&gt;real (wallclock) time (ms, i.e. &lt;span style=&quot; font-weight:600;&quot;&gt;milliseconds&lt;/span&gt;), which is sometimes useful; &lt;/p&gt;&lt;p&gt;and &lt;span style=&quot; font-weight:600;&quot;&gt;bytes&lt;/span&gt; allocated/deallocated on the heap and/or stack (B), which is useful for very short-run programs, and for testing purposes, because it is the most reproducible across different machines.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -59,16 +56,13 @@
           <property name="text">
            <string>Snapshot tree depth:</string>
           </property>
+          <property name="buddy">
+           <cstring>depth</cstring>
+          </property>
          </widget>
         </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="depth">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum depth of the allocation trees recorded for detailed snapshots. Increasing it will make Massif run somewhat more slowly, use more memory, and produce bigger output files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -85,16 +79,13 @@
           <property name="text">
            <string>Threshold:</string>
           </property>
+          <property name="buddy">
+           <cstring>threshold</cstring>
+          </property>
          </widget>
         </item>
         <item row="2" column="1">
          <widget class="QSpinBox" name="threshold">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The significance threshold for heap allocations, as a percentage of total memory size. Allocation tree entries that account for less than this will be aggregated. Note that this should be specified in tandem with ms_print's option of the same name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -111,16 +102,13 @@
           <property name="text">
            <string>Peak inaccuracy:</string>
           </property>
+          <property name="buddy">
+           <cstring>peakInaccuracy</cstring>
+          </property>
          </widget>
         </item>
         <item row="3" column="1">
          <widget class="QSpinBox" name="peakInaccuracy">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Massif does not necessarily record the actual global memory allocation peak; by default it records a peak only when the global memory allocation size exceeds the previous peak by at least 1.0%. This is because there can be many local allocation peaks along the way, and doing a detailed snapshot for every one would be expensive and wasteful, as all but one of them will be later discarded. This inaccuracy can be changed (even to 0.0%) via this option, but Massif will run drastically slower as the number approaches zero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -140,16 +128,13 @@
           <property name="text">
            <string>Maximum snapshots:</string>
           </property>
+          <property name="buddy">
+           <cstring>maxSnapshots</cstring>
+          </property>
          </widget>
         </item>
         <item row="4" column="1">
          <widget class="QSpinBox" name="maxSnapshots">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of snapshots recorded. If set to N, for all programs except very short-running ones, the final number of snapshots will be between N/2 and N.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -166,16 +151,13 @@
           <property name="text">
            <string>Detailed snapshot frequency:</string>
           </property>
+          <property name="buddy">
+           <cstring>snapshotFreq</cstring>
+          </property>
          </widget>
         </item>
         <item row="5" column="1">
          <widget class="QSpinBox" name="snapshotFreq">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Frequency of detailed snapshots. With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--detailed-freq=1&lt;/span&gt;, every snapshot is detailed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -199,12 +181,6 @@
         </item>
         <item row="6" column="1">
          <widget class="QLineEdit" name="extraParameters">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
