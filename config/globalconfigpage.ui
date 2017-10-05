@@ -30,7 +30,7 @@
      </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="kcfg_valgrindExecutablePathLabel">
+       <widget class="QLabel">
         <property name="text">
          <string>Valgrind:</string>
         </property>
@@ -50,7 +50,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="kcfg_callgrind_annotateExecutablePathLabel">
+       <widget class="QLabel">
         <property name="text">
          <string>callgrind_annotate:</string>
         </property>
@@ -70,7 +70,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="kcfg_cg_annotateExecutablePathLabel">
+       <widget class="QLabel">
         <property name="text">
          <string>cg_annotate:</string>
         </property>
@@ -99,7 +99,7 @@
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
-       <widget class="QLabel" name="kcfg_kcachegrindExecutablePathLabel">
+       <widget class="QLabel">
         <property name="text">
          <string>KCachegrind:</string>
         </property>
@@ -119,7 +119,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="kcfg_massifVisualizerExecutablePathLabel">
+       <widget class="QLabel">
         <property name="text">
          <string>Massif Visualizer:</string>
         </property>
