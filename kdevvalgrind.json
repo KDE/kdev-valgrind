@@ -1,23 +1,4 @@
 {
-    "GenericName": "Valgrind Support",
-    "GenericName[ast]": "Sofitu de Valgrind",
-    "GenericName[ca@valencia]": "Implementació del valgrind",
-    "GenericName[ca]": "Implementació del valgrind",
-    "GenericName[cs]": "Podpora pro Valgrind",
-    "GenericName[de]": "Unterstützung für Valgrind",
-    "GenericName[es]": "Implementación de Valgrind",
-    "GenericName[fi]": "Valgrind-tuki",
-    "GenericName[gl]": "Integración de Valgrind",
-    "GenericName[nl]": "Ondersteuning voor Valgrind",
-    "GenericName[pl]": "Obsługa Valgrind",
-    "GenericName[pt]": "Suporte para o Valgrind",
-    "GenericName[pt_BR]": "Suporte para o Valgrind",
-    "GenericName[sk]": "Podpora Valgrindu",
-    "GenericName[sv]": "Valgrind-stöd",
-    "GenericName[tr]": "Valgrind Desteği",
-    "GenericName[uk]": "Підтримка Valgrind",
-    "GenericName[x-test]": "xxValgrind Supportxx",
-    "GenericName[zh_CN]": "Valgrind 支持",
     "KPlugin": {
         "Authors": [
             {
