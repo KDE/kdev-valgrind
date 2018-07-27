@@ -27,6 +27,7 @@
         "Description[uk]": "Valgrind — це інструмент, що допомагатиме вам знаходити проблеми у керуванні пам’яттю, що виникають у програмах. http://www.valgrind.org/",
         "Description[x-test]": "xxValgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/xx",
         "Description[zh_CN]": "Valgrind 是一个帮助您找到程序中内存管理问题的工具。http://www.valgrind.org/",
+        "Description[zh_TW]": "Valgrind 是一款可以幫助你尋找程式記憶體管理問題的工具。http://www.valgrind.org/",
         "Icon": "kdevelop",
         "Id": "kdevvalgrind",
         "License": "GPL",
@@ -52,6 +53,7 @@
         "Name[uk]": "Підтримка Valgrind",
         "Name[x-test]": "xxValgrind Supportxx",
         "Name[zh_CN]": "Valgrind 支持",
+        "Name[zh_TW]": "Valgrind 支援",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
