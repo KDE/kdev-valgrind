@@ -1,5 +1,4 @@
 /* This file is part of KDevelop
-
    Copyright 2017 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
@@ -13,34 +12,44 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
+#include "common_settings.h"
 
-#include <shell/problemmodel.h>
+#include "globalsettings.h"
 
 namespace Valgrind
 {
 
-class Tool;
+CommonSettings::CommonSettings()
+    : Settings(QStringLiteral("Valgrind"))
 
-class ProblemModel : public KDevelop::ProblemModel
+    , numCallers(
+        this,
+        QStringLiteral("Stackframe Depth"),
+        QStringLiteral("num-callers"),
+        12)
+
+    , maxStackframe(
+        this,
+        QStringLiteral("Maximum Stackframe Size"),
+        QStringLiteral("max-stackframe"),
+        2000000)
+
+    , limitErrors(
+        this,
+        QStringLiteral("Limit Errors"),
+        QStringLiteral("error-limit"),
+        true)
 {
-    Q_OBJECT
+}
 
-public:
-    ProblemModel();
-    ~ProblemModel() override;
-
-    void reset(const Tool* tool);
-    void show();
-    void forceFullUpdate() override;
-
-private:
-    const Tool* m_tool;
-};
+QString CommonSettings::valgrindExecutablePath()
+{
+    return KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
+}
 
 }

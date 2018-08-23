@@ -20,7 +20,7 @@
 
 #include "problemmodel.h"
 
-#include "itool.h"
+#include "tool.h"
 #include "plugin.h"
 #include "utils.h"
 
@@ -28,7 +28,7 @@
 #include <interfaces/ilanguagecontroller.h>
 #include <shell/problemmodelset.h>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 namespace Valgrind
 {
@@ -59,12 +59,12 @@ ProblemModel::~ProblemModel()
     problemModelSet()->removeModel(problemModelId());
 }
 
-void ProblemModel::reset(const ITool* tool)
+void ProblemModel::reset(const Tool* tool)
 {
     m_tool = tool;
     clearProblems();
 
-    QString toolName = tool ? tool->name() : QStringLiteral("Valgrind");
+    QString toolName = tool ? tool->name() : i18n("Valgrind");
     setFullUpdateTooltip(i18nc("@info:tooltip", "Re-Run %1 Analysis for Current Launch Configuration", toolName));
 }
 

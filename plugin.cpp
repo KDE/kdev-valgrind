@@ -21,31 +21,32 @@
 
 #include "plugin.h"
 
-#include "config/globalconfigpage.h"
+#include "globalconfigpage.h"
 
 #include "debug.h"
-#include "ijob.h"
+#include "job.h"
 #include "launchmode.h"
 #include "problemmodel.h"
 #include "toolviewfactory.h"
 
-#include "cachegrind/tool.h"
-#include "callgrind/tool.h"
-#include "drd/tool.h"
-#include "helgrind/tool.h"
-#include "massif/tool.h"
-#include "memcheck/tool.h"
+#include "tools/cachegrind/cachegrind_tool.h"
+#include "tools/callgrind/callgrind_tool.h"
+#include "tools/drd/drd_tool.h"
+#include "tools/helgrind/helgrind_tool.h"
+#include "tools/massif/massif_tool.h"
+#include "tools/memcheck/memcheck_tool.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/ilauncher.h>
 #include <interfaces/iplugincontroller.h>
 #include <interfaces/launchconfigurationtype.h>
-#include <kactioncollection.h>
-#include <kpluginfactory.h>
 #include <qtcompat_p.h>
 #include <shell/core.h>
 #include <shell/launchconfiguration.h>
 #include <shell/runcontroller.h>
+
+#include <KActionCollection>
+#include <KPluginFactory>
 
 K_PLUGIN_FACTORY_WITH_JSON(ValgrindFactory, "kdevvalgrind.json",  registerPlugin<Valgrind::Plugin>();)
 
@@ -62,19 +63,17 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     , m_isRunning(false)
 {
     m_self = this;
-
-    qCDebug(KDEV_VALGRIND) << "setting valgrind rc file";
     setXMLFile("kdevvalgrind.rc");
 
     core()->uiController()->addToolView(i18n("Valgrind"), m_toolViewFactory);
-    core()->runController()->addLaunchMode(m_launchMode);
+    core()->runController()->addLaunchMode(m_launchMode.data());
 
-    m_tools += Memcheck::Tool::self();
-    m_tools += Cachegrind::Tool::self();
-    m_tools += Callgrind::Tool::self();
-    m_tools += Helgrind::Tool::self();
-    m_tools += DRD::Tool::self();
-    m_tools += Massif::Tool::self();
+    m_tools += MemcheckTool::self();
+    m_tools += CachegrindTool::self();
+    m_tools += CallgrindTool::self();
+    m_tools += HelgrindTool::self();
+    m_tools += DrdTool::self();
+    m_tools += MassifTool::self();
 
     for (auto tool : qAsConst(m_tools)) {
         auto action = new QAction(i18n("Run %1", tool->fullName()), this);
@@ -114,6 +113,7 @@ Plugin* Plugin::self()
 void Plugin::unload()
 {
     core()->uiController()->removeToolView(m_toolViewFactory);
+    m_problemModel.reset(nullptr);
 
     const auto plugins = core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"));
     for (auto plugin : plugins) {
@@ -121,8 +121,8 @@ void Plugin::unload()
     }
     Q_ASSERT(m_launchers.isEmpty());
 
-    core()->runController()->removeLaunchMode(m_launchMode);
-    delete m_launchMode;
+    core()->runController()->removeLaunchMode(m_launchMode.data());
+    m_launchMode.reset(nullptr);
 
     qDeleteAll(m_tools);
 }
@@ -177,15 +177,15 @@ KDevelop::ConfigPage* Plugin::configPage(int number, QWidget* parent)
 
 Valgrind::LaunchMode* Plugin::launchMode() const
 {
-    return m_launchMode;
+    return m_launchMode.data();
 }
 
 ProblemModel* Plugin::problemModel() const
 {
-    return m_problemModel;
+    return m_problemModel.data();
 }
 
-void Plugin::jobReadyToStart(IJob* job)
+void Plugin::jobReadyToStart(Job* job)
 {
     m_isRunning = true;
 
@@ -200,7 +200,7 @@ void Plugin::jobReadyToStart(IJob* job)
     }
 }
 
-void Plugin::jobReadyToFinish(IJob* job, bool ok)
+void Plugin::jobReadyToFinish(Job* job, bool ok)
 {
     if (!ok) {
         return;

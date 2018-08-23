@@ -1,5 +1,4 @@
 /* This file is part of KDevelop
-
    Copyright 2017 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
@@ -13,34 +12,43 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
 #pragma once
 
-#include <shell/problemmodel.h>
+#include "xmlsettings.h"
 
 namespace Valgrind
 {
 
-class Tool;
-
-class ProblemModel : public KDevelop::ProblemModel
+class DrdSettings : public XmlSettings
 {
-    Q_OBJECT
-
 public:
-    ProblemModel();
-    ~ProblemModel() override;
+    DrdSettings();
+    ~DrdSettings() override = default;
 
-    void reset(const Tool* tool);
-    void show();
-    void forceFullUpdate() override;
+    BoolValue checkStackVar;
+    BoolValue firstRaceOnly;
+    BoolValue freeIsWrite;
+    BoolValue reportSignalUnlocked;
+    BoolValue segmentMerging;
+    BoolValue showConflSeg;
+    BoolValue showStackUsage;
+    BoolValue ignoreThreadCreation;
+    BoolValue traceAlloc;
+    BoolValue traceBarrier;
+    BoolValue traceCond;
+    BoolValue traceForkJoin;
+    BoolValue traceHb;
+    BoolValue traceMutex;
+    BoolValue traceRwlock;
+    BoolValue traceSemaphore;
 
-private:
-    const Tool* m_tool;
+    IntValue joinListVol;
+    IntValue segmentMergingInterval;
 };
 
 }

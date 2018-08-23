@@ -38,8 +38,8 @@ class ILauncher;
 namespace Valgrind
 {
 
-class IJob;
-class ITool;
+class Job;
+class Tool;
 class LaunchMode;
 class ProblemModel;
 class ToolViewFactory;
@@ -64,8 +64,8 @@ public:
 
     void executeDefaultLaunch(const QString& launcherId);
 
-    void jobReadyToStart(IJob* job);
-    void jobReadyToFinish(IJob* job, bool ok);
+    void jobReadyToStart(Job* job);
+    void jobReadyToFinish(Job* job, bool ok);
     void jobFinished(KJob* job);
 
     bool isRunning();
@@ -78,13 +78,13 @@ private:
 
     ToolViewFactory* m_toolViewFactory;
 
-    LaunchMode* m_launchMode;
+    QScopedPointer<LaunchMode> m_launchMode;
     QMultiHash<KDevelop::IPlugin*, KDevelop::ILauncher*> m_launchers;
 
-    ProblemModel* m_problemModel;
+    QScopedPointer<ProblemModel> m_problemModel;
     bool m_isRunning;
 
-    QList<ITool*> m_tools;
+    QList<Tool*> m_tools;
 
     static Plugin* m_self;
 };

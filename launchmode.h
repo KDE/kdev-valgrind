@@ -33,6 +33,8 @@ namespace Valgrind
 class LaunchMode : public KDevelop::ILaunchMode
 {
 public:
+    ~LaunchMode() override = default;
+
     QIcon icon() const override;
     QString id() const override;
     QString name() const override;

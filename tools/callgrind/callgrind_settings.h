@@ -1,10 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2009 Andreas Pakulat <apaku@gmx.de>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
-   Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
-   Copyright 2016-2017 Anton Anikin <anton@anikin.xyz>
+   Copyright 2017 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,34 +12,33 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
-#include "launchmode.h"
-#include "debug.h"
+#pragma once
 
-#include <KLocalizedString>
-
-#include <QIcon>
+#include "settings.h"
 
 namespace Valgrind
 {
 
-QIcon LaunchMode::icon() const
+class CallgrindSettings : public Settings
 {
-    return QIcon::fromTheme(QStringLiteral("debug-run"));
-}
+public:
+    CallgrindSettings();
+    ~CallgrindSettings() override = default;
 
-QString LaunchMode::id() const
-{
-    return QStringLiteral("Valgrind");
-}
+    BoolValue cacheSimulation;
+    BoolValue branchSimulation;
 
-QString LaunchMode::name() const
-{
-    return i18n("Valgrind");
-}
+    StringValue callgrindAnnotateParameters;
+
+    BoolValue launchKCachegrind;
+
+    static QString callgrindAnnotateExecutablePath();
+    static QString kcachegrindExecutablePath();
+};
 
 }

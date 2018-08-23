@@ -1,8 +1,7 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2009 Andreas Pakulat <apaku@gmx.de>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2016-2017 Anton Anikin <anton@anikin.xyz>
 
@@ -22,29 +21,36 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "launchmode.h"
-#include "debug.h"
+#pragma once
 
-#include <KLocalizedString>
-
-#include <QIcon>
+#include "job.h"
 
 namespace Valgrind
 {
 
-QIcon LaunchMode::icon() const
-{
-    return QIcon::fromTheme(QStringLiteral("debug-run"));
-}
+class XmlSettings;
 
-QString LaunchMode::id() const
+class XmlJob : public Job
 {
-    return QStringLiteral("Valgrind");
-}
+    Q_OBJECT
 
-QString LaunchMode::name() const
-{
-    return i18n("Valgrind");
-}
+public:
+    ~XmlJob() override;
+
+protected:
+    XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlSettings* settings);
+
+    QWidget* createView() override final;
+
+    void processValgrindOutput(const QStringList& lines) override final;
+
+    bool processEnded() override final;
+
+    void addLoggingArgs(QStringList& args) const override final;
+    void addToolArgs(QStringList& args) const override final;
+
+    XmlSettings* m_settings;
+    QStringList m_xmlOutput;
+};
 
 }

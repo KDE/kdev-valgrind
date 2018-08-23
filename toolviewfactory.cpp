@@ -24,7 +24,7 @@
 #include "debug.h"
 #include "plugin.h"
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 #include <QTabWidget>
 
@@ -37,7 +37,7 @@ class ToolView : public QTabWidget
 
 public:
     explicit ToolView(QWidget* parent);
-    ~ToolView() override {}
+    ~ToolView() override = default;
 };
 
 ToolView::ToolView(QWidget* parent)

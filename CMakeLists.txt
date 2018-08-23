@@ -25,11 +25,7 @@ set_package_properties(KDevPlatform PROPERTIES
     TYPE REQUIRED
 )
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/config
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/tools
-)
+include_directories(config core)
 
 add_definitions(
     -DQT_DEPRECATED_WARNINGS
@@ -49,46 +45,105 @@ set(kdevvalgrind_SRCS
     toolviewfactory.cpp
 
     config/globalconfigpage.cpp
-)
 
+    core/configpage.cpp
+    core/job.cpp
+    core/settings.cpp
+    core/tool.cpp
+    core/xmljob.cpp
+    core/xmlsettings.cpp
+    core/utils.cpp
+    core/private/common_configpage.cpp
+    core/private/common_settings.cpp
+    core/private/launcher.cpp
+    core/private/xmlerror.cpp
+    core/private/xmlparser.cpp
+
+    tools/cachegrind/cachegrind_configpage.cpp
+    tools/cachegrind/cachegrind_job.cpp
+    tools/cachegrind/cachegrind_model.cpp
+    tools/cachegrind/cachegrind_parser.cpp
+    tools/cachegrind/cachegrind_settings.cpp
+    tools/cachegrind/cachegrind_tool.cpp
+    tools/cachegrind/cachegrind_view.cpp
+
+    tools/callgrind/callgrind_configpage.cpp
+    tools/callgrind/callgrind_job.cpp
+    tools/callgrind/callgrind_model.cpp
+    tools/callgrind/callgrind_parser.cpp
+    tools/callgrind/callgrind_settings.cpp
+    tools/callgrind/callgrind_tool.cpp
+    tools/callgrind/callgrind_view.cpp
+
+    tools/drd/drd_configpage.cpp
+    tools/drd/drd_configpage.h
+    tools/drd/drd_configpage.ui
+    tools/drd/drd_job.cpp
+    tools/drd/drd_job.h
+    tools/drd/drd_settings.cpp
+    tools/drd/drd_settings.h
+    tools/drd/drd_tool.cpp
+    tools/drd/drd_tool.h
+
+    tools/helgrind/helgrind_configpage.cpp
+    tools/helgrind/helgrind_job.cpp
+    tools/helgrind/helgrind_settings.cpp
+    tools/helgrind/helgrind_tool.cpp
+
+    tools/massif/massif_configpage.cpp
+    tools/massif/massif_job.cpp
+    tools/massif/massif_model.cpp
+    tools/massif/massif_parser.cpp
+    tools/massif/massif_settings.cpp
+    tools/massif/massif_snapshot.cpp
+    tools/massif/massif_tool.cpp
+    tools/massif/massif_view.cpp
+
+    tools/memcheck/memcheck_configpage.cpp
+    tools/memcheck/memcheck_job.cpp
+    tools/memcheck/memcheck_settings.cpp
+    tools/memcheck/memcheck_tool.cpp
+)
+ki18n_wrap_ui(kdevvalgrind_SRCS
+    config/globalconfigpage.ui
+
+    core/private/common_configpage.ui
+
+    tools/cachegrind/cachegrind_configpage.ui
+    tools/cachegrind/cachegrind_view.ui
+
+    tools/callgrind/callgrind_configpage.ui
+    tools/callgrind/callgrind_view.ui
+
+    tools/drd/drd_configpage.ui
+
+    tools/helgrind/helgrind_configpage.ui
+
+    tools/massif/massif_configpage.ui
+    tools/massif/massif_view.ui
+
+    tools/memcheck/memcheck_configpage.ui
+)
+kconfig_add_kcfg_files(kdevvalgrind_SRCS
+    config/globalsettings.kcfgc
+)
 ecm_qt_declare_logging_category(kdevvalgrind_SRCS
     HEADER debug.h
     IDENTIFIER KDEV_VALGRIND
     CATEGORY_NAME "kdevelop.analyzers.valgrind"
 )
-
-ki18n_wrap_ui(kdevvalgrind_SRCS
-    config/globalconfigpage.ui
-)
-
 qt5_add_resources(kdevvalgrind_SRCS
     kdevvalgrind.qrc
 )
-
-kconfig_add_kcfg_files(kdevvalgrind_CONFIG_SRCS
-    config/globalsettings.kcfgc
-)
-
-add_library(kdevvalgrind_config STATIC
-    ${kdevvalgrind_CONFIG_SRCS}
-)
-
-target_link_libraries(kdevvalgrind_config
-    KDev::Shell
-)
-
-add_subdirectory(tools)
 
 kdevplatform_add_plugin(kdevvalgrind
     JSON kdevvalgrind.json
     SOURCES ${kdevvalgrind_SRCS}
 )
-
 target_link_libraries(kdevvalgrind
-    kdevvalgrind_tools
-
     KDev::Language
     KDev::Project
+    KDev::Shell
     KF5::ItemViews
 )
 

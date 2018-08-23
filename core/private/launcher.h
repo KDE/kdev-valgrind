@@ -3,7 +3,6 @@
    Copyright 2009 Andreas Pakulat <apaku@gmx.de>
    Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
-   Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
    Copyright 2016-2017 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
@@ -22,29 +21,37 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "launchmode.h"
-#include "debug.h"
+#pragma once
 
-#include <KLocalizedString>
+#include <interfaces/ilauncher.h>
 
-#include <QIcon>
+class KJob;
 
 namespace Valgrind
 {
 
-QIcon LaunchMode::icon() const
-{
-    return QIcon::fromTheme(QStringLiteral("debug-run"));
-}
+class Tool;
 
-QString LaunchMode::id() const
+class Launcher : public KDevelop::ILauncher
 {
-    return QStringLiteral("Valgrind");
-}
+public:
+    explicit Launcher(const Tool* tool);
+    ~Launcher() override;
 
-QString LaunchMode::name() const
-{
-    return i18n("Valgrind");
-}
+    QString name() const override final;
+    QString description() const override final;
+    QString id() override final;
+
+    QStringList supportedModes() const override final;
+
+    QList<KDevelop::LaunchConfigurationPageFactory*> configPages() const override final;
+
+    KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* launchConfig) override final;
+
+protected:
+    const Tool* m_tool;
+
+    QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;
+};
 
 }

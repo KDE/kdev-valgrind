@@ -1,9 +1,9 @@
 /* This file is part of KDevelop
-   Copyright 2006-2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2009 Andreas Pakulat <apaku@gmx.de>
-   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Mathieu Lornac <mathieu.lornac@gmail.com>
+   Copyright 2011 Damien Coppel <damien.coppel@gmail.com>
+   Copyright 2011 Lionel Duc <lionel.data@gmail.com>
    Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
+   Copyright 2011 Lucas Sarie <lucas.sarie@gmail.com>
    Copyright 2016-2017 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
@@ -22,29 +22,33 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "launchmode.h"
-#include "debug.h"
+#pragma once
 
-#include <KLocalizedString>
+#include "job.h"
 
-#include <QIcon>
+class QTemporaryFile;
 
 namespace Valgrind
 {
 
-QIcon LaunchMode::icon() const
-{
-    return QIcon::fromTheme(QStringLiteral("debug-run"));
-}
+class CallgrindFunctionsModel;
 
-QString LaunchMode::id() const
+class CallgrindJob : public Job
 {
-    return QStringLiteral("Valgrind");
-}
+    Q_OBJECT
 
-QString LaunchMode::name() const
-{
-    return i18n("Valgrind");
-}
+public:
+    explicit CallgrindJob(KDevelop::ILaunchConfiguration* launchConfig);
+    ~CallgrindJob() override;
+
+    QWidget* createView() override;
+
+protected:
+    bool processEnded() override;
+    void addToolArgs(QStringList& args) const override;
+
+    CallgrindFunctionsModel* m_model;
+    QTemporaryFile* m_outputFile;
+};
 
 }
