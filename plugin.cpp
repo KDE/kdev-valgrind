@@ -42,6 +42,7 @@
 #include <interfaces/launchconfigurationtype.h>
 #include <kactioncollection.h>
 #include <kpluginfactory.h>
+#include <qtcompat_p.h>
 #include <shell/core.h>
 #include <shell/launchconfiguration.h>
 #include <shell/runcontroller.h>
@@ -75,7 +76,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     m_tools += DRD::Tool::self();
     m_tools += Massif::Tool::self();
 
-    for (auto tool : m_tools) {
+    for (auto tool : qAsConst(m_tools)) {
         auto action = new QAction(i18n("Run %1", tool->fullName()), this);
         connect(action, &QAction::triggered, this, [this, tool]() {
                 executeDefaultLaunch(tool->id());
@@ -84,7 +85,8 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     }
 
     auto pluginController = core()->pluginController();
-    for (auto plugin : pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
+    const auto plugins = pluginController->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"));
+    for (auto plugin : plugins) {
         setupExecutePlugin(plugin, true);
     }
 
@@ -113,7 +115,8 @@ void Plugin::unload()
 {
     core()->uiController()->removeToolView(m_toolViewFactory);
 
-    for (auto plugin : core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))) {
+    const auto plugins = core()->pluginController()->allPluginsForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"));
+    for (auto plugin : plugins) {
         setupExecutePlugin(plugin, false);
     }
     Q_ASSERT(m_launchers.isEmpty());
@@ -139,7 +142,7 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     Q_ASSERT(type);
 
     if (load) {
-        for (auto tool : m_tools) {
+        for (auto tool : qAsConst(m_tools)) {
             auto launcher = tool->createLauncher();
             m_launchers.insert(plugin, launcher);
             type->addLauncher(launcher);
@@ -185,7 +188,9 @@ ProblemModel* Plugin::problemModel() const
 void Plugin::jobReadyToStart(IJob* job)
 {
     m_isRunning = true;
-    for (auto action : actionCollection()->actions()) {
+
+    const auto actions = actionCollection()->actions();
+    for (auto action : actions) {
         action->setEnabled(false);
     }
 
@@ -214,7 +219,9 @@ void Plugin::jobReadyToFinish(IJob* job, bool ok)
 void Plugin::jobFinished(KJob* job)
 {
     Q_UNUSED(job);
-    for (auto action : actionCollection()->actions()) {
+
+    const auto actions = actionCollection()->actions();
+    for (auto action : actions) {
         action->setEnabled(true);
     }
     m_isRunning = false;

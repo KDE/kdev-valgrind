@@ -148,7 +148,8 @@ QString selectedItemsText(QMenu* menu)
     Q_ASSERT(menu);
 
     QStringList selected;
-    for (auto action : menu->actions()) {
+    const auto actions = menu->actions();
+    for (auto action : actions) {
         if (action->isChecked()) {
             selected += action->text();
         }
@@ -158,7 +159,7 @@ QString selectedItemsText(QMenu* menu)
         return QStringLiteral("none");
     }
 
-    if (selected.size() == menu->actions().size()) {
+    if (selected.size() == actions.size()) {
         return QStringLiteral("all");
     }
 
@@ -195,7 +196,8 @@ void ConfigPage::updateMenuButton(QPushButton* button, const QString& text)
     Q_ASSERT(button);
 
     auto enabled = text.split(QChar(','));
-    for (auto action : button->menu()->actions()) {
+    const auto actions = button->menu()->actions();
+    for (auto action : actions) {
         if (text == QStringLiteral("all")) {
             action->setChecked(true);
         } else if (text == QStringLiteral("none")) {

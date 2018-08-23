@@ -26,6 +26,8 @@
 #include "debug.h"
 #include "utils.h"
 
+#include <qtcompat_p.h>
+
 #include <klocalizedstring.h>
 
 #include <QItemSelectionModel>
@@ -65,7 +67,7 @@ Function::Function(int eventsCount)
 int Function::callCount()
 {
     int count = 0;
-    for (auto info : callersInformation) {
+    for (auto info : qAsConst(callersInformation)) {
         count += info->callCount;
     }
     return count;
@@ -83,7 +85,7 @@ int Function::eventValue(int type, bool inclusive)
     if (callersInformation.isEmpty()) {
         // The function is NOT CALLED by others, therefore we calc
         // the event inclusive value as sum of self value and all callees.
-        for (auto info : calleesInformation) {
+        for (auto info : qAsConst(calleesInformation)) {
             value += info->eventValue(type);
         }
         return value;
@@ -92,7 +94,7 @@ int Function::eventValue(int type, bool inclusive)
     // The function is CALLED by others, therefore we calc
     // the event inclusive value as sum of all callers.
     value = 0;
-    for (auto info : callersInformation) {
+    for (auto info : qAsConst(callersInformation)) {
         value += info->eventValue(type);
     }
 
@@ -164,7 +166,7 @@ Function* FunctionsModel::addFunction(
 
     Function* function = nullptr;
 
-    for (auto currentFunction : m_functions) {
+    for (auto currentFunction : qAsConst(m_functions)) {
         if (currentFunction->name == name && (currentFunction->binaryFile.isEmpty() ||
                                               binaryFile.isEmpty() ||
                                               currentFunction->binaryFile == binaryFile)) {

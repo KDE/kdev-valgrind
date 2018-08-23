@@ -19,6 +19,8 @@
 
 #include "isettings.h"
 
+#include <qtcompat_p.h>
+
 #include <kshell.h>
 
 namespace Valgrind
@@ -133,14 +135,14 @@ ISettings::~ISettings()
 
 void ISettings::load(const KConfigGroup& config)
 {
-    for (auto value : m_values) {
+    for (auto value : qAsConst(m_values)) {
         value->load(config, m_configKeyPrefix);
     }
 }
 
 void ISettings::save(KConfigGroup& config)
 {
-    for (auto value : m_values) {
+    for (auto value : qAsConst(m_values)) {
         value->save(config, m_configKeyPrefix);
     }
 }
@@ -148,7 +150,7 @@ void ISettings::save(KConfigGroup& config)
 QStringList ISettings::cmdArgs()
 {
     QStringList args;
-    for (auto value : m_values) {
+    for (auto value : qAsConst(m_values)) {
         args += value->cmdArg();
     }
     args += KShell::splitArgs(extraParameters);

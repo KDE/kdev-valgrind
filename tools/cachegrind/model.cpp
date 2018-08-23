@@ -26,6 +26,8 @@
 #include "debug.h"
 #include "utils.h"
 
+#include <qtcompat_p.h>
+
 #include <klocalizedstring.h>
 #include <kmessagebox.h>
 
@@ -58,7 +60,7 @@ void FunctionsModel::addItem(Function* newItem, bool isTotal)
     }
 
     bool exists = false;
-    for (auto item : m_items) {
+    for (auto item : qAsConst(m_items)) {
         if (item->functionName == newItem->functionName) {
             exists = true;
 
