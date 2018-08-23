@@ -32,26 +32,21 @@ namespace Generic
 {
 
 ConfigPage::ConfigPage(QWidget* parent)
-    : LaunchConfigurationPage(parent)
+    : IConfigPage(parent)
+    , ui(new Ui::ConfigPage())
 {
-    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
-    connect(ui->limitErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->maxStackframe, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->numCallers, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
+    connectToChanged(ui->extraParameters);
+    connectToChanged(ui->limitErrors);
+    connectToChanged(ui->maxStackframe);
+    connectToChanged(ui->numCallers);
 
     ui->numCallersLabel->setToolTip(ui->numCallers->toolTip());
     ui->maxStackframeLabel->setToolTip(ui->maxStackframe->toolTip());
 }
 
-ConfigPage::~ConfigPage()
-{
-    delete ui;
-}
+ConfigPage::~ConfigPage() = default;
 
 QString ConfigPage::title() const
 {
@@ -88,10 +83,6 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
 }
 
 ConfigPageFactory::ConfigPageFactory()
-{
-}
-
-ConfigPageFactory::~ConfigPageFactory()
 {
 }
 

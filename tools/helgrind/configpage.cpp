@@ -33,31 +33,26 @@ namespace Helgrind
 {
 
 ConfigPage::ConfigPage(QWidget* parent)
-    : LaunchConfigurationPage(parent)
+    : IConfigPage(parent)
+    , ui(new Ui::ConfigPage())
 {
-    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
-    connect(ui->conflictCacheSize, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->historyLevel, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
-            this, &ConfigPage::changed);
+    connectToChanged(ui->extraParameters);
+    connectToChanged(ui->conflictCacheSize);
+    connectToChanged(ui->historyLevel);
 
-    connect(ui->trackLockorders, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->checkStackRefs, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connectToChanged(ui->trackLockorders);
+    connectToChanged(ui->checkStackRefs);
+    connectToChanged(ui->ignoreThreadCreation);
+    connectToChanged(ui->freeIsWrite);
+    connectToChanged(ui->showInstructionPointer);
 
     ui->historyLevelLabel->setToolTip(ui->historyLevel->toolTip());
     ui->conflictCacheSizeLabel->setToolTip(ui->conflictCacheSize->toolTip());
 }
 
-ConfigPage::~ConfigPage()
-{
-    delete ui;
-}
+ConfigPage::~ConfigPage() = default;
 
 QString ConfigPage::title() const
 {
@@ -104,10 +99,6 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
 }
 
 ConfigPageFactory::ConfigPageFactory()
-{
-}
-
-ConfigPageFactory::~ConfigPageFactory()
 {
 }
 

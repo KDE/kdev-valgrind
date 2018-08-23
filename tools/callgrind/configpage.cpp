@@ -33,22 +33,19 @@ namespace Callgrind
 {
 
 ConfigPage::ConfigPage(QWidget* parent)
-    : LaunchConfigurationPage(parent)
+    : IConfigPage(parent)
+    , ui(new Ui::ConfigPage())
 {
-    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
-    connect(ui->cacheSimulation, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->branchSimulation, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->launchKCachegrind, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->callgrindAnnotateParameters, &QLineEdit::textChanged, this, &ConfigPage::changed);
+    connectToChanged(ui->extraParameters);
+    connectToChanged(ui->cacheSimulation);
+    connectToChanged(ui->branchSimulation);
+    connectToChanged(ui->launchKCachegrind);
+    connectToChanged(ui->callgrindAnnotateParameters);
 }
 
-ConfigPage::~ConfigPage()
-{
-    delete ui;
-}
+ConfigPage::~ConfigPage() = default;
 
 QString ConfigPage::title() const
 {
@@ -73,7 +70,6 @@ void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProje
     ui->callgrindAnnotateParameters->setText(settings.callgrindAnnotateParameters);
 }
 
-
 void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
 {
     Settings settings;
@@ -88,10 +84,6 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
 }
 
 ConfigPageFactory::ConfigPageFactory()
-{
-}
-
-ConfigPageFactory::~ConfigPageFactory()
 {
 }
 

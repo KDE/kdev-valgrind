@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <interfaces/launchconfigurationpage.h>
+#include "iconfigpage.h"
 
 namespace Valgrind
 {
@@ -29,14 +29,9 @@ namespace Valgrind
 namespace Generic
 {
 
-namespace Ui
-{
+namespace Ui { class ConfigPage; }
 
-class ConfigPage;
-
-}
-
-class ConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public IConfigPage
 {
     Q_OBJECT
 
@@ -51,14 +46,14 @@ public:
     void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
 
 private:
-    Ui::ConfigPage* ui;
+    QScopedPointer<Ui::ConfigPage> ui;
 };
 
 class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
     ConfigPageFactory();
-    ~ConfigPageFactory() override;
+    ~ConfigPageFactory() override = default;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };

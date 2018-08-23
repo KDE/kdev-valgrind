@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <interfaces/launchconfigurationpage.h>
+#include "iconfigpage.h"
 
 class QPushButton;
 
@@ -32,14 +32,9 @@ namespace Valgrind
 namespace Memcheck
 {
 
-namespace Ui
-{
+namespace Ui { class ConfigPage; }
 
-class ConfigPage;
-
-}
-
-class ConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public IConfigPage
 {
     Q_OBJECT
 
@@ -57,14 +52,14 @@ private:
     void setupMenuButton(QPushButton* button, const QStringList& items);
     void updateMenuButton(QPushButton* button, const QString& text);
 
-    Ui::ConfigPage* ui;
+    QScopedPointer<Ui::ConfigPage> ui;
 };
 
 class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
     ConfigPageFactory();
-    ~ConfigPageFactory() override;
+    ~ConfigPageFactory() override = default;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };

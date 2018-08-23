@@ -1,6 +1,5 @@
 /* This file is part of KDevelop
-
-   Copyright 2017 Anton Anikin <anton@anikin.xyz>
+   Copyright 2018 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -13,31 +12,37 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
 #pragma once
 
-#include <interfaces/configpage.h>
+#include <interfaces/launchconfigurationpage.h>
+
+class QCheckBox;
+class QComboBox;
+class QLineEdit;
+class QSpinBox;
 
 namespace Valgrind
 {
 
-class GlobalConfigPage: public KDevelop::ConfigPage
+class IConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
-    GlobalConfigPage(KDevelop::IPlugin* plugin, QWidget* parent);
-    ~GlobalConfigPage() override = default;
+    ~IConfigPage() override = default;
 
-    KDevelop::ConfigPage::ConfigPageType configPageType() const override;
+protected:
+    explicit IConfigPage(QWidget* parent = nullptr);
 
-    QString name() const override;
-    QString fullName() const override;
-    QIcon icon() const override;
+    void connectToChanged(QCheckBox* box);
+    void connectToChanged(QComboBox* box);
+    void connectToChanged(QLineEdit* edit);
+    void connectToChanged(QSpinBox* box);
 };
 
 }

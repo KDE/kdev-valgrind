@@ -20,7 +20,6 @@
    Boston, MA 02110-1301, USA.
 */
 
-
 #include "configpage.h"
 #include "ui_configpage.h"
 
@@ -37,26 +36,24 @@ namespace Memcheck
 {
 
 ConfigPage::ConfigPage(QWidget* parent)
-    : LaunchConfigurationPage(parent)
+    : IConfigPage(parent)
+    , ui(new Ui::ConfigPage())
 {
-    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->leakResolution, &QComboBox::currentTextChanged, this, &ConfigPage::changed);
-    connect(ui->keepStacktraces, &QComboBox::currentTextChanged, this, &ConfigPage::changed);
-    connect(ui->freelistVol, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->freelistBigBlocks, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
+    connectToChanged(ui->leakResolution);
+    connectToChanged(ui->keepStacktraces);
+    connectToChanged(ui->freelistVol);
+    connectToChanged(ui->freelistBigBlocks);
+    connectToChanged(ui->extraParameters);
 
-    connect(ui->undefValueErrors, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->showMismatchedFrees, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->partialLoadsOk, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->trackOrigins, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->expensiveDefinednessChecks, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connectToChanged(ui->undefValueErrors);
+    connectToChanged(ui->showMismatchedFrees);
+    connectToChanged(ui->partialLoadsOk);
+    connectToChanged(ui->trackOrigins);
+    connectToChanged(ui->expensiveDefinednessChecks);
 
-    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connectToChanged(ui->showInstructionPointer);
 
     static const QStringList leakKinds = {
         QStringLiteral("definite"),
@@ -82,10 +79,7 @@ ConfigPage::ConfigPage(QWidget* parent)
     ui->freelistBigBlocksLabel->setToolTip(ui->freelistBigBlocks->toolTip());
 }
 
-ConfigPage::~ConfigPage()
-{
-    delete ui;
-}
+ConfigPage::~ConfigPage() = default;
 
 QString ConfigPage::title() const
 {
@@ -209,10 +203,6 @@ void ConfigPage::updateMenuButton(QPushButton* button, const QString& text)
 }
 
 ConfigPageFactory::ConfigPageFactory()
-{
-}
-
-ConfigPageFactory::~ConfigPageFactory()
 {
 }
 

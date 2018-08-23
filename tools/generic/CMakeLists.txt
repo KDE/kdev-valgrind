@@ -3,6 +3,7 @@ ki18n_wrap_ui(generic_UI_SRCS
 )
 
 add_library(generic_tool STATIC
+    core/iconfigpage.cpp
     core/ijob.cpp
     core/isettings.cpp
     core/itool.cpp

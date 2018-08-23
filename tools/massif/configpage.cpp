@@ -34,31 +34,25 @@ namespace Massif
 {
 
 ConfigPage::ConfigPage(QWidget* parent)
-    : LaunchConfigurationPage(parent)
+    : IConfigPage(parent)
+    , ui(new Ui::ConfigPage())
 {
-    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->extraParameters, &QLineEdit::textEdited, this, &ConfigPage::changed);
-    connect(ui->launchMassifVisualizer, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->depth, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->threshold, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->peakInaccuracy, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->maxSnapshots, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->snapshotFreq, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->timeUnit, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &ConfigPage::changed);
-    connect(ui->profileHeap, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->profileStack, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->pagesAsHeap, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connectToChanged(ui->extraParameters);
+    connectToChanged(ui->launchMassifVisualizer);
+    connectToChanged(ui->depth);
+    connectToChanged(ui->threshold);
+    connectToChanged(ui->peakInaccuracy);
+    connectToChanged(ui->maxSnapshots);
+    connectToChanged(ui->snapshotFreq);
+    connectToChanged(ui->timeUnit);
+    connectToChanged(ui->profileHeap);
+    connectToChanged(ui->profileStack);
+    connectToChanged(ui->pagesAsHeap);
 
-    connect(ui->profileStack, &QCheckBox::toggled, this, &ConfigPage::check);
-    connect(ui->pagesAsHeap, &QCheckBox::toggled, this, &ConfigPage::check);
+    connectToChanged(ui->profileStack);
+    connectToChanged(ui->pagesAsHeap);
     check();
 
     ui->timeUnitLabel->setToolTip(ui->timeUnit->toolTip());
@@ -69,10 +63,7 @@ ConfigPage::ConfigPage(QWidget* parent)
     ui->snapshotFreqLabel->setToolTip(ui->snapshotFreq->toolTip());
 }
 
-ConfigPage::~ConfigPage()
-{
-    delete ui;
-}
+ConfigPage::~ConfigPage() = default;
 
 QString ConfigPage::title() const
 {
@@ -133,10 +124,6 @@ void ConfigPage::check()
 }
 
 ConfigPageFactory::ConfigPageFactory()
-{
-}
-
-ConfigPageFactory::~ConfigPageFactory()
 {
 }
 

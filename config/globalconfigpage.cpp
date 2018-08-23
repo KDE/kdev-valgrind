@@ -35,10 +35,6 @@ GlobalConfigPage::GlobalConfigPage(KDevelop::IPlugin* plugin, QWidget* parent)
     ui.setupUi(this);
 }
 
-GlobalConfigPage::~GlobalConfigPage()
-{
-}
-
 KDevelop::ConfigPage::ConfigPageType GlobalConfigPage::configPageType() const
 {
     return KDevelop::ConfigPage::AnalyzerConfigPage;

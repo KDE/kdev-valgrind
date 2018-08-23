@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <interfaces/launchconfigurationpage.h>
+#include "iconfigpage.h"
 
 namespace Valgrind
 {
@@ -28,14 +28,9 @@ namespace Valgrind
 namespace Cachegrind
 {
 
-namespace Ui
-{
+namespace Ui { class ConfigPage; }
 
-class ConfigPage;
-
-}
-
-class ConfigPage : public KDevelop::LaunchConfigurationPage
+class ConfigPage : public IConfigPage
 {
     Q_OBJECT
 
@@ -52,14 +47,14 @@ public:
 private:
     void check();
 
-    Ui::ConfigPage* ui;
+    QScopedPointer<Ui::ConfigPage> ui;
 };
 
 class ConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
     ConfigPageFactory();
-    ~ConfigPageFactory() override;
+    ~ConfigPageFactory() override = default;
 
     KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
 };

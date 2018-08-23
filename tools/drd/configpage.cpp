@@ -33,43 +33,38 @@ namespace DRD
 {
 
 ConfigPage::ConfigPage(QWidget* parent)
-    : LaunchConfigurationPage(parent)
+    : IConfigPage(parent)
+    , ui(new Ui::ConfigPage())
 {
-    ui = new Ui::ConfigPage();
     ui->setupUi(this);
 
-    connect(ui->joinListVol, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
-    connect(ui->segmentMergingInterval, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &ConfigPage::changed);
+    connectToChanged(ui->joinListVol);
+    connectToChanged(ui->segmentMergingInterval);
 
-    connect(ui->checkStackVar, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->firstRaceOnly, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->freeIsWrite, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->reportSignalUnlocked, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->segmentMerging, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->showConflSeg, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->showStackUsage, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->ignoreThreadCreation, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->showInstructionPointer, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connectToChanged(ui->checkStackVar);
+    connectToChanged(ui->firstRaceOnly);
+    connectToChanged(ui->freeIsWrite);
+    connectToChanged(ui->reportSignalUnlocked);
+    connectToChanged(ui->segmentMerging);
+    connectToChanged(ui->showConflSeg);
+    connectToChanged(ui->showStackUsage);
+    connectToChanged(ui->ignoreThreadCreation);
+    connectToChanged(ui->showInstructionPointer);
 
-    connect(ui->traceAlloc, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceBarrier, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceCond, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceForkJoin, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceHb, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceMutex, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceRwlock, &QCheckBox::toggled, this, &ConfigPage::changed);
-    connect(ui->traceSemaphore, &QCheckBox::toggled, this, &ConfigPage::changed);
+    connectToChanged(ui->traceAlloc);
+    connectToChanged(ui->traceBarrier);
+    connectToChanged(ui->traceCond);
+    connectToChanged(ui->traceForkJoin);
+    connectToChanged(ui->traceHb);
+    connectToChanged(ui->traceMutex);
+    connectToChanged(ui->traceRwlock);
+    connectToChanged(ui->traceSemaphore);
 
     ui->joinListVolLabel->setToolTip(ui->joinListVol->toolTip());
     ui->segmentMergingIntervalLabel->setToolTip(ui->segmentMergingInterval->toolTip());
 }
 
-ConfigPage::~ConfigPage()
-{
-    delete ui;
-}
+ConfigPage::~ConfigPage() = default;
 
 QString ConfigPage::title() const
 {
@@ -140,10 +135,6 @@ void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) cons
 }
 
 ConfigPageFactory::ConfigPageFactory()
-{
-}
-
-ConfigPageFactory::~ConfigPageFactory()
 {
 }
 
