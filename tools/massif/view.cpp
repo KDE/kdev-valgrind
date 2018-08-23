@@ -1,7 +1,7 @@
 /* This file is part of KDevelop
  *  Copyright 2011 Sebastien Rannou <mxs@sbrk.org>
  *  Copyright 2008 Hamish Rodda <rodda@kde.org>
- *  Copyright 2017 Anton Anikin <anton.anikin@htower.ru>
+ *  Copyright 2017 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
