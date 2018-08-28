@@ -24,9 +24,9 @@
 
 #include "cachegrind_job.h"
 
+#include "cachegrind_config.h"
 #include "cachegrind_model.h"
 #include "cachegrind_parser.h"
-#include "cachegrind_settings.h"
 #include "cachegrind_tool.h"
 #include "cachegrind_view.h"
 #include "plugin.h"
@@ -57,15 +57,16 @@ CachegrindJob::~CachegrindJob()
 
 bool CachegrindJob::processEnded()
 {
-    CachegrindSettings settings;
-    settings.load(m_config);
+    CachegrindConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
     QStringList cgArgs;
-    cgArgs += KShell::splitArgs(settings.cgAnnotateParameters);
+    cgArgs += KShell::splitArgs(config.cgAnnotateParameters());
     cgArgs += m_outputFile->fileName();
 
     QByteArray cgOutput;
-    if (executeProcess(settings.cgAnnotateExecutablePath(), cgArgs, cgOutput) != 0) {
+    if (executeProcess(config.cgAnnotateExecutablePath(), cgArgs, cgOutput) != 0) {
         return false;
     }
 
@@ -76,10 +77,11 @@ bool CachegrindJob::processEnded()
 
 void CachegrindJob::addToolArgs(QStringList& args) const
 {
-    CachegrindSettings settings;
-    settings.load(m_config);
+    CachegrindConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
-    args += settings.cmdArgs();
+    args += config.cmdArgs();
     args += QStringLiteral("--cachegrind-out-file=%1").arg(m_outputFile->fileName());
 }
 

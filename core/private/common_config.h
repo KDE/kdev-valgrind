@@ -19,25 +19,23 @@
 
 #pragma once
 
-#include "xmlsettings.h"
+#include "config.h"
 
 namespace Valgrind
 {
 
-class HelgrindSettings : public XmlSettings
+class CommonConfig : public Config
 {
+    Q_OBJECT
+
 public:
-    HelgrindSettings();
-    ~HelgrindSettings() override = default;
+    CommonConfig();
+    ~CommonConfig() override = default;
 
-    StringValue historyLevel;
-
-    IntValue conflictCacheSize;
-
-    BoolValue trackLockorders;
-    BoolValue checkStackRefs;
-    BoolValue ignoreThreadCreation;
-    BoolValue freeIsWrite;
+private:
+    int m_numCallers;
+    int m_maxStackframe;
+    bool m_errorLimit;
 };
 
 }

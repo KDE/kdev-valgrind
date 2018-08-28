@@ -22,7 +22,7 @@
 #include "cachegrind_configpage.h"
 #include "ui_cachegrind_configpage.h"
 
-#include "cachegrind_settings.h"
+#include "cachegrind_config.h"
 #include "cachegrind_tool.h"
 
 #include <KConfigGroup>
@@ -31,76 +31,19 @@ namespace Valgrind
 {
 
 CachegrindConfigPage::CachegrindConfigPage(QWidget* parent)
-    : ConfigPage(parent)
+    : ConfigPage(CachegrindTool::self()->name(), parent)
     , ui(new Ui::CachegrindConfigPage())
 {
     ui->setupUi(this);
 
-    connectToChanged(ui->extraParameters);
-
-    connectToChanged(ui->cacheSimulation);
-    connectToChanged(ui->branchSimulation);
-    connectToChanged(ui->cgAnnotateParameters);
-
-    connectToChanged(ui->cacheSimulation);
-    connectToChanged(ui->branchSimulation);
+    init(new CachegrindConfig);
 }
 
 CachegrindConfigPage::~CachegrindConfigPage() = default;
 
-QString CachegrindConfigPage::title() const
-{
-    return CachegrindTool::self()->name();
-}
-
-QIcon CachegrindConfigPage::icon() const
-{
-    return QIcon();
-}
-
-void CachegrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
-{
-    QSignalBlocker blocker(this);
-    CachegrindSettings settings;
-    settings.load(cfg);
-
-    ui->extraParameters->setText(settings.extraParameters);
-    ui->cacheSimulation->setChecked(settings.cacheSimulation);
-    ui->branchSimulation->setChecked(settings.branchSimulation);
-    ui->cgAnnotateParameters->setText(settings.cgAnnotateParameters);
-
-    check();
-}
-
-void CachegrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
-{
-    CachegrindSettings settings;
-
-    settings.extraParameters = ui->extraParameters->text();
-    settings.cacheSimulation = ui->cacheSimulation->isChecked();
-    settings.branchSimulation = ui->branchSimulation->isChecked();
-    settings.cgAnnotateParameters = ui->cgAnnotateParameters->text();
-
-    settings.save(cfg);
-}
-
 void CachegrindConfigPage::check()
 {
-    if (!ui->cacheSimulation->isChecked() && !ui->branchSimulation->isChecked()) {
-        ui->messageWidget->setVisible(true);
-        return;
-    }
-
-    ui->messageWidget->setVisible(false);
-}
-
-CachegrindConfigPageFactory::CachegrindConfigPageFactory()
-{
-}
-
-KDevelop::LaunchConfigurationPage* CachegrindConfigPageFactory::createWidget(QWidget* parent)
-{
-    return new CachegrindConfigPage(parent);
+    ui->messageWidget->setVisible(!(ui->kcfg_cacheSim->isChecked() || ui->kcfg_branchSim->isChecked()));
 }
 
 }

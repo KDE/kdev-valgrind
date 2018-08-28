@@ -1,5 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2017 Anton Anikin <anton@anikin.xyz>
+   Copyright 2018 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -17,38 +17,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
-
-#include "xmlsettings.h"
+#include "combobox.h"
 
 namespace Valgrind
 {
 
-class DrdSettings : public XmlSettings
+ComboBox::ComboBox(QWidget* parent)
+    : QComboBox(parent)
 {
-public:
-    DrdSettings();
-    ~DrdSettings() override = default;
+    connect(this, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, [this](int index) {
+                emit valueChanged(itemData(index).toString());
+            });
+}
 
-    BoolValue checkStackVar;
-    BoolValue firstRaceOnly;
-    BoolValue freeIsWrite;
-    BoolValue reportSignalUnlocked;
-    BoolValue segmentMerging;
-    BoolValue showConflSeg;
-    BoolValue showStackUsage;
-    BoolValue ignoreThreadCreation;
-    BoolValue traceAlloc;
-    BoolValue traceBarrier;
-    BoolValue traceCond;
-    BoolValue traceForkJoin;
-    BoolValue traceHb;
-    BoolValue traceMutex;
-    BoolValue traceRwlock;
-    BoolValue traceSemaphore;
+QString ComboBox::value() const
+{
+    return currentData().toString();
+}
 
-    IntValue joinListVol;
-    IntValue segmentMergingInterval;
-};
+void ComboBox::setValue(const QString& value)
+{
+    setCurrentIndex(findData(value));
+}
 
 }

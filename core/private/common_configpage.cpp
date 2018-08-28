@@ -21,62 +21,18 @@
 #include "common_configpage.h"
 #include "ui_common_configpage.h"
 
-#include "common_settings.h"
-
-#include <KConfigGroup>
+#include "common_config.h"
 
 namespace Valgrind
 {
 
 CommonConfigPage::CommonConfigPage(QWidget* parent)
-    : ConfigPage(parent)
-    , ui(new Ui::CommonConfigPage())
+    : ConfigPage(i18n("Valgrind Common Settings"), parent)
 {
-    ui->setupUi(this);
+    Ui::CommonConfigPage ui;
+    ui.setupUi(this);
 
-    connectToChanged(ui->extraParameters);
-    connectToChanged(ui->limitErrors);
-    connectToChanged(ui->maxStackframe);
-    connectToChanged(ui->numCallers);
-
-    ui->numCallersLabel->setToolTip(ui->numCallers->toolTip());
-    ui->maxStackframeLabel->setToolTip(ui->maxStackframe->toolTip());
-}
-
-CommonConfigPage::~CommonConfigPage() = default;
-
-QString CommonConfigPage::title() const
-{
-    return i18n("Valgrind Generic Settings");
-}
-
-QIcon CommonConfigPage::icon() const
-{
-    return QIcon();
-}
-
-void CommonConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
-{
-    QSignalBlocker blocker(this);
-    CommonSettings settings;
-    settings.load(cfg);
-
-    ui->extraParameters->setText(settings.extraParameters);
-    ui->numCallers->setValue(settings.numCallers);
-    ui->maxStackframe->setValue(settings.maxStackframe);
-    ui->limitErrors->setChecked(settings.limitErrors);
-}
-
-void CommonConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
-{
-    CommonSettings settings;
-
-    settings.extraParameters = ui->extraParameters->text();
-    settings.numCallers = ui->numCallers->value();
-    settings.maxStackframe = ui->maxStackframe->value();
-    settings.limitErrors = ui->limitErrors->isChecked();
-
-    settings.save(cfg);
+    init(new CommonConfig);
 }
 
 CommonConfigPageFactory::CommonConfigPageFactory()

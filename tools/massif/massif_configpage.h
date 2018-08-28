@@ -35,25 +35,26 @@ public:
     explicit MassifConfigPage(QWidget* parent = nullptr);
     ~MassifConfigPage() override;
 
-    QString title() const override;
-    QIcon icon() const override;
-
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
-    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
+protected:
+    void check() override;
 
 private:
-    void check();
-
     QScopedPointer<Ui::MassifConfigPage> ui;
 };
 
 class MassifConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    MassifConfigPageFactory();
+    MassifConfigPageFactory()
+    {
+    }
+
     ~MassifConfigPageFactory() override = default;
 
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override
+    {
+        return new MassifConfigPage(parent);
+    }
 };
 
 }

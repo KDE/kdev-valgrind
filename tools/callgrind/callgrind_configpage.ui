@@ -18,7 +18,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QCheckBox" name="cacheSimulation">
+       <widget class="QCheckBox" name="kcfg_cacheSim">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify if you want to do full cache simulation. By default, only instruction read accesses will be counted (&amp;quot;Ir&amp;quot;). With cache simulation, further event counters are enabled: &lt;/p&gt;&lt;p&gt;Cache misses on instruction reads (&amp;quot;I1mr&amp;quot;/&amp;quot;ILmr&amp;quot;), &lt;/p&gt;&lt;p&gt;data read accesses (&amp;quot;Dr&amp;quot;) and related cache misses (&amp;quot;D1mr&amp;quot;/&amp;quot;DLmr&amp;quot;), &lt;/p&gt;&lt;p&gt;data write accesses (&amp;quot;Dw&amp;quot;) and related cache misses (&amp;quot;D1mw&amp;quot;/&amp;quot;DLmw&amp;quot;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -31,7 +31,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="branchSimulation">
+       <widget class="QCheckBox" name="kcfg_branchSim">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify if you want to do branch prediction simulation. Further event counters are enabled: Number of executed conditional branches and related predictor misses (&amp;quot;Bc&amp;quot;/&amp;quot;Bcm&amp;quot;), executed indirect jumps and related misses of the jump address predictor (&amp;quot;Bi&amp;quot;/&amp;quot;Bim&amp;quot;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -53,34 +53,34 @@
       <item>
        <layout class="QFormLayout">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="extraArgsLabel">
           <property name="text">
            <string>Extra parameters:</string>
           </property>
           <property name="buddy">
-           <cstring>extraParameters</cstring>
+           <cstring>kcfg_extraArgs</cstring>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="extraParameters">
+         <widget class="QLineEdit" name="kcfg_extraArgs">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="callgrindAnnotateArgsLabel">
           <property name="text">
            <string>callgrind_annotate parameters:</string>
           </property>
           <property name="buddy">
-           <cstring>callgrindAnnotateParameters</cstring>
+           <cstring>kcfg_callgrindAnnotateArgs</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="callgrindAnnotateParameters">
+         <widget class="QLineEdit" name="kcfg_callgrindAnnotateArgs">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
@@ -96,7 +96,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="launchKCachegrind">
+       <widget class="QCheckBox" name="kcfg_launchKCachegrind">
         <property name="text">
          <string>Launch KCachegrind after analysis finish</string>
         </property>
@@ -121,11 +121,11 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>cacheSimulation</tabstop>
-  <tabstop>branchSimulation</tabstop>
-  <tabstop>extraParameters</tabstop>
-  <tabstop>callgrindAnnotateParameters</tabstop>
-  <tabstop>launchKCachegrind</tabstop>
+  <tabstop>kcfg_cacheSim</tabstop>
+  <tabstop>kcfg_branchSim</tabstop>
+  <tabstop>kcfg_extraArgs</tabstop>
+  <tabstop>kcfg_callgrindAnnotateArgs</tabstop>
+  <tabstop>kcfg_launchKCachegrind</tabstop>
  </tabstops>
  <resources/>
  <connections/>

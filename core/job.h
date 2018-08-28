@@ -81,7 +81,7 @@ protected:
 
     const Tool* m_tool;
 
-    KConfigGroup m_config;
+    KConfigGroup m_configGroup;
 
     QString m_analyzedExecutable;
     QStringList m_analyzedExecutableArguments;

@@ -1,5 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2017 Anton Anikin <anton@anikin.xyz>
+   Copyright 2018 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -12,23 +12,38 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
-#include "drd_job.h"
+#pragma once
 
-#include "debug.h"
-#include "drd_config.h"
-#include "drd_tool.h"
+#include <QComboBox>
 
 namespace Valgrind
 {
 
-DrdJob::DrdJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(DrdTool::self(), launchConfig, new DrdConfig)
+class ComboBox : public QComboBox
 {
-}
+    Q_OBJECT
+
+    Q_PROPERTY(
+        QString value
+        READ value
+        WRITE setValue
+        NOTIFY valueChanged
+        USER true)
+
+public:
+    explicit ComboBox(QWidget* parent = nullptr);
+    ~ComboBox() override = default;
+
+    QString value() const;
+    void setValue(const QString& value);
+
+Q_SIGNALS:
+    void valueChanged(const QString& value);
+};
 
 }

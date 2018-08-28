@@ -23,8 +23,8 @@
 #include "ui_massif_view.h"
 
 #include "debug.h"
+#include "massif_config.h"
 #include "massif_model.h"
-#include "massif_settings.h"
 #include "massif_snapshot.h"
 #include "utils.h"
 
@@ -35,7 +35,7 @@
 namespace Valgrind
 {
 
-MassifView::MassifView(KConfigGroup config, QTemporaryFile* outputFile, MassifSnapshotsModel* model, QWidget* parent)
+MassifView::MassifView(KConfigGroup configGroup, QTemporaryFile* outputFile, MassifSnapshotsModel* model, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::MassifView)
     , m_visualizerProcess(new QProcess)
@@ -61,16 +61,17 @@ MassifView::MassifView(KConfigGroup config, QTemporaryFile* outputFile, MassifSn
     });
 
     auto startVisualizer = [this, outputFile]() {
-        m_visualizerProcess->start(MassifSettings::visualizerExecutablePath(),
+        m_visualizerProcess->start(MassifConfig::visualizerExecutablePath(),
                                    { outputFile->fileName() });
     };
 
-    MassifSettings settings;
-    settings.load(config);
+    MassifConfig config;
+    config.setConfigGroup(configGroup);
+    config.load();
 
     setupVisualizerProcess(m_visualizerProcess.data(),
                            ui->launchVisualizerButton,
-                           startVisualizer, settings.launchVisualizer);
+                           startVisualizer, config.launchVisualizer());
 }
 
 MassifView::~MassifView()

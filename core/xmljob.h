@@ -28,7 +28,7 @@
 namespace Valgrind
 {
 
-class XmlSettings;
+class XmlConfig;
 
 class XmlJob : public Job
 {
@@ -38,7 +38,7 @@ public:
     ~XmlJob() override;
 
 protected:
-    XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlSettings* settings);
+    XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlConfig* config);
 
     QWidget* createView() override final;
 
@@ -49,7 +49,8 @@ protected:
     void addLoggingArgs(QStringList& args) const override final;
     void addToolArgs(QStringList& args) const override final;
 
-    XmlSettings* m_settings;
+private:
+    QScopedPointer<XmlConfig> m_config;
     QStringList m_xmlOutput;
 };
 

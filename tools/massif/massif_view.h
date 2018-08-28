@@ -40,7 +40,7 @@ class MassifView : public QWidget
     Q_OBJECT
 
 public:
-    MassifView(KConfigGroup config, QTemporaryFile* outputFile, MassifSnapshotsModel* model, QWidget* parent = nullptr);
+    MassifView(KConfigGroup configGroup, QTemporaryFile* outputFile, MassifSnapshotsModel* model, QWidget* parent = nullptr);
     ~MassifView() override;
 
 private:

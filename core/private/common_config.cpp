@@ -17,32 +17,19 @@
    Boston, MA 02110-1301, USA.
 */
 
-#pragma once
+#include "common_config.h"
 
-#include "xmlsettings.h"
+#include "globalsettings.h"
 
 namespace Valgrind
 {
 
-class MemcheckSettings : public XmlSettings
+CommonConfig::CommonConfig()
+    : Config(QStringLiteral("Valgrind"))
 {
-public:
-    MemcheckSettings();
-    ~MemcheckSettings() override = default;
-
-    StringValue leakResolution;
-    StringValue showLeakKinds;
-    StringValue leakCheckHeuristics;
-    StringValue keepStacktraces;
-
-    IntValue freelistVol;
-    IntValue freelistBigBlocks;
-
-    BoolValue undefValueErrors;
-    BoolValue showMismatchedFrees;
-    BoolValue partialLoadsOk;
-    BoolValue trackOrigins;
-    BoolValue expensiveDefinednessChecks;
-};
+    addCmdItemInt(QStringLiteral("numCallers"), m_numCallers, 12, QStringLiteral("num-callers"));
+    addCmdItemInt(QStringLiteral("maxStackframe"), m_maxStackframe, 2000000, QStringLiteral("max-stackframe"));
+    addCmdItemBool(QStringLiteral("errorLimit"), m_errorLimit, true, QStringLiteral("error-limit"));
+}
 
 }

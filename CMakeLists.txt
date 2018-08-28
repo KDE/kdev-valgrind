@@ -46,62 +46,60 @@ set(kdevvalgrind_SRCS
 
     config/globalconfigpage.cpp
 
+    core/config.cpp
     core/configpage.cpp
     core/job.cpp
-    core/settings.cpp
     core/tool.cpp
+    core/xmlconfig.cpp
     core/xmljob.cpp
-    core/xmlsettings.cpp
     core/utils.cpp
+    core/widgets/combobox.cpp
+    core/widgets/menubutton.cpp
+    core/private/common_config.cpp
     core/private/common_configpage.cpp
-    core/private/common_settings.cpp
     core/private/launcher.cpp
     core/private/xmlerror.cpp
     core/private/xmlparser.cpp
 
+    tools/cachegrind/cachegrind_config.cpp
     tools/cachegrind/cachegrind_configpage.cpp
     tools/cachegrind/cachegrind_job.cpp
     tools/cachegrind/cachegrind_model.cpp
     tools/cachegrind/cachegrind_parser.cpp
-    tools/cachegrind/cachegrind_settings.cpp
     tools/cachegrind/cachegrind_tool.cpp
     tools/cachegrind/cachegrind_view.cpp
 
+    tools/callgrind/callgrind_config.cpp
     tools/callgrind/callgrind_configpage.cpp
     tools/callgrind/callgrind_job.cpp
     tools/callgrind/callgrind_model.cpp
     tools/callgrind/callgrind_parser.cpp
-    tools/callgrind/callgrind_settings.cpp
     tools/callgrind/callgrind_tool.cpp
     tools/callgrind/callgrind_view.cpp
 
+    tools/drd/drd_config.cpp
     tools/drd/drd_configpage.cpp
-    tools/drd/drd_configpage.h
     tools/drd/drd_configpage.ui
     tools/drd/drd_job.cpp
-    tools/drd/drd_job.h
-    tools/drd/drd_settings.cpp
-    tools/drd/drd_settings.h
     tools/drd/drd_tool.cpp
-    tools/drd/drd_tool.h
 
+    tools/helgrind/helgrind_config.cpp
     tools/helgrind/helgrind_configpage.cpp
     tools/helgrind/helgrind_job.cpp
-    tools/helgrind/helgrind_settings.cpp
     tools/helgrind/helgrind_tool.cpp
 
+    tools/massif/massif_config.cpp
     tools/massif/massif_configpage.cpp
     tools/massif/massif_job.cpp
     tools/massif/massif_model.cpp
     tools/massif/massif_parser.cpp
-    tools/massif/massif_settings.cpp
     tools/massif/massif_snapshot.cpp
     tools/massif/massif_tool.cpp
     tools/massif/massif_view.cpp
 
+    tools/memcheck/memcheck_config.cpp
     tools/memcheck/memcheck_configpage.cpp
     tools/memcheck/memcheck_job.cpp
-    tools/memcheck/memcheck_settings.cpp
     tools/memcheck/memcheck_tool.cpp
 )
 ki18n_wrap_ui(kdevvalgrind_SRCS

@@ -12,13 +12,13 @@
   </property>
   <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QCheckBox" name="cacheSimulation">
+       <widget class="QCheckBox" name="kcfg_cacheSim">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enables or disables collection of cache access and miss counts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -31,7 +31,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="branchSimulation">
+       <widget class="QCheckBox" name="kcfg_branchSim">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enables or disables collection of branch instruction and misprediction counts. By default this is disabled as it slows Cachegrind down by approximately 25%. Note that you cannot specify &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--cache-sim=no&lt;/span&gt; and &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--branch-sim=no&lt;/span&gt; together, as that would leave Cachegrind with no information to collect.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -67,36 +67,36 @@
        </widget>
       </item>
       <item>
-       <layout class="QFormLayout">
+       <layout class="QFormLayout" name="argsLayout">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="extraArgsLabel">
           <property name="text">
            <string>Extra parameters:</string>
           </property>
           <property name="buddy">
-           <cstring>extraParameters</cstring>
+           <cstring>kcfg_extraArgs</cstring>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="extraParameters">
+         <widget class="QLineEdit" name="kcfg_extraArgs">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="cgAnnotateArgsLabel">
           <property name="text">
            <string>cg_annotate parameters:</string>
           </property>
           <property name="buddy">
-           <cstring>cgAnnotateParameters</cstring>
+           <cstring>kcfg_cgAnnotateArgs</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="cgAnnotateParameters">
+         <widget class="QLineEdit" name="kcfg_cgAnnotateArgs">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
@@ -130,10 +130,10 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>cacheSimulation</tabstop>
-  <tabstop>branchSimulation</tabstop>
-  <tabstop>extraParameters</tabstop>
-  <tabstop>cgAnnotateParameters</tabstop>
+  <tabstop>kcfg_cacheSim</tabstop>
+  <tabstop>kcfg_branchSim</tabstop>
+  <tabstop>kcfg_extraArgs</tabstop>
+  <tabstop>kcfg_cgAnnotateArgs</tabstop>
  </tabstops>
  <resources/>
  <connections/>

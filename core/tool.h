@@ -38,7 +38,7 @@ class Job;
 class Tool
 {
 public:
-    virtual ~Tool();
+    virtual ~Tool() = default;
 
     /// Short name, used in UI.
     /// Example: i18n("Memcheck").
@@ -52,7 +52,7 @@ public:
     /// Example: "memcheck".
     QString valgrindToolName() const;
 
-    /// Internal id, used as id for launcher and setting names prefix.
+    /// Internal id, used as id for launcher and config group name.
     /// Example: "Memcheck".
     QString id() const;
 

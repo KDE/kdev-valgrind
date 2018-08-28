@@ -12,23 +12,31 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
-#include "drd_job.h"
+#include "cachegrind_config.h"
 
-#include "debug.h"
-#include "drd_config.h"
-#include "drd_tool.h"
+#include "cachegrind_tool.h"
+#include "globalsettings.h"
 
 namespace Valgrind
 {
 
-DrdJob::DrdJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(DrdTool::self(), launchConfig, new DrdConfig)
+CachegrindConfig::CachegrindConfig()
+    : Config(CachegrindTool::self()->id())
 {
+    addCmdItemBool(QStringLiteral("cacheSim"), m_cacheSim, true, QStringLiteral("cache-sim"));
+    addCmdItemBool(QStringLiteral("branchSim"), m_branchSim, false, QStringLiteral("branch-sim"));
+
+    addItemString(QStringLiteral("cgAnnotateArgs"), m_cgAnnotateArgs);
+}
+
+QString CachegrindConfig::cgAnnotateExecutablePath()
+{
+    return KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
 }
 
 }

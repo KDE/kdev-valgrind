@@ -24,14 +24,14 @@
 #include "memcheck_job.h"
 
 #include "debug.h"
-#include "memcheck_settings.h"
+#include "memcheck_config.h"
 #include "memcheck_tool.h"
 
 namespace Valgrind
 {
 
 MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(MemcheckTool::self(), launchConfig, new MemcheckSettings)
+    : XmlJob(MemcheckTool::self(), launchConfig, new MemcheckConfig)
 {
 }
 

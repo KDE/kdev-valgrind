@@ -24,33 +24,28 @@
 namespace Valgrind
 {
 
-namespace Ui { class DrdConfigPage; }
-
 class DrdConfigPage : public ConfigPage
 {
     Q_OBJECT
 
 public:
     explicit DrdConfigPage(QWidget* parent = nullptr);
-    ~DrdConfigPage() override;
-
-    QString title() const override;
-    QIcon icon() const override;
-
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
-    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
-
-private:
-    QScopedPointer<Ui::DrdConfigPage> ui;
+    ~DrdConfigPage() override = default;
 };
 
 class DrdConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    DrdConfigPageFactory();
+    DrdConfigPageFactory()
+    {
+    }
+
     ~DrdConfigPageFactory() override = default;
 
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override
+    {
+        return new DrdConfigPage(parent);
+    }
 };
 
 }

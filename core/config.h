@@ -17,39 +17,37 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "common_settings.h"
+#pragma once
 
-#include "globalsettings.h"
+#include <KConfigSkeleton>
 
 namespace Valgrind
 {
 
-CommonSettings::CommonSettings()
-    : Settings(QStringLiteral("Valgrind"))
-
-    , numCallers(
-        this,
-        QStringLiteral("Stackframe Depth"),
-        QStringLiteral("num-callers"),
-        12)
-
-    , maxStackframe(
-        this,
-        QStringLiteral("Maximum Stackframe Size"),
-        QStringLiteral("max-stackframe"),
-        2000000)
-
-    , limitErrors(
-        this,
-        QStringLiteral("Limit Errors"),
-        QStringLiteral("error-limit"),
-        true)
+class Config : public KConfigSkeleton
 {
-}
+    Q_OBJECT
 
-QString CommonSettings::valgrindExecutablePath()
-{
-    return KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
-}
+public:
+    ~Config() override;
+
+    void setConfigGroup(const KConfigGroup& group);
+
+    ItemInt* addCmdItemInt(const QString& name, int& reference, int defaultValue, const QString& cmdName);
+    ItemBool* addCmdItemBool(const QString& name, bool& reference, bool defaultValue, const QString& cmdName);
+    ItemString* addCmdItemString(const QString& name, QString& reference, const QString& defaultValue, const QString& cmdName);
+
+    QStringList cmdArgs();
+
+protected:
+    explicit Config(const QString& group);
+
+private:
+    QString m_group;
+    QString m_extraArgs;
+
+    class CmdItem;
+    QList<CmdItem*> m_cmdItems;
+};
 
 }

@@ -17,63 +17,24 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "tool.h"
+#include "helgrind_config.h"
 
-#include "private/launcher.h"
+#include "helgrind_tool.h"
 
 namespace Valgrind
 {
 
-Tool::Tool(
-    const QString& id,
-    const QString& name,
-    const QString& fullName,
-    const QString& valgrindToolName,
-    const QString& menuActionName,
-    bool hasView)
-
-    : m_id(id)
-    , m_name(name)
-    , m_fullName(fullName)
-    , m_valgrindToolName(valgrindToolName)
-    , m_menuActionName(menuActionName)
-    , m_hasView(hasView)
+HelgrindConfig::HelgrindConfig()
+    : XmlConfig(HelgrindTool::self()->id())
 {
-}
+    addCmdItemString(QStringLiteral("historyLevel"), m_historyLevel, QStringLiteral("full"), QStringLiteral("history-level"));
 
-QString Tool::name() const
-{
-    return m_name;
-}
+    addCmdItemInt(QStringLiteral("conflictCacheSize"), m_conflictCacheSize, 1000000, QStringLiteral("conflict-cache-size"));
 
-QString Tool::fullName() const
-{
-    return m_fullName;
-}
-
-QString Tool::valgrindToolName() const
-{
-    return m_valgrindToolName;
-}
-
-QString Tool::id() const
-{
-    return m_id;
-}
-
-QString Tool::menuActionName() const
-{
-    return m_menuActionName;
-}
-
-bool Tool::hasView() const
-{
-    return m_hasView;
-}
-
-KDevelop::ILauncher* Tool::createLauncher() const
-{
-    return new Launcher(this);
+    addCmdItemBool(QStringLiteral("trackLockorders"), m_trackLockorders, true, QStringLiteral("track-lockorders"));
+    addCmdItemBool(QStringLiteral("checkStackRefs"), m_checkStackRefs, true, QStringLiteral("check-stack-refs"));
+    addCmdItemBool(QStringLiteral("ignoreThreadCreation"), m_ignoreThreadCreation, false, QStringLiteral("ignore-thread-creation"));
+    addCmdItemBool(QStringLiteral("freeIsWrite"), m_freeIsWrite, false, QStringLiteral("free-is-write"));
 }
 
 }

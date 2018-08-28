@@ -35,14 +35,8 @@ public:
     explicit CachegrindConfigPage(QWidget* parent = nullptr);
     ~CachegrindConfigPage() override;
 
-    QString title() const override;
-    QIcon icon() const override;
-
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
-    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
-
 private:
-    void check();
+    void check() override;
 
     QScopedPointer<Ui::CachegrindConfigPage> ui;
 };
@@ -50,10 +44,16 @@ private:
 class CachegrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    CachegrindConfigPageFactory();
+    CachegrindConfigPageFactory()
+    {
+    }
+
     ~CachegrindConfigPageFactory() override = default;
 
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override
+    {
+        return new CachegrindConfigPage(parent);
+    }
 };
 
 }

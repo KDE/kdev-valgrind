@@ -24,45 +24,20 @@
           <property name="text">
            <string>Time unit:</string>
           </property>
-          <property name="buddy">
-           <cstring>timeUnit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="timeUnit">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The time unit used for the profiling. There are three possibilities: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;instructions&lt;/span&gt; executed (i), which is good for most cases; &lt;/p&gt;&lt;p&gt;real (wallclock) time (ms, i.e. &lt;span style=&quot; font-weight:600;&quot;&gt;milliseconds&lt;/span&gt;), which is sometimes useful; &lt;/p&gt;&lt;p&gt;and &lt;span style=&quot; font-weight:600;&quot;&gt;bytes&lt;/span&gt; allocated/deallocated on the heap and/or stack (B), which is useful for very short-run programs, and for testing purposes, because it is the most reproducible across different machines.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>CPU instructions</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Milliseconds</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Bytes allocated</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="depthLabel">
+         <widget class="QLabel" name="snapshotTreeDepthLabel">
           <property name="text">
            <string>Snapshot tree depth:</string>
           </property>
           <property name="buddy">
-           <cstring>depth</cstring>
+           <cstring>kcfg_snapshotTreeDepth</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QSpinBox" name="depth">
+         <widget class="QSpinBox" name="kcfg_snapshotTreeDepth">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum depth of the allocation trees recorded for detailed snapshots. Increasing it will make Massif run somewhat more slowly, use more memory, and produce bigger output files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -80,12 +55,12 @@
            <string>Threshold:</string>
           </property>
           <property name="buddy">
-           <cstring>threshold</cstring>
+           <cstring>kcfg_threshold</cstring>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QSpinBox" name="threshold">
+         <widget class="QSpinBox" name="kcfg_threshold">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The significance threshold for heap allocations, as a percentage of total memory size. Allocation tree entries that account for less than this will be aggregated. Note that this should be specified in tandem with ms_print's option of the same name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -103,12 +78,12 @@
            <string>Peak inaccuracy:</string>
           </property>
           <property name="buddy">
-           <cstring>peakInaccuracy</cstring>
+           <cstring>kcfg_peakInaccuracy</cstring>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QSpinBox" name="peakInaccuracy">
+         <widget class="QSpinBox" name="kcfg_peakInaccuracy">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Massif does not necessarily record the actual global memory allocation peak; by default it records a peak only when the global memory allocation size exceeds the previous peak by at least 1.0%. This is because there can be many local allocation peaks along the way, and doing a detailed snapshot for every one would be expensive and wasteful, as all but one of them will be later discarded. This inaccuracy can be changed (even to 0.0%) via this option, but Massif will run drastically slower as the number approaches zero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -124,17 +99,17 @@
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="maxSnapshotsLabel">
+         <widget class="QLabel" name="maximumSnapshotsLabel">
           <property name="text">
            <string>Maximum snapshots:</string>
           </property>
           <property name="buddy">
-           <cstring>maxSnapshots</cstring>
+           <cstring>kcfg_maximumSnapshots</cstring>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QSpinBox" name="maxSnapshots">
+         <widget class="QSpinBox" name="kcfg_maximumSnapshots">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of snapshots recorded. If set to N, for all programs except very short-running ones, the final number of snapshots will be between N/2 and N.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -147,17 +122,17 @@
          </widget>
         </item>
         <item row="5" column="0">
-         <widget class="QLabel" name="snapshotFreqLabel">
+         <widget class="QLabel" name="detailedSnapshotsFrequencyLabel">
           <property name="text">
            <string>Detailed snapshot frequency:</string>
           </property>
           <property name="buddy">
-           <cstring>snapshotFreq</cstring>
+           <cstring>kcfg_detailedSnapshotsFrequency</cstring>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QSpinBox" name="snapshotFreq">
+         <widget class="QSpinBox" name="kcfg_detailedSnapshotsFrequency">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Frequency of detailed snapshots. With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--detailed-freq=1&lt;/span&gt;, every snapshot is detailed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -170,21 +145,24 @@
          </widget>
         </item>
         <item row="6" column="0">
-         <widget class="QLabel" name="extraParametersLabel">
+         <widget class="QLabel" name="extraArgsLabel">
           <property name="text">
            <string>E&amp;xtra parameters:</string>
           </property>
           <property name="buddy">
-           <cstring>extraParameters</cstring>
+           <cstring>kcfg_extraArgs</cstring>
           </property>
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QLineEdit" name="extraParameters">
+         <widget class="QLineEdit" name="kcfg_extraArgs">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="Valgrind::ComboBox" name="kcfg_timeUnit"/>
         </item>
        </layout>
       </item>
@@ -196,7 +174,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="profileHeap">
+       <widget class="QCheckBox" name="kcfg_profileHeap">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specifies whether heap profiling should be done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -209,7 +187,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="profileStack">
+       <widget class="QCheckBox" name="kcfg_profileStack">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specifies whether stack profiling should be done. This option slows Massif down greatly, and so is off by default. Note that Massif assumes that the main stack has size zero at start-up. This is not true, but doing otherwise accurately is difficult. Furthermore, starting at zero better indicates the size of the part of the main stack that a user program actually has control over.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -219,7 +197,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="pagesAsHeap">
+       <widget class="QCheckBox" name="kcfg_pagesAsHeap">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tells Massif to profile memory at the page level rather than at the malloc'd block level.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -252,7 +230,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="launchMassifVisualizer">
+       <widget class="QCheckBox" name="kcfg_launchVisualizer">
         <property name="text">
          <string>Launch Massif Visualizer after analysis finish</string>
         </property>
@@ -282,19 +260,23 @@
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
   </customwidget>
+  <customwidget>
+   <class>Valgrind::ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>core/widgets/combobox.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>timeUnit</tabstop>
-  <tabstop>depth</tabstop>
-  <tabstop>threshold</tabstop>
-  <tabstop>peakInaccuracy</tabstop>
-  <tabstop>maxSnapshots</tabstop>
-  <tabstop>snapshotFreq</tabstop>
-  <tabstop>extraParameters</tabstop>
-  <tabstop>profileHeap</tabstop>
-  <tabstop>profileStack</tabstop>
-  <tabstop>pagesAsHeap</tabstop>
-  <tabstop>launchMassifVisualizer</tabstop>
+  <tabstop>kcfg_snapshotTreeDepth</tabstop>
+  <tabstop>kcfg_threshold</tabstop>
+  <tabstop>kcfg_peakInaccuracy</tabstop>
+  <tabstop>kcfg_maximumSnapshots</tabstop>
+  <tabstop>kcfg_detailedSnapshotsFrequency</tabstop>
+  <tabstop>kcfg_extraArgs</tabstop>
+  <tabstop>kcfg_profileHeap</tabstop>
+  <tabstop>kcfg_profileStack</tabstop>
+  <tabstop>kcfg_pagesAsHeap</tabstop>
+  <tabstop>kcfg_launchVisualizer</tabstop>
  </tabstops>
  <resources/>
  <connections/>

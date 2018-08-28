@@ -24,188 +24,46 @@
 #include "ui_memcheck_configpage.h"
 
 #include "debug.h"
-#include "memcheck_settings.h"
+#include "memcheck_config.h"
 #include "memcheck_tool.h"
 
 #include <QMenu>
+
+#include <KLocalizedString>
 
 namespace Valgrind
 {
 
 MemcheckConfigPage::MemcheckConfigPage(QWidget* parent)
-    : ConfigPage(parent)
-    , ui(new Ui::MemcheckConfigPage())
+    : ConfigPage(MemcheckTool::self()->name(), parent)
 {
-    ui->setupUi(this);
+    Ui::MemcheckConfigPage ui;
+    ui.setupUi(this);
 
-    connectToChanged(ui->leakResolution);
-    connectToChanged(ui->keepStacktraces);
-    connectToChanged(ui->freelistVol);
-    connectToChanged(ui->freelistBigBlocks);
-    connectToChanged(ui->extraParameters);
+    ui.kcfg_showLeakKinds->addAction(i18n("definite"), QStringLiteral("definite"));
+    ui.kcfg_showLeakKinds->addAction(i18n("possible"), QStringLiteral("possible"));
+    ui.kcfg_showLeakKinds->addAction(i18n("indirect"), QStringLiteral("indirect"));
+    ui.kcfg_showLeakKinds->addAction(i18n("reachable"), QStringLiteral("reachable"));
+    connect(ui.kcfg_showLeakKinds, &MenuButton::valueChanged, this, &MemcheckConfigPage::changed);
 
-    connectToChanged(ui->undefValueErrors);
-    connectToChanged(ui->showMismatchedFrees);
-    connectToChanged(ui->partialLoadsOk);
-    connectToChanged(ui->trackOrigins);
-    connectToChanged(ui->expensiveDefinednessChecks);
+    // FIXME fix i18n text ?
+    ui.kcfg_leakCheckHeuristics->addAction(i18n("stdstring"), QStringLiteral("stdstring"));
+    ui.kcfg_leakCheckHeuristics->addAction(i18n("length64"), QStringLiteral("length64"));
+    ui.kcfg_leakCheckHeuristics->addAction(i18n("newarray"), QStringLiteral("newarray"));
+    ui.kcfg_leakCheckHeuristics->addAction(i18n("multipleinheritance"), QStringLiteral("multipleinheritance"));
+    connect(ui.kcfg_leakCheckHeuristics, &MenuButton::valueChanged, this, &MemcheckConfigPage::changed);
 
-    connectToChanged(ui->showInstructionPointer);
+    ui.kcfg_leakResolution->addItem(i18n("high"), QStringLiteral("high"));
+    ui.kcfg_leakResolution->addItem(i18n("medium"), QStringLiteral("med"));
+    ui.kcfg_leakResolution->addItem(i18n("low"), QStringLiteral("low"));
 
-    static const QStringList leakKinds = {
-        QStringLiteral("definite"),
-        QStringLiteral("possible"),
-        QStringLiteral("indirect"),
-        QStringLiteral("reachable")
-    };
-    setupMenuButton(ui->showLeakKinds, leakKinds);
+    ui.kcfg_keepStacktraces->addItem(i18n("alloc"), QStringLiteral("alloc"));
+    ui.kcfg_keepStacktraces->addItem(i18n("free"), QStringLiteral("free"));
+    ui.kcfg_keepStacktraces->addItem(i18n("alloc-and-free"), QStringLiteral("alloc-and-free"));
+    ui.kcfg_keepStacktraces->addItem(i18n("alloc-then-free"), QStringLiteral("alloc-then-free"));
+    ui.kcfg_keepStacktraces->addItem(i18n("none"), QStringLiteral("none"));
 
-    static const QStringList heuristics = {
-        QStringLiteral("stdstring"),
-        QStringLiteral("length64"),
-        QStringLiteral("newarray"),
-        QStringLiteral("multipleinheritance")
-    };
-    setupMenuButton(ui->leakCheckHeuristics, heuristics);
-
-    ui->leakResolutionLabel->setToolTip(ui->leakResolution->toolTip());
-    ui->showLeakKindsLabel->setToolTip(ui->showLeakKinds->toolTip());
-    ui->leakCheckHeuristicsLabel->setToolTip(ui->leakCheckHeuristics->toolTip());
-    ui->keepStacktracesLabel->setToolTip(ui->keepStacktraces->toolTip());
-    ui->freelistVolLabel->setToolTip(ui->freelistVol->toolTip());
-    ui->freelistBigBlocksLabel->setToolTip(ui->freelistBigBlocks->toolTip());
-}
-
-MemcheckConfigPage::~MemcheckConfigPage() = default;
-
-QString MemcheckConfigPage::title() const
-{
-    return MemcheckTool::self()->name();
-}
-
-QIcon MemcheckConfigPage::icon() const
-{
-    return QIcon();
-}
-
-void MemcheckConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
-{
-    QSignalBlocker blocker(this);
-    MemcheckSettings settings;
-    settings.load(cfg);
-
-    ui->leakResolution->setCurrentText(settings.leakResolution);
-    updateMenuButton(ui->showLeakKinds, settings.showLeakKinds);
-    updateMenuButton(ui->leakCheckHeuristics, settings.leakCheckHeuristics);
-    ui->keepStacktraces->setCurrentText(settings.keepStacktraces);
-    ui->freelistVol->setValue(settings.freelistVol);
-    ui->freelistBigBlocks->setValue(settings.freelistBigBlocks);
-    ui->extraParameters->setText(settings.extraParameters);
-
-    ui->undefValueErrors->setChecked(settings.undefValueErrors);
-    ui->showMismatchedFrees->setChecked(settings.showMismatchedFrees);
-    ui->partialLoadsOk->setChecked(settings.partialLoadsOk);
-    ui->trackOrigins->setChecked(settings.trackOrigins);
-    ui->expensiveDefinednessChecks->setChecked(settings.expensiveDefinednessChecks);
-
-    ui->showInstructionPointer->setChecked(settings.showInstructionPointer);
-}
-
-void MemcheckConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
-{
-    MemcheckSettings settings;
-
-    settings.leakResolution = ui->leakResolution->currentText();
-    settings.showLeakKinds = ui->showLeakKinds->text().trimmed().remove(QChar(' '));
-    settings.leakCheckHeuristics = ui->leakCheckHeuristics->text().trimmed().remove(QChar(' '));
-    settings.keepStacktraces = ui->keepStacktraces->currentText();
-    settings.freelistVol = ui->freelistVol->value();
-    settings.freelistBigBlocks = ui->freelistBigBlocks->value();
-    settings.extraParameters = ui->extraParameters->text();
-
-    settings.undefValueErrors = ui->undefValueErrors->isChecked();
-    settings.showMismatchedFrees = ui->showMismatchedFrees->isChecked();
-    settings.partialLoadsOk = ui->partialLoadsOk->isChecked();
-    settings.trackOrigins = ui->trackOrigins->isChecked();
-    settings.expensiveDefinednessChecks = ui->expensiveDefinednessChecks->isChecked();
-
-    settings.showInstructionPointer = ui->showInstructionPointer->isChecked();
-
-    settings.save(cfg);
-}
-
-QString selectedItemsText(QMenu* menu)
-{
-    Q_ASSERT(menu);
-
-    QStringList selected;
-    const auto actions = menu->actions();
-    for (auto action : actions) {
-        if (action->isChecked()) {
-            selected += action->text();
-        }
-    }
-
-    if (selected.isEmpty()) {
-        return QStringLiteral("none");
-    }
-
-    if (selected.size() == actions.size()) {
-        return QStringLiteral("all");
-    }
-
-
-    return selected.join(QStringLiteral(", "));
-}
-
-void MemcheckConfigPage::setupMenuButton(QPushButton* button, const QStringList& items)
-{
-    Q_ASSERT(button);
-
-    auto menu = new QMenu(button);
-    button->setMenu(menu);
-    button->setStyleSheet(QStringLiteral("Text-align:left"));
-
-    auto slot = [button, menu]() {
-        button->setText(QChar(' ') + selectedItemsText(menu));
-    };
-
-    for (const QString& text : items) {
-        auto action = new QAction(text, menu);
-        action->setCheckable(true);
-        action->setChecked(false);
-
-        connect(action, &QAction::toggled, this, slot);
-        connect(action, &QAction::toggled, this, &MemcheckConfigPage::changed);
-        menu->addAction(action);
-    }
-    slot();
-}
-
-void MemcheckConfigPage::updateMenuButton(QPushButton* button, const QString& text)
-{
-    Q_ASSERT(button);
-
-    auto enabled = text.split(QChar(','));
-    const auto actions = button->menu()->actions();
-    for (auto action : actions) {
-        if (text == QStringLiteral("all")) {
-            action->setChecked(true);
-        } else if (text == QStringLiteral("none")) {
-            action->setChecked(false);
-        } else {
-            action->setChecked(enabled.contains(action->text()));
-        }
-    }
-}
-
-MemcheckConfigPageFactory::MemcheckConfigPageFactory()
-{
-}
-
-KDevelop::LaunchConfigurationPage* MemcheckConfigPageFactory::createWidget(QWidget* parent)
-{
-    return new MemcheckConfigPage(parent);
+    init(new MemcheckConfig);
 }
 
 }

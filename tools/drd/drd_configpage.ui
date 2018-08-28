@@ -23,12 +23,12 @@
          <string>Joined threads memory access list volume:</string>
         </property>
         <property name="buddy">
-         <cstring>joinListVol</cstring>
+         <cstring>kcfg_joinListVol</cstring>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="joinListVol">
+       <widget class="QSpinBox" name="kcfg_joinListVol">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Data races that occur between a statement at the end of one thread and another thread can be missed if memory access information is discarded immediately after a thread has been joined. This option allows to specify for how many joined threads memory access information should be retained.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -51,7 +51,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSpinBox" name="segmentMergingInterval">
+       <widget class="QSpinBox" name="kcfg_segmentMergingInterval">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform segment merging only after the specified number of new segments have been created. This is an advanced configuration option that allows to choose whether to minimize DRD's memory usage by choosing a low value or to let DRD run faster by choosing a slightly higher value. The optimal value for this parameter depends on the program being analyzed. The default value works well for most programs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -64,17 +64,17 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="extraParametersLabel">
+       <widget class="QLabel" name="extraArgsLabel">
         <property name="text">
          <string>Extra parameters:</string>
         </property>
         <property name="buddy">
-         <cstring>extraParameters</cstring>
+         <cstring>kcfg_extraArgs</cstring>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="extraParameters">
+       <widget class="QLineEdit" name="kcfg_extraArgs">
         <property name="clearButtonEnabled">
          <bool>true</bool>
         </property>
@@ -94,7 +94,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QCheckBox" name="checkStackVar">
+        <widget class="QCheckBox" name="kcfg_checkStackVar">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls whether DRD detects data races on stack variables. Verifying stack variables is disabled by default because most programs do not share stack variables over threads.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -104,7 +104,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="firstRaceOnly">
+        <widget class="QCheckBox" name="kcfg_firstRaceOnly">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to report only the first data race that has been detected on a memory location or all data races that have been detected on a memory location.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -114,7 +114,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="freeIsWrite">
+        <widget class="QCheckBox" name="kcfg_freeIsWrite">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -127,7 +127,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="reportSignalUnlocked">
+        <widget class="QCheckBox" name="kcfg_reportSignalUnlocked">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether to report calls to &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;pthread_cond_signal&lt;/span&gt; and &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;pthread_cond_broadcast&lt;/span&gt; where the mutex associated with the signal through &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;pthread_cond_wait&lt;/span&gt; or &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;pthread_cond_timed_wait&lt;/span&gt; is not locked at the time the signal is sent. Sending a signal without holding a lock on the associated mutex is a common programming error which can cause subtle race conditions and unpredictable behavior. There exist some uncommon synchronization patterns however where it is safe to send a signal without holding a lock on the associated mutex.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -137,7 +137,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="segmentMerging">
+        <widget class="QCheckBox" name="kcfg_segmentMerging">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls segment merging. Segment merging is an algorithm to limit memory usage of the data race detection algorithm. Disabling segment merging may improve the accuracy of the so-called 'other segments' displayed in race reports but can also trigger an out of memory error.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -147,7 +147,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="showConflSeg">
+        <widget class="QCheckBox" name="kcfg_showConflSeg">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show conflicting segments in race reports. Since this information can help to find the cause of a data race, this option is enabled by default. Disabling this option makes the output of DRD more compact.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -157,7 +157,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="showStackUsage">
+        <widget class="QCheckBox" name="kcfg_showStackUsage">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Print stack usage at thread exit time. When a program creates a large number of threads it becomes important to limit the amount of virtual memory allocated for thread stacks. This option makes it possible to observe how much stack memory has been used by each thread of the client program.&lt;/p&gt;&lt;p&gt;Note: the DRD tool itself allocates some temporary data on the client thread stack. The space necessary for this temporary data must be allocated by the client program when it allocates stack memory, but is not included in stack usage reported by DRD.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -167,7 +167,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="ignoreThreadCreation">
+        <widget class="QCheckBox" name="kcfg_ignoreThreadCreation">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls whether all activities during thread creation should be ignored. By default enabled only on Solaris. Solaris provides higher throughput, parallelism and scalability than other operating systems, at the cost of more fine-grained locking activity. This means for example that when a thread is created under glibc, just one big lock is used for all thread setup. Solaris libc uses several fine-grained locks and the creator thread resumes its activities as soon as possible, leaving for example stack and TLS setup sequence to the created thread. This situation confuses DRD as it assumes there is some false ordering in place between creator and created thread; and therefore many types of race conditions in the application would not be reported. To prevent such false ordering, this command line option is set to &lt;span style=&quot; font-family:'Monospace';&quot;&gt;yes&lt;/span&gt; by default on Solaris. All activity (loads, stores, client requests) is therefore ignored during:&lt;/p&gt;&lt;p&gt;* pthread_create() call in the creator thread &lt;/p&gt;&lt;p&gt;* thread creation phase (stack and TLS setup) in the created thread&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -184,7 +184,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="showInstructionPointer">
+        <widget class="QCheckBox" name="kcfg_showInstructionPointer">
          <property name="text">
           <string>Show stack frame instruction pointer value</string>
          </property>
@@ -211,7 +211,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QCheckBox" name="traceAlloc">
+        <widget class="QCheckBox" name="kcfg_traceAlloc">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all memory allocations and deallocations. May produce a huge amount of output.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -221,7 +221,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceBarrier">
+        <widget class="QCheckBox" name="kcfg_traceBarrier">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all barrier activity.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -231,7 +231,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceCond">
+        <widget class="QCheckBox" name="kcfg_traceCond">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all condition variable activity.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -241,7 +241,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceForkJoin">
+        <widget class="QCheckBox" name="kcfg_traceForkJoin">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all thread creation and all thread termination events.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -251,7 +251,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceHb">
+        <widget class="QCheckBox" name="kcfg_traceHb">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace execution of the &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;ANNOTATE_HAPPENS_BEFORE()&lt;/span&gt;, &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;ANNOTATE_HAPPENS_AFTER()&lt;/span&gt; and &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;ANNOTATE_HAPPENS_DONE()&lt;/span&gt; client requests.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -261,7 +261,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceMutex">
+        <widget class="QCheckBox" name="kcfg_traceMutex">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all mutex activity.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -271,7 +271,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceRwlock">
+        <widget class="QCheckBox" name="kcfg_traceRwlock">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all reader-writer lock activity.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -281,7 +281,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="traceSemaphore">
+        <widget class="QCheckBox" name="kcfg_traceSemaphore">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trace all semaphore activity.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -323,27 +323,27 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>joinListVol</tabstop>
-  <tabstop>segmentMergingInterval</tabstop>
-  <tabstop>extraParameters</tabstop>
+  <tabstop>kcfg_joinListVol</tabstop>
+  <tabstop>kcfg_segmentMergingInterval</tabstop>
+  <tabstop>kcfg_extraArgs</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>checkStackVar</tabstop>
-  <tabstop>firstRaceOnly</tabstop>
-  <tabstop>freeIsWrite</tabstop>
-  <tabstop>reportSignalUnlocked</tabstop>
-  <tabstop>segmentMerging</tabstop>
-  <tabstop>showConflSeg</tabstop>
-  <tabstop>showStackUsage</tabstop>
-  <tabstop>ignoreThreadCreation</tabstop>
-  <tabstop>showInstructionPointer</tabstop>
-  <tabstop>traceAlloc</tabstop>
-  <tabstop>traceBarrier</tabstop>
-  <tabstop>traceCond</tabstop>
-  <tabstop>traceForkJoin</tabstop>
-  <tabstop>traceHb</tabstop>
-  <tabstop>traceMutex</tabstop>
-  <tabstop>traceRwlock</tabstop>
-  <tabstop>traceSemaphore</tabstop>
+  <tabstop>kcfg_checkStackVar</tabstop>
+  <tabstop>kcfg_firstRaceOnly</tabstop>
+  <tabstop>kcfg_freeIsWrite</tabstop>
+  <tabstop>kcfg_reportSignalUnlocked</tabstop>
+  <tabstop>kcfg_segmentMerging</tabstop>
+  <tabstop>kcfg_showConflSeg</tabstop>
+  <tabstop>kcfg_showStackUsage</tabstop>
+  <tabstop>kcfg_ignoreThreadCreation</tabstop>
+  <tabstop>kcfg_showInstructionPointer</tabstop>
+  <tabstop>kcfg_traceAlloc</tabstop>
+  <tabstop>kcfg_traceBarrier</tabstop>
+  <tabstop>kcfg_traceCond</tabstop>
+  <tabstop>kcfg_traceForkJoin</tabstop>
+  <tabstop>kcfg_traceHb</tabstop>
+  <tabstop>kcfg_traceMutex</tabstop>
+  <tabstop>kcfg_traceRwlock</tabstop>
+  <tabstop>kcfg_traceSemaphore</tabstop>
  </tabstops>
  <resources/>
  <connections/>

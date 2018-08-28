@@ -12,23 +12,38 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
+   along with this program; see the file COPYING. If not, write to
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.
 */
 
-#include "drd_job.h"
+#pragma once
 
-#include "debug.h"
-#include "drd_config.h"
-#include "drd_tool.h"
+#include "xmlconfig.h"
 
 namespace Valgrind
 {
 
-DrdJob::DrdJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(DrdTool::self(), launchConfig, new DrdConfig)
+class MemcheckConfig : public XmlConfig
 {
-}
+public:
+    MemcheckConfig();
+    ~MemcheckConfig() override = default;
+
+private:
+    QString m_leakResolution;
+    QString m_showLeakKinds;
+    QString m_leakCheckHeuristics;
+    QString m_keepStacktraces;
+
+    int m_freelistVol;
+    int m_freelistBigBlocks;
+
+    bool m_undefValueErrors;
+    bool m_showMismatchedFrees;
+    bool m_partialLoadsOk;
+    bool m_trackOrigins;
+    bool m_expensiveDefinednessChecks;
+};
 
 }

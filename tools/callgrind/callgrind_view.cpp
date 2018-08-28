@@ -24,8 +24,8 @@
 #include "callgrind_view.h"
 #include "ui_callgrind_view.h"
 
+#include "callgrind_config.h"
 #include "callgrind_model.h"
-#include "callgrind_settings.h"
 #include "debug.h"
 #include "utils.h"
 
@@ -36,7 +36,7 @@
 namespace Valgrind
 {
 
-CallgrindView::CallgrindView(KConfigGroup config, QTemporaryFile* outputFile, CallgrindFunctionsModel* model, QWidget* parent)
+CallgrindView::CallgrindView(KConfigGroup configGroup, QTemporaryFile* outputFile, CallgrindFunctionsModel* model, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::CallgrindView)
     , m_kcachegrindProcess(new QProcess)
@@ -124,16 +124,17 @@ CallgrindView::CallgrindView(KConfigGroup config, QTemporaryFile* outputFile, Ca
     }
 
     auto startVisualizer = [this, outputFile]() {
-        m_kcachegrindProcess->start(CallgrindSettings::kcachegrindExecutablePath(),
+        m_kcachegrindProcess->start(CallgrindConfig::kcachegrindExecutablePath(),
                                     { outputFile->fileName() });
     };
 
-    CallgrindSettings settings;
-    settings.load(config);
+    CallgrindConfig config;
+    config.setConfigGroup(configGroup);
+    config.load();
 
     setupVisualizerProcess(m_kcachegrindProcess.data(),
                            ui->launchKCachegrindButton,
-                           startVisualizer, settings.launchKCachegrind);
+                           startVisualizer, config.launchKCachegrind());
 }
 
 CallgrindView::~CallgrindView()

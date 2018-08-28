@@ -24,12 +24,12 @@
 
 #include "callgrind_job.h"
 
+#include "callgrind_config.h"
 #include "callgrind_model.h"
 #include "callgrind_parser.h"
-#include "plugin.h"
-#include "callgrind_settings.h"
 #include "callgrind_tool.h"
 #include "callgrind_view.h"
+#include "plugin.h"
 
 #include <interfaces/ilaunchconfiguration.h>
 
@@ -57,17 +57,18 @@ CallgrindJob::~CallgrindJob()
 
 bool CallgrindJob::processEnded()
 {
-    CallgrindSettings settings;
-    settings.load(m_config);
+    CallgrindConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
     QStringList caArgs;
-    caArgs += KShell::splitArgs(settings.callgrindAnnotateParameters);
+    caArgs += KShell::splitArgs(config.callgrindAnnotateArgs());
     caArgs += QStringLiteral("--tree=calling");
     caArgs += QStringLiteral("--threshold=100");
     caArgs += m_outputFile->fileName();
 
     QByteArray caOutput;
-    if (executeProcess(settings.callgrindAnnotateExecutablePath(), caArgs, caOutput)) {
+    if (executeProcess(config.callgrindAnnotateExecutablePath(), caArgs, caOutput)) {
         return false;
     }
 
@@ -78,16 +79,17 @@ bool CallgrindJob::processEnded()
 
 void CallgrindJob::addToolArgs(QStringList& args) const
 {
-    CallgrindSettings settings;
-    settings.load(m_config);
+    CallgrindConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
-    args += settings.cmdArgs();
+    args += config.cmdArgs();
     args += QStringLiteral("--callgrind-out-file=%1").arg(m_outputFile->fileName());
 }
 
 QWidget* CallgrindJob::createView()
 {
-    return new CallgrindView(m_config, m_outputFile, m_model);
+    return new CallgrindView(m_configGroup, m_outputFile, m_model);
 }
 
 }

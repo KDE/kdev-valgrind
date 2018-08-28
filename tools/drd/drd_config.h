@@ -19,23 +19,39 @@
 
 #pragma once
 
-#include "settings.h"
+#include "xmlconfig.h"
 
 namespace Valgrind
 {
 
-class CommonSettings : public Settings
+class DrdConfig : public XmlConfig
 {
+    Q_OBJECT
+
 public:
-    CommonSettings();
-    ~CommonSettings() override = default;
+    DrdConfig();
+    ~DrdConfig() override = default;
 
-    IntValue numCallers;
-    IntValue maxStackframe;
+private:
+    bool m_checkStackVar;
+    bool m_firstRaceOnly;
+    bool m_freeIsWrite;
+    bool m_reportSignalUnlocked;
+    bool m_segmentMerging;
+    bool m_showConflSeg;
+    bool m_showStackUsage;
+    bool m_ignoreThreadCreation;
+    bool m_traceAlloc;
+    bool m_traceBarrier;
+    bool m_traceCond;
+    bool m_traceForkJoin;
+    bool m_traceHb;
+    bool m_traceMutex;
+    bool m_traceRwlock;
+    bool m_traceSemaphore;
 
-    BoolValue limitErrors;
-
-    static QString valgrindExecutablePath();
+    int m_joinListVol;
+    int m_segmentMergingInterval;
 };
 
 }

@@ -1,5 +1,5 @@
 /* This file is part of KDevelop
-   Copyright 2017 Anton Anikin <anton@anikin.xyz>
+   Copyright 2018 Anton Anikin <anton@anikin.xyz>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,26 +19,38 @@
 
 #pragma once
 
-#include "settings.h"
+#include <QPushButton>
 
 namespace Valgrind
 {
 
-class CallgrindSettings : public Settings
+class MenuButton : public QPushButton
 {
+    Q_OBJECT
+
+    Q_PROPERTY(
+        QString value
+        READ value
+        WRITE setValue
+        NOTIFY valueChanged
+        USER true)
+
 public:
-    CallgrindSettings();
-    ~CallgrindSettings() override = default;
+    explicit MenuButton(QWidget* parent = nullptr);
+    ~MenuButton() override = default;
 
-    BoolValue cacheSimulation;
-    BoolValue branchSimulation;
+    QAction* addAction(const QString& text, const QString& data);
 
-    StringValue callgrindAnnotateParameters;
+    QString value() const;
+    void setValue(const QString& value);
 
-    BoolValue launchKCachegrind;
+Q_SIGNALS:
+    void valueChanged(const QString& value);
 
-    static QString callgrindAnnotateExecutablePath();
-    static QString kcachegrindExecutablePath();
+private:
+    void updateValue();
+
+    QString m_value;
 };
 
 }

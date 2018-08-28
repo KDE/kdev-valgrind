@@ -21,7 +21,7 @@
 #include "callgrind_configpage.h"
 #include "ui_callgrind_configpage.h"
 
-#include "callgrind_settings.h"
+#include "callgrind_config.h"
 #include "callgrind_tool.h"
 
 #include <KConfigGroup>
@@ -30,63 +30,12 @@ namespace Valgrind
 {
 
 CallgrindConfigPage::CallgrindConfigPage(QWidget* parent)
-    : ConfigPage(parent)
-    , ui(new Ui::CallgrindConfigPage())
+    : ConfigPage(CallgrindTool::self()->name(), parent)
 {
-    ui->setupUi(this);
+    Ui::CallgrindConfigPage ui;
+    ui.setupUi(this);
 
-    connectToChanged(ui->extraParameters);
-    connectToChanged(ui->cacheSimulation);
-    connectToChanged(ui->branchSimulation);
-    connectToChanged(ui->launchKCachegrind);
-    connectToChanged(ui->callgrindAnnotateParameters);
-}
-
-CallgrindConfigPage::~CallgrindConfigPage() = default;
-
-QString CallgrindConfigPage::title() const
-{
-    return CallgrindTool::self()->name();
-}
-
-QIcon CallgrindConfigPage::icon() const
-{
-    return QIcon();
-}
-
-void CallgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
-{
-    QSignalBlocker blocker(this);
-    CallgrindSettings settings;
-    settings.load(cfg);
-
-    ui->extraParameters->setText(settings.extraParameters);
-    ui->cacheSimulation->setChecked(settings.cacheSimulation);
-    ui->branchSimulation->setChecked(settings.branchSimulation);
-    ui->launchKCachegrind->setChecked(settings.launchKCachegrind);
-    ui->callgrindAnnotateParameters->setText(settings.callgrindAnnotateParameters);
-}
-
-void CallgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
-{
-    CallgrindSettings settings;
-
-    settings.extraParameters = ui->extraParameters->text();
-    settings.cacheSimulation = ui->cacheSimulation->isChecked();
-    settings.branchSimulation = ui->branchSimulation->isChecked();
-    settings.launchKCachegrind = ui->launchKCachegrind->isChecked();
-    settings.callgrindAnnotateParameters = ui->callgrindAnnotateParameters->text();
-
-    settings.save(cfg);
-}
-
-CallgrindConfigPageFactory::CallgrindConfigPageFactory()
-{
-}
-
-KDevelop::LaunchConfigurationPage* CallgrindConfigPageFactory::createWidget(QWidget* parent)
-{
-    return new CallgrindConfigPage(parent);
+    init(new CallgrindConfig);
 }
 
 }

@@ -24,31 +24,6 @@
           <property name="text">
            <string>History level:</string>
           </property>
-          <property name="buddy">
-           <cstring>historyLevel</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="historyLevel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt; (the default) causes Helgrind collects enough information about &amp;quot;old&amp;quot; accesses that it can produce two stack traces in a race report -- both the stack trace for the current access, and the trace for the older, conflicting access. To limit memory usage, &amp;quot;old&amp;quot; accesses stack traces are limited to a maximum of 8 entries, even if &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--num-callers&lt;/span&gt; value is bigger.&lt;/p&gt;&lt;p&gt;Collecting such information is expensive in both speed and memory, particularly for programs that do many inter-thread synchronization events (locks, unlocks, etc). Without such information, it is more difficult to track down the root causes of races. Nonetheless, you may not need it in situations where you just want to check for the presence or absence of races, for example, when doing regression testing of a previously race-free program.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=none&lt;/span&gt; is the opposite extreme. It causes Helgrind not to collect any information about previous accesses. This can be dramatically faster than &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=approx&lt;/span&gt; provides a compromise between these two extremes. It causes Helgrind to show a full trace for the later access, and approximate information regarding the earlier access. This approximate information consists of two stacks, and the earlier access is guaranteed to have occurred somewhere between program points denoted by the two stacks. This is not as useful as showing the exact stack for the previous access (as &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt; does), but it is better than nothing, and it is almost as fast as &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=none&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>full</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>approx</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>none</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="1" column="0">
@@ -57,12 +32,12 @@
            <string>Conflict cache size:</string>
           </property>
           <property name="buddy">
-           <cstring>conflictCacheSize</cstring>
+           <cstring>kcfg_conflictCacheSize</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QSpinBox" name="conflictCacheSize">
+         <widget class="QSpinBox" name="kcfg_conflictCacheSize">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This flag only has any effect at &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;Information about &amp;quot;old&amp;quot; conflicting accesses is stored in a cache of limited size, with LRU-style management. This is necessary because it isn't practical to store a stack trace for every single memory access made by the program. Historical information on not recently accessed locations is periodically discarded, to free up space in the cache.&lt;/p&gt;&lt;p&gt;This option controls the size of the cache, in terms of the number of different memory addresses for which conflicting access information is stored. If you find that Helgrind is showing race errors with only one stack instead of the expected two stacks, try increasing this value.&lt;/p&gt;&lt;p&gt;The minimum value is 10,000 and the maximum is 30,000,000 (thirty times the default value). Increasing the value by 1 increases Helgrind's memory requirement by very roughly 100 bytes, so the maximum value will easily eat up three extra gigabytes or so of memory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -78,21 +53,24 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="extraParametersLabel">
+         <widget class="QLabel" name="extraArgsLabel">
           <property name="text">
            <string>Extra parameters:</string>
           </property>
           <property name="buddy">
-           <cstring>extraParameters</cstring>
+           <cstring>kcfg_extraArgs</cstring>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="extraParameters">
+         <widget class="QLineEdit" name="kcfg_extraArgs">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="Valgrind::ComboBox" name="kcfg_historyLevel"/>
         </item>
        </layout>
       </item>
@@ -104,7 +82,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="trackLockorders">
+       <widget class="QCheckBox" name="kcfg_trackLockorders">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -114,13 +92,10 @@
         <property name="text">
          <string>Track lock orders</string>
         </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkStackRefs">
+       <widget class="QCheckBox" name="kcfg_checkStackRefs">
         <property name="toolTip">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -131,13 +106,10 @@ p, li { white-space: pre-wrap; }
         <property name="text">
          <string>Check stack refs</string>
         </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="ignoreThreadCreation">
+       <widget class="QCheckBox" name="kcfg_ignoreThreadCreation">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Controls whether all activities during thread creation should be ignored. By default enabled only on Solaris. Solaris provides higher throughput, parallelism and scalability than other operating systems, at the cost of more fine-grained locking activity. This means for example that when a thread is created under glibc, just one big lock is used for all thread setup. Solaris libc uses several fine-grained locks and the creator thread resumes its activities as soon as possible, leaving for example stack and TLS setup sequence to the created thread. This situation confuses Helgrind as it assumes there is some false ordering in place between creator and created thread; and therefore many types of race conditions in the application would not be reported. To prevent such false ordering, this command line option is set to yes by default on Solaris. All activity (loads, stores, client requests) is therefore ignored during:&lt;/p&gt;&lt;p&gt;* pthread_create() call in the creator thread&lt;/p&gt;&lt;p&gt;* thread creation phase (stack and TLS setup) in the created thread&lt;/p&gt;&lt;p&gt;Also new memory allocated during thread creation is untracked, that is race reporting is suppressed there. DRD does the same thing implicitly. This is necessary because Solaris libc caches many objects and reuses them for different threads and that confuses Helgrind.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -147,7 +119,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="freeIsWrite">
+       <widget class="QCheckBox" name="kcfg_freeIsWrite">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -167,7 +139,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="showInstructionPointer">
+       <widget class="QCheckBox" name="kcfg_showInstructionPointer">
         <property name="text">
          <string>Show stack frame instruction pointer value</string>
         </property>
@@ -191,14 +163,20 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Valgrind::ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>core/widgets/combobox.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
-  <tabstop>historyLevel</tabstop>
-  <tabstop>conflictCacheSize</tabstop>
-  <tabstop>extraParameters</tabstop>
-  <tabstop>trackLockorders</tabstop>
-  <tabstop>checkStackRefs</tabstop>
-  <tabstop>ignoreThreadCreation</tabstop>
-  <tabstop>freeIsWrite</tabstop>
+  <tabstop>kcfg_conflictCacheSize</tabstop>
+  <tabstop>kcfg_extraArgs</tabstop>
+  <tabstop>kcfg_trackLockorders</tabstop>
+  <tabstop>kcfg_checkStackRefs</tabstop>
+  <tabstop>kcfg_ignoreThreadCreation</tabstop>
+  <tabstop>kcfg_freeIsWrite</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -17,7 +17,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "callgrind_settings.h"
+#include "callgrind_config.h"
 
 #include "globalsettings.h"
 #include "callgrind_tool.h"
@@ -25,41 +25,22 @@
 namespace Valgrind
 {
 
-CallgrindSettings::CallgrindSettings()
-    : Settings(CallgrindTool::self()->id())
-
-    , cacheSimulation(
-        this,
-        QStringLiteral("Cache Simulation"),
-        QStringLiteral("cache-sim"),
-        false)
-
-    , branchSimulation(
-        this,
-        QStringLiteral("Branch Simulation"),
-        QStringLiteral("branch-sim"),
-        false)
-
-    , callgrindAnnotateParameters(
-        this,
-        QStringLiteral("callgrind_annotate Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
-
-    , launchKCachegrind(
-        this,
-        QStringLiteral("Launch KCachegrind"),
-        QStringLiteral(""),
-        false)
+CallgrindConfig::CallgrindConfig()
+    : Config(CallgrindTool::self()->id())
 {
+    addCmdItemBool(QStringLiteral("cacheSim"), m_cacheSim, true, QStringLiteral("cache-sim"));
+    addCmdItemBool(QStringLiteral("branchSim"), m_branchSim, false, QStringLiteral("branch-sim"));
+
+    addItemBool(QStringLiteral("launchKCachegrind"), m_launchKCachegrind);
+    addItemString(QStringLiteral("callgrindAnnotateArgs"), m_callgrindAnnotateArgs);
 }
 
-QString CallgrindSettings::callgrindAnnotateExecutablePath()
+QString CallgrindConfig::callgrindAnnotateExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::callgrind_annotateExecutablePath()).toLocalFile();
 }
 
-QString CallgrindSettings::kcachegrindExecutablePath()
+QString CallgrindConfig::kcachegrindExecutablePath()
 {
     return KDevelop::Path(GlobalSettings::kcachegrindExecutablePath()).toLocalFile();
 }

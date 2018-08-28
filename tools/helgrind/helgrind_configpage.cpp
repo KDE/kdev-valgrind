@@ -21,87 +21,23 @@
 #include "helgrind_configpage.h"
 #include "ui_helgrind_configpage.h"
 
-#include "helgrind_settings.h"
+#include "helgrind_config.h"
 #include "helgrind_tool.h"
-
-#include <KConfigGroup>
 
 namespace Valgrind
 {
 
 HelgrindConfigPage::HelgrindConfigPage(QWidget* parent)
-    : ConfigPage(parent)
-    , ui(new Ui::HelgrindConfigPage())
+    : ConfigPage(HelgrindTool::self()->name(), parent)
 {
-    ui->setupUi(this);
+    Ui::HelgrindConfigPage ui;
+    ui.setupUi(this);
 
-    connectToChanged(ui->extraParameters);
-    connectToChanged(ui->conflictCacheSize);
-    connectToChanged(ui->historyLevel);
+    ui.kcfg_historyLevel->addItem(i18n("Full"), QStringLiteral("full"));
+    ui.kcfg_historyLevel->addItem(i18n("Approx"), QStringLiteral("approx"));
+    ui.kcfg_historyLevel->addItem(i18n("None"), QStringLiteral("none"));
 
-    connectToChanged(ui->trackLockorders);
-    connectToChanged(ui->checkStackRefs);
-    connectToChanged(ui->ignoreThreadCreation);
-    connectToChanged(ui->freeIsWrite);
-    connectToChanged(ui->showInstructionPointer);
-
-    ui->historyLevelLabel->setToolTip(ui->historyLevel->toolTip());
-    ui->conflictCacheSizeLabel->setToolTip(ui->conflictCacheSize->toolTip());
-}
-
-HelgrindConfigPage::~HelgrindConfigPage() = default;
-
-QString HelgrindConfigPage::title() const
-{
-    return HelgrindTool::self()->name();
-}
-
-QIcon HelgrindConfigPage::icon() const
-{
-    return QIcon();
-}
-
-void HelgrindConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
-{
-    QSignalBlocker blocker(this);
-    HelgrindSettings settings;
-    settings.load(cfg);
-
-    ui->extraParameters->setText(settings.extraParameters);
-    ui->conflictCacheSize->setValue(settings.conflictCacheSize);
-    ui->historyLevel->setCurrentText(settings.historyLevel);
-
-    ui->trackLockorders->setChecked(settings.trackLockorders);
-    ui->checkStackRefs->setChecked(settings.checkStackRefs);
-    ui->ignoreThreadCreation->setChecked(settings.ignoreThreadCreation);
-    ui->freeIsWrite->setChecked(settings.freeIsWrite);
-    ui->showInstructionPointer->setChecked(settings.showInstructionPointer);
-}
-
-void HelgrindConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
-{
-    HelgrindSettings settings;
-
-    settings.extraParameters = ui->extraParameters->text();
-    settings.conflictCacheSize = ui->conflictCacheSize->value();
-    settings.historyLevel = ui->historyLevel->currentText();
-
-    settings.trackLockorders = ui->trackLockorders->isChecked();
-    settings.checkStackRefs = ui->checkStackRefs->isChecked();
-    settings.ignoreThreadCreation = ui->ignoreThreadCreation->isChecked();
-    settings.freeIsWrite = ui->freeIsWrite->isChecked();
-    settings.showInstructionPointer = ui->showInstructionPointer->isChecked();
-
-    settings.save(cfg);
-}
-
-HelgrindConfigPageFactory::HelgrindConfigPageFactory()
-{
-}
-
-KDevelop::LaunchConfigurationPage* HelgrindConfigPageFactory::createWidget(QWidget* parent)
-{
-    return new HelgrindConfigPage(parent);
+    init(new HelgrindConfig);
 }
 
 }

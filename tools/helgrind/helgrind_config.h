@@ -19,20 +19,26 @@
 
 #pragma once
 
-#include "settings.h"
+#include "xmlconfig.h"
 
 namespace Valgrind
 {
 
-class XmlSettings : public Settings
+class HelgrindConfig : public XmlConfig
 {
 public:
-    ~XmlSettings() override = default;
+    HelgrindConfig();
+    ~HelgrindConfig() override = default;
 
-    BoolValue showInstructionPointer;
+private:
+    QString m_historyLevel;
 
-protected:
-    explicit XmlSettings(const QString& configKeyPrefix);
+    int m_conflictCacheSize;
+
+    bool m_trackLockorders;
+    bool m_checkStackRefs;
+    bool m_ignoreThreadCreation;
+    bool m_freeIsWrite;
 };
 
 }

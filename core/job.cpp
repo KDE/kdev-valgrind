@@ -29,9 +29,9 @@
 #include "debug.h"
 #include "globalsettings.h"
 #include "plugin.h"
-#include "private/common_settings.h"
 #include "tool.h"
 #include "utils.h"
+#include "private/common_config.h"
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
@@ -59,7 +59,7 @@ inline QString valgrindErrorsPrefix() { return QStringLiteral("valgrind: "); }
 Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     : KDevelop::OutputExecuteJob(KDevelop::ICore::self()->runController())
     , m_tool(tool)
-    , m_config(launchConfig->config())
+    , m_configGroup(launchConfig->config())
     , m_tcpServerPort(0)
 {
     Q_ASSERT(tool);
@@ -148,15 +148,16 @@ void Job::addLoggingArgs(QStringList& args) const
 
 QStringList Job::buildCommandLine() const
 {
-    CommonSettings settings;
-    settings.load(m_config);
+    CommonConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
     QStringList args;
 
     args += QStringLiteral("--tool=%1").arg(m_tool->valgrindToolName());
     addLoggingArgs(args);
 
-    args += settings.cmdArgs();
+    args += config.cmdArgs();
     addToolArgs(args);
 
     return args;
@@ -164,7 +165,7 @@ QStringList Job::buildCommandLine() const
 
 void Job::start()
 {
-    *this << CommonSettings::valgrindExecutablePath();
+    *this << KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;

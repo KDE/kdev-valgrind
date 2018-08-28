@@ -87,7 +87,6 @@ QString displayValue(double value)
 void emitDataChanged(QAbstractTableModel* model)
 {
     Q_ASSERT(model);
-
     emit model->dataChanged(model->index(0,0),
                             model->index(model->rowCount() - 1, model->columnCount() - 1),
                             { Qt::DisplayRole });

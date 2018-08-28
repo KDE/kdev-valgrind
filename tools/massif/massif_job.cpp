@@ -24,9 +24,9 @@
 #include "massif_job.h"
 
 #include "debug.h"
+#include "massif_config.h"
 #include "massif_model.h"
 #include "massif_parser.h"
-#include "massif_settings.h"
 #include "massif_tool.h"
 #include "massif_view.h"
 #include "plugin.h"
@@ -51,8 +51,9 @@ MassifJob::MassifJob(KDevelop::ILaunchConfiguration* launchConfig)
 
 bool MassifJob::processEnded()
 {
-    MassifSettings settings;
-    settings.load(m_config);
+    MassifConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
     massifParse(m_outputFile->fileName(), m_model);
 
@@ -61,29 +62,17 @@ bool MassifJob::processEnded()
 
 void MassifJob::addToolArgs(QStringList& args) const
 {
-    MassifSettings settings;
-    settings.load(m_config);
+    MassifConfig config;
+    config.setConfigGroup(m_configGroup);
+    config.load();
 
-    int tu = settings.timeUnit;
-    if (tu == 0) {
-        args += QStringLiteral("--time-unit=i");
-    }
-
-    else if (tu == 1) {
-        args += QStringLiteral("--time-unit=ms");
-    }
-
-    else if (tu == 2) {
-        args += QStringLiteral("--time-unit=B");
-    }
-
-    args += settings.cmdArgs();
+    args += config.cmdArgs();
     args += QStringLiteral("--massif-out-file=%1").arg(m_outputFile->fileName());
 }
 
 QWidget* MassifJob::createView()
 {
-    return new MassifView(m_config, m_outputFile, m_model);
+    return new MassifView(m_configGroup, m_outputFile, m_model);
 }
 
 }

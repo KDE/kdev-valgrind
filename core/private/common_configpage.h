@@ -26,24 +26,13 @@
 namespace Valgrind
 {
 
-namespace Ui { class CommonConfigPage; }
-
 class CommonConfigPage : public ConfigPage
 {
     Q_OBJECT
 
 public:
     explicit CommonConfigPage(QWidget* parent = nullptr);
-    ~CommonConfigPage() override;
-
-    QString title() const override;
-    QIcon icon() const override;
-
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
-    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
-
-private:
-    QScopedPointer<Ui::CommonConfigPage> ui;
+    ~CommonConfigPage() override = default;
 };
 
 class CommonConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory

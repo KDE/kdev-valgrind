@@ -29,36 +29,28 @@ class QPushButton;
 namespace Valgrind
 {
 
-namespace Ui { class MemcheckConfigPage; }
-
 class MemcheckConfigPage : public ConfigPage
 {
     Q_OBJECT
 
 public:
     explicit MemcheckConfigPage(QWidget* parent = nullptr);
-    ~MemcheckConfigPage() override;
-
-    QString title() const override;
-    QIcon icon() const override;
-
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
-    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
-
-private:
-    void setupMenuButton(QPushButton* button, const QStringList& items);
-    void updateMenuButton(QPushButton* button, const QString& text);
-
-    QScopedPointer<Ui::MemcheckConfigPage> ui;
+    ~MemcheckConfigPage() override = default;
 };
 
 class MemcheckConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    MemcheckConfigPageFactory();
+    MemcheckConfigPageFactory()
+    {
+    }
+
     ~MemcheckConfigPageFactory() override = default;
 
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override
+    {
+        return new MemcheckConfigPage(parent);
+    }
 };
 
 }

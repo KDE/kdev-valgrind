@@ -20,14 +20,14 @@
 #include "helgrind_job.h"
 
 #include "debug.h"
-#include "helgrind_settings.h"
+#include "helgrind_config.h"
 #include "helgrind_tool.h"
 
 namespace Valgrind
 {
 
 HelgrindJob::HelgrindJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(HelgrindTool::self(), launchConfig, new HelgrindSettings)
+    : XmlJob(HelgrindTool::self(), launchConfig, new HelgrindConfig)
 {
 }
 

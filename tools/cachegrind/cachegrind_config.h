@@ -19,23 +19,30 @@
 
 #pragma once
 
-#include "settings.h"
+#include "config.h"
 
 namespace Valgrind
 {
 
-class CachegrindSettings : public Settings
+class CachegrindConfig : public Config
 {
+    Q_OBJECT
+
 public:
-    CachegrindSettings();
-    ~CachegrindSettings() override = default;
-
-    BoolValue cacheSimulation;
-    BoolValue branchSimulation;
-
-    StringValue cgAnnotateParameters;
+    CachegrindConfig();
+    ~CachegrindConfig() override = default;
 
     static QString cgAnnotateExecutablePath();
+
+    QString cgAnnotateParameters() const
+    {
+        return m_cgAnnotateArgs;
+    }
+
+private:
+    bool m_cacheSim;
+    bool m_branchSim;
+    QString m_cgAnnotateArgs;
 };
 
 }

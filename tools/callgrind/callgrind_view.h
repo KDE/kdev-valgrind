@@ -41,7 +41,7 @@ class CallgrindView : public QWidget
     Q_OBJECT
 
 public:
-    CallgrindView(KConfigGroup config, QTemporaryFile* outputFile, CallgrindFunctionsModel* model, QWidget* parent = nullptr);
+    CallgrindView(KConfigGroup configGroup, QTemporaryFile* outputFile, CallgrindFunctionsModel* model, QWidget* parent = nullptr);
     ~CallgrindView() override;
 
 private:

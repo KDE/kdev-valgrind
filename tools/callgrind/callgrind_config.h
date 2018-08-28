@@ -17,20 +17,39 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "xmlsettings.h"
+#pragma once
+
+#include "config.h"
 
 namespace Valgrind
 {
 
-XmlSettings::XmlSettings(const QString& configKeyPrefix)
-    : Valgrind::Settings(configKeyPrefix)
-
-    , showInstructionPointer(
-        this,
-        QStringLiteral("Show Instruction Pointer"),
-        QStringLiteral(""),
-        false)
+class CallgrindConfig : public Config
 {
-}
+    Q_OBJECT
+
+public:
+    CallgrindConfig();
+    ~CallgrindConfig() override = default;
+
+    static QString callgrindAnnotateExecutablePath();
+    static QString kcachegrindExecutablePath();
+
+    QString callgrindAnnotateArgs() const
+    {
+        return m_callgrindAnnotateArgs;
+    }
+
+    bool launchKCachegrind() const
+    {
+        return m_launchKCachegrind;
+    }
+
+private:
+    bool m_cacheSim;
+    bool m_branchSim;
+    bool m_launchKCachegrind;
+    QString m_callgrindAnnotateArgs;
+};
 
 }

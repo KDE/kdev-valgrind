@@ -19,31 +19,26 @@
 
 #pragma once
 
-#include "settings.h"
+#include "config.h"
 
 namespace Valgrind
 {
 
-class MassifSettings : public Settings
+class XmlConfig : public Config
 {
 public:
-    MassifSettings();
-    ~MassifSettings() override = default;
+    ~XmlConfig() override = default;
 
-    IntValue snapshotTreeDepth;
-    IntValue threshold;
-    IntValue peakInaccuracy;
-    IntValue maximumSnapshots;
-    IntValue detailedSnapshotsFrequency;
-    IntValue timeUnit;
+    bool showInstructionPointer() const
+    {
+        return m_showInstructionPointer;
+    }
 
-    BoolValue profileHeap;
-    BoolValue profileStack;
-    BoolValue pagesAsHeap;
+protected:
+    explicit XmlConfig(const QString& group);
 
-    BoolValue launchVisualizer;
-
-    static QString visualizerExecutablePath();
+private:
+    bool m_showInstructionPointer;
 };
 
 }

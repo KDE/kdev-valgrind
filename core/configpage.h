@@ -21,28 +21,39 @@
 
 #include <interfaces/launchconfigurationpage.h>
 
-class QCheckBox;
-class QComboBox;
-class QLineEdit;
-class QSpinBox;
+class KConfigDialogManager;
 
 namespace Valgrind
 {
+
+class Config;
 
 class ConfigPage : public KDevelop::LaunchConfigurationPage
 {
     Q_OBJECT
 
 public:
-    ~ConfigPage() override = default;
+    ~ConfigPage() override;
+
+    QString title() const override final;
+    QIcon icon() const override final;
+
+    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override final;
+    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override final;
 
 protected:
-    explicit ConfigPage(QWidget* parent = nullptr);
+    explicit ConfigPage(QString title, QWidget* parent = nullptr);
 
-    void connectToChanged(QCheckBox* box);
-    void connectToChanged(QComboBox* box);
-    void connectToChanged(QLineEdit* edit);
-    void connectToChanged(QSpinBox* box);
+    void init(Config* config);
+
+    virtual void check();
+
+private:
+    QString m_title;
+
+    QScopedPointer<Config> m_config;
+    QScopedPointer<KConfigDialogManager> m_manager;
+
 };
 
 }

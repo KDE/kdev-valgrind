@@ -22,7 +22,7 @@
 */
 
 #include "xmljob.h"
-#include "xmlsettings.h"
+#include "xmlconfig.h"
 
 #include "debug.h"
 #include "tool.h"
@@ -35,17 +35,14 @@
 namespace Valgrind
 {
 
-XmlJob::XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlSettings* settings)
+XmlJob::XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlConfig* config)
     : Job(tool, launchConfig)
-    , m_settings(settings)
+    , m_config(config)
 {
-    Q_ASSERT(m_settings);
+    Q_ASSERT(m_config);
 }
 
-XmlJob::~XmlJob()
-{
-    delete m_settings;
-}
+XmlJob::~XmlJob() = default;
 
 void XmlJob::processValgrindOutput(const QStringList& lines)
 {
@@ -66,9 +63,10 @@ void XmlJob::processValgrindOutput(const QStringList& lines)
 
 bool XmlJob::processEnded()
 {
-    m_settings->load(m_config);
+    m_config->setConfigGroup(m_configGroup);
+    m_config->load();
 
-    auto problems = parseXml(m_tool->name(), m_xmlOutput.join(" "), m_settings->showInstructionPointer);
+    auto problems = parseXml(m_tool->name(), m_xmlOutput.join(" "), m_config->showInstructionPointer());
     Plugin::self()->problemModel()->setProblems(problems);
 
     return true;
@@ -82,8 +80,10 @@ void XmlJob::addLoggingArgs(QStringList& args) const
 
 void XmlJob::addToolArgs(QStringList& args) const
 {
-    m_settings->load(m_config);
-    args += m_settings->cmdArgs();
+    m_config->setConfigGroup(m_configGroup);
+    m_config->load();
+
+    args += m_config->cmdArgs();
 }
 
 QWidget* XmlJob::createView()

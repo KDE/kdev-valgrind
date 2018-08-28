@@ -50,6 +50,7 @@ void setupVisualizerProcess(QProcess* visualizerProcess,
                             std::function<void()> startFunction,
                             bool startImmediately);
 
+// FIXME remove and replace with aApp
 QWidget* activeMainWindow();
 
 QString findExecutable(const QString &executableName);

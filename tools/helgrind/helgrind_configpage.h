@@ -24,33 +24,28 @@
 namespace Valgrind
 {
 
-namespace Ui { class HelgrindConfigPage; }
-
 class HelgrindConfigPage : public ConfigPage
 {
     Q_OBJECT
 
 public:
     explicit HelgrindConfigPage(QWidget* parent = nullptr);
-    ~HelgrindConfigPage() override;
-
-    QString title() const override;
-    QIcon icon() const override;
-
-    void loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject* project = nullptr) override;
-    void saveToConfiguration(KConfigGroup cfg, KDevelop::IProject* project = nullptr) const override;
-
-private:
-    QScopedPointer<Ui::HelgrindConfigPage> ui;
+    ~HelgrindConfigPage() override = default;
 };
 
 class HelgrindConfigPageFactory : public KDevelop::LaunchConfigurationPageFactory
 {
 public:
-    HelgrindConfigPageFactory();
+    HelgrindConfigPageFactory()
+    {
+    }
+
     ~HelgrindConfigPageFactory() override = default;
 
-    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override;
+    KDevelop::LaunchConfigurationPage* createWidget(QWidget* parent) override
+    {
+        return new HelgrindConfigPage(parent);
+    }
 };
 
 }

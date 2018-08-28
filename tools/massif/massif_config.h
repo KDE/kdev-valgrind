@@ -17,40 +17,40 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "cachegrind_settings.h"
+#pragma once
 
-#include "cachegrind_tool.h"
-#include "globalsettings.h"
+#include "config.h"
 
 namespace Valgrind
 {
 
-CachegrindSettings::CachegrindSettings()
-    : Settings(CachegrindTool::self()->id())
-
-    , cacheSimulation(
-        this,
-        QStringLiteral("Cache Simulation"),
-        QStringLiteral("cache-sim"),
-        true)
-
-    , branchSimulation(
-        this,
-        QStringLiteral("Branch Simulation"),
-        QStringLiteral("branch-sim"),
-        false)
-
-    , cgAnnotateParameters(
-        this,
-        QStringLiteral("cg_annotate Parameters"),
-        QStringLiteral(""),
-        QStringLiteral(""))
+class MassifConfig : public Config
 {
-}
+public:
+    MassifConfig();
+    ~MassifConfig() override = default;
 
-QString CachegrindSettings::cgAnnotateExecutablePath()
-{
-    return KDevelop::Path(GlobalSettings::cg_annotateExecutablePath()).toLocalFile();
-}
+    static QString visualizerExecutablePath();
+
+    bool launchVisualizer() const
+    {
+        return m_launchVisualizer;
+    }
+
+private:
+    int m_snapshotTreeDepth;
+    int m_threshold;
+    int m_peakInaccuracy;
+    int m_maximumSnapshots;
+    int m_detailedSnapshotsFrequency;
+
+    QString m_timeUnit;
+
+    bool m_profileHeap;
+    bool m_profileStack;
+    bool m_pagesAsHeap;
+
+    bool m_launchVisualizer;
+};
 
 }

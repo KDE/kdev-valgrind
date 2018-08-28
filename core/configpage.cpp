@@ -19,39 +19,71 @@
 
 #include "configpage.h"
 
-#include <QCheckBox>
-#include <QComboBox>
-#include <QLineEdit>
-#include <QSpinBox>
+#include "config.h"
+#include "debug.h"
+
+#include <KConfigDialogManager>
+
+#include <QIcon>
 
 namespace Valgrind
 {
 
-ConfigPage::ConfigPage(QWidget* parent)
+ConfigPage::ConfigPage(QString title, QWidget* parent)
     : LaunchConfigurationPage(parent)
+    , m_title(title)
+    , m_config(nullptr)
+    , m_manager(nullptr)
 {
 }
 
-void ConfigPage::connectToChanged(QCheckBox* box)
+ConfigPage::~ConfigPage() = default;
+
+void ConfigPage::init(Config* config)
 {
-    connect(box, &QCheckBox::toggled, this, &LaunchConfigurationPage::changed);
+    Q_ASSERT(config);
+
+    m_config.reset(config);
+    m_manager.reset(new KConfigDialogManager(this, config));
+
+    connect(m_manager.data(), &KConfigDialogManager::widgetModified, this, &ConfigPage::changed);
+    connect(this, &ConfigPage::changed, this, &ConfigPage::check);
+
+    check();
 }
 
-void ConfigPage::connectToChanged(QComboBox* box)
+void ConfigPage::check()
 {
-    connect(box, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
-            this, &LaunchConfigurationPage::changed);
 }
 
-void ConfigPage::connectToChanged(QLineEdit* edit)
+QString ConfigPage::title() const
 {
-    connect(edit, &QLineEdit::textChanged, this, &LaunchConfigurationPage::changed);
+    return m_title;
 }
 
-void ConfigPage::connectToChanged(QSpinBox* box)
+QIcon ConfigPage::icon() const
 {
-    connect(box, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, &LaunchConfigurationPage::changed);
+    return QIcon();
+}
+
+void ConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::IProject*)
+{
+    Q_ASSERT(m_config);
+    Q_ASSERT(m_manager);
+
+    m_config->setConfigGroup(cfg);
+    m_config->load();
+
+    m_manager->updateWidgets();
+}
+
+void ConfigPage::saveToConfiguration(KConfigGroup cfg, KDevelop::IProject*) const
+{
+    Q_ASSERT(m_config);
+    Q_ASSERT(m_manager);
+
+    m_config->setConfigGroup(cfg);
+    m_manager->updateSettings();
 }
 
 }
