@@ -43,6 +43,12 @@ public:
         m_type = Bool;
     }
 
+    CmdItem(ItemDouble* item, const QString& cmdName)
+        : CmdItem(static_cast<KConfigSkeletonItem*>(item), cmdName)
+    {
+        m_type = Double;
+    }
+
     CmdItem(ItemString* item, const QString& cmdName)
         : CmdItem(static_cast<KConfigSkeletonItem*>(item), cmdName)
     {
@@ -62,6 +68,10 @@ public:
 
             case Bool:
                 value = m_item->property().toBool() ? QStringLiteral("yes") : QStringLiteral("no");
+                break;
+
+            case Double:
+                value = QString::number(m_item->property().toDouble(), 'f', 1);
                 break;
 
             case String:
@@ -85,6 +95,7 @@ private:
     {
         Int,
         Bool,
+        Double,
         String
     };
 
@@ -155,6 +166,13 @@ Config::ItemInt* Config::addCmdItemInt(const QString& name, int& reference, int 
 Config::ItemBool* Config::addCmdItemBool(const QString& name, bool& reference, bool defaultValue, const QString& cmdName)
 {
     auto item = addItemBool(name, reference, defaultValue);
+    m_cmdItems += new CmdItem(item, cmdName);
+    return item;
+}
+
+Config::ItemDouble* Config::addCmdItemDouble(const QString& name, double& reference, double defaultValue, const QString& cmdName)
+{
+    auto item = addItemDouble(name, reference, defaultValue);
     m_cmdItems += new CmdItem(item, cmdName);
     return item;
 }

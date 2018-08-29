@@ -35,6 +35,7 @@ public:
 
     ItemInt* addCmdItemInt(const QString& name, int& reference, int defaultValue, const QString& cmdName);
     ItemBool* addCmdItemBool(const QString& name, bool& reference, bool defaultValue, const QString& cmdName);
+    ItemDouble* addCmdItemDouble(const QString& name, double& reference, double defaultValue, const QString& cmdName);
     ItemString* addCmdItemString(const QString& name, QString& reference, const QString& defaultValue, const QString& cmdName);
 
     QStringList cmdArgs();
