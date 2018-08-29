@@ -51,10 +51,6 @@ CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* launchConfig)
     m_outputFile->open();
 }
 
-CallgrindJob::~CallgrindJob()
-{
-}
-
 bool CallgrindJob::processEnded()
 {
     CallgrindConfig config;

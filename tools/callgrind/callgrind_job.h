@@ -39,7 +39,7 @@ class CallgrindJob : public Job
 
 public:
     explicit CallgrindJob(KDevelop::ILaunchConfiguration* launchConfig);
-    ~CallgrindJob() override;
+    ~CallgrindJob() override = default;
 
     QWidget* createView() override;
 

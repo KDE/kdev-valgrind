@@ -45,8 +45,7 @@ class Job : public KDevelop::OutputExecuteJob, public KDevelop::IStatus
 
 public:
     Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig);
-
-    ~Job() override;
+    ~Job() override = default;
 
     void start() override;
     using KDevelop::OutputExecuteJob::doKill;

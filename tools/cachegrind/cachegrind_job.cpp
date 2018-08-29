@@ -51,10 +51,6 @@ CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* launchConfig)
     m_outputFile->open();
 }
 
-CachegrindJob::~CachegrindJob()
-{
-}
-
 bool CachegrindJob::processEnded()
 {
     CachegrindConfig config;

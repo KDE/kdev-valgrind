@@ -127,10 +127,6 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     KDevelop::ICore::self()->uiController()->registerStatus(this);
 }
 
-Job::~Job()
-{
-}
-
 const Tool* Job::tool() const
 {
     return m_tool;

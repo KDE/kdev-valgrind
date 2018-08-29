@@ -129,7 +129,7 @@ class CallgrindFunctionEventsModel : public QAbstractTableModel
 
 public:
     explicit CallgrindFunctionEventsModel(CallgrindFunctionsModel* baseModel);
-    ~CallgrindFunctionEventsModel() override;
+    ~CallgrindFunctionEventsModel() override = default;
 
     void setFunction(CallgrindFunction* function);
 
@@ -152,7 +152,7 @@ class CallgrindFunctionCallersCalleesModel : public QAbstractTableModel
 
 public:
     CallgrindFunctionCallersCalleesModel(CallgrindFunctionsModel* baseModel, bool isCallerModel);
-    ~CallgrindFunctionCallersCalleesModel() override;
+    ~CallgrindFunctionCallersCalleesModel() override = default;
 
     void setFunction(CallgrindFunction* function);
 

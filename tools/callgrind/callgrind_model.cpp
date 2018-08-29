@@ -306,10 +306,6 @@ CallgrindFunctionEventsModel::CallgrindFunctionEventsModel(CallgrindFunctionsMod
     });
 }
 
-CallgrindFunctionEventsModel::~CallgrindFunctionEventsModel()
-{
-}
-
 void CallgrindFunctionEventsModel::setFunction(CallgrindFunction* function)
 {
     m_function = function;
@@ -399,10 +395,6 @@ CallgrindFunctionCallersCalleesModel::CallgrindFunctionCallersCalleesModel(Callg
         emitDataChanged(this);
         emit headerDataChanged(Qt::Horizontal, 0, 1);
     });
-}
-
-CallgrindFunctionCallersCalleesModel::~CallgrindFunctionCallersCalleesModel()
-{
 }
 
 void CallgrindFunctionCallersCalleesModel::setFunction(CallgrindFunction* function)
