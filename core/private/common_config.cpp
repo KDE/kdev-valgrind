@@ -27,8 +27,14 @@ namespace Valgrind
 CommonConfig::CommonConfig()
     : Config(QStringLiteral("Valgrind"))
 {
-    addCmdItemInt(QStringLiteral("numCallers"), m_numCallers, 12, QStringLiteral("num-callers"));
-    addCmdItemInt(QStringLiteral("maxStackframe"), m_maxStackframe, 2000000, QStringLiteral("max-stackframe"));
+    auto itemInt = addCmdItemInt(QStringLiteral("numCallers"), m_numCallers, 12, QStringLiteral("num-callers"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(500);
+
+    itemInt = addCmdItemInt(QStringLiteral("maxStackframe"), m_maxStackframe, 2000000, QStringLiteral("max-stackframe"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(200000000);
+
     addCmdItemBool(QStringLiteral("errorLimit"), m_errorLimit, true, QStringLiteral("error-limit"));
 }
 

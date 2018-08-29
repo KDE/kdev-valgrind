@@ -41,12 +41,6 @@
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum depth of the allocation trees recorded for detailed snapshots. Increasing it will make Massif run somewhat more slowly, use more memory, and produce bigger output files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <property name="maximum">
-           <number>2000000000</number>
-          </property>
-          <property name="value">
-           <number>30</number>
-          </property>
          </widget>
         </item>
         <item row="2" column="0">
@@ -59,19 +53,6 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QSpinBox" name="kcfg_threshold">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The significance threshold for heap allocations, as a percentage of total memory size. Allocation tree entries that account for less than this will be aggregated. Note that this should be specified in tandem with ms_print's option of the same name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="suffix">
-           <string>%</string>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="peakInaccuracyLabel">
           <property name="text">
@@ -79,22 +60,6 @@
           </property>
           <property name="buddy">
            <cstring>kcfg_peakInaccuracy</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="kcfg_peakInaccuracy">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Massif does not necessarily record the actual global memory allocation peak; by default it records a peak only when the global memory allocation size exceeds the previous peak by at least 1.0%. This is because there can be many local allocation peaks along the way, and doing a detailed snapshot for every one would be expensive and wasteful, as all but one of them will be later discarded. This inaccuracy can be changed (even to 0.0%) via this option, but Massif will run drastically slower as the number approaches zero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="suffix">
-           <string>%</string>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>1</number>
           </property>
          </widget>
         </item>
@@ -113,12 +78,6 @@
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of snapshots recorded. If set to N, for all programs except very short-running ones, the final number of snapshots will be between N/2 and N.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <property name="maximum">
-           <number>2000000000</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
          </widget>
         </item>
         <item row="5" column="0">
@@ -135,12 +94,6 @@
          <widget class="QSpinBox" name="kcfg_detailedSnapshotsFrequency">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Frequency of detailed snapshots. With &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--detailed-freq=1&lt;/span&gt;, every snapshot is detailed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="maximum">
-           <number>2000000000</number>
-          </property>
-          <property name="value">
-           <number>10</number>
           </property>
          </widget>
         </item>
@@ -163,6 +116,32 @@
         </item>
         <item row="0" column="1">
          <widget class="Valgrind::ComboBox" name="kcfg_timeUnit"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_threshold">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The significance threshold for heap allocations, as a percentage of total memory size. Allocation tree entries that account for less than this will be aggregated. Note that this should be specified in tandem with ms_print's option of the same name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="suffix">
+           <string notr="true"> %</string>
+          </property>
+          <property name="decimals">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_peakInaccuracy">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Massif does not necessarily record the actual global memory allocation peak; by default it records a peak only when the global memory allocation size exceeds the previous peak by at least 1.0%. This is because there can be many local allocation peaks along the way, and doing a detailed snapshot for every one would be expensive and wasteful, as all but one of them will be later discarded. This inaccuracy can be changed (even to 0.0%) via this option, but Massif will run drastically slower as the number approaches zero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="suffix">
+           <string notr="true"> %</string>
+          </property>
+          <property name="decimals">
+           <number>1</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -267,6 +246,7 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>kcfg_timeUnit</tabstop>
   <tabstop>kcfg_snapshotTreeDepth</tabstop>
   <tabstop>kcfg_threshold</tabstop>
   <tabstop>kcfg_peakInaccuracy</tabstop>

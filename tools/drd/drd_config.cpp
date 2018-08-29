@@ -45,8 +45,13 @@ DrdConfig::DrdConfig()
     addCmdItemBool(QStringLiteral("traceRwlock"), m_traceRwlock, false, QStringLiteral("trace-rwlock"));
     addCmdItemBool(QStringLiteral("traceSemaphore"), m_traceSemaphore, false, QStringLiteral("trace-semaphore"));
 
-    addCmdItemInt(QStringLiteral("joinListVol"), m_joinListVol, 10, QStringLiteral("join-list-vol"));
-    addCmdItemInt(QStringLiteral("segmentMergingInterval"), m_segmentMergingInterval, 10, QStringLiteral("segment-merging-interval"));
+    auto itemInt = addCmdItemInt(QStringLiteral("joinListVol"), m_joinListVol, 10, QStringLiteral("join-list-vol"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(1000);
+
+    itemInt = addCmdItemInt(QStringLiteral("segmentMergingInterval"), m_segmentMergingInterval, 10, QStringLiteral("segment-merging-interval"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(1000);
 }
 
 }

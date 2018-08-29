@@ -39,10 +39,11 @@ public:
 
 private:
     int m_snapshotTreeDepth;
-    int m_threshold;
-    int m_peakInaccuracy;
     int m_maximumSnapshots;
     int m_detailedSnapshotsFrequency;
+
+    double m_threshold;
+    double m_peakInaccuracy;
 
     QString m_timeUnit;
 

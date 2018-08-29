@@ -37,7 +37,7 @@ MemcheckConfig::MemcheckConfig()
     itemInt->setMaxValue(200000000);
 
     itemInt = addCmdItemInt(QStringLiteral("freelistBigBlocks"), m_freelistBigBlocks, 1000000, QStringLiteral("freelist-big-blocks"));
-    itemInt->setMinValue(1);
+    itemInt->setMinValue(0);
     itemInt->setMaxValue(10000000);
 
     addCmdItemBool(QStringLiteral("undefValueErrors"), m_undefValueErrors, true, QStringLiteral("undef-value-errors"));

@@ -29,7 +29,9 @@ HelgrindConfig::HelgrindConfig()
 {
     addCmdItemString(QStringLiteral("historyLevel"), m_historyLevel, QStringLiteral("full"), QStringLiteral("history-level"));
 
-    addCmdItemInt(QStringLiteral("conflictCacheSize"), m_conflictCacheSize, 1000000, QStringLiteral("conflict-cache-size"));
+    auto itemInt = addCmdItemInt(QStringLiteral("conflictCacheSize"), m_conflictCacheSize, 1000000, QStringLiteral("conflict-cache-size"));
+    itemInt->setMinValue(10000);
+    itemInt->setMaxValue(30000000);
 
     addCmdItemBool(QStringLiteral("trackLockorders"), m_trackLockorders, true, QStringLiteral("track-lockorders"));
     addCmdItemBool(QStringLiteral("checkStackRefs"), m_checkStackRefs, true, QStringLiteral("check-stack-refs"));

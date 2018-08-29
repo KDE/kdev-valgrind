@@ -13,9 +13,6 @@
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string/>
-     </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="joinListVolLabel">
@@ -32,15 +29,6 @@
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Data races that occur between a statement at the end of one thread and another thread can be missed if memory access information is discarded immediately after a thread has been joined. This option allows to specify for how many joined threads memory access information should be retained.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>1000</number>
-        </property>
-        <property name="value">
-         <number>10</number>
-        </property>
        </widget>
       </item>
       <item row="3" column="0">
@@ -54,12 +42,6 @@
        <widget class="QSpinBox" name="kcfg_segmentMergingInterval">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform segment merging only after the specified number of new segments have been created. This is an advanced configuration option that allows to choose whether to minimize DRD's memory usage by choosing a low value or to let DRD run faster by choosing a slightly higher value. The optimal value for this parameter depends on the program being analyzed. The default value works well for most programs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="maximum">
-         <number>1000000</number>
-        </property>
-        <property name="value">
-         <number>10</number>
         </property>
        </widget>
       </item>

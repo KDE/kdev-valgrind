@@ -28,11 +28,25 @@ namespace Valgrind
 MassifConfig::MassifConfig()
     : Config(MassifTool::self()->id())
 {
-    addCmdItemInt(QStringLiteral("snapshotTreeDepth"), m_snapshotTreeDepth, 30, QStringLiteral("depth"));
-    addCmdItemInt(QStringLiteral("threshold"), m_threshold, 1, QStringLiteral("threshold"));
-    addCmdItemInt(QStringLiteral("peakInaccuracy"), m_peakInaccuracy, 1, QStringLiteral("peak-inaccuracy"));
-    addCmdItemInt(QStringLiteral("maximumSnapshots"), m_maximumSnapshots, 100, QStringLiteral("max-snapshots"));
-    addCmdItemInt(QStringLiteral("detailedSnapshotsFrequency"), m_detailedSnapshotsFrequency, 10, QStringLiteral("detailed-freq"));
+    auto itemInt = addCmdItemInt(QStringLiteral("snapshotTreeDepth"), m_snapshotTreeDepth, 30, QStringLiteral("depth"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(3000);
+
+    auto itemDouble = addCmdItemDouble(QStringLiteral("threshold"), m_threshold, 1.0, QStringLiteral("threshold"));
+    itemDouble->setMinValue(1.0);
+    itemDouble->setMaxValue(100.0);
+
+    itemDouble = addCmdItemDouble(QStringLiteral("peakInaccuracy"), m_peakInaccuracy, 1.0, QStringLiteral("peak-inaccuracy"));
+    itemDouble->setMinValue(0.0);
+    itemDouble->setMaxValue(100.0);
+
+    itemInt = addCmdItemInt(QStringLiteral("maximumSnapshots"), m_maximumSnapshots, 100, QStringLiteral("max-snapshots"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(10000);
+
+    itemInt = addCmdItemInt(QStringLiteral("detailedSnapshotsFrequency"), m_detailedSnapshotsFrequency, 10, QStringLiteral("detailed-freq"));
+    itemInt->setMinValue(1);
+    itemInt->setMaxValue(10000);
 
     addCmdItemString(QStringLiteral("timeUnit"), m_timeUnit, QStringLiteral("i"), QStringLiteral("time-unit"));
 

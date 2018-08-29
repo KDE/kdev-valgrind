@@ -13,9 +13,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string/>
-     </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QFormLayout" name="formLayout">
@@ -40,15 +37,6 @@
          <widget class="QSpinBox" name="kcfg_conflictCacheSize">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This flag only has any effect at &lt;span style=&quot; font-family:'Monospace'; font-weight:600; font-style:italic;&quot;&gt;--history-level=full&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;Information about &amp;quot;old&amp;quot; conflicting accesses is stored in a cache of limited size, with LRU-style management. This is necessary because it isn't practical to store a stack trace for every single memory access made by the program. Historical information on not recently accessed locations is periodically discarded, to free up space in the cache.&lt;/p&gt;&lt;p&gt;This option controls the size of the cache, in terms of the number of different memory addresses for which conflicting access information is stored. If you find that Helgrind is showing race errors with only one stack instead of the expected two stacks, try increasing this value.&lt;/p&gt;&lt;p&gt;The minimum value is 10,000 and the maximum is 30,000,000 (thirty times the default value). Increasing the value by 1 increases Helgrind's memory requirement by very roughly 100 bytes, so the maximum value will easily eat up three extra gigabytes or so of memory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="minimum">
-           <number>10000</number>
-          </property>
-          <property name="maximum">
-           <number>30000000</number>
-          </property>
-          <property name="value">
-           <number>1000000</number>
           </property>
          </widget>
         </item>
@@ -171,12 +159,14 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>kcfg_historyLevel</tabstop>
   <tabstop>kcfg_conflictCacheSize</tabstop>
   <tabstop>kcfg_extraArgs</tabstop>
   <tabstop>kcfg_trackLockorders</tabstop>
   <tabstop>kcfg_checkStackRefs</tabstop>
   <tabstop>kcfg_ignoreThreadCreation</tabstop>
   <tabstop>kcfg_freeIsWrite</tabstop>
+  <tabstop>kcfg_showInstructionPointer</tabstop>
  </tabstops>
  <resources/>
  <connections/>
