@@ -29,7 +29,7 @@ class ToolViewFactory : public KDevelop::IToolViewFactory
 {
 public:
     QWidget* create(QWidget* parent = nullptr) override;
-    Qt::DockWidgetArea defaultPosition() override;
+    Qt::DockWidgetArea defaultPosition() const override;
     QString id() const override;
 };
 

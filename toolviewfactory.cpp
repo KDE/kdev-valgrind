@@ -77,7 +77,7 @@ QWidget* ToolViewFactory::create(QWidget* parent)
     return new ToolView(parent);
 }
 
-Qt::DockWidgetArea ToolViewFactory::defaultPosition()
+Qt::DockWidgetArea ToolViewFactory::defaultPosition() const
 {
     return Qt::BottomDockWidgetArea;
 }
