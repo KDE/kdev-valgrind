@@ -23,7 +23,6 @@
                 "Name[sv]": "Harald Fernengel, Hamish Rodda",
                 "Name[tr]": "Harald Fernengel, Hamish Rodda",
                 "Name[uk]": "Harald Fernengel, Hamish Rodda",
-                "Name[x-test]": "xxHarald Fernengel, Hamish Roddaxx",
                 "Name[zh_TW]": "Harald Fernengel, Hamish Rodda"
             }
         ],
@@ -48,7 +47,6 @@
         "Description[sv]": "Valgrind är ett verktyg som hjälper dig hitta minneshanteringsproblem i program. http://www.valgrind.org/",
         "Description[tr]": "Valgrind programların bellek yönetim sorunları bulmanıza yardımcı olan bir araçtır. http://www.valgrind.org/",
         "Description[uk]": "Valgrind — це інструмент, що допомагатиме вам знаходити проблеми у керуванні пам’яттю, що виникають у програмах. http://www.valgrind.org/",
-        "Description[x-test]": "xxValgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/xx",
         "Description[zh_CN]": "Valgrind 是一个帮助您找到程序中内存管理问题的工具。http://www.valgrind.org/",
         "Description[zh_TW]": "Valgrind 是一款可以幫助你尋找程式記憶體管理問題的工具。http://www.valgrind.org/",
         "Icon": "kdevelop",
@@ -76,7 +74,6 @@
         "Name[sv]": "Valgrind-stöd",
         "Name[tr]": "Valgrind Desteği",
         "Name[uk]": "Підтримка Valgrind",
-        "Name[x-test]": "xxValgrind Supportxx",
         "Name[zh_CN]": "Valgrind 支持",
         "Name[zh_TW]": "Valgrind 支援",
         "ServiceTypes": [
