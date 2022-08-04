@@ -74,7 +74,8 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     setBehaviours(KDevelop::IOutputView::AutoScroll);
 
     auto pluginController = KDevelop::ICore::self()->pluginController();
-    auto iface = pluginController->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))->extension<IExecutePlugin>();
+    auto iface = pluginController->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"), QStringLiteral("kdevexecute"))->extension<IExecutePlugin>();
+
     Q_ASSERT(iface);
 
     QString envProfile = iface->environmentProfileName(launchConfig);
