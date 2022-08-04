@@ -55,7 +55,6 @@ void CachegrindFunctionsModel::addItem(CachegrindFunction* newItem, bool isTotal
         m_totalItem = newItem;
         return;
     }
-
     bool exists = false;
     for (auto item : qAsConst(m_items)) {
         if (item->functionName == newItem->functionName) {
@@ -70,6 +69,7 @@ void CachegrindFunctionsModel::addItem(CachegrindFunction* newItem, bool isTotal
             }
 
             delete newItem;
+            break;
         }
     }
 
