@@ -1,0 +1,2057 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the kdev-valgrind package.
+# Shinjo Park <kde@peremen.name>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kdev-valgrind\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-08-05 00:43+0000\n"
+"PO-Revision-Date: 2021-07-18 13:25+0200\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 20.12.3\n"
+
+#: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
+#: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
+#, kde-format
+msgid "Valgrind"
+msgstr "Valgrind"
+
+#: config/globalconfigpage.cpp:50
+#, kde-format
+msgid "Configure Valgrind Settings"
+msgstr "Valgrind 설정"
+
+#. i18n: ectx: property (title), widget (QGroupBox, pathsGroupBox)
+#: config/globalconfigpage.ui:29
+#, kde-format
+msgid "Valgrind executables"
+msgstr "Valgrind 실행 파일"
+
+#. i18n: ectx: property (text), widget (QLabel)
+#: config/globalconfigpage.ui:35
+#, kde-format
+msgid "Valgrind:"
+msgstr "Valgrind:"
+
+#. i18n: ectx: property (text), widget (QLabel)
+#: config/globalconfigpage.ui:55
+#, kde-format
+msgid "callgrind_annotate:"
+msgstr "callgrind_annotate:"
+
+#. i18n: ectx: property (text), widget (QLabel)
+#: config/globalconfigpage.ui:75
+#, kde-format
+msgid "cg_annotate:"
+msgstr "cg_annotate:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, outputGroupBox)
+#: config/globalconfigpage.ui:98
+#, kde-format
+msgid "Visualizers executables"
+msgstr "시각화 도구 실행 파일"
+
+#. i18n: ectx: property (text), widget (QLabel)
+#: config/globalconfigpage.ui:104
+#, kde-format
+msgid "KCachegrind:"
+msgstr "KCachegrind:"
+
+#. i18n: ectx: property (text), widget (QLabel)
+#: config/globalconfigpage.ui:124
+#, kde-format
+msgid "Massif Visualizer:"
+msgstr "Massif 시각화 도구:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, outputGroupBox_2)
+#: config/globalconfigpage.ui:147
+#, kde-format
+msgid "Output"
+msgstr "출력"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showValgrindOutput)
+#: config/globalconfigpage.ui:153
+#, kde-format
+msgid ""
+"<html><head/><body><p>Valgrind messages will be displayed in the output view "
+"during analysis.</p><p>Useful for plugin debugging.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>분석 중에 출력 보기에 Valgrind 메시지를 표시합니다.</"
+"p><p>플러그인 디버깅에 유용합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showValgrindOutput)
+#: config/globalconfigpage.ui:156
+#, kde-format
+msgid "Show valgrind output during analysis"
+msgstr "분석 중 Valgrind 출력 표시"
+
+#: core/job.cpp:138
+#, kde-format
+msgid "%1 Analysis (%2)"
+msgstr "%1 분석(%2)"
+
+#: core/job.cpp:217
+#, kde-format
+msgid "Failed to start valgrind from \"%1\"."
+msgstr "\"%1\"에서 Valgrind를 실행할 수 없습니다."
+
+#: core/job.cpp:224
+#, kde-format
+msgid "Valgrind crashed."
+msgstr "Valgrind가 충돌했습니다."
+
+#: core/job.cpp:229
+#, kde-format
+msgid "Valgrind process timed out."
+msgstr "Valgrind 프로세스 시간이 초과되었습니다."
+
+#: core/job.cpp:233
+#, kde-format
+msgid "Write to Valgrind process failed."
+msgstr "Valgrind 프로세스에 쓸 수 없습니다."
+
+#: core/job.cpp:237
+#, kde-format
+msgid "Read from Valgrind process failed."
+msgstr "Valgrind 프로세스에서 읽을 수 없습니다."
+
+#: core/job.cpp:255 core/job.cpp:301
+#, kde-format
+msgid "Please review your Valgrind launch configuration."
+msgstr "Valgrind 실행 설정을 확인하십시오."
+
+#: core/job.cpp:257
+#, kde-format
+msgid "Unknown Valgrind process error."
+msgstr "알 수 없는 Valgrind 프로세스 오류입니다."
+
+#: core/job.cpp:263 core/job.cpp:303 core/private/xmlparser.cpp:262
+#: core/utils.cpp:124
+#, kde-format
+msgid "Valgrind Error"
+msgstr "Valgrind 오류"
+
+#: core/job.cpp:279
+#, kde-format
+msgid "Executing command: "
+msgstr "명령 실행 중:"
+
+#: core/job.cpp:297
+#, kde-format
+msgid "Failed to execute the command:"
+msgstr "명령을 실행할 수 없음:"
+
+#: core/private/common_configpage.cpp:30
+#, kde-format
+msgid "Valgrind Common Settings"
+msgstr "Valgrind 공통 설정"
+
+#. i18n: ectx: property (text), widget (QLabel, numCallersLabel)
+#: core/private/common_configpage.ui:22
+#, kde-format
+msgid "Display stac&k to depth:"
+msgstr "표시할 스택 깊이(&K):"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_numCallers)
+#: core/private/common_configpage.ui:32
+#, kde-format
+msgid ""
+"<html><head/><body><p>Specifies the maximum number of entries shown in stack "
+"traces that identify program locations. Note that errors are commoned up "
+"using only the top four function locations (the place in the current "
+"function, and that of its three immediate callers). So this doesn't affect "
+"the total number of errors reported.</p><p>The maximum value for this is "
+"500. Note that higher settings will make Valgrind run a bit more slowly and "
+"take a bit more memory, but can be useful when working with programs with "
+"deeply-nested call chains.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>프로그램 위치를 식별하는 스택 추적에서 표시할 최대 항"
+"목 개수를 지정합니다. 대개 발생한 오류는 4단계 안으로 역추적이 가능합니다(현"
+"재 함수에서의 위치, 해당 함수를 호출한 다른 함수 세 개). 따라서 보고하는 오류"
+"의 개수에는 영향을 주지 않습니다.</p><p>이 값의 최댓값은 500입니다. 값을 더 "
+"높게 설정하면 Valgrind 실행이 더 느려지고 메모리를 조금 더 사용할 수도 있으"
+"나, 호출 체인이 긴 프로그램을 추적할 때 유용할 수 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, maxStackframeLabel)
+#: core/private/common_configpage.ui:39
+#, kde-format
+msgid " Maximum size of a stack frame:"
+msgstr " 스택 프레임 최대 크기:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_maxStackframe)
+#: core/private/common_configpage.ui:49
+#, kde-format
+msgid ""
+"<html><head/><body><p>The maximum size of a stack frame. If the stack "
+"pointer moves by more than this amount then Valgrind will assume that the "
+"program is switching to a different stack.</p><p>You may need to use this "
+"option if your program has large stack-allocated arrays. Valgrind keeps "
+"track of your program's stack pointer. If it changes by more than the "
+"threshold amount, Valgrind assumes your program is switching to a different "
+"stack, and Memcheck behaves differently than it would for a stack pointer "
+"change smaller than the threshold. Usually this heuristic works well. "
+"However, if your program allocates large structures on the stack, this "
+"heuristic will be fooled, and Memcheck will subsequently report large "
+"numbers of invalid stack accesses. This option allows you to change the "
+"threshold to a different value.</p><p>You should only consider use of this "
+"option if Valgrind's debug output directs you to do so. In that case it will "
+"tell you the new threshold you should specify.</p><p>In general, allocating "
+"large structures on the stack is a bad idea, because you can easily run out "
+"of stack space, especially on systems with limited memory or which expect to "
+"support large numbers of threads each with a small stack, and also because "
+"the error checking performed by Memcheck is more effective for heap-"
+"allocated data than for stack-allocated data. If you have to use this "
+"option, you may wish to consider rewriting your code to allocate on the heap "
+"rather than on the stack.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>스택 프레임 최대 크기입니다. 스택 포인터가 이 값 이상으"
+"로 움직이면 Valgrind에서 프로그램이 다른 스택으로 전환한다고 간주합니다.</"
+"p><p>프로그램에서 스택 영역에 큰 메모리를 할당했다면 이 옵션을 사용해야 할 수"
+"도 있습니다. Valgrind는 프로그램의 스택 포인터를 추적합니다. 이 임곗값 이상으"
+"로 포인터가 변경되면 Valgrind에서는 프로그램이 스택을 전환하고 있다고 간주하"
+"고, Memcheck는 스택 포인터가 이 임곗값보다 더 작은 만큼 변경되었을 때와 다르"
+"게 작동합니다. 대개 이 추측은 잘 작동하지만, 프로그램에서 스택에 대형 구조체"
+"를 할당했다면 이 추측은 제대로 작동하지 않고 Memcheck에서는 잘못된 스택 접근"
+"을 보고할 수도 있습니다. 이 옵션을 사용하면 임곗값을 변경할 수 있습니다.</"
+"p><p>Valgrind 디버그 출력에서 이 옵션을 사용할 것을 명시한 경우에만 이 옵션"
+"을 사용하십시오. 대개의 경우 사용해야 할 새 임곗값을 명시합니다.</p><p>일반적"
+"으로 스택에 대형 구조체를 할당하는 것은 좋은 행동이 아닙니다. 스택 공간이 쉽"
+"게 부족해질 수 있으며, 특히 메모리 공간이 제한되었거나 작은 스택을 가진 스레"
+"드를 대량으로 동시에 실행해야 하는 시스템에서 문제가 더 크게 발생합니다. 또"
+"한 Memcheck의 오류 검사는 스택에 할당된 데이터보다 힙에 할당된 데이터에서 더 "
+"효과적입니다. 이 옵션을 사용해야 한다면 코드를 재작성해서 데이터를 스택이 아"
+"닌 힙에 할당하는 것을 고려해 보십시오.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
+#: core/private/common_configpage.ui:56
+#, kde-format
+msgid "&Extra parameters:"
+msgstr "추가 인자(&E):"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_errorLimit)
+#: core/private/common_configpage.ui:82
+#, kde-format
+msgid ""
+"<html><head/><body><p>When enabled, Valgrind stops reporting errors after "
+"10,000,000 in total, or 1,000 different ones, have been seen. This is to "
+"stop the error tracking machinery from becoming a huge performance overhead "
+"in programs with many errors.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>이 옵션을 사용하면 Valgrind는 총 10,000,000회의 오류를 "
+"보고했거나 서로 다른 1,000회의 오류를 보고하면 오류 보고를 중단합니다. 많은 "
+"오류가 발생하는 프로그램에서 오류 추적으로 인한 성능 오버헤드를 줄입니다.</"
+"p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_errorLimit)
+#: core/private/common_configpage.ui:85
+#, kde-format
+msgid "Limit errors if too many"
+msgstr "오류가 너무 많은 경우 제한"
+
+#: core/private/xmlparser.cpp:258
+#, kde-format
+msgid "Valgrind XML Parsing: error at line %1, column %2: %3"
+msgstr "Valgrind XML 처리 오류: 줄 %1, 칸 %2: %3"
+
+#: core/utils.cpp:47
+#, kde-format
+msgid "Instruction Fetch"
+msgstr "명령 가져오기"
+
+#: core/utils.cpp:48
+#, kde-format
+msgid "Data Read Access"
+msgstr "데이터 읽기 접근"
+
+#: core/utils.cpp:49
+#, kde-format
+msgid "Data Write Access"
+msgstr "데이터 쓰기 접근"
+
+#: core/utils.cpp:50
+#, kde-format
+msgid "L1 Instr. Fetch Miss"
+msgstr "L1 명령 가져오기 누락"
+
+#: core/utils.cpp:51
+#, kde-format
+msgid "L1 Data Read Miss"
+msgstr "L1 데이터 읽기 누락"
+
+#: core/utils.cpp:52
+#, kde-format
+msgid "L1 Data Write Miss"
+msgstr "L1 데이터 쓰기 누락"
+
+#: core/utils.cpp:53
+#, kde-format
+msgid "LL Instr. Fetch Miss"
+msgstr "LL 명령 가져오기 누락"
+
+#: core/utils.cpp:54
+#, kde-format
+msgid "LL Data Read Miss"
+msgstr "LL 데이터 읽기 누락"
+
+#: core/utils.cpp:55
+#, kde-format
+msgid "LL Data Write Miss"
+msgstr "LL 데이터 쓰기 누락"
+
+#: core/utils.cpp:57
+#, kde-format
+msgid "Conditional Branch"
+msgstr "조건 분기"
+
+#: core/utils.cpp:58
+#, kde-format
+msgid "Mispredicted Cond. Branch"
+msgstr "잘못 예측한 조건 분기"
+
+#: core/utils.cpp:59
+#, kde-format
+msgid "Indirect Branch"
+msgstr "간접 분기"
+
+#: core/utils.cpp:60
+#, kde-format
+msgid "Mispredicted Ind. Branch"
+msgstr "잘못 예측한 간접 분기"
+
+#: core/utils.cpp:116
+#, kde-format
+msgid "Failed to start visualizer from \"%1\"."
+msgstr "\"%1\"에서 시각화 도구를 실행할 수 없습니다."
+
+#: core/utils.cpp:118
+#, kde-format
+msgid "Check your settings and install the visualizer if necessary."
+msgstr "설정을 확인하고 필요한 경우 시각화 도구를 설치하십시오."
+
+#: core/utils.cpp:120
+#, kde-format
+msgid "Error during visualizer execution:"
+msgstr "시각화 도구 실행 오류:"
+
+#: core/widgets/menubutton.cpp:95 tools/memcheck/memcheck_configpage.cpp:64
+#, kde-format
+msgid "none"
+msgstr "없음"
+
+#: core/widgets/menubutton.cpp:98
+#, kde-format
+msgid "all"
+msgstr "모두"
+
+#. i18n: ectx: Menu (valgrind)
+#: kdevvalgrind.rc:6
+#, kde-format
+msgid "Run Valgrind Analysis"
+msgstr "Valgrind 분석 실행"
+
+#: plugin.cpp:79
+#, kde-format
+msgid "Run %1"
+msgstr "%1 실행"
+
+#: problemmodel.cpp:68
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Re-Run %1 Analysis for Current Launch Configuration"
+msgstr "현재 시작 설정으로 %1 분석 다시 실행"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
+#: tools/cachegrind/cachegrind_configpage.ui:23
+#, kde-format
+msgid ""
+"<html><head/><body><p>Enables or disables collection of cache access and "
+"miss counts.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>캐시 접근과 캐시 누락 개수 집계를 활성화하거나 비활성화"
+"합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_cacheSim)
+#: tools/cachegrind/cachegrind_configpage.ui:26
+#: tools/callgrind/callgrind_configpage.ui:26
+#, kde-format
+msgid "Cache simulation"
+msgstr "캐시 시뮬레이션"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
+#: tools/cachegrind/cachegrind_configpage.ui:36
+#, no-c-format, kde-format
+msgid ""
+"<html><head/><body><p>Enables or disables collection of branch instruction "
+"and misprediction counts. By default this is disabled as it slows Cachegrind "
+"down by approximately 25%. Note that you cannot specify <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--cache-sim=no</"
+"span> and <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">--branch-sim=no</span> together, as that would leave "
+"Cachegrind with no information to collect.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>분기 명령 개수와 잘못 예측한 분기 횟수 집계를 활성화하"
+"거나 비활성화합니다. Cachegrind 성능을 약 25% 감소시키기 때문에 기본값으로 "
+"이 설정은 비활성화되어 있습니다. Cachegrind에서 수집할 정보가 없어지기 때문"
+"에 <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">--cache-sim=no</span> 옵션과 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--branch-sim=no</"
+"span> 옵션을 동시에 지정할 수는 없습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_branchSim)
+#: tools/cachegrind/cachegrind_configpage.ui:39
+#: tools/callgrind/callgrind_configpage.ui:39
+#, kde-format
+msgid "Branch simulation"
+msgstr "분기 시뮬레이션"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
+#: tools/cachegrind/cachegrind_configpage.ui:49
+#, kde-format
+msgid ""
+"You cannot disable both cache and branch simulation, as that would leave "
+"Cachegrind with no information to collect."
+msgstr ""
+"Cachegrind에서 수집할 정보가 없어지기 때문에 캐시와 분기 시뮬레이션을 동시에 "
+"비활성화할 수는 없습니다."
+
+#. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
+#: tools/cachegrind/cachegrind_configpage.ui:74
+#: tools/callgrind/callgrind_configpage.ui:58 tools/drd/drd_configpage.ui:51
+#: tools/helgrind/helgrind_configpage.ui:46
+#, kde-format
+msgid "Extra parameters:"
+msgstr "추가 인자:"
+
+#. i18n: ectx: property (text), widget (QLabel, cgAnnotateArgsLabel)
+#: tools/cachegrind/cachegrind_configpage.ui:91
+#, kde-format
+msgid "cg_annotate parameters:"
+msgstr "cg_annotate 인자:"
+
+#: tools/cachegrind/cachegrind_model.cpp:155
+#: tools/callgrind/callgrind_model.cpp:289
+#, kde-format
+msgid "Function"
+msgstr "함수"
+
+#: tools/cachegrind/cachegrind_tool.cpp:35
+#, kde-format
+msgid "Cachegrind"
+msgstr "Cachegrind"
+
+#: tools/cachegrind/cachegrind_tool.cpp:36
+#, kde-format
+msgid "Cachegrind (Cache and Branch-Prediction Profiler)"
+msgstr "Cachegrind(캐시와 분기 예측 프로파일러)"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, searchEdit)
+#: tools/cachegrind/cachegrind_view.ui:31 tools/callgrind/callgrind_view.ui:40
+#, kde-format
+msgid "Search..."
+msgstr "검색..."
+
+#. i18n: ectx: property (text), widget (QCheckBox, percenageValues)
+#: tools/cachegrind/cachegrind_view.ui:41 tools/callgrind/callgrind_view.ui:53
+#, kde-format
+msgid "Percentage values"
+msgstr "백분율 값"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
+#: tools/callgrind/callgrind_configpage.ui:23
+#, kde-format
+msgid ""
+"<html><head/><body><p>Specify if you want to do full cache simulation. By "
+"default, only instruction read accesses will be counted (&quot;Ir&quot;). "
+"With cache simulation, further event counters are enabled: </p><p>Cache "
+"misses on instruction reads (&quot;I1mr&quot;/&quot;ILmr&quot;), </p><p>data "
+"read accesses (&quot;Dr&quot;) and related cache misses (&quot;D1mr&quot;/"
+"&quot;DLmr&quot;), </p><p>data write accesses (&quot;Dw&quot;) and related "
+"cache misses (&quot;D1mw&quot;/&quot;DLmw&quot;).</p></body></html>"
+msgstr ""
+"<html><head/><body><p>이 옵션을 사용하면 전체 캐시 시뮬레이션을 진행합니다. "
+"기본값으로는 명령 읽기 접근 횟수만 집계합니다(&quot;Ir&quot;). 캐시 시뮬레이"
+"션을 사용하면 다음 추가 이벤트 카운터를 활성화합니다: </p><p>명령 읽기 시 캐"
+"시 누락(&quot;I1mr&quot;/&quot;ILmr&quot;), </p><p>데이터 읽기 접근(&quot;"
+"Dr&quot;)과 연관된 캐시 누락(&quot;D1mr&quot;/&quot;DLmr&quot;), </p><p>데이"
+"터 쓰기 접근(&quot;Dw&quot;)과 연관된 캐시 누락(&quot;D1mw&quot;/&quot;"
+"DLmw&quot;).</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
+#: tools/callgrind/callgrind_configpage.ui:36
+#, kde-format
+msgid ""
+"<html><head/><body><p>Specify if you want to do branch prediction "
+"simulation. Further event counters are enabled: Number of executed "
+"conditional branches and related predictor misses (&quot;Bc&quot;/&quot;"
+"Bcm&quot;), executed indirect jumps and related misses of the jump address "
+"predictor (&quot;Bi&quot;/&quot;Bim&quot;).</p></body></html>"
+msgstr ""
+"<html><head/><body><p>이 옵션을 사용하면 분기 예측 시뮬레이션을 진행합니다. "
+"다음 추가 이벤트 카운터를 활성화합니다: 실행된 조건 분기와 연관된 분기 예측 "
+"실패(&quot;Bc&quot;/&quot;Bcm&quot;), 실행된 간접 점프 명령과 연관된 점프 주"
+"소 예측 실패(&quot;Bi&quot;/&quot;Bim&quot;).</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, callgrindAnnotateArgsLabel)
+#: tools/callgrind/callgrind_configpage.ui:75
+#, kde-format
+msgid "callgrind_annotate parameters:"
+msgstr "callgrind_annotate 인자:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchKCachegrind)
+#: tools/callgrind/callgrind_configpage.ui:101
+#, kde-format
+msgid "Launch KCachegrind after analysis finish"
+msgstr "분석이 끝난 후 KCachegrind 실행"
+
+#: tools/callgrind/callgrind_model.cpp:286
+#: tools/callgrind/callgrind_model.cpp:375
+#, kde-format
+msgid "Incl."
+msgstr "포함"
+
+#: tools/callgrind/callgrind_model.cpp:287
+#: tools/callgrind/callgrind_model.cpp:376
+#, kde-format
+msgid "Self"
+msgstr "자체"
+
+#: tools/callgrind/callgrind_model.cpp:288
+#, kde-format
+msgid "Called"
+msgstr "호출됨"
+
+#: tools/callgrind/callgrind_model.cpp:374
+#, kde-format
+msgid "Event"
+msgstr "이벤트"
+
+#: tools/callgrind/callgrind_model.cpp:377
+#, kde-format
+msgid "Short"
+msgstr "짧은"
+
+#: tools/callgrind/callgrind_model.cpp:499
+#, kde-format
+msgid "%1 per call"
+msgstr "호출당 %1"
+
+#: tools/callgrind/callgrind_model.cpp:500
+#, kde-format
+msgid "Count"
+msgstr "개수"
+
+#: tools/callgrind/callgrind_model.cpp:503
+#, kde-format
+msgid "Caller"
+msgstr "호출자"
+
+#: tools/callgrind/callgrind_model.cpp:505
+#, kde-format
+msgid "Callee"
+msgstr "피호출자"
+
+#: tools/callgrind/callgrind_tool.cpp:35
+#, kde-format
+msgid "Callgrind"
+msgstr "Callgrind"
+
+#: tools/callgrind/callgrind_tool.cpp:36
+#, kde-format
+msgid "Callgrind (Call-Graph Generating Cache and Branch Prediction Profiler)"
+msgstr "Callgrind(호출 그래프를 생성하는 캐시와 분기 예측 프로파일러)"
+
+#. i18n: ectx: property (text), widget (QPushButton, launchKCachegrindButton)
+#: tools/callgrind/callgrind_view.ui:63
+#, kde-format
+msgid "Launch KCachegrind"
+msgstr "KCachegrind 실행"
+
+#. i18n: ectx: attribute (title), widget (QWidget, events)
+#: tools/callgrind/callgrind_view.ui:91
+#, kde-format
+msgid "Events"
+msgstr "이벤트"
+
+#. i18n: ectx: attribute (title), widget (QWidget, callers)
+#: tools/callgrind/callgrind_view.ui:117
+#, kde-format
+msgid "Direct callers"
+msgstr "직접 호출"
+
+#. i18n: ectx: attribute (title), widget (QWidget, callees)
+#: tools/callgrind/callgrind_view.ui:149
+#, kde-format
+msgid "Direct callees"
+msgstr "직접 피호출"
+
+#. i18n: ectx: attribute (title), widget (QWidget, location)
+#: tools/callgrind/callgrind_view.ui:187
+#, kde-format
+msgid "Location"
+msgstr "위치"
+
+#. i18n: ectx: property (text), widget (QLabel, binaryTitle)
+#: tools/callgrind/callgrind_view.ui:199
+#, kde-format
+msgid "Binary file:"
+msgstr "바이너리 파일:"
+
+#. i18n: ectx: property (text), widget (QLabel, sourceTitle)
+#: tools/callgrind/callgrind_view.ui:232
+#, kde-format
+msgid "Source file(s):"
+msgstr "소스 파일:"
+
+#. i18n: ectx: property (text), widget (QLabel, joinListVolLabel)
+#: tools/drd/drd_configpage.ui:20
+#, kde-format
+msgid "Joined threads memory access list volume:"
+msgstr "종료를 대기하는 스레드의 메모리 접근 목록 개수:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_joinListVol)
+#: tools/drd/drd_configpage.ui:30
+#, kde-format
+msgid ""
+"<html><head/><body><p>Data races that occur between a statement at the end "
+"of one thread and another thread can be missed if memory access information "
+"is discarded immediately after a thread has been joined. This option allows "
+"to specify for how many joined threads memory access information should be "
+"retained.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>한 스레드와 다른 스레드가 끝날 때 일어나는 데이터 경쟁"
+"은 한 스레드가 종료되었을 때 메모리 접근 정보가 사라지면 놓칠 수도 있습니다. "
+"이 옵션은 종료를 대기하는 스레드의 메모리 접근 정보를 몇 개나 유지할지 설정합"
+"니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, segmentMergingIntervalLabel)
+#: tools/drd/drd_configpage.ui:37
+#, kde-format
+msgid "Segment merging interval:"
+msgstr "세그먼트 합치기 간격:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_segmentMergingInterval)
+#: tools/drd/drd_configpage.ui:44
+#, kde-format
+msgid ""
+"<html><head/><body><p>Perform segment merging only after the specified "
+"number of new segments have been created. This is an advanced configuration "
+"option that allows to choose whether to minimize DRD's memory usage by "
+"choosing a low value or to let DRD run faster by choosing a slightly higher "
+"value. The optimal value for this parameter depends on the program being "
+"analyzed. The default value works well for most programs.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>지정한 개수의 세그먼트가 생성되었을 때에만 세그먼트 합"
+"치기를 실행합니다. 이 값을 작게 설정하면 DRD의 메모리 사용량을 최소화할 수 있"
+"으며, 크게 설정하면 DRD 실행 속도를 빠르게 할 수 있습니다. 이 옵션의 최적 값"
+"은 분석하는 프로그램마다 다릅니다. 기본값은 대부분 프로그램에서 잘 작동합니"
+"다.</p></body></html>"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: tools/drd/drd_configpage.ui:75
+#, kde-format
+msgid "Common options"
+msgstr "공통 옵션"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackVar)
+#: tools/drd/drd_configpage.ui:81
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls whether DRD detects data races on stack "
+"variables. Verifying stack variables is disabled by default because most "
+"programs do not share stack variables over threads.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>DRD에서 스택 변수 경쟁을 감지할지 설정합니다. 대부분 프"
+"로그램에서는 스택 변수를 스레드끼리 공유하지 않기 때문에 기본값으로 꺼져 있습"
+"니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkStackVar)
+#: tools/drd/drd_configpage.ui:84
+#, kde-format
+msgid "Detect data races on stack variables"
+msgstr "스택 변수의 데이터 경쟁 감지"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_firstRaceOnly)
+#: tools/drd/drd_configpage.ui:91
+#, kde-format
+msgid ""
+"<html><head/><body><p>Whether to report only the first data race that has "
+"been detected on a memory location or all data races that have been detected "
+"on a memory location.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>메모리 위치에서 발생한 첫 번째 데이터 경쟁만을 보고할"
+"지, 메모리 위치에서 발생한 모든 데이터 경쟁을 보고할지 설정합니다.</p></"
+"body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_firstRaceOnly)
+#: tools/drd/drd_configpage.ui:94
+#, kde-format
+msgid "Report only the first data race"
+msgstr "첫 데이터 경쟁만 보고"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
+#: tools/drd/drd_configpage.ui:104
+#, kde-format
+msgid ""
+"<html><head/><body><p>Whether to report races between accessing memory and "
+"freeing memory. Enabling this option may cause DRD to run slightly slower. "
+"Notes:</p><p>Don't enable this option when using custom memory allocators "
+"that use the <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">VG_USERREQ__MALLOCLIKE_BLOCK</span> and <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">VG_USERREQ__FREELIKE_BLOCK</span> because that would result in false "
+"positives. </p><p>Don't enable this option when using reference-counted "
+"objects because that will result in false positives, even when that code has "
+"been annotated properly with <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">ANNOTATE_HAPPENS_BEFORE</span> and <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_AFTER</span>. See e.g. the output of the following "
+"command for an example: <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">valgrind --tool=drd --free-is-write=yes drd/"
+"tests/annotate_smart_pointer</span>.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>메모리에 접근하고 해제하는 경쟁을 보고할지 여부입니다. "
+"이 옵션을 사용하면 DRD가 약간 느리게 작동할 수도 있습니다. 메모:</p><p><span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">VG_USERREQ__MALLOCLIKE_BLOCK</span>과 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">VG_USERREQ__FREELIKE_BLOCK</span>을 사용하는 사용자 정의 메모리 할당자를 "
+"사용한다면 이 옵션을 사용하지 마십시오. 위양성 결과가 나올 수도 있습니다. </"
+"p><p>참조 카운트되는 객체를 사용한다면 해당 코드가 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_BEFORE</span>와 <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">ANNOTATE_HAPPENS_AFTER</span>를 사용하"
+"여 표시되었다고 하더라도 이 옵션을 사용하지 마십시오. 다음 명령의 출력 결과"
+"를 예제로 참조하십시오: <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">valgrind --tool=drd --free-is-write=yes drd/"
+"tests/annotate_smart_pointer</span>.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_freeIsWrite)
+#: tools/drd/drd_configpage.ui:107
+#, kde-format
+msgid "Report races between accessing and freeing memory"
+msgstr "메모리 접근과 해제 경쟁 보고"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_reportSignalUnlocked)
+#: tools/drd/drd_configpage.ui:114
+#, kde-format
+msgid ""
+"<html><head/><body><p>Whether to report calls to <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">pthread_cond_signal</span> and <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">pthread_cond_broadcast</span> where "
+"the mutex associated with the signal through <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">pthread_cond_wait</"
+"span> or <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">pthread_cond_timed_wait</span> is not locked at the time the "
+"signal is sent. Sending a signal without holding a lock on the associated "
+"mutex is a common programming error which can cause subtle race conditions "
+"and unpredictable behavior. There exist some uncommon synchronization "
+"patterns however where it is safe to send a signal without holding a lock on "
+"the associated mutex.</p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">pthread_cond_wait</span> 또는 <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">pthread_cond_timed_wait</span>로 시그널과 연관된 뮤텍스가 시그널을 보낼 "
+"때 잠겨 있지 않을 때 <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">pthread_cond_signal</span>과 <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">pthread_cond_broadc-ast</span> 호출을 보고할지 여부입니다. 연관된 뮤텍스"
+"에 잠금을 획득하지 않고 시그널을 보내는 것은 자주 발생하는 프로그래밍 오류이"
+"며 경쟁 조건과 예상하지 못한 오류가 발생할 수도 있습니다. 하지만 연관된 뮤텍"
+"스에 잠금을 획득하지 않고 시그널을 보내도 되는 동기화 패턴이 드물게 존재합니"
+"다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_reportSignalUnlocked)
+#: tools/drd/drd_configpage.ui:117
+#, kde-format
+msgid "Report calls to unlocked signals"
+msgstr "잠금 해제된 시그널 호출 반복"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_segmentMerging)
+#: tools/drd/drd_configpage.ui:124
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls segment merging. Segment merging is an "
+"algorithm to limit memory usage of the data race detection algorithm. "
+"Disabling segment merging may improve the accuracy of the so-called 'other "
+"segments' displayed in race reports but can also trigger an out of memory "
+"error.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>세그먼트 합치기를 제어합니다. 세그먼트 합치기는 데이터 "
+"경쟁 감지 알고리즘의 메모리 사용량을 제한하는 알고리즘입니다. 세그먼트 합치기"
+"를 비활성화하면 경쟁 보고서에서 표시되는 '다른 세그먼트'의 정확도를 개선할 "
+"수 있으나 메모리 부족 오류가 발생할 수도 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_segmentMerging)
+#: tools/drd/drd_configpage.ui:127
+#, kde-format
+msgid "Segment merging"
+msgstr "세그먼트 합치기"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showConflSeg)
+#: tools/drd/drd_configpage.ui:134
+#, kde-format
+msgid ""
+"<html><head/><body><p>Show conflicting segments in race reports. Since this "
+"information can help to find the cause of a data race, this option is "
+"enabled by default. Disabling this option makes the output of DRD more "
+"compact.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>경쟁 보고에서 충돌하는 세그먼트를 표시합니다. 이 정보"
+"는 데이터 경쟁의 원인을 찾는 데 유용하므로 기본값으로 활성화되어 있습니다. "
+"이 옵션을 사용하지 않으면 DRD 출력이 더 간소화됩니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showConflSeg)
+#: tools/drd/drd_configpage.ui:137
+#, kde-format
+msgid "Show conflicting segments"
+msgstr "충돌하는 세그먼트 표시"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showStackUsage)
+#: tools/drd/drd_configpage.ui:144
+#, kde-format
+msgid ""
+"<html><head/><body><p>Print stack usage at thread exit time. When a program "
+"creates a large number of threads it becomes important to limit the amount "
+"of virtual memory allocated for thread stacks. This option makes it possible "
+"to observe how much stack memory has been used by each thread of the client "
+"program.</p><p>Note: the DRD tool itself allocates some temporary data on "
+"the client thread stack. The space necessary for this temporary data must be "
+"allocated by the client program when it allocates stack memory, but is not "
+"included in stack usage reported by DRD.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>끝낼 때 스레드의 스택 사용량을 표시합니다. 프로그램에"
+"서 스레드를 대량으로 생성했다면 스레드 스택에 할당한 가상 메모리를 제한하는 "
+"것이 중요해집니다. 이 옵션을 사용하면 클라이언트 프로그램의 각각 스레드에서 "
+"얼마만큼의 메모리를 사용했는지를 관찰할 수 있습니다.</p><p>메모: DRD 도구 자"
+"체적으로 클라이언트 스레드 스택에 임시 데이터 메모리를 할당합니다. 임시 데이"
+"터에 필요한 메모리 공간은 클라이언트 프로그램에서 스택 메모리를 할당할 때 같"
+"이 할당해야 하지만, DRD에서 보고한 스택 사용량에는 포함되지 않습니다.</p></"
+"body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showStackUsage)
+#: tools/drd/drd_configpage.ui:147
+#, kde-format
+msgid "Show stack usage"
+msgstr "스택 사용량 표시"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
+#: tools/drd/drd_configpage.ui:154
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls whether all activities during thread creation "
+"should be ignored. By default enabled only on Solaris. Solaris provides "
+"higher throughput, parallelism and scalability than other operating systems, "
+"at the cost of more fine-grained locking activity. This means for example "
+"that when a thread is created under glibc, just one big lock is used for all "
+"thread setup. Solaris libc uses several fine-grained locks and the creator "
+"thread resumes its activities as soon as possible, leaving for example stack "
+"and TLS setup sequence to the created thread. This situation confuses DRD as "
+"it assumes there is some false ordering in place between creator and created "
+"thread; and therefore many types of race conditions in the application would "
+"not be reported. To prevent such false ordering, this command line option is "
+"set to <span style=\" font-family:'Monospace';\">yes</span> by default on "
+"Solaris. All activity (loads, stores, client requests) is therefore ignored "
+"during:</p><p>* pthread_create() call in the creator thread </p><p>* thread "
+"creation phase (stack and TLS setup) in the created thread</p></body></html>"
+msgstr ""
+"<html><head/><body><p>스레드 생성 시 모든 활동을 무시할지 여부를 설정합니다. "
+"기본값으로는 Solaris에서만 활성화되어 있습니다. Solaris는 잠금 활동을 더 미세"
+"하게 조정할 수 있는 대신 다른 운영 체제에 비해서 높은 대역폭, 병렬성, 확장성"
+"을 제공합니다. 이는 glibc에서 스레드를 생성할 때 모든 스레드 설정에 거대한 잠"
+"금 하나만을 사용함을 의미합니다. Solaris libc에서는 미세한 잠금 여러 개를 사"
+"용하고, 생성자 스레드는 최대한 빠르게 작업을 다시 시작하며, 생성된 스레드에"
+"서 스택과 TLS 설정 등을 진행합니다. DRD에서는 생성자와 생성된 스레드 사이에"
+"서 작업 순서가 잘못 진행되고 있다는 것으로 착각할 수 있으며, 프로그램의 경쟁 "
+"조건이 보고되지 않을 수도 있습니다. 잘못된 순서를 방지하기 위해서 이 명령행 "
+"옵션은 Solaris에서는 기본값으로 <span style=\" font-family:'Monospace';"
+"\">yes</span>로 설정됩니다. 이에 따라서 다음 작업 중 모든 활동(불러오기, 저"
+"장, 클라이언트 요청)을 무시합니다:</p><p>* 생성자 스레드에서의 "
+"pthread_create() 호출 </p><p>* 생성된 스레드에서의 스레드 생성 과정(스택과 "
+"TLS 설정)</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoreThreadCreation)
+#: tools/drd/drd_configpage.ui:157 tools/helgrind/helgrind_configpage.ui:105
+#, kde-format
+msgid "Ignore thread creation"
+msgstr "스레드 생성 무시"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showInstructionPointer)
+#: tools/drd/drd_configpage.ui:171 tools/helgrind/helgrind_configpage.ui:132
+#: tools/memcheck/memcheck_configpage.ui:210
+#, kde-format
+msgid "Show stack frame instruction pointer value"
+msgstr "스택 프레임 명령 포인터 값 표시"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tracesTab)
+#: tools/drd/drd_configpage.ui:192
+#, kde-format
+msgid "Trace options"
+msgstr "추적 옵션"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceAlloc)
+#: tools/drd/drd_configpage.ui:198
+#, kde-format
+msgid ""
+"<html><head/><body><p>Trace all memory allocations and deallocations. May "
+"produce a huge amount of output.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>모든 메모리 할당과 해제를 추적합니다. 출력이 매우 길어"
+"질 수 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceAlloc)
+#: tools/drd/drd_configpage.ui:201
+#, kde-format
+msgid "Trace memory allocations/deallocations"
+msgstr "메모리 할당/해제 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceBarrier)
+#: tools/drd/drd_configpage.ui:208
+#, kde-format
+msgid "<html><head/><body><p>Trace all barrier activity.</p></body></html>"
+msgstr "<html><head/><body><p>모든 배리어 활동을 추적합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceBarrier)
+#: tools/drd/drd_configpage.ui:211
+#, kde-format
+msgid "Trace barrier activity"
+msgstr "배리어 활동 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceCond)
+#: tools/drd/drd_configpage.ui:218
+#, kde-format
+msgid ""
+"<html><head/><body><p>Trace all condition variable activity.</p></body></"
+"html>"
+msgstr ""
+"<html><head/><body><p>모든 조건 변수 활동을 추적합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceCond)
+#: tools/drd/drd_configpage.ui:221
+#, kde-format
+msgid "Trace condition variable activity"
+msgstr "조건 변수 활동 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceForkJoin)
+#: tools/drd/drd_configpage.ui:228
+#, kde-format
+msgid ""
+"<html><head/><body><p>Trace all thread creation and all thread termination "
+"events.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>모든 스레드 생성과 스레드 종료 이벤트를 추적합니다.</"
+"p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceForkJoin)
+#: tools/drd/drd_configpage.ui:231
+#, kde-format
+msgid "Trace thread creation/termination events"
+msgstr "스레드 생성/종료 이벤트 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceHb)
+#: tools/drd/drd_configpage.ui:238
+#, kde-format
+msgid ""
+"<html><head/><body><p>Trace execution of the <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_BEFORE()</span>, <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">ANNOTATE_HAPPENS_AFTER()</span> and "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_DONE()</span> client requests.</p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">ANNOTATE_HAPPENS_BEFORE()</span>, <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_AFTER()</span>와 <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">ANNOTATE_HAPPENS_DONE()</span> 클라이언"
+"트 요청의 실행을 추적합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceHb)
+#: tools/drd/drd_configpage.ui:241
+#, kde-format
+msgid "Trace execution of \"ANNOTATE_HAPPENS\" requests"
+msgstr "\"ANNOTATE_HAPPENS\" 요청 실행 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceMutex)
+#: tools/drd/drd_configpage.ui:248
+#, kde-format
+msgid "<html><head/><body><p>Trace all mutex activity.</p></body></html>"
+msgstr "<html><head/><body><p>모든 뮤텍스 활동을 추적합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceMutex)
+#: tools/drd/drd_configpage.ui:251
+#, kde-format
+msgid "Trace mutex activity"
+msgstr "뮤텍스 활동 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceRwlock)
+#: tools/drd/drd_configpage.ui:258
+#, kde-format
+msgid ""
+"<html><head/><body><p>Trace all reader-writer lock activity.</p></body></"
+"html>"
+msgstr ""
+"<html><head/><body><p>모든 리더-라이터 잠금 활동을 추적합니다.</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceRwlock)
+#: tools/drd/drd_configpage.ui:261
+#, kde-format
+msgid "Trace reader-writer lock activity"
+msgstr "리더-라이터 잠금 활동 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceSemaphore)
+#: tools/drd/drd_configpage.ui:268
+#, kde-format
+msgid "<html><head/><body><p>Trace all semaphore activity.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>모든 세마포어 활동을 추적합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceSemaphore)
+#: tools/drd/drd_configpage.ui:271
+#, kde-format
+msgid "Trace semaphore activity"
+msgstr "세마포어 활동 추적"
+
+#: tools/drd/drd_tool.cpp:35
+#, kde-format
+msgid "DRD"
+msgstr "DRD"
+
+#: tools/drd/drd_tool.cpp:36
+#, kde-format
+msgid "DRD (Thread Error Detector)"
+msgstr "DRD(스레드 오류 감지기)"
+
+#: tools/helgrind/helgrind_configpage.cpp:36
+#, kde-format
+msgid "Full"
+msgstr "전체"
+
+#: tools/helgrind/helgrind_configpage.cpp:37
+#, kde-format
+msgid "Approx"
+msgstr "개략적"
+
+#: tools/helgrind/helgrind_configpage.cpp:38
+#, kde-format
+msgid "None"
+msgstr "없음"
+
+#. i18n: ectx: property (text), widget (QLabel, historyLevelLabel)
+#: tools/helgrind/helgrind_configpage.ui:22
+#, kde-format
+msgid "History level:"
+msgstr "과거 기록 수준:"
+
+#. i18n: ectx: property (text), widget (QLabel, conflictCacheSizeLabel)
+#: tools/helgrind/helgrind_configpage.ui:29
+#, kde-format
+msgid "Conflict cache size:"
+msgstr "충돌 캐시 크기:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_conflictCacheSize)
+#: tools/helgrind/helgrind_configpage.ui:39
+#, kde-format
+msgid ""
+"<html><head/><body><p>This flag only has any effect at <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--history-"
+"level=full</span>.</p><p>Information about &quot;old&quot; conflicting "
+"accesses is stored in a cache of limited size, with LRU-style management. "
+"This is necessary because it isn't practical to store a stack trace for "
+"every single memory access made by the program. Historical information on "
+"not recently accessed locations is periodically discarded, to free up space "
+"in the cache.</p><p>This option controls the size of the cache, in terms of "
+"the number of different memory addresses for which conflicting access "
+"information is stored. If you find that Helgrind is showing race errors with "
+"only one stack instead of the expected two stacks, try increasing this value."
+"</p><p>The minimum value is 10,000 and the maximum is 30,000,000 (thirty "
+"times the default value). Increasing the value by 1 increases Helgrind's "
+"memory requirement by very roughly 100 bytes, so the maximum value will "
+"easily eat up three extra gigabytes or so of memory.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>이 플래그는 <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--history-level=full</span>을 지정했을 "
+"때에만 효과가 있습니다.</p><p>&quot;과거&quot;의 충돌하는 접근 정보는 LRU 스"
+"타일로 관리되는 제한된 크기의 캐시에 저장됩니다. 프로그램의 모든 메모리 접근"
+"에 대한 스택 추적을 저장하는 것은 실용적이지 않기 때문에 캐시 사용이 필요합니"
+"다. 최근에 접근하지 않은 위치에 대한 정보는 캐시 사용량을 줄일 수 있도록 주기"
+"적으로 삭제됩니다.</p><p>이 옵션은 접근 정보가 서로 다른 메모리 주소 개수 단"
+"위로 캐시 크기를 제어합니다. Helgrind에서 스택 두 개가 아닌 스택 한 개만의 경"
+"쟁 오류를 표시한다면 이 값을 증가시켜 보십시오.</p><p>최솟값은 10,000, 최댓값"
+"은 30,000,000(기본값의 30배)입니다. 이 값을 1씩 증가시키면 Helgrind 메모리 사"
+"용량을 대략 100바이트씩 증가시키며, 최댓값을 사용하면 최대 3 GB 메모리를 더 "
+"사용할 수 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackLockorders)
+#: tools/helgrind/helgrind_configpage.ui:78
+#, kde-format
+msgid ""
+"<html><head/><body><p>When enabled (the default), Helgrind performs lock "
+"order consistency checking. For some buggy programs, the large number of "
+"lock order errors reported can become annoying, particularly if you're only "
+"interested in race errors. You may therefore find it helpful to disable lock "
+"order checking.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>이 옵션을 사용하면(기본값) Helgrind에서 잠금 순서 일관"
+"성 검사를 실행합니다. 일부 버그가 있는 프로그램에서는 잠금 순서 오류가 자주 "
+"발생할 수 있기 때문에, 경쟁 조건 오류만 검사할 예정이라면 잠금 순서 검사를 비"
+"활성화할 수도 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_trackLockorders)
+#: tools/helgrind/helgrind_configpage.ui:81
+#, kde-format
+msgid "Track lock orders"
+msgstr "잠금 순서 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackRefs)
+#: tools/helgrind/helgrind_configpage.ui:92
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans Serif'; font-size:14pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default Helgrind checks "
+"all data memory accesses made by your program. This flag enables you to skip "
+"checking for accesses to thread stacks (local variables). This can improve "
+"performance, but comes at the cost of missing races on stack-allocated data."
+"</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans Serif'; font-size:14pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">기본값으로 Helgrind에서는 "
+"프로그램의 모든 데이터 메모리 접근을 확인합니다. 이 플래그를 지정하면 스레드 "
+"스택(지역 변수) 접근 검사를 건너뜁니다. 성능을 향상시킬 수 있지만 스택에 할당"
+"된 데이터의 경쟁을 확인할 수 없습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkStackRefs)
+#: tools/helgrind/helgrind_configpage.ui:95
+#, kde-format
+msgid "Check stack refs"
+msgstr "스택 참조 확인"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
+#: tools/helgrind/helgrind_configpage.ui:102
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls whether all activities during thread creation "
+"should be ignored. By default enabled only on Solaris. Solaris provides "
+"higher throughput, parallelism and scalability than other operating systems, "
+"at the cost of more fine-grained locking activity. This means for example "
+"that when a thread is created under glibc, just one big lock is used for all "
+"thread setup. Solaris libc uses several fine-grained locks and the creator "
+"thread resumes its activities as soon as possible, leaving for example stack "
+"and TLS setup sequence to the created thread. This situation confuses "
+"Helgrind as it assumes there is some false ordering in place between creator "
+"and created thread; and therefore many types of race conditions in the "
+"application would not be reported. To prevent such false ordering, this "
+"command line option is set to yes by default on Solaris. All activity "
+"(loads, stores, client requests) is therefore ignored during:</p><p>* "
+"pthread_create() call in the creator thread</p><p>* thread creation phase "
+"(stack and TLS setup) in the created thread</p><p>Also new memory allocated "
+"during thread creation is untracked, that is race reporting is suppressed "
+"there. DRD does the same thing implicitly. This is necessary because Solaris "
+"libc caches many objects and reuses them for different threads and that "
+"confuses Helgrind.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>스레드 생성 시 모든 활동을 무시할지 여부를 설정합니다. "
+"기본값으로는 Solaris에서만 활성화되어 있습니다. Solaris는 잠금 활동을 더 미세"
+"하게 조정할 수 있는 대신 다른 운영 체제에 비해서 높은 대역폭, 병렬성, 확장성"
+"을 제공합니다. 이는 glibc에서 스레드를 생성할 때 모든 스레드 설정에 거대한 잠"
+"금 하나만을 사용함을 의미합니다. Solaris libc에서는 미세한 잠금 여러 개를 사"
+"용하고, 생성자 스레드는 최대한 빠르게 작업을 다시 시작하며, 생성된 스레드에"
+"서 스택과 TLS 설정 등을 진행합니다. Helgrind에서는 생성자와 생성된 스레드 사"
+"이에서 작업 순서가 잘못 진행되고 있다는 것으로 착각할 수 있으며, 프로그램의 "
+"경쟁 조건이 보고되지 않을 수도 있습니다. 잘못된 순서를 방지하기 위해서 이 명"
+"령행 옵션은 Solaris에서는 기본값으로 yes로 설정됩니다. 이에 따라서 다음 작업 "
+"중 모든 활동(불러오기, 저장, 클라이언트 요청)을 무시합니다:</p><p>* 생성자 스"
+"레드에서의 pthread_create() 호출 </p><p>* 생성된 스레드에서의 스레드 생성 과"
+"정(스택과 TLS 설정)</p> <p>또한 스레드 생성 중에 할당된 메모리는 추적되지 않"
+"으며, 그 과정에서 발생하는 경쟁 조건도 보고되지 않습니다. DRD에서도 같은 작업"
+"을 암시적으로 수행합니다. Solaris libc에서는 대량의 객체를 캐시에 저장하고 다"
+"른 스레드에서 동시에 사용하기 때문에 Helgrind에 혼동을 줄 수 있기 때문에 이 "
+"설정이 필요합니다.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
+#: tools/helgrind/helgrind_configpage.ui:115
+#, kde-format
+msgid ""
+"<html><head/><body><p>When enabled (not the default), Helgrind treats "
+"freeing of heap memory as if the memory was written immediately before the "
+"free. This exposes races where memory is referenced by one thread, and freed "
+"by another, but there is no observable synchronization event to ensure that "
+"the reference happens before the free.</p><p>This functionality is new in "
+"Valgrind 3.7.0, and is regarded as experimental. It is not enabled by "
+"default because its interaction with custom memory allocators is not well "
+"understood at present. User feedback is welcomed.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>이 옵션을 사용하면(기본값 아님) Helgrind에서는 힙 메모"
+"리를 해제하는 과정을 메모리 해제 직전에 쓰기 작업이 있었던 것처럼 취급합니"
+"다. 한 스레드에서 메모리를 참조하고 다른 스레드에서 메모리를 해제하는 경쟁 조"
+"건을 확인할 수 있지만, 메모리 참조가 해제 전에 일어남을 확신할 수 있는 관측"
+"할 수 있는 동기화 이벤트가 없습니다.</p><p>이 기능은 Valgrind 3.7.0에 새로 추"
+"가되었으며 실험적 기능으로 간주됩니다. 사용자 정의 메모리 할당자와의 상호 작"
+"용이 아직까지 잘 확인되지 않았기 때문에 이 옵션은 기본값으로 비활성화되어 있"
+"습니다. 사용자 피드백이 필요합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_freeIsWrite)
+#: tools/helgrind/helgrind_configpage.ui:118
+#, kde-format
+msgid "Free is write (experimental)"
+msgstr "Free를 쓰기로 간주(실험적)"
+
+#: tools/helgrind/helgrind_tool.cpp:35
+#, kde-format
+msgid "Helgrind"
+msgstr "Helgrind"
+
+#: tools/helgrind/helgrind_tool.cpp:36
+#, kde-format
+msgid "Helgrind (Thread Error Detector)"
+msgstr "Helgrind(스레드 오류 감지기)"
+
+#: tools/massif/massif_configpage.cpp:39
+#, kde-format
+msgid "CPU instructions"
+msgstr "CPU 명령"
+
+#: tools/massif/massif_configpage.cpp:40
+#, kde-format
+msgid "Milliseconds"
+msgstr "밀리초"
+
+#: tools/massif/massif_configpage.cpp:41
+#, kde-format
+msgid "Bytes allocated"
+msgstr "할당한 바이트"
+
+#. i18n: ectx: property (text), widget (QLabel, timeUnitLabel)
+#: tools/massif/massif_configpage.ui:25
+#, kde-format
+msgid "Time unit:"
+msgstr "시간 단위:"
+
+#. i18n: ectx: property (text), widget (QLabel, snapshotTreeDepthLabel)
+#: tools/massif/massif_configpage.ui:32
+#, kde-format
+msgid "Snapshot tree depth:"
+msgstr "스냅샷 트리 깊이:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_snapshotTreeDepth)
+#: tools/massif/massif_configpage.ui:42
+#, kde-format
+msgid ""
+"<html><head/><body><p>Maximum depth of the allocation trees recorded for "
+"detailed snapshots. Increasing it will make Massif run somewhat more slowly, "
+"use more memory, and produce bigger output files.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>자세한 스냅샷에 기록할 스냅샷 트리 최대 깊이입니다. 이 "
+"설정을 증가시키면 Massif 실행이 더 느려지고, 메모리를 더 사용하고, 더 큰 출"
+"력 파일을 생성합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, thresholdLabel)
+#: tools/massif/massif_configpage.ui:49
+#, kde-format
+msgid "Threshold:"
+msgstr "임곗값:"
+
+#. i18n: ectx: property (text), widget (QLabel, peakInaccuracyLabel)
+#: tools/massif/massif_configpage.ui:59
+#, kde-format
+msgid "Peak inaccuracy:"
+msgstr "부정확도 극값:"
+
+#. i18n: ectx: property (text), widget (QLabel, maximumSnapshotsLabel)
+#: tools/massif/massif_configpage.ui:69
+#, kde-format
+msgid "Maximum snapshots:"
+msgstr "최대 스냅샷:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_maximumSnapshots)
+#: tools/massif/massif_configpage.ui:79
+#, kde-format
+msgid ""
+"<html><head/><body><p>The maximum number of snapshots recorded. If set to N, "
+"for all programs except very short-running ones, the final number of "
+"snapshots will be between N/2 and N.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>최대로 기록할 스냅샷 개수입니다. N으로 설정하면 매우 짧"
+"게 실행되고 끝나는 프로그램이 아니라면 최대 스냅샷 개수는 N/2에서 N개 사이입"
+"니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, detailedSnapshotsFrequencyLabel)
+#: tools/massif/massif_configpage.ui:86
+#, kde-format
+msgid "Detailed snapshot frequency:"
+msgstr "자세한 스냅샷 빈도:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_detailedSnapshotsFrequency)
+#: tools/massif/massif_configpage.ui:96
+#, kde-format
+msgid ""
+"<html><head/><body><p>Frequency of detailed snapshots. With <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--detailed-"
+"freq=1</span>, every snapshot is detailed.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>자세한 스냅샷을 찍을 빈도입니다. <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--detailed-freq=1</"
+"span>로 지정하면 모든 스냅샷을 자세한 스냅샷으로 찍습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
+#: tools/massif/massif_configpage.ui:103
+#: tools/memcheck/memcheck_configpage.ui:121
+#, kde-format
+msgid "E&xtra parameters:"
+msgstr "추가 인자(&X):"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_threshold)
+#: tools/massif/massif_configpage.ui:123
+#, kde-format
+msgid ""
+"<html><head/><body><p>The significance threshold for heap allocations, as a "
+"percentage of total memory size. Allocation tree entries that account for "
+"less than this will be aggregated. Note that this should be specified in "
+"tandem with ms_print's option of the same name.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>총 메모리 크기의 백분율로 지정하는 대형 힙 할당 임곗값"
+"입니다. 이 항목보다 작은 할당 트리 항목은 합쳐집니다. ms_print의 이름이 같은 "
+"옵션과 동시에 설정해야 합니다.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_peakInaccuracy)
+#: tools/massif/massif_configpage.ui:136
+#, no-c-format, kde-format
+msgid ""
+"<html><head/><body><p>Massif does not necessarily record the actual global "
+"memory allocation peak; by default it records a peak only when the global "
+"memory allocation size exceeds the previous peak by at least 1.0%. This is "
+"because there can be many local allocation peaks along the way, and doing a "
+"detailed snapshot for every one would be expensive and wasteful, as all but "
+"one of them will be later discarded. This inaccuracy can be changed (even to "
+"0.0%) via this option, but Massif will run drastically slower as the number "
+"approaches zero.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Massif에서는 실제 전역 메모리 할당을 항상 기록하지는 않"
+"습니다. 기본값으로 전역 메모리 할당 크기가 이전 극값의 최소 1.0%를 초과할 때"
+"만 기록합니다. 로컬 할당 극값이 계속 발생할 수 있으며, 매 극값마다 자세한 스"
+"냅샷을 찍기에는 자원이 많이 소모될 수도 있습니다. 또한 해당 스냅샷은 나중에 "
+"하나만 남겨 두고 사용되지 않기 때문입니다. 이 옵션을 사용하여 비율을 변경할 "
+"수 있으나(0.0%로도 설정 가능) 값이 0에 가까워질수록 Massif 실행이 더 느려집니"
+"다.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_profileHeap)
+#: tools/massif/massif_configpage.ui:158
+#, kde-format
+msgid ""
+"<html><head/><body><p>Specifies whether heap profiling should be done.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>힙 프로파일링 실행 여부를 결정합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_profileHeap)
+#: tools/massif/massif_configpage.ui:161
+#, kde-format
+msgid "Profile heap"
+msgstr "힙 프로필"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_profileStack)
+#: tools/massif/massif_configpage.ui:171
+#, kde-format
+msgid ""
+"<html><head/><body><p>Specifies whether stack profiling should be done. This "
+"option slows Massif down greatly, and so is off by default. Note that Massif "
+"assumes that the main stack has size zero at start-up. This is not true, but "
+"doing otherwise accurately is difficult. Furthermore, starting at zero "
+"better indicates the size of the part of the main stack that a user program "
+"actually has control over.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>스택 프로파일링 실행 여부를 결정합니다. 이 옵션은 "
+"Massif 실행을 느리게 하기 때문에 기본값으로 꺼져 있습니다. Massif는 시작할 "
+"때 주 스택 크기가 0이라고 가정합니다. 항상 참은 아니지만 다른 값으로 가정하기"
+"는 더 어렵습니다. 또한 0에서 시작하면 사용자 프로그램이 제어할 수 있는 주 스"
+"택 부분 크기를 정확하게 측정할 수 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_profileStack)
+#: tools/massif/massif_configpage.ui:174
+#, kde-format
+msgid "Profile stack (slows profiling down greatly)"
+msgstr "스택 프로필(프로필 속도를 매우 낮춤)"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_pagesAsHeap)
+#: tools/massif/massif_configpage.ui:181
+#, kde-format
+msgid ""
+"<html><head/><body><p>Tells Massif to profile memory at the page level "
+"rather than at the malloc'd block level.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Massif에 malloc 블록 수준이 아닌 페이지 수준으로 메모"
+"리 프로필 작성을 요청합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_pagesAsHeap)
+#: tools/massif/massif_configpage.ui:184
+#, kde-format
+msgid "Pages as heap"
+msgstr "페이지를 힙으로"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
+#: tools/massif/massif_configpage.ui:191
+#, kde-format
+msgid ""
+"<html><head/><body><p>&quot;Pages as heap&quot; cannot be used together with "
+"&quot;Profile stack&quot;.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>&quot;페이지를 힙으로&quot; 설정은 &quot;스택 프로필"
+"&quot; 설정과 같이 사용할 수 없습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchVisualizer)
+#: tools/massif/massif_configpage.ui:214
+#, kde-format
+msgid "Launch Massif Visualizer after analysis finish"
+msgstr "분석이 끝난 후 Massif 시각화 도구 실행"
+
+#: tools/massif/massif_model.cpp:126
+#, kde-format
+msgid "Snapshot"
+msgstr "스냅샷"
+
+#: tools/massif/massif_model.cpp:129
+#, kde-format
+msgid "Time"
+msgstr "시간"
+
+#: tools/massif/massif_model.cpp:132
+#, kde-format
+msgid "Heap"
+msgstr "힙"
+
+#: tools/massif/massif_model.cpp:135
+#, kde-format
+msgid "Heap (extra)"
+msgstr "힙(추가)"
+
+#: tools/massif/massif_model.cpp:138
+#, kde-format
+msgid "Stack"
+msgstr "스택"
+
+#: tools/massif/massif_tool.cpp:35
+#, kde-format
+msgid "Massif"
+msgstr "Massif"
+
+#: tools/massif/massif_tool.cpp:36
+#, kde-format
+msgid "Massif (Heap Profiler)"
+msgstr "Massif(힙 프로파일러)"
+
+#. i18n: ectx: property (text), widget (QLabel, snapshotsLabel)
+#: tools/massif/massif_view.ui:36
+#, kde-format
+msgid "Snapshots"
+msgstr "스냅샷"
+
+#. i18n: ectx: property (text), widget (QLabel, treesLabel)
+#: tools/massif/massif_view.ui:56
+#, kde-format
+msgid "Heap trees"
+msgstr "힙 트리"
+
+#. i18n: ectx: property (text), widget (QPushButton, launchVisualizerButton)
+#: tools/massif/massif_view.ui:70
+#, kde-format
+msgid "Launch visualizer"
+msgstr "시각화 도구 실행"
+
+#: tools/memcheck/memcheck_configpage.cpp:43
+#, kde-format
+msgid "definite"
+msgstr "확실함"
+
+#: tools/memcheck/memcheck_configpage.cpp:44
+#, kde-format
+msgid "possible"
+msgstr "가능함"
+
+#: tools/memcheck/memcheck_configpage.cpp:45
+#, kde-format
+msgid "indirect"
+msgstr "직접적"
+
+#: tools/memcheck/memcheck_configpage.cpp:46
+#, kde-format
+msgid "reachable"
+msgstr "접근 가능"
+
+#. i18n text ?
+#: tools/memcheck/memcheck_configpage.cpp:50
+#, kde-format
+msgid "stdstring"
+msgstr "stdstring"
+
+#: tools/memcheck/memcheck_configpage.cpp:51
+#, kde-format
+msgid "length64"
+msgstr "length64"
+
+#: tools/memcheck/memcheck_configpage.cpp:52
+#, kde-format
+msgid "newarray"
+msgstr "새 배열"
+
+#: tools/memcheck/memcheck_configpage.cpp:53
+#, kde-format
+msgid "multipleinheritance"
+msgstr "다중 상속"
+
+#: tools/memcheck/memcheck_configpage.cpp:56
+#, kde-format
+msgid "high"
+msgstr "높음"
+
+#: tools/memcheck/memcheck_configpage.cpp:57
+#, kde-format
+msgid "medium"
+msgstr "중간"
+
+#: tools/memcheck/memcheck_configpage.cpp:58
+#, kde-format
+msgid "low"
+msgstr "낮음"
+
+#: tools/memcheck/memcheck_configpage.cpp:60
+#, kde-format
+msgid "alloc"
+msgstr "할당"
+
+#: tools/memcheck/memcheck_configpage.cpp:61
+#, kde-format
+msgid "free"
+msgstr "해제"
+
+#: tools/memcheck/memcheck_configpage.cpp:62
+#, kde-format
+msgid "alloc-and-free"
+msgstr "할당과-해제"
+
+#: tools/memcheck/memcheck_configpage.cpp:63
+#, kde-format
+msgid "alloc-then-free"
+msgstr "할당-직후-해제"
+
+#. i18n: ectx: property (text), widget (QLabel, leakResolutionLabel)
+#: tools/memcheck/memcheck_configpage.ui:25
+#, kde-format
+msgid "Leak resolution:"
+msgstr "누수 해결:"
+
+#. i18n: ectx: property (toolTip), widget (Valgrind::ComboBox, kcfg_leakResolution)
+#: tools/memcheck/memcheck_configpage.ui:32
+#, kde-format
+msgid ""
+"<html><head/><body><p>When doing leak checking, determines how willing "
+"Memcheck is to consider different backtraces to be the same for the purposes "
+"of merging multiple leaks into a single leak report. When set to <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">low</"
+"span>, only the first two entries need match. When <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">med</span>, four "
+"entries have to match. When <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">high</span>, all entries need to match.</"
+"p><p>For hardcore leak debugging, you probably want to use <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--leak-"
+"resolution=high</span> together with <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--num-callers=40</span> or some such "
+"large number.</p><p>Note that the <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--leak-resolution</span> setting does "
+"not affect Memcheck's ability to find leaks. It only changes how the results "
+"are presented.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>누수를 검사할 때 Memcheck에서 여러 메모리 누수를 누수 "
+"보고서 하나로 합칠 때 서로 다른 역추적을 같은 것으로 간주할 정도를 설정합니"
+"다. <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">low</span>로 설정했다면 첫 두 항목만 일치하면 합칩니다. <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">med</"
+"span>로 설정했다면 첫 네 항목이 일치해야 합니다. <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">high</span>로 설정"
+"했다면 모든 항목이 일치해야 합니다.</p><p>어려운 누수 디버그를 진행할 때에는 "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">--leak-resolution=high</span> 옵션과 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--num-callers=40</"
+"span> 정도의 큰 수로 같이 지정하기를 추천합니다.</p><p><span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--leak-resolution</"
+"span> 설정은 Memcheck의 누수 확인에 영향을 주지 않습니다. 결과 표시에만 영향"
+"을 줍니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, showLeakKindsLabel)
+#: tools/memcheck/memcheck_configpage.ui:39
+#, kde-format
+msgid "Show leak kinds:"
+msgstr "누수 형식 표시:"
+
+#. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_showLeakKinds)
+#: tools/memcheck/memcheck_configpage.ui:46
+#, kde-format
+msgid "Specifies the leak kinds to show."
+msgstr "표시할 누수 형식을 지정합니다."
+
+#. i18n: ectx: property (text), widget (QLabel, leakCheckHeuristicsLabel)
+#: tools/memcheck/memcheck_configpage.ui:59
+#, kde-format
+msgid "Used heuristics:"
+msgstr "사용할 휴리스틱:"
+
+#. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_leakCheckHeuristics)
+#: tools/memcheck/memcheck_configpage.ui:66
+#, kde-format
+msgid ""
+"<html><head/><body><p>Specifies the set of leak check heuristics to be used "
+"during leak searches. The heuristics control which interior pointers to a "
+"block cause it to be considered as reachable.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>누수를 검사할 때 사용할 누수 검사 휴리스틱을 지정합니"
+"다. 휴리스틱은 어떤 블록을 향한 내부 포인터를 접근 가능한 것으로 간주할지 제"
+"어합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, keepStacktracesLabel)
+#: tools/memcheck/memcheck_configpage.ui:76
+#, kde-format
+msgid "Stacktraces keeping:"
+msgstr "스택 추적 유지:"
+
+#. i18n: ectx: property (toolTip), widget (Valgrind::ComboBox, kcfg_keepStacktraces)
+#: tools/memcheck/memcheck_configpage.ui:83
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls which stack trace(s) to keep for malloc'd and/"
+"or free'd blocks. </p><p>With <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc-then-free</span>, a stack trace is "
+"recorded at allocation time, and is associated with the block. When the "
+"block is freed, a second stack trace is recorded, and this replaces the "
+"allocation stack trace. As a result, any &quot;use after free&quot; errors "
+"relating to this block can only show a stack trace for where the block was "
+"freed. </p><p>With <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">alloc-and-free</span>, both allocation and the "
+"deallocation stack traces for the block are stored. Hence a &quot;use after "
+"free&quot; error will show both, which may make the error easier to "
+"diagnose. Compared to <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc-then-free</span>, this setting "
+"slightly increases Valgrind's memory use as the block contains two "
+"references instead of one. </p><p>With <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">alloc</span>, only "
+"the allocation stack trace is recorded (and reported). With <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">free</span>, "
+"only the deallocation stack trace is recorded (and reported). These values "
+"somewhat decrease Valgrind's memory and cpu usage. They can be useful "
+"depending on the error types you are searching for and the level of detail "
+"you need to analyze them. For example, if you are only interested in memory "
+"leak errors, it is sufficient to record the allocation stack traces. </"
+"p><p>With <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">none</span>, no stack traces are recorded for malloc and "
+"free operations. If your program allocates a lot of blocks and/or allocates/"
+"frees from many different stack traces, this can significantly decrease cpu "
+"and/or memory required. Of course, few details will be reported for errors "
+"related to heap blocks. </p><p>Note that once a stack trace is recorded, "
+"Valgrind keeps the stack trace in memory even if it is not referenced by any "
+"block. Some programs (for example, recursive algorithms) can generate a huge "
+"number of stack traces. If Valgrind uses too much memory in such "
+"circumstances, you can reduce the memory required with the options <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
+"keep-stacktraces</span> and/or by using a smaller value for the option <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
+"num-callers</span>. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>malloc/free를 호출한 블록의 스택 추적 유지 여부를 설정"
+"합니다.</p><p><span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">alloc-then-free</span>로 지정하면 블록의 할당 시간의 스택 추"
+"적을 기록하고 블록과 연결합니다. 블록이 해제되면 두 번째 스택 추적을 기록하"
+"고 할당 스택 추적을 대체합니다. 따라서 이 블록과 관련된 &quot;해제 이후 사용"
+"&quot; 오류는 해제된 블록의 스택 추적만 표시할 수 있습니다. </p><p><span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">alloc-and-free</span>로 지정하면 블록의 할당과 해제 스택 추적을 모두 저장"
+"합니다. 따라서 &quot;해제 이후 사용&quot; 오류는 할당과 해제 둘 다를 표시하"
+"며 더 쉽게 진단할 수 있습니다. <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc-then-free</span> 설정과 비교했을 때 "
+"이 설정은 블록에 참조를 한 개 대신 두 개 저장하므로 Valgrind의 메모리 사용량"
+"을 증가시킵니다. </p><p><span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc</span>으로 지정하면 할당 스택 추적만 "
+"기록하고 보고합니다. <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">free</span>로 지정하면 해제 스택 추적만 기록"
+"하고 보고합니다. 이 설정은 Valgrind의 메모리와 CPU 사용량을 감소시킵니다. 검"
+"색하려는 오류 형식과 자세한 정도에 따라서 유용할 수도 있습니다. 예를 들어 메"
+"모리 누수 오류만 탐지하려면 할당 스택 추적만 기록해도 충분합니다.</"
+"p><p><span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">none</span>으로 지정하면 malloc과 free 작업의 스택 추적을 기록하지 "
+"않습니다. 프로그램에서 대량의 블록을 할당하거나 서로 다른 스택 추적에서 할당/"
+"해제를 수행한다면 필요한 CPU/메모리 사용량을 줄일 수도 있습니다. 힙 블록에 관"
+"련된 오류를 더 적게 보고합니다. </p><p>한 번 스택 추적을 기록하면 Valgrind는 "
+"어떠한 블록에서 참조하지 않더라도 스택 추적을 메모리에 기록합니다. 재귀 호출 "
+"알고리즘을 사용하는 일부 프로그램은 대량의 스택 추적을 생성할 수도 있습니다. "
+"이러한 상황에서 Valgrind가 너무 많은 메모리를 사용한다면 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--keep-"
+"stacktraces</span> 옵션이나 <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">--num-callers</span> 옵션의 값을 작게 조정해"
+"서 메모리 사용량을 줄일 수도 있습니다. </p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, freelistVolLabel)
+#: tools/memcheck/memcheck_configpage.ui:90
+#, kde-format
+msgid "Freelist maximum size:"
+msgstr "해제 목록 최대 크기:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_freelistVol)
+#: tools/memcheck/memcheck_configpage.ui:100
+#, kde-format
+msgid ""
+"<html><head/><body><p>When the client program releases memory using <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">free</span> (in <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">C</span>) or <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">delete</span> (<span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">C++</span>), that "
+"memory is not immediately made available for re-allocation. Instead, it is "
+"marked inaccessible and placed in a queue of freed blocks. The purpose is to "
+"defer as long as possible the point at which freed-up memory comes back into "
+"circulation. This increases the chance that Memcheck will be able to detect "
+"invalid accesses to blocks for some significant period of time after they "
+"have been freed.</p><p>This option specifies the maximum total size, in "
+"bytes, of the blocks in the queue. The default value is twenty million "
+"bytes. Increasing this increases the total amount of memory used by Memcheck "
+"but may detect invalid uses of freed blocks which would otherwise go "
+"undetected.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>클라이언트 프로그램에서 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">free</span> (<span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">C</"
+"span>) 또는 <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">delete</span> (<span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">C++</span>)를 사용하여 메모리를 해제할 때 해"
+"당 메모리는 곧바로 다시 할당되지 않습니다. 해당 메모리는 접근할 수 없는 것으"
+"로 표시되며 해제된 블록 대기열에 추가됩니다. 대기열을 사용하는 목적은 해제된 "
+"메모리를 다시 할당하는 것을 최대한 지연시키는 것입니다. Memcheck에서 메모리"
+"가 해제된 후 긴 시간 동안 블록에 대한 잘못된 접근이 일어나는지를 확인할 수 있"
+"는 확률을 증가시킵니다.</p><p>이 옵션은 대기열 블록 최대 총 크기를 바이트 단"
+"위로 지정합니다. 기본값은 20,000,000바이트입니다. 이 값을 증가시키면 Memcheck"
+"의 총 메모리 사용량이 증가하지만 감지할 수 없는 해제된 블록의 잘못된 사용을 "
+"감지할 수도 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, freelistBigBlocksLabel)
+#: tools/memcheck/memcheck_configpage.ui:107
+#, kde-format
+msgid "Freelist big-blocks:"
+msgstr "해제 목록 큰 블록:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_freelistBigBlocks)
+#: tools/memcheck/memcheck_configpage.ui:114
+#, kde-format
+msgid ""
+"<html><head/><body><p>When making blocks from the queue of freed blocks "
+"available for re-allocation, Memcheck will in priority re-circulate the "
+"blocks with a size greater or equal to <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--freelist-big-"
+"blocks</span>. This ensures that freeing big blocks (in particular freeing "
+"blocks bigger than <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">--freelist-vol</span>) does not immediately lead to a "
+"re-circulation of all (or a lot of) the small blocks in the free list. In "
+"other words, this option increases the likelihood to discover dangling "
+"pointers for the &quot;small&quot; blocks, even when big blocks are freed.</"
+"p><p>Setting a value of 0 means that all the blocks are re-circulated in a "
+"FIFO order.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>해제된 블록 대기열을 다시 할당할 수 있도록 만들 때 "
+"Memcheck에서는 <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">--freelist-big-blocks</span> 옵션으로 지정한 크기보다 크거나 "
+"같은 블록을 더 먼저 재순환시킵니다. 큰 블록을 해제했을 때(<span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--freelist-"
+"vol</span>보다 큰 경우) 해제 목록의 모든(또는 대량의) 작은 블록을 곧바로 재순"
+"환시키지 않습니다. 즉, 이 옵션은 큰 블록이 해제되었다고 하더라도 &quot;작은"
+"&quot; 블록을 가리키는 허상 포인터를 발견할 수 있는 기회를 증가시킵니다.</"
+"p><p>0으로 설정하면 모든 블록을 FIFO 순서로 재순환시킵니다.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_undefValueErrors)
+#: tools/memcheck/memcheck_configpage.ui:150
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls whether Memcheck reports uses of undefined "
+"value errors. Set this to <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">no</span> if you don't want to see "
+"undefined value errors. It also has the side effect of speeding up Memcheck "
+"somewhat.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Memcheck에서 정의되지 않은 값 사용 오류를 보고할지 설정"
+"합니다. <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">no</span>로 설정하면 정의되지 않은 값을 표시하지 않습니다. "
+"Memcheck 성능을 향상시킬 수도 있습니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_undefValueErrors)
+#: tools/memcheck/memcheck_configpage.ui:153
+#, kde-format
+msgid "Show undefined values usage"
+msgstr "정의되지 않은 값 사용 표시:"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showMismatchedFrees)
+#: tools/memcheck/memcheck_configpage.ui:163
+#, kde-format
+msgid ""
+"<html><head/><body><p>When enabled, Memcheck checks that heap blocks are "
+"deallocated using a function that matches the allocating function. That is, "
+"it expects <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">free</span> to be used to deallocate blocks allocated by "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">malloc</span>, <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">delete</span> for blocks allocated by <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">new</span>, "
+"and <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">delete[]</span> for blocks allocated by <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">new[]</span>. If a "
+"mismatch is detected, an error is reported. This is in general important "
+"because in some environments, freeing with a non-matching function can cause "
+"crashes.</p><p>There is however a scenario where such mismatches cannot be "
+"avoided. That is when the user provides implementations of <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">new</span>/"
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">new[]</span> that call <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">malloc</span> and of <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete</span>/"
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">delete[]</span> that call <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">free</span>, and these functions are "
+"asymmetrically inlined. For example, imagine that <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete[]</span> is "
+"inlined but <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">new[]</span> is not. The result is that Memcheck &quot;"
+"sees&quot; all <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">delete[]</span> calls as direct calls to <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">free</span>, even "
+"when the program source contains no mismatched calls.</p><p>This causes a "
+"lot of confusing and irrelevant error reports. <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--show-mismatched-"
+"frees=no</span> disables these checks. It is not generally advisable to "
+"disable them, though, because you may miss real errors as a result.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>이 옵션을 사용하면 Memcheck에서 힙 블록 해제를 힙 블록 "
+"할당 함수와 일치하는 함수로 하는지 검사합니다. 즉, <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">free</span> 함수가 "
+"호출되면 해당 블록이 <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">malloc</span>으로 할당되었는지, <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">delete</"
+"span> 함수가 호출되면 해당 블록이 <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">new</span>로 할당되었는지, <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">delete[]</"
+"span> 함수가 호출되면 해당 블록이 <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">new[]</span>로 할당되었는지 확인합니"
+"다. 함수가 일치하지 않으면 오류를 보고합니다. 일부 환경에서는 일치하지 않는 "
+"함수로 해제할 때 충돌이 발생할 수 있기 때문에 일반적으로 중요합니다.</p><p>한"
+"편 이러한 불일치가 필요한 경우가 있습니다. 예를 들어서 사용자 정의 <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">new</"
+"span>/<span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">new[]</span> 구현이 <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">malloc</span>을 호출하고 <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">delete</span>/"
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">delete[]</span> 구현이 <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">free</span>를 호출하며, 해당 함수 중 한 쪽"
+"만 인라인되는 경우가 있습니다. 예를 들어서 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete[]</span>는 "
+"인라인되었지만 <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">new[]</span>는 인라인되지 않았을 수도 있습니다. 이 때 "
+"Memcheck에서는 짝이 맞지 않는 경우가 없더라도 모든 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete[]</span> 호"
+"출을 <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">free</span> &quot;직접&quot; 호출로 간주합니다.</p><p>따라서 관계 "
+"없는 혼동되는 오류를 보고하게 됩니다. <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--show-mismatched-"
+"frees=no</span> 옵션은 이 검사를 비활성화합니다. 실제 오류를 놓칠 수도 있기 "
+"때문에 비활성화하지 않기를 추천합니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showMismatchedFrees)
+#: tools/memcheck/memcheck_configpage.ui:166
+#, kde-format
+msgid "Show mismatched frees"
+msgstr "일치하지 않는 해제 표시:"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_partialLoadsOk)
+#: tools/memcheck/memcheck_configpage.ui:173
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls how Memcheck handles 32-, 64-, 128- and 256-"
+"bit naturally aligned loads from addresses for which some bytes are "
+"addressable and others are not. When <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">yes</span>, such loads do not produce "
+"an address error. Instead, loaded bytes originating from illegal addresses "
+"are marked as uninitialised, and those corresponding to legal addresses are "
+"handled in the normal way.</p><p>When <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">no</span>, loads "
+"from partially invalid addresses are treated the same as loads from "
+"completely invalid addresses: an illegal-address error is issued, and the "
+"resulting bytes are marked as initialised.</p><p>Note that code that behaves "
+"in this way is in violation of the ISO C/C++ standards, and should be "
+"considered broken. If at all possible, such code should be fixed.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Memcheck에서의 일부 바이트는 주소를 지정할 수 있고 일"
+"부 바이트는 주소를 지정할 수 없는 주소에서의 32, 64, 128, 256비트 자연 정렬"
+"된 로드 처리 방식을 제어합니다. 이 옵션을 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">yes</span>로 설정하"
+"면 해당 로드는 주소 오류를 발생시키지 않습니다. 그 대신 잘못된 주소에서 바이"
+"트를 로드하는 것을 초기화되지 않은 것으로 표시하며, 올바른 주소에서 바이트를 "
+"로드하는 것은 일반적인 방식으로 처리합니다.</p><p><span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">no</span>로 설정하"
+"면 부분적으로 잘못된 주소에서 바이트를 로드하는 것을 완전히 잘못된 주소에서 "
+"바이트를 로드하는 것과 동일하게 취급합니다. 잘못된 주소 오류가 발생하며 해당 "
+"바이트는 초기화된 것으로 표시합니다.</p><p>이렇게 작동하는 코드는 ISO C/C++ "
+"표준을 위반하며 잘못된 것으로 간주해야 합니다. 가능하다면 해당 코드를 수정하"
+"십시오.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_partialLoadsOk)
+#: tools/memcheck/memcheck_configpage.ui:176
+#, kde-format
+msgid "Allow partial loads"
+msgstr "부분 로드 허용"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackOrigins)
+#: tools/memcheck/memcheck_configpage.ui:183
+#, kde-format
+msgid ""
+"<html><head/><body><p>Controls whether Memcheck tracks the origin of "
+"uninitialised values. By default, it does not, which means that although it "
+"can tell you that an uninitialised value is being used in a dangerous way, "
+"it cannot tell you where the uninitialised value came from. This often makes "
+"it difficult to track down the root problem.</p><p>When set to <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">yes</"
+"span>, Memcheck keeps track of the origins of all uninitialised values. "
+"Then, when an uninitialised value error is reported, Memcheck will try to "
+"show the origin of the value. An origin can be one of the following four "
+"places: a heap block, a stack allocation, a client request, or miscellaneous "
+"other sources (eg, a call to <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">brk</span>).</p><p>For uninitialised values "
+"originating from a heap block, Memcheck shows where the block was allocated. "
+"For uninitialised values originating from a stack allocation, Memcheck can "
+"tell you which function allocated the value, but no more than that -- "
+"typically it shows you the source location of the opening brace of the "
+"function. So you should carefully check that all of the function's local "
+"variables are initialised properly. </p><p>Performance overhead: origin "
+"tracking is expensive. It halves Memcheck's speed and increases memory use "
+"by a minimum of 100MB, and possibly more. Nevertheless it can drastically "
+"reduce the effort required to identify the root cause of uninitialised value "
+"errors, and so is often a programmer productivity win, despite running more "
+"slowly. </p><p>Accuracy: Memcheck tracks origins quite accurately. To avoid "
+"very large space and time overheads, some approximations are made. It is "
+"possible, although unlikely, that Memcheck will report an incorrect origin, "
+"or not be able to identify any origin. </p><p>Note that the combination "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">--track-origins=yes</span> and <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--undef-value-errors=no</span> is "
+"nonsensical. Memcheck checks for and rejects this combination at startup.</"
+"p></body></html>"
+msgstr ""
+"<html><head/><body><p>Memcheck에서 초기화되지 않은 값의 추적을 제어합니다. 기"
+"본값으로는 추적하지 않으며, 초기화되지 않은 값을 잘못 사용하고 있음을 안내할 "
+"수는 있으나 해당 값이 어디에서 오는지는 안내할 수 없습니다. 문제의 근원을 추"
+"적하기 어려워질 수도 있습니다.</p><p><span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">yes</span>로 설정하면 Memcheck에서 초기"
+"화되지 않은 모든 값의 근원을 추적합니다. 초기화되지 않은 값 오류가 보고되었"
+"을 때 Memcheck에서는 값의 근원을 표시합니다. 다음 중 하나일 수 있습니다: 힙 "
+"블록, 스택 할당, 클라이언트 요청, 기타 다른 곳(예: <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">brk</span> 호출).</"
+"p><p>초기화되지 않은 값이 힙 블록에서 왔다면 Memcheck에서는 블록이 할당된 곳"
+"을 표시합니다. 초기화되지 않은 값이 스택 할당에서 왔다면 Memcheck에서는 값을 "
+"할당한 함수만을 표시합니다. 대개의 경우 함수의 열린 괄호의 위치를 표시합니"
+"다. 해당 함수의 모든 지역 변수가 올바르게 할당되었는지 확인하십시오. </p><p>"
+"성능 오버헤드: 근원 추적은 자원이 많이 필요합니다. Memcheck의 속도를 절반 가"
+"까이 줄이고 최소한 100 MB 이상의 메모리를 더 사용합니다. 반면 초기화되지 않"
+"은 값 오류의 근원을 더 잘 추적할 수 있으며, 프로그래머의 생산성을 증가시킬 "
+"수 있습니다. </p><p>정확도: Memcheck의 근원 추적은 대개 정확합니다. 공간과 시"
+"간 오버헤드를 피하기 위해서 일부 가정을 적용합니다. 일부 경우 Memcheck에서 잘"
+"못된 근원을 표시하거나 근원을 표시하지 못할 수도 있습니다. </p><p>메모: "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">--track-origins=yes</span>와 <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">--undef-value-errors=no</span>를 같이 지정하"
+"는 것은 무의미합니다. Memcheck가 실행될 때 이러한 조합을 거절합니다.</p></"
+"body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_trackOrigins)
+#: tools/memcheck/memcheck_configpage.ui:186
+#, kde-format
+msgid "Track origins of all uninitialised values"
+msgstr "모든 초기화되지 않은 값의 기원 추적"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_expensiveDefinednessChecks)
+#: tools/memcheck/memcheck_configpage.ui:193
+#, no-c-format, kde-format
+msgid ""
+"<html><head/><body><p>Controls whether Memcheck should employ more precise "
+"but also more expensive (time consuming) algorithms when checking the "
+"definedness of a value. The default setting is not to do that and it is "
+"usually sufficient. However, for highly optimised code valgrind may "
+"sometimes incorrectly complain. Invoking valgrind with <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--expensive-"
+"definedness-checks=yes</span> helps but comes at a performance cost. Runtime "
+"degradation of 25% have been observed but the extra cost depends a lot on "
+"the application at hand.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Memcheck에서 값의 정의 정도를 확인할 때 더 정확하지만 "
+"더 시간이 오래 걸리는 알고리즘을 사용할지 여부를 제어합니다. 기본 설정은 그렇"
+"지 않으며 대개의 경우 충분합니다. 그러나 고도로 최적화된 코드에서는 Valgrind"
+"가 잘못 검사할 수도 있습니다. Valgrind를 <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--expensive-"
+"definedness-checks=yes</span> 옵션을 사용하여 호출하면 해결할 수 있지만 성능"
+"에 영향을 줍니다. 런타임 성능 감소가 약 25% 정도 발생할 수 있지만 추가 비용"
+"은 프로그램에 따라 달라집니다.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_expensiveDefinednessChecks)
+#: tools/memcheck/memcheck_configpage.ui:196
+#, kde-format
+msgid "Expensive definedness checks"
+msgstr "비싼 정의됨 정도(definedness) 검사"
+
+#: tools/memcheck/memcheck_tool.cpp:35
+#, kde-format
+msgid "Memcheck"
+msgstr "Memcheck"
+
+#: tools/memcheck/memcheck_tool.cpp:36
+#, kde-format
+msgid "Memcheck (Memory Error Detector)"
+msgstr "Memcheck(메모리 오류 감지기)"
+
+#: toolviewfactory.cpp:47
+#, kde-format
+msgid "Valgrind Output"
+msgstr "Valgrind 출력"
+
+#: toolviewfactory.cpp:49
+#, kde-format
+msgid ""
+"<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>use of "
+"uninitialized memory;<br/>reading/writing memory after it has been free'd;"
+"<br/>reading/writing off the end of malloc'd blocks;<br/>reading/writing "
+"inappropriate areas on the stack;<br/>memory leaks &mdash; where pointers to "
+"malloc'd blocks are lost forever;<br/>passing of uninitialised and/or "
+"unaddressable memory to system calls;<br/>mismatched use of malloc/new/new "
+"[] vs free/delete/delete [];<br/>some abuses of the POSIX pthread API.</p>"
+msgstr ""
+"<b>Valgrind</b><p>Valgrind 출력을 표시합니다. Valgrind는 다음을 감지합니다:"
+"<br/>할당하지 않은 메모리 사용,<br/>해제한 후 메모리에 읽기/쓰기,<br/>malloc"
+"으로 할당한 블록을 넘어간 읽기/쓰기,<br/>스택의 잘못된 영역 읽기/쓰기,<br/>메"
+"모리 누수 &mdash; malloc으로 할당한 블록을 가리키는 메모리 포인터가 사라짐,"
+"<br/>시스템 호출에 초기화되거나 접근할 수 없는 메모리 전달,<br/>malloc/new/"
+"new []와 free/delete/delete []의 일치하지 않는 사용,<br/>POSIX pthread API의 "
+"잘못된 사용.</p>"
