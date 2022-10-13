@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: playground-devtools-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-05 00:43+0000\n"
-"PO-Revision-Date: 2022-05-03 12:46+0300\n"
+"PO-Revision-Date: 2022-10-12 14:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.04.0\n"
+"X-Generator: Lokalize 22.08.1\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
 #: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
@@ -86,7 +86,7 @@ msgid ""
 "during analysis.</p><p>Useful for plugin debugging.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Valgrind mesajları çözümleme boyunca çıktı görünümünde "
-"gösterilecektir.</p><p>Eklenti hata ayıklaması için kullanışlıdır.</p></"
+"gösterilecektir.</p><p>Eklenti, hata ayıklaması için kullanışlıdır.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showValgrindOutput)
@@ -103,7 +103,7 @@ msgstr "%1 Çözümleme (%2)"
 #: core/job.cpp:217
 #, kde-format
 msgid "Failed to start valgrind from \"%1\"."
-msgstr "\"%1\" konumundan valgrind başlatılamadı."
+msgstr "Valgrind, \"%1\" konumundan başlatılamadı."
 
 #: core/job.cpp:224
 #, kde-format
@@ -113,7 +113,7 @@ msgstr "Valgrind çöktü."
 #: core/job.cpp:229
 #, kde-format
 msgid "Valgrind process timed out."
-msgstr "Valgrind sürecinde zamanaşımı."
+msgstr "Valgrind sürecinde zaman aşımı."
 
 #: core/job.cpp:233
 #, kde-format
@@ -149,7 +149,7 @@ msgstr "Komut çalıştırılıyor: "
 #: core/job.cpp:297
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr "Komut çalıştırılamadı:"
+msgstr "Komut yürütülemedi:"
 
 #: core/private/common_configpage.cpp:30
 #, kde-format
@@ -216,12 +216,12 @@ msgid ""
 "option, you may wish to consider rewriting your code to allocate on the heap "
 "rather than on the stack.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir yığın çerçevesinin azami boyutu. Eğer yığın "
+"<html><head/><body><p>Bir yığın çerçevesinin en büyük boyutu. Eğer yığın "
 "işaretçisi bu miktardan daha fazla hareket ederse Valgrind programın başka "
 "bir yığına geçtiğini varsayacaktır.</p><p>Eğer programınız geniş yığın-"
 "tahsis dizilere sahipse bu seçeneği kullanmaya ihtiyacınız olabilir. "
 "Valgrind programınızın yığın işaretçisini takip eder. Eğer eşik miktarından "
-"daha fazla değişirse, Valgrind programınızın başka bir yığına geçtiğini "
+"daha fazla değişirse Valgrind programınızın başka bir yığına geçtiğini "
 "varsayar ve Memcheck bir yığın işaretçisi için eşik değerinden daha küçük "
 "değişiklikte davranacağından farklı davranır. Genellikle bu sezgisel yöntem "
 "iyi çalışır. Bununla birlikte, programınız yğın üzerinde geniş yapılar "
@@ -649,7 +649,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:37
 #, kde-format
 msgid "Segment merging interval:"
-msgstr "Dilim birleştirme aralığı:"
+msgstr "Bölüt birleştirme aralığı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_segmentMergingInterval)
 #: tools/drd/drd_configpage.ui:44
@@ -662,13 +662,13 @@ msgid ""
 "value. The optimal value for this parameter depends on the program being "
 "analyzed. The default value works well for most programs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kesimi birleştirmeyi, yalnızca belirtilen sayıda yeni "
+"<html><head/><body><p>Bölütü birleştirmeyi, yalnızca belirtilen sayıda yeni "
 "kesim oluşturulduktan sonra gerçekleştirin. Bu, düşük bir değer seçerek "
 "DRD'nin bellek kullanımını en aza indirgemeyi mi yoksa DRD'nin daha yüksek "
 "bir değer seçerek daha hızlı çalışmasına izin verip vermeyeceğini seçmenize "
 "izin veren gelişmiş bir yapılandırma seçeneğidir. Bu parametrenin en uygun "
-"değeri analiz edilen programa bağlıdır. Varsayılan değer çoğu program için "
-"iyi çalışır.</p></body></html>"
+"değeri, çözümlenen programa bağlıdır. Öntanımlı değer, çoğu program için iyi "
+"çalışır.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: tools/drd/drd_configpage.ui:75
@@ -806,17 +806,17 @@ msgid ""
 "segments' displayed in race reports but can also trigger an out of memory "
 "error.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dilim bütünleştirmeyi denetler. Dilim bütünleştirme, "
-"veri yarışı tespit etme algoritmasının bellek kullanımını limitleyen bir "
-"algoritmadır. Dilim bütünleştirmeyi devre dışı bırakmak yarış raporlarında "
-"gösterilen 'diğer dilimlerin' doğruluğunu iyileştirebilir ama aynı zamanda "
-"bir bellek yetersizliği tetikleyebilir.</p></body></html>"
+"<html><head/><body><p>Bölüt bütünleştirmeyi denetler. Bölüt bütünleştirme, "
+"veri yarışı tespit etme algoritmasının bellek kullanımını sınırlayan bir "
+"algoritmadır. Bölüt bütünleştirmeyi devre dışı bırakmak, yarış raporlarında "
+"gösterilen 'diğer dilimlerin' doğruluğunu iyileştirebilir; ancak aynı "
+"zamanda bir bellek yetersizliğini tetikleyebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_segmentMerging)
 #: tools/drd/drd_configpage.ui:127
 #, kde-format
 msgid "Segment merging"
-msgstr "Dilim birleştirme"
+msgstr "Bölüt birleştirme"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showConflSeg)
 #: tools/drd/drd_configpage.ui:134
@@ -827,16 +827,16 @@ msgid ""
 "enabled by default. Disabling this option makes the output of DRD more "
 "compact.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Çakışan bölümleri yarış raporlarında göster. Bu bilgi, "
+"<html><head/><body><p>Çakışan bölütleri yarış raporlarında göster. Bu bilgi, "
 "bir veri yarışının nedenini bulmaya yardım edebildiğinden, bu seçenek "
-"varsayılan olarak etkindir. Bu seçeneğin devre dışı bırakılması, DRD'nin "
+"öntanımlı olarak etkindir. Bu seçeneğin devre dışı bırakılması, DRD'nin "
 "çıktısını daha sıkışık hale getirir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showConflSeg)
 #: tools/drd/drd_configpage.ui:137
 #, kde-format
 msgid "Show conflicting segments"
-msgstr "Çatışan dilimleri göster"
+msgstr "Çakışan bölütleri göster"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showStackUsage)
 #: tools/drd/drd_configpage.ui:144
