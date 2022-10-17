@@ -1700,7 +1700,7 @@ msgid ""
 "block cause it to be considered as reachable.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Especifica el conjunt d'heurística de comprovació de "
-"fuites que s'utilitzaran durant les busques de fuites. L'heurística controla "
+"fuites que s'utilitzarà durant les busques de fuites. L'heurística controla "
 "quins apuntadors interiors d'un bloc es poden considerar com a accessibles.</"
 "p></body></html>"
 
