@@ -820,8 +820,8 @@ msgstr ""
 "<html><head/><body><p>Controla la fusió de segments. La fusió de segments és "
 "un algorisme per a limitar l'ús de memòria de l'algorisme de detecció de "
 "situacions de competició. La desactivació de la fusió de segments pot "
-"millorar la precisió de l'anomenat «altres segments» mostrat als informes de "
-"competició, però també pot provocar un error de falta de memòria.</p></"
+"millorar la precisió de l'anomenat «altres segments» mostrat en els informes "
+"de competició, però també pot provocar un error de falta de memòria.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_segmentMerging)
