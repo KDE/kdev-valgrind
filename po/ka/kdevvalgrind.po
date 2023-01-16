@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-05 00:43+0000\n"
-"PO-Revision-Date: 2022-10-10 08:46+0200\n"
+"PO-Revision-Date: 2023-01-15 04:15+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
 #: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
@@ -89,7 +89,7 @@ msgstr ""
 #: config/globalconfigpage.ui:156
 #, kde-format
 msgid "Show valgrind output during analysis"
-msgstr ""
+msgstr "ანალიზის დროს valgrind -ის გამოტანის ჩვენება"
 
 #: core/job.cpp:138
 #, kde-format
@@ -99,7 +99,7 @@ msgstr "%1 -ის ანალიზი (%2)"
 #: core/job.cpp:217
 #, kde-format
 msgid "Failed to start valgrind from \"%1\"."
-msgstr ""
+msgstr "\"%1\"-დან valgrind -ის გაშვების შეცდომა."
 
 #: core/job.cpp:224
 #, kde-format
@@ -109,27 +109,27 @@ msgstr "Valgrind -ი ავარიულად დასრულდა."
 #: core/job.cpp:229
 #, kde-format
 msgid "Valgrind process timed out."
-msgstr ""
+msgstr "Valgrind-ის პროცესის მოლოდინის ვადა გავიდა."
 
 #: core/job.cpp:233
 #, kde-format
 msgid "Write to Valgrind process failed."
-msgstr ""
+msgstr "Valgrind-ის პროცესში ჩაწერის შეცდომა."
 
 #: core/job.cpp:237
 #, kde-format
 msgid "Read from Valgrind process failed."
-msgstr ""
+msgstr "Valgrind-ის პროცესიდან წაკითხვის შეცდომა."
 
 #: core/job.cpp:255 core/job.cpp:301
 #, kde-format
 msgid "Please review your Valgrind launch configuration."
-msgstr ""
+msgstr "გადახედეთ Valgrind-ის გაშვების თქვენს კონფიგურაციას."
 
 #: core/job.cpp:257
 #, kde-format
 msgid "Unknown Valgrind process error."
-msgstr ""
+msgstr "Valgrind-ის პროცესის უცნობი შცდომა."
 
 #: core/job.cpp:263 core/job.cpp:303 core/private/xmlparser.cpp:262
 #: core/utils.cpp:124
@@ -145,12 +145,12 @@ msgstr "ბრძანების შესრულება: "
 #: core/job.cpp:297
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr ""
+msgstr "ბრძანების გაშვების შეცდომა:"
 
 #: core/private/common_configpage.cpp:30
 #, kde-format
 msgid "Valgrind Common Settings"
-msgstr ""
+msgstr "Valgrind-ის საერთო პარამეტრები"
 
 #. i18n: ectx: property (text), widget (QLabel, numCallersLabel)
 #: core/private/common_configpage.ui:22
@@ -225,7 +225,7 @@ msgstr ""
 #: core/private/common_configpage.ui:85
 #, kde-format
 msgid "Limit errors if too many"
-msgstr ""
+msgstr "შეცდომების შეზღუდვა, თუ რაოდენობა მეტისმეტად დიდია"
 
 #: core/private/xmlparser.cpp:258
 #, kde-format
@@ -235,17 +235,17 @@ msgstr ""
 #: core/utils.cpp:47
 #, kde-format
 msgid "Instruction Fetch"
-msgstr ""
+msgstr "ინსტრუქციის გამოთხოვა"
 
 #: core/utils.cpp:48
 #, kde-format
 msgid "Data Read Access"
-msgstr ""
+msgstr "მონაცემების კითხვის წვდომა"
 
 #: core/utils.cpp:49
 #, kde-format
 msgid "Data Write Access"
-msgstr ""
+msgstr "მონაცემების ჩაწერის წვდომა"
 
 #: core/utils.cpp:50
 #, kde-format
@@ -352,7 +352,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:26
 #, kde-format
 msgid "Cache simulation"
-msgstr ""
+msgstr "კეშის სიმულაცია"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
 #: tools/cachegrind/cachegrind_configpage.ui:36
@@ -372,7 +372,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:39
 #, kde-format
 msgid "Branch simulation"
-msgstr ""
+msgstr "ბრენჩის სიმულაცია"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/cachegrind/cachegrind_configpage.ui:49
@@ -405,7 +405,7 @@ msgstr "ფუნქცია"
 #: tools/cachegrind/cachegrind_tool.cpp:35
 #, kde-format
 msgid "Cachegrind"
-msgstr ""
+msgstr "Cachegrind"
 
 #: tools/cachegrind/cachegrind_tool.cpp:36
 #, kde-format
@@ -416,13 +416,13 @@ msgstr ""
 #: tools/cachegrind/cachegrind_view.ui:31 tools/callgrind/callgrind_view.ui:40
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "ძებნა..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, percenageValues)
 #: tools/cachegrind/cachegrind_view.ui:41 tools/callgrind/callgrind_view.ui:53
 #, kde-format
 msgid "Percentage values"
-msgstr ""
+msgstr "პროცენტული მნიშვნელობები"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
 #: tools/callgrind/callgrind_configpage.ui:23
@@ -598,7 +598,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:75
 #, kde-format
 msgid "Common options"
-msgstr ""
+msgstr "საერთო პარამეტრები"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackVar)
 #: tools/drd/drd_configpage.ui:81
@@ -889,7 +889,7 @@ msgstr ""
 #: tools/drd/drd_tool.cpp:35
 #, kde-format
 msgid "DRD"
-msgstr ""
+msgstr "DRD"
 
 #: tools/drd/drd_tool.cpp:36
 #, kde-format
@@ -904,7 +904,7 @@ msgstr "სრული"
 #: tools/helgrind/helgrind_configpage.cpp:37
 #, kde-format
 msgid "Approx"
-msgstr ""
+msgstr "დაახლ"
 
 #: tools/helgrind/helgrind_configpage.cpp:38
 #, kde-format
@@ -915,7 +915,7 @@ msgstr "არა"
 #: tools/helgrind/helgrind_configpage.ui:22
 #, kde-format
 msgid "History level:"
-msgstr ""
+msgstr "ისტორიის დონე:"
 
 #. i18n: ectx: property (text), widget (QLabel, conflictCacheSizeLabel)
 #: tools/helgrind/helgrind_configpage.ui:29
@@ -1060,7 +1060,7 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:25
 #, kde-format
 msgid "Time unit:"
-msgstr ""
+msgstr "დროის ერთეული:"
 
 #. i18n: ectx: property (text), widget (QLabel, snapshotTreeDepthLabel)
 #: tools/massif/massif_configpage.ui:32
@@ -1653,7 +1653,7 @@ msgstr ""
 #: tools/memcheck/memcheck_tool.cpp:35
 #, kde-format
 msgid "Memcheck"
-msgstr ""
+msgstr "მეხსიერების შემოწმება"
 
 #: tools/memcheck/memcheck_tool.cpp:36
 #, kde-format
