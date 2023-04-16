@@ -6,7 +6,7 @@
 # Luciano Montanaro <mikelima@cirulla.net>, 2003.
 # Giovanni Venturi <jumpyj@tiscali.it>, 2003, 2004, 2005, 2006, 2007, 2008.
 # Nicola Ruggero <nicola@nxnt.org>, 2007.
-# Luigi Toscano <luigi.toscano@tiscali.it>, 2007, 2012, 2017, 2019, 2020.
+# Luigi Toscano <luigi.toscano@tiscali.it>, 2007, 2012, 2017, 2019, 2020, 2023.
 # Simone Solinas <ksolsim@gmail.com>, 2009, 2010, 2011, 2012.
 # Valter Mura <valtermura@gmail.com>, 2012, 2014.
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-05 00:43+0000\n"
-"PO-Revision-Date: 2020-11-15 15:59+0100\n"
+"PO-Revision-Date: 2023-04-15 14:42+0200\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
 #: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
@@ -545,13 +545,13 @@ msgstr "Eventi"
 #: tools/callgrind/callgrind_view.ui:117
 #, kde-format
 msgid "Direct callers"
-msgstr ""
+msgstr "Chiamanti diretti"
 
 #. i18n: ectx: attribute (title), widget (QWidget, callees)
 #: tools/callgrind/callgrind_view.ui:149
 #, kde-format
 msgid "Direct callees"
-msgstr ""
+msgstr "Chiamati diretti"
 
 #. i18n: ectx: attribute (title), widget (QWidget, location)
 #: tools/callgrind/callgrind_view.ui:187
@@ -625,7 +625,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:84
 #, kde-format
 msgid "Detect data races on stack variables"
-msgstr ""
+msgstr "Rileva corse critiche sui dati per le variabili nello stack"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_firstRaceOnly)
 #: tools/drd/drd_configpage.ui:91
@@ -640,7 +640,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:94
 #, kde-format
 msgid "Report only the first data race"
-msgstr ""
+msgstr "Segnala solo la prima corsa critica sui dati"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/drd/drd_configpage.ui:104
@@ -668,7 +668,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:107
 #, kde-format
 msgid "Report races between accessing and freeing memory"
-msgstr ""
+msgstr "Segnala corse critiche tra l'accesso e la liberazione della memoria"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_reportSignalUnlocked)
 #: tools/drd/drd_configpage.ui:114
@@ -693,7 +693,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:117
 #, kde-format
 msgid "Report calls to unlocked signals"
-msgstr ""
+msgstr "Segnala chiamate a segnali sbloccati"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_segmentMerging)
 #: tools/drd/drd_configpage.ui:124
@@ -710,7 +710,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:127
 #, kde-format
 msgid "Segment merging"
-msgstr ""
+msgstr "Fusione di segmenti"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showConflSeg)
 #: tools/drd/drd_configpage.ui:134
@@ -726,7 +726,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:137
 #, kde-format
 msgid "Show conflicting segments"
-msgstr ""
+msgstr "Mostra segmenti in conflitto"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showStackUsage)
 #: tools/drd/drd_configpage.ui:144
@@ -785,10 +785,9 @@ msgstr "Istruzioni CPU"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tracesTab)
 #: tools/drd/drd_configpage.ui:192
-#, fuzzy, kde-format
-#| msgid "Race Conditions"
+#, kde-format
 msgid "Trace options"
-msgstr "Condizioni di gara"
+msgstr "Opzioni di tracciamento"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceAlloc)
 #: tools/drd/drd_configpage.ui:198
@@ -811,12 +810,14 @@ msgstr "Segui le allocazioni e le dellocazioni della memoria"
 #, kde-format
 msgid "<html><head/><body><p>Trace all barrier activity.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Segui tutta l'attività delle barriere.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceBarrier)
 #: tools/drd/drd_configpage.ui:211
 #, kde-format
 msgid "Trace barrier activity"
-msgstr ""
+msgstr "Segui l'attività delle barriere"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceCond)
 #: tools/drd/drd_configpage.ui:218
@@ -888,12 +889,14 @@ msgid ""
 "<html><head/><body><p>Trace all reader-writer lock activity.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Traccia tutta l'attività dei blocchi lettura/scrittura."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceRwlock)
 #: tools/drd/drd_configpage.ui:261
 #, kde-format
 msgid "Trace reader-writer lock activity"
-msgstr ""
+msgstr "Traccia l'attività dei blocchi lettura/scrittura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceSemaphore)
 #: tools/drd/drd_configpage.ui:268
@@ -982,7 +985,7 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.ui:81
 #, kde-format
 msgid "Track lock orders"
-msgstr ""
+msgstr "Segui ordine dei blocchi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackRefs)
 #: tools/helgrind/helgrind_configpage.ui:92
@@ -1042,7 +1045,7 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.ui:95
 #, kde-format
 msgid "Check stack refs"
-msgstr ""
+msgstr "Verifica riferimenti allo stack"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/helgrind/helgrind_configpage.ui:102
@@ -1220,6 +1223,8 @@ msgid ""
 "<html><head/><body><p>Specifies whether heap profiling should be done.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Indica se debba essere eseguito il profiling dello "
+"heap.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_profileHeap)
 #: tools/massif/massif_configpage.ui:161
@@ -1257,20 +1262,17 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:184
 #, kde-format
 msgid "Pages as heap"
-msgstr ""
+msgstr "Pagine come heap"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/massif/massif_configpage.ui:191
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Trace all thread creation and all thread "
-#| "termination events.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>&quot;Pages as heap&quot; cannot be used together with "
 "&quot;Profile stack&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Segui tutti gli eventi di creazione e di terminazione "
-"dei thread.</p></body></html>"
+"<html><head/><body><p>&quot;Pagine come heap&quot; non può essere usato "
+"insieme con &quot;Esegui profiling dello stack&quot;.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchVisualizer)
 #: tools/massif/massif_configpage.ui:214
@@ -1324,7 +1326,7 @@ msgstr "Istantanee"
 #: tools/massif/massif_view.ui:56
 #, kde-format
 msgid "Heap trees"
-msgstr ""
+msgstr "Alberi di heap"
 
 #. i18n: ectx: property (text), widget (QPushButton, launchVisualizerButton)
 #: tools/massif/massif_view.ui:70
@@ -1412,10 +1414,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, leakResolutionLabel)
 #: tools/memcheck/memcheck_configpage.ui:25
-#, fuzzy, kde-format
-#| msgid "Leak Resolution Matching:"
+#, kde-format
 msgid "Leak resolution:"
-msgstr "Corrispondenza risoluzione leak:"
+msgstr "Risoluzione delle perdite:"
 
 #. i18n: ectx: property (toolTip), widget (Valgrind::ComboBox, kcfg_leakResolution)
 #: tools/memcheck/memcheck_configpage.ui:32
@@ -1443,13 +1444,13 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:39
 #, kde-format
 msgid "Show leak kinds:"
-msgstr ""
+msgstr "Mostra i tipi di perdite:"
 
 #. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_showLeakKinds)
 #: tools/memcheck/memcheck_configpage.ui:46
 #, kde-format
 msgid "Specifies the leak kinds to show."
-msgstr ""
+msgstr "Specifica i tipi di perdite da mostrare."
 
 #. i18n: ectx: property (text), widget (QLabel, leakCheckHeuristicsLabel)
 #: tools/memcheck/memcheck_configpage.ui:59
@@ -1517,10 +1518,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, freelistVolLabel)
 #: tools/memcheck/memcheck_configpage.ui:90
-#, fuzzy, kde-format
-#| msgid "Freelist size"
+#, kde-format
 msgid "Freelist maximum size:"
-msgstr "Dimensione della lista dei blocchi liberi"
+msgstr "Dimensione massima della lista dei blocchi liberi:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_freelistVol)
 #: tools/memcheck/memcheck_configpage.ui:100
@@ -1658,7 +1658,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:176
 #, kde-format
 msgid "Allow partial loads"
-msgstr ""
+msgstr "Permetti caricamenti parziali"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackOrigins)
 #: tools/memcheck/memcheck_configpage.ui:183
