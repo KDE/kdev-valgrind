@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-05 00:43+0000\n"
-"PO-Revision-Date: 2023-01-15 04:15+0100\n"
+"PO-Revision-Date: 2023-05-14 06:26+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
 #: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
@@ -464,7 +464,7 @@ msgstr ""
 #: tools/callgrind/callgrind_model.cpp:375
 #, kde-format
 msgid "Incl."
-msgstr ""
+msgstr "ჩათვლ."
 
 #: tools/callgrind/callgrind_model.cpp:287
 #: tools/callgrind/callgrind_model.cpp:376
@@ -490,7 +490,7 @@ msgstr "მოკლე"
 #: tools/callgrind/callgrind_model.cpp:499
 #, kde-format
 msgid "%1 per call"
-msgstr ""
+msgstr "%1 თითოეული გამოძახებისას"
 
 #: tools/callgrind/callgrind_model.cpp:500
 #, kde-format
@@ -500,12 +500,12 @@ msgstr "რაოდენობა"
 #: tools/callgrind/callgrind_model.cpp:503
 #, kde-format
 msgid "Caller"
-msgstr ""
+msgstr "გამომძახებელი"
 
 #: tools/callgrind/callgrind_model.cpp:505
 #, kde-format
 msgid "Callee"
-msgstr ""
+msgstr "გამოძახებული"
 
 #: tools/callgrind/callgrind_tool.cpp:35
 #, kde-format
@@ -533,13 +533,13 @@ msgstr "მოვლენები"
 #: tools/callgrind/callgrind_view.ui:117
 #, kde-format
 msgid "Direct callers"
-msgstr ""
+msgstr "პირდაპირი გამომძახებლები"
 
 #. i18n: ectx: attribute (title), widget (QWidget, callees)
 #: tools/callgrind/callgrind_view.ui:149
 #, kde-format
 msgid "Direct callees"
-msgstr ""
+msgstr "პირდაპირი გამოძახებულები"
 
 #. i18n: ectx: attribute (title), widget (QWidget, location)
 #: tools/callgrind/callgrind_view.ui:187
@@ -551,13 +551,13 @@ msgstr "დებარეობა"
 #: tools/callgrind/callgrind_view.ui:199
 #, kde-format
 msgid "Binary file:"
-msgstr ""
+msgstr "ბინარული ფაილი:"
 
 #. i18n: ectx: property (text), widget (QLabel, sourceTitle)
 #: tools/callgrind/callgrind_view.ui:232
 #, kde-format
 msgid "Source file(s):"
-msgstr ""
+msgstr "კოდის ფაილები:"
 
 #. i18n: ectx: property (text), widget (QLabel, joinListVolLabel)
 #: tools/drd/drd_configpage.ui:20
@@ -1034,7 +1034,7 @@ msgstr ""
 #: tools/helgrind/helgrind_tool.cpp:35
 #, kde-format
 msgid "Helgrind"
-msgstr ""
+msgstr "Helgrind"
 
 #: tools/helgrind/helgrind_tool.cpp:36
 #, kde-format
@@ -1044,7 +1044,7 @@ msgstr ""
 #: tools/massif/massif_configpage.cpp:39
 #, kde-format
 msgid "CPU instructions"
-msgstr ""
+msgstr "პროცესორის ინსტრუქციები"
 
 #: tools/massif/massif_configpage.cpp:40
 #, kde-format
@@ -1054,7 +1054,7 @@ msgstr "მილიწამი"
 #: tools/massif/massif_configpage.cpp:41
 #, kde-format
 msgid "Bytes allocated"
-msgstr ""
+msgstr "გამოყოფილი ბაიტი"
 
 #. i18n: ectx: property (text), widget (QLabel, timeUnitLabel)
 #: tools/massif/massif_configpage.ui:25
