@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-05 00:43+0000\n"
-"PO-Revision-Date: 2023-03-30 09:26+0300\n"
+"PO-Revision-Date: 2023-05-05 21:25+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
 #: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
@@ -103,22 +103,22 @@ msgstr ""
 #: core/job.cpp:224
 #, kde-format
 msgid "Valgrind crashed."
-msgstr ""
+msgstr "Valgrind kaatui."
 
 #: core/job.cpp:229
 #, kde-format
 msgid "Valgrind process timed out."
-msgstr ""
+msgstr "Valgrind-prosessi aikakatkaistiin."
 
 #: core/job.cpp:233
 #, kde-format
 msgid "Write to Valgrind process failed."
-msgstr ""
+msgstr "Kirjoittaminen Valgrind-prosessiin epäonnistui."
 
 #: core/job.cpp:237
 #, kde-format
 msgid "Read from Valgrind process failed."
-msgstr ""
+msgstr "Lukeminen Valgrind-prosessista epäonnistui."
 
 #: core/job.cpp:255 core/job.cpp:301
 #, kde-format
@@ -128,28 +128,28 @@ msgstr ""
 #: core/job.cpp:257
 #, kde-format
 msgid "Unknown Valgrind process error."
-msgstr ""
+msgstr "Tuntematon Valgrind-prosessin virhe."
 
 #: core/job.cpp:263 core/job.cpp:303 core/private/xmlparser.cpp:262
 #: core/utils.cpp:124
 #, kde-format
 msgid "Valgrind Error"
-msgstr ""
+msgstr "Valgrind-virhe"
 
 #: core/job.cpp:279
 #, kde-format
 msgid "Executing command: "
-msgstr ""
+msgstr "Suoritetaan komentoa: "
 
 #: core/job.cpp:297
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr ""
+msgstr "Ei voitu suorittaa komentoa:"
 
 #: core/private/common_configpage.cpp:30
 #, kde-format
 msgid "Valgrind Common Settings"
-msgstr ""
+msgstr "Valgrindin yleiset asetukset"
 
 #. i18n: ectx: property (text), widget (QLabel, numCallersLabel)
 #: core/private/common_configpage.ui:22
@@ -224,12 +224,12 @@ msgstr ""
 #: core/private/common_configpage.ui:85
 #, kde-format
 msgid "Limit errors if too many"
-msgstr ""
+msgstr "Rajaa liikoja virheitä"
 
 #: core/private/xmlparser.cpp:258
 #, kde-format
 msgid "Valgrind XML Parsing: error at line %1, column %2: %3"
-msgstr ""
+msgstr "Valgrindin XML-jäsennys: virhe rivillä %1 sarakkeessa %2: %3"
 
 #: core/utils.cpp:47
 #, kde-format
@@ -351,7 +351,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:26
 #, kde-format
 msgid "Cache simulation"
-msgstr ""
+msgstr "Välimuistisimulointi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
 #: tools/cachegrind/cachegrind_configpage.ui:36
@@ -371,7 +371,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:39
 #, kde-format
 msgid "Branch simulation"
-msgstr ""
+msgstr "Haaroitussimulointi"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/cachegrind/cachegrind_configpage.ui:49
@@ -399,7 +399,7 @@ msgstr ""
 #: tools/callgrind/callgrind_model.cpp:289
 #, kde-format
 msgid "Function"
-msgstr ""
+msgstr "Funktio"
 
 #: tools/cachegrind/cachegrind_tool.cpp:35
 #, kde-format
@@ -509,7 +509,7 @@ msgstr "Kutsuttu"
 #: tools/callgrind/callgrind_tool.cpp:35
 #, kde-format
 msgid "Callgrind"
-msgstr ""
+msgstr "Callgrind"
 
 #: tools/callgrind/callgrind_tool.cpp:36
 #, kde-format
@@ -520,7 +520,7 @@ msgstr ""
 #: tools/callgrind/callgrind_view.ui:63
 #, kde-format
 msgid "Launch KCachegrind"
-msgstr ""
+msgstr "Käynnistä KCachegrind"
 
 #. i18n: ectx: attribute (title), widget (QWidget, events)
 #: tools/callgrind/callgrind_view.ui:91
@@ -550,13 +550,13 @@ msgstr "Sijainti"
 #: tools/callgrind/callgrind_view.ui:199
 #, kde-format
 msgid "Binary file:"
-msgstr ""
+msgstr "Ohjelmatiedosto:"
 
 #. i18n: ectx: property (text), widget (QLabel, sourceTitle)
 #: tools/callgrind/callgrind_view.ui:232
 #, kde-format
 msgid "Source file(s):"
-msgstr ""
+msgstr "Lähdetiedosto(t):"
 
 #. i18n: ectx: property (text), widget (QLabel, joinListVolLabel)
 #: tools/drd/drd_configpage.ui:20
@@ -597,7 +597,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:75
 #, kde-format
 msgid "Common options"
-msgstr ""
+msgstr "Yleiset valinnat"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackVar)
 #: tools/drd/drd_configpage.ui:81
@@ -1043,7 +1043,7 @@ msgstr "Helgrind (säievirhetunnistin)"
 #: tools/massif/massif_configpage.cpp:39
 #, kde-format
 msgid "CPU instructions"
-msgstr ""
+msgstr "Suoritinkäskyt"
 
 #: tools/massif/massif_configpage.cpp:40
 #, kde-format
@@ -1065,7 +1065,7 @@ msgstr "Aikayksikkö:"
 #: tools/massif/massif_configpage.ui:32
 #, kde-format
 msgid "Snapshot tree depth:"
-msgstr ""
+msgstr "Otospuun syvyys:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_snapshotTreeDepth)
 #: tools/massif/massif_configpage.ui:42
@@ -1080,7 +1080,7 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:49
 #, kde-format
 msgid "Threshold:"
-msgstr ""
+msgstr "Kynnys:"
 
 #. i18n: ectx: property (text), widget (QLabel, peakInaccuracyLabel)
 #: tools/massif/massif_configpage.ui:59
@@ -1092,7 +1092,7 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:69
 #, kde-format
 msgid "Maximum snapshots:"
-msgstr ""
+msgstr "Otoksia enintään:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_maximumSnapshots)
 #: tools/massif/massif_configpage.ui:79
@@ -1107,7 +1107,7 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:86
 #, kde-format
 msgid "Detailed snapshot frequency:"
-msgstr ""
+msgstr "Yksityiskohtaisten otosten väli:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_detailedSnapshotsFrequency)
 #: tools/massif/massif_configpage.ui:96
@@ -1123,7 +1123,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:121
 #, kde-format
 msgid "E&xtra parameters:"
-msgstr ""
+msgstr "&Lisäparametrit:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_threshold)
 #: tools/massif/massif_configpage.ui:123
@@ -1179,7 +1179,7 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:174
 #, kde-format
 msgid "Profile stack (slows profiling down greatly)"
-msgstr ""
+msgstr "Profiloi pino (hidastaa profilointia tuntuvasti)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_pagesAsHeap)
 #: tools/massif/massif_configpage.ui:181
@@ -1265,28 +1265,28 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.cpp:43
 #, kde-format
 msgid "definite"
-msgstr ""
+msgstr "määräinen"
 
 #: tools/memcheck/memcheck_configpage.cpp:44
 #, kde-format
 msgid "possible"
-msgstr ""
+msgstr "mahdollinen"
 
 #: tools/memcheck/memcheck_configpage.cpp:45
 #, kde-format
 msgid "indirect"
-msgstr ""
+msgstr "epäsuora"
 
 #: tools/memcheck/memcheck_configpage.cpp:46
 #, kde-format
 msgid "reachable"
-msgstr ""
+msgstr "tavoitettavissa"
 
 #. i18n text ?
 #: tools/memcheck/memcheck_configpage.cpp:50
 #, kde-format
 msgid "stdstring"
-msgstr ""
+msgstr "stdstring"
 
 #: tools/memcheck/memcheck_configpage.cpp:51
 #, kde-format
@@ -1321,7 +1321,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.cpp:60
 #, kde-format
 msgid "alloc"
-msgstr ""
+msgstr "alloc"
 
 #: tools/memcheck/memcheck_configpage.cpp:61
 #, kde-format
@@ -1382,7 +1382,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:59
 #, kde-format
 msgid "Used heuristics:"
-msgstr ""
+msgstr "Käytetty heuristiikka:"
 
 #. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_leakCheckHeuristics)
 #: tools/memcheck/memcheck_configpage.ui:66
