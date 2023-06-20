@@ -94,7 +94,7 @@ msgstr ""
 #: config/globalconfigpage.ui:156
 #, kde-format
 msgid "Show valgrind output during analysis"
-msgstr "Mostrar a saída de valgrind durante a análise."
+msgstr "Amosar a saída de valgrind durante a análise."
 
 #: core/job.cpp:138
 #, kde-format
@@ -161,7 +161,7 @@ msgstr "Configuración común de Valgrind"
 #: core/private/common_configpage.ui:22
 #, kde-format
 msgid "Display stac&k to depth:"
-msgstr "Mostrar a pila ata a &profundidade:"
+msgstr "Amosar a pila ata a &profundidade:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_numCallers)
 #: core/private/common_configpage.ui:32
@@ -176,7 +176,7 @@ msgid ""
 "take a bit more memory, but can be useful when working with programs with "
 "deeply-nested call chains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Indica o número máximo de entradas para mostrar nas "
+"<html><head/><body><p>Indica o número máximo de entradas para amosar nas "
 "trazas do montón (stack) que identifican lugares do programa. Teña en conta "
 "que os erros se poñen en común usando só os catro lugares de funcións "
 "superiores (o lugar na función actual, e o dos seus tres chamadores "
@@ -813,7 +813,7 @@ msgstr ""
 "<html><head/><body><p>Controla a mestura de segmentos. A mestura de "
 "segmentos é un algoritmo para limitar o uso de memoria do algoritmo de "
 "detección de carreiras de datos. Desactivar a mestura de segmentos podería "
-"mellorar a exactitude dos chamados «outros segmentos» que se mostran nos "
+"mellorar a exactitude dos chamados «outros segmentos» que se amosan nos "
 "informes de carreiras, pero tamén pode causar un erro de esgotamento de "
 "memoria.</p></body></html>"
 
@@ -832,16 +832,16 @@ msgid ""
 "enabled by default. Disabling this option makes the output of DRD more "
 "compact.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostrar segmentos conflitivos en informes de "
-"carreiras. Dado que esta información pode axudar a atopar a causa dunha "
-"carreira de datos, esta opción está activada de maneira predeterminada. "
-"Desactivar esta opción fai máis compacta a saída de DRD.</p></body></html>"
+"<html><head/><body><p>Amosar segmentos conflitivos en informes de carreiras. "
+"Dado que esta información pode axudar a atopar a causa dunha carreira de "
+"datos, esta opción está activada de maneira predeterminada. Desactivar esta "
+"opción fai máis compacta a saída de DRD.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showConflSeg)
 #: tools/drd/drd_configpage.ui:137
 #, kde-format
 msgid "Show conflicting segments"
-msgstr "Mostrar os segmentos conflitivos."
+msgstr "Amosar os segmentos conflitivos."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showStackUsage)
 #: tools/drd/drd_configpage.ui:144
@@ -870,7 +870,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:147
 #, kde-format
 msgid "Show stack usage"
-msgstr "Mostrar o uso do montón (stack)."
+msgstr "Amosar o uso do montón (stack)."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/drd/drd_configpage.ui:154
@@ -921,7 +921,7 @@ msgstr "Ignorar a creación de fíos."
 #: tools/memcheck/memcheck_configpage.ui:210
 #, kde-format
 msgid "Show stack frame instruction pointer value"
-msgstr "Mostrar o valor do punteiro da instrución do marco do montón."
+msgstr "Amosar o valor do punteiro da instrución do marco do montón."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tracesTab)
 #: tools/drd/drd_configpage.ui:192
@@ -1669,13 +1669,13 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:39
 #, kde-format
 msgid "Show leak kinds:"
-msgstr "Mostrar os tipos de perda:"
+msgstr "Amosar os tipos de perda:"
 
 #. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_showLeakKinds)
 #: tools/memcheck/memcheck_configpage.ui:46
 #, kde-format
 msgid "Specifies the leak kinds to show."
-msgstr "Indica os tipos de perda para mostrar."
+msgstr "Indica os tipos de perda para amosar."
 
 #. i18n: ectx: property (text), widget (QLabel, leakCheckHeuristicsLabel)
 #: tools/memcheck/memcheck_configpage.ui:59
@@ -1750,11 +1750,11 @@ msgstr ""
 "liberar</span> grávase unha traza de rima no momento da asignación e "
 "asóciase co bloque. Cando se libera o bloque grávase unha segunda traza de "
 "rima que substitúe a de asignación. Como resultado, calquera erro de uso "
-"tras liberar relacionado co bloque só pode mostrar unha traza de rima do "
+"tras liberar relacionado co bloque só pode amosar unha traza de rima do "
 "lugar onde se liberou o bloque.</p> <p>Con <span style=\" font-"
 "family:'Monospace'; font-weight:600; font-style:italic;\">asignar-e-liberar</"
 "span>, almacénanse as trazas de rima tanto da asignación como da liberación "
-"do bloque. Polo tanto os erros de uso tras liberar mostrarán as dúas, o que "
+"do bloque. Polo tanto os erros de uso tras liberar amosarán as dúas, o que "
 "podería facilitar a diagnose do erro. En comparación con <span style=\" font-"
 "family:'Monospace'; font-weight:600; font-style:italic;\">asignar-logo-"
 "liberar</span>, esta opción aumenta lixeiramente o uso de memoria de "
@@ -1875,16 +1875,16 @@ msgid ""
 "somewhat.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Controla se Memcheck informa de usos de valores sen "
-"definir. Estabelézao a <span style=\" font-family:'Monospace'; font-"
-"weight:600; font-style:italic;\">no</span> se non quere ver os erros de "
-"valores sen definir. Tamén ten o efecto secundario de aumentar lixeiramente "
-"a velocidade de Memcheck.</p></body></html>"
+"definir. Defínao a <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">no</span> se non quere ver os erros de valores sen "
+"definir. Tamén ten o efecto secundario de aumentar lixeiramente a velocidade "
+"de Memcheck.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_undefValueErrors)
 #: tools/memcheck/memcheck_configpage.ui:153
 #, kde-format
 msgid "Show undefined values usage"
-msgstr "Mostrar o uso de valores non definidos."
+msgstr "Amosar o uso de valores non definidos."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showMismatchedFrees)
 #: tools/memcheck/memcheck_configpage.ui:163
@@ -1969,7 +1969,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:166
 #, kde-format
 msgid "Show mismatched frees"
-msgstr "Mostrar as liberacións non asociadas."
+msgstr "Amosar as liberacións non asociadas."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_partialLoadsOk)
 #: tools/memcheck/memcheck_configpage.ui:173
@@ -2056,7 +2056,7 @@ msgstr ""
 "p> <p>Cando o seu valor é <span style=\" font-family:'Monospace'; font-"
 "weight:600; font-style:italic;\">si</span>, Memcheck fai seguimento da orixe "
 "de todos os valores sen inicializar. Entón, cando se informa dun erro de "
-"valor sen inicializar, Memcheck intentará mostrar a orixe do valor. A orixe "
+"valor sen inicializar, Memcheck intentará amosar a orixe do valor. A orixe "
 "pode ser un dos seguintes catro valores: un bloque do monte (heap), unha "
 "asignación da rima (stack), unha solicitude do cliente ou outras fontes (por "
 "exemplo unha chamada a <span style=\" font-family:'Monospace'; font-"
