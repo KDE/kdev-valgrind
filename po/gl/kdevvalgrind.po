@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-05 00:43+0000\n"
-"PO-Revision-Date: 2023-06-05 14:22+0200\n"
+"PO-Revision-Date: 2023-06-23 22:31+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
 #: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
@@ -87,7 +87,7 @@ msgid ""
 "<html><head/><body><p>Valgrind messages will be displayed in the output view "
 "during analysis.</p><p>Useful for plugin debugging.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>As mensaxes de Valgrind mostraranse na vista da saída "
+"<html><head/><body><p>As mensaxes de Valgrind amosaranse na vista da saída "
 "durante a análise.</p> <p>Útil para depurar complementos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showValgrindOutput)
@@ -145,7 +145,7 @@ msgstr "Erro de Valgrind"
 #: core/job.cpp:279
 #, kde-format
 msgid "Executing command: "
-msgstr "Orde en execución:"
+msgstr "Orde en execución: "
 
 #: core/job.cpp:297
 #, kde-format
@@ -377,7 +377,7 @@ msgstr "Executar %1"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Re-Run %1 Analysis for Current Launch Configuration"
-msgstr "Executar de novo a análise %1 para a configuración de inicio actual"
+msgstr "Executar de novo a análise %1 para a configuración de inicio actual."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
 #: tools/cachegrind/cachegrind_configpage.ui:23
@@ -534,7 +534,7 @@ msgstr "Incl."
 #: tools/callgrind/callgrind_model.cpp:376
 #, kde-format
 msgid "Self"
-msgstr "Propio:"
+msgstr "Propio"
 
 #: tools/callgrind/callgrind_model.cpp:288
 #, kde-format
@@ -814,7 +814,7 @@ msgstr ""
 "segmentos é un algoritmo para limitar o uso de memoria do algoritmo de "
 "detección de carreiras de datos. Desactivar a mestura de segmentos podería "
 "mellorar a exactitude dos chamados «outros segmentos» que se amosan nos "
-"informes de carreiras, pero tamén pode causar un erro de esgotamento de "
+"informes de carreiras, pero tamén pode provocar un erro de esgotamento de "
 "memoria.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_segmentMerging)
@@ -1127,7 +1127,7 @@ msgstr ""
 "maneira periódica, para liberar espazo na caché.</p> <p>Esta opción controla "
 "o tamaño da caché, especificamente o número de distintos enderezos de "
 "memoria para os que se almacena información de acceso conflitivo. Se "
-"descubre que Helgrind mostra erros de carreira cunha única rima en vez das "
+"descubre que Helgrind amosa erros de carreira cunha única rima en vez das "
 "dúas rimas esperadas, probe a aumentar este valor.</p> <p>O valor mínimo é "
 "10.000 e o máximo é 30.000.000 (trinta veces o valor predeterminado. "
 "Aumentar o valor en 1 aumenta os requisitos de memoria de Helgrind arredor "
@@ -1285,7 +1285,7 @@ msgstr "Helgrind (detector de erros de fíos)"
 #: tools/massif/massif_configpage.cpp:39
 #, kde-format
 msgid "CPU instructions"
-msgstr "Instrucións da CPU"
+msgstr "Instrucións do procesador"
 
 #: tools/massif/massif_configpage.cpp:40
 #, kde-format
@@ -1940,7 +1940,7 @@ msgstr ""
 "para bloques asignados con <span style=\" font-family:'Monospace'; font-"
 "weight:600; font-style:italic;\">new[]</span>. Se se detecta unha "
 "incoherencia, infórmase dela como erro. Isto é importante en xeral porque en "
-"algúns ambientes liberar cunha función que non corresponda pode causar "
+"algúns contornos liberar cunha función que non corresponda pode causar "
 "quebras.</p><p>Porén existe un escenario no que a falta de coincidencia non "
 "se pode evitar. É cando o usuario fornece implementacións de <span style=\" "
 "font-family:'Monospace'; font-weight:600; font-style:italic;\">new</span> ou "
@@ -2061,10 +2061,10 @@ msgstr ""
 "asignación da rima (stack), unha solicitude do cliente ou outras fontes (por "
 "exemplo unha chamada a <span style=\" font-family:'Monospace'; font-"
 "weight:600; font-style:italic;\">brk</span>).</p><p>Para os valores sen "
-"inicializar que se orixinen nun bloque do monte Memcheck mostra onde se "
+"inicializar que se orixinen nun bloque do monte Memcheck amosa onde se "
 "asignou o bloque. Para valores sen inicializar que se orixinen nunha "
 "asignación da rima, Memcheck indícalle que función asignou o valor, pero "
-"nada máis; normalmente mostra o lugar do código onde está a chave inicial da "
+"nada máis; normalmente amosa o lugar do código onde está a chave inicial da "
 "función, así que debería comprobar coidadosamente que todas as variábeis "
 "locais da función se inicializan correctamente.</p><p>Sobre o efecto no "
 "rendemento, facer un seguimento da orixe é caro. Reduce a velocidade de "
@@ -2145,7 +2145,7 @@ msgid ""
 "unaddressable memory to system calls;<br/>mismatched use of malloc/new/new "
 "[] vs free/delete/delete [];<br/>some abuses of the POSIX pthread API.</p>"
 msgstr ""
-"<b>Valgrind</b><p>Mostra a saída de valgrind. Valgrind detecta:<br/>o uso de "
+"<b>Valgrind</b><p>Amosa a saída de valgrind. Valgrind detecta:<br/>o uso de "
 "memoria non inicializada<br/>lendo e escribindo na memoria despois de que se "
 "libere<br/>lendo e escribindo alén dos bloques reservados por «malloc»<br/"
 ">lendo e escribindo áreas non axeitadas da pila<br/>fugas de memoria &mdash; "
