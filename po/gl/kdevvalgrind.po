@@ -134,7 +134,7 @@ msgstr "Revise a configuración de inicio de Valgrind."
 #: core/job.cpp:257
 #, kde-format
 msgid "Unknown Valgrind process error."
-msgstr "Ocorreu un erro descoñecido do proceso Valgrind."
+msgstr "Produciuse un erro descoñecido do proceso Valgrind."
 
 #: core/job.cpp:263 core/job.cpp:303 core/private/xmlparser.cpp:262
 #: core/utils.cpp:124
