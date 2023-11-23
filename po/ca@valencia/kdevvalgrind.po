@@ -116,7 +116,7 @@ msgstr "Valgrind ha fallat."
 #: core/job.cpp:229
 #, kde-format
 msgid "Valgrind process timed out."
-msgstr "El procés de Valgrind ha excedit el temps límit."
+msgstr "El procés de Valgrind ha excedit el temps."
 
 #: core/job.cpp:233
 #, kde-format
