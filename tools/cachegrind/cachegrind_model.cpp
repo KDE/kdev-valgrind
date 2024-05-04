@@ -83,7 +83,7 @@ void CachegrindFunctionsModel::setEventsList(const QStringList& eventsList)
     m_eventList = eventsList;
 }
 
-void CachegrindFunctionsModel::setPercentageValues(bool value)
+void CachegrindFunctionsModel::setPercentageValues(int value)
 {
     m_percentageValues = value;
     emitDataChanged(this);

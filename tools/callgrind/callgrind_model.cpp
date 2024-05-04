@@ -147,7 +147,7 @@ void CallgrindFunctionsModel::setCurrentEventType(int type)
     emitDataChanged(this);
 }
 
-void CallgrindFunctionsModel::setPercentageValues(bool value)
+void CallgrindFunctionsModel::setPercentageValues(int value)
 {
     m_percentageValues = value;
     emitDataChanged(this);

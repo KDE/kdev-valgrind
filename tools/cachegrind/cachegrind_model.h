@@ -47,7 +47,7 @@ public:
     void setEventsList(const QStringList& events);
     void addItem(CachegrindFunction* item, bool isTotal = false);
 
-    void setPercentageValues(bool value);
+    void setPercentageValues(int value);
 
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
@@ -61,7 +61,7 @@ private:
     QList<CachegrindFunction*> m_items;
     CachegrindFunction* m_totalItem;
 
-    bool m_percentageValues;
+    int m_percentageValues;
 
     QStringList m_eventList;
 };

@@ -85,7 +85,7 @@ public:
 
     void setEventTotals(const QStringList& stringValues);
 
-    void setPercentageValues(bool value);
+    void setPercentageValues(int value);
 
     CallgrindFunction* addFunction(
         const QString& name,
@@ -117,7 +117,7 @@ private:
 
     QVector<int> m_eventTotals;
 
-    bool m_percentageValues;
+    int m_percentageValues;
 
     QList<CallgrindFunction*> m_functions;
     QList<CallgrindCallInformation*> m_information;
