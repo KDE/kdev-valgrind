@@ -393,7 +393,7 @@ CallgrindFunctionCallersCalleesModel::CallgrindFunctionCallersCalleesModel(Callg
             this, [this](const QModelIndex&, const QModelIndex&, const QVector<int>&) {
 
         emitDataChanged(this);
-        emit headerDataChanged(Qt::Horizontal, 0, 1);
+        Q_EMIT headerDataChanged(Qt::Horizontal, 0, 1);
     });
 }
 
