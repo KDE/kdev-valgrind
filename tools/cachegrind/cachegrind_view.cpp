@@ -44,7 +44,7 @@ CachegrindView::CachegrindView(CachegrindFunctionsModel* model, QWidget* parent)
     Q_ASSERT(model);
     model->setParent(this);
 
-    connect(ui->percenageValues, &QCheckBox::stateChanged,
+    connect(ui->percenageValues, &QCheckBox::toggled,
             model, &CachegrindFunctionsModel::setPercentageValues);
     model->setPercentageValues(ui->percenageValues->checkState());
 

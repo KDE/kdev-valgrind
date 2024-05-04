@@ -56,7 +56,7 @@ CallgrindView::CallgrindView(KConfigGroup configGroup, QTemporaryFile* outputFil
             model, &CallgrindFunctionsModel::setCurrentEventType);
     model->setCurrentEventType(ui->eventTypes->currentIndex());
 
-    connect(ui->percenageValues, &QCheckBox::stateChanged,
+    connect(ui->percenageValues, &QCheckBox::toggled,
             model, &CallgrindFunctionsModel::setPercentageValues);
     model->setPercentageValues(ui->percenageValues->checkState());
 
