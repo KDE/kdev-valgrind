@@ -39,27 +39,27 @@ namespace XmlParser
 
 void Frame::setValue(const QString& name, const QString& value)
 {
-    if (name == "ip") {
+    if (name == QLatin1String("ip")) {
         instructionPointer = value;
     }
 
-    else if (name == "obj") {
+    else if (name == QLatin1String("obj")) {
         objectFile = value;
     }
 
-    else if (name == "fn") {
+    else if (name == QLatin1String("fn")) {
         function = value;
     }
 
-    else if (name == "dir") {
+    else if (name == QLatin1String("dir")) {
         directory = value;
     }
 
-    else if (name == "file") {
+    else if (name == QLatin1String("file")) {
         file = value;
     }
 
-    else if (name == "line") {
+    else if (name == QLatin1String("line")) {
         line = value.toInt();
     }
 }
@@ -167,7 +167,7 @@ OtherSegment* Error::addOtherSegment(bool isStart)
 void Error::setValue(const QString& name, const QString& value)
 {
     // Fix for memcheck messages
-    static const QRegularExpression memcheckSuffix(" in loss record \\d+ of \\d+$");
+    static const QRegularExpression memcheckSuffix(QStringLiteral(" in loss record \\d+ of \\d+$"));
 
     if (!value.isEmpty() && (name == QStringLiteral("text") ||
                              name == QStringLiteral("auxwhat") ||

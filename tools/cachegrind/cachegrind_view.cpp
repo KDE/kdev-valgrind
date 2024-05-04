@@ -71,7 +71,7 @@ CachegrindView::CachegrindView(CachegrindFunctionsModel* model, QWidget* parent)
 
         if (item) {
             ui->nameLabel->setText(item->functionName);
-            ui->sourceLabel->setText(item->fileNames.join("\n\n"));
+            ui->sourceLabel->setText(item->fileNames.join(QLatin1String("\n\n")));
         } else {
             ui->nameLabel->clear();
             ui->sourceLabel->clear();

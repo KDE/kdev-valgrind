@@ -40,12 +40,12 @@ void callgrindParseCallInformation(
     CallgrindFunction*& caller,
     CallgrindFunctionsModel* model)
 {
-    static const QRegularExpression binaryExpression("^(.*)\\[(.*)\\]$");
-    static const QRegularExpression callCountExpression("^(.*)\\((\\d+)x\\)$");
+    static const QRegularExpression binaryExpression(QStringLiteral("^(.*)\\[(.*)\\]$"));
+    static const QRegularExpression callCountExpression(QStringLiteral("^(.*)\\((\\d+)x\\)$"));
 
     const int eventsCount = eventTypes.size();
 
-    QStringList lineItems = line.split(QChar(' '), QString::SkipEmptyParts);
+    QStringList lineItems = line.split(QLatin1Char(' '), Qt::SkipEmptyParts);
     for (int i = 0; i < eventsCount; ++i) {
         lineItems[i].remove(QLatin1Char(','));
     }
@@ -88,7 +88,7 @@ void callgrindParseCallInformation(
         idString = match.captured(1).trimmed();
     }
 
-    int colonPos = idString.indexOf(':');
+    int colonPos = idString.indexOf(QLatin1Char(':'));
     Q_ASSERT(colonPos >= 0);
 
     auto sourceUrl = QUrl::fromLocalFile(idString.mid(0, colonPos)).adjusted(QUrl::NormalizePathSegments);
@@ -137,7 +137,7 @@ void callgrindParse(QByteArray& baData, CallgrindFunctionsModel* model)
     data.open(QIODevice::ReadOnly);
 
     while (!data.atEnd()) {
-        line = data.readLine().simplified();
+        line = QString::fromLocal8Bit(data.readLine().simplified());
 
         if (line.startsWith(QLatin1String("--")) && line.contains(QLatin1String("annotated source:"))) {
                 break;
@@ -148,7 +148,7 @@ void callgrindParse(QByteArray& baData, CallgrindFunctionsModel* model)
                 // 13 is 'Events shown:' size;
                 eventsString = line.mid(13).simplified();
 
-                eventTypes = eventsString.split(QChar(' '), QString::SkipEmptyParts);
+                eventTypes = eventsString.split(QLatin1Char(' '), Qt::SkipEmptyParts);
                 model->setEventTypes(eventTypes);
 
                 parserState = ParseProgramTotalHeader;

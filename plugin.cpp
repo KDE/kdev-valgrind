@@ -56,14 +56,14 @@ namespace Valgrind
 Plugin* Plugin::m_self = nullptr;
 
 Plugin::Plugin(QObject* parent, const QVariantList&)
-    : IPlugin("kdevvalgrind", parent)
+    : IPlugin(QStringLiteral("kdevvalgrind"), parent)
     , m_toolViewFactory(new ToolViewFactory)
     , m_launchMode(new LaunchMode)
     , m_problemModel(new ProblemModel)
     , m_isRunning(false)
 {
     m_self = this;
-    setXMLFile("kdevvalgrind.rc");
+    setXMLFile(QStringLiteral("kdevvalgrind.rc"));
 
     core()->uiController()->addToolView(i18n("Valgrind"), m_toolViewFactory);
     core()->runController()->addLaunchMode(m_launchMode.data());

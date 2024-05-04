@@ -36,15 +36,15 @@ CachegrindFunction* cachegrindParseCachegrindItem(const QString& line, QStringLi
 {
     auto item = new CachegrindFunction;
 
-    QStringList lineEventList = line.split(QChar(' '), QString::SkipEmptyParts);
+    QStringList lineEventList = line.split(QLatin1Char(' '), Qt::SkipEmptyParts);
     Q_ASSERT(lineEventList.size() >= eventsList.size());
 
     for (int i = 0; i < eventsList.size(); ++i) {
         item->eventValues += lineEventList.takeFirst().remove(QLatin1Char(',')).toInt();
     }
 
-    QString fileCall = lineEventList.join(QChar(' '));
-    int colonPosition = fileCall.indexOf(QChar(':'));
+    QString fileCall = lineEventList.join(QLatin1Char(' '));
+    int colonPosition = fileCall.indexOf(QLatin1Char(':'));
     if (colonPosition >= 0) {
         // file name
         auto fileUrl = QUrl::fromLocalFile(fileCall.mid(0, colonPosition)).adjusted(QUrl::NormalizePathSegments);
@@ -81,13 +81,13 @@ void cachegrindParse(QByteArray& baData, CachegrindFunctionsModel* model)
     while (!data.atEnd())
     {
         // remove useless characters
-        line = data.readLine().simplified();
+        line = QString::fromLocal8Bit(data.readLine().simplified());
 
         if (parserState == ParseRoot) {
             if (line.startsWith(QLatin1String("Events shown:"))) {
                 // 13 is 'Events shown:' length
                 eventsString = line.mid(13).simplified();
-                eventsList = eventsString.split(QChar(' '), QString::SkipEmptyParts);
+                eventsList = eventsString.split(QLatin1Char(' '), Qt::SkipEmptyParts);
                 parserState = ParseProgramTotalHeader;
             }
         }

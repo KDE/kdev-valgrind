@@ -71,7 +71,10 @@ int MassifSnapshotsModel::columnCount(const QModelIndex&) const
 
 QString humanSize(int byteSize)
 {
-    static const QStringList units{ "KiB", "MiB", "GiB", "TiB" };
+    static const QStringList units{ QStringLiteral("KiB"),
+        QStringLiteral("MiB"),
+        QStringLiteral("GiB"),
+        QStringLiteral("TiB") };
 
     if (byteSize < 1024) {
         return QString::number(byteSize);

@@ -116,7 +116,7 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
         connect(tcpSocket, &QTcpSocket::readyRead, this, [this, tcpSocket]() {
             QStringList lines;
             while (!tcpSocket->atEnd()) {
-                lines += tcpSocket->readLine().trimmed();
+                lines += QString::fromLocal8Bit(tcpSocket->readLine().trimmed());
             }
             processValgrindOutput(lines);
         });
@@ -167,7 +167,7 @@ void Job::start()
     *this << m_analyzedExecutable;
     *this << m_analyzedExecutableArguments;
 
-    qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(' ');
+    qCDebug(KDEV_VALGRIND) << "executing:" << commandLine().join(QLatin1Char(' '));
 
     Plugin::self()->jobReadyToStart(this);
 
@@ -250,7 +250,7 @@ void Job::childProcessError(QProcess::ProcessError processError)
         if (!m_valgrindOutput.isEmpty() &&
              m_valgrindOutput.at(0).startsWith(valgrindErrorsPrefix())) {
 
-            errorMessage  = m_valgrindOutput.join('\n').remove(valgrindErrorsPrefix());
+            errorMessage  = m_valgrindOutput.join(QLatin1Char('\n')).remove(valgrindErrorsPrefix());
             errorMessage += QStringLiteral("\n\n");
             errorMessage += i18n("Please review your Valgrind launch configuration.");
         } else {
@@ -286,18 +286,18 @@ int Job::executeProcess(const QString& executable, const QStringList& args, QByt
     }
 
     processOutput = process.readAllStandardOutput();
-    QString errOutput(process.readAllStandardError());
+    QString errOutput = QString::fromLocal8Bit(process.readAllStandardError());
 
     if (GlobalSettings::showValgrindOutput()) {
-        KDevelop::OutputExecuteJob::postProcessStdout(QString(processOutput).split('\n'));
+        KDevelop::OutputExecuteJob::postProcessStdout(QString::fromLocal8Bit(processOutput).split(QLatin1Char('\n')));
     }
-    KDevelop::OutputExecuteJob::postProcessStderr(errOutput.split('\n'));
+    KDevelop::OutputExecuteJob::postProcessStderr(errOutput.split(QLatin1Char('\n')));
 
     if (process.exitCode()) {
         QString message = i18n("Failed to execute the command:");
-        message += "\n\n";
+        message += QLatin1String("\n\n");
         message += commandLine;
-        message += "\n\n";
+        message += QLatin1String("\n\n");
         message += i18n("Please review your Valgrind launch configuration.");
 
         KMessageBox::error(activeMainWindow(), message, i18n("Valgrind Error"));

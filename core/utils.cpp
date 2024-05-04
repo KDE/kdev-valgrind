@@ -44,20 +44,20 @@ QString eventFullName(const QString& eventShortName)
 
         // full names are from KCachegrind
 
-        fullNames["Ir"  ] = i18n("Instruction Fetch");
-        fullNames["Dr"  ] = i18n("Data Read Access");
-        fullNames["Dw"  ] = i18n("Data Write Access");
-        fullNames["I1mr"] = i18n("L1 Instr. Fetch Miss");
-        fullNames["D1mr"] = i18n("L1 Data Read Miss");
-        fullNames["D1mw"] = i18n("L1 Data Write Miss");
-        fullNames["ILmr"] = i18n("LL Instr. Fetch Miss");
-        fullNames["DLmr"] = i18n("LL Data Read Miss");
-        fullNames["DLmw"] = i18n("LL Data Write Miss");
+        fullNames[QStringLiteral("Ir")  ] = i18n("Instruction Fetch");
+        fullNames[QStringLiteral("Dr")  ] = i18n("Data Read Access");
+        fullNames[QStringLiteral("Dw")  ] = i18n("Data Write Access");
+        fullNames[QStringLiteral("I1mr")] = i18n("L1 Instr. Fetch Miss");
+        fullNames[QStringLiteral("D1mr")] = i18n("L1 Data Read Miss");
+        fullNames[QStringLiteral("D1mw")] = i18n("L1 Data Write Miss");
+        fullNames[QStringLiteral("ILmr")] = i18n("LL Instr. Fetch Miss");
+        fullNames[QStringLiteral("DLmr")] = i18n("LL Data Read Miss");
+        fullNames[QStringLiteral("DLmw")] = i18n("LL Data Write Miss");
 
-        fullNames["Bc"  ] = i18n("Conditional Branch");
-        fullNames["Bcm" ] = i18n("Mispredicted Cond. Branch");
-        fullNames["Bi"  ] = i18n("Indirect Branch");
-        fullNames["Bim" ] = i18n("Mispredicted Ind. Branch");
+        fullNames[QStringLiteral("Bc")  ] = i18n("Conditional Branch");
+        fullNames[QStringLiteral("Bcm") ] = i18n("Mispredicted Cond. Branch");
+        fullNames[QStringLiteral("Bi")  ] = i18n("Indirect Branch");
+        fullNames[QStringLiteral("Bim") ] = i18n("Mispredicted Ind. Branch");
     }
 
     return fullNames.value(eventShortName, eventShortName);
@@ -73,7 +73,7 @@ QString displayValue(int value)
         if (!pos) {
             break;
         }
-        result.insert(pos, ' ');
+        result.insert(pos, QLatin1Char(' '));
     }
 
     return result;

@@ -41,9 +41,9 @@ void massifParse(const QString& fileName, MassifSnapshotsModel* model)
     file.open(QIODevice::ReadOnly);
 
     while (!file.atEnd()) {
-        line = file.readLine();
+        line = QString::fromLocal8Bit(file.readLine());
 
-        if (line.startsWith(QChar('#')) ||
+        if (line.startsWith(QLatin1Char('#')) ||
             line.startsWith(QStringLiteral("desc")) ||
             line.startsWith(QStringLiteral("time_unit")) ||
             line.startsWith(QStringLiteral("cmd"))) {
@@ -51,7 +51,7 @@ void massifParse(const QString& fileName, MassifSnapshotsModel* model)
             continue; // skip comment and useless lines
         }
 
-        keyValue = line.split(QChar('='));
+        keyValue = line.split(QLatin1Char('='));
         const QString& key = keyValue.at(0);
         const QString& value = keyValue.at(1);
 
@@ -69,8 +69,8 @@ void massifParse(const QString& fileName, MassifSnapshotsModel* model)
                 value.startsWith(QStringLiteral("detailed"))) {
 
                 while (!file.atEnd()) {
-                    line = file.readLine();
-                    if (line.startsWith(QChar('#'))) {
+                    line = QString::fromLocal8Bit(file.readLine());
+                    if (line.startsWith(QLatin1Char('#'))) {
                         break;
                     }
 
