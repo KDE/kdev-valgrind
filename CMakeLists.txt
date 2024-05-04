@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.16)
 
 project(kdevvalgrind)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(QT_MIN_VERSION "6.5.0")
+set(KF_MIN_VERSION "6.0.0")
 
-find_package(ECM "5.14.0" REQUIRED NO_MODULE)
+find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -15,18 +15,15 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(FeatureSummary)
 
-set(QT_MIN_VERSION "5.5.0")
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets)
-set(KF5_DEP_VERSION "5.15.0")
-find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Widgets)
+
+find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     I18n
-    ItemModels # needed because missing in KDevPlatformConfig.cmake, remove once dep on kdevplatform >=5.2.2
     ItemViews
+    KIO
 )
-find_package(KDevPlatform 5.1 CONFIG)
-set_package_properties(KDevPlatform PROPERTIES
-    TYPE REQUIRED
-)
+
+find_package(KDevPlatform 6.0 REQUIRED)
 
 include_directories(config core)
 
@@ -133,7 +130,8 @@ ecm_qt_declare_logging_category(kdevvalgrind_SRCS
     IDENTIFIER KDEV_VALGRIND
     CATEGORY_NAME "kdevelop.analyzers.valgrind"
 )
-qt5_add_resources(kdevvalgrind_SRCS
+
+qt_add_resources(kdevvalgrind_SRCS
     kdevvalgrind.qrc
 )
 
@@ -145,7 +143,8 @@ target_link_libraries(kdevvalgrind
     KDev::Language
     KDev::Project
     KDev::Shell
-    KF5::ItemViews
+    KF6::ItemViews
+    KF6::KIOWidgets
 )
 
 # kdebugsettings file
