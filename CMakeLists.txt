@@ -46,6 +46,7 @@ endif()
 find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
     I18n
     ItemViews
+    KIO
 )
 
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} CONFIG REQUIRED)
@@ -175,6 +176,7 @@ target_link_libraries(kdevvalgrind
     KDev::Project
     KDev::Shell
     KF${KF_MAJOR_VERSION}::ItemViews
+    KF${KF_MAJOR_VERSION}::KIOWidgets
 )
 
 # kdebugsettings file
