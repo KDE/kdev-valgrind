@@ -54,7 +54,7 @@ CachegrindView::CachegrindView(CachegrindFunctionsModel* model, QWidget* parent)
     functionsProxyModel->setFilterKeyColumn(-1);
     ui->functionsView->setModel(functionsProxyModel);
     ui->functionsView->setSortingEnabled(true);
-    ui->functionsView->sortByColumn(1);
+    ui->functionsView->sortByColumn(1, Qt::AscendingOrder);
 
     ui->functionsView->header()->resizeSections(QHeaderView::ResizeToContents);
     ui->functionsView->header()->setStretchLastSection(false);
