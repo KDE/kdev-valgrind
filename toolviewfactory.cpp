@@ -43,7 +43,7 @@ public:
 ToolView::ToolView(QWidget* parent)
     : QTabWidget(parent)
 {
-    setWindowIcon(QIcon::fromTheme("fork"));
+    setWindowIcon(QIcon::fromTheme(QStringLiteral("fork")));
     setWindowTitle(i18n("Valgrind Output"));
 
     setWhatsThis(i18n("<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>"

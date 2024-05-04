@@ -46,7 +46,7 @@ XmlJob::~XmlJob() = default;
 
 void XmlJob::processValgrindOutput(const QStringList& lines)
 {
-    static const auto xmlStartRegex = QRegularExpression("\\s*<");
+    static const auto xmlStartRegex = QRegularExpression(QStringLiteral("\\s*<"));
 
     for (const QString& line : lines) {
         if (line.isEmpty()) {
@@ -66,7 +66,7 @@ bool XmlJob::processEnded()
     m_config->setConfigGroup(m_configGroup);
     m_config->load();
 
-    auto problems = parseXml(m_tool->name(), m_xmlOutput.join(" "), m_config->showInstructionPointer());
+    auto problems = parseXml(m_tool->name(), m_xmlOutput.join(QLatin1Char(' ')), m_config->showInstructionPointer());
     Plugin::self()->problemModel()->setProblems(problems);
 
     return true;

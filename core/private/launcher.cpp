@@ -66,7 +66,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         return nullptr;
     }
 
-    auto iface = KDevelop::ICore::self()->pluginController()->pluginForExtension("org.kdevelop.IExecutePlugin")->extension<IExecutePlugin>();
+    auto iface = KDevelop::ICore::self()->pluginController()->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))->extension<IExecutePlugin>();
     Q_ASSERT(iface);
 
     QList<KJob*> jobList;
