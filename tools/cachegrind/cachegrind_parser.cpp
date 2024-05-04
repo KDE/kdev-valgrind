@@ -81,7 +81,7 @@ void cachegrindParse(QByteArray& baData, CachegrindFunctionsModel* model)
     while (!data.atEnd())
     {
         // remove useless characters
-        line = data.readLine().simplified();
+        line = QString::fromLatin1(data.readLine().simplified());
 
         if (parserState == ParseRoot) {
             if (line.startsWith(QLatin1String("Events shown:"))) {

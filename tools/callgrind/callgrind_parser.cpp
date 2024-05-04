@@ -137,7 +137,7 @@ void callgrindParse(QByteArray& baData, CallgrindFunctionsModel* model)
     data.open(QIODevice::ReadOnly);
 
     while (!data.atEnd()) {
-        line = data.readLine().simplified();
+        line = QString::fromLatin1(data.readLine().simplified());
 
         if (line.startsWith(QLatin1String("--")) && line.contains(QLatin1String("annotated source:"))) {
                 break;
@@ -148,7 +148,7 @@ void callgrindParse(QByteArray& baData, CallgrindFunctionsModel* model)
                 // 13 is 'Events shown:' size;
                 eventsString = line.mid(13).simplified();
 
-                eventTypes = eventsString.split(QChar(' '), Qt::SkipEmptyParts);
+                eventTypes = eventsString.split(QLatin1Char(' '), Qt::SkipEmptyParts);
                 model->setEventTypes(eventTypes);
 
                 parserState = ParseProgramTotalHeader;

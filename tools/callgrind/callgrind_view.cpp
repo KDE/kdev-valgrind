@@ -110,7 +110,7 @@ CallgrindView::CallgrindView(KConfigGroup configGroup, QTemporaryFile* outputFil
 
         if (function) {
             ui->binaryLabel->setText(function->binaryFile);
-            ui->sourceLabel->setText(function->sourceFiles.join('\n'));
+            ui->sourceLabel->setText(function->sourceFiles.join(QLatin1Char('\n')));
         } else {
             ui->binaryLabel->clear();
             ui->sourceLabel->clear();

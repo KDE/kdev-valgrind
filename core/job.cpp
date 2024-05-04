@@ -116,7 +116,7 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
         connect(tcpSocket, &QTcpSocket::readyRead, this, [this, tcpSocket]() {
             QStringList lines;
             while (!tcpSocket->atEnd()) {
-                lines += tcpSocket->readLine().trimmed();
+                lines += QString::fromLatin1(tcpSocket->readLine().trimmed());
             }
             processValgrindOutput(lines);
         });
@@ -286,10 +286,10 @@ int Job::executeProcess(const QString& executable, const QStringList& args, QByt
     }
 
     processOutput = process.readAllStandardOutput();
-    QString errOutput(process.readAllStandardError());
+    QString errOutput = QString::fromLatin1(process.readAllStandardError());
 
     if (GlobalSettings::showValgrindOutput()) {
-        KDevelop::OutputExecuteJob::postProcessStdout(QString(processOutput).split(QLatin1Char('\n')));
+        KDevelop::OutputExecuteJob::postProcessStdout(QString::fromLatin1(processOutput).split(QLatin1Char('\n')));
     }
     KDevelop::OutputExecuteJob::postProcessStderr(errOutput.split(QLatin1Char('\n')));
 
