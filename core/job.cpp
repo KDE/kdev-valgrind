@@ -123,7 +123,7 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     });
 
     connect(this, &Job::finished, this, [this]() {
-        emit hideProgress(this);
+        Q_EMIT hideProgress(this);
     });
     KDevelop::ICore::self()->uiController()->registerStatus(this);
 }
@@ -171,7 +171,7 @@ void Job::start()
 
     Plugin::self()->jobReadyToStart(this);
 
-    emit showProgress(this, 0, 0, 0);
+    Q_EMIT showProgress(this, 0, 0, 0);
     KDevelop::OutputExecuteJob::start();
 }
 

@@ -101,7 +101,7 @@ void MenuButton::updateValue()
         setText(textSelected.join(QLatin1String(", ")));
     }
 
-    emit valueChanged(m_value);
+    Q_EMIT valueChanged(m_value);
 }
 
 }

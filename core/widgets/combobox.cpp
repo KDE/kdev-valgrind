@@ -27,7 +27,7 @@ ComboBox::ComboBox(QWidget* parent)
 {
     connect(this, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, [this](int index) {
-                emit valueChanged(itemData(index).toString());
+                Q_EMIT valueChanged(itemData(index).toString());
             });
 }
 
