@@ -160,7 +160,7 @@ Stack* Error::addStack()
 
 OtherSegment* Error::addOtherSegment(bool isStart)
 {
-    otherSegments.append({ isStart, {} });
+    otherSegments.push_back({ isStart, {} });
     return &otherSegments.last();
 }
 
