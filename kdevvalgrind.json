@@ -33,7 +33,6 @@
         "Description[zh_CN]": "Valgrind 是一个帮助您找到程序中内存管理问题的工具。http://www.valgrind.org/",
         "Description[zh_TW]": "Valgrind 是一款可以幫助你尋找程式記憶體管理問題的工具。http://www.valgrind.org/",
         "Icon": "kdevelop",
-        "Id": "kdevvalgrind",
         "License": "GPL",
         "Name": "Valgrind Support",
         "Name[ca@valencia]": "Implementació de Valgrind",
