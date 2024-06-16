@@ -75,7 +75,7 @@ Plugin::Plugin(QObject* parent, const QVariantList&)
     m_tools += DrdTool::self();
     m_tools += MassifTool::self();
 
-    for (auto tool : qAsConst(m_tools)) {
+    for (auto tool : std::as_const(m_tools)) {
         auto action = new QAction(i18n("Run %1", tool->fullName()), this);
         connect(action, &QAction::triggered, this, [this, tool]() {
                 executeDefaultLaunch(tool->id());
@@ -142,7 +142,7 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     Q_ASSERT(type);
 
     if (load) {
-        for (auto tool : qAsConst(m_tools)) {
+        for (auto tool : std::as_const(m_tools)) {
             auto launcher = tool->createLauncher();
             m_launchers.insert(plugin, launcher);
             type->addLauncher(launcher);

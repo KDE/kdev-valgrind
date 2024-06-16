@@ -64,7 +64,7 @@ CallgrindFunction::CallgrindFunction(int eventsCount)
 int CallgrindFunction::callCount()
 {
     int count = 0;
-    for (auto info : qAsConst(callersInformation)) {
+    for (auto info : std::as_const(callersInformation)) {
         count += info->callCount;
     }
     return count;
@@ -82,7 +82,7 @@ int CallgrindFunction::eventValue(int type, bool inclusive)
     if (callersInformation.isEmpty()) {
         // The function is NOT CALLED by others, therefore we calc
         // the event inclusive value as sum of self value and all callees.
-        for (auto info : qAsConst(calleesInformation)) {
+        for (auto info : std::as_const(calleesInformation)) {
             value += info->eventValue(type);
         }
         return value;
@@ -91,7 +91,7 @@ int CallgrindFunction::eventValue(int type, bool inclusive)
     // The function is CALLED by others, therefore we calc
     // the event inclusive value as sum of all callers.
     value = 0;
-    for (auto info : qAsConst(callersInformation)) {
+    for (auto info : std::as_const(callersInformation)) {
         value += info->eventValue(type);
     }
 
@@ -163,7 +163,7 @@ CallgrindFunction* CallgrindFunctionsModel::addFunction(
 
     CallgrindFunction* function = nullptr;
 
-    for (auto currentFunction : qAsConst(m_functions)) {
+    for (auto currentFunction : std::as_const(m_functions)) {
         if (currentFunction->name == name && (currentFunction->binaryFile.isEmpty() ||
                                               binaryFile.isEmpty() ||
                                               currentFunction->binaryFile == binaryFile)) {
