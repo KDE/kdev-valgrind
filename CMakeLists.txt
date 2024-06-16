@@ -38,7 +38,7 @@ include(KDECMakeSettings)
 include(FeatureSummary)
 
 if(QT_MAJOR_VERSION STREQUAL 6)
-    find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED Core Core5Compat Widgets Test)
+    find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED Core Core5Compat Widgets WebEngineWidgets Test)
 else()
     find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets Test)
 endif()
