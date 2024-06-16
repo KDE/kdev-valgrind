@@ -151,7 +151,7 @@ QStringList Config::cmdArgs()
         args += cmdItem->cmdArg();
     }
     args += KShell::splitArgs(m_extraArgs);
-    args.removeAll(QStringLiteral(""));
+    args.removeAll(QString());
 
     return args;
 }

@@ -150,7 +150,7 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     }
 
     else {
-        auto pluginLaunchers = m_launchers.values(plugin);
+        const auto pluginLaunchers = m_launchers.values(plugin);
         for (auto launcher : pluginLaunchers) {
             Q_ASSERT(launcher);
 
