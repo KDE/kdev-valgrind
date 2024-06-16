@@ -147,7 +147,7 @@ void Config::setConfigGroup(const KConfigGroup& group)
 QStringList Config::cmdArgs()
 {
     QStringList args;
-    for (auto cmdItem : qAsConst(m_cmdItems)) {
+    for (auto cmdItem : std::as_const(m_cmdItems)) {
         args += cmdItem->cmdArg();
     }
     args += KShell::splitArgs(m_extraArgs);

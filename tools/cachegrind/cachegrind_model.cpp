@@ -56,7 +56,7 @@ void CachegrindFunctionsModel::addItem(CachegrindFunction* newItem, bool isTotal
         return;
     }
     bool exists = false;
-    for (auto item : qAsConst(m_items)) {
+    for (auto item : std::as_const(m_items)) {
         if (item->functionName == newItem->functionName) {
             exists = true;
 
