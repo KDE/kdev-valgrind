@@ -55,8 +55,8 @@ namespace Valgrind
 
 Plugin* Plugin::m_self = nullptr;
 
-Plugin::Plugin(QObject* parent, const QVariantList&)
-    : IPlugin(QStringLiteral("kdevvalgrind"), parent)
+Plugin::Plugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList&)
+    : IPlugin(QStringLiteral("kdevvalgrind"), parent, metaData)
     , m_toolViewFactory(new ToolViewFactory)
     , m_launchMode(new LaunchMode)
     , m_problemModel(new ProblemModel)
