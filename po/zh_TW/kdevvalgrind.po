@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:28+0000\n"
+"POT-Creation-Date: 2024-08-26 01:59+0000\n"
 "PO-Revision-Date: 2024-08-03 14:04+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -1249,27 +1249,27 @@ msgstr ""
 msgid "Launch Massif Visualizer after analysis finish"
 msgstr "Valgrind 執行檔："
 
-#: tools/massif/massif_model.cpp:126
+#: tools/massif/massif_model.cpp:129
 #, kde-format
 msgid "Snapshot"
 msgstr ""
 
-#: tools/massif/massif_model.cpp:129
+#: tools/massif/massif_model.cpp:132
 #, kde-format
 msgid "Time"
 msgstr ""
 
-#: tools/massif/massif_model.cpp:132
+#: tools/massif/massif_model.cpp:135
 #, kde-format
 msgid "Heap"
 msgstr ""
 
-#: tools/massif/massif_model.cpp:135
+#: tools/massif/massif_model.cpp:138
 #, kde-format
 msgid "Heap (extra)"
 msgstr ""
 
-#: tools/massif/massif_model.cpp:138
+#: tools/massif/massif_model.cpp:141
 #, kde-format
 msgid "Stack"
 msgstr ""
