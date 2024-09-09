@@ -15,12 +15,18 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(FeatureSummary)
 
-find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Network Widgets)
 
 find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
+    Config
+    ConfigWidgets
+    CoreAddons
     I18n
-    ItemViews
+    JobWidgets
     KIO
+    TextEditor
+    WidgetsAddons
+    XmlGui
 )
 
 find_package(KDevPlatform 6.0 REQUIRED)
@@ -143,8 +149,15 @@ target_link_libraries(kdevvalgrind
     KDev::Language
     KDev::Project
     KDev::Shell
-    KF6::ItemViews
+    KF6::ConfigCore
+    KF6::ConfigWidgets
+    KF6::CoreAddons
+    KF6::I18n
+    KF6::JobWidgets
     KF6::KIOWidgets
+    KF6::TextEditor
+    KF6::WidgetsAddons
+    KF6::XmlGui
 )
 
 # kdebugsettings file
