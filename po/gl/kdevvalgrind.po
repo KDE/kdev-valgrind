@@ -4,14 +4,14 @@
 # mvillarino <mvillarino@users.sourceforge.net>, 2008, 2009.
 # Marce Villarino <mvillarino@gmail.com>, 2009.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015.
-# SPDX-FileCopyrightText: 2024 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2024, 2025 Adrián Chaves (Gallaecio)
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 01:59+0000\n"
-"PO-Revision-Date: 2024-12-17 23:02+0100\n"
+"PO-Revision-Date: 2025-01-06 20:51+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1993,19 +1993,19 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Control a forma que ten Memcheck de xestionar as "
 "cargas aliñadas de maneira natural de 32, 64, 128 e 256 bits de enderezos "
-"para os que se pode acceder por enderezo a algúns bytes e a outros non. "
-"Cando o seu valor é <span style=\" font-family:'Monospace'; font-weight:600; "
-"font-style:italic;\">si</span>, esas cargas non producen un error de "
-"enderezo, senón que os bytes cargados que proveñen de enderezos inaceptábeis "
-"se marcan como non inicializados, e os que veñen de enderezos aceptábeis "
-"xestiónanse de maneira normal.</p><p>Cando o seu valor é <span style=\" font-"
-"family:'Monospace'; font-weight:600; font-style:italic;\">non</span>, as "
-"cargas desde enderezos parcialmente incorrectos trátanse igual que as cargas "
-"desde enderezos completamente incorrectos: emítese un erro de enderezo "
-"inaceptábel, e os bytes correspondentes márcanse como inicializados.</p> "
-"<p>Teña en conta que o código que se comporta deste xeito está en violación "
-"dos estándares ISO de C e C++, e debería considerarse roto. Calquera código "
-"nesta situación debería aquelarse, se é posíbel.</p></body></html>"
+"para os que algúns bytes teñen enderezo e outros non. Cando o seu valor é "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">si</span>, esas cargas non producen un error de enderezo, senón que os "
+"bytes cargados que proveñen de enderezos inaceptábeis se marcan como non "
+"inicializados, e os que veñen de enderezos aceptábeis xestiónanse de maneira "
+"normal.</p><p>Cando o seu valor é <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">non</span>, as cargas desde enderezos "
+"parcialmente incorrectos trátanse igual que as cargas desde enderezos "
+"completamente incorrectos: emítese un erro de enderezo inaceptábel, e os "
+"bytes correspondentes márcanse como inicializados.</p> <p>Teña en conta que "
+"o código que se comporta deste xeito está en violación dos estándares ISO de "
+"C e C++, e debería considerarse roto. Calquera código nesta situación "
+"debería aquelarse, se é posíbel.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_partialLoadsOk)
 #: tools/memcheck/memcheck_configpage.ui:176
