@@ -71,7 +71,7 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
 
     setCapabilities(KJob::Killable);
     setStandardToolView(KDevelop::IOutputView::TestView);
-    setBehaviours(KDevelop::IOutputView::AutoScroll);
+    setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
 
     auto envProfile = execute.environmentProfileName(&launchConfiguration);
     if (envProfile.isEmpty()) {
