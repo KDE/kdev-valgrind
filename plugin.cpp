@@ -142,22 +142,25 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
     Q_ASSERT(type);
 
     if (load) {
+        auto& launchers = m_launchers[plugin];
+        Q_ASSERT(launchers.empty());
+        launchers.reserve(m_tools.size());
         for (auto tool : std::as_const(m_tools)) {
             auto launcher = tool->createLauncher();
-            m_launchers.insert(plugin, launcher);
+            launchers.push_back(launcher);
             type->addLauncher(launcher);
         }
     }
 
     else {
-        const auto pluginLaunchers = m_launchers.values(plugin);
-        for (auto launcher : pluginLaunchers) {
+        const auto it = m_launchers.constFind(plugin);
+        Q_ASSERT(it != m_launchers.cend());
+        for (auto* const launcher : std::as_const(*it)) {
             Q_ASSERT(launcher);
-
-            m_launchers.remove(plugin, launcher);
             type->removeLauncher(launcher);
             delete launcher;
         }
+        m_launchers.erase(it);
     }
 }
 

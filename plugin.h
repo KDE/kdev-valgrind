@@ -23,7 +23,8 @@
 
 #include <interfaces/iplugin.h>
 
-#include <QMultiHash>
+#include <QHash>
+#include <QList>
 
 class KJob;
 
@@ -79,7 +80,7 @@ private:
     ToolViewFactory* m_toolViewFactory;
 
     QScopedPointer<LaunchMode> m_launchMode;
-    QMultiHash<KDevelop::IPlugin*, KDevelop::ILauncher*> m_launchers;
+    QHash<KDevelop::IPlugin*, QList<KDevelop::ILauncher*>> m_launchers;
 
     QScopedPointer<ProblemModel> m_problemModel;
     bool m_isRunning;
