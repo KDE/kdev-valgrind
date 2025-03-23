@@ -48,7 +48,6 @@ public:
     ~Job() override = default;
 
     void start() override;
-    using KDevelop::OutputExecuteJob::doKill;
 
     const Tool* tool() const;
     virtual QWidget* createView() = 0;
