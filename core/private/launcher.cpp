@@ -70,7 +70,7 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
     jobList += valgrindJob;
 
     auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
-    ecJob->setObjectName(valgrindJob->statusName());
+    ecJob->setObjectName(valgrindJob->objectName());
 
     return ecJob;
 }
