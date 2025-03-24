@@ -25,8 +25,6 @@
 #include "launcher.h"
 
 #include "common_configpage.h"
-#include "configpage.h"
-#include "debug.h"
 #include "job.h"
 #include "launchmode.h"
 #include "plugin.h"
@@ -36,10 +34,7 @@
 #include <interfaces/icore.h>
 #include <interfaces/iplugincontroller.h>
 #include <interfaces/iruncontroller.h>
-#include <interfaces/iuicontroller.h>
 #include <util/executecompositejob.h>
-
-#include <KLocalizedString>
 
 namespace Valgrind
 {
