@@ -72,6 +72,8 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
     setCapabilities(KJob::Killable);
     setStandardToolView(KDevelop::IOutputView::DebugView);
     setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
+    // Valgrind analysis runs a native program and prints its output along with the output of Valgrind itself
+    setFilteringStrategy(KDevelop::OutputModel::NativeAppErrorFilter);
 
     auto envProfile = execute.environmentProfileName(&launchConfiguration);
     if (envProfile.isEmpty()) {
