@@ -70,7 +70,7 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
     setProperties(KDevelop::OutputExecuteJob::JobProperty::PostProcessOutput);
 
     setCapabilities(KJob::Killable);
-    setStandardToolView(KDevelop::IOutputView::TestView);
+    setStandardToolView(KDevelop::IOutputView::DebugView);
     setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
 
     auto envProfile = execute.environmentProfileName(&launchConfiguration);
@@ -95,7 +95,14 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
 
     const QFileInfo analyzedExecutableInfo(m_analyzedExecutable);
 
-    setObjectName(i18n("%1 Analysis (%2)", m_tool->name(), analyzedExecutableInfo.fileName()));
+    {
+        const auto analyzerName = m_tool->name();
+        const auto targetName = analyzedExecutableInfo.fileName();
+        setObjectName(i18n("%1 Analysis (%2)", analyzerName, targetName));
+        // shorten the output tab title to show more tabs without scrolling
+        setTitle(i18nc("%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind analysis",
+                       "%1 (%2)", analyzerName, targetName));
+    }
 
     auto workDir = execute.workingDirectory(&launchConfiguration);
     if (workDir.isEmpty() || !workDir.isValid()) {
