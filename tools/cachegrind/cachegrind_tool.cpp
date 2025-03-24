@@ -51,9 +51,9 @@ CachegrindTool* CachegrindTool::self()
     return m_self ? m_self : new CachegrindTool;
 }
 
-Job* CachegrindTool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
+Job* CachegrindTool::createJob(const LaunchInfo& launchInfo) const
 {
-    return new CachegrindJob(launchConfig);
+    return new CachegrindJob(launchInfo);
 }
 
 KDevelop::LaunchConfigurationPageFactory* CachegrindTool::createConfigPageFactory() const

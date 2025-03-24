@@ -37,7 +37,7 @@ class MassifJob : public Job
     Q_OBJECT
 
 public:
-    explicit MassifJob(KDevelop::ILaunchConfiguration* launchConfig);
+    explicit MassifJob(const LaunchInfo& launchInfo);
     ~MassifJob() override = default;
 
     QWidget* createView() override;

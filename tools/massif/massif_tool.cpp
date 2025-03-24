@@ -51,9 +51,9 @@ MassifTool* MassifTool::self()
     return m_self ? m_self : new MassifTool;
 }
 
-Job* MassifTool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
+Job* MassifTool::createJob(const LaunchInfo& launchInfo) const
 {
-    return new MassifJob(launchConfig);
+    return new MassifJob(launchInfo);
 }
 
 KDevelop::LaunchConfigurationPageFactory* MassifTool::createConfigPageFactory() const

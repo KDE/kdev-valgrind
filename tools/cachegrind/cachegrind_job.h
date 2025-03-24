@@ -37,7 +37,7 @@ class CachegrindJob : public Job
     Q_OBJECT
 
 public:
-    explicit CachegrindJob(KDevelop::ILaunchConfiguration* launchConfig);
+    explicit CachegrindJob(const LaunchInfo& launchInfo);
     ~CachegrindJob() override = default;
 
     QWidget* createView() override;

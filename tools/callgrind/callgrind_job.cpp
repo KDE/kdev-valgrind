@@ -43,8 +43,8 @@
 namespace Valgrind
 {
 
-CallgrindJob::CallgrindJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : Job(CallgrindTool::self(), launchConfig)
+CallgrindJob::CallgrindJob(const LaunchInfo& launchInfo)
+    : Job(CallgrindTool::self(), launchInfo)
     , m_model(new CallgrindFunctionsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

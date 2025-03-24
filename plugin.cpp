@@ -146,7 +146,7 @@ void Plugin::setupExecutePlugin(KDevelop::IPlugin* plugin, bool load)
         Q_ASSERT(launchers.empty());
         launchers.reserve(m_tools.size());
         for (auto tool : std::as_const(m_tools)) {
-            auto launcher = tool->createLauncher();
+            auto* const launcher = tool->createLauncher(*iface);
             launchers.push_back(launcher);
             type->addLauncher(launcher);
         }

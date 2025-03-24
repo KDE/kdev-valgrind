@@ -51,9 +51,9 @@ CallgrindTool* CallgrindTool::self()
     return m_self ? m_self : new CallgrindTool;
 }
 
-Job* CallgrindTool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
+Job* CallgrindTool::createJob(const LaunchInfo& launchInfo) const
 {
-    return new CallgrindJob(launchConfig);
+    return new CallgrindJob(launchInfo);
 }
 
 KDevelop::LaunchConfigurationPageFactory* CallgrindTool::createConfigPageFactory() const

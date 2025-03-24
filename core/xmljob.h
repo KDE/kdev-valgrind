@@ -38,7 +38,7 @@ public:
     ~XmlJob() override;
 
 protected:
-    XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlConfig* config);
+    explicit XmlJob(const Tool* tool, const LaunchInfo& launchInfo, XmlConfig* config);
 
     QWidget* createView() override final;
 

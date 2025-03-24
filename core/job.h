@@ -29,6 +29,7 @@
 
 #include <KConfigGroup>
 
+class IExecutePlugin;
 class QWidget;
 
 namespace KDevelop { class ILaunchConfiguration; }
@@ -38,13 +39,19 @@ namespace Valgrind
 
 class Tool;
 
+struct LaunchInfo
+{
+    const IExecutePlugin& execute;
+    KDevelop::ILaunchConfiguration& launchConfiguration;
+};
+
 class Job : public KDevelop::OutputExecuteJob, public KDevelop::IStatus
 {
     Q_OBJECT
     Q_INTERFACES(KDevelop::IStatus)
 
 public:
-    Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig);
+    explicit Job(const Tool* tool, const LaunchInfo& launchInfo);
     ~Job() override = default;
 
     void start() override;

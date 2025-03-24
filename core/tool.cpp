@@ -71,9 +71,9 @@ bool Tool::hasView() const
     return m_hasView;
 }
 
-KDevelop::ILauncher* Tool::createLauncher() const
+KDevelop::ILauncher* Tool::createLauncher(const IExecutePlugin& execute) const
 {
-    return new Launcher(this);
+    return new Launcher(this, execute);
 }
 
 }

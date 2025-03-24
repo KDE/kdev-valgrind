@@ -29,7 +29,7 @@ class HelgrindJob : public XmlJob
     Q_OBJECT
 
 public:
-    explicit HelgrindJob(KDevelop::ILaunchConfiguration* launchConfig);
+    explicit HelgrindJob(const LaunchInfo& launchInfo);
     ~HelgrindJob() override = default;
 };
 

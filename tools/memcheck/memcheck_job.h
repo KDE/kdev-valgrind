@@ -29,7 +29,7 @@ class MemcheckJob : public XmlJob
     Q_OBJECT
 
 public:
-    explicit MemcheckJob(KDevelop::ILaunchConfiguration* launchConfig);
+    explicit MemcheckJob(const LaunchInfo& launchInfo);
     ~MemcheckJob() override = default;
 };
 

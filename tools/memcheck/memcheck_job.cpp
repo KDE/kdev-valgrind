@@ -30,8 +30,8 @@
 namespace Valgrind
 {
 
-MemcheckJob::MemcheckJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(MemcheckTool::self(), launchConfig, new MemcheckConfig)
+MemcheckJob::MemcheckJob(const LaunchInfo& launchInfo)
+    : XmlJob(MemcheckTool::self(), launchInfo, new MemcheckConfig)
 {
 }
 
