@@ -26,8 +26,8 @@
 namespace Valgrind
 {
 
-DrdJob::DrdJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : XmlJob(DrdTool::self(), launchConfig, new DrdConfig)
+DrdJob::DrdJob(const LaunchInfo& launchInfo)
+    : XmlJob(DrdTool::self(), launchInfo, new DrdConfig)
 {
 }
 

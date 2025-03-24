@@ -31,7 +31,7 @@ public:
 
     static MemcheckTool* self();
 
-    Job* createJob(KDevelop::ILaunchConfiguration* launchConfig) const override;
+    Job* createJob(const LaunchInfo& launchInfo) const override;
     KDevelop::LaunchConfigurationPageFactory* createConfigPageFactory() const override;
 
 protected:

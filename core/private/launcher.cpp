@@ -32,15 +32,15 @@
 
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
-#include <interfaces/iplugincontroller.h>
 #include <interfaces/iruncontroller.h>
 #include <util/executecompositejob.h>
 
 namespace Valgrind
 {
 
-Launcher::Launcher(const Tool* tool)
+Launcher::Launcher(const Tool* tool, const IExecutePlugin& execute)
     : m_tool(tool)
+    , m_execute(execute)
 {
     Q_ASSERT(tool);
 
@@ -61,15 +61,12 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         return nullptr;
     }
 
-    auto iface = KDevelop::ICore::self()->pluginController()->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"))->extension<IExecutePlugin>();
-    Q_ASSERT(iface);
-
     QList<KJob*> jobList;
-    if (KJob* depJob = iface->dependencyJob(launchConfig)) {
+    if (auto* const depJob = m_execute.dependencyJob(launchConfig)) {
         jobList += depJob;
     }
 
-    auto valgrindJob = m_tool->createJob(launchConfig);
+    auto* const valgrindJob = m_tool->createJob({m_execute, *launchConfig});
     jobList += valgrindJob;
 
     auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);

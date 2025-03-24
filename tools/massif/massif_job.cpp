@@ -41,8 +41,8 @@
 namespace Valgrind
 {
 
-MassifJob::MassifJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : Job(MassifTool::self(), launchConfig)
+MassifJob::MassifJob(const LaunchInfo& launchInfo)
+    : Job(MassifTool::self(), launchInfo)
     , m_model(new MassifSnapshotsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

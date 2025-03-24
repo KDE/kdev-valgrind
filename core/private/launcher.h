@@ -25,6 +25,7 @@
 
 #include <interfaces/ilauncher.h>
 
+class IExecutePlugin;
 class KJob;
 
 namespace Valgrind
@@ -35,7 +36,7 @@ class Tool;
 class Launcher : public KDevelop::ILauncher
 {
 public:
-    explicit Launcher(const Tool* tool);
+    explicit Launcher(const Tool* tool, const IExecutePlugin& execute);
     ~Launcher() override;
 
     QString name() const override final;
@@ -50,6 +51,7 @@ public:
 
 protected:
     const Tool* m_tool;
+    const IExecutePlugin& m_execute;
 
     QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;
 };

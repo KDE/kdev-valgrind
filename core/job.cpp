@@ -36,7 +36,6 @@
 #include <execute/iexecuteplugin.h>
 #include <interfaces/icore.h>
 #include <interfaces/ilaunchconfiguration.h>
-#include <interfaces/iplugincontroller.h>
 #include <interfaces/iruncontroller.h>
 #include <interfaces/iuicontroller.h>
 #include <util/environmentprofilelist.h>
@@ -56,14 +55,15 @@ namespace Valgrind
 
 inline QString valgrindErrorsPrefix() { return QStringLiteral("valgrind: "); }
 
-Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
+Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
     : KDevelop::OutputExecuteJob(KDevelop::ICore::self()->runController())
     , m_tool(tool)
-    , m_configGroup(launchConfig->config())
+    , m_configGroup(launchInfo.launchConfiguration.config())
     , m_tcpServerPort(0)
 {
     Q_ASSERT(tool);
-    Q_ASSERT(launchConfig);
+    auto& execute = launchInfo.execute;
+    auto& launchConfiguration = launchInfo.launchConfiguration;
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStderr);
@@ -73,12 +73,7 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
     setStandardToolView(KDevelop::IOutputView::TestView);
     setBehaviours(KDevelop::IOutputView::AutoScroll);
 
-    auto pluginController = KDevelop::ICore::self()->pluginController();
-    auto iface = pluginController->pluginForExtension(QStringLiteral("org.kdevelop.IExecutePlugin"), QStringLiteral("kdevexecute"))->extension<IExecutePlugin>();
-
-    Q_ASSERT(iface);
-
-    QString envProfile = iface->environmentProfileName(launchConfig);
+    auto envProfile = execute.environmentProfileName(&launchConfiguration);
     if (envProfile.isEmpty()) {
         envProfile = KDevelop::EnvironmentProfileList(KSharedConfig::openConfig()).defaultProfileName();
     }
@@ -86,19 +81,19 @@ Job::Job(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig)
 
     QString errorString;
 
-    m_analyzedExecutable = iface->executable(launchConfig, errorString).toLocalFile();
+    m_analyzedExecutable = execute.executable(&launchConfiguration, errorString).toLocalFile();
     if (!errorString.isEmpty()) {
         setError(-1);
         setErrorText(errorString);
     }
 
-    m_analyzedExecutableArguments = iface->arguments(launchConfig, errorString);
+    m_analyzedExecutableArguments = execute.arguments(&launchConfiguration, errorString);
     if (!errorString.isEmpty()) {
         setError(-1);
         setErrorText(errorString);
     }
 
-    QUrl workDir = iface->workingDirectory(launchConfig);
+    auto workDir = execute.workingDirectory(&launchConfiguration);
     if (workDir.isEmpty() || !workDir.isValid()) {
         workDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
     }

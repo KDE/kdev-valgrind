@@ -35,8 +35,8 @@
 namespace Valgrind
 {
 
-XmlJob::XmlJob(const Tool* tool, KDevelop::ILaunchConfiguration* launchConfig, XmlConfig* config)
-    : Job(tool, launchConfig)
+XmlJob::XmlJob(const Tool* tool, const LaunchInfo& launchInfo, XmlConfig* config)
+    : Job(tool, launchInfo)
     , m_config(config)
 {
     Q_ASSERT(m_config);

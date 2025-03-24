@@ -51,9 +51,9 @@ MemcheckTool* MemcheckTool::self()
     return m_self ? m_self : new MemcheckTool;
 }
 
-Job* MemcheckTool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
+Job* MemcheckTool::createJob(const LaunchInfo& launchInfo) const
 {
-    return new MemcheckJob(launchConfig);
+    return new MemcheckJob(launchInfo);
 }
 
 KDevelop::LaunchConfigurationPageFactory* MemcheckTool::createConfigPageFactory() const

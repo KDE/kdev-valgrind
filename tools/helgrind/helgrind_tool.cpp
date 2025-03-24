@@ -51,9 +51,9 @@ HelgrindTool* HelgrindTool::self()
     return m_self ? m_self : new HelgrindTool;
 }
 
-Job* HelgrindTool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
+Job* HelgrindTool::createJob(const LaunchInfo& launchInfo) const
 {
-    return new HelgrindJob(launchConfig);
+    return new HelgrindJob(launchInfo);
 }
 
 KDevelop::LaunchConfigurationPageFactory* HelgrindTool::createConfigPageFactory() const

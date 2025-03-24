@@ -51,9 +51,9 @@ DrdTool* DrdTool::self()
     return m_self ? m_self : new DrdTool;
 }
 
-Job* DrdTool::createJob(KDevelop::ILaunchConfiguration* launchConfig) const
+Job* DrdTool::createJob(const LaunchInfo& launchInfo) const
 {
-    return new DrdJob(launchConfig);
+    return new DrdJob(launchInfo);
 }
 
 KDevelop::LaunchConfigurationPageFactory* DrdTool::createConfigPageFactory() const

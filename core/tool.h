@@ -21,11 +21,11 @@
 
 #include <QString>
 
+class IExecutePlugin;
 namespace KDevelop
 {
 
 class ILauncher;
-class ILaunchConfiguration;
 class LaunchConfigurationPageFactory;
 
 }
@@ -34,6 +34,7 @@ namespace Valgrind
 {
 
 class Job;
+struct LaunchInfo;
 
 class Tool
 {
@@ -63,9 +64,9 @@ public:
     /// True if tool has view
     bool hasView() const;
 
-    KDevelop::ILauncher* createLauncher() const;
+    KDevelop::ILauncher* createLauncher(const IExecutePlugin& execute) const;
 
-    virtual Job* createJob(KDevelop::ILaunchConfiguration* launchConfig) const = 0;
+    virtual Job* createJob(const LaunchInfo& launchInfo) const = 0;
 
     virtual KDevelop::LaunchConfigurationPageFactory* createConfigPageFactory() const = 0;
 

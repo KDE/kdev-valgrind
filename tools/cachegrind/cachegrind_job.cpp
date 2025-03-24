@@ -43,8 +43,8 @@
 namespace Valgrind
 {
 
-CachegrindJob::CachegrindJob(KDevelop::ILaunchConfiguration* launchConfig)
-    : Job(CachegrindTool::self(), launchConfig)
+CachegrindJob::CachegrindJob(const LaunchInfo& launchInfo)
+    : Job(CachegrindTool::self(), launchInfo)
     , m_model(new CachegrindFunctionsModel)
     , m_outputFile(new QTemporaryFile(this))
 {

@@ -29,7 +29,7 @@ class DrdJob : public XmlJob
     Q_OBJECT
 
 public:
-    explicit DrdJob(KDevelop::ILaunchConfiguration* launchConfig);
+    explicit DrdJob(const LaunchInfo& launchInfo);
     ~DrdJob() override = default;
 };
 
