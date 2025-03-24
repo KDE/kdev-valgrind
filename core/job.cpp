@@ -93,9 +93,13 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
         setErrorText(errorString);
     }
 
+    const QFileInfo analyzedExecutableInfo(m_analyzedExecutable);
+
+    setObjectName(i18n("%1 Analysis (%2)", m_tool->name(), analyzedExecutableInfo.fileName()));
+
     auto workDir = execute.workingDirectory(&launchConfiguration);
     if (workDir.isEmpty() || !workDir.isValid()) {
-        workDir = QUrl::fromLocalFile(QFileInfo(m_analyzedExecutable).absolutePath());
+        workDir = QUrl::fromLocalFile(analyzedExecutableInfo.absolutePath());
     }
     setWorkingDirectory(workDir);
 
@@ -130,7 +134,7 @@ const Tool* Job::tool() const
 
 QString Job::statusName() const
 {
-    return i18n("%1 Analysis (%2)", m_tool->name(), QFileInfo(m_analyzedExecutable).fileName());
+    return objectName();
 }
 
 void Job::addLoggingArgs(QStringList& args) const
