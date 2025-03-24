@@ -50,7 +50,7 @@ public:
     KJob* start(const QString& launchMode, KDevelop::ILaunchConfiguration* launchConfig) override final;
 
 protected:
-    const Tool* m_tool;
+    const Tool* const m_tool;
     const IExecutePlugin& m_execute;
 
     QList<KDevelop::LaunchConfigurationPageFactory*> m_configPageFactories;

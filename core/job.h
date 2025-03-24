@@ -84,7 +84,7 @@ protected:
 
     QStringList buildCommandLine() const;
 
-    const Tool* m_tool;
+    const Tool* const m_tool;
 
     KConfigGroup m_configGroup;
 
