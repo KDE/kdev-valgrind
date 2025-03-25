@@ -45,7 +45,7 @@ namespace Valgrind
 
 CallgrindJob::CallgrindJob(const LaunchInfo& launchInfo)
     : Job(CallgrindTool::self(), launchInfo)
-    , m_model(new CallgrindFunctionsModel)
+    , m_model(new CallgrindFunctionsModel(this))
     , m_outputFile(new QTemporaryFile(this))
 {
     m_outputFile->open();

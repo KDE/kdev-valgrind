@@ -104,8 +104,9 @@ void CallgrindFunction::addEventValues(const QStringList& stringValues)
     addValues(stringValues, m_eventValues);
 }
 
-CallgrindFunctionsModel::CallgrindFunctionsModel()
-    : m_currentEventType(0)
+CallgrindFunctionsModel::CallgrindFunctionsModel(QObject* parent)
+    : QAbstractTableModel(parent)
+    , m_currentEventType(0)
     , m_percentageValues(false)
 {
 }
