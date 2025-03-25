@@ -74,7 +74,7 @@ class CallgrindFunctionsModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    CallgrindFunctionsModel();
+    CallgrindFunctionsModel(QObject* parent = nullptr);
     ~CallgrindFunctionsModel() override;
 
     const QStringList& eventTypes();

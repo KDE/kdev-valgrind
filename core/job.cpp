@@ -62,14 +62,34 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
     , m_tcpServerPort(0)
 {
     Q_ASSERT(tool);
+    setCapabilities(Killable);
+
     auto& execute = launchInfo.execute;
     auto& launchConfiguration = launchInfo.launchConfiguration;
+
+    QString errorString;
+    const auto detectError = [&errorString, this](int errorCode) {
+        if (errorString.isEmpty()) {
+            return false;
+        }
+        setError(errorCode);
+        setErrorText(errorString);
+        return true;
+    };
+
+    m_analyzedExecutable = execute.executable(&launchConfiguration, errorString).toLocalFile();
+    if (detectError(-1)) {
+        return;
+    }
+    m_analyzedExecutableArguments = execute.arguments(&launchConfiguration, errorString);
+    if (detectError(-2)) {
+        return;
+    }
 
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStdout);
     setProperties(KDevelop::OutputExecuteJob::JobProperty::DisplayStderr);
     setProperties(KDevelop::OutputExecuteJob::JobProperty::PostProcessOutput);
 
-    setCapabilities(KJob::Killable);
     setStandardToolView(KDevelop::IOutputView::DebugView);
     setBehaviours(KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll);
     // Valgrind analysis runs a native program and prints its output along with the output of Valgrind itself
@@ -80,20 +100,6 @@ Job::Job(const Tool* tool, const LaunchInfo& launchInfo)
         envProfile = KDevelop::EnvironmentProfileList(KSharedConfig::openConfig()).defaultProfileName();
     }
     setEnvironmentProfile(envProfile);
-
-    QString errorString;
-
-    m_analyzedExecutable = execute.executable(&launchConfiguration, errorString).toLocalFile();
-    if (!errorString.isEmpty()) {
-        setError(-1);
-        setErrorText(errorString);
-    }
-
-    m_analyzedExecutableArguments = execute.arguments(&launchConfiguration, errorString);
-    if (!errorString.isEmpty()) {
-        setError(-1);
-        setErrorText(errorString);
-    }
 
     const QFileInfo analyzedExecutableInfo(m_analyzedExecutable);
 
@@ -170,6 +176,11 @@ QStringList Job::buildCommandLine() const
 
 void Job::start()
 {
+    if (error() != NoError) {
+        emitResult();
+        return;
+    }
+
     *this << KDevelop::Path(GlobalSettings::valgrindExecutablePath()).toLocalFile();
     *this << buildCommandLine();
     *this << m_analyzedExecutable;

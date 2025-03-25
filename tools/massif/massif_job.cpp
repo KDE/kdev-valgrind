@@ -43,7 +43,7 @@ namespace Valgrind
 
 MassifJob::MassifJob(const LaunchInfo& launchInfo)
     : Job(MassifTool::self(), launchInfo)
-    , m_model(new MassifSnapshotsModel)
+    , m_model(new MassifSnapshotsModel(this))
     , m_outputFile(new QTemporaryFile(this))
 {
     m_outputFile->open();

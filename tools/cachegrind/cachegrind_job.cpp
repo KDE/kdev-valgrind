@@ -45,7 +45,7 @@ namespace Valgrind
 
 CachegrindJob::CachegrindJob(const LaunchInfo& launchInfo)
     : Job(CachegrindTool::self(), launchInfo)
-    , m_model(new CachegrindFunctionsModel)
+    , m_model(new CachegrindFunctionsModel(this))
     , m_outputFile(new QTemporaryFile(this))
 {
     m_outputFile->open();
