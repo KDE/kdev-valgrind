@@ -211,9 +211,8 @@ void Plugin::jobReadyToFinish(Job* job, bool ok)
 
     Q_ASSERT(job);
     if (job->tool()->hasView()) {
-        Q_EMIT addView(job->createView(), job->title());
-
         core()->uiController()->findToolView(i18n("Valgrind"), m_toolViewFactory);
+        Q_EMIT addView(job->createView(), job->title());
     } else {
         m_problemModel->show();
     }
