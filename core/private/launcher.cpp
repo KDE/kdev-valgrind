@@ -30,10 +30,7 @@
 #include "plugin.h"
 #include "tool.h"
 
-#include <execute/iexecuteplugin.h>
-#include <interfaces/icore.h>
-#include <interfaces/iruncontroller.h>
-#include <util/executecompositejob.h>
+#include <execute/iexecutepluginhelpers.h>
 
 namespace Valgrind
 {
@@ -61,18 +58,8 @@ KJob* Launcher::start(const QString& launchMode, KDevelop::ILaunchConfiguration*
         return nullptr;
     }
 
-    QList<KJob*> jobList;
-    if (auto* const depJob = m_execute.dependencyJob(launchConfig)) {
-        jobList += depJob;
-    }
-
     auto* const valgrindJob = m_tool->createJob({m_execute, *launchConfig});
-    jobList += valgrindJob;
-
-    auto ecJob = new KDevelop::ExecuteCompositeJob(KDevelop::ICore::self()->runController(), jobList);
-    ecJob->setObjectName(valgrindJob->objectName());
-
-    return ecJob;
+    return makeJobWithDependency(valgrindJob, m_execute, launchConfig);
 }
 
 QStringList Launcher::supportedModes() const
