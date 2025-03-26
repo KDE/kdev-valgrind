@@ -25,6 +25,7 @@
 
 #include <QHash>
 #include <QList>
+#include <QString>
 
 class KJob;
 
@@ -77,7 +78,8 @@ Q_SIGNALS:
 private:
     void setupExecutePlugin(KDevelop::IPlugin* plugin, bool load);
 
-    ToolViewFactory* m_toolViewFactory;
+    const QString m_toolViewName;
+    ToolViewFactory* const m_toolViewFactory;
 
     QScopedPointer<LaunchMode> m_launchMode;
     QHash<KDevelop::IPlugin*, QList<KDevelop::ILauncher*>> m_launchers;

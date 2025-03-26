@@ -57,6 +57,7 @@ Plugin* Plugin::m_self = nullptr;
 
 Plugin::Plugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList&)
     : IPlugin(QStringLiteral("kdevvalgrind"), parent, metaData)
+    , m_toolViewName{i18n("Valgrind")}
     , m_toolViewFactory(new ToolViewFactory)
     , m_launchMode(new LaunchMode)
     , m_problemModel(new ProblemModel)
@@ -65,7 +66,7 @@ Plugin::Plugin(QObject* parent, const KPluginMetaData& metaData, const QVariantL
     m_self = this;
     setXMLFile(QStringLiteral("kdevvalgrind.rc"));
 
-    core()->uiController()->addToolView(i18n("Valgrind"), m_toolViewFactory);
+    core()->uiController()->addToolView(m_toolViewName, m_toolViewFactory);
     core()->runController()->addLaunchMode(m_launchMode.data());
 
     m_tools += MemcheckTool::self();
@@ -211,7 +212,7 @@ void Plugin::jobReadyToFinish(Job* job, bool ok)
 
     Q_ASSERT(job);
     if (job->tool()->hasView()) {
-        core()->uiController()->findToolView(i18n("Valgrind"), m_toolViewFactory);
+        core()->uiController()->findToolView(m_toolViewName, m_toolViewFactory);
         Q_EMIT addView(job->createView(), job->title());
     } else {
         m_problemModel->show();
