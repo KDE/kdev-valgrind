@@ -1872,7 +1872,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:176
 #, kde-format
 msgid "Allow partial loads"
-msgstr "允许部分载入"
+msgstr "允许部分加载"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackOrigins)
 #: tools/memcheck/memcheck_configpage.ui:183
