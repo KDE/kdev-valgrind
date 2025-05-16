@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 01:59+0000\n"
+"POT-Creation-Date: 2025-05-16 02:02+0000\n"
 "PO-Revision-Date: 2008-12-12 00:37+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:68
-#: plugin.cpp:213 problemmodel.cpp:54 problemmodel.cpp:67
+#: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
+#: problemmodel.cpp:54 problemmodel.cpp:67
 #, kde-format
 msgid "Valgrind"
 msgstr "Valgrind"
@@ -96,59 +96,67 @@ msgstr ""
 msgid "Show valgrind output during analysis"
 msgstr ""
 
-#: core/job.cpp:138
+#: core/job.cpp:109
 #, kde-format
 msgid "%1 Analysis (%2)"
 msgstr ""
 
-#: core/job.cpp:217
+#: core/job.cpp:112
+#, kde-format
+msgctxt ""
+"%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
+"analysis"
+msgid "%1 (%2)"
+msgstr ""
+
+#: core/job.cpp:236
 #, fuzzy, kde-format
 #| msgid "Failed to start Valgrind"
 msgid "Failed to start valgrind from \"%1\"."
 msgstr "Valgrind を開始できませんでした"
 
-#: core/job.cpp:224
+#: core/job.cpp:243
 #, kde-format
 msgid "Valgrind crashed."
 msgstr "Valgrind がクラッシュしました。"
 
-#: core/job.cpp:229
+#: core/job.cpp:248
 #, kde-format
 msgid "Valgrind process timed out."
 msgstr "Valgrind プロセスがタイムアウトしました。"
 
-#: core/job.cpp:233
+#: core/job.cpp:252
 #, kde-format
 msgid "Write to Valgrind process failed."
 msgstr "Valgrind プロセスへの書き込みに失敗しました。"
 
-#: core/job.cpp:237
+#: core/job.cpp:256
 #, kde-format
 msgid "Read from Valgrind process failed."
 msgstr "Valgrind プロセスからの読み取りに失敗しました。"
 
-#: core/job.cpp:255 core/job.cpp:301
+#: core/job.cpp:274 core/job.cpp:320
 #, kde-format
 msgid "Please review your Valgrind launch configuration."
 msgstr ""
 
-#: core/job.cpp:257
+#: core/job.cpp:276
 #, kde-format
 msgid "Unknown Valgrind process error."
 msgstr "未知の Valgrind プロセスエラー。"
 
-#: core/job.cpp:263 core/job.cpp:303 core/private/xmlparser.cpp:262
+#: core/job.cpp:282 core/job.cpp:322 core/private/xmlparser.cpp:262
 #: core/utils.cpp:124
 #, kde-format
 msgid "Valgrind Error"
 msgstr "Valgrind のエラー"
 
-#: core/job.cpp:279
+#: core/job.cpp:298
 #, kde-format
 msgid "Executing command: "
 msgstr ""
 
-#: core/job.cpp:297
+#: core/job.cpp:316
 #, kde-format
 msgid "Failed to execute the command:"
 msgstr ""
@@ -341,7 +349,7 @@ msgstr "Ca&llgrind"
 msgid "Run Valgrind Analysis"
 msgstr "Valgrind"
 
-#: plugin.cpp:79
+#: plugin.cpp:80
 #, kde-format
 msgid "Run %1"
 msgstr ""
@@ -412,7 +420,7 @@ msgid "cg_annotate parameters:"
 msgstr "追加のパラメータ(&P):"
 
 #: tools/cachegrind/cachegrind_model.cpp:155
-#: tools/callgrind/callgrind_model.cpp:289
+#: tools/callgrind/callgrind_model.cpp:290
 #, kde-format
 msgid "Function"
 msgstr "関数"
@@ -478,51 +486,51 @@ msgstr "&Cachegrind"
 msgid "Launch KCachegrind after analysis finish"
 msgstr "&Cachegrind"
 
-#: tools/callgrind/callgrind_model.cpp:286
-#: tools/callgrind/callgrind_model.cpp:375
+#: tools/callgrind/callgrind_model.cpp:287
+#: tools/callgrind/callgrind_model.cpp:376
 #, kde-format
 msgid "Incl."
 msgstr ""
 
-#: tools/callgrind/callgrind_model.cpp:287
-#: tools/callgrind/callgrind_model.cpp:376
+#: tools/callgrind/callgrind_model.cpp:288
+#: tools/callgrind/callgrind_model.cpp:377
 #, kde-format
 msgid "Self"
 msgstr ""
 
-#: tools/callgrind/callgrind_model.cpp:288
+#: tools/callgrind/callgrind_model.cpp:289
 #, fuzzy, kde-format
 #| msgid "Ca&llgrind"
 msgid "Called"
 msgstr "Ca&llgrind"
 
-#: tools/callgrind/callgrind_model.cpp:374
+#: tools/callgrind/callgrind_model.cpp:375
 #, kde-format
 msgid "Event"
 msgstr ""
 
-#: tools/callgrind/callgrind_model.cpp:377
+#: tools/callgrind/callgrind_model.cpp:378
 #, kde-format
 msgid "Short"
 msgstr ""
 
-#: tools/callgrind/callgrind_model.cpp:499
+#: tools/callgrind/callgrind_model.cpp:500
 #, kde-format
 msgid "%1 per call"
 msgstr ""
 
-#: tools/callgrind/callgrind_model.cpp:500
+#: tools/callgrind/callgrind_model.cpp:501
 #, kde-format
 msgid "Count"
 msgstr ""
 
-#: tools/callgrind/callgrind_model.cpp:503
+#: tools/callgrind/callgrind_model.cpp:504
 #, fuzzy, kde-format
 #| msgid "Ca&llgrind"
 msgid "Caller"
 msgstr "Ca&llgrind"
 
-#: tools/callgrind/callgrind_model.cpp:505
+#: tools/callgrind/callgrind_model.cpp:506
 #, fuzzy, kde-format
 #| msgid "Ca&llgrind"
 msgid "Callee"
