@@ -98,13 +98,12 @@ msgid "%1 Analysis (%2)"
 msgstr "%1 分析 (%2)"
 
 #: core/job.cpp:112
-#, fuzzy, kde-format
-#| msgid "%1 Analysis (%2)"
+#, kde-format
 msgctxt ""
 "%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
 "analysis"
 msgid "%1 (%2)"
-msgstr "%1 分析 (%2)"
+msgstr ""
 
 #: core/job.cpp:236
 #, kde-format
