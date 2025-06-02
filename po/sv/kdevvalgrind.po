@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2015, 2016, 2017, 2018, 2021.
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2021, 2025 Stefan Asserhäll <stefan.asserhall@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-16 02:02+0000\n"
-"PO-Revision-Date: 2021-07-04 09:35+0200\n"
+"PO-Revision-Date: 2025-06-01 11:07+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -98,13 +98,12 @@ msgid "%1 Analysis (%2)"
 msgstr "Analys med %1 (%2)"
 
 #: core/job.cpp:112
-#, fuzzy, kde-format
-#| msgid "%1 Analysis (%2)"
+#, kde-format
 msgctxt ""
 "%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
 "analysis"
 msgid "%1 (%2)"
-msgstr "Analys med %1 (%2)"
+msgstr "%1 (%2)"
 
 #: core/job.cpp:236
 #, kde-format
