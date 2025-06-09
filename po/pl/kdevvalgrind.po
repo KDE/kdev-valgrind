@@ -3,26 +3,26 @@
 # Version: $Revision$
 # KDevelop polish translation file.
 # Translation work:
-#       Jacek Wojdeł <wojdel@kbs.twi.tudelft.nl>
-# Corrections:
-#       Waldemar Kochaniec
-#       Jacek Stolarczyk
-#       Anna Wojdeł <ania@kbs.twi.tudelft.nl>
-#
-# Krzysztof Lichota, 2004.
+# SPDX-FileCopyrightText: 2011, 2012, 2015, 2016, 2017, 2019, 2021, 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+# Jacek Wojdeł <wojdel@kbs.twi.tudelft.nl>
+# Anna Wojdeł <ania@kbs.twi.tudelft.nl>
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2003, 2004.
 # Marta Rybczynska <mrybczynska@poczta.onet.pl>, 2004, 2005.
 # Michal Rudolf <mrudolf@kdewebdev.org>, 2004, 2005.
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006, 2007.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2013.
 # Michał Smoczyk <msmoczyk@wp.pl>, 2008.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2015, 2016, 2017, 2019, 2021.
+# Corrections:
+# Waldemar Kochaniec
+# Jacek Stolarczyk
+#
+# Krzysztof Lichota, 2004.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-16 02:02+0000\n"
-"PO-Revision-Date: 2021-10-10 11:45+0200\n"
+"PO-Revision-Date: 2025-06-08 07:41+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -31,6 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -114,13 +115,12 @@ msgid "%1 Analysis (%2)"
 msgstr "%1 Analysis (%2)"
 
 #: core/job.cpp:112
-#, fuzzy, kde-format
-#| msgid "%1 Analysis (%2)"
+#, kde-format
 msgctxt ""
 "%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
 "analysis"
 msgid "%1 (%2)"
-msgstr "%1 Analysis (%2)"
+msgstr "%1 (%2)"
 
 #: core/job.cpp:236
 #, kde-format
