@@ -1,12 +1,12 @@
 # translation of kdevvalgrind.po to Italian
 #
+# SPDX-FileCopyrightText: 2007, 2012, 2017, 2019, 2020, 2023, 2025 Luigi Toscano <luigi.toscano@tiscali.it>
 # Matteo Merli <merlim@libero.it>, 2001.
 # Daniele Medri <madrid@linuxmeeting.net>, 2003.
 # Giovanni Venturi <jumpyj@libero.it>, 2003, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2003.
 # Giovanni Venturi <jumpyj@tiscali.it>, 2003, 2004, 2005, 2006, 2007, 2008.
 # Nicola Ruggero <nicola@nxnt.org>, 2007.
-# Luigi Toscano <luigi.toscano@tiscali.it>, 2007, 2012, 2017, 2019, 2020, 2023.
 # Simone Solinas <ksolsim@gmail.com>, 2009, 2010, 2011, 2012.
 # Valter Mura <valtermura@gmail.com>, 2012, 2014.
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-16 02:02+0000\n"
-"PO-Revision-Date: 2023-04-15 14:42+0200\n"
+"PO-Revision-Date: 2025-09-06 23:18+0200\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -90,6 +90,9 @@ msgid ""
 "<html><head/><body><p>Valgrind messages will be displayed in the output view "
 "during analysis.</p><p>Useful for plugin debugging.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>I messaggi di Valgrind saranno mostrati nella vista di "
+"output durante l'analisi.</p><p>Utile per effettuare il debug di estensioni."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showValgrindOutput)
 #: config/globalconfigpage.ui:156
@@ -103,13 +106,12 @@ msgid "%1 Analysis (%2)"
 msgstr "Analisi %1 (%2)"
 
 #: core/job.cpp:112
-#, fuzzy, kde-format
-#| msgid "%1 Analysis (%2)"
+#, kde-format
 msgctxt ""
 "%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
 "analysis"
 msgid "%1 (%2)"
-msgstr "Analisi %1 (%2)"
+msgstr "%1 (%2)"
 
 #: core/job.cpp:236
 #, kde-format
@@ -390,7 +392,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:39
 #, kde-format
 msgid "Branch simulation"
-msgstr "Simulazione branch"
+msgstr "Simulazione ramo"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/cachegrind/cachegrind_configpage.ui:49
@@ -399,6 +401,8 @@ msgid ""
 "You cannot disable both cache and branch simulation, as that would leave "
 "Cachegrind with no information to collect."
 msgstr ""
+"Non è possibile disabilitare sia la cache che la simulazione del ramo, "
+"perché Cachegrind rimarrebbe senza informazioni da raccogliere."
 
 #. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
 #: tools/cachegrind/cachegrind_configpage.ui:74
@@ -876,7 +880,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:241
 #, kde-format
 msgid "Trace execution of \"ANNOTATE_HAPPENS\" requests"
-msgstr ""
+msgstr "Traccia l'esecuzione di richieste di tipo \"ANNOTATE_HAPPENS\""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceMutex)
 #: tools/drd/drd_configpage.ui:248
