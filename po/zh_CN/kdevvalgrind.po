@@ -829,7 +829,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:147
 #, kde-format
 msgid "Show stack usage"
-msgstr "显示堆栈使用情况"
+msgstr "显示堆栈使用率"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/drd/drd_configpage.ui:154
