@@ -3,6 +3,7 @@
         "Authors": [
             {
                 "Name": "Harald Fernengel, Hamish Rodda",
+                "Name[ar]": "هارالد فيرننجل، هاميش رودا",
                 "Name[ca@valencia]": "Harald Fernengel, Hamish Rodda",
                 "Name[ca]": "Harald Fernengel, Hamish Rodda",
                 "Name[de]": "Harald Fernengel, Hamish Rodda",
@@ -33,6 +34,7 @@
         ],
         "Category": "Analyzers",
         "Description": "Valgrind is a tool that helps you find memory management problems in programs. http://www.valgrind.org/",
+        "Description[ar]": "Valgrind هي أداة تساعدك في العثور على مشاكل إدارة الذاكرة في البرامج. http://www.valgrind.org/",
         "Description[ca@valencia]": "Valgrind és una eina que vos ajudarà a trobar problemes dels programes en la gestió de la memòria. http://www.valgrind.org/",
         "Description[ca]": "El Valgrind és una eina que us ajudarà a trobar problemes dels programes en la gestió de la memòria. http://www.valgrind.org/",
         "Description[de]": "Valgrind ist ein Werkzeug, das Ihnen hilft, Speicherverwaltungsprobleme in Programmen zu finden. http://www.valgrind.org/",
@@ -61,6 +63,7 @@
         "Icon": "kdevelop",
         "License": "GPL",
         "Name": "Valgrind Support",
+        "Name[ar]": "إتاحة Valgrind",
         "Name[ca@valencia]": "Implementació de Valgrind",
         "Name[ca]": "Implementació del Valgrind",
         "Name[cs]": "Podpora pro Valgrind",
