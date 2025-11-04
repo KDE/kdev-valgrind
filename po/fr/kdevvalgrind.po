@@ -194,7 +194,7 @@ msgstr ""
 "pas le nombre total d'erreurs à signaler.</p><p>La valeur maximale est de "
 "500. Veuillez noter que des valeurs plus hautes de ce paramètre peuvent "
 "conduire à plus de consommation de mémoire. Cela peut être utile pour des "
-"chaînes d'appels profondément imbriquées.</p></body></html>"
+"chaines d'appels profondément imbriquées.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, maxStackframeLabel)
 #: core/private/common_configpage.ui:39
