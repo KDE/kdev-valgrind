@@ -1,24 +1,24 @@
 # Translation of kdevvalgrind.po to Catalan (Valencian)
-# Copyright (C) 2009-2025 This_file_is_part_of_KDE
+# Copyright (C) 2009-2026 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2017, 2018, 2020, 2021, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2009, 2010 Manuel Tortosa <manutortosa@gmail.com>
-# SPDX-FileCopyrightText: 2010, 2012, 2014, 2015, 2016, 2017, 2020, 2021, 2022, 2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2010, 2012, 2014, 2015, 2016, 2017, 2020, 2021, 2022, 2025, 2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:00+0000\n"
-"PO-Revision-Date: 2025-05-16 09:10+0200\n"
+"PO-Revision-Date: 2026-01-09 11:48+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -114,7 +114,7 @@ msgstr "%1 (%2)"
 #: core/job.cpp:236
 #, kde-format
 msgid "Failed to start valgrind from \"%1\"."
-msgstr "No s'ha pogut iniciar «valgrind» des de «%1»."
+msgstr "Ha fallat mentre s'iniciava «valgrind» des de «%1»."
 
 #: core/job.cpp:243
 #, kde-format
@@ -160,7 +160,7 @@ msgstr "S'està executant l'ordre:"
 #: core/job.cpp:316
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr "No s'ha pogut executar l'ordre:"
+msgstr "Ha fallat mentre s'executava l'ordre:"
 
 #: core/private/common_configpage.cpp:30
 #, kde-format
@@ -350,7 +350,7 @@ msgstr "Branca indirecta no prevista"
 #: core/utils.cpp:116
 #, kde-format
 msgid "Failed to start visualizer from \"%1\"."
-msgstr "No s'ha pogut iniciar el visor des de «%1»."
+msgstr "Ha fallat mentre s'iniciava el visor des de «%1»."
 
 #: core/utils.cpp:118
 #, kde-format
@@ -360,7 +360,7 @@ msgstr "Comproveu la configuració i instal·leu el visor si fora necessari."
 #: core/utils.cpp:120
 #, kde-format
 msgid "Error during visualizer execution:"
-msgstr "Error durant l'execució del visor:"
+msgstr "S'ha produït un error durant l'execució del visor:"
 
 #: core/widgets/menubutton.cpp:95 tools/memcheck/memcheck_configpage.cpp:64
 #, kde-format
@@ -1985,7 +1985,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:166
 #, kde-format
 msgid "Show mismatched frees"
-msgstr "Mostra les alliberacions sense emparellar"
+msgstr "Mostra les alliberacions sense aparellar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_partialLoadsOk)
 #: tools/memcheck/memcheck_configpage.ui:173
