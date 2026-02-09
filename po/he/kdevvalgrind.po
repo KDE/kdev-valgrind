@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:00+0000\n"
-"PO-Revision-Date: 2026-01-30 08:33+0200\n"
+"PO-Revision-Date: 2026-02-08 08:54+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -219,7 +219,7 @@ msgstr ""
 #: core/private/common_configpage.ui:56
 #, kde-format
 msgid "&Extra parameters:"
-msgstr ""
+msgstr "משתנים &נוספים:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_errorLimit)
 #: core/private/common_configpage.ui:82
@@ -235,7 +235,7 @@ msgstr ""
 #: core/private/common_configpage.ui:85
 #, kde-format
 msgid "Limit errors if too many"
-msgstr ""
+msgstr "להגביל את השגיאות אם יש יותר מדי כאלה"
 
 #: core/private/xmlparser.cpp:258
 #, kde-format
@@ -245,7 +245,7 @@ msgstr ""
 #: core/utils.cpp:47
 #, kde-format
 msgid "Instruction Fetch"
-msgstr ""
+msgstr "משיכת הנחיות"
 
 #: core/utils.cpp:48
 #, kde-format
@@ -398,7 +398,7 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.ui:46
 #, kde-format
 msgid "Extra parameters:"
-msgstr ""
+msgstr "משתנים נוספים:"
 
 #. i18n: ectx: property (text), widget (QLabel, cgAnnotateArgsLabel)
 #: tools/cachegrind/cachegrind_configpage.ui:91
@@ -1218,7 +1218,7 @@ msgstr ""
 #: tools/massif/massif_configpage.ui:214
 #, kde-format
 msgid "Launch Massif Visualizer after analysis finish"
-msgstr ""
+msgstr "להפעיל את ממחיש Massif לאחר סיום האבחון"
 
 #: tools/massif/massif_model.cpp:129
 #, kde-format
