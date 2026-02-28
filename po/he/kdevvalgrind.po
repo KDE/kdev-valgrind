@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:00+0000\n"
-"PO-Revision-Date: 2026-02-20 12:20+0200\n"
+"PO-Revision-Date: 2026-02-27 09:54+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -150,12 +150,12 @@ msgstr "שגיאת Valgrind"
 #: core/job.cpp:298
 #, kde-format
 msgid "Executing command: "
-msgstr ""
+msgstr "פקודה מופעלת: "
 
 #: core/job.cpp:316
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr ""
+msgstr "הפעלת הפקודה הזאת נכשלה:"
 
 #: core/private/common_configpage.cpp:30
 #, kde-format
@@ -290,7 +290,7 @@ msgstr ""
 #: core/utils.cpp:57
 #, kde-format
 msgid "Conditional Branch"
-msgstr ""
+msgstr "ענף מותנה"
 
 #: core/utils.cpp:58
 #, kde-format
@@ -315,7 +315,7 @@ msgstr ""
 #: core/utils.cpp:118
 #, kde-format
 msgid "Check your settings and install the visualizer if necessary."
-msgstr ""
+msgstr "נא לבדוק את ההגדרות שלך ולהתקין את הממחיש (visualizer) אם יש צורך בכך."
 
 #: core/utils.cpp:120
 #, kde-format
@@ -356,6 +356,8 @@ msgid ""
 "<html><head/><body><p>Enables or disables collection of cache access and "
 "miss counts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>הפעלת או השבתת איסוף של ספירת גישה למטמון והחמצות.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_cacheSim)
 #: tools/cachegrind/cachegrind_configpage.ui:26
@@ -382,7 +384,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:39
 #, kde-format
 msgid "Branch simulation"
-msgstr ""
+msgstr "הדמיית ענף"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/cachegrind/cachegrind_configpage.ui:49
