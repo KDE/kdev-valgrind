@@ -12,49 +12,49 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind"
 msgstr "Valgrind Suppression"
 
 #: config/globalconfigpage.cpp:50
 #, kde-format
 msgid "Configure Valgrind Settings"
-msgstr ""
+msgstr "Configure Valgrind Settings"
 
 #. i18n: ectx: property (title), widget (QGroupBox, pathsGroupBox)
 #: config/globalconfigpage.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind executables"
 msgstr "xsltproc &program:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: config/globalconfigpage.ui:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind:"
 msgstr "Valgrind Suppression"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: config/globalconfigpage.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "callgrind_annotate:"
 msgstr "Cesta k programu"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: config/globalconfigpage.ui:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "cg_annotate:"
 msgstr "Cesta k programu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, outputGroupBox)
 #: config/globalconfigpage.ui:98
-#, fuzzy, kde-format
+#, kde-format
 msgid "Visualizers executables"
-msgstr "Massif Visualizer - hodnotenie of %1 (%2)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: config/globalconfigpage.ui:104
@@ -94,8 +94,7 @@ msgid "%1 Analysis (%2)"
 msgstr "%1 Analýza (%2)"
 
 #: core/job.cpp:112
-#, fuzzy, kde-format
-#| msgid "%1 Analysis (%2)"
+#, kde-format
 msgctxt ""
 "%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
 "analysis"
@@ -103,22 +102,22 @@ msgid "%1 (%2)"
 msgstr "%1 Analýza (%2)"
 
 #: core/job.cpp:236
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to start valgrind from \"%1\"."
-msgstr "Nie je možné spustiť tlačiareň písma."
+msgstr "Nepodarilo sa start valgrind from \"%1\"."
 
 #: core/job.cpp:243
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind crashed."
-msgstr "Program '%1' spadol."
+msgstr ""
 
 #: core/job.cpp:248
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind process timed out."
 msgstr "Vypršal čas PTY operácie"
 
 #: core/job.cpp:252
-#, fuzzy, kde-format
+#, kde-format
 msgid "Write to Valgrind process failed."
 msgstr "Zlyhalo spustenie shellového procesu."
 
@@ -130,16 +129,16 @@ msgstr ""
 #: core/job.cpp:274 core/job.cpp:320
 #, kde-format
 msgid "Please review your Valgrind launch configuration."
-msgstr ""
+msgstr "Prosím, review your Valgrind launch configuration."
 
 #: core/job.cpp:276
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unknown Valgrind process error."
-msgstr "interná chyba - kód %1 neznámy"
+msgstr ""
 
 #: core/job.cpp:282 core/job.cpp:322 core/private/xmlparser.cpp:262
 #: core/utils.cpp:124
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind Error"
 msgstr "Chyba modulu"
 
@@ -151,17 +150,16 @@ msgstr ""
 #: core/job.cpp:316
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr ""
+msgstr "Nepodarilo sa execute the command:"
 
 #: core/private/common_configpage.cpp:30
-#, fuzzy, kde-format
-#| msgid "Global settings"
+#, kde-format
 msgid "Valgrind Common Settings"
 msgstr "Globálne nastavenia"
 
 #. i18n: ectx: property (text), widget (QLabel, numCallersLabel)
 #: core/private/common_configpage.ui:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display stac&k to depth:"
 msgstr "Maximálna hĺbka kontroly."
 
@@ -181,7 +179,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, maxStackframeLabel)
 #: core/private/common_configpage.ui:39
-#, fuzzy, kde-format
+#, kde-format
 msgid " Maximum size of a stack frame:"
 msgstr "Obmedziť na maximálnu veľkosť"
 
@@ -230,16 +228,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_errorLimit)
 #: core/private/common_configpage.ui:85
-#, fuzzy, kde-format
+#, kde-format
 msgid "Limit errors if too many"
 msgstr "Varovať ak je zadaných priveľa prijímateľov"
 
 #: core/private/xmlparser.cpp:258
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind XML Parsing: error at line %1, column %2: %3"
 msgstr ""
-"Chyba pri prechádzaní súboru na riadku %1,stĺpec%2:\n"
-" . "
 
 #: core/utils.cpp:47
 #, kde-format
@@ -307,19 +303,20 @@ msgid "Mispredicted Ind. Branch"
 msgstr "Nepredpokladaná nepriama vetva"
 
 #: core/utils.cpp:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to start visualizer from \"%1\"."
-msgstr "Nie je možné spustiť tlačiareň písma."
+msgstr "Nepodarilo sa start visualizer from \"%1\"."
 
 #: core/utils.cpp:118
 #, kde-format
 msgid "Check your settings and install the visualizer if necessary."
 msgstr ""
+"Skontrolujte si nastavenia a nainštalujte vizualizátor, ak je to potrebné."
 
 #: core/utils.cpp:120
 #, kde-format
 msgid "Error during visualizer execution:"
-msgstr ""
+msgstr "Chyba: during visualizer execution:"
 
 #: core/widgets/menubutton.cpp:95 tools/memcheck/memcheck_configpage.cpp:64
 #, kde-format
@@ -327,14 +324,13 @@ msgid "none"
 msgstr "žiadne"
 
 #: core/widgets/menubutton.cpp:98
-#, fuzzy, kde-format
-#| msgid "Called"
+#, kde-format
 msgid "all"
-msgstr "Volaný"
+msgstr "všetko"
 
 #. i18n: ectx: Menu (valgrind)
 #: kdevvalgrind.rc:6
-#, fuzzy, kde-format
+#, kde-format
 msgid "Run Valgrind Analysis"
 msgstr "Valgrind Suppression"
 
@@ -360,7 +356,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_cacheSim)
 #: tools/cachegrind/cachegrind_configpage.ui:26
 #: tools/callgrind/callgrind_configpage.ui:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cache simulation"
 msgstr "Spustiť simuláciu"
 
@@ -380,7 +376,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_branchSim)
 #: tools/cachegrind/cachegrind_configpage.ui:39
 #: tools/callgrind/callgrind_configpage.ui:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Branch simulation"
 msgstr "Spustiť simuláciu"
 
@@ -402,7 +398,7 @@ msgstr "Dodatočné parametre:"
 
 #. i18n: ectx: property (text), widget (QLabel, cgAnnotateArgsLabel)
 #: tools/cachegrind/cachegrind_configpage.ui:91
-#, fuzzy, kde-format
+#, kde-format
 msgid "cg_annotate parameters:"
 msgstr "Užívateľské parametre"
 
@@ -432,7 +428,7 @@ msgstr "Hľadať..."
 #: tools/cachegrind/cachegrind_view.ui:41 tools/callgrind/callgrind_view.ui:53
 #, kde-format
 msgid "Percentage values"
-msgstr ""
+msgstr "Percento hodnoty"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
 #: tools/callgrind/callgrind_configpage.ui:23
@@ -460,13 +456,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, callgrindAnnotateArgsLabel)
 #: tools/callgrind/callgrind_configpage.ui:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "callgrind_annotate parameters:"
 msgstr "Cesta k programu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchKCachegrind)
 #: tools/callgrind/callgrind_configpage.ui:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "Launch KCachegrind after analysis finish"
 msgstr "Odozva pri spustení aplikácie"
 
@@ -529,7 +525,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, launchKCachegrindButton)
 #: tools/callgrind/callgrind_view.ui:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "Launch KCachegrind"
 msgstr "Odozva pri spustení aplikácie"
 
@@ -686,6 +682,19 @@ msgid ""
 "patterns however where it is safe to send a signal without holding a lock on "
 "the associated mutex.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Whether to report calls to <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">pthread_cond_signal</span> and <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">pthread_cond_broadcast</span> where "
+"the mutex associated with the signal through <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">pthread_cond_wait</"
+"span> or <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">pthread_cond_timed_wait</span> is not locked at the time the "
+"signal is sent. Sending a signal without holding a lock on the associated "
+"mutex is a common programming error which can cause subtle race conditions "
+"and unpredictable behavior. There exist some uncommon synchronization "
+"patterns however where it is safe to send a signal without holding a lock on "
+"the associated mutex.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_reportSignalUnlocked)
 #: tools/drd/drd_configpage.ui:117
@@ -742,7 +751,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showStackUsage)
 #: tools/drd/drd_configpage.ui:147
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show stack usage"
 msgstr "Zobraziť &sledované"
 
@@ -766,6 +775,21 @@ msgid ""
 "during:</p><p>* pthread_create() call in the creator thread </p><p>* thread "
 "creation phase (stack and TLS setup) in the created thread</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Controls whether all activities during thread creation "
+"should be ignored. By default enabled only on Solaris. Solaris provides "
+"higher throughput, parallelism and scalability than other operating systems, "
+"at the cost of more fine-grained locking activity. This means for example "
+"that when a thread is created under glibc, just one big lock is used for all "
+"thread setup. Solaris libc uses several fine-grained locks and the creator "
+"thread resumes its activities as soon as possible, leaving for example stack "
+"and TLS setup sequence to the created thread. This situation confuses DRD as "
+"it assumes there is some false ordering in place between creator and created "
+"thread; and therefore many types of race conditions in the application would "
+"not be reported. To prevent such false ordering, this command line option is "
+"set to <span style=\" font-family:'Monospace';\">yes</span> by default on "
+"Solaris. All activity (loads, stores, client requests) is therefore ignored "
+"during:</p><p>* pthread_create() call in the creator thread </p><p>* thread "
+"creation phase (stack and TLS setup) in the created thread</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/drd/drd_configpage.ui:157 tools/helgrind/helgrind_configpage.ui:105
@@ -776,7 +800,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showInstructionPointer)
 #: tools/drd/drd_configpage.ui:171 tools/helgrind/helgrind_configpage.ui:132
 #: tools/memcheck/memcheck_configpage.ui:210
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show stack frame instruction pointer value"
 msgstr "Plán cesty"
 
@@ -899,7 +923,7 @@ msgstr ""
 #: tools/drd/drd_tool.cpp:35
 #, kde-format
 msgid "DRD"
-msgstr ""
+msgstr "DRD"
 
 #: tools/drd/drd_tool.cpp:36
 #, kde-format
@@ -909,17 +933,17 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.cpp:36
 #, kde-format
 msgid "Full"
-msgstr ""
+msgstr "Úplný"
 
 #: tools/helgrind/helgrind_configpage.cpp:37
 #, kde-format
 msgid "Approx"
-msgstr ""
+msgstr "Approx"
 
 #: tools/helgrind/helgrind_configpage.cpp:38
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Žiadne"
 
 #. i18n: ectx: property (text), widget (QLabel, historyLevelLabel)
 #: tools/helgrind/helgrind_configpage.ui:22
@@ -953,6 +977,21 @@ msgid ""
 "memory requirement by very roughly 100 bytes, so the maximum value will "
 "easily eat up three extra gigabytes or so of memory.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>This flag only has any effect at <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--history-"
+"level=full</span>.</p><p>Information about &quot;old&quot; conflicting "
+"accesses is stored in a cache of limited size, with LRU-style management. "
+"This is necessary because it isn't practical to store a stack trace for "
+"every single memory access made by the program. Historical information on "
+"not recently accessed locations is periodically discarded, to free up space "
+"in the cache.</p><p>This option controls the size of the cache, in terms of "
+"the number of different memory addresses for which conflicting access "
+"information is stored. If you find that Helgrind is showing race errors with "
+"only one stack instead of the expected two stacks, try increasing this value."
+"</p><p>The minimum value is 10,000 and the maximum is 30,000,000 (thirty "
+"times the default value). Increasing the value by 1 increases Helgrind's "
+"memory requirement by very roughly 100 bytes, so the maximum value will "
+"easily eat up three extra gigabytes or so of memory.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackLockorders)
 #: tools/helgrind/helgrind_configpage.ui:78
@@ -989,6 +1028,19 @@ msgid ""
 "performance, but comes at the cost of missing races on stack-allocated data."
 "</p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans Serif'; font-size:14pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default Helgrind checks "
+"all data memory accesses made by your program. This flag enables you to skip "
+"checking for accesses to thread stacks (local variables). This can improve "
+"performance, but comes at the cost of missing races on stack-allocated data."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkStackRefs)
 #: tools/helgrind/helgrind_configpage.ui:95
@@ -1020,6 +1072,25 @@ msgid ""
 "libc caches many objects and reuses them for different threads and that "
 "confuses Helgrind.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Controls whether all activities during thread creation "
+"should be ignored. By default enabled only on Solaris. Solaris provides "
+"higher throughput, parallelism and scalability than other operating systems, "
+"at the cost of more fine-grained locking activity. This means for example "
+"that when a thread is created under glibc, just one big lock is used for all "
+"thread setup. Solaris libc uses several fine-grained locks and the creator "
+"thread resumes its activities as soon as possible, leaving for example stack "
+"and TLS setup sequence to the created thread. This situation confuses "
+"Helgrind as it assumes there is some false ordering in place between creator "
+"and created thread; and therefore many types of race conditions in the "
+"application would not be reported. To prevent such false ordering, this "
+"command line option is set to yes by default on Solaris. All activity "
+"(loads, stores, client requests) is therefore ignored during:</p><p>* "
+"pthread_create() call in the creator thread</p><p>* thread creation phase "
+"(stack and TLS setup) in the created thread</p><p>Also new memory allocated "
+"during thread creation is untracked, that is race reporting is suppressed "
+"there. DRD does the same thing implicitly. This is necessary because Solaris "
+"libc caches many objects and reuses them for different threads and that "
+"confuses Helgrind.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/helgrind/helgrind_configpage.ui:115
@@ -1037,7 +1108,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/helgrind/helgrind_configpage.ui:118
-#, fuzzy, kde-format
+#, kde-format
 msgid "Free is write (experimental)"
 msgstr "Veľkosť písma"
 
@@ -1052,7 +1123,7 @@ msgid "Helgrind (Thread Error Detector)"
 msgstr ""
 
 #: tools/massif/massif_configpage.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "CPU instructions"
 msgstr "Plán cesty"
 
@@ -1062,9 +1133,9 @@ msgid "Milliseconds"
 msgstr "Milisekundy"
 
 #: tools/massif/massif_configpage.cpp:41
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bytes allocated"
-msgstr "%1 zdroj alokovaný"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, timeUnitLabel)
 #: tools/massif/massif_configpage.ui:25
@@ -1074,7 +1145,7 @@ msgstr "Časová jednotka:"
 
 #. i18n: ectx: property (text), widget (QLabel, snapshotTreeDepthLabel)
 #: tools/massif/massif_configpage.ui:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "Snapshot tree depth:"
 msgstr "Zastaviť na hĺbke"
 
@@ -1095,13 +1166,13 @@ msgstr "Prah:"
 
 #. i18n: ectx: property (text), widget (QLabel, peakInaccuracyLabel)
 #: tools/massif/massif_configpage.ui:59
-#, fuzzy, kde-format
+#, kde-format
 msgid "Peak inaccuracy:"
 msgstr "Vrchol, vyvýšenina"
 
 #. i18n: ectx: property (text), widget (QLabel, maximumSnapshotsLabel)
 #: tools/massif/massif_configpage.ui:69
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximum snapshots:"
 msgstr "Maximálna rýchlosť"
 
@@ -1116,7 +1187,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, detailedSnapshotsFrequencyLabel)
 #: tools/massif/massif_configpage.ui:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "Detailed snapshot frequency:"
 msgstr "Podrobná analýza snímky"
 
@@ -1159,6 +1230,14 @@ msgid ""
 "0.0%) via this option, but Massif will run drastically slower as the number "
 "approaches zero.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Massif does not necessarily record the actual global "
+"memory allocation peak; by default it records a peak only when the global "
+"memory allocation size exceeds the previous peak by at least 1.0%. This is "
+"because there can be many local allocation peaks along the way, and doing a "
+"detailed snapshot for every one would be expensive and wasteful, as all but "
+"one of them will be later discarded. This inaccuracy can be changed (even to "
+"0.0%) via this option, but Massif will run drastically slower as the number "
+"approaches zero.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_profileHeap)
 #: tools/massif/massif_configpage.ui:158
@@ -1170,7 +1249,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_profileHeap)
 #: tools/massif/massif_configpage.ui:161
-#, fuzzy, kde-format
+#, kde-format
 msgid "Profile heap"
 msgstr "Profil zmenený"
 
@@ -1216,9 +1295,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchVisualizer)
 #: tools/massif/massif_configpage.ui:214
-#, fuzzy, kde-format
+#, kde-format
 msgid "Launch Massif Visualizer after analysis finish"
-msgstr "Massif Visualizer - hodnotenie of %1 (%2)"
+msgstr ""
 
 #: tools/massif/massif_model.cpp:129
 #, kde-format
@@ -1233,7 +1312,7 @@ msgstr "Čas"
 #: tools/massif/massif_model.cpp:135
 #, kde-format
 msgid "Heap"
-msgstr ""
+msgstr "Heap"
 
 #: tools/massif/massif_model.cpp:138
 #, kde-format
@@ -1269,71 +1348,70 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, launchVisualizerButton)
 #: tools/massif/massif_view.ui:70
-#, fuzzy, kde-format
+#, kde-format
 msgid "Launch visualizer"
-msgstr "Massif Visualizer - hodnotenie of %1 (%2)"
+msgstr ""
 
 #: tools/memcheck/memcheck_configpage.cpp:43
 #, kde-format
 msgid "definite"
-msgstr ""
+msgstr "definite"
 
 #: tools/memcheck/memcheck_configpage.cpp:44
 #, kde-format
 msgid "possible"
-msgstr ""
+msgstr "possible"
 
 #: tools/memcheck/memcheck_configpage.cpp:45
-#, fuzzy, kde-format
-#| msgid "Indirect Branch"
+#, kde-format
 msgid "indirect"
 msgstr "Nepriama vetva"
 
 #: tools/memcheck/memcheck_configpage.cpp:46
 #, kde-format
 msgid "reachable"
-msgstr ""
+msgstr "reachable"
 
 #. i18n text ?
 #: tools/memcheck/memcheck_configpage.cpp:50
 #, kde-format
 msgid "stdstring"
-msgstr ""
+msgstr "stdstring"
 
 #: tools/memcheck/memcheck_configpage.cpp:51
 #, kde-format
 msgid "length64"
-msgstr ""
+msgstr "length64"
 
 #: tools/memcheck/memcheck_configpage.cpp:52
 #, kde-format
 msgid "newarray"
-msgstr ""
+msgstr "newarray"
 
 #: tools/memcheck/memcheck_configpage.cpp:53
 #, kde-format
 msgid "multipleinheritance"
-msgstr ""
+msgstr "multipleinheritance"
 
 #: tools/memcheck/memcheck_configpage.cpp:56
 #, kde-format
 msgid "high"
-msgstr ""
+msgstr "high"
 
 #: tools/memcheck/memcheck_configpage.cpp:57
 #, kde-format
 msgid "medium"
-msgstr ""
+msgstr "medium"
 
 #: tools/memcheck/memcheck_configpage.cpp:58
 #, kde-format
 msgid "low"
-msgstr ""
+msgstr "low"
 
 #: tools/memcheck/memcheck_configpage.cpp:60
 #, kde-format
 msgid "alloc"
-msgstr ""
+msgstr "alloc"
 
 #: tools/memcheck/memcheck_configpage.cpp:61
 #, kde-format
@@ -1343,12 +1421,12 @@ msgstr "Voľné"
 #: tools/memcheck/memcheck_configpage.cpp:62
 #, kde-format
 msgid "alloc-and-free"
-msgstr ""
+msgstr "alloc-and-free"
 
 #: tools/memcheck/memcheck_configpage.cpp:63
 #, kde-format
 msgid "alloc-then-free"
-msgstr ""
+msgstr "alloc-then-free"
 
 #. i18n: ectx: property (text), widget (QLabel, leakResolutionLabel)
 #: tools/memcheck/memcheck_configpage.ui:25
@@ -1377,6 +1455,22 @@ msgid ""
 "not affect Memcheck's ability to find leaks. It only changes how the results "
 "are presented.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>When doing leak checking, determines how willing "
+"Memcheck is to consider different backtraces to be the same for the purposes "
+"of merging multiple leaks into a single leak report. When set to <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">low</"
+"span>, only the first two entries need match. When <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">med</span>, four "
+"entries have to match. When <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">high</span>, all entries need to match.</"
+"p><p>For hardcore leak debugging, you probably want to use <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--leak-"
+"resolution=high</span> together with <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--num-callers=40</span> or some such "
+"large number.</p><p>Note that the <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--leak-resolution</span> setting does "
+"not affect Memcheck's ability to find leaks. It only changes how the results "
+"are presented.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, showLeakKindsLabel)
 #: tools/memcheck/memcheck_configpage.ui:39
@@ -1453,10 +1547,47 @@ msgid ""
 "style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
 "num-callers</span>. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Controls which stack trace(s) to keep for malloc'd and/"
+"or free'd blocks. </p><p>With <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc-then-free</span>, a stack trace is "
+"recorded at allocation time, and is associated with the block. When the "
+"block is freed, a second stack trace is recorded, and this replaces the "
+"allocation stack trace. As a result, any &quot;use after free&quot; errors "
+"relating to this block can only show a stack trace for where the block was "
+"freed. </p><p>With <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">alloc-and-free</span>, both allocation and the "
+"deallocation stack traces for the block are stored. Hence a &quot;use after "
+"free&quot; error will show both, which may make the error easier to "
+"diagnose. Compared to <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc-then-free</span>, this setting "
+"slightly increases Valgrind's memory use as the block contains two "
+"references instead of one. </p><p>With <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">alloc</span>, only "
+"the allocation stack trace is recorded (and reported). With <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">free</span>, "
+"only the deallocation stack trace is recorded (and reported). These values "
+"somewhat decrease Valgrind's memory and cpu usage. They can be useful "
+"depending on the error types you are searching for and the level of detail "
+"you need to analyze them. For example, if you are only interested in memory "
+"leak errors, it is sufficient to record the allocation stack traces. </"
+"p><p>With <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">none</span>, no stack traces are recorded for malloc and "
+"free operations. If your program allocates a lot of blocks and/or allocates/"
+"frees from many different stack traces, this can significantly decrease cpu "
+"and/or memory required. Of course, few details will be reported for errors "
+"related to heap blocks. </p><p>Note that once a stack trace is recorded, "
+"Valgrind keeps the stack trace in memory even if it is not referenced by any "
+"block. Some programs (for example, recursive algorithms) can generate a huge "
+"number of stack traces. If Valgrind uses too much memory in such "
+"circumstances, you can reduce the memory required with the options <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
+"keep-stacktraces</span> and/or by using a smaller value for the option <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
+"num-callers</span>. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, freelistVolLabel)
 #: tools/memcheck/memcheck_configpage.ui:90
-#, fuzzy, kde-format
+#, kde-format
 msgid "Freelist maximum size:"
 msgstr "Veľkosť písma"
 
@@ -1481,10 +1612,26 @@ msgid ""
 "but may detect invalid uses of freed blocks which would otherwise go "
 "undetected.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>When the client program releases memory using <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">free</span> (in <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">C</span>) or <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">delete</span> (<span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">C++</span>), that "
+"memory is not immediately made available for re-allocation. Instead, it is "
+"marked inaccessible and placed in a queue of freed blocks. The purpose is to "
+"defer as long as possible the point at which freed-up memory comes back into "
+"circulation. This increases the chance that Memcheck will be able to detect "
+"invalid accesses to blocks for some significant period of time after they "
+"have been freed.</p><p>This option specifies the maximum total size, in "
+"bytes, of the blocks in the queue. The default value is twenty million "
+"bytes. Increasing this increases the total amount of memory used by Memcheck "
+"but may detect invalid uses of freed blocks which would otherwise go "
+"undetected.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, freelistBigBlocksLabel)
 #: tools/memcheck/memcheck_configpage.ui:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "Freelist big-blocks:"
 msgstr "Veľkosť písma"
 
@@ -1519,7 +1666,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_undefValueErrors)
 #: tools/memcheck/memcheck_configpage.ui:153
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show undefined values usage"
 msgstr "Zobraziť hodnoty alebo znaky(&S)"
 
@@ -1564,10 +1711,46 @@ msgid ""
 "disable them, though, because you may miss real errors as a result.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>When enabled, Memcheck checks that heap blocks are "
+"deallocated using a function that matches the allocating function. That is, "
+"it expects <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">free</span> to be used to deallocate blocks allocated by "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">malloc</span>, <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">delete</span> for blocks allocated by <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">new</span>, "
+"and <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">delete[]</span> for blocks allocated by <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">new[]</span>. If a "
+"mismatch is detected, an error is reported. This is in general important "
+"because in some environments, freeing with a non-matching function can cause "
+"crashes.</p><p>There is however a scenario where such mismatches cannot be "
+"avoided. That is when the user provides implementations of <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">new</span>/"
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">new[]</span> that call <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">malloc</span> and of <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete</span>/"
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">delete[]</span> that call <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">free</span>, and these functions are "
+"asymmetrically inlined. For example, imagine that <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete[]</span> is "
+"inlined but <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">new[]</span> is not. The result is that Memcheck &quot;"
+"sees&quot; all <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">delete[]</span> calls as direct calls to <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">free</span>, even "
+"when the program source contains no mismatched calls.</p><p>This causes a "
+"lot of confusing and irrelevant error reports. <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--show-mismatched-"
+"frees=no</span> disables these checks. It is not generally advisable to "
+"disable them, though, because you may miss real errors as a result.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showMismatchedFrees)
 #: tools/memcheck/memcheck_configpage.ui:166
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show mismatched frees"
 msgstr "Zobraziť blokovateľné položky..."
 
@@ -1590,6 +1773,20 @@ msgid ""
 "considered broken. If at all possible, such code should be fixed.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Controls how Memcheck handles 32-, 64-, 128- and 256-"
+"bit naturally aligned loads from addresses for which some bytes are "
+"addressable and others are not. When <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">yes</span>, such loads do not produce "
+"an address error. Instead, loaded bytes originating from illegal addresses "
+"are marked as uninitialised, and those corresponding to legal addresses are "
+"handled in the normal way.</p><p>When <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">no</span>, loads "
+"from partially invalid addresses are treated the same as loads from "
+"completely invalid addresses: an illegal-address error is issued, and the "
+"resulting bytes are marked as initialised.</p><p>Note that code that behaves "
+"in this way is in violation of the ISO C/C++ standards, and should be "
+"considered broken. If at all possible, such code should be fixed.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_partialLoadsOk)
 #: tools/memcheck/memcheck_configpage.ui:176
@@ -1633,10 +1830,41 @@ msgid ""
 "nonsensical. Memcheck checks for and rejects this combination at startup.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Controls whether Memcheck tracks the origin of "
+"uninitialised values. By default, it does not, which means that although it "
+"can tell you that an uninitialised value is being used in a dangerous way, "
+"it cannot tell you where the uninitialised value came from. This often makes "
+"it difficult to track down the root problem.</p><p>When set to <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">yes</"
+"span>, Memcheck keeps track of the origins of all uninitialised values. "
+"Then, when an uninitialised value error is reported, Memcheck will try to "
+"show the origin of the value. An origin can be one of the following four "
+"places: a heap block, a stack allocation, a client request, or miscellaneous "
+"other sources (eg, a call to <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">brk</span>).</p><p>For uninitialised values "
+"originating from a heap block, Memcheck shows where the block was allocated. "
+"For uninitialised values originating from a stack allocation, Memcheck can "
+"tell you which function allocated the value, but no more than that -- "
+"typically it shows you the source location of the opening brace of the "
+"function. So you should carefully check that all of the function's local "
+"variables are initialised properly. </p><p>Performance overhead: origin "
+"tracking is expensive. It halves Memcheck's speed and increases memory use "
+"by a minimum of 100MB, and possibly more. Nevertheless it can drastically "
+"reduce the effort required to identify the root cause of uninitialised value "
+"errors, and so is often a programmer productivity win, despite running more "
+"slowly. </p><p>Accuracy: Memcheck tracks origins quite accurately. To avoid "
+"very large space and time overheads, some approximations are made. It is "
+"possible, although unlikely, that Memcheck will report an incorrect origin, "
+"or not be able to identify any origin. </p><p>Note that the combination "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">--track-origins=yes</span> and <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--undef-value-errors=no</span> is "
+"nonsensical. Memcheck checks for and rejects this combination at startup.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_trackOrigins)
 #: tools/memcheck/memcheck_configpage.ui:186
-#, fuzzy, kde-format
+#, kde-format
 msgid "Track origins of all uninitialised values"
 msgstr "Zobraziť hodnoty alebo znaky(&S)"
 
@@ -1672,7 +1900,7 @@ msgid "Memcheck (Memory Error Detector)"
 msgstr ""
 
 #: toolviewfactory.cpp:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "Valgrind Output"
 msgstr "&Výstup CVS"
 
@@ -1687,6 +1915,13 @@ msgid ""
 "unaddressable memory to system calls;<br/>mismatched use of malloc/new/new "
 "[] vs free/delete/delete [];<br/>some abuses of the POSIX pthread API.</p>"
 msgstr ""
+"<b>Valgrind</b><p>Shows the output of valgrind. Valgrind detects:<br/>use of "
+"uninitialized memory;<br/>reading/writing memory after it has been free'd;"
+"<br/>reading/writing off the end of malloc'd blocks;<br/>reading/writing "
+"inappropriate areas on the stack;<br/>memory leaks &mdash; where pointers to "
+"malloc'd blocks are lost forever;<br/>passing of uninitialised and/or "
+"unaddressable memory to system calls;<br/>mismatched use of malloc/new/new "
+"[] vs free/delete/delete [];<br/>some abuses of the POSIX pthread API.</p>"
 
 #~ msgid "full"
 #~ msgstr "plné"
@@ -1792,7 +2027,6 @@ msgstr ""
 #~ msgstr "Zobrazí hodnotu v percentách"
 
 #, fuzzy
-#~| msgid "Ir"
 #~ msgid "I"
 #~ msgstr "Ir"
 
