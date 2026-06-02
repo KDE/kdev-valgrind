@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:00+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-05-31 18:23-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -74,7 +75,7 @@ msgstr ""
 #: config/globalconfigpage.ui:147
 #, kde-format
 msgid "Output"
-msgstr ""
+msgstr "چىقار"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showValgrindOutput)
 #: config/globalconfigpage.ui:153
@@ -101,7 +102,7 @@ msgctxt ""
 "%1 - the name of a Valgrind tool, %2 - the name of the target of a Valgrind "
 "analysis"
 msgid "%1 (%2)"
-msgstr ""
+msgstr "%1 (%2)"
 
 #: core/job.cpp:236
 #, kde-format
@@ -155,10 +156,9 @@ msgid "Failed to execute the command:"
 msgstr ""
 
 #: core/private/common_configpage.cpp:30
-#, fuzzy, kde-format
-#| msgid "Global settings"
+#, kde-format
 msgid "Valgrind Common Settings"
-msgstr "ئادەتتىكى تەڭشەك"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, numCallersLabel)
 #: core/private/common_configpage.ui:22
@@ -313,7 +313,7 @@ msgstr ""
 #: core/utils.cpp:118
 #, kde-format
 msgid "Check your settings and install the visualizer if necessary."
-msgstr ""
+msgstr "تەڭشەكنى تەكشۈرۈڭ ۋە ئەگەر زۆرۈر بولسا كۆرۈنۈشلەشتۈرگۈچنى ئورنىتىڭ."
 
 #: core/utils.cpp:120
 #, kde-format
@@ -323,12 +323,12 @@ msgstr ""
 #: core/widgets/menubutton.cpp:95 tools/memcheck/memcheck_configpage.cpp:64
 #, kde-format
 msgid "none"
-msgstr ""
+msgstr "يوق"
 
 #: core/widgets/menubutton.cpp:98
 #, kde-format
 msgid "all"
-msgstr ""
+msgstr "ھەممىسى"
 
 #. i18n: ectx: Menu (valgrind)
 #: kdevvalgrind.rc:6
@@ -339,7 +339,7 @@ msgstr ""
 #: plugin.cpp:80
 #, kde-format
 msgid "Run %1"
-msgstr ""
+msgstr "%1 نى ئىجرا قىل‎‏"
 
 #: problemmodel.cpp:68
 #, kde-format
@@ -424,7 +424,7 @@ msgstr ""
 #: tools/cachegrind/cachegrind_view.ui:31 tools/callgrind/callgrind_view.ui:40
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "ئىزدە…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, percenageValues)
 #: tools/cachegrind/cachegrind_view.ui:41 tools/callgrind/callgrind_view.ui:53
@@ -483,17 +483,17 @@ msgstr ""
 #: tools/callgrind/callgrind_model.cpp:289
 #, kde-format
 msgid "Called"
-msgstr ""
+msgstr "چاقىرىلدى"
 
 #: tools/callgrind/callgrind_model.cpp:375
 #, kde-format
 msgid "Event"
-msgstr ""
+msgstr "ھادىسە"
 
 #: tools/callgrind/callgrind_model.cpp:378
 #, kde-format
 msgid "Short"
-msgstr ""
+msgstr "قىسقا"
 
 #: tools/callgrind/callgrind_model.cpp:500
 #, kde-format
@@ -503,7 +503,7 @@ msgstr ""
 #: tools/callgrind/callgrind_model.cpp:501
 #, kde-format
 msgid "Count"
-msgstr ""
+msgstr "سانى"
 
 #: tools/callgrind/callgrind_model.cpp:504
 #, kde-format
@@ -535,7 +535,7 @@ msgstr ""
 #: tools/callgrind/callgrind_view.ui:91
 #, kde-format
 msgid "Events"
-msgstr ""
+msgstr "ھادىسە"
 
 #. i18n: ectx: attribute (title), widget (QWidget, callers)
 #: tools/callgrind/callgrind_view.ui:117
@@ -551,16 +551,15 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, location)
 #: tools/callgrind/callgrind_view.ui:187
-#, fuzzy, kde-format
-#| msgid "Information"
+#, kde-format
 msgid "Location"
-msgstr "ئۇچۇر"
+msgstr "ئورنى"
 
 #. i18n: ectx: property (text), widget (QLabel, binaryTitle)
 #: tools/callgrind/callgrind_view.ui:199
 #, kde-format
 msgid "Binary file:"
-msgstr ""
+msgstr "ئىككىلىك ھۆججەت:"
 
 #. i18n: ectx: property (text), widget (QLabel, sourceTitle)
 #: tools/callgrind/callgrind_view.ui:232
@@ -898,7 +897,7 @@ msgstr ""
 #: tools/drd/drd_tool.cpp:35
 #, kde-format
 msgid "DRD"
-msgstr ""
+msgstr "DRD"
 
 #: tools/drd/drd_tool.cpp:36
 #, kde-format
@@ -908,7 +907,7 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.cpp:36
 #, kde-format
 msgid "Full"
-msgstr ""
+msgstr "تامامەن"
 
 #: tools/helgrind/helgrind_configpage.cpp:37
 #, kde-format
@@ -918,7 +917,7 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.cpp:38
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "يوق"
 
 #. i18n: ectx: property (text), widget (QLabel, historyLevelLabel)
 #: tools/helgrind/helgrind_configpage.ui:22
@@ -1088,8 +1087,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, thresholdLabel)
 #: tools/massif/massif_configpage.ui:49
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold:"
 msgstr "بوسۇغا:"
 
@@ -1228,7 +1226,7 @@ msgstr ""
 #: tools/massif/massif_model.cpp:132
 #, kde-format
 msgid "Time"
-msgstr ""
+msgstr "ۋاقىت"
 
 #: tools/massif/massif_model.cpp:135
 #, kde-format
@@ -1259,7 +1257,7 @@ msgstr ""
 #: tools/massif/massif_view.ui:36
 #, kde-format
 msgid "Snapshots"
-msgstr ""
+msgstr "كەسمە سۈرەت"
 
 #. i18n: ectx: property (text), widget (QLabel, treesLabel)
 #: tools/massif/massif_view.ui:56
@@ -1322,7 +1320,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.cpp:57
 #, kde-format
 msgid "medium"
-msgstr ""
+msgstr "ئوتتۇرا"
 
 #: tools/memcheck/memcheck_configpage.cpp:58
 #, kde-format
@@ -1687,7 +1685,6 @@ msgid ""
 "[] vs free/delete/delete [];<br/>some abuses of the POSIX pthread API.</p>"
 msgstr ""
 
-#, fuzzy
 #~| msgid " %"
 #~ msgid "%"
 #~ msgstr " %"
