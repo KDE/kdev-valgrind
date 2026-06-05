@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:00+0000\n"
-"PO-Revision-Date: 2026-04-13 21:38+0300\n"
+"PO-Revision-Date: 2026-06-04 08:34+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.1\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -166,7 +166,7 @@ msgstr "הגדרות משותפות של Valgrind"
 #: core/private/common_configpage.ui:22
 #, kde-format
 msgid "Display stac&k to depth:"
-msgstr ""
+msgstr "הצגת ערמה עד ל&עומק:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_numCallers)
 #: core/private/common_configpage.ui:32
@@ -186,7 +186,7 @@ msgstr ""
 #: core/private/common_configpage.ui:39
 #, kde-format
 msgid " Maximum size of a stack frame:"
-msgstr ""
+msgstr " גודל מרבי למסגרת ערמה:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_maxStackframe)
 #: core/private/common_configpage.ui:49
@@ -1225,32 +1225,32 @@ msgstr "להפעיל את ממחיש Massif לאחר סיום האבחון"
 #: tools/massif/massif_model.cpp:129
 #, kde-format
 msgid "Snapshot"
-msgstr ""
+msgstr "תמונת מצב"
 
 #: tools/massif/massif_model.cpp:132
 #, kde-format
 msgid "Time"
-msgstr ""
+msgstr "זמן"
 
 #: tools/massif/massif_model.cpp:135
 #, kde-format
 msgid "Heap"
-msgstr ""
+msgstr "מצבור"
 
 #: tools/massif/massif_model.cpp:138
 #, kde-format
 msgid "Heap (extra)"
-msgstr ""
+msgstr "מצבור (נוסף)"
 
 #: tools/massif/massif_model.cpp:141
 #, kde-format
 msgid "Stack"
-msgstr ""
+msgstr "ערמה"
 
 #: tools/massif/massif_tool.cpp:35
 #, kde-format
 msgid "Massif"
-msgstr ""
+msgstr "Massif"
 
 #: tools/massif/massif_tool.cpp:36
 #, kde-format
@@ -1261,19 +1261,19 @@ msgstr ""
 #: tools/massif/massif_view.ui:36
 #, kde-format
 msgid "Snapshots"
-msgstr ""
+msgstr "תמונות מצב"
 
 #. i18n: ectx: property (text), widget (QLabel, treesLabel)
 #: tools/massif/massif_view.ui:56
 #, kde-format
 msgid "Heap trees"
-msgstr ""
+msgstr "עצי מצבורים"
 
 #. i18n: ectx: property (text), widget (QPushButton, launchVisualizerButton)
 #: tools/massif/massif_view.ui:70
 #, kde-format
 msgid "Launch visualizer"
-msgstr ""
+msgstr "ממחיש הפעלות"
 
 #: tools/memcheck/memcheck_configpage.cpp:43
 #, kde-format
@@ -1288,12 +1288,12 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.cpp:45
 #, kde-format
 msgid "indirect"
-msgstr ""
+msgstr "עקיף"
 
 #: tools/memcheck/memcheck_configpage.cpp:46
 #, kde-format
 msgid "reachable"
-msgstr ""
+msgstr "נגיש"
 
 #. i18n text ?
 #: tools/memcheck/memcheck_configpage.cpp:50
@@ -1355,7 +1355,7 @@ msgstr ""
 #: tools/memcheck/memcheck_configpage.ui:25
 #, kde-format
 msgid "Leak resolution:"
-msgstr ""
+msgstr "פתרון דליפה:"
 
 #. i18n: ectx: property (toolTip), widget (Valgrind::ComboBox, kcfg_leakResolution)
 #: tools/memcheck/memcheck_configpage.ui:32
