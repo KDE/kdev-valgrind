@@ -53,6 +53,7 @@
         "Description[pl]": "Valgrind jest narzędziem, które pomaga tobie znaleźć problemy w zarządzaniu pamięcią programu. http://www.valgrind.org/",
         "Description[pt]": "O Valgrind é uma ferramenta que o ajuda a descobrir problemas de gestão de memória nos programas. http://www.valgrind.org/",
         "Description[pt_BR]": "O Valgrind é uma ferramenta que o ajuda a encontrar problemas de gerenciamento de memória nos programas. http://www.valgrind.org/",
+        "Description[ru]": "Valgrind — программа для поиска ошибок работы с памятью. http://www.valgrind.org/",
         "Description[sk]": "Valgrind je nástroj, ktorý vám pomôže nájsť problémy v správe pamäti v programoch. http://www.valgrind.org/",
         "Description[sl]": "Valgrind je orodje, ki vam pomaga najti težave z upravljanjem pomnilnika v programih. http://www.valgrind.org/",
         "Description[sv]": "Valgrind är ett verktyg som hjälper dig hitta minneshanteringsproblem i program. http://www.valgrind.org/",
