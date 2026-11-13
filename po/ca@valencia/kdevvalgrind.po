@@ -11,14 +11,14 @@ msgstr ""
 "Project-Id-Version: kdev-valgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:55+0000\n"
-"PO-Revision-Date: 2026-09-02 17:35+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2026-11-12 17:20+0100\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -420,8 +420,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Activa o desactiva la recol·lecció del comptador "
 "d'instruccions de branca i manques de predicció. De manera predeterminada, "
-"açò està desactivat, ja que alentix Cachegrind en un 25% aproximadament. Cal "
-"tindre en compte que no podeu especificar <span style=\" font-"
+"açò està desactivat, ja que alentix Cachegrind en un 25 % aproximadament. "
+"Cal tindre en compte que no podeu especificar <span style=\" font-"
 "family:'Monospace'; font-weight:600; font-style:italic;\">--cache-sim=no</"
 "span> i <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
 "italic;\">--branch-sim=no</span> conjuntament, ja que podria deixar "
@@ -953,14 +953,14 @@ msgid ""
 "<html><head/><body><p>Trace all memory allocations and deallocations. May "
 "produce a huge amount of output.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça totes les assignacions i desassignacions de "
+"<html><head/><body><p>Traça totes les assignacions i les desassignacions de "
 "memòria. Pot produir una quantitat enorme d'eixida.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceAlloc)
 #: tools/drd/drd_configpage.ui:201
 #, kde-format
 msgid "Trace memory allocations/deallocations"
-msgstr "Traça les assignacions/desassignacions de memòria"
+msgstr "Traça les assignacions i les desassignacions de memòria"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceBarrier)
 #: tools/drd/drd_configpage.ui:208
@@ -1424,12 +1424,12 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Massif no necessàriament grava el pic d'assignació de "
 "memòria global real; de manera predeterminada, grava un pic quan la mida "
-"d'assignació de la memòria global excedix el pic previ en un 1,0% com a "
+"d'assignació de la memòria global excedix el pic previ en un 1,0 % com a "
 "mínim. Açò és perquè poden haver-hi molts pics d'assignació locals durant el "
 "camí, i fer una captura detallada de cada un podria ser costós i superflu, "
 "ja que cal descartar-los tots excepte un. Esta imprecisió es pot canviar "
-"(inclús al 0,0%) via esta opció, però Massif s'executarà molt lentament quan "
-"el nombre s'aproxime a zero.</p></body></html>"
+"(inclús al 0,0 %) via esta opció, però Massif s'executarà molt lentament "
+"quan el nombre s'aproxime a zero.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_profileHeap)
 #: tools/massif/massif_configpage.ui:158
@@ -1878,7 +1878,7 @@ msgstr ""
 "blocs lliures. En altres paraules, esta opció incrementa la possibilitat de "
 "descobrir punters penjants («dangling») pels blocs «petits», encara que "
 "s'alliberen blocs grans.</p><p>Si s'establix un valor de 0, significa que "
-"tots els blocs es recirculen segons l'ordre FIFO.</p></body></html>"
+"tots els blocs es tornen a circular segons l'ordre FIFO.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_undefValueErrors)
 #: tools/memcheck/memcheck_configpage.ui:150
@@ -2124,7 +2124,7 @@ msgstr ""
 "incorrectament. Invocant Valgrind amb <span style=\" font-"
 "family:'Monospace'; font-weight:600; font-style:italic;\">--expensive-"
 "definedness-checks=yes</span> ajuda, però amb un cost de rendiment. S'ha "
-"observat una degradació del 25% en el temps d'execució, però el cost extra "
+"observat una degradació del 25 % en el temps d'execució, però el cost extra "
 "depén molt de l'aplicació analitzada.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_expensiveDefinednessChecks)
