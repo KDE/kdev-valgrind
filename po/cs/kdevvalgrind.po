@@ -2,21 +2,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2025 Vít Pelčák <vit@pelcak.org>
 # Vit Pelcak <vit@pelcak.org>, 2021.
+# SPDX-FileCopyrightText: 2026 Libor Filípek <libor.filipek@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:55+0000\n"
-"PO-Revision-Date: 2025-12-01 10:05+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2026-11-19 23:51+0100\n"
+"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Poedit 3.10\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -57,7 +58,7 @@ msgstr "cg_annotate:"
 #: config/globalconfigpage.ui:98
 #, kde-format
 msgid "Visualizers executables"
-msgstr ""
+msgstr "Spustitelné soubory vizualizátorů"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: config/globalconfigpage.ui:104
@@ -84,12 +85,14 @@ msgid ""
 "<html><head/><body><p>Valgrind messages will be displayed in the output view "
 "during analysis.</p><p>Useful for plugin debugging.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Během analýzy se ve výstupním okně budou zobrazovat "
+"hlášení Valgrindu.</p><p>Užitečné pro ladění modulů.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showValgrindOutput)
 #: config/globalconfigpage.ui:156
 #, kde-format
 msgid "Show valgrind output during analysis"
-msgstr ""
+msgstr "Zobrazit výstup Valgrindu během anylýzy"
 
 #: core/job.cpp:109
 #, kde-format
@@ -107,53 +110,53 @@ msgstr "%1 (%2)"
 #: core/job.cpp:236
 #, kde-format
 msgid "Failed to start valgrind from \"%1\"."
-msgstr ""
+msgstr "Nepodařilo se spustit Valgrind z \"%1\"."
 
 #: core/job.cpp:243
 #, kde-format
 msgid "Valgrind crashed."
-msgstr "Valgrind spadnul."
+msgstr "Valgrind se zhroutil."
 
 #: core/job.cpp:248
 #, kde-format
 msgid "Valgrind process timed out."
-msgstr ""
+msgstr "Vypršel časový limit procesu Valgrind."
 
 #: core/job.cpp:252
 #, kde-format
 msgid "Write to Valgrind process failed."
-msgstr ""
+msgstr "Zápis do procesu Valgrind se nezdařil."
 
 #: core/job.cpp:256
 #, kde-format
 msgid "Read from Valgrind process failed."
-msgstr ""
+msgstr "Čtení z procesu Valgrindu se nezdařilo."
 
 #: core/job.cpp:274 core/job.cpp:320
 #, kde-format
 msgid "Please review your Valgrind launch configuration."
-msgstr ""
+msgstr "Zkontrolujte prosím konfiguraci spuštění Valgrind."
 
 #: core/job.cpp:276
 #, kde-format
 msgid "Unknown Valgrind process error."
-msgstr ""
+msgstr "Neznámá chyba procesu Valgrind."
 
 #: core/job.cpp:282 core/job.cpp:322 core/private/xmlparser.cpp:262
 #: core/utils.cpp:124
 #, kde-format
 msgid "Valgrind Error"
-msgstr ""
+msgstr "Chyba Valgrind"
 
 #: core/job.cpp:298
 #, kde-format
 msgid "Executing command: "
-msgstr ""
+msgstr "Spuštění příkazu: "
 
 #: core/job.cpp:316
 #, kde-format
 msgid "Failed to execute the command:"
-msgstr ""
+msgstr "Nepodařilo se provést příkaz:"
 
 #: core/private/common_configpage.cpp:30
 #, kde-format
@@ -164,7 +167,7 @@ msgstr "Obecná nastavení pro Valgrind"
 #: core/private/common_configpage.ui:22
 #, kde-format
 msgid "Display stac&k to depth:"
-msgstr ""
+msgstr "Zobrazit zásobní&k do hloubky:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_numCallers)
 #: core/private/common_configpage.ui:32
@@ -179,12 +182,20 @@ msgid ""
 "take a bit more memory, but can be useful when working with programs with "
 "deeply-nested call chains.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje maximální počet položek zobrazených ve výpisech "
+"zásobníku, které identifikují místa v programu. Upozorňujeme, že chyby se "
+"agregují pouze na základě čtyř nejvyšších funkčních úrovní (místo v aktuální "
+"funkci a místa jejích tří bezprostředních volajících). Na celkový počet "
+"nahlášených chyb to tedy nemá vliv.</p><p>Maximální hodnota tohoto parametru "
+"je 500. Upozorňujeme, že vyšší nastavení způsobí, že Valgrind bude běžet o "
+"něco pomaleji a bude zabírat o něco více paměti, ale může to být užitečné "
+"při práci s programy s hluboce vnořenými řetězci volání.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, maxStackframeLabel)
 #: core/private/common_configpage.ui:39
 #, kde-format
 msgid " Maximum size of a stack frame:"
-msgstr ""
+msgstr " Maximální velikost rámce zásobníku:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_maxStackframe)
 #: core/private/common_configpage.ui:49
@@ -212,12 +223,34 @@ msgid ""
 "option, you may wish to consider rewriting your code to allocate on the heap "
 "rather than on the stack.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Maximální velikost rámce zásobníku. Pokud se ukazatel "
+"zásobníku posune o více než tuto hodnotu, Valgrind bude předpokládat, že "
+"program přechází na jiný zásobník.</p><p>Tuto volbu možná budete muset "
+"použít, pokud váš program obsahuje velká pole alokovaná na zásobníku. "
+"Valgrind sleduje ukazatel zásobníku vašeho programu. Pokud se tento ukazatel "
+"změní o více, než je stanovená mezní hodnota, Valgrind předpokládá, že "
+"program přechází na jiný zásobník. Nástroj Memcheck se v takovém případě "
+"chová jinak, než kdyby byla změna ukazatele zásobníku menší než tato mez. "
+"Obvykle tato heuristika funguje dobře. Pokud však váš program alokuje na "
+"zásobníku rozsáhlé struktury, může být tato heuristika oklamána, což povede "
+"k tomu, že Memcheck nahlásí velké množství neplatných přístupů do zásobníku. "
+"Tato volba vám umožňuje změnit uvedenou mezní hodnotu.</p><p>Tuto volbu "
+"byste měli zvážit pouze v případě, že vás k tomu vyzve ladicí výstup "
+"nástroje Valgrind. V takovém případě vám výstup sdělí, jakou novou mezní "
+"hodnotu máte nastavit.</p><p>Obecně platí, že alokace rozsáhlých struktur na "
+"zásobníku není vhodná. Může totiž snadno dojít k vyčerpání prostoru na "
+"zásobníku – zejména v systémech s omezenou pamětí nebo v systémech, které "
+"počítají s velkým počtem vláken, z nichž každé má malý zásobník. Navíc je "
+"kontrola chyb prováděná nástrojem Memcheck účinnější u dat alokovaných na "
+"haldě než u dat alokovaných na zásobníku. Pokud jste nuceni tuto volbu "
+"použít, zvažte úpravu kódu tak, aby byly struktury alokovány na haldě "
+"namísto na zásobníku.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
 #: core/private/common_configpage.ui:56
 #, kde-format
 msgid "&Extra parameters:"
-msgstr ""
+msgstr "&Extra parametry:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_errorLimit)
 #: core/private/common_configpage.ui:82
@@ -228,97 +261,101 @@ msgid ""
 "stop the error tracking machinery from becoming a huge performance overhead "
 "in programs with many errors.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Je-li tato volba zapnuta, Valgrind přestane hlásit "
+"chyby poté, co bylo zaznamenáno celkem 10 000 000 chyb nebo 1 000 různých "
+"chyb. Cílem je zabránit tomu, aby mechanismus sledování chyb představoval v "
+"programech s velkým počtem chyb značnou zátěž pro výkon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_errorLimit)
 #: core/private/common_configpage.ui:85
 #, kde-format
 msgid "Limit errors if too many"
-msgstr ""
+msgstr "Omezit počet chyb, pokud jich je příliš mnoho"
 
 #: core/private/xmlparser.cpp:258
 #, kde-format
 msgid "Valgrind XML Parsing: error at line %1, column %2: %3"
-msgstr ""
+msgstr "Zpracování XML ve Valgrindu: chyba v řádku %1, sloupci %2: %3"
 
 #: core/utils.cpp:47
 #, kde-format
 msgid "Instruction Fetch"
-msgstr ""
+msgstr "Načtení instrukce"
 
 #: core/utils.cpp:48
 #, kde-format
 msgid "Data Read Access"
-msgstr ""
+msgstr "Přístup pro čtení dat"
 
 #: core/utils.cpp:49
 #, kde-format
 msgid "Data Write Access"
-msgstr ""
+msgstr "Přístup pro zápis dat"
 
 #: core/utils.cpp:50
 #, kde-format
 msgid "L1 Instr. Fetch Miss"
-msgstr ""
+msgstr "L1 Instr. Fetch Miss"
 
 #: core/utils.cpp:51
 #, kde-format
 msgid "L1 Data Read Miss"
-msgstr ""
+msgstr "L1 Data Read Miss"
 
 #: core/utils.cpp:52
 #, kde-format
 msgid "L1 Data Write Miss"
-msgstr ""
+msgstr "L1 Data Write Miss"
 
 #: core/utils.cpp:53
 #, kde-format
 msgid "LL Instr. Fetch Miss"
-msgstr ""
+msgstr "LL Instr. Fetch Miss"
 
 #: core/utils.cpp:54
 #, kde-format
 msgid "LL Data Read Miss"
-msgstr ""
+msgstr "LL Data Read Miss"
 
 #: core/utils.cpp:55
 #, kde-format
 msgid "LL Data Write Miss"
-msgstr ""
+msgstr "LL Data Write Miss"
 
 #: core/utils.cpp:57
 #, kde-format
 msgid "Conditional Branch"
-msgstr ""
+msgstr "Podmíněné větvení"
 
 #: core/utils.cpp:58
 #, kde-format
 msgid "Mispredicted Cond. Branch"
-msgstr ""
+msgstr "Špatně předpovězená podmíněná větev"
 
 #: core/utils.cpp:59
 #, kde-format
 msgid "Indirect Branch"
-msgstr ""
+msgstr "Nepřímá větev"
 
 #: core/utils.cpp:60
 #, kde-format
 msgid "Mispredicted Ind. Branch"
-msgstr ""
+msgstr "Špatně předpovězená nepřímá větev"
 
 #: core/utils.cpp:116
 #, kde-format
 msgid "Failed to start visualizer from \"%1\"."
-msgstr "Visualizer z \"%1\" nelze spustit."
+msgstr "Vizualizér z \"%1\" nelze spustit."
 
 #: core/utils.cpp:118
 #, kde-format
 msgid "Check your settings and install the visualizer if necessary."
-msgstr ""
+msgstr "Zkontrolujte nastavení a v případě potřeby nainstalujte vizualizér."
 
 #: core/utils.cpp:120
 #, kde-format
 msgid "Error during visualizer execution:"
-msgstr "Chyba během spouštění visualizeru."
+msgstr "Chyba během spouštění vizualizéru:"
 
 #: core/widgets/menubutton.cpp:95 tools/memcheck/memcheck_configpage.cpp:64
 #, kde-format
@@ -345,7 +382,7 @@ msgstr "Spustit %1"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Re-Run %1 Analysis for Current Launch Configuration"
-msgstr ""
+msgstr "Zopakovat analýzu %1 pro aktuální konfiguraci spuštění"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
 #: tools/cachegrind/cachegrind_configpage.ui:23
@@ -354,13 +391,15 @@ msgid ""
 "<html><head/><body><p>Enables or disables collection of cache access and "
 "miss counts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zapíná nebo vypíná sběr statistik o přístupech do "
+"mezipaměti a počtu neúspěšných přístupů.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_cacheSim)
 #: tools/cachegrind/cachegrind_configpage.ui:26
 #: tools/callgrind/callgrind_configpage.ui:26
 #, kde-format
 msgid "Cache simulation"
-msgstr ""
+msgstr "Simulace mezipaměti"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
 #: tools/cachegrind/cachegrind_configpage.ui:36
@@ -374,13 +413,21 @@ msgid ""
 "style:italic;\">--branch-sim=no</span> together, as that would leave "
 "Cachegrind with no information to collect.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zapíná nebo vypíná sběr počtů instrukcí větve a "
+"chybných předpovědí. Ve výchozím nastavení je tato funkce vypnutá, protože "
+"zpomaluje Cachegrind přibližně o 25 %. Upozorňujeme, že nelze zadat <span "
+"style=\" font-family:‚Monospace‘; font-weight:600; font-style:italic;\"> --"
+"cache-sim=no</span> a <span style=\" font-family:‚Monospace‘; font-"
+"weight:600; font-style:italic;\">--branch-sim=no</span> současně, protože by "
+"pak program Cachegrind neměl žádné informace, které by mohl shromažďovat.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_branchSim)
 #: tools/cachegrind/cachegrind_configpage.ui:39
 #: tools/callgrind/callgrind_configpage.ui:39
 #, kde-format
 msgid "Branch simulation"
-msgstr ""
+msgstr "Simulace větve"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/cachegrind/cachegrind_configpage.ui:49
@@ -389,6 +436,8 @@ msgid ""
 "You cannot disable both cache and branch simulation, as that would leave "
 "Cachegrind with no information to collect."
 msgstr ""
+"Nelze deaktivovat současně simulaci mezipaměti i větve, protože by pak "
+"program Cachegrind neměl žádné informace, které by mohl shromažďovat."
 
 #. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
 #: tools/cachegrind/cachegrind_configpage.ui:74
@@ -396,13 +445,13 @@ msgstr ""
 #: tools/helgrind/helgrind_configpage.ui:46
 #, kde-format
 msgid "Extra parameters:"
-msgstr ""
+msgstr "Extra parametry:"
 
 #. i18n: ectx: property (text), widget (QLabel, cgAnnotateArgsLabel)
 #: tools/cachegrind/cachegrind_configpage.ui:91
 #, kde-format
 msgid "cg_annotate parameters:"
-msgstr ""
+msgstr "parametry cg_annotate:"
 
 #: tools/cachegrind/cachegrind_model.cpp:155
 #: tools/callgrind/callgrind_model.cpp:290
@@ -418,7 +467,7 @@ msgstr "Cachegrind"
 #: tools/cachegrind/cachegrind_tool.cpp:36
 #, kde-format
 msgid "Cachegrind (Cache and Branch-Prediction Profiler)"
-msgstr ""
+msgstr "Cachegrind (profiler mezipaměti a predikce větve)"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, searchEdit)
 #: tools/cachegrind/cachegrind_view.ui:31 tools/callgrind/callgrind_view.ui:40
@@ -430,7 +479,7 @@ msgstr "Hledat..."
 #: tools/cachegrind/cachegrind_view.ui:41 tools/callgrind/callgrind_view.ui:53
 #, kde-format
 msgid "Percentage values"
-msgstr ""
+msgstr "Procentní hodnoty"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_cacheSim)
 #: tools/callgrind/callgrind_configpage.ui:23
@@ -444,6 +493,14 @@ msgid ""
 "&quot;DLmr&quot;), </p><p>data write accesses (&quot;Dw&quot;) and related "
 "cache misses (&quot;D1mw&quot;/&quot;DLmw&quot;).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zadejte, zda chcete provést úplnou simulaci "
+"mezipaměti. Ve výchozím nastavení se budou počítat pouze přístupy k čtení "
+"instrukcí (&quot;Ir&quot;). Při simulaci mezipaměti se aktivují další čítače "
+"událostí: </p><p>Chyby mezipaměti při čtení instrukcí (&quot;I1mr&quot;/"
+"&quot;ILmr&quot;), </p><p>příkazy pro čtení dat (&quot;Dr&quot;) a "
+"související neúspěchy v mezipaměti (&quot;D1mr&quot;/&quot;DLmr&quot;), </"
+"p><p>příkazy pro zápis dat (&quot;Dw&quot;) a související neúspěchy v "
+"mezipaměti (&quot;D1mw&quot;/&quot;DLmw&quot;).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
 #: tools/callgrind/callgrind_configpage.ui:36
@@ -455,12 +512,17 @@ msgid ""
 "Bcm&quot;), executed indirect jumps and related misses of the jump address "
 "predictor (&quot;Bi&quot;/&quot;Bim&quot;).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zadejte, zda chcete provést simulaci predikce větve. "
+"Budou povoleny další čítače událostí: počet provedených podmíněných větví a "
+"souvisejících chyb prediktoru (&quot;Bc&quot;/&quot;Bcm&quot;), počet "
+"provedených nepřímých skoků a souvisejících chyb prediktoru adresy skoku "
+"(&quot;Bi&quot;/&quot;Bim&quot;).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, callgrindAnnotateArgsLabel)
 #: tools/callgrind/callgrind_configpage.ui:75
 #, kde-format
 msgid "callgrind_annotate parameters:"
-msgstr ""
+msgstr "parametry callgrind_annotate:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchKCachegrind)
 #: tools/callgrind/callgrind_configpage.ui:101
@@ -478,7 +540,7 @@ msgstr "Zahrn."
 #: tools/callgrind/callgrind_model.cpp:377
 #, kde-format
 msgid "Self"
-msgstr ""
+msgstr "Já"
 
 #: tools/callgrind/callgrind_model.cpp:289
 #, kde-format
@@ -498,7 +560,7 @@ msgstr "Krátce"
 #: tools/callgrind/callgrind_model.cpp:500
 #, kde-format
 msgid "%1 per call"
-msgstr ""
+msgstr "%1 na volání"
 
 #: tools/callgrind/callgrind_model.cpp:501
 #, kde-format
@@ -606,7 +668,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:75
 #, kde-format
 msgid "Common options"
-msgstr ""
+msgstr "Obvyklé možnosti"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackVar)
 #: tools/drd/drd_configpage.ui:81
@@ -912,7 +974,7 @@ msgstr "Plný"
 #: tools/helgrind/helgrind_configpage.cpp:37
 #, kde-format
 msgid "Approx"
-msgstr ""
+msgstr "Přibližně"
 
 # žádné parametry funkce v inspektoru funkcí
 #: tools/helgrind/helgrind_configpage.cpp:38
@@ -1275,33 +1337,33 @@ msgstr "Spustit Visualizer"
 #: tools/memcheck/memcheck_configpage.cpp:43
 #, kde-format
 msgid "definite"
-msgstr ""
+msgstr "určitý"
 
 #: tools/memcheck/memcheck_configpage.cpp:44
 #, kde-format
 msgid "possible"
-msgstr ""
+msgstr "možný"
 
 #: tools/memcheck/memcheck_configpage.cpp:45
 #, kde-format
 msgid "indirect"
-msgstr ""
+msgstr "nepřímý"
 
 #: tools/memcheck/memcheck_configpage.cpp:46
 #, kde-format
 msgid "reachable"
-msgstr ""
+msgstr "dostupný"
 
 #. i18n text ?
 #: tools/memcheck/memcheck_configpage.cpp:50
 #, kde-format
 msgid "stdstring"
-msgstr ""
+msgstr "stdřetězec"
 
 #: tools/memcheck/memcheck_configpage.cpp:51
 #, kde-format
 msgid "length64"
-msgstr ""
+msgstr "délka64"
 
 #: tools/memcheck/memcheck_configpage.cpp:52
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: playground-devtools-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:55+0000\n"
-"PO-Revision-Date: 2026-08-06 20:23+0300\n"
+"PO-Revision-Date: 2026-11-19 19:38+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -188,8 +188,8 @@ msgstr ""
 "4 fonksiyon konumunu kullanarak ortaklaştığına dikkat ediniz (Mevcut "
 "fonksiyondaki yer ve onun 3 hemen çağırıcısı). Yani bu raporlanmış hataların "
 "toplam sayısını etkilemez.</p><p>Bunun için azami değer 500 ' dür. Daha "
-"yüksek ayarların Valgrind ' in daha yavaş çalışmasına sebep olacağına ve "
-"biraz daha bellek alacağına dikkat ediniz, ancak derin-iç içe geçmiş çağrı "
+"yüksek ayarların Valgrind’in daha yavaş çalışmasına sebep olacağına ve biraz "
+"daha bellek alacağına dikkat ediniz, ancak derin-iç içe geçmiş çağrı "
 "zincirleri ile çalışan programlarda yararlı olabilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, maxStackframeLabel)
@@ -232,11 +232,11 @@ msgstr ""
 "daha fazla değişirse Valgrind programınızın başka bir yığına geçtiğini "
 "varsayar ve Memcheck bir yığın işaretçisi için eşik değerinden daha küçük "
 "değişiklikte davranacağından farklı davranır. Genellikle bu sezgisel yöntem "
-"iyi çalışır. Bununla birlikte, programınız yğın üzerinde geniş yapılar "
+"iyi çalışır. Bununla birlikte, programınız yığın üzerinde geniş yapılar "
 "tahsis ederse, bu sezgisel yöntem kandırılacaktır ve Memcheck akabinde çok "
 "sayıda geçersiz yığın erişimleri raporlayacaktır. Bu seçenek size eşiği "
 "başka bir değere değiştirme imkanı sunar.</p><p> Bu seçeneğin kullanımını "
-"yalnızca eğer Valgrind ' in hata ayıklama çıktısı sizi yapmaya yönlendirirse "
+"yalnızca eğer Valgrind’in hata ayıklama çıktısı sizi yapmaya yönlendirirse "
 "düşünmelisiniz. Bu durumda size belirtmeniz gereken yeni yeni eşiği "
 "söyleyecektir.</p><p>Genel olarak, yığın üzerinde geniş yapılar tahsis etmek "
 "kötü bir fikirdir çünkü kolayca yığın alanının dışına çıkabilirsiniz "
@@ -393,7 +393,7 @@ msgid ""
 "<html><head/><body><p>Enables or disables collection of cache access and "
 "miss counts.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Önbellek erişim ve ıskalama sayılarının toplanmasını "
+"<html><head/><body><p>Ön bellek erişim ve ıskalama sayılarının toplanmasını "
 "etkinleştirir veya devre dışı bırakır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_cacheSim)
@@ -401,7 +401,7 @@ msgstr ""
 #: tools/callgrind/callgrind_configpage.ui:26
 #, kde-format
 msgid "Cache simulation"
-msgstr "Önbellek simülasyonu"
+msgstr "Ön bellek simülasyonu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
 #: tools/cachegrind/cachegrind_configpage.ui:36
@@ -416,9 +416,9 @@ msgid ""
 "Cachegrind with no information to collect.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Alt grup yönergelerinin ve yanlış tahmin sayılarının "
-"toplanmasını etkinleştirir veya devre dışı bırakır. CacheGrind ' i yaklaşık "
+"toplanmasını etkinleştirir veya devre dışı bırakır. CacheGrind’i yaklaşık "
 "olarak %​25 yavaşlattığından dolayı varsayılan olarak devre dışı "
-"bırakılmıştır. Unutmayınız ki, CacheGrind ' e toplamak için hiçbir bilgi "
+"bırakılmıştır. Unutmayınız ki, CacheGrind’e toplamak için hiçbir bilgi "
 "bırakmayacağından, <span style=\" font-family:'Monospace'; font-weight:600; "
 "font-style:italic;\">--cache-sim=no</span> ve <span style=\" font-"
 "family:'Monospace'; font-weight:600; font-style:italic;\">--branch-sim=no</"
@@ -438,8 +438,8 @@ msgid ""
 "You cannot disable both cache and branch simulation, as that would leave "
 "Cachegrind with no information to collect."
 msgstr ""
-"CacheGrind ' e toplamak için hiçbir bilgi bırakmayacağından, aynı anda hem "
-"alt grup simulasyonunu hem de ön belleği devre dışı bırakamazsınız."
+"CacheGrind’e toplamak için hiçbir bilgi bırakmayacağından, aynı anda hem alt "
+"grup simülasyonunu hem de ön belleği devre dışı bırakamazsınız."
 
 #. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
 #: tools/cachegrind/cachegrind_configpage.ui:74
@@ -469,7 +469,7 @@ msgstr "Cachegrind"
 #: tools/cachegrind/cachegrind_tool.cpp:36
 #, kde-format
 msgid "Cachegrind (Cache and Branch-Prediction Profiler)"
-msgstr "Cachegrind (Önbellek ve Alt Grup-Tahmin Profilleyici)"
+msgstr "Cachegrind (Ön Bellek ve Alt Grup-Tahmin Profilleyici)"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, searchEdit)
 #: tools/cachegrind/cachegrind_view.ui:31 tools/callgrind/callgrind_view.ui:40
@@ -495,13 +495,13 @@ msgid ""
 "&quot;DLmr&quot;), </p><p>data write accesses (&quot;Dw&quot;) and related "
 "cache misses (&quot;D1mw&quot;/&quot;DLmw&quot;).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tam önbellek benzetimi yapmak isteyip istemediğinizi "
-"belirtiniz. Varsayılan olarak, yalnızca yönerge okuma erişimleri (\"lr\") "
-"sayılacaktır. Önbellek benzetimiyle, ayrıca olay sayaçları "
-"etkinleştirilmiştir: </p><p>Yönerge okumalar üzerindeki önbellek ıskaları "
-"(\"I1mr\"/\"ILmr\"), </p><p>veri okuma erişimleri (\"Dr\") ve ilgili ön "
-"bellek ıskaları(\"D1mr\"/\"DLmr\"), </p><p> veri yazma erişimleri (\"Dw\" ve "
-"ilgili önbellek ıskaları (\"D1mw\"/\"DLmw\")' dir.</p></body></html>"
+"<html><head/><body><p>Tam ön bellek benzetimi yapmak isteyip istemediğinizi "
+"belirtin. Varsayılan olarak, yalnızca yönerge okuma erişimleri (“lr”) "
+"sayılacaktır. Ön bellek benzetimiyle, ayrıca olay sayaçları "
+"etkinleştirilmiştir: </p><p>Yönerge okumalar üzerindeki ön bellek ıskaları "
+"(“I1mr”/“ILmr”), </p><p>veri okuma erişimleri (“Dr”) ve ilgili ön bellek "
+"ıskaları(“D1mr”/“DLmr”), </p><p> veri yazma erişimleri (“Dw” ve ilgili ön "
+"bellek ıskaları (“D1mw”/“DLmw”) olur.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_branchSim)
 #: tools/callgrind/callgrind_configpage.ui:36
@@ -529,7 +529,7 @@ msgstr "callgrind_annotate parametreleri:"
 #: tools/callgrind/callgrind_configpage.ui:101
 #, kde-format
 msgid "Launch KCachegrind after analysis finish"
-msgstr "Çözümleme bittikten sonra KCachegrind'i başlat"
+msgstr "Çözümleme bittikten sonra KCachegrind’i başlat"
 
 #: tools/callgrind/callgrind_model.cpp:287
 #: tools/callgrind/callgrind_model.cpp:376
@@ -587,13 +587,13 @@ msgstr "Callgrind"
 #, kde-format
 msgid "Callgrind (Call-Graph Generating Cache and Branch Prediction Profiler)"
 msgstr ""
-"Callgrind (Önbellek ve Alt Grup Tahmin Profilleyici Oluşturan Çağrı Grafiği)"
+"Callgrind (Ön Bellek ve Alt Grup Tahmin Profilleyici Oluşturan Çağrı Grafiği)"
 
 #. i18n: ectx: property (text), widget (QPushButton, launchKCachegrindButton)
 #: tools/callgrind/callgrind_view.ui:63
 #, kde-format
 msgid "Launch KCachegrind"
-msgstr "KCachegrind'i başlat"
+msgstr "KCachegrind’ı Başlat"
 
 #. i18n: ectx: attribute (title), widget (QWidget, events)
 #: tools/callgrind/callgrind_view.ui:91
@@ -672,7 +672,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Bölütü birleştirmeyi, yalnızca belirtilen sayıda yeni "
 "kesim oluşturulduktan sonra gerçekleştirin. Bu, düşük bir değer seçerek "
-"DRD'nin bellek kullanımını en aza indirgemeyi mi yoksa DRD'nin daha yüksek "
+"DRD’nin bellek kullanımını en aza indirgemeyi mi yoksa DRD’nin daha yüksek "
 "bir değer seçerek daha hızlı çalışmasına izin verip vermeyeceğini seçmenize "
 "izin veren gelişmiş bir yapılandırma seçeneğidir. Bu parametrenin en uygun "
 "değeri, çözümlenen programa bağlıdır. Öntanımlı değer, çoğu program için iyi "
@@ -692,10 +692,10 @@ msgid ""
 "variables. Verifying stack variables is disabled by default because most "
 "programs do not share stack variables over threads.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>DRD'nin yığın değişkenleri üzerinde veri yarışları "
+"<html><head/><body><p>DRD’nin yığın değişkenleri üzerinde veri yarışları "
 "tespit edip etmediğini denetler. Yığın değişkenlerini doğrulamak varsayılan "
 "olarak devre dışı bırakılmıştır çünkü programların iş parçacıkları "
-"üzeirndeki yığın değişkenlerini paylaşmamaktadır.</p></body></html>"
+"üzerindeki yığın değişkenlerini paylaşmamaktadır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkStackVar)
 #: tools/drd/drd_configpage.ui:84
@@ -764,7 +764,7 @@ msgstr ""
 #: tools/drd/drd_configpage.ui:107
 #, kde-format
 msgid "Report races between accessing and freeing memory"
-msgstr "Önbellek erişim ve boşaltma arasındaki yarışları rapor et"
+msgstr "Ön bellek erişim ve boşaltma arasındaki yarışları rapor et"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_reportSignalUnlocked)
 #: tools/drd/drd_configpage.ui:114
@@ -1092,7 +1092,7 @@ msgstr "Geçmiş düzeyi:"
 #: tools/helgrind/helgrind_configpage.ui:29
 #, kde-format
 msgid "Conflict cache size:"
-msgstr "Çakışan önbellek boyutu:"
+msgstr "Çakışan ön bellek boyutu:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_conflictCacheSize)
 #: tools/helgrind/helgrind_configpage.ui:39
@@ -1119,16 +1119,16 @@ msgstr ""
 "level=full</span> ' de herhangi bir etkiye sahiptir.</p><p>\"eski\" çakışan "
 "erişimlerle ilgili bilgiler LRU-tipi yönetimle sınırlı boyutlu bir bellek "
 "içerisinde saklanır. Bu gereklidir çünkü program tarafından yapılan her bir "
-"önbellek erişimi için bir yığın izi saklamak pratik değildir. Yakın zamanda "
+"ön bellek erişimi için bir yığın izi saklamak pratik değildir. Yakın zamanda "
 "erişilmemiş konumlar hakkındaki geçmiş bilgiler bellekte yer açmak için "
 "periyodik olarak yok sayılır.</p><p>Bu seçenek çakışan erişim bilgilerinin "
-"depolandığı farklı bellek adreslerinin sayısı açısından önbellek boyutunu "
-"denetler. Eğer Helgrind ' in beklenen iki yığın yerine yalnızca bir yığın "
-"ile yarış hatalarını gösterdiğini farkedersiniz, bu değeri artırmayı "
-"deneyiniz.</p><p>Minimum deper 10,000 ve azami 30,000,000 ' dur(varsayılan "
-"değerin 30 katı). Değeri 1 artırmak Helgrind ' in önbellek gereksinimini çok "
-"kabaca 100 bayt artırır, yani azami değer kolayca üç ekstra gigabayt kadar "
-"yiyebilir.</p></body></html>"
+"depolandığı farklı bellek adreslerinin sayısı açısından ön bellek boyutunu "
+"denetler. Eğer Helgrind’in beklenen iki yığın yerine yalnızca bir yığın ile "
+"yarış hatalarını gösterdiğini farkedersiniz, bu değeri artırmayı deneyiniz.</"
+"p><p>Minimum değer 10.000 ve azami 30.000.000’dur (varsayılan değerin 30 "
+"katı). Değeri 1 artırmak Helgrind’in ön bellek gereksinimini çok kabaca 100 "
+"bayt artırır, yani azami değer kolayca üç ekstra gigabayt kadar yiyebilir.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackLockorders)
 #: tools/helgrind/helgrind_configpage.ui:78
@@ -1180,7 +1180,7 @@ msgstr ""
 "weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Varsayılan olarak Helgrind "
-"program tarafından yapılmış tüm veri önbellek erişimlerini denetler. Bu "
+"program tarafından yapılmış tüm veri ön bellek erişimlerini denetler. Bu "
 "bayrak iş parçacığı yığınlarına (yerel değişkenler) erişimler için "
 "denetlemeyi yok saymanıza olanak sağlar. Bu başarımı artırabilir ama yığın-"
 "tahsis edilen veri yarışlarının kaybolması pahasına gelir.</p></body></html>"
@@ -1216,7 +1216,7 @@ msgid ""
 "confuses Helgrind.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>İş parçacığı oluşturma sırasındaki tüm etkinliklerin "
-"yok sayılıp sayılmayacağını denetler. Öntanımlı olarak yalnızca Solaris'te "
+"yok sayılıp sayılmayacağını denetler. Öntanımlı olarak yalnızca Solaris’te "
 "etkindir. Solaris daha hassas kilitleme etkinliğinin pahasına diğer işletim "
 "sistemlerinden daha yüksek çıktı, paralellik ve ölçeklenebilirlik sağlar. Bu "
 "örneğin bir iş parçacığı glibc altında oluşturulduğunda, tüm iş parçacığı "
@@ -1232,10 +1232,10 @@ msgstr ""
 "yüzden </p><p>oluşturucu iş parçacığı içerisinde * pthread_create() çağrısı</"
 "p><p>* sırasında yok sayılır: Oluşturulmuş iş parçacığı içinde iş parçacığı "
 "oluşum fazı (yığın ve TLS kurulumu)</p><p>Ayrıca iş parçacığı oluşumu "
-"sırasındaki yeni önbellek tahsisi izlenmez ki yarış raporlaması orada "
+"sırasındaki yeni ön bellek tahsisi izlenmez ki yarış raporlaması orada "
 "bastırılır. DRD tam olarak aynı şeyi yapar. Bu gereklidir çünkü Solaris libc "
-"birçok nesneleri önbellekler ve farklı iş parçacıkları için tekrar kullanır "
-"ve bu Helgrind ' in kafasını karıştırır.</p></body></html>"
+"birçok nesneleri ön belleğe alır ve farklı iş parçacıkları için tekrar "
+"kullanır ve bu Helgrind’in kafasını karıştırır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/helgrind/helgrind_configpage.ui:115
@@ -1257,7 +1257,7 @@ msgstr ""
 "boşaltmadan önce gerçekleştiğinden emin olmak için gözlemlenebilir bir "
 "eşzamanlama olayı yoktur.</p><p>Bu işlevsellik Valgrind 3.7.0 ' de yenidir "
 "ve deneysel olarak sunulmaktadır. Varsayılan olarak etkinleştirilmemiştir "
-"çünkü özel önbellek ayırıcıları ile ilişkileri şu an iyi anlaşılmamıştır. "
+"çünkü özel ön bellek ayırıcıları ile ilişkileri şu an iyi anlaşılmamıştır. "
 "Kullanıcı geri bildirimleri memnuniyetle karşılanır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_freeIsWrite)
