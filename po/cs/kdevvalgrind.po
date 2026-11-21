@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdevvalgrind\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:55+0000\n"
-"PO-Revision-Date: 2026-11-19 23:51+0100\n"
+"PO-Revision-Date: 2026-11-20 23:16+0100\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.10\n"
+"X-Generator: Lokalize 26.08.3\n"
 
 #: config/globalconfigpage.cpp:45 launchmode.cpp:47 plugin.cpp:60
 #: problemmodel.cpp:54 problemmodel.cpp:67
@@ -467,7 +467,7 @@ msgstr "Cachegrind"
 #: tools/cachegrind/cachegrind_tool.cpp:36
 #, kde-format
 msgid "Cachegrind (Cache and Branch-Prediction Profiler)"
-msgstr "Cachegrind (profiler mezipaměti a predikce větve)"
+msgstr "Cachegrind (profiler mezipaměti a predikce větvení)"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, searchEdit)
 #: tools/cachegrind/cachegrind_view.ui:31 tools/callgrind/callgrind_view.ui:40
@@ -585,7 +585,7 @@ msgstr "Callgrind"
 #: tools/callgrind/callgrind_tool.cpp:36
 #, kde-format
 msgid "Callgrind (Call-Graph Generating Cache and Branch Prediction Profiler)"
-msgstr ""
+msgstr "Callgrind (profilovač generující graf volání a předpovídající větvení)"
 
 #. i18n: ectx: property (text), widget (QPushButton, launchKCachegrindButton)
 #: tools/callgrind/callgrind_view.ui:63
@@ -603,13 +603,13 @@ msgstr "Události"
 #: tools/callgrind/callgrind_view.ui:117
 #, kde-format
 msgid "Direct callers"
-msgstr ""
+msgstr "Přímo volající"
 
 #. i18n: ectx: attribute (title), widget (QWidget, callees)
 #: tools/callgrind/callgrind_view.ui:149
 #, kde-format
 msgid "Direct callees"
-msgstr ""
+msgstr "Přímo volaní"
 
 #. i18n: ectx: attribute (title), widget (QWidget, location)
 #: tools/callgrind/callgrind_view.ui:187
@@ -621,7 +621,7 @@ msgstr "Umístění"
 #: tools/callgrind/callgrind_view.ui:199
 #, kde-format
 msgid "Binary file:"
-msgstr ""
+msgstr "Binární soubor:"
 
 #. i18n: ectx: property (text), widget (QLabel, sourceTitle)
 #: tools/callgrind/callgrind_view.ui:232
@@ -633,7 +633,7 @@ msgstr "Zdrojové soubory:"
 #: tools/drd/drd_configpage.ui:20
 #, kde-format
 msgid "Joined threads memory access list volume:"
-msgstr ""
+msgstr "Objem seznamu přístupů k paměti spojených vláken:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_joinListVol)
 #: tools/drd/drd_configpage.ui:30
@@ -645,12 +645,17 @@ msgid ""
 "to specify for how many joined threads memory access information should be "
 "retained.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>K situacím, kdy dochází ke kolizím při přístupu k "
+"datům mezi příkazem na konci jednoho vlákna a jiným vláknem může dojít, "
+"pokud jsou informace o přístupu k paměti smazány ihned po spojení vláken. "
+"Tato volba umožňuje určit, pro kolik spojených vláken by mělo být informace "
+"o přístupu k paměti uchovány.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, segmentMergingIntervalLabel)
 #: tools/drd/drd_configpage.ui:37
 #, kde-format
 msgid "Segment merging interval:"
-msgstr ""
+msgstr "Interval slučování segmentů:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_segmentMergingInterval)
 #: tools/drd/drd_configpage.ui:44
@@ -663,6 +668,12 @@ msgid ""
 "value. The optimal value for this parameter depends on the program being "
 "analyzed. The default value works well for most programs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sloučení segmentů proveďte až po vytvoření zadaného "
+"počtu nových segmentů. Jedná se o pokročilou konfigurační volbu, která "
+"umožňuje zvolit, zda minimalizovat využití paměti programem DRD výběrem "
+"nízké hodnoty, nebo zda umožnit rychlejší běh programu DRD výběrem mírně "
+"vyšší hodnoty. Optimální hodnota tohoto parametru závisí na analyzovaném "
+"programu. Výchozí hodnota vyhovuje většině programů.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: tools/drd/drd_configpage.ui:75
@@ -678,12 +689,16 @@ msgid ""
 "variables. Verifying stack variables is disabled by default because most "
 "programs do not share stack variables over threads.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda DRD detekuje datové konflikty u proměnných "
+"zásobníku. Ověřování proměnných zásobníku je ve výchozím nastavení vypnuto, "
+"protože většina programů nesdílí proměnné zásobníku mezi vlákny.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkStackVar)
 #: tools/drd/drd_configpage.ui:84
 #, kde-format
 msgid "Detect data races on stack variables"
-msgstr ""
+msgstr "Detekce datových kolizí u proměnných na zásobníku"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_firstRaceOnly)
 #: tools/drd/drd_configpage.ui:91
@@ -693,12 +708,15 @@ msgid ""
 "been detected on a memory location or all data races that have been detected "
 "on a memory location.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zda hlásit pouze první detekovaný datový konflikt v "
+"daném paměťovém prostoru, nebo všechny detekované datové konflikty v daném "
+"paměťovém prostoru.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_firstRaceOnly)
 #: tools/drd/drd_configpage.ui:94
 #, kde-format
 msgid "Report only the first data race"
-msgstr ""
+msgstr "Hlásit pouze první případ datové kolize"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/drd/drd_configpage.ui:104
@@ -721,12 +739,28 @@ msgid ""
 "weight:600; font-style:italic;\">valgrind --tool=drd --free-is-write=yes drd/"
 "tests/annotate_smart_pointer</span>.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda se mají zaznamenávat kolize mezi přístupem "
+"k paměti a jejím uvolněním. Zapnutí této volby může způsobit mírné zpomalení "
+"běhu DRD. Poznámky:</p><p>Tuto volbu nezapínejte při použití vlastních "
+"alokátorů paměti, které využívají <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">VG_USERREQ__MALLOCLIKE_BLOCK</span> a "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">VG_USERREQ__FREELIKE_BLOCK</span>, protože by to vedlo k falešným "
+"pozitivům. </p><p>Tuto možnost nezapínejte při použití objektů s počítáním "
+"odkazů, protože to povede k falešným pozitivům, i když byl kód správně "
+"označen pomocí <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">ANNOTATE_HAPPENS_BEFORE</span> a <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_AFTER</span>. Jako příklad si prohlédněte například "
+"výstup následujícího příkazu: <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">valgrind --tool=drd --free-is-write=yes drd/"
+"tests/annotate_smart_pointer</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/drd/drd_configpage.ui:107
 #, kde-format
 msgid "Report races between accessing and freeing memory"
-msgstr ""
+msgstr "Hlásit kolize mezi přístupem k paměti a jejím uvolňováním"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_reportSignalUnlocked)
 #: tools/drd/drd_configpage.ui:114
@@ -746,12 +780,25 @@ msgid ""
 "patterns however where it is safe to send a signal without holding a lock on "
 "the associated mutex.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zda hlásit volání funkcí <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">pthread_cond_signal</span> a <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">pthread_cond_broadcast</span> v okamžiku, "
+"kdy není zamčen mutex spojený se signálem prostřednictvím <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">pthread_cond_wait</span> nebo <span style=“ font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">pthread_cond_timed_wait</span> není v "
+"okamžiku odeslání signálu uzamčen. Odeslání signálu bez držení zámku na "
+"přidruženém mutexu je běžná programátorská chyba, která může způsobit "
+"nenápadné podmínky kolize a nepředvídatelné chování. Existují však některé "
+"neobvyklé synchronizační vzory, u nichž je bezpečné odeslat signál bez "
+"držení zámku na přidruženém mutexu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_reportSignalUnlocked)
 #: tools/drd/drd_configpage.ui:117
 #, kde-format
 msgid "Report calls to unlocked signals"
-msgstr ""
+msgstr "Hlásit volání na neuzamčené signály"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_segmentMerging)
 #: tools/drd/drd_configpage.ui:124
@@ -763,12 +810,17 @@ msgid ""
 "segments' displayed in race reports but can also trigger an out of memory "
 "error.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Řídí slučování segmentů. Slučování segmentů je "
+"algoritmus, který omezuje využití paměti algoritmem pro detekci datových "
+"kolizí. Vypnutí slučování segmentů může zvýšit přesnost takzvaných "
+"'ostatních segmentů' zobrazených ve zprávách o kolizích, může však také "
+"vyvolat chybu nedostatku paměti.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_segmentMerging)
 #: tools/drd/drd_configpage.ui:127
 #, kde-format
 msgid "Segment merging"
-msgstr ""
+msgstr "Sloučení segmentů"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showConflSeg)
 #: tools/drd/drd_configpage.ui:134
@@ -779,12 +831,16 @@ msgid ""
 "enabled by default. Disabling this option makes the output of DRD more "
 "compact.</p></body></html>"
 msgstr ""
+"<HTML><HEAD/><BODY><P>Zobrazit konfliktní segmenty ve zprávách o kolizích. "
+"Jelikož tyto informace mohou pomoci při hledání příčiny kolize, je tato "
+"volba ve výchozím nastavení zapnutá. Vypnutím této volby se výstup DRD "
+"zkrátí.</P></BODY></HTML>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showConflSeg)
 #: tools/drd/drd_configpage.ui:137
 #, kde-format
 msgid "Show conflicting segments"
-msgstr ""
+msgstr "Zobrazit konfliktní segmenty"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showStackUsage)
 #: tools/drd/drd_configpage.ui:144
@@ -799,12 +855,20 @@ msgid ""
 "allocated by the client program when it allocates stack memory, but is not "
 "included in stack usage reported by DRD.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Vypíše využití zásobníku v okamžiku ukončení vlákna. "
+"Pokud program vytváří velké množství vláken, je důležité omezit množství "
+"virtuální paměti přidělené pro zásobníky vláken. Tato volba umožňuje "
+"sledovat, kolik paměti zásobníku bylo využito každým vláknem klientského "
+"programu.</p><p>Poznámka: Nástroj DRD sám alokuje některá dočasná data na "
+"zásobníku klientského vlákna. Prostor potřebný pro tato dočasná data musí "
+"klientský program alokovat při alokaci paměti zásobníku, ale není zahrnut do "
+"využití zásobníku vykazovaného nástrojem DRD.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showStackUsage)
 #: tools/drd/drd_configpage.ui:147
 #, kde-format
 msgid "Show stack usage"
-msgstr ""
+msgstr "Zobrazit využití zásobníku"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/drd/drd_configpage.ui:154
@@ -826,25 +890,42 @@ msgid ""
 "during:</p><p>* pthread_create() call in the creator thread </p><p>* thread "
 "creation phase (stack and TLS setup) in the created thread</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda mají být všechny operace během vytváření "
+"vlákna ignorovány. Ve výchozím nastavení je tato funkce povolena pouze v "
+"systému Solaris. Solaris poskytuje vyšší propustnost, paralelismus a "
+"škálovatelnost než jiné operační systémy, a to na úkor jemnějšího řízení "
+"zámků. To znamená například, že při vytváření vlákna v rámci glibc se pro "
+"celé nastavení vlákna použije pouze jeden velký zámek. Knihovna libc systému "
+"Solaris používá několik jemněji rozčleněných zámků a vlákno tvůrce obnoví "
+"své činnosti co nejdříve, přičemž například sekvenci nastavení zásobníku a "
+"TLS přenechá vytvořenému vláknu. Tato situace mate nástroj DRD, protože "
+"předpokládá, že mezi vláknem tvůrce a vytvořeným vláknem existuje určité "
+"falešné pořadí; a proto by mnoho typů kolizí v aplikaci nebylo hlášeno. Aby "
+"se takovému falešnému pořadí zabránilo, je tato volba příkazového řádku ve "
+"výchozím nastavení v systému Solaris nastavena na <span style=\" font-family:"
+"‚Monospace‘;\">yes</span>. Veškerá aktivita (načítání, ukládání, požadavky "
+"klientů) je proto ignorována během:</p><p>* volání pthread_create() v vlákně "
+"tvůrce </p><p>* fáze vytváření vlákna (nastavení zásobníku a TLS) ve "
+"vytvořeném vlákně</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/drd/drd_configpage.ui:157 tools/helgrind/helgrind_configpage.ui:105
 #, kde-format
 msgid "Ignore thread creation"
-msgstr ""
+msgstr "Ignorovat vytvoření vlákna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showInstructionPointer)
 #: tools/drd/drd_configpage.ui:171 tools/helgrind/helgrind_configpage.ui:132
 #: tools/memcheck/memcheck_configpage.ui:210
 #, kde-format
 msgid "Show stack frame instruction pointer value"
-msgstr ""
+msgstr "Zobrazit hodnotu ukazatele instrukce v zásobníku"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tracesTab)
 #: tools/drd/drd_configpage.ui:192
 #, kde-format
 msgid "Trace options"
-msgstr ""
+msgstr "Možnosti trasování"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceAlloc)
 #: tools/drd/drd_configpage.ui:198
@@ -853,24 +934,27 @@ msgid ""
 "<html><head/><body><p>Trace all memory allocations and deallocations. May "
 "produce a huge amount of output.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sleduje všechna přidělení a uvolnění paměti. Může "
+"vygenerovat obrovské množství výstupních dat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceAlloc)
 #: tools/drd/drd_configpage.ui:201
 #, kde-format
 msgid "Trace memory allocations/deallocations"
-msgstr ""
+msgstr "Sledování přidělování a uvolňování paměti"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceBarrier)
 #: tools/drd/drd_configpage.ui:208
 #, kde-format
 msgid "<html><head/><body><p>Trace all barrier activity.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sleduje veškerou aktivitu bariér.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceBarrier)
 #: tools/drd/drd_configpage.ui:211
 #, kde-format
 msgid "Trace barrier activity"
-msgstr ""
+msgstr "Sledování aktivity bariér"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceCond)
 #: tools/drd/drd_configpage.ui:218
@@ -879,12 +963,14 @@ msgid ""
 "<html><head/><body><p>Trace all condition variable activity.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Sleduje veškerou aktivitu stavových proměnných.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceCond)
 #: tools/drd/drd_configpage.ui:221
 #, kde-format
 msgid "Trace condition variable activity"
-msgstr ""
+msgstr "Sledování aktivity stavových proměnných"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceForkJoin)
 #: tools/drd/drd_configpage.ui:228
@@ -893,12 +979,14 @@ msgid ""
 "<html><head/><body><p>Trace all thread creation and all thread termination "
 "events.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sleduje všechny události vytvoření a ukončení vláken.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceForkJoin)
 #: tools/drd/drd_configpage.ui:231
 #, kde-format
 msgid "Trace thread creation/termination events"
-msgstr ""
+msgstr "Sledování událostí vytvoření a ukončení vlákna"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceHb)
 #: tools/drd/drd_configpage.ui:238
@@ -911,24 +999,31 @@ msgid ""
 "<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
 "\">ANNOTATE_HAPPENS_DONE()</span> client requests.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sleduje provedení funkcí <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_BEFORE()</span>, <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">ANNOTATE_HAPPENS_AFTER()</span> a "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">ANNOTATE_HAPPENS_DONE()</span> klientských požadavků.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceHb)
 #: tools/drd/drd_configpage.ui:241
 #, kde-format
 msgid "Trace execution of \"ANNOTATE_HAPPENS\" requests"
-msgstr ""
+msgstr "Sledování provádění požadavků \"ANNOTATE_HAPPENS\""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceMutex)
 #: tools/drd/drd_configpage.ui:248
 #, kde-format
 msgid "<html><head/><body><p>Trace all mutex activity.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sledujte veškerou aktivitu mutexů.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceMutex)
 #: tools/drd/drd_configpage.ui:251
 #, kde-format
 msgid "Trace mutex activity"
-msgstr ""
+msgstr "Sledování aktivity mutexů"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceRwlock)
 #: tools/drd/drd_configpage.ui:258
@@ -937,29 +1032,32 @@ msgid ""
 "<html><head/><body><p>Trace all reader-writer lock activity.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Sledujte veškerou aktivitu zámků typu čtení-zápis.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceRwlock)
 #: tools/drd/drd_configpage.ui:261
 #, kde-format
 msgid "Trace reader-writer lock activity"
-msgstr ""
+msgstr "Sledování aktivity zámků pro čtení a zápis"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_traceSemaphore)
 #: tools/drd/drd_configpage.ui:268
 #, kde-format
 msgid "<html><head/><body><p>Trace all semaphore activity.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sleduje veškerou aktivitu semaforů.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_traceSemaphore)
 #: tools/drd/drd_configpage.ui:271
 #, kde-format
 msgid "Trace semaphore activity"
-msgstr ""
+msgstr "Sledování aktivity semaforů"
 
 #: tools/drd/drd_tool.cpp:35
 #, kde-format
 msgid "DRD"
-msgstr ""
+msgstr "DRD"
 
 #: tools/drd/drd_tool.cpp:36
 #, kde-format
@@ -986,13 +1084,13 @@ msgstr "Nic"
 #: tools/helgrind/helgrind_configpage.ui:22
 #, kde-format
 msgid "History level:"
-msgstr ""
+msgstr "Úroveň historie:"
 
 #. i18n: ectx: property (text), widget (QLabel, conflictCacheSizeLabel)
 #: tools/helgrind/helgrind_configpage.ui:29
 #, kde-format
 msgid "Conflict cache size:"
-msgstr ""
+msgstr "Velikost mezipaměti konfliktů:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_conflictCacheSize)
 #: tools/helgrind/helgrind_configpage.ui:39
@@ -1014,6 +1112,22 @@ msgid ""
 "memory requirement by very roughly 100 bytes, so the maximum value will "
 "easily eat up three extra gigabytes or so of memory.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Tento příznak má účinek pouze při nastavení <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
+"history-level=full</span>.</p><p>Informace o &quot;starých&quot; "
+"konfliktních přístupech se ukládají do mezipaměti omezené velikosti, která "
+"je spravována podle principu LRU. To je nezbytné, protože není praktické "
+"ukládat trasu zásobníku pro každý jednotlivý přístup k paměti provedenou "
+"programem. Historické informace o místech, ke kterým nedošlo v poslední době "
+"k přístupu, se pravidelně odstraňují, aby se uvolnilo místo v mezipaměti.</"
+"p><P>Tato volba určuje velikost mezipaměti, a to z hlediska počtu různých "
+"paměťových adres, pro které jsou uloženy informace o kolizích přístupů. "
+"Pokud zjistíte, že Helgrind hlásí chyby typu kolize pouze s jedním "
+"zásobníkem místo očekávaných dvou, zkuste tuto hodnotu zvýšit.</"
+"P><p>Minimální hodnota je 10 000 a maximální 30 000 000 (třicetinásobek "
+"výchozí hodnoty). Zvýšení hodnoty o 1 zvětší paměťové nároky Helgrindu "
+"zhruba o 100 bajtů, takže maximální hodnota snadno spotřebuje přibližně tři "
+"gigabajty paměti navíc.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackLockorders)
 #: tools/helgrind/helgrind_configpage.ui:78
@@ -1025,12 +1139,17 @@ msgid ""
 "interested in race errors. You may therefore find it helpful to disable lock "
 "order checking.</p></body></html>"
 msgstr ""
+"<HTML><HEAD/><BODY><P>Je-li tato funkce zapnutá (výchozí nastavení), provádí "
+"Helgrind kontrolu konzistence pořadí zámků. U některých programů s chybami "
+"může být velký počet hlášených chyb v pořadí zámků nepříjemný, zejména pokud "
+"vás zajímají pouze chyby typu kolize. Proto může být užitečné kontrolu "
+"pořadí zámků vypnout.</P></BODY></HTML>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_trackLockorders)
 #: tools/helgrind/helgrind_configpage.ui:81
 #, kde-format
 msgid "Track lock orders"
-msgstr ""
+msgstr "Sledování pořadí zámků"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_checkStackRefs)
 #: tools/helgrind/helgrind_configpage.ui:92
@@ -1050,12 +1169,25 @@ msgid ""
 "performance, but comes at the cost of missing races on stack-allocated data."
 "</p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC „-//W3C//DTD HTML 4.0//EN“ „http://www.w3.org/TR/REC-"
+"html40/strict.dtd“>\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans Serif'; font-size:14pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Ve výchozím nastavení "
+"Helgrind kontroluje všechny přístupy k datové paměti prováděné vaším "
+"programem. Tento příznak umožňuje vynechat kontrolu přístupů k zásobníkům "
+"vláken (lokálním proměnným). To může zlepšit výkon, ale za cenu přehlédnutí "
+"kolizí dat alokovaných na zásobníku.</P></BODY></HTML>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkStackRefs)
 #: tools/helgrind/helgrind_configpage.ui:95
 #, kde-format
 msgid "Check stack refs"
-msgstr ""
+msgstr "Kontrola odkazů na zásobníky"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ignoreThreadCreation)
 #: tools/helgrind/helgrind_configpage.ui:102
@@ -1081,6 +1213,26 @@ msgid ""
 "libc caches many objects and reuses them for different threads and that "
 "confuses Helgrind.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda mají být všechny operace během vytváření "
+"vlákna ignorovány. Ve výchozím nastavení je tato funkce povolena pouze v "
+"systému Solaris. Solaris poskytuje vyšší propustnost, paralelismus a "
+"škálovatelnost než jiné operační systémy, a to na úkor jemnějšího řízení "
+"zámků. To znamená například, že při vytváření vlákna v rámci glibc se pro "
+"celé nastavení vlákna použije pouze jeden velký zámek. Knihovna libc systému "
+"Solaris používá několik jemněji rozčleněných zámků a vlákno tvůrce obnoví "
+"své činnosti co nejdříve, přičemž například sekvenci nastavení zásobníku a "
+"TLS přenechá vytvořenému vláknu. Tato situace mate nástroj Helgrind, protože "
+"předpokládá, že mezi vláknem tvůrce a vytvořeným vláknem existuje určité "
+"falešné pořadí; a proto by mnoho typů kolizí v aplikaci nebylo hlášeno. Aby "
+"se takovému falešnému pořadí zabránilo, je tato volba příkazového řádku ve "
+"výchozím nastavení v systému Solaris nastavena na hodnotu yes. Veškerá "
+"aktivita (načítání, ukládání, požadavky klientů) je proto ignorována během:</"
+"p><p>* volání pthread_create() v vlákně tvůrce</p><p>* fáze vytváření vlákna "
+"(nastavení zásobníku a TLS) ve vytvořeném vlákně</p><P>Také nově alokovaná "
+"paměť během vytváření vlákna není sledována, to znamená, že hlášení kolizí "
+"je v tomto případě potlačeno. DRD dělá totéž implicitně. To je nezbytné, "
+"protože knihovna libc systému Solaris ukládá mnoho objektů do mezipaměti a "
+"znovu je používá pro různá vlákna, což Helgrind mate.</P></BODY></HTML>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/helgrind/helgrind_configpage.ui:115
@@ -1095,12 +1247,21 @@ msgid ""
 "default because its interaction with custom memory allocators is not well "
 "understood at present. User feedback is welcomed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Je-li tato funkce zapnuta (není to výchozí nastavení), "
+"Helgrind zachází s uvolňováním paměti v haldě tak, jako by do ní bylo "
+"zapsáno těsně před uvolněním. Tím se odhalí kolize, kdy na paměť odkazuje "
+"jedno vlákno a uvolňuje ji jiné, aniž by existovala pozorovatelná "
+"synchronizační událost, která by zajistila, že k odkazu dojde před uvolněním."
+"</p><p>Tato funkce je novinkou ve Valgrindu 3.7.0 a je považována za "
+"experimentální. Ve výchozím nastavení není zapnutá, protože její interakce s "
+"vlastními alokátory paměti není v současné době dobře prozkoumána. Uvítáme "
+"zpětnou vazbu od uživatelů.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_freeIsWrite)
 #: tools/helgrind/helgrind_configpage.ui:118
 #, kde-format
 msgid "Free is write (experimental)"
-msgstr ""
+msgstr "Uvolnění je zápis (experimentální)"
 
 #: tools/helgrind/helgrind_tool.cpp:35
 #, kde-format
@@ -1110,12 +1271,12 @@ msgstr "Helgrind"
 #: tools/helgrind/helgrind_tool.cpp:36
 #, kde-format
 msgid "Helgrind (Thread Error Detector)"
-msgstr "Helgrind (Detektor chyb vlákna)"
+msgstr "Helgrind (detektor chyb vlákna)"
 
 #: tools/massif/massif_configpage.cpp:39
 #, kde-format
 msgid "CPU instructions"
-msgstr ""
+msgstr "Instrukce CPU"
 
 #: tools/massif/massif_configpage.cpp:40
 #, kde-format
@@ -1125,7 +1286,7 @@ msgstr "Milisekundy"
 #: tools/massif/massif_configpage.cpp:41
 #, kde-format
 msgid "Bytes allocated"
-msgstr ""
+msgstr "Alokované bajty"
 
 #. i18n: ectx: property (text), widget (QLabel, timeUnitLabel)
 #: tools/massif/massif_configpage.ui:25
@@ -1137,7 +1298,7 @@ msgstr "Jednotka času:"
 #: tools/massif/massif_configpage.ui:32
 #, kde-format
 msgid "Snapshot tree depth:"
-msgstr ""
+msgstr "Hloubka stromu snímků:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_snapshotTreeDepth)
 #: tools/massif/massif_configpage.ui:42
@@ -1147,6 +1308,10 @@ msgid ""
 "detailed snapshots. Increasing it will make Massif run somewhat more slowly, "
 "use more memory, and produce bigger output files.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Maximální hloubka alokačních stromů zaznamenávaných v "
+"podrobných snímcích. Její zvýšení způsobí, že se Massif bude spouštět o něco "
+"pomaleji, bude spotřebovávat více paměti a bude vytvářet větší výstupní "
+"soubory.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, thresholdLabel)
 #: tools/massif/massif_configpage.ui:49
@@ -1164,7 +1329,7 @@ msgstr "Nepřesnost ve špičce:"
 #: tools/massif/massif_configpage.ui:69
 #, kde-format
 msgid "Maximum snapshots:"
-msgstr ""
+msgstr "Maximální počet snímků:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_maximumSnapshots)
 #: tools/massif/massif_configpage.ui:79
@@ -1174,12 +1339,15 @@ msgid ""
 "for all programs except very short-running ones, the final number of "
 "snapshots will be between N/2 and N.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Maximální počet zaznamenaných snímků. Je-li nastavena "
+"hodnota N, bude u všech programů s výjimkou těch, které běží velmi krátce, "
+"konečný počet snímků v rozmezí N/2 až N.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, detailedSnapshotsFrequencyLabel)
 #: tools/massif/massif_configpage.ui:86
 #, kde-format
 msgid "Detailed snapshot frequency:"
-msgstr ""
+msgstr "Frekvence podrobných snímků:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_detailedSnapshotsFrequency)
 #: tools/massif/massif_configpage.ui:96
@@ -1189,6 +1357,9 @@ msgid ""
 "font-family:'Monospace'; font-weight:600; font-style:italic;\">--detailed-"
 "freq=1</span>, every snapshot is detailed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Četnost podrobných snímků. S parametrem <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--detailed-"
+"freq=1</span> je každý snímek podrobný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, extraArgsLabel)
 #: tools/massif/massif_configpage.ui:103
@@ -1206,6 +1377,11 @@ msgid ""
 "less than this will be aggregated. Note that this should be specified in "
 "tandem with ms_print's option of the same name.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Prahová hodnota významnosti pro alokace v haldě, "
+"vyjádřená jako procento z celkové velikosti paměti. Položky alokačního "
+"stromu, které představují méně než tuto hodnotu, budou agregovány. "
+"Upozorňujeme, že tuto hodnotu je třeba zadat společně se stejnojmennou "
+"volbou příkazu ms_print.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_peakInaccuracy)
 #: tools/massif/massif_configpage.ui:136
@@ -1220,6 +1396,15 @@ msgid ""
 "0.0%) via this option, but Massif will run drastically slower as the number "
 "approaches zero.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Massif nemusí nutně zaznamenávat skutečný špičkový "
+"objem alokované globální paměti; ve výchozím nastavení zaznamená špičku "
+"pouze tehdy, když velikost alokované globální paměti překročí předchozí "
+"špičku alespoň o 1,0 %. Důvodem je to, že během procesu může docházet k "
+"mnoha lokálním špičkám alokace a pořizování podrobného snímku pro každou z "
+"nich by bylo náročné a nehospodárné, protože všechny kromě jedné budou "
+"později vyřazeny. Tuto nepřesnost lze pomocí této volby změnit (dokonce až "
+"na 0,0 %), ale čím více se číslo blíží nule, tím výrazněji se zpomalí běh "
+"Massifu.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_profileHeap)
 #: tools/massif/massif_configpage.ui:158
@@ -1228,12 +1413,14 @@ msgid ""
 "<html><head/><body><p>Specifies whether heap profiling should be done.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda má být provedeno profilování haldy.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_profileHeap)
 #: tools/massif/massif_configpage.ui:161
 #, kde-format
 msgid "Profile heap"
-msgstr ""
+msgstr "Profilová halda"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_profileStack)
 #: tools/massif/massif_configpage.ui:171
@@ -1246,12 +1433,19 @@ msgid ""
 "better indicates the size of the part of the main stack that a user program "
 "actually has control over.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda se má provádět profilování zásobníku. Tato "
+"volba výrazně zpomaluje Massif, a proto je ve výchozím nastavení vypnutá. "
+"Upozorňujeme, že Massif při spuštění předpokládá, že hlavní zásobník má "
+"velikost nula. To sice není pravda, ale přesné zachycení skutečné situace je "
+"obtížné. Navíc počítání od nuly lépe odráží velikost té části hlavního "
+"zásobníku, nad kterou má uživatelský program skutečně kontrolu.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_profileStack)
 #: tools/massif/massif_configpage.ui:174
 #, kde-format
 msgid "Profile stack (slows profiling down greatly)"
-msgstr ""
+msgstr "Zásobník profilování (výrazně zpomaluje profilování)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_pagesAsHeap)
 #: tools/massif/massif_configpage.ui:181
@@ -1260,12 +1454,14 @@ msgid ""
 "<html><head/><body><p>Tells Massif to profile memory at the page level "
 "rather than at the malloc'd block level.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Nastaví Massif tak, aby profiloval paměť na úrovni "
+"stránek namísto na úrovni bloků alokovaných pomocí malloc.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pagesAsHeap)
 #: tools/massif/massif_configpage.ui:184
 #, kde-format
 msgid "Pages as heap"
-msgstr ""
+msgstr "Stránky jako halda"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, messageWidget)
 #: tools/massif/massif_configpage.ui:191
@@ -1274,6 +1470,8 @@ msgid ""
 "<html><head/><body><p>&quot;Pages as heap&quot; cannot be used together with "
 "&quot;Profile stack&quot;.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Funkci &quot;Stránky jako halda&quot; nelze použít "
+"společně s funkcí &quot;Zásobník profilování&quot;.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_launchVisualizer)
 #: tools/massif/massif_configpage.ui:214
@@ -1294,12 +1492,12 @@ msgstr "Čas"
 #: tools/massif/massif_model.cpp:135
 #, kde-format
 msgid "Heap"
-msgstr ""
+msgstr "Halda"
 
 #: tools/massif/massif_model.cpp:138
 #, kde-format
 msgid "Heap (extra)"
-msgstr ""
+msgstr "Halda (extra)"
 
 #: tools/massif/massif_model.cpp:141
 #, kde-format
@@ -1314,7 +1512,7 @@ msgstr "Massif"
 #: tools/massif/massif_tool.cpp:36
 #, kde-format
 msgid "Massif (Heap Profiler)"
-msgstr ""
+msgstr "Massif (profiler haldy)"
 
 #. i18n: ectx: property (text), widget (QLabel, snapshotsLabel)
 #: tools/massif/massif_view.ui:36
@@ -1326,7 +1524,7 @@ msgstr "Snímky"
 #: tools/massif/massif_view.ui:56
 #, kde-format
 msgid "Heap trees"
-msgstr ""
+msgstr "Stromy haldy"
 
 #. i18n: ectx: property (text), widget (QPushButton, launchVisualizerButton)
 #: tools/massif/massif_view.ui:70
@@ -1337,22 +1535,22 @@ msgstr "Spustit Visualizer"
 #: tools/memcheck/memcheck_configpage.cpp:43
 #, kde-format
 msgid "definite"
-msgstr "určitý"
+msgstr "určité"
 
 #: tools/memcheck/memcheck_configpage.cpp:44
 #, kde-format
 msgid "possible"
-msgstr "možný"
+msgstr "možné"
 
 #: tools/memcheck/memcheck_configpage.cpp:45
 #, kde-format
 msgid "indirect"
-msgstr "nepřímý"
+msgstr "nepřímé"
 
 #: tools/memcheck/memcheck_configpage.cpp:46
 #, kde-format
 msgid "reachable"
-msgstr "dostupný"
+msgstr "dostupné"
 
 #. i18n text ?
 #: tools/memcheck/memcheck_configpage.cpp:50
@@ -1368,17 +1566,17 @@ msgstr "délka64"
 #: tools/memcheck/memcheck_configpage.cpp:52
 #, kde-format
 msgid "newarray"
-msgstr ""
+msgstr "novépole"
 
 #: tools/memcheck/memcheck_configpage.cpp:53
 #, kde-format
 msgid "multipleinheritance"
-msgstr ""
+msgstr "víceúrovňová_dědičnost"
 
 #: tools/memcheck/memcheck_configpage.cpp:56
 #, kde-format
 msgid "high"
-msgstr "vysoká"
+msgstr "vysoké"
 
 #: tools/memcheck/memcheck_configpage.cpp:57
 #, kde-format
@@ -1388,33 +1586,33 @@ msgstr "střední"
 #: tools/memcheck/memcheck_configpage.cpp:58
 #, kde-format
 msgid "low"
-msgstr "nízká"
+msgstr "nízké"
 
 #: tools/memcheck/memcheck_configpage.cpp:60
 #, kde-format
 msgid "alloc"
-msgstr "alloc"
+msgstr "alokace"
 
 #: tools/memcheck/memcheck_configpage.cpp:61
 #, kde-format
 msgid "free"
-msgstr "free"
+msgstr "uvolnit"
 
 #: tools/memcheck/memcheck_configpage.cpp:62
 #, kde-format
 msgid "alloc-and-free"
-msgstr "alloc-and-free"
+msgstr "alokace-a-auvolnit"
 
 #: tools/memcheck/memcheck_configpage.cpp:63
 #, kde-format
 msgid "alloc-then-free"
-msgstr "alloc-then-free"
+msgstr "alokace-pak-uvolnit"
 
 #. i18n: ectx: property (text), widget (QLabel, leakResolutionLabel)
 #: tools/memcheck/memcheck_configpage.ui:25
 #, kde-format
 msgid "Leak resolution:"
-msgstr ""
+msgstr "Řešení úniku:"
 
 #. i18n: ectx: property (toolTip), widget (Valgrind::ComboBox, kcfg_leakResolution)
 #: tools/memcheck/memcheck_configpage.ui:32
@@ -1437,24 +1635,41 @@ msgid ""
 "not affect Memcheck's ability to find leaks. It only changes how the results "
 "are presented.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Při kontrole úniků paměti určuje, do jaké míry nástroj "
+"Memcheck považuje různé trasování volání za shodné pro účely sloučení více "
+"úniků do jednoho hlášení. Při nastavení na <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">nízké</span> musí "
+"být shodné pouze první dvě položky. Při nastavení na <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">střední</span> "
+"musí být shodné čtyři položky. Při nastavení na <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">vysoké</span> musí "
+"být shodné všechny položky.</p><p>Pro důkladné ladění úniků paměti je vhodné "
+"použít <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">--leak-resolution=high</span> společně s parametrem <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--num-"
+"callers=40</span> (nebo jiným dostatečně vysokým číslem).</p><p>Všimněte si, "
+"že nastavení <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">--leak-resolution</span> nemá vliv na schopnost nástroje "
+"Memcheck úniky paměti odhalit. Ovlivňuje pouze způsob, jakým jsou výsledky "
+"prezentovány.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, showLeakKindsLabel)
 #: tools/memcheck/memcheck_configpage.ui:39
 #, kde-format
 msgid "Show leak kinds:"
-msgstr ""
+msgstr "Zobrazit typy úniků:"
 
 #. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_showLeakKinds)
 #: tools/memcheck/memcheck_configpage.ui:46
 #, kde-format
 msgid "Specifies the leak kinds to show."
-msgstr ""
+msgstr "Určuje, které typy úniků se mají zobrazit."
 
 #. i18n: ectx: property (text), widget (QLabel, leakCheckHeuristicsLabel)
 #: tools/memcheck/memcheck_configpage.ui:59
 #, kde-format
 msgid "Used heuristics:"
-msgstr ""
+msgstr "Použité heuristiky:"
 
 #. i18n: ectx: property (toolTip), widget (MenuButton, kcfg_leakCheckHeuristics)
 #: tools/memcheck/memcheck_configpage.ui:66
@@ -1464,12 +1679,16 @@ msgid ""
 "during leak searches. The heuristics control which interior pointers to a "
 "block cause it to be considered as reachable.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje sadu heuristik pro kontrolu úniků, které se "
+"mají použít při vyhledávání úniků. Tyto heuristiky určují, které vnitřní "
+"ukazatele na blok způsobí, že bude tento blok považován za dosažitelný.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, keepStacktracesLabel)
 #: tools/memcheck/memcheck_configpage.ui:76
 #, kde-format
 msgid "Stacktraces keeping:"
-msgstr ""
+msgstr "Uchovávání sledování zásobníku:"
 
 #. i18n: ectx: property (toolTip), widget (Valgrind::ComboBox, kcfg_keepStacktraces)
 #: tools/memcheck/memcheck_configpage.ui:83
@@ -1513,12 +1732,56 @@ msgid ""
 "style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
 "num-callers</span>. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, které trasování zásobníku se má uchovávat pro "
+"bloky paměti alokované (pomocí <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">malloc</span>) a/nebo uvolněné (pomocí "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">free</span>).</p><p>V režimu <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">alloc-then-free</span> se v okamžiku "
+"alokace zaznamená trasování zásobníku a přiřadí se k danému bloku. Když je "
+"blok uvolněn, zaznamená se druhé trasování zásobníku, které nahradí to "
+"původní (alokační). V důsledku toho mohou chyby typu &quot;použití po "
+"uvolnění&quot; (use after free) u tohoto bloku zobrazit pouze trasování "
+"zásobníku z okamžiku, kdy byl blok uvolněn.</p><p>V režimu <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">alloc-and-"
+"free</span> se ukládá trasování zásobníku jak pro alokaci, tak pro uvolnění "
+"bloku. Chyba typu &quot;použití po uvolnění&quot; proto zobrazí oba záznamy, "
+"což může usnadnit diagnostiku chyby. Oproti režimu <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">alloc-then-free</"
+"span> toto nastavení mírně zvyšuje nároky nástroje Valgrind na paměť, "
+"jelikož blok obsahuje dva odkazy namísto jednoho.</p><p>V režimu <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">alloc</"
+"span> se zaznamenává (a hlásí) pouze trasování zásobníku z okamžiku alokace. "
+"V režimu <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">free</span> se zaznamenává (a hlásí) pouze trasování zásobníku z "
+"okamžiku uvolnění. Tato nastavení poněkud snižují nároky nástroje Valgrind "
+"na paměť a procesorový čas. Mohou být užitečná v závislosti na typech chyb, "
+"které hledáte, a na úrovni podrobností, kterou potřebujete k jejich analýze. "
+"Pokud vás například zajímají pouze úniky paměti, postačí zaznamenávat "
+"trasování zásobníku z okamžiku alokace.</p></body></html> </p><p>Při volbě "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">none</span> se pro operace <span style=\" font-family:'Monospace';"
+"\">malloc</span> a <span style=\" font-family:'Monospace';\">free</span> "
+"nezaznamenávají trasování zásobníku (stack traces). Pokud váš program "
+"alokuje velké množství bloků a/nebo provádí alokace či uvolňování z mnoha "
+"různých míst (různých trasování zásobníku), může to výrazně snížit nároky na "
+"procesor a/nebo paměť. V případě chyb týkajících se bloků na haldě bude "
+"samozřejmě k dispozici méně podrobností. </p><p>Mějte na paměti, že jakmile "
+"je trasování zásobníku zaznamenáno, Valgrind jej ponechává v paměti, i když "
+"na něj neodkazuje žádný blok. Některé programy (například ty využívající "
+"rekurzivní algoritmy) mohou vygenerovat obrovské množství trasování "
+"zásobníku. Pokud Valgrind v takových případech spotřebovává příliš mnoho "
+"paměti, můžete nároky na paměť snížit pomocí volby <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">--keep-"
+"stacktraces</span> a/nebo nastavením nižší hodnoty pro volbu <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--num-"
+"callers</span>. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, freelistVolLabel)
 #: tools/memcheck/memcheck_configpage.ui:90
 #, kde-format
 msgid "Freelist maximum size:"
-msgstr ""
+msgstr "Maximální velikost seznamu uvolnění:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_freelistVol)
 #: tools/memcheck/memcheck_configpage.ui:100
@@ -1541,12 +1804,28 @@ msgid ""
 "but may detect invalid uses of freed blocks which would otherwise go "
 "undetected.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Když klientský program uvolní paměť pomocí <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">free</"
+"span> (v jazyce <span style=\" font-family:'Monospace'; font-weight:600; "
+"font-style:italic;\">C</span>) nebo <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">delete</span> (v jazyce <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">C++</span>), "
+"tato paměť není okamžitě zpřístupněna pro opětovné přidělení. Místo toho je "
+"označena jako nepřístupná a zařazena do fronty uvolněných bloků. Cílem je co "
+"nejvíce oddálit okamžik, kdy se uvolněná paměť vrátí zpět do oběhu. Tím se "
+"zvyšuje pravděpodobnost, že nástroj Memcheck dokáže detekovat neplatné "
+"přístupy k těmto blokům i značnou dobu poté, co byly uvolněny.</p><p>Tato "
+"volba určuje maximální celkovou velikost bloků ve frontě (v bajtech). "
+"Výchozí hodnota je dvacet milionů bajtů. Zvýšení této hodnoty sice zvětší "
+"celkové množství paměti využívané nástrojem Memcheck, ale může umožnit "
+"odhalení neplatných přístupů k uvolněným blokům, které by jinak zůstaly "
+"nezjištěny.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, freelistBigBlocksLabel)
 #: tools/memcheck/memcheck_configpage.ui:107
 #, kde-format
 msgid "Freelist big-blocks:"
-msgstr ""
+msgstr "Seznam uvolnění velkých bloků:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_freelistBigBlocks)
 #: tools/memcheck/memcheck_configpage.ui:114
@@ -1565,6 +1844,19 @@ msgid ""
 "p><p>Setting a value of 0 means that all the blocks are re-circulated in a "
 "FIFO order.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Při opětovném přidělování bloků z fronty uvolněných "
+"bloků upřednostňuje nástroj Memcheck ty bloky, jejichž velikost je rovna "
+"nebo větší než hodnota parametru <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--freelist-big-blocks</span>. Tím se "
+"zajišťuje, že uvolnění velkých bloků (zejména těch, které jsou větší než "
+"hodnota <span style=\" font-family:'Monospace'; font-weight:600; font-style:"
+"italic;\">--freelist-vol</span>) nevede okamžitě k opětovnému zařazení všech "
+"(nebo velkého množství) malých bloků ze seznamu volných bloků do oběhu. "
+"Jinými slovy, tato volba zvyšuje pravděpodobnost odhalení tzv. visících "
+"ukazatelů u &quot;malých&quot; bloků, a to i v situacích, kdy dochází k "
+"uvolňování velkých bloků.</p><p>Nastavení hodnoty 0 znamená, že všechny "
+"bloky jsou znovu zařazovány do oběhu v pořadí FIFO (první uvolněný, první "
+"znovu přidělený).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_undefValueErrors)
 #: tools/memcheck/memcheck_configpage.ui:150
@@ -1576,12 +1868,17 @@ msgid ""
 "undefined value errors. It also has the side effect of speeding up Memcheck "
 "somewhat.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda má nástroj Memcheck hlásit chyby "
+"spočívající v použití nedefinovaných hodnot. Nastavte tuto volbu na <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">no</"
+"span>, pokud si nepřejete, aby byly tyto chyby hlášeny. Vedlejším účinkem je "
+"také mírné zrychlení nástroje Memcheck.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_undefValueErrors)
 #: tools/memcheck/memcheck_configpage.ui:153
 #, kde-format
 msgid "Show undefined values usage"
-msgstr ""
+msgstr "Zobrazit použití nedefinovaných hodnot"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showMismatchedFrees)
 #: tools/memcheck/memcheck_configpage.ui:163
@@ -1624,12 +1921,50 @@ msgid ""
 "disable them, though, because you may miss real errors as a result.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Je-li tato funkce povolena, Memcheck kontroluje, zda "
+"jsou bloky v paměti (na haldě) uvolňovány pomocí funkce, která odpovídá "
+"funkci použité k jejich alokaci. To znamená, že očekává použití <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">free</"
+"span> pro uvolnění bloků alokovaných pomocí <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">malloc</span>, "
+"<span style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">delete</span> pro bloky alokované pomocí <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">new</span> a <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">delete[]</span> pro bloky alokované pomocí <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">new[]</span>. "
+"Pokud je zjištěn nesoulad, je nahlášena chyba. To je obecně důležité, "
+"protože v některých prostředích může uvolnění paměti pomocí neodpovídající "
+"funkce způsobit pád programu.</p><p>Existuje však situace, kdy se takovým "
+"neshodám nelze vyhnout.</p> K tomu dochází v situaci, kdy uživatel poskytne "
+"vlastní implementace operátorů <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">new</span>/<span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">new[]</span> "
+"(volající <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">malloc</span>) a <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">delete</span>/<span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">delete[]</span> "
+"(volající <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">free</span>), přičemž tyto funkce jsou vloženy asymetricky. "
+"Představte si například, že <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">delete[]</span> je vloženo, zatímco <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;"
+"\">new[]</span> nikoliv. Výsledkem je, že nástroj Memcheck &quot;vidí&quot; "
+"všechna volání <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">delete[]</span> jako přímá volání funkce <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">free</span>, a to "
+"i v případě, že zdrojový kód programu neobsahuje žádná chybně spárovaná "
+"volání.</p><p>To vede k velkému množství matoucích a irelevantních chybových "
+"hlášení. Volba <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">--show-mismatched-frees=no</span> tyto kontroly vypíná. "
+"Obecně se však jejich vypínání nedoporučuje, protože byste v důsledku toho "
+"mohli přehlédnout skutečné chyby.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showMismatchedFrees)
 #: tools/memcheck/memcheck_configpage.ui:166
 #, kde-format
 msgid "Show mismatched frees"
-msgstr ""
+msgstr "Zobrazit nesouhlasící uvolnění"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_partialLoadsOk)
 #: tools/memcheck/memcheck_configpage.ui:173
@@ -1650,12 +1985,27 @@ msgid ""
 "considered broken. If at all possible, such code should be fixed.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, jak nástroj Memcheck zpracovává 32-, 64-, 128- "
+"a 256bitová, přirozeně zarovnaná načítání dat z adres, u nichž jsou některé "
+"bajty přístupné, zatímco jiné nikoliv. Je-li nastavena hodnota <span style="
+"\" font-family:'Monospace'; font-weight:600; font-style:italic;\">yes</"
+"span>, taková načítání nevyvolají chybu přístupu k adrese. Místo toho jsou "
+"bajty načtené z nepřípustných adres označeny jako neinicializované, zatímco "
+"bajty odpovídající přípustným adresám jsou zpracovány běžným způsobem.</"
+"p><p>Je-li nastavena hodnota <span style=\" font-family:'Monospace'; font-"
+"weight:600; font-style:italic;\">no</span>, je s načítáním z částečně "
+"neplatných adres nakládáno stejně jako s načítáním z zcela neplatných adres: "
+"je nahlášena chyba přístupu k nepřípustné adrese a výsledné bajty jsou "
+"označeny jako inicializované.</p><p>Upozorňujeme, že kód, který se takto "
+"chová, je v rozporu se standardy ISO C/C++ a měl by být považován za chybný. "
+"Pokud je to jen trochu možné, měl by být takový kód opraven.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_partialLoadsOk)
 #: tools/memcheck/memcheck_configpage.ui:176
 #, kde-format
 msgid "Allow partial loads"
-msgstr ""
+msgstr "Povolit částečné načtení"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_trackOrigins)
 #: tools/memcheck/memcheck_configpage.ui:183
@@ -1693,12 +2043,43 @@ msgid ""
 "nonsensical. Memcheck checks for and rejects this combination at startup.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda nástroj Memcheck sleduje původ "
+"neinicializovaných hodnot. Ve výchozím nastavení tak nečiní; to znamená, že "
+"ačkoli vás dokáže upozornit na to, že je neinicializovaná hodnota použita "
+"nebezpečným způsobem, nedokáže sdělit, odkud tato hodnota pochází. Často je "
+"proto obtížné vypátrat skutečnou příčinu problému.</p><p>Je-li tato volba "
+"nastavena na <span style=\" font-family:'Monospace'; font-weight:600; font-"
+"style:italic;\">yes</span>, Memcheck sleduje původ všech neinicializovaných "
+"hodnot. Pokud je následně nahlášena chyba související s neinicializovanou "
+"hodnotou, Memcheck se pokusí uvést její původ. Původ může spočívat v jednom "
+"ze čtyř míst: v bloku na haldě, v alokaci na zásobníku, v požadavku klienta "
+"nebo v jiných zdrojích (např. volání funkce <span style=\" font-"
+"family:'Monospace'; font-weight:600; font-style:italic;\">brk</span>).</"
+"p><p>U neinicializovaných hodnot pocházejících z bloku na haldě Memcheck "
+"ukáže, kde byl tento blok alokován. U hodnot pocházejících z alokace na "
+"zásobníku dokáže Memcheck určit, která funkce danou hodnotu alokovala – "
+"konkrétně obvykle zobrazí umístění úvodní složené závorky této funkce ve "
+"zdrojovém kódu. Měli byste proto pečlivě zkontrolovat, zda jsou všechny "
+"lokální proměnné dané funkce řádně inicializovány.</p><p>Dopad na výkon: "
+"sledování původu je náročné. Snižuje rychlost nástroje Memcheck na polovinu "
+"a zvyšuje nároky na paměť minimálně o 100 MB (často i více). Přesto může "
+"výrazně usnadnit hledání prvotní příčiny chyb spojených s neinicializovanými "
+"hodnotami, a tím – navzdory pomalejšímu běhu – často přispět k vyšší "
+"produktivitě programátora.</p><p>Přesnost: Memcheck sleduje původ hodnot "
+"poměrně přesně. Aby se předešlo příliš vysokým nárokům na paměť a čas, "
+"využívají se určitá zjednodušení. Je tedy možné (byť nepravděpodobné), že "
+"Memcheck uvede chybný původ nebo že původ hodnoty nedokáže určit vůbec.</p> "
+"</p><p>Všimněte si, že kombinace <span style=\" font-family:'Monospace'; "
+"font-weight:600; font-style:italic;\">--track-origins=yes</span> a <span "
+"style=\" font-family:'Monospace'; font-weight:600; font-style:italic;\">--"
+"undef-value-errors=no</span> nedává smysl. Nástroj Memcheck tuto kombinaci "
+"při spuštění detekuje a odmítne.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_trackOrigins)
 #: tools/memcheck/memcheck_configpage.ui:186
 #, kde-format
 msgid "Track origins of all uninitialised values"
-msgstr ""
+msgstr "Sledovat původ všech neinicializovaných hodnot"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_expensiveDefinednessChecks)
 #: tools/memcheck/memcheck_configpage.ui:193
@@ -1714,12 +2095,21 @@ msgid ""
 "degradation of 25% have been observed but the extra cost depends a lot on "
 "the application at hand.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Určuje, zda má nástroj Memcheck při kontrole "
+"definovanosti hodnoty používat přesnější, avšak také náročnější (časově "
+"nákladnější) algoritmy. Výchozí nastavení je nepoužívat je, což obvykle "
+"postačuje. U vysoce optimalizovaného kódu však může Valgrind někdy hlásit "
+"chyby neoprávněně. Spuštění nástroje Valgrind s parametrem <span style=\" "
+"font-family:'Monospace'; font-weight:600; font-style:italic;\">--expensive-"
+"definedness-checks=yes</span> tento problém řeší, avšak za cenu snížení "
+"výkonu. Bylo pozorováno zpomalení běhu programu až o 25 %, přičemž konkrétní "
+"dopad na výkon do značné míry závisí na dané aplikaci.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_expensiveDefinednessChecks)
 #: tools/memcheck/memcheck_configpage.ui:196
 #, kde-format
 msgid "Expensive definedness checks"
-msgstr ""
+msgstr "Náročné kontroly definovanosti"
 
 #: tools/memcheck/memcheck_tool.cpp:35
 #, kde-format
@@ -1729,7 +2119,7 @@ msgstr "Memcheck"
 #: tools/memcheck/memcheck_tool.cpp:36
 #, kde-format
 msgid "Memcheck (Memory Error Detector)"
-msgstr ""
+msgstr "Memcheck (detektor chyb paměti)"
 
 #: toolviewfactory.cpp:47
 #, kde-format
@@ -1747,3 +2137,13 @@ msgid ""
 "unaddressable memory to system calls;<br/>mismatched use of malloc/new/new "
 "[] vs free/delete/delete [];<br/>some abuses of the POSIX pthread API.</p>"
 msgstr ""
+"<b>Valgrind</b><p>Zobrazuje výstup nástroje Valgrind. Valgrind detekuje:<br/"
+">použití neinicializované paměti;<br/>čtení/zápis do paměti po jejím "
+"uvolnění;<br/>čtení/zápis mimo hranice bloků alokovaných pomocí malloc;<br/"
+">čtení/zápis v nevhodných oblastech zásobníku;<br/>úniky paměti – situace, "
+"kdy dojde k trvalé ztrátě ukazatelů na bloky alokované pomocí malloc;<br/"
+">předávání neinicializované paměti nebo paměti, ke které nelze přistupovat, "
+"systémovým voláním;<br/>nesprávné kombinování operátorů/funkcí pro alokaci a "
+"uvolňování paměti (např. malloc/new/new[] v kombinaci s free/delete/"
+"delete[]);<br/>některé případy nesprávného použití rozhraní POSIX pthread "
+"API.</p>"
